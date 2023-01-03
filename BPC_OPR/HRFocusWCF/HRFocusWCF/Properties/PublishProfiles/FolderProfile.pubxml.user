@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\Work\BPC\Onweb publish\HRFocus_API</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/ClassLibrary_BPC.dll">
+      <publishTime>10/11/2022 14:33:48</publishTime>
+    </File>
+    <File Include="bin/ClassLibrary_BPC.pdb">
+      <publishTime>05/02/2021 17:33:27</publishTime>
+    </File>
+    <File Include="bin/Google.Authenticator.dll">
+      <publishTime>04/14/2016 11:49:30</publishTime>
+    </File>
+    <File Include="bin/HRFocusWCFSystem.dll">
+      <publishTime>10/11/2022 14:33:49</publishTime>
+    </File>
+    <File Include="bin/HRFocusWCFSystem.pdb">
+      <publishTime>05/02/2021 17:33:27</publishTime>
+    </File>
+    <File Include="bin/Initial.xml">
+      <publishTime>10/11/2022 13:50:50</publishTime>
+    </File>
+    <File Include="bin/jose-jwt.dll">
+      <publishTime>06/17/2022 04:36:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Abstractions.dll">
+      <publishTime>06/16/2022 13:12:05</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>06/16/2022 13:12:06</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Logging.dll">
+      <publishTime>06/16/2022 13:12:05</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>06/16/2022 13:12:06</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>11/09/2019 00:56:58</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.pdb">
+      <publishTime>11/09/2019 00:51:56</publishTime>
+    </File>
+    <File Include="bin/System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>06/16/2022 13:12:06</publishTime>
+    </File>
+    <File Include="ClassDiagram1.cd">
+      <publishTime>06/14/2022 14:51:08</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>06/14/2022 14:49:57</publishTime>
+    </File>
+    <File Include="Initial.xml">
+      <publishTime>07/15/2022 16:34:30</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>06/17/2022 04:36:51</publishTime>
+    </File>
+    <File Include="ServiceAtt.svc">
+      <publishTime>05/01/2021 22:32:20</publishTime>
+    </File>
+    <File Include="ServiceSys.svc">
+      <publishTime>06/14/2022 14:54:07</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>07/27/2022 23:05:29</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

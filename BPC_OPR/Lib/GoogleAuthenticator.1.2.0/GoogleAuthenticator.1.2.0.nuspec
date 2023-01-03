@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>GoogleAuthenticator</id>
+    <version>1.2.0</version>
+    <title>Google Authenticator Two-Factor Authentication Library</title>
+    <authors>Brandon Potter</authors>
+    <owners>Brandon Potter</owners>
+    <projectUrl>http://github.com/brandonpotter/GoogleAuthenticator</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides an easy-to-use library for implementing Two-Factor Authentication with Google Authenticator.</description>
+    <releaseNotes>Fixed Google Chart URL for QR code IE compatibility, added HTTPS option</releaseNotes>
+    <copyright>Copyright (c) 2015 Brandon Potter, 'Google' refers to mobile app title and does not imply this library is affiliated with Google in any way.</copyright>
+  </metadata>
+</package>

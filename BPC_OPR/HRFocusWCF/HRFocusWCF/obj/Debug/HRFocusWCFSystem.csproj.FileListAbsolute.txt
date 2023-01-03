@@ -1,0 +1,110 @@
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\Bhatarapro\Project Inprogress\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202107\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202108\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202109\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202110\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202202\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Google.Authenticator.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202203\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll.config
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Google.Authenticator.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\ClassLibrary_BPC.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.pdb
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\bin\Newtonsoft.Json.xml
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.csprojResolveAssemblyReference.cache
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.dll
+D:\Work\BPC\Project\Webbase\HRFocus_Web_202205\BackEnd\HRFocusWCFSystem\HRFocusWCFSystem\obj\Debug\HRFocusWCFSystem.pdb
