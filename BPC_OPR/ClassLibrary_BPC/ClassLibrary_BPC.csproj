@@ -11,6 +11,7 @@
     <AssemblyName>ClassLibrary_BPC</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +39,7 @@
       <HintPath>..\HR-KIOSK\bin\Debug\Interop.Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -46,6 +48,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,11 +61,15 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTBank.cs" />
+    <Compile Include="hrfocus.controller\cls_ctMTCardtype.cs" />
     <Compile Include="hrfocus.controller\cls_ctSYSApilog.cs" />
+    <Compile Include="hrfocus.controller\cls_ctSYSReason.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
     <Compile Include="hrfocus.model\cls_MTBank.cs" />
+    <Compile Include="hrfocus.model\cls_MTCardtype.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
+    <Compile Include="hrfocus.model\cls_SYSReason.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
     <Compile Include="hrfocus.model\cls_MTProject.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
@@ -72,7 +80,9 @@
     <Compile Include="Initial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmExportData.resx" />
   </ItemGroup>

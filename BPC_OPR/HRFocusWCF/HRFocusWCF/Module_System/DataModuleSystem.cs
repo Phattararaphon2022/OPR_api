@@ -26,4 +26,40 @@ namespace BPC_OPR
         public string modified_by { get; set; }
 
     }
+     [DataContract]
+    public class InputSYSReason
+    {
+        [DataMember]
+        public string reason_id { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string reason_name_th { get; set; }
+        [DataMember]
+        public string reason_name_en { get; set; }
+        [DataMember]
+        public string reason_group { get; set; }
+        [DataMember]
+        public string created_by { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+
+    }
+    [DataContract]
+     public class InputMTCardtype
+     {
+         [DataMember]
+         public string cardtype_id { get; set; }
+         [DataMember]
+         public string cardtype_code { get; set; }
+         [DataMember]
+         public string cardtype_name_th { get; set; }
+         [DataMember]
+         public string cardtype_name_en { get; set; }
+         [DataMember]
+         public string created_by { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+     }
 }

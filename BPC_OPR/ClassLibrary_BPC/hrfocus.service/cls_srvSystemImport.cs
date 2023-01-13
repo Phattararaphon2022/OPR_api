@@ -92,12 +92,95 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
 
                         break;
-
-                    case "REASON":
-                        break;
-
                 }
+                //REASON
+                switch (type)
+                {
+                    case "REASON":
 
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctSYSReason objReason = new cls_ctSYSReason();
+                                cls_SYSReason model = new cls_SYSReason();
+
+                                model.reason_code = dr["reason_code"].ToString();
+                                model.reason_name_th = dr["reason_name_th"].ToString();
+                                model.reason_name_en = dr["reason_name_th"].ToString();
+                                model.modified_by = by;
+
+                                string strID = objReason.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.reason_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                //cartype
+                switch (type)
+                {
+                    case "CARTYPE":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
+                                cls_MTCardtype model = new cls_MTCardtype();
+
+                                model.cardtype_code = dr["cardtype_code"].ToString();
+                                model.cardtype_name_th = dr["cardtype_name_th"].ToString();
+                                model.cardtype_name_en = dr["cardtype_name_en"].ToString();
+                                model.modified_by = by;
+
+                                string strID = objCardtype.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.cardtype_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
             }
             catch (Exception ex)
             {
@@ -108,3 +191,4 @@ namespace ClassLibrary_BPC.hrfocus.service
         }
     }
 }
+
