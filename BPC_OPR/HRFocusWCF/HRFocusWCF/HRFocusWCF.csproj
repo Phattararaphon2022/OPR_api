@@ -94,6 +94,7 @@
     <Content Include="Global.asax" />
     <Content Include="Initial.xml" />
     <Content Include="BpcOpr.svc" />
+    <Content Include="Module_Employee\ModuleEmployee.svc" />
     <Content Include="Module_System\ModuleSystem.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -105,6 +106,11 @@
     <Compile Include="Config.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employee\DataModuleEmployee.cs" />
+    <Compile Include="Module_Employee\IModuleEmployee.cs" />
+    <Compile Include="Module_Employee\ModuleEmployee.svc.cs">
+      <DependentUpon>ModuleEmployee.svc</DependentUpon>
     </Compile>
     <Compile Include="Module_System\DataModuleSystem.cs" />
     <Compile Include="Module_System\IModuleSystem.cs" />
@@ -120,13 +126,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Module_Employee\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClassDiagram1.cd">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -157,7 +163,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32208/</IISUrl>
+          <IISUrl>http://localhost:32207/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
