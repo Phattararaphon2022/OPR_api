@@ -106,6 +106,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Module_System\cls_ctMTEmpId.cs" />
     <Compile Include="Module_System\DataModuleSystem.cs" />
     <Compile Include="Module_System\IModuleSystem.cs" />
     <Compile Include="Module_System\ModuleSystem.svc.cs">
