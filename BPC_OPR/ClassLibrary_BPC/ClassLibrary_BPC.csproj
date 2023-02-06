@@ -38,6 +38,10 @@
       <HintPath>..\HR-KIOSK\bin\Debug\Interop.Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Bin\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -56,16 +60,19 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTPeriod.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\cls_ctSYSApilog.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTPeriod.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTYear.cs" />
     <Compile Include="hrfocus.model\cls_MTBank.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
     <Compile Include="hrfocus.model\cls_MTProject.cs" />
+    <Compile Include="hrfocus.service\Attendance\cls_srvAttendanceImport.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
     <Compile Include="hrfocus.utility\cls_Hash.cs" />
