@@ -333,6 +333,77 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
                         break;
 
+                    case "WORKER":
+
+                        DataTable dtworker = doReadExcel(filename);
+                        if (dtworker.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtworker.Rows)
+                            {
+
+                                cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                                cls_MTWorker model = new cls_MTWorker();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.worker_code = dr["worker_code"].ToString();
+                                model.worker_card = dr["worker_code"].ToString();
+                                model.worker_initial = dr["worker_initial"].ToString();
+                                model.worker_fname_th = dr["worker_fname_th"].ToString();
+                                model.worker_lname_th = dr["worker_lname_th"].ToString();
+                                model.worker_fname_en = dr["worker_fname_en"].ToString();
+                                model.worker_lname_en = dr["worker_lname_en"].ToString();
+                                model.worker_type = dr["worker_type"].ToString();
+                                model.worker_gender = dr["worker_gender"].ToString();
+                                model.worker_birthdate = Convert.ToDateTime(dr["worker_birthdate"]);
+                                model.worker_hiredate = Convert.ToDateTime(dr["worker_hiredate"]);
+                                model.worker_status = dr["worker_status"].ToString();
+                                model.religion_code = dr["religion_code"].ToString();
+                                model.blood_code = dr["blood_code"].ToString();
+                                if (dr["worker_resignstatus"].ToString().Equals("1"))
+                                {
+                                    model.worker_resigndate = Convert.ToDateTime(dr["worker_resigndate"]);
+                                    model.worker_resignstatus = true;
+                                    model.worker_resignreason = dr["worker_resignreason"].ToString();
+                                }
+                                else
+                                {
+                                    model.worker_resignstatus = false;
+                                }
+                                model.worker_probationday = Convert.ToDouble(dr["worker_probationday"]);
+                                model.worker_probationdate = Convert.ToDateTime(dr["worker_probationdate"]);
+                                model.worker_probationenddate = Convert.ToDateTime(dr["worker_probationenddate"]);
+                                model.hrs_perday = Convert.ToDouble(dr["hrs_perday"]);
+                                model.worker_taxmethod = dr["worker_taxmethod"].ToString();
+                                model.self_admin = false;
+
+                                model.modified_by = by;
+
+                                string strID = objWorker.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.worker_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+
+
                 }
 
             }

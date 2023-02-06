@@ -10,6 +10,91 @@ namespace BPC_OPR
     {
     }
 
+    public class InputMTWorker
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int worker_id { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_card { get; set; }
+        [DataMember]
+        public string worker_initial { get; set; }
+        [DataMember]
+        public string worker_fname_th { get; set; }
+        [DataMember]
+        public string worker_lname_th { get; set; }
+        [DataMember]
+        public string worker_fname_en { get; set; }
+        [DataMember]
+        public string worker_lname_en { get; set; }
+
+        [DataMember]
+        public string worker_type { get; set; }
+        [DataMember]
+        public string worker_gender { get; set; }
+        [DataMember]
+        public string worker_birthdate { get; set; }
+        [DataMember]
+        public string worker_hiredate { get; set; }
+        [DataMember]
+        public string worker_status { get; set; }
+        [DataMember]
+        public string religion_code { get; set; }
+        [DataMember]
+        public string blood_code { get; set; }
+        [DataMember]
+        public double worker_height { get; set; }
+        [DataMember]
+        public double worker_weight { get; set; }
+        [DataMember]
+        public string worker_resigndate { get; set; }
+        [DataMember]
+        public bool worker_resignstatus { get; set; }
+        [DataMember]
+        public string worker_resignreason { get; set; }
+
+        [DataMember]
+        public string worker_probationdate { get; set; }
+        [DataMember]
+        public string worker_probationenddate { get; set; }
+        [DataMember]
+        public double worker_probationday { get; set; }
+        [DataMember]
+        public double hrs_perday { get; set; }
+
+        [DataMember]
+        public string worker_taxmethod { get; set; }
+
+        //-- Transaction
+        [DataMember]
+        public string card_data { get; set; }
+        [DataMember]
+        public string reduce_data { get; set; }
+        [DataMember]
+        public string salary_data { get; set; }
+        [DataMember]
+        public string family_data { get; set; }
+        [DataMember]
+        public string dep_data { get; set; }
+        //--
+
+        [DataMember]
+        public bool self_admin { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+
+        [DataMember]
+        public string worker_pwd { get; set; }
+    }
+
     [DataContract]
     public class InputMTLocation
     {
@@ -128,5 +213,45 @@ namespace BPC_OPR
         public string status_name_en { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+    }
+
+    public class InputTRAddress
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string address_id { get; set; }
+        [DataMember]
+        public string address_type { get; set; }
+        [DataMember]
+        public string address_no { get; set; }
+        [DataMember]
+        public string address_moo { get; set; }
+        [DataMember]
+        public string address_soi { get; set; }
+        [DataMember]
+        public string address_road { get; set; }
+        [DataMember]
+        public string address_tambon { get; set; }
+        [DataMember]
+        public string address_amphur { get; set; }
+        [DataMember]
+        public string province_code { get; set; }
+        [DataMember]
+        public string address_zipcode { get; set; }
+        [DataMember]
+        public string address_tel { get; set; }
+        [DataMember]
+        public string address_email { get; set; }
+        [DataMember]
+        public string address_line { get; set; }
+        [DataMember]
+        public string address_facebook { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
     }
 }

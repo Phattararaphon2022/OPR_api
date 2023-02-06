@@ -14,6 +14,26 @@ namespace BPC_OPR
     [ServiceContract]
     public interface IModuleEmployee
     {
+        #region Emp
+
+        #region Worker
+        [OperationContract(Name = "worker_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getWorkerList(BasicRequest req);
+
+        [OperationContract(Name = "worker")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTWorker(InputMTWorker input);
+
+        [OperationContract(Name = "worker_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTWorker(InputMTWorker input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadWorker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadWorker(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #region Location
         [OperationContract(Name = "location_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -138,6 +158,14 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadStatus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadStatus(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_Address
+        [OperationContract(Name = "status_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRAddressList(BasicRequest req, string com, string emp);
+        #endregion
+
         #endregion
     }
 }
