@@ -28,7 +28,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 da.Fill(dt);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

@@ -29,6 +29,7 @@ namespace BPC_OPR
         Task<string> doUploadYear(string token, string by, string fileName, Stream stream);
 
         #endregion
+        #region MTPeriod
         [OperationContract(Name = "period_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTPeriodList(InputMTPeriod input);
@@ -40,6 +41,11 @@ namespace BPC_OPR
         [OperationContract(Name = "period_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteMTPeriod(InputMTPeriod input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriod?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream);
+        #endregion
     }
 
 }

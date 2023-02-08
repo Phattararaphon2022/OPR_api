@@ -47,12 +47,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                 int success = 0;
                 StringBuilder objStr = new StringBuilder();
-
+                DataTable dt = doReadExcel(filename);
                 switch (type)
                 {
                     case "YEAR":
-
-                        DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
                         {
                             foreach (DataRow dr in dt.Rows)
@@ -95,7 +93,52 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
                         strResult = Error;
                         break;
+                    case "PERIOD":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
 
+                                cls_ctMTPeriod controller = new cls_ctMTPeriod();
+                                cls_MTPeriod model = new cls_MTPeriod();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.period_id = dr["period_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["period_id"].ToString());
+                                model.period_type = dr["period_type"].ToString();
+                                model.emptype_code = dr["emptype_code"].ToString();
+                                model.year_code = dr["year_code"].ToString();
+                                model.period_no = dr["period_no"].ToString();
+                                model.period_name_th = dr["period_name_th"].ToString();
+                                model.period_name_en = dr["period_name_en"].ToString();
+                                model.period_from = Convert.ToDateTime(dr["period_from"].ToString());
+                                model.period_to = Convert.ToDateTime(dr["period_to"].ToString());
+                                model.period_payment = Convert.ToDateTime(dr["period_payment"].ToString());
+                                model.period_dayonperiod = dr["period_dayonperiod"].ToString().Equals("1") ? true : false;
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.period_id + " " + model.period_no);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        strResult = Error;
+                        break;
                     case "REASON":
                         break;
 
