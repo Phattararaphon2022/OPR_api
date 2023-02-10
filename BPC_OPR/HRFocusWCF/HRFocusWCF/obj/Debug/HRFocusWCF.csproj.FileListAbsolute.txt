@@ -42,10 +42,10 @@ D:\Work\BPC\Project\Webbase\HRFocus_Interface_202207\HRFocusWCF\HRFocusWCF\bin\S
 D:\Work\BPC\Project\Webbase\HRFocus_Interface_202207\HRFocusWCF\HRFocusWCF\obj\Debug\HRFocusWCF.csprojResolveAssemblyReference.cache
 D:\Work\BPC\Project\Webbase\HRFocus_Interface_202207\HRFocusWCF\HRFocusWCF\obj\Debug\HRFocusWCFSystem.dll
 D:\Work\BPC\Project\Webbase\HRFocus_Interface_202207\HRFocusWCF\HRFocusWCF\obj\Debug\HRFocusWCFSystem.pdb
+D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\ClassLibrary_BPC.dll
 D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\BPC_OPR.dll.config
 D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\BPC_OPR.dll
 D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\BPC_OPR.pdb
-D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\ClassLibrary_BPC.dll
 D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\jose-jwt.dll
 D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Microsoft.IdentityModel.Abstractions.dll
 D:\Work\BPC\Project\Angular\BPC_OPR\BackEnd\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Microsoft.IdentityModel.JsonWebTokens.dll
