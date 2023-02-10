@@ -2588,13 +2588,13 @@ namespace BPC_OPR
         #endregion
 
         #region TR_Address(EMP009)
-        public string getTRAddressList(BasicRequest req , string com, string emp)
+        public string getTRAddressList(InputTRAddress input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "EMP009.1";
-            log.apilog_by = req.username;
+            log.apilog_by = input.username;
             log.apilog_data = "all";
 
             try
@@ -2613,7 +2613,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRAddress controller = new cls_ctTRAddress();
-                List<cls_TRAddress> list = controller.getDataByFillter(com,emp);
+                List<cls_TRAddress> list = controller.getDataByFillter(input.company_code,input.worker_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -2639,6 +2639,181 @@ namespace BPC_OPR
                         json.Add("address_email", model.address_email);
                         json.Add("address_line", model.address_line);
                         json.Add("address_facebook", model.address_facebook);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TR_Card(EMP010)
+        public string getTRCardList(InputTRCard input)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP010.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRCard controller = new cls_ctTRCard();
+                List<cls_TRCard> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRCard model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("empcard_id", model.card_id);
+                        json.Add("empcard_code", model.card_code);
+                        json.Add("card_type", model.card_type);
+                        json.Add("empcard_issue", model.card_issue);
+                        json.Add("empcard_expire", model.card_expire);
+
+                        json.Add("company_code", model.company_code);
+
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TR_Bank
+        public string getTRBankList(InputTRBank input)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP010.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRBank controller = new cls_ctTRBank();
+                List<cls_TRBank> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRBank model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("bank_id", model.bank_id);
+                        json.Add("bank_code", model.bank_code);
+                        json.Add("bank_account", model.bank_account);
+                        json.Add("bank_percent", model.bank_percent);
+                        json.Add("bank_cashpercent", model.bank_cashpercent);
+
+                        json.Add("empbank_bankname", model.bank_bankname);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);

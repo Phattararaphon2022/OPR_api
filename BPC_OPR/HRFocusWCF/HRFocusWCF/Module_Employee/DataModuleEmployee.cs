@@ -253,5 +253,66 @@ namespace BPC_OPR
         public string modified_by { get; set; }
         [DataMember]
         public string modified_date { get; set; }
+        [DataMember]
+        public string username { get; set; }
+    }
+
+    [DataContract]
+    public class InputTRCard
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public int card_id { get; set; }
+        [DataMember]
+        public string card_code { get; set; }
+        [DataMember]
+        public string card_type { get; set; }
+        [DataMember]
+        public string card_issue { get; set; }
+        [DataMember]
+        public string card_expire { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public string username { get; set; }
+    }
+
+    [DataContract]
+    public class InputTRBank
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int bank_id { get; set; }
+        [DataMember]
+        public string bank_code { get; set; }
+        [DataMember]
+        public string bank_account { get; set; }
+        [DataMember]
+        public double bank_percent { get; set; }
+        [DataMember]
+        public double bank_cashpercent { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public double bank_bankname { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+
     }
 }

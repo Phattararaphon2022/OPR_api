@@ -161,9 +161,22 @@ namespace BPC_OPR
         #endregion
 
         #region TR_Address
-        [OperationContract(Name = "status_list")]
+        [OperationContract(Name = "empaddlist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTRAddressList(BasicRequest req, string com, string emp);
+        string getTRAddressList(InputTRAddress input);
+
+        #endregion
+
+        #region TR_CARD
+        [OperationContract(Name = "empcardlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRCardList(InputTRCard input);
+        #endregion
+
+        #region TR_BANK
+        [OperationContract(Name = "empbanklist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRBankList(InputTRBank input);
         #endregion
 
         #endregion

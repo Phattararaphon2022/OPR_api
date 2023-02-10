@@ -68,6 +68,9 @@
     <Compile Include="hrfocus.controller\cls_ctSYSApilog.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTRAddress.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTRBank.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTRCard.cs" />
     <Compile Include="hrfocus.model\cls_MTBank.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTDep.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTGroup.cs" />
@@ -80,6 +83,9 @@
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
     <Compile Include="hrfocus.model\cls_MTProject.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TRAddress.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TRBank.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TRCard.cs" />
     <Compile Include="hrfocus.service\cls_srvEmpImport.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
