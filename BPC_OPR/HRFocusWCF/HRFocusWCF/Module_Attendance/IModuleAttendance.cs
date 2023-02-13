@@ -29,6 +29,7 @@ namespace BPC_OPR
         Task<string> doUploadYear(string token, string by, string fileName, Stream stream);
 
         #endregion
+
         #region MTPeriod
         [OperationContract(Name = "period_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -45,6 +46,25 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriod?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region MTYear
+        [OperationContract(Name = "reason_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReasonList(InputMTReason input);
+
+        [OperationContract(Name = "reason")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTReason(InputMTReason input);
+
+        [OperationContract(Name = "reason_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTReason(InputMTReason input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReason?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream);
+
         #endregion
     }
 

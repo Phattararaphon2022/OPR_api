@@ -61,12 +61,14 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPeriod.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTReason.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\cls_ctSYSApilog.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPeriod.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTReason.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTYear.cs" />
     <Compile Include="hrfocus.model\cls_MTBank.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />

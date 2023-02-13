@@ -140,6 +140,46 @@ namespace ClassLibrary_BPC.hrfocus.service
                         strResult = Error;
                         break;
                     case "REASON":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTReason controller = new cls_ctMTReason();
+                                cls_MTReason model = new cls_MTReason();
+
+                                model.reason_id = dr["reason_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["reason_id"].ToString());
+                                model.company_code = dr["company_code"].ToString();
+                                model.reason_code = dr["reason_code"].ToString();
+                                model.reason_name_th = dr["reason_name_th"].ToString();
+                                model.reason_name_en = dr["reason_name_en"].ToString();
+                                model.reason_group = dr["reason_group"].ToString();
+                                model.modified_by = dr["modified_by"].ToString();
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.reason_id + " " + model.reason_group);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        strResult = Error;
+                        break;
+                    case "REASONs":
                         break;
 
                 }
