@@ -154,7 +154,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.reason_name_th = dr["reason_name_th"].ToString();
                                 model.reason_name_en = dr["reason_name_en"].ToString();
                                 model.reason_group = dr["reason_group"].ToString();
-                                model.modified_by = dr["modified_by"].ToString();
+                                model.modified_by = by;
                                 model.flag = false;
                                 string strID = controller.insert(model);
                                 if (!strID.Equals(""))
