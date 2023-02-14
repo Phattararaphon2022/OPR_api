@@ -1160,5 +1160,290 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region MTPlanholiday
+        public string getMTPlanholidayList(InputMTPlanholiday input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlanholiday objPlanholiday = new cls_ctMTPlanholiday();
+                List<cls_MTPlanholiday> listPlanholiday = objPlanholiday.getDataByFillter(input.company_code,input.planholiday_id,input.planholiday_code,input.year_code);
+
+                JArray array = new JArray();
+
+                if (listPlanholiday.Count > 0)
+                {
+                    int index = 1;
+                    cls_ctTRHoliday objHoliday = new cls_ctTRHoliday();
+                    foreach (cls_MTPlanholiday model in listPlanholiday)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("planholiday_id", model.planholiday_id);
+                        json.Add("planholiday_code", model.planholiday_code);
+                        json.Add("planholiday_name_th", model.planholiday_name_th);
+                        json.Add("planholiday_name_en", model.planholiday_name_en);
+                        json.Add("year_code", model.year_code);
+                        List<cls_TRHoliday> listHoliday = objHoliday.getDataByFillter(model.company_code, model.planholiday_code);
+                        JArray holidayarray = new JArray();
+                        if (listHoliday.Count > 0)
+                        {
+                          foreach (cls_TRHoliday modelholiday in listHoliday)
+                          {
+                              JObject jsonholiday = new JObject();
+                              jsonholiday.Add("company_code", modelholiday.company_code);
+                              jsonholiday.Add("holiday_date", modelholiday.holiday_date);
+                              jsonholiday.Add("holiday_name_th", modelholiday.holiday_name_th);
+                              jsonholiday.Add("holiday_name_en", modelholiday.holiday_name_en);
+                              jsonholiday.Add("planholiday_code", modelholiday.planholiday_code);
+                              jsonholiday.Add("holiday_daytype", modelholiday.holiday_daytype);
+                              jsonholiday.Add("holiday_payper", modelholiday.holiday_payper);
+                              holidayarray.Add(jsonholiday);
+                          }
+                            json.Add("holiday_list", holidayarray);
+                        }
+                        else
+                        {
+                            json.Add("holiday_list", holidayarray);
+                        }
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("index", index);
+                        index++;
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTPlanholiday(InputMTPlanholiday input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlanholiday objPlanholiday = new cls_ctMTPlanholiday();
+                cls_MTPlanholiday model = new cls_MTPlanholiday();
+                model.company_code = input.company_code;
+                model.planholiday_id = input.planholiday_id.Equals("") ? 0 : Convert.ToInt32(input.planholiday_id);
+                model.planholiday_code = input.planholiday_code;
+                model.planholiday_name_th = input.planholiday_name_th;
+                model.planholiday_name_en = input.planholiday_name_en;
+                model.year_code = input.year_code;
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+                string strID = objPlanholiday.insert(model);
+                if (!strID.Equals(""))
+                {
+                    cls_ctTRHoliday objHoliday = new cls_ctTRHoliday();
+                    bool trholiday = objHoliday.insert(input.company_code,input.planholiday_code,input.holiday_list);
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPlanholiday.getMessage();
+                }
+
+                objPlanholiday.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTPlanholiday(InputMTPlanholiday input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPlanholiday controller = new cls_ctMTPlanholiday();
+
+                bool blnResult = controller.delete(input.planholiday_id,input.company_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTPlanholiday(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("HOLIDAY", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }

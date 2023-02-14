@@ -234,6 +234,49 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region HOLIDAY
+                    case "HOLIDAY":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTPlanholiday controller = new cls_ctMTPlanholiday();
+                                cls_MTPlanholiday model = new cls_MTPlanholiday();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.planholiday_id = dr["planholiday_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planholiday_id"].ToString());
+                                model.planholiday_code = dr["planholiday_code"].ToString();
+                                model.planholiday_name_th = dr["planholiday_name_th"].ToString();
+                                model.planholiday_name_en = dr["planholiday_name_en"].ToString();
+                                model.year_code = dr["year_code"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.planholiday_id + " " + model.planholiday_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        strResult = Error;
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 

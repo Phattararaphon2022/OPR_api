@@ -85,6 +85,24 @@ namespace BPC_OPR
         Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region MTPlanholiday
+        [OperationContract(Name = "planholiday_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanholidayList(InputMTPlanholiday input);
+
+        [OperationContract(Name = "planholiday")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanholiday(InputMTPlanholiday input);
+
+        [OperationContract(Name = "planholiday_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanholiday(InputMTPlanholiday input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanholiday?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanholiday(string token, string by, string fileName, Stream stream);
+        #endregion
     }
 
 }
