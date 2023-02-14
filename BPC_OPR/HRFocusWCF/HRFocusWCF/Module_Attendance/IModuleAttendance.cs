@@ -48,7 +48,7 @@ namespace BPC_OPR
         Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream);
         #endregion
 
-        #region MTYear
+        #region MTReason
         [OperationContract(Name = "reason_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTReasonList(InputMTReason input);
@@ -64,6 +64,25 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReason?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTLocation
+        [OperationContract(Name = "location_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTLocationList(InputMTLocation input);
+
+        [OperationContract(Name = "location")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTLocation(InputMTLocation input);
+
+        [OperationContract(Name = "location_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTLocation(InputMTLocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream);
 
         #endregion
     }

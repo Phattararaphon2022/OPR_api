@@ -50,6 +50,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 DataTable dt = doReadExcel(filename);
                 switch (type)
                 {
+                    #region YEAR
                     case "YEAR":
                         if (dt.Rows.Count > 0)
                         {
@@ -93,6 +94,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
                         strResult = Error;
                         break;
+                    #endregion
+
+                    #region PERIOD
                     case "PERIOD":
                         if (dt.Rows.Count > 0)
                         {
@@ -139,6 +143,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
                         strResult = Error;
                         break;
+                    #endregion
+
+                    #region REASON
                     case "REASON":
                         if (dt.Rows.Count > 0)
                         {
@@ -179,6 +186,54 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
                         strResult = Error;
                         break;
+
+                    #endregion
+
+                    #region LOCATION
+                    case "LOCATION":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTLocation controller = new cls_ctMTLocation();
+                                cls_MTLocation model = new cls_MTLocation();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.location_id = dr["location_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["location_id"].ToString());
+                                model.location_code = dr["location_code"].ToString();
+                                model.location_name_th = dr["location_name_th"].ToString();
+                                model.location_name_en = dr["location_name_en"].ToString();
+                                model.location_detail = dr["location_detail"].ToString();
+                                model.location_lat = dr["location_lat"].ToString();
+                                model.location_long = dr["location_long"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.location_id + " " + model.location_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        strResult = Error;
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 
@@ -189,7 +244,10 @@ namespace ClassLibrary_BPC.hrfocus.service
             {
                 strResult = ex.ToString();
             }
-
+            if (!Error.Equals(""))
+            {
+                strResult = Error;
+            }
             return strResult;
         }
     }
