@@ -277,6 +277,77 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region SHIFT
+                    case "SHIFT":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTShift controller = new cls_ctMTShift();
+                                cls_MTShift model = new cls_MTShift();
+
+                                model.company_code = dr["company_code"].ToString();
+
+                                model.shift_id = dr["shift_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["shift_id"].ToString());
+                                model.shift_code = dr["shift_code"].ToString();
+                                model.shift_name_th = dr["shift_name_th"].ToString();
+                                model.shift_name_en = dr["shift_name_en"].ToString();
+                                model.shift_ch1 = dr["shift_ch1"].ToString();
+                                model.shift_ch2 = dr["shift_ch2"].ToString();
+                                model.shift_ch3 = dr["shift_ch3"].ToString();
+                                model.shift_ch4 = dr["shift_ch4"].ToString();
+                                model.shift_ch5 = dr["shift_ch5"].ToString();
+                                model.shift_ch6 = dr["shift_ch6"].ToString();
+                                model.shift_ch7 = dr["shift_ch7"].ToString();
+                                model.shift_ch8 = dr["shift_ch8"].ToString();
+                                model.shift_ch9 = dr["shift_ch9"].ToString();
+                                model.shift_ch10 = dr["shift_ch10"].ToString();
+
+                                model.shift_ch3_from = dr["shift_ch3_from"].ToString();
+                                model.shift_ch3_to = dr["shift_ch3_to"].ToString();
+                                model.shift_ch4_from = dr["shift_ch4_from"].ToString();
+                                model.shift_ch4_to = dr["shift_ch4_to"].ToString();
+
+                                model.shift_ch7_from = dr["shift_ch7_from"].ToString();
+                                model.shift_ch7_to = dr["shift_ch7_to"].ToString();
+                                model.shift_ch8_from = dr["shift_ch8_from"].ToString();
+                                model.shift_ch8_to = dr["shift_ch8_to"].ToString();
+
+                                model.shift_otin_min = Convert.ToInt32(dr["shift_otin_min"].ToString());
+                                model.shift_otin_max = Convert.ToInt32(dr["shift_otin_max"].ToString());
+                                model.shift_otout_min = Convert.ToInt32(dr["shift_otout_min"].ToString());
+                                model.shift_otout_max = Convert.ToInt32(dr["shift_otout_max"].ToString());
+
+                                model.shift_flexiblebreak = dr["shift_flexiblebreak"].ToString().Equals("1") ? true : false;
+
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.shift_id + " " + model.shift_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        strResult = Error;
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 

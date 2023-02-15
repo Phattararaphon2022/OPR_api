@@ -103,6 +103,25 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanholiday?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTPlanholiday(string token, string by, string fileName, Stream stream);
         #endregion
+
+        #region MTShift
+        [OperationContract(Name = "shift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTShiftList(InputMTShift input);
+
+        [OperationContract(Name = "shift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTShift(InputMTShift input);
+
+        [OperationContract(Name = "shift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTShift(InputMTShift input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTShift?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTShift(string token, string by, string fileName, Stream stream);
+
+        #endregion
     }
 
 }

@@ -1448,5 +1448,395 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region MTShift
+        public string getMTShiftList(InputMTShift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTShift objShift = new cls_ctMTShift();
+                List<cls_MTShift> listShift = objShift.getDataByFillter(input.company_code,input.shift_id, input.shift_code);
+
+                JArray array = new JArray();
+
+                if (listShift.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTShift model in listShift)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("shift_id", model.shift_id);
+                        json.Add("shift_code", model.shift_code);
+                        json.Add("shift_name_th", model.shift_name_th);
+                        json.Add("shift_name_en", model.shift_name_en);
+
+                        json.Add("shift_ch1", model.shift_ch1);
+                        json.Add("shift_ch2", model.shift_ch2);
+                        json.Add("shift_ch3", model.shift_ch3);
+                        json.Add("shift_ch4", model.shift_ch4);
+                        json.Add("shift_ch5", model.shift_ch5);
+                        json.Add("shift_ch6", model.shift_ch6);
+                        json.Add("shift_ch7", model.shift_ch7);
+                        json.Add("shift_ch8", model.shift_ch8);
+                        json.Add("shift_ch9", model.shift_ch9);
+                        json.Add("shift_ch10", model.shift_ch10);
+
+                        json.Add("shift_ch3_from", model.shift_ch3_from);
+                        json.Add("shift_ch3_to", model.shift_ch3_to);
+                        json.Add("shift_ch4_from", model.shift_ch4_from);
+                        json.Add("shift_ch4_to", model.shift_ch4_to);
+
+                        json.Add("shift_ch7_from", model.shift_ch7_from);
+                        json.Add("shift_ch7_to", model.shift_ch7_to);
+                        json.Add("shift_ch8_from", model.shift_ch8_from);
+                        json.Add("shift_ch8_to", model.shift_ch8_to);
+
+                        json.Add("shift_otin_min", model.shift_otin_min);
+                        json.Add("shift_otin_max", model.shift_otin_max);
+
+                        json.Add("shift_otout_min", model.shift_otout_min);
+                        json.Add("shift_otout_max", model.shift_otout_max);
+
+                        json.Add("shift_flexiblebreak", model.shift_flexiblebreak);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRShiftbreak objBreak = new cls_ctTRShiftbreak();
+                        List<cls_TRShiftbreak> listBreak = objBreak.getDataByFillter(model.company_code, model.shift_code);
+                        JArray arrayBreak = new JArray();
+                        if (listBreak.Count > 0)
+                        {
+                            int indexBreak = 1;
+
+                            foreach (cls_TRShiftbreak modelBreak in listBreak)
+                            {
+                                JObject jsonBreak = new JObject();
+
+                                jsonBreak.Add("company_code", modelBreak.company_code);
+                                jsonBreak.Add("shift_code", modelBreak.shift_code);
+                                jsonBreak.Add("shiftbreak_no", modelBreak.shiftbreak_no);
+                                jsonBreak.Add("shiftbreak_from", modelBreak.shiftbreak_from);
+                                jsonBreak.Add("shiftbreak_to", modelBreak.shiftbreak_to);
+                                jsonBreak.Add("shiftbreak_break", modelBreak.shiftbreak_break);
+
+                                jsonBreak.Add("index", indexBreak);
+
+                                indexBreak++;
+
+                                arrayBreak.Add(jsonBreak);
+                            }
+                            json.Add("shift_break", arrayBreak);
+                        }
+                        else
+                        {
+                            json.Add("shift_break", arrayBreak);
+                        }
+                        cls_ctTRShiftallowance objAllowance = new cls_ctTRShiftallowance();
+                        List<cls_TRShiftallowance> listAllowance = objAllowance.getDataByFillter(model.company_code, model.shift_code);
+                        JArray arrayallowance = new JArray();
+                        if (listAllowance.Count > 0)
+                        {
+
+                            int indexallowance = 1;
+
+                            foreach (cls_TRShiftallowance modelallowance in listAllowance)
+                            {
+                                JObject jsonallowance = new JObject();
+
+                                jsonallowance.Add("company_code", modelallowance.company_code);
+                                jsonallowance.Add("shift_code", modelallowance.shift_code);
+                                jsonallowance.Add("shiftallowance_no", modelallowance.shiftallowance_no);
+                                jsonallowance.Add("shiftallowance_name_th", modelallowance.shiftallowance_name_th);
+                                jsonallowance.Add("shiftallowance_name_en", modelallowance.shiftallowance_name_en);
+                                jsonallowance.Add("shiftallowance_hhmm", modelallowance.shiftallowance_hhmm);
+                                jsonallowance.Add("shiftallowance_amount", modelallowance.shiftallowance_amount);
+
+                                jsonallowance.Add("index", indexallowance);
+
+                                indexallowance++;
+
+                                arrayallowance.Add(jsonallowance);
+                            }
+                            json.Add("shift_allowance", arrayallowance);
+                        }
+                        else
+                        {
+                            json.Add("shift_allowance", arrayallowance);
+                        }
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTShift(InputMTShift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTShift objShift = new cls_ctMTShift();
+                cls_MTShift model = new cls_MTShift();
+
+                model.company_code = input.company_code;
+
+                model.shift_id = input.shift_id.Equals("") ? 0 : Convert.ToInt32(input.shift_id);
+                model.shift_code = input.shift_code;
+                model.shift_name_th = input.shift_name_th;
+                model.shift_name_en = input.shift_name_en;
+                model.shift_ch1 = input.shift_ch1;
+                model.shift_ch2 = input.shift_ch2;
+                model.shift_ch3 = input.shift_ch3;
+                model.shift_ch4 = input.shift_ch4;
+                model.shift_ch5 = input.shift_ch5;
+                model.shift_ch6 = input.shift_ch6;
+                model.shift_ch7 = input.shift_ch7;
+                model.shift_ch8 = input.shift_ch8;
+                model.shift_ch9 = input.shift_ch9;
+                model.shift_ch10 = input.shift_ch10;
+
+                model.shift_ch3_from = input.shift_ch3_from;
+                model.shift_ch3_to = input.shift_ch3_to;
+                model.shift_ch4_from = input.shift_ch4_from;
+                model.shift_ch4_to = input.shift_ch4_to;
+
+                model.shift_ch7_from = input.shift_ch7_from;
+                model.shift_ch7_to = input.shift_ch7_to;
+                model.shift_ch8_from = input.shift_ch8_from;
+                model.shift_ch8_to = input.shift_ch8_to;
+
+                model.shift_otin_min = input.shift_otin_min;
+                model.shift_otin_max = input.shift_otin_max;
+                model.shift_otout_min = input.shift_otout_min;
+                model.shift_otout_max = input.shift_otout_max;
+
+                model.shift_flexiblebreak = input.shift_flexiblebreak;
+
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+
+                string strID = objShift.insert(model);
+                if (!strID.Equals(""))
+                {
+                    cls_ctTRShiftbreak objbreak = new cls_ctTRShiftbreak();
+                    cls_ctTRShiftallowance allowance = new cls_ctTRShiftallowance();
+                    bool breaks = objbreak.insert(input.company_code,input.shift_code,input.shift_break);
+                    bool allowances = allowance.insert(input.company_code, input.shift_code, input.shift_allowance);
+
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objShift.getMessage();
+                }
+
+                objShift.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTShift(InputMTShift input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTShift controller = new cls_ctMTShift();
+
+                bool blnResult = controller.delete(input.shift_id, input.company_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTShift(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("SHIFT", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }

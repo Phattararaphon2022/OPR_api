@@ -190,4 +190,98 @@ namespace BPC_OPR
 
     }
 #endregion
+
+
+    [DataContract]
+    public class InputMTShift
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+
+        [DataMember]
+        public string shift_id { get; set; }
+        [DataMember]
+        public string shift_code { get; set; }
+        [DataMember]
+        public string shift_name_th { get; set; }
+        [DataMember]
+        public string shift_name_en { get; set; }
+
+        [DataMember]
+        public string shift_ch1 { get; set; }
+        [DataMember]
+        public string shift_ch2 { get; set; }
+        [DataMember]
+        public string shift_ch3 { get; set; }
+        [DataMember]
+        public string shift_ch4 { get; set; }
+        [DataMember]
+        public string shift_ch5 { get; set; }
+        [DataMember]
+        public string shift_ch6 { get; set; }
+        [DataMember]
+        public string shift_ch7 { get; set; }
+        [DataMember]
+        public string shift_ch8 { get; set; }
+        [DataMember]
+        public string shift_ch9 { get; set; }
+        [DataMember]
+        public string shift_ch10 { get; set; }
+
+        [DataMember]
+        public string shift_ch3_from { get; set; }
+        [DataMember]
+        public string shift_ch3_to { get; set; }
+        [DataMember]
+        public string shift_ch4_from { get; set; }
+        [DataMember]
+        public string shift_ch4_to { get; set; }
+
+        [DataMember]
+        public string shift_ch7_from { get; set; }
+        [DataMember]
+        public string shift_ch7_to { get; set; }
+        [DataMember]
+        public string shift_ch8_from { get; set; }
+        [DataMember]
+        public string shift_ch8_to { get; set; }
+
+        [DataMember]
+        public int shift_otin_min { get; set; }
+        [DataMember]
+        public int shift_otin_max { get; set; }
+
+        [DataMember]
+        public int shift_otout_min { get; set; }
+        [DataMember]
+        public int shift_otout_max { get; set; }
+
+        [DataMember]
+        public bool shift_flexiblebreak { get; set; }
+
+        [DataMember]
+        public string shiftallowance_data { get; set; }
+
+        [DataMember]
+        public string break_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public List<cls_TRShiftbreak> shift_break { get; set; }
+        [DataMember]
+        public List<cls_TRShiftallowance> shift_allowance { get; set; }
+
+
+    }
 }
