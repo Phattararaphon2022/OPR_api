@@ -55,7 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_TRHoliday();
                  
-                    model.holiday_date =    dr["HOLIDAY_DATE"].ToString();
+                    model.holiday_date =    Convert.ToDateTime(dr["HOLIDAY_DATE"].ToString()).ToString("yyyy/MM/dd");
                     model.holiday_name_th = dr["HOLIDAY_NAME_TH"].ToString();
                     model.holiday_name_en = dr["HOLIDAY_NAME_EN"].ToString();
 

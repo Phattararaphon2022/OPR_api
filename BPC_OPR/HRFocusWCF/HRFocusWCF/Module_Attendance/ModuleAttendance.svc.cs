@@ -1207,6 +1207,7 @@ namespace BPC_OPR
                         JArray holidayarray = new JArray();
                         if (listHoliday.Count > 0)
                         {
+                            int indexholiday = 1;
                           foreach (cls_TRHoliday modelholiday in listHoliday)
                           {
                               JObject jsonholiday = new JObject();
@@ -1217,6 +1218,8 @@ namespace BPC_OPR
                               jsonholiday.Add("planholiday_code", modelholiday.planholiday_code);
                               jsonholiday.Add("holiday_daytype", modelholiday.holiday_daytype);
                               jsonholiday.Add("holiday_payper", modelholiday.holiday_payper);
+                              jsonholiday.Add("index", indexholiday);
+                              indexholiday++;
                               holidayarray.Add(jsonholiday);
                           }
                             json.Add("holiday_list", holidayarray);
