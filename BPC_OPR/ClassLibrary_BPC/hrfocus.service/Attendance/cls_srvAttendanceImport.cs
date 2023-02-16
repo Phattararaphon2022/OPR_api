@@ -5,6 +5,7 @@ using System.Data.OleDb;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace ClassLibrary_BPC.hrfocus.service
 {
@@ -37,7 +38,23 @@ namespace ClassLibrary_BPC.hrfocus.service
 
             return dt;
         }
-
+        public string checkshiftemty(string val)
+        {
+            string result = "00:00";
+            if (val.Equals(""))
+            {
+                return result;
+            }
+            try {
+                var resultcal = val.Split(' ')[1].Split(':');
+                result = resultcal[0] + ":" + resultcal[1];
+            }
+            catch
+            {
+                result = val;
+            }
+            return result;
+        }
         public string doImportExcel(string type, string filename, string by)
         {
             string strResult = "";
@@ -92,7 +109,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-                        strResult = Error;
                         break;
                     #endregion
 
@@ -141,7 +157,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-                        strResult = Error;
                         break;
                     #endregion
 
@@ -184,7 +199,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-                        strResult = Error;
                         break;
 
                     #endregion
@@ -230,7 +244,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-                        strResult = Error;
                         break;
                     #endregion
 
@@ -273,7 +286,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-                        strResult = Error;
                         break;
                     #endregion
 
@@ -293,31 +305,31 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.shift_code = dr["shift_code"].ToString();
                                 model.shift_name_th = dr["shift_name_th"].ToString();
                                 model.shift_name_en = dr["shift_name_en"].ToString();
-                                model.shift_ch1 = dr["shift_ch1"].ToString();
-                                model.shift_ch2 = dr["shift_ch2"].ToString();
-                                model.shift_ch3 = dr["shift_ch3"].ToString();
-                                model.shift_ch4 = dr["shift_ch4"].ToString();
-                                model.shift_ch5 = dr["shift_ch5"].ToString();
-                                model.shift_ch6 = dr["shift_ch6"].ToString();
-                                model.shift_ch7 = dr["shift_ch7"].ToString();
-                                model.shift_ch8 = dr["shift_ch8"].ToString();
-                                model.shift_ch9 = dr["shift_ch9"].ToString();
-                                model.shift_ch10 = dr["shift_ch10"].ToString();
+                                model.shift_ch1 = this.checkshiftemty(dr["shift_ch1"].ToString());
+                                model.shift_ch2 = this.checkshiftemty(dr["shift_ch2"].ToString());
+                                model.shift_ch3 = this.checkshiftemty(dr["shift_ch3"].ToString());
+                                model.shift_ch4 = this.checkshiftemty(dr["shift_ch4"].ToString());
+                                model.shift_ch5 = this.checkshiftemty(dr["shift_ch5"].ToString());
+                                model.shift_ch6 = this.checkshiftemty(dr["shift_ch6"].ToString());
+                                model.shift_ch7 = this.checkshiftemty(dr["shift_ch7"].ToString());
+                                model.shift_ch8 = this.checkshiftemty(dr["shift_ch8"].ToString());
+                                model.shift_ch9 = this.checkshiftemty(dr["shift_ch9"].ToString());
+                                model.shift_ch10 =this.checkshiftemty(dr["shift_ch10"].ToString());
 
-                                model.shift_ch3_from = dr["shift_ch3_from"].ToString();
-                                model.shift_ch3_to = dr["shift_ch3_to"].ToString();
-                                model.shift_ch4_from = dr["shift_ch4_from"].ToString();
-                                model.shift_ch4_to = dr["shift_ch4_to"].ToString();
+                                model.shift_ch3_from = this.checkshiftemty(dr["shift_ch3_from"].ToString());
+                                model.shift_ch3_to = this.checkshiftemty(dr["shift_ch3_to"].ToString());
+                                model.shift_ch4_from = this.checkshiftemty(dr["shift_ch4_from"].ToString());
+                                model.shift_ch4_to = this.checkshiftemty(dr["shift_ch4_to"].ToString());
 
-                                model.shift_ch7_from = dr["shift_ch7_from"].ToString();
-                                model.shift_ch7_to = dr["shift_ch7_to"].ToString();
-                                model.shift_ch8_from = dr["shift_ch8_from"].ToString();
-                                model.shift_ch8_to = dr["shift_ch8_to"].ToString();
+                                model.shift_ch7_from = this.checkshiftemty(dr["shift_ch7_from"].ToString());
+                                model.shift_ch7_to = this.checkshiftemty(dr["shift_ch7_to"].ToString());
+                                model.shift_ch8_from = this.checkshiftemty(dr["shift_ch8_from"].ToString());
+                                model.shift_ch8_to = this.checkshiftemty(dr["shift_ch8_to"].ToString());
 
-                                model.shift_otin_min = Convert.ToInt32(dr["shift_otin_min"].ToString());
-                                model.shift_otin_max = Convert.ToInt32(dr["shift_otin_max"].ToString());
-                                model.shift_otout_min = Convert.ToInt32(dr["shift_otout_min"].ToString());
-                                model.shift_otout_max = Convert.ToInt32(dr["shift_otout_max"].ToString());
+                                model.shift_otin_min = Convert.ToInt32(dr["shift_otin_min"].ToString().Equals("") ? "0" : dr["shift_otin_min"].ToString());
+                                model.shift_otin_max = Convert.ToInt32(dr["shift_otin_max"].ToString().Equals("") ? "0" : dr["shift_otin_max"].ToString());
+                                model.shift_otout_min = Convert.ToInt32(dr["shift_otout_min"].ToString().Equals("") ? "0" : dr["shift_otout_min"].ToString());
+                                model.shift_otout_max = Convert.ToInt32(dr["shift_otout_max"].ToString().Equals("") ? "0" : dr["shift_otout_max"].ToString());
 
                                 model.shift_flexiblebreak = dr["shift_flexiblebreak"].ToString().Equals("1") ? true : false;
 
@@ -344,7 +356,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-                        strResult = Error;
                         break;
                     #endregion
 

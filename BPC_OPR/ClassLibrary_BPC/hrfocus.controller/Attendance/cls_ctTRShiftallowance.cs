@@ -241,18 +241,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@SHIFTALLOWANCE_NAME_EN", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@SHIFTALLOWANCE_HHMM", SqlDbType.Char);
                     obj_cmd.Parameters.Add("@SHIFTALLOWANCE_AMOUNT", SqlDbType.Decimal);
-
+                    int id = 1;
                     foreach (cls_TRShiftallowance model in list_model)
                     {
 
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                        obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
-                        obj_cmd.Parameters["@SHIFTALLOWANCE_NO"].Value = this.getNextID();
+                        obj_cmd.Parameters["@SHIFT_CODE"].Value = shift;
+                        obj_cmd.Parameters["@SHIFTALLOWANCE_NO"].Value = id;
                         obj_cmd.Parameters["@SHIFTALLOWANCE_NAME_TH"].Value = model.shiftallowance_name_th;
                         obj_cmd.Parameters["@SHIFTALLOWANCE_NAME_EN"].Value = model.shiftallowance_name_en;
                         obj_cmd.Parameters["@SHIFTALLOWANCE_HHMM"].Value = model.shiftallowance_hhmm;
                         obj_cmd.Parameters["@SHIFTALLOWANCE_AMOUNT"].Value = model.shiftallowance_amount;
-
+                        id++;
                         obj_cmd.ExecuteNonQuery();
 
                     }

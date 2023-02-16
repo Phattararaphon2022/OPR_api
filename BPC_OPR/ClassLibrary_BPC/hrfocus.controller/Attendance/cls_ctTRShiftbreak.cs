@@ -281,8 +281,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
 
                 obj_str2.Append(" DELETE FROM ATT_TR_SHIFTBREAK");
-                obj_str2.Append(" WHERE 1=1 ");
-                obj_str2.Append(" AND COMPANY_CODE='" + com + "'");
+                //obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str2.Append(" AND SHIFT_CODE='" + shift + "'");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
@@ -298,17 +298,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@SHIFTBREAK_FROM", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@SHIFTBREAK_TO", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@SHIFTBREAK_BREAK", SqlDbType.Int);
-
+                    int id = 1;
                     foreach (cls_TRShiftbreak model in list_model)
                     {
 
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                        obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
-                        obj_cmd.Parameters["@SHIFTBREAK_NO"].Value = this.getNextID();
+                        obj_cmd.Parameters["@SHIFT_CODE"].Value = shift;
+                        obj_cmd.Parameters["@SHIFTBREAK_NO"].Value = id;
                         obj_cmd.Parameters["@SHIFTBREAK_FROM"].Value = model.shiftbreak_from;
                         obj_cmd.Parameters["@SHIFTBREAK_TO"].Value = model.shiftbreak_to;
                         obj_cmd.Parameters["@SHIFTBREAK_BREAK"].Value = model.shiftbreak_break;
-
+                        id++;
                         obj_cmd.ExecuteNonQuery();
 
                     }

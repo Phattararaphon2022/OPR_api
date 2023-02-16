@@ -1350,6 +1350,8 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
+                    cls_ctTRHoliday objHoliday = new cls_ctTRHoliday();
+                    bool trholiday = objHoliday.delete(input.company_code, input.planholiday_code,input.year_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1484,7 +1486,7 @@ namespace BPC_OPR
                     foreach (cls_MTShift model in listShift)
                     {
                         JObject json = new JObject();
-
+                        json.Add("company_code", model.company_code);
                         json.Add("shift_id", model.shift_id);
                         json.Add("shift_code", model.shift_code);
                         json.Add("shift_name_th", model.shift_name_th);
@@ -1740,6 +1742,10 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
+                    cls_ctTRShiftbreak objbreak = new cls_ctTRShiftbreak();
+                    cls_ctTRShiftallowance allowance = new cls_ctTRShiftallowance();
+                    bool breaks = objbreak.insert(input.company_code, input.shift_code, new List<cls_TRShiftbreak>());
+                    bool allowances = allowance.delete(input.company_code, input.shift_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 

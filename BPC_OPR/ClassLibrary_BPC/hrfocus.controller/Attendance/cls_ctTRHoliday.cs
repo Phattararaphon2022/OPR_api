@@ -154,7 +154,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        
+        public bool delete(string com, string plan, string year)
+        {
+            bool blnResult = true;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append(" DELETE FROM ATT_TR_HOLIDAY");
+                obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
+                obj_str.Append(" AND PLANHOLIDAY_CODE='" + plan + "'");
+                obj_str.Append(" AND YEAR(HOLIDAY_DATE) =  YEAR('"+year+"')");
+                blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                blnResult = false;
+                Message = "ERROR::(Holiday.delete)" + ex.ToString();
+            }
+
+            return blnResult;
+        }
         public bool insert(string com, string plan, List<cls_TRHoliday> list_model)
         {
             bool blnResult = false;

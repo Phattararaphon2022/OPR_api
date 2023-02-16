@@ -370,7 +370,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
-                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -435,13 +435,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
-
+                if (!model.shift_id.Equals(0))
+                {
                 obj_str.Append(" WHERE SHIFT_ID=@SHIFT_ID ");
+                }
+                else
+                {
+                    obj_str.Append(" WHERE SHIFT_CODE=@SHIFT_CODE ");
+                    obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+                }
+                
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
-
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                 obj_cmd.Parameters.Add("@SHIFT_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@SHIFT_NAME_TH"].Value = model.shift_name_th;
                 obj_cmd.Parameters.Add("@SHIFT_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@SHIFT_NAME_EN"].Value = model.shift_name_en;
@@ -480,7 +488,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
-                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
 
                 obj_cmd.Parameters.Add("@SHIFT_ID", SqlDbType.Int); obj_cmd.Parameters["@SHIFT_ID"].Value = model.shift_id;
 
