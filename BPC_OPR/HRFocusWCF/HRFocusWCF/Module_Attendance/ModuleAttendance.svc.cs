@@ -1844,5 +1844,319 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region MTPlanshift
+        public string getMTPlanshiftList(InputMTPlanshift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlanshift objPlanshift = new cls_ctMTPlanshift();
+                List<cls_MTPlanshift> listPlanshift = objPlanshift.getDataByFillter(input.company_code, input.planshift_id, input.planshift_code);
+
+                JArray array = new JArray();
+
+                if (listPlanshift.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTPlanshift model in listPlanshift)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("planshift_id", model.planshift_id);
+                        json.Add("planshift_code", model.planshift_code);
+                        json.Add("planshift_name_th", model.planshift_name_th);
+                        json.Add("planshift_name_en", model.planshift_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRPlanschedule objPlanschedule = new cls_ctTRPlanschedule();
+                        List<cls_TRPlanschedule> listPlanschedule = objPlanschedule.getDataByFillter(model.company_code, model.planshift_code);
+                        JArray arrayPlanschedule = new JArray();
+                        if (listPlanschedule.Count > 0)
+                        {
+                            int indexPlanschedule = 1;
+
+                            foreach (cls_TRPlanschedule modelPlanschedule in listPlanschedule)
+                            {
+                                JObject jsonBreak = new JObject();
+
+                                jsonBreak.Add("company_code", modelPlanschedule.company_code);
+                                jsonBreak.Add("planshift_code", modelPlanschedule.planshift_code);
+                                jsonBreak.Add("planschedule_fromdate", modelPlanschedule.planschedule_fromdate);
+                                jsonBreak.Add("planschedule_todate", modelPlanschedule.planschedule_todate);
+                                jsonBreak.Add("shift_code", modelPlanschedule.shift_code);
+                                jsonBreak.Add("planschedule_sun_off", modelPlanschedule.planschedule_sun_off);
+                                jsonBreak.Add("planschedule_mon_off", modelPlanschedule.planschedule_mon_off);
+                                jsonBreak.Add("planschedule_tue_off", modelPlanschedule.planschedule_tue_off);
+                                jsonBreak.Add("planschedule_wed_off", modelPlanschedule.planschedule_wed_off);
+                                jsonBreak.Add("planschedule_thu_off", modelPlanschedule.planschedule_thu_off);
+                                jsonBreak.Add("planschedule_fri_off", modelPlanschedule.planschedule_fri_off);
+                                jsonBreak.Add("planschedule_sat_off", modelPlanschedule.planschedule_sat_off);
+
+                                jsonBreak.Add("modified_by", modelPlanschedule.modified_by);
+                                jsonBreak.Add("modified_date", modelPlanschedule.modified_date);
+                                jsonBreak.Add("flag", modelPlanschedule.flag);
+
+                                jsonBreak.Add("index", index);
+
+                                indexPlanschedule++;
+
+                                arrayPlanschedule.Add(jsonBreak);
+                            }
+                            json.Add("planschedule", arrayPlanschedule);
+                        }
+                        else
+                        {
+                            json.Add("planschedule", arrayPlanschedule);
+                        }
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTPlanshift(InputMTPlanshift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlanshift objPlanshift = new cls_ctMTPlanshift();
+                cls_MTPlanshift model = new cls_MTPlanshift();
+
+                model.company_code = input.company_code;
+                model.planshift_id = input.planshift_id.Equals("") ? 0 : Convert.ToInt32(input.planshift_id);
+                model.planshift_code = input.planshift_code;
+
+                model.planshift_name_th = input.planshift_name_th;
+                model.planshift_name_en = input.planshift_name_en;
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
+
+                string strID = objPlanshift.insert(model);
+                if (!strID.Equals(""))
+                {
+                    cls_ctTRPlanschedule objPlanschedule = new cls_ctTRPlanschedule();
+                    bool clear = objPlanschedule.clear(input.company_code, input.planshift_code);
+                    if (input.planschedule.Count > 0)
+                    {
+                        foreach (cls_TRPlanschedule modelPlanschedule in input.planschedule)
+                        {
+                            bool res = objPlanschedule.insert(modelPlanschedule);
+                        }
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPlanshift.getMessage();
+                }
+
+                objPlanshift.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTPlanshift(InputMTPlanshift input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPlanshift controller = new cls_ctMTPlanshift();
+
+                bool blnResult = controller.delete(input.planshift_id,input.company_code);
+
+                if (blnResult)
+                {
+                    cls_ctTRPlanschedule objPlanschedule = new cls_ctTRPlanschedule();
+                    bool res = objPlanschedule.clear(input.company_code, input.planshift_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTPlanshift(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("PLANSHIFT", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }

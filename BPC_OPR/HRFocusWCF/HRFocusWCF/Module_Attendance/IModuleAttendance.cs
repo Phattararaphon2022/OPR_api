@@ -122,6 +122,25 @@ namespace BPC_OPR
         Task<string> doUploadMTShift(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region MTPlanshift
+        [OperationContract(Name = "planshift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanshiftList(InputMTPlanshift input);
+
+        [OperationContract(Name = "planshift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanshift(InputMTPlanshift input);
+
+        [OperationContract(Name = "planshift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanshift(InputMTPlanshift input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanshift?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanshift(string token, string by, string fileName, Stream stream);
+
+        #endregion
     }
 
 }

@@ -191,7 +191,7 @@ namespace BPC_OPR
     }
 #endregion
 
-
+    #region InputMTShift
     [DataContract]
     public class InputMTShift
     {
@@ -284,4 +284,41 @@ namespace BPC_OPR
 
 
     }
+    #endregion
+
+    #region InputMTPlanshift
+    [DataContract]
+    public class InputMTPlanshift
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+
+        [DataMember]
+        public string planshift_id { get; set; }
+        [DataMember]
+        public string planshift_code { get; set; }
+        [DataMember]
+        public string planshift_name_th { get; set; }
+        [DataMember]
+        public string planshift_name_en { get; set; }
+
+        //-- Transaction
+        [DataMember]
+        public List<cls_TRPlanschedule> planschedule { get; set; }
+
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+    #endregion
 }
