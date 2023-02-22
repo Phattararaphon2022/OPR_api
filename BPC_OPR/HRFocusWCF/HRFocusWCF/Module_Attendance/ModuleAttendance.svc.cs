@@ -2159,7 +2159,7 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region MTYear
+        #region MTLeave
         public string getMTLeaveList(InputMTLeave input)
         {
             JObject output = new JObject();
@@ -2460,6 +2460,308 @@ namespace BPC_OPR
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
                     string tmp = srv_import.doImportExcel("LEAVE", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region MTPlanleave
+        public string getMTPlanleaveList(InputMTPlanleave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlanleave objPlan = new cls_ctMTPlanleave();
+                List<cls_MTPlanleave> listPlan = objPlan.getDataByFillter(input.company_code, input.planleave_id, input.planleave_code);
+
+                JArray array = new JArray();
+
+                if (listPlan.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTPlanleave model in listPlan)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("planleave_id", model.planleave_id);
+                        json.Add("planleave_code", model.planleave_code);
+                        json.Add("planleave_name_th", model.planleave_name_th);
+                        json.Add("planleave_name_en", model.planleave_name_en);
+                        json.Add("company_code", model.company_code);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRPlanleave objTRPlan = new cls_ctTRPlanleave();
+                        List<cls_TRPlanleave> listTRPlan = objTRPlan.getDataByFillter(model.company_code, model.planleave_code);
+                        JArray arrayTRPlan = new JArray();
+                        if (listTRPlan.Count > 0)
+                        {
+                            int indexTRPlan = 1;
+
+                            foreach (cls_TRPlanleave modelTRPlan in listTRPlan)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRPlan.company_code);
+                                jsonTRPlan.Add("planleave_code", modelTRPlan.planleave_code);
+                                jsonTRPlan.Add("leave_code", modelTRPlan.leave_code);
+
+                                jsonTRPlan.Add("index", indexTRPlan);
+
+
+                                indexTRPlan++;
+
+                                arrayTRPlan.Add(jsonTRPlan);
+                            }
+                            json.Add("leavelists", arrayTRPlan);
+                        }
+                        else
+                        {
+                            json.Add("leavelists", arrayTRPlan);
+                        }
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTPlanleave(InputMTPlanleave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlanleave objPlan = new cls_ctMTPlanleave();
+                cls_MTPlanleave model = new cls_MTPlanleave();
+
+                model.company_code = input.company_code;
+                model.planleave_id = input.planleave_id.Equals("") ? 0 : Convert.ToInt32(input.planleave_id);
+                model.planleave_code = input.planleave_code;
+                model.planleave_name_th = input.planleave_name_th;
+                model.planleave_name_en = input.planleave_name_en;
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+                string strID = objPlan.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try{
+                       cls_ctTRPlanleave objTRPlan = new cls_ctTRPlanleave();
+                       objTRPlan.delete(input.company_code,input.planleave_code);
+                       if (input.leavelists.Count > 0) {
+                           objTRPlan.insert(input.leavelists);
+                       }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPlan.getMessage();
+                }
+
+                objPlan.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTPlanleave(InputMTPlanleave input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPlanleave controller = new cls_ctMTPlanleave();
+
+                bool blnResult = controller.delete(input.planleave_id,input.company_code);
+
+                if (blnResult)
+                {
+                    cls_ctTRPlanleave objTRPlan = new cls_ctTRPlanleave();
+                    objTRPlan.delete(input.company_code, input.planleave_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTPlanleave(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("PLANLEAVE", fileName, by);
 
 
                     output["success"] = true;

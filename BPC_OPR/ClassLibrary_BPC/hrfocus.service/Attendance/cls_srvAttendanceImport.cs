@@ -461,6 +461,47 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region PLANLEAVE
+                    case "PLANLEAVE":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTPlanleave controller = new cls_ctMTPlanleave();
+                                cls_MTPlanleave model = new cls_MTPlanleave();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.planleave_id = dr["planleave_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planleave_id"].ToString());
+                                model.planleave_code = dr["planleave_code"].ToString();
+                                model.planleave_name_th = dr["planleave_name_th"].ToString();
+                                model.planleave_name_en = dr["planleave_name_en"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.planleave_id + " " + model.planleave_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 
