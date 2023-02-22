@@ -141,6 +141,25 @@ namespace BPC_OPR
         Task<string> doUploadMTPlanshift(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region MTLeave
+        [OperationContract(Name = "leave_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTLeaveList(InputMTLeave input);
+
+        [OperationContract(Name = "leave")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTLeave(InputMTLeave input);
+
+        [OperationContract(Name = "leave_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTLeave(InputMTLeave input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLeave?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTLeave(string token, string by, string fileName, Stream stream);
+
+        #endregion
     }
 
 }

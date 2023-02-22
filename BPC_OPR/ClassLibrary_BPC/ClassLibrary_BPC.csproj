@@ -61,6 +61,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTHoliday.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTLeave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTLocation.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPeriod.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanholiday.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRHoliday.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRLeaveWorkage.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRPlanschedule.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftallowance.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTLeave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLocation.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPeriod.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanholiday.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTYear.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRHoliday.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRLeaveWorkage.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRPlanschedule.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRShiftallowance.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRShiftbreak.cs" />

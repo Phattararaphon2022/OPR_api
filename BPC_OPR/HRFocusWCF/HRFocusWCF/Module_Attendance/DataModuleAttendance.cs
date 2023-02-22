@@ -321,4 +321,60 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
     #endregion
+
+    #region InputMTLeave
+    [DataContract]
+    public class InputMTLeave
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string leave_id { get; set; }
+        [DataMember]
+        public string leave_code { get; set; }
+        [DataMember]
+        public string leave_name_th { get; set; }
+        [DataMember]
+        public string leave_name_en { get; set; }
+        [DataMember]
+        public double leave_day_peryear { get; set; }
+        [DataMember]
+        public double leave_day_acc { get; set; }
+        [DataMember]
+        public string leave_day_accexpire { get; set; }
+        [DataMember]
+        public string leave_incholiday { get; set; }
+        [DataMember]
+        public string leave_passpro { get; set; }
+        [DataMember]
+        public string leave_deduct { get; set; }
+        [DataMember]
+        public string leave_caldiligence { get; set; }
+        [DataMember]
+        public string leave_agework { get; set; }
+        [DataMember]
+        public int leave_ahead { get; set; }
+        [DataMember]
+        public string leave_min_hrs { get; set; }
+        [DataMember]
+        public int leave_max_day { get; set; }
+
+        [DataMember]
+        public List<cls_TRLeaveWorkage> leave_workage { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+#endregion
 }

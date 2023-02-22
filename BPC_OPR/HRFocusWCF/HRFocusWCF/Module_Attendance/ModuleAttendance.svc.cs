@@ -2158,5 +2158,341 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region MTYear
+        public string getMTLeaveList(InputMTLeave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTLeave objLeave = new cls_ctMTLeave();
+                List<cls_MTLeave> listLeave = objLeave.getDataByFillter(input.company_code,input.leave_id, input.leave_code);
+
+                JArray array = new JArray();
+
+                if (listLeave.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTLeave model in listLeave)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("leave_id", model.leave_id);
+                        json.Add("leave_code", model.leave_code);
+                        json.Add("leave_name_th", model.leave_name_th);
+                        json.Add("leave_name_en", model.leave_name_en);
+                        json.Add("leave_day_peryear", model.leave_day_peryear);
+                        json.Add("leave_day_acc", model.leave_day_acc);
+                        json.Add("leave_day_accexpire", model.leave_day_accexpire);
+                        json.Add("leave_incholiday", model.leave_incholiday);
+                        json.Add("leave_passpro", model.leave_passpro);
+                        json.Add("leave_deduct", model.leave_deduct);
+                        json.Add("leave_caldiligence", model.leave_caldiligence);
+                        json.Add("leave_agework", model.leave_agework);
+                        json.Add("leave_ahead", model.leave_ahead);
+                        json.Add("leave_min_hrs", model.leave_min_hrs);
+                        json.Add("leave_max_day", model.leave_max_day);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRLeaveWorkage objWorkage = new cls_ctTRLeaveWorkage();
+                        List<cls_TRLeaveWorkage> listWorkage = objWorkage.getDataByFillter(model.company_code, model.leave_code);
+                        JArray arrayWorkage = new JArray();
+                        if (listWorkage.Count > 0)
+                        {
+                            int indexWorkage = 1;
+
+                            foreach (cls_TRLeaveWorkage modelWorkage in listWorkage)
+                            {
+                                JObject jsonWorkage = new JObject();
+                                jsonWorkage.Add("leave_code", modelWorkage.leave_code);
+                                jsonWorkage.Add("workage_from", modelWorkage.workage_from);
+                                jsonWorkage.Add("workage_to", modelWorkage.workage_to);
+                                jsonWorkage.Add("workage_leaveday", modelWorkage.workage_leaveday);
+
+                                jsonWorkage.Add("index", indexWorkage);
+
+                                indexWorkage++;
+
+                                arrayWorkage.Add(jsonWorkage);
+                            }
+                            json.Add("leave_workage", arrayWorkage);
+                        }
+                        else
+                        {
+                            json.Add("leave_workage", arrayWorkage);
+                        }
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTLeave(InputMTLeave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTLeave objLeave = new cls_ctMTLeave();
+                cls_MTLeave model = new cls_MTLeave();
+                model.company_code = input.company_code;
+                model.leave_id = input.leave_id.Equals("") ? 0 : Convert.ToInt32(input.leave_id);
+                model.leave_code = input.leave_code;
+                model.leave_name_th = input.leave_name_th;
+                model.leave_name_en = input.leave_name_en;
+                model.leave_day_peryear = Convert.ToDouble(input.leave_day_peryear);
+                model.leave_day_acc = Convert.ToDouble(input.leave_day_acc);
+
+                string strExpire = "9999-12-31";
+                try
+                {
+                    if (input.leave_day_accexpire != "")
+                        strExpire = input.leave_day_accexpire;
+                }
+                catch { }
+
+                model.leave_day_accexpire = Convert.ToDateTime(strExpire);
+                model.leave_incholiday = input.leave_incholiday;
+                model.leave_passpro = input.leave_passpro;
+                model.leave_deduct = input.leave_deduct;
+                model.leave_caldiligence = input.leave_caldiligence;
+                model.leave_agework = input.leave_agework;
+                model.leave_ahead = Convert.ToInt32(input.leave_ahead);
+                model.leave_min_hrs = Convert.ToString(input.leave_min_hrs);
+                model.leave_max_day = Convert.ToDouble(input.leave_max_day);
+
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+
+                string strID = objLeave.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRLeaveWorkage objTRWorkage = new cls_ctTRLeaveWorkage();
+                        objTRWorkage.delete(input.company_code, input.leave_code);
+                        if (input.leave_workage.Count > 0){
+                            objTRWorkage.insert(input.leave_workage);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objLeave.getMessage();
+                }
+
+                objLeave.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTLeave(InputMTLeave input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTLeave controller = new cls_ctMTLeave();
+
+                bool blnResult = controller.delete(input.leave_id,input.company_code); 
+
+                if (blnResult)
+                {
+                    cls_ctTRLeaveWorkage objTRWorkage = new cls_ctTRLeaveWorkage();
+                    objTRWorkage.delete(input.company_code,input.leave_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTLeave(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("LEAVE", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }

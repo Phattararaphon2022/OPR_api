@@ -400,6 +400,67 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region LEAVE
+                    case "LEAVE":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTLeave controller = new cls_ctMTLeave();
+                                cls_MTLeave model = new cls_MTLeave();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.leave_id = dr["leave_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["leave_id"].ToString());
+                                model.leave_code = dr["leave_code"].ToString();
+                                model.leave_name_th = dr["leave_name_th"].ToString();
+                                model.leave_name_en = dr["leave_name_en"].ToString();
+                                model.leave_day_peryear = dr["leave_day_peryear"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["leave_day_peryear"].ToString());
+                                model.leave_day_acc = dr["leave_day_acc"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["leave_day_acc"].ToString());
+
+                                string strExpire = "9999-12-31";
+                                try
+                                {
+                                    if (dr["leave_day_accexpire"].ToString() != "")
+                                        strExpire = dr["leave_day_accexpire"].ToString();
+                                }
+                                catch { }
+
+                                model.leave_day_accexpire = Convert.ToDateTime(strExpire);
+                                model.leave_incholiday = dr["leave_incholiday"].ToString().Equals("") ? "N" : dr["leave_incholiday"].ToString();
+                                model.leave_passpro = dr["leave_passpro"].ToString().Equals("") ? "N" : dr["leave_passpro"].ToString();
+                                model.leave_deduct = dr["leave_deduct"].ToString().Equals("") ? "N" : dr["leave_deduct"].ToString();
+                                model.leave_caldiligence = dr["leave_caldiligence"].ToString().Equals("") ? "N" : dr["leave_caldiligence"].ToString();
+                                model.leave_agework = dr["leave_agework"].ToString().Equals("") ? "N" : dr["leave_agework"].ToString();
+                                model.leave_ahead = dr["leave_ahead"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["leave_ahead"].ToString());
+                                model.leave_min_hrs = dr["leave_min_hrs"].ToString();
+                                model.leave_max_day = dr["leave_max_day"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["leave_max_day"].ToString());
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.leave_id + " " + model.leave_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 
