@@ -433,7 +433,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.leave_caldiligence = dr["leave_caldiligence"].ToString().Equals("") ? "N" : dr["leave_caldiligence"].ToString();
                                 model.leave_agework = dr["leave_agework"].ToString().Equals("") ? "N" : dr["leave_agework"].ToString();
                                 model.leave_ahead = dr["leave_ahead"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["leave_ahead"].ToString());
-                                model.leave_min_hrs = dr["leave_min_hrs"].ToString();
+                                model.leave_min_hrs = this.checkshiftemty(dr["leave_min_hrs"].ToString());
                                 model.leave_max_day = dr["leave_max_day"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["leave_max_day"].ToString());
                                 model.modified_by = by;
                                 model.flag = false;
