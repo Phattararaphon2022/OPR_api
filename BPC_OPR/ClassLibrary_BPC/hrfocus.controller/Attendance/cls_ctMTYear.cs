@@ -14,7 +14,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
         public cls_ctMTYear() { }
 
-        public string getMessage() { return this.Message.Replace("ATT_MT_YEAE", "").Replace("cls_ctATTMTYear", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("SYS_MT_YEAE", "").Replace("cls_ctATTMTYear", "").Replace("line", ""); }
 
         public void dispose()
         {
@@ -45,7 +45,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", FLAG");
-                obj_str.Append(" FROM ATT_MT_YEAR");
+                obj_str.Append(" FROM SYS_MT_YEAR");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -115,7 +115,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT YEAR_ID");
-                obj_str.Append(" FROM ATT_MT_YEAR");
+                obj_str.Append(" FROM SYS_MT_YEAR");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND YEAR_CODE='" + code + "'");
                 obj_str.Append(" AND YEAR_ID='" + id + "'");
@@ -143,7 +143,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT MAX(YEAR_ID) ");
-                obj_str.Append(" FROM ATT_MT_YEAR");
+                obj_str.Append(" FROM SYS_MT_YEAR");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -169,7 +169,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_MT_YEAR");
+                obj_str.Append(" DELETE FROM SYS_MT_YEAR");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND YEAR_ID='" + id + "'");
 
@@ -200,7 +200,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
 
-                obj_str.Append("INSERT INTO ATT_MT_YEAR");
+                obj_str.Append("INSERT INTO SYS_MT_YEAR");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", YEAR_ID ");
@@ -268,7 +268,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE ATT_MT_YEAR SET ");
+                obj_str.Append("UPDATE SYS_MT_YEAR SET ");
 
                 obj_str.Append(" YEAR_CODE=@YEAR_CODE ");
                 obj_str.Append(", YEAR_NAME_TH=@YEAR_NAME_TH ");

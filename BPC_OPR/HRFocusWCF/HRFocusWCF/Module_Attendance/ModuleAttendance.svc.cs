@@ -2796,5 +2796,314 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region MTYear
+        public string getMTRateotList(InputMTRateot input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTRateot objRate = new cls_ctMTRateot();
+                List<cls_MTRateot> listLate = objRate.getDataByFillter(input.company_code, input.rateot_id, input.rateot_code);
+
+                JArray array = new JArray();
+
+                if (listLate.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTRateot model in listLate)
+                    {
+                        JObject json = new JObject();
+
+                    json.Add("company_code", model.company_code);
+                    json.Add("rateot_id", model.rateot_id);
+                    json.Add("rateot_code", model.rateot_code);
+                    json.Add("rateot_name_th", model.rateot_name_th);
+                    json.Add("rateot_name_en", model.rateot_name_en);
+                    json.Add("modified_by", model.modified_by);
+                    json.Add("modified_date", model.modified_date);
+                    cls_ctTRRateot objTRRate = new cls_ctTRRateot();
+                    List<cls_TRRateot> listTRRate = objTRRate.getDataByFillter(model.company_code, model.rateot_code);
+                    JArray arrayTRRate = new JArray();
+                    if (listTRRate.Count > 0)
+                    {
+                        int indexTRRate = 1;
+
+                        foreach (cls_TRRateot modelTRRate in listTRRate)
+                        {
+                            JObject jsonTRRate = new JObject();
+                            jsonTRRate.Add("company_code", modelTRRate.company_code);
+                            jsonTRRate.Add("rateot_daytype", modelTRRate.rateot_daytype);
+                            jsonTRRate.Add("rateot_code", modelTRRate.rateot_code);
+                            jsonTRRate.Add("rateot_before", modelTRRate.rateot_before);
+                            jsonTRRate.Add("rateot_normal", modelTRRate.rateot_normal);
+                            jsonTRRate.Add("rateot_break", modelTRRate.rateot_break);
+                            jsonTRRate.Add("rateot_after", modelTRRate.rateot_after);
+
+                            jsonTRRate.Add("index", indexTRRate);
+
+
+                            indexTRRate++;
+
+                            arrayTRRate.Add(jsonTRRate);
+                        }
+                        json.Add("rateot_data", arrayTRRate);
+                    }
+                    else
+                    {
+                        json.Add("rateot_data", arrayTRRate);
+                    }
+                    json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTRateot(InputMTRateot input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTRateot objRate = new cls_ctMTRateot();
+                cls_MTRateot model = new cls_MTRateot();
+
+                model.company_code = input.company_code;
+                model.rateot_id = input.rateot_id.Equals("") ? 0 : Convert.ToInt32(input.rateot_id);
+                model.rateot_code = input.rateot_code;
+                model.rateot_name_th = input.rateot_name_th;
+                model.rateot_name_en = input.rateot_name_en;
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+                string strID = objRate.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRRateot objTRRate = new cls_ctTRRateot();
+                        objTRRate.delete(input.company_code, input.rateot_code);
+                        if (input.rateot_data.Count > 0)
+                        {
+                            objTRRate.insert(input.rateot_data);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objRate.getMessage();
+                }
+
+                objRate.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTRateot(InputMTRateot input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTRateot controller = new cls_ctMTRateot();
+
+                bool blnResult = controller.delete(input.rateot_id, input.company_code);
+
+                if (blnResult)
+                {
+                    cls_ctTRRateot objTRRate = new cls_ctTRRateot();
+                    objTRRate.delete(input.company_code, input.rateot_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTRateot(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("RATEOT", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }

@@ -44,7 +44,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM ATT_MT_LOCATION");
+                obj_str.Append(" FROM SYS_MT_LOCATION");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -104,7 +104,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT LOCATION_ID");
-                obj_str.Append(" FROM ATT_MT_LOCATION");
+                obj_str.Append(" FROM SYS_MT_LOCATION");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND LOCATION_CODE='" + code + "'");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
@@ -132,7 +132,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT MAX(LOCATION_ID) ");
-                obj_str.Append(" FROM ATT_MT_LOCATION");
+                obj_str.Append(" FROM SYS_MT_LOCATION");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -158,7 +158,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_MT_LOCATION");
+                obj_str.Append(" DELETE FROM SYS_MT_LOCATION");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND LOCATION_ID='" + id + "'");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
@@ -188,7 +188,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
-                obj_str.Append("INSERT INTO ATT_MT_LOCATION");
+                obj_str.Append("INSERT INTO SYS_MT_LOCATION");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", LOCATION_ID ");
@@ -254,7 +254,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE ATT_MT_LOCATION SET ");
+                obj_str.Append("UPDATE SYS_MT_LOCATION SET ");
                 obj_str.Append(" COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(", LOCATION_CODE=@LOCATION_CODE ");
                 obj_str.Append(", LOCATION_NAME_TH=@LOCATION_NAME_TH ");

@@ -67,6 +67,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanholiday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanshift.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTReason.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTYear.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLeaveWorkage.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRPlanleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRPlanschedule.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftallowance.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTBank.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanholiday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanleave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanshift.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTReason.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTYear.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_TRLeaveWorkage.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRPlanleave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRPlanschedule.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRShiftallowance.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRShiftbreak.cs" />
     <Compile Include="hrfocus.model\cls_MTBank.cs" />

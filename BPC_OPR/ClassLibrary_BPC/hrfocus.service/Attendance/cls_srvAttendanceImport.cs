@@ -502,6 +502,46 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region RATEOT
+                    case "RATEOT":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTRateot controller = new cls_ctMTRateot();
+                                cls_MTRateot model = new cls_MTRateot();
+                                model.company_code = dr["company_code"].ToString();
+                                model.rateot_id = dr["rateot_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["rateot_id"].ToString());
+                                model.rateot_code = dr["rateot_code"].ToString();
+                                model.rateot_name_th = dr["rateot_name_th"].ToString();
+                                model.rateot_name_en = dr["rateot_name_en"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.rateot_id + " " + model.rateot_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 

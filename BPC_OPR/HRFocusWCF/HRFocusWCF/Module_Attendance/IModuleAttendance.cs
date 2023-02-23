@@ -179,6 +179,25 @@ namespace BPC_OPR
         Task<string> doUploadMTPlanleave(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region MTRateot
+        [OperationContract(Name = "ot_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTRateotList(InputMTRateot input);
+
+        [OperationContract(Name = "ot")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTRateot(InputMTRateot input);
+
+        [OperationContract(Name = "ot_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTRateot(InputMTRateot input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTRateot?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTRateot(string token, string by, string fileName, Stream stream);
+
+        #endregion
     }
 
 }
