@@ -1,33 +1,33 @@
 ﻿using ClassLibrary_BPC.hrfocus.model;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctTRBank
+    public class cls_ctTRAssessment
     {
         string Message = string.Empty;
 
         cls_ctConnection Obj_conn = new cls_ctConnection();
 
-        public cls_ctTRBank() { }
+        public cls_ctTRAssessment() { }
 
-        public string getMessage() { return this.Message.Replace("EMP_TR_BANK", "").Replace("cls_ctTRBank", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("EMP_TR_ASSESSMENT", "").Replace("cls_ctTRAssessment", "").Replace("line", ""); }
 
         public void dispose()
         {
             Obj_conn.doClose();
         }
 
-        private List<cls_TRBank> getData(string condition)
+        private List<cls_TRAssessment> getData(string condition)
         {
-            List<cls_TRBank> list_model = new List<cls_TRBank>();
-            cls_TRBank model;
+            List<cls_TRAssessment> list_model = new List<cls_TRAssessment>();
+            cls_TRAssessment model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -36,57 +36,58 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", WORKER_CODE");
-                obj_str.Append(", BANK_ID");
-                obj_str.Append(", ISNULL(BANK_CODE, '') AS BANK_CODE");
-                obj_str.Append(", ISNULL(BANK_ACCOUNT, '') AS BANK_ACCOUNT");
-                obj_str.Append(", BANK_PERCENT");
-                obj_str.Append(", BANK_CASHPERCENT");
+
+                obj_str.Append(", EMPASSESSMENT_ID");
+                obj_str.Append(", EMPASSESSMENT_LOCATION");
+                obj_str.Append(", EMPASSESSMENT_TOPIC");
+                obj_str.Append(", EMPASSESSMENT_FROMDATE");
+                obj_str.Append(", EMPASSESSMENT_TODATE");
+                obj_str.Append(", EMPASSESSMENT_COUNT");
+                obj_str.Append(", EMPASSESSMENT_RESULT");
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(", ISNULL(BANK_BANKNAME, '') AS BANK_BANKNAME");
-
-                obj_str.Append(" FROM EMP_TR_BANK");
+                obj_str.Append(" FROM EMP_TR_ASSESSMENT");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY WORKER_CODE");
+                obj_str.Append(" ORDER BY COMPANY_CODE, WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_TRBank();
+                    model = new cls_TRAssessment();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
-                    model.bank_id = Convert.ToInt32(dr["BANK_ID"]);
-                    model.bank_code = dr["BANK_CODE"].ToString();
-                    model.bank_account = dr["BANK_ACCOUNT"].ToString();
 
-                    model.bank_percent = Convert.ToDouble(dr["BANK_PERCENT"]);
-                    model.bank_cashpercent = Convert.ToDouble(dr["BANK_CASHPERCENT"]);
+                    model.empassessment_id = Convert.ToInt32(dr["EMPASSESSMENT_ID"]);
+                    model.empassessment_location = dr["EMPASSESSMENT_LOCATION"].ToString();
+                    model.empassessment_topic = dr["EMPASSESSMENT_TOPIC"].ToString();
+                    model.empassessment_fromdate = Convert.ToDateTime(dr["EMPASSESSMENT_FROMDATE"]);
+                    model.empassessment_todate = Convert.ToDateTime(dr["EMPASSESSMENT_TODATE"]);
+                    model.empassessment_count = Convert.ToDouble(dr["EMPASSESSMENT_COUNT"]);
+                    model.empassessment_result = dr["EMPASSESSMENT_RESULT"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
-
-                    model.bank_bankname = dr["BANK_BANKNAME"].ToString();
-
                     list_model.Add(model);
                 }
 
             }
             catch (Exception ex)
             {
-                Message = "EMPBNK001:" + ex.ToString();
+                Message = "EMPASM001:" + ex.ToString();
             }
 
             return list_model;
         }
 
-        public List<cls_TRBank> getDataByFillter(string com, string emp)
+        public List<cls_TRAssessment> getDataByFillter(string com, string emp)
         {
             string strCondition = "";
 
@@ -106,9 +107,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ISNULL(BANK_ID, 1) ");
-                obj_str.Append(" FROM EMP_TR_BANK");
-                obj_str.Append(" ORDER BY BANK_ID DESC ");
+                obj_str.Append("SELECT ISNULL(EMPASSESSMENT_ID, 1) ");
+                obj_str.Append(" FROM EMP_TR_ASSESSMENT");
+                obj_str.Append(" ORDER BY EMPASSESSMENT_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -119,7 +120,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPBNK003:" + ex.ToString();
+                Message = "EMPASM002:" + ex.ToString();
             }
 
             return intResult;
@@ -132,8 +133,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT BANK_ID");
-                obj_str.Append(" FROM EMP_TR_BANK");
+                obj_str.Append("SELECT EMPASSESSMENT_ID");
+                obj_str.Append(" FROM EMP_TR_ASSESSMENT");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
@@ -146,7 +147,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPBNK003:" + ex.ToString();
+                Message = "EMPASM003:" + ex.ToString();
             }
 
             return blnResult;
@@ -161,7 +162,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("DELETE FROM EMP_TR_BANK");
+                obj_str.Append("DELETE FROM EMP_TR_ASSESSMENT");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
@@ -171,15 +172,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "EMPBNK004:" + ex.ToString();
+                Message = "EMPASM004:" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public bool insert(cls_TRBank model)
+        public bool insert(cls_TRAssessment model)
         {
-            bool blnResult = false;  
+            bool blnResult = false;
             string strResult = "";
             try
             {
@@ -187,22 +188,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.worker_code))
                 {
-                    return this.update(model);
+                        return this.update(model);
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO EMP_TR_BANK");
+                obj_str.Append("INSERT INTO EMP_TR_ASSESSMENT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
-                obj_str.Append(", BANK_ID ");
-                obj_str.Append(", BANK_CODE ");
-                obj_str.Append(", BANK_ACCOUNT ");
-                obj_str.Append(", BANK_PERCENT ");
-                obj_str.Append(", BANK_CASHPERCENT ");
-                obj_str.Append(", PBANK_BANKNAME ");
+
+                obj_str.Append(", EMPASSESSMENT_ID ");
+                obj_str.Append(", EMPASSESSMENT_LOCATION ");
+                obj_str.Append(", EMPASSESSMENT_TOPIC ");
+                obj_str.Append(", EMPASSESSMENT_FROMDATE ");
+                obj_str.Append(", EMPASSESSMENT_TODATE ");
+                obj_str.Append(", EMPASSESSMENT_COUNT ");
+                obj_str.Append(", EMPASSESSMENT_RESULT ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -211,12 +214,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
-                obj_str.Append(", @BANK_ID ");
-                obj_str.Append(", @BANK_CODE ");
-                obj_str.Append(", @BANK_ACCOUNT ");
-                obj_str.Append(", @BANK_PERCENT ");
-                obj_str.Append(", @BANK_CASHPERCENT ");
-                obj_str.Append(", @BANK_BANKNAME ");
+                obj_str.Append(", @EMPASSESSMENT_ID ");
+                obj_str.Append(", @EMPASSESSMENT_LOCATION ");
+                obj_str.Append(", @EMPASSESSMENT_TOPIC ");
+                obj_str.Append(", @EMPASSESSMENT_FROMDATE ");
+                obj_str.Append(", @EMPASSESSMENT_TODATE ");
+                obj_str.Append(", @EMPASSESSMENT_COUNT ");
+                obj_str.Append(", @EMPASSESSMENT_RESULT ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", '1' ");
@@ -226,18 +230,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                model.bank_id = this.getNextID();
+                model.empassessment_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
-                obj_cmd.Parameters.Add("@BANK_ID", SqlDbType.Int); obj_cmd.Parameters["@BANK_ID"].Value = this.getNextID();
-                obj_cmd.Parameters.Add("@BANK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_CODE"].Value = model.bank_code;
-                obj_cmd.Parameters.Add("@BANK_ACCOUNT", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_ACCOUNT"].Value = model.bank_account;
-                obj_cmd.Parameters.Add("@BANK_PERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@BANK_PERCENT"].Value = model.bank_percent;
-                obj_cmd.Parameters.Add("@BANK_CASHPERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@BANK_CASHPERCENT"].Value = model.bank_cashpercent;
-
-                obj_cmd.Parameters.Add("@BANK_BANKNAME", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_BANKNAME"].Value = model.bank_bankname;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPASSESSMENT_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_LOCATION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_LOCATION"].Value = model.empassessment_location;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_TOPIC", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_TOPIC"].Value = model.empassessment_topic;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_TODATE"].Value = model.empassessment_todate;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_COUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPASSESSMENT_COUNT"].Value = model.empassessment_count;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_RESULT", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_RESULT"].Value = model.empassessment_result;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -246,57 +250,53 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_conn.doClose();
                 blnResult = true;
-                strResult = model.bank_id.ToString();
+                strResult = model.empassessment_id.ToString();
             }
             catch (Exception ex)
             {
-                Message = "EMPBNK005:" + ex.ToString();
+                Message = "EMPASM005:" + ex.ToString();
                 strResult = "";
             }
 
             return blnResult;
         }
 
-        public bool update(cls_TRBank model)
+        public bool update(cls_TRAssessment model)
         {
             bool blnResult = false;
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("UPDATE EMP_TR_BANK SET ");
+                obj_str.Append("UPDATE EMP_TR_ASSESSMENT SET ");
 
-                obj_str.Append(" BANK_BANKCODE=@BANK_CODE ");
-                obj_str.Append(", BANK_BANKACCOUNT=@BANK_ACCOUNT ");
-                obj_str.Append(", BANK_BANKPERCENT=@BANK_PERCENT ");
-                obj_str.Append(", BANK_CASHPERCENT=@BANK_CASHPERCENT ");
-
-                obj_str.Append(", BANK_BANKNAME=@BANK_BANKNAME ");
+                obj_str.Append(" EMPASSESSMENT_LOCATION=@EMPASSESSMENT_LOCATION ");
+                obj_str.Append(", EMPASSESSMENT_TOPIC=@EMPASSESSMENT_TOPIC ");
+                obj_str.Append(", EMPASSESSMENT_FROMDATE=@EMPASSESSMENT_FROMDATE ");
+                obj_str.Append(", EMPASSESSMENT_TODATE=@EMPASSESSMENT_TODATE ");
+                obj_str.Append(", EMPASSESSMENT_COUNT=@EMPASSESSMENT_COUNT ");
+                obj_str.Append(", EMPASSESSMENT_RESULT=@EMPASSESSMENT_RESULT ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
-                obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");;
+                obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
-                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
-                obj_str.Append(" AND BANK_ID=@BANK_ID ");
+                obj_str.Append(" WHERE EMPASSESSMENT_ID=@EMPASSESSMENT_ID ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@BANK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_CODE"].Value = model.bank_code;
-                obj_cmd.Parameters.Add("@BANK_ACCOUNT", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_ACCOUNT"].Value = model.bank_account;
-                obj_cmd.Parameters.Add("@BANK_PERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@BANK_BANKPERCENT"].Value = model.bank_percent;
-                obj_cmd.Parameters.Add("@BANK_CASHPERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@BANK_CASHPERCENT"].Value = model.bank_cashpercent;
-
-                obj_cmd.Parameters.Add("@BANK_BANKNAME", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_BANKNAME"].Value = model.bank_bankname;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_LOCATION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_LOCATION"].Value = model.empassessment_location;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_TOPIC", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_TOPIC"].Value = model.empassessment_topic;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_TODATE"].Value = model.empassessment_todate;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_COUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPASSESSMENT_COUNT"].Value = model.empassessment_count;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_RESULT", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_RESULT"].Value = model.empassessment_result;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
-                obj_cmd.Parameters.Add("@BANK_ID", SqlDbType.Int); obj_cmd.Parameters["@BANK_ID"].Value = model.bank_id;
+                obj_cmd.Parameters.Add("@EMPASSESSMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPASSESSMENT_ID"].Value = model.empassessment_id;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -306,7 +306,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPBNK006:" + ex.ToString();
+                Message = "EMPASM006:" + ex.ToString();
             }
 
             return blnResult;

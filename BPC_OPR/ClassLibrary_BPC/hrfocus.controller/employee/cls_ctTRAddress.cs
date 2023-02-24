@@ -137,7 +137,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp, string id)
+        public bool checkDataOld(string com, string emp)
         {
             bool blnResult = false;
             try
@@ -148,7 +148,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_ADDRESS");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                obj_str.Append(" AND ADDRESS_ID='" + id + "' ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -165,7 +164,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string emp, string id)
+        public bool delete(string com, string emp)
         {
             bool blnResult = true;
             try
@@ -177,7 +176,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM EMP_TR_ADDRESS");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                obj_str.Append(" AND ADDRESS_ID='" + id + "' ");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -191,19 +189,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public string insert(cls_TRAddress model)
+        public bool insert(cls_TRAddress model)
         {
+            bool blnResult = false;
             string strResult = "";
             try
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code,model.worker_code, model.address_id.ToString()))
+                if (this.checkDataOld(model.company_code,model.worker_code))
                 {
-                    if (this.update(model))
-                        return model.address_id.ToString();
-                    else
-                        return "";
+                    return this.update(model);
+                    //if (this.update(model))
+                    //    return model.address_id.ToString();
+                    //else
+                    //    return "";
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -283,6 +283,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
+                blnResult = true;
                 strResult = model.address_id.ToString();
             }
             catch (Exception ex)
@@ -291,7 +292,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strResult = "";
             }
 
-            return strResult;
+            return blnResult;
         }
 
         public bool update(cls_TRAddress model)
