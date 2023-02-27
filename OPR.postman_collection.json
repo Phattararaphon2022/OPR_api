@@ -143,7 +143,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/D:/OPRFileImport/(OPR)Import Year.xlsx"
+											"src": "/D:/OPR/OPRFileImport/(OPR)Import Year.xlsx"
 										}
 									]
 								},
@@ -312,7 +312,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/D:/OPR/OPRFileImport/(OPR)Import Reason.xlsx"
+											"src": []
 										}
 									]
 								},
@@ -1614,6 +1614,195 @@
 										{
 											"key": "fileName",
 											"value": "PLANLEAVE_20230201.xls"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "OT",
+					"item": [
+						{
+							"name": "Attendance/ot_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"rateot_id\":\"\",\r\n    \"rateot_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/ot_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"ot_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/ot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"rateot_id\": \"\",\r\n    \"rateot_code\": \"OTD\",\r\n    \"rateot_name_th\": \"โอทีรายวัน\",\r\n    \"rateot_name_en\": \"OT(Daily work)\",\r\n    \"modified_by\": \"admin\",\r\n    \"flag\": false,\r\n    \"rateot_data\": [\r\n        {\r\n        \"company_code\": \"OPR\",\r\n        \"rateot_code\": \"OTD\",\r\n        \"rateot_daytype\": \"O\",\r\n        \"rateot_before\": 3,\r\n        \"rateot_normal\": 2,\r\n        \"rateot_break\": 0,\r\n        \"rateot_after\": 3\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/ot",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"ot"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/ot_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"rateot_id\":\"1\",\r\n    \"rateot_code\":\"OTD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/ot_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"ot_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/doUploadMTRateot",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/OPR/OPRFileImport/(OPR)Import ReateOT.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/doUploadMTRateot?fileName=RATEOT_20230201.xls&token=Bearer {{token}}&by=Adminn",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"doUploadMTRateot"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "RATEOT_20230201.xls"
 										},
 										{
 											"key": "token",

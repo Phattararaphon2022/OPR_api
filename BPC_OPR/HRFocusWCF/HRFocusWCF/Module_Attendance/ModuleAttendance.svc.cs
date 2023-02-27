@@ -2797,7 +2797,7 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region MTYear
+        #region MTRateot
         public string getMTRateotList(InputMTRateot input)
         {
             JObject output = new JObject();
