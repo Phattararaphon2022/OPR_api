@@ -62,6 +62,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTDiligence.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTHoliday.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTLate.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTLeave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTLocation.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPeriod.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRHoliday.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRLate.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLeaveWorkage.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRPlanleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRPlanschedule.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTLate.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLeave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLocation.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPeriod.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTYear.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRHoliday.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRLate.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRLeaveWorkage.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRPlanleave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRPlanschedule.cs" />

@@ -506,4 +506,37 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
     #endregion
+
+    #region InputMTLate
+
+    [DataContract]
+    public class InputMTLate
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string late_id { get; set; }
+        [DataMember]
+        public string late_code { get; set; }
+        [DataMember]
+        public string late_name_th { get; set; }
+        [DataMember]
+        public string late_name_en { get; set; }
+        [DataMember]
+        public List<cls_TRLate> late_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+    #endregion
 }

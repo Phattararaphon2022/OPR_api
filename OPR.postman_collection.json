@@ -2007,6 +2007,195 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Late",
+					"item": [
+						{
+							"name": "Attendance/late_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"late_id\":\"\",\r\n    \"late_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/late_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"late_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/late",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"late_id\": \"1\",\r\n    \"late_code\": \"01\",\r\n    \"late_name_th\": \"นโยยาบสาย\",\r\n    \"late_name_en\": \"Policy Late\",\r\n    \"modified_by\": \"admin01\",\r\n    \"flag\": false,\r\n    \"late_data\": [\r\n        {\r\n        \"company_code\": \"OPR\",\r\n        \"late_code\": \"01\",\r\n        \"late_from\": 1,\r\n        \"late_to\": 30,\r\n        \"late_deduct_type\": \"3\",\r\n        \"late_deduct_amount\": 0.00\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/late",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"late"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/late_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"late_id\":\"1\",\r\n    \"late_code\":\"01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/late_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"late_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/doUploadMTLate",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/OPR/OPRFileImport/(OPR)Import Late.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/doUploadMTLate?fileName=LATE_20230201.xls&token=Bearer {{token}}&by=Adminn",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"doUploadMTLate"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "LATE_20230201.xls"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {

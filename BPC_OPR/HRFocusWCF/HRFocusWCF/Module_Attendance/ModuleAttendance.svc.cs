@@ -3448,5 +3448,308 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region MTLate
+        public string getMTLateList(InputMTLate input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTLate objLate = new cls_ctMTLate();
+                List<cls_MTLate> listLate = objLate.getDataByFillter(input.company_code, input.late_id, input.late_code);
+
+                JArray array = new JArray();
+
+                if (listLate.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTLate model in listLate)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("late_id", model.late_id);
+                        json.Add("late_code", model.late_code);
+                        json.Add("late_name_th", model.late_name_th);
+                        json.Add("late_name_en", model.late_name_en);
+                        json.Add("company_code", model.company_code);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRLate objTRLate = new cls_ctTRLate();
+                        List<cls_TRLate> listTRLate = objTRLate.getDataByFillter(model.company_code, model.late_code);
+                        JArray arrayTRLate = new JArray();
+                        if (listTRLate.Count > 0)
+                        {
+                            int indexTRLate = 1;
+
+                            foreach (cls_TRLate modelTRLate in listTRLate)
+                            {
+                                JObject jsonTRLate = new JObject();
+
+                                jsonTRLate.Add("late_code", modelTRLate.late_code);
+                                jsonTRLate.Add("late_from", modelTRLate.late_from);
+                                jsonTRLate.Add("late_to", modelTRLate.late_to);
+                                jsonTRLate.Add("late_deduct_type", modelTRLate.late_deduct_type);
+                                jsonTRLate.Add("late_deduct_amount", modelTRLate.late_deduct_amount);
+                                jsonTRLate.Add("index", indexTRLate);
+                                indexTRLate++;
+
+                                arrayTRLate.Add(jsonTRLate);
+                            }
+                            json.Add("late_data", arrayTRLate);
+                        }
+                        else
+                        {
+                            json.Add("late_data", arrayTRLate);
+                        }
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTLate(InputMTLate input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTLate objLate = new cls_ctMTLate();
+                cls_MTLate model = new cls_MTLate();
+                model.company_code = input.company_code;
+                model.late_id = input.late_id.Equals("") ? 0 : Convert.ToInt32(input.late_id);
+                model.late_code = input.late_code;
+                model.late_name_th = input.late_name_th;
+                model.late_name_en = input.late_name_en;
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+                string strID = objLate.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRLate objTRLate = new cls_ctTRLate();
+                        objTRLate.delete(input.company_code, input.late_code);
+                        if (input.late_data.Count > 0)
+                        {
+                            objTRLate.insert(input.late_data);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objLate.getMessage();
+                }
+
+                objLate.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTLate(InputMTLate input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTLate controller = new cls_ctMTLate();
+
+                bool blnResult = controller.delete(input.late_id);
+
+                if (blnResult)
+                {
+                    cls_ctTRLate objTRLate = new cls_ctTRLate();
+                    objTRLate.delete(input.company_code, input.late_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTLate(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("LATE", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }

@@ -217,6 +217,25 @@ namespace BPC_OPR
         Task<string> doUploadMTDiligence(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region MTLate
+        [OperationContract(Name = "late_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTLateList(InputMTLate input);
+
+        [OperationContract(Name = "late")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTLate(InputMTLate input);
+
+        [OperationContract(Name = "late_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTLate(InputMTLate input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLate?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTLate(string token, string by, string fileName, Stream stream);
+
+        #endregion
     }
 
 }

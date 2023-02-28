@@ -600,6 +600,46 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region LATE
+                    case "LATE":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTLate controller = new cls_ctMTLate();
+                                cls_MTLate model = new cls_MTLate();
+                                model.company_code = dr["company_code"].ToString();
+                                model.late_id = dr["late_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["late_id"].ToString());
+                                model.late_code = dr["late_code"].ToString();
+                                model.late_name_th = dr["late_name_th"].ToString();
+                                model.late_name_en = dr["late_name_en"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.late_id + " " + model.late_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 
