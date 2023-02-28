@@ -542,6 +542,64 @@ namespace ClassLibrary_BPC.hrfocus.service
                         break;
                     #endregion
 
+                    #region DILIGENCE
+                    case "DILIGENCE":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTDiligence controller = new cls_ctMTDiligence();
+                                cls_MTDiligence model = new cls_MTDiligence();
+                                model.company_code = dr["company_code"].ToString();
+                                model.diligence_id = dr["diligence_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_id"].ToString());
+                                model.diligence_code = dr["diligence_code"].ToString();
+                                model.diligence_name_th = dr["diligence_name_th"].ToString();
+                                model.diligence_name_en = dr["diligence_name_en"].ToString();
+
+                                model.diligence_punchcard = dr["diligence_punchcard"].ToString().Equals("") ? "N" : "Y";
+                                model.diligence_punchcard_times = dr["diligence_punchcard_times"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_punchcard_times"].ToString());
+                                model.diligence_punchcard_timespermonth = dr["diligence_punchcard_timespermonth"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_punchcard_timespermonth"].ToString());
+
+                                model.diligence_late = dr["diligence_late"].ToString().Equals("") ? "N" : "Y";
+                                model.diligence_late_times = dr["diligence_late_times"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_late_times"].ToString());
+                                model.diligence_late_timespermonth = dr["diligence_late_timespermonth"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_late_timespermonth"].ToString());
+                                model.diligence_late_acc = dr["diligence_late_acc"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_late_acc"].ToString());
+
+                                model.diligence_ba = dr["diligence_ba"].ToString().Equals("") ? "N" : "Y";
+                                model.diligence_before_min = dr["diligence_before_min"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_before_min"].ToString());
+                                model.diligence_after_min = dr["diligence_after_min"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_after_min"].ToString());
+
+                                model.diligence_passpro = dr["diligence_passpro"].ToString().Equals("") ? "N" : "Y";
+                                model.diligence_wrongcondition = dr["diligence_wrongcondition"].ToString();
+                                model.diligence_someperiod = dr["diligence_someperiod"].ToString().Equals("") ? "N" : "Y";
+                                model.diligence_someperiod_first = dr["diligence_someperiod_first"].ToString().Equals("") ? "N" : "Y";
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.diligence_id + " " + model.diligence_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
                     case "REASONs":
                         break;
 

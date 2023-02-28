@@ -198,6 +198,25 @@ namespace BPC_OPR
         Task<string> doUploadMTRateot(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region MTDiligence
+        [OperationContract(Name = "diligence_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTDiligenceList(InputMTDiligence input);
+
+        [OperationContract(Name = "diligence")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTDiligence(InputMTDiligence input);
+
+        [OperationContract(Name = "diligence_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTDiligence(InputMTDiligence input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTDiligence?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTDiligence(string token, string by, string fileName, Stream stream);
+
+        #endregion
     }
 
 }

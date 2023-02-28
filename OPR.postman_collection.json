@@ -1818,6 +1818,195 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Diligence",
+					"item": [
+						{
+							"name": "Attendance/diligence_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"diligence_id\":\"\",\r\n    \"diligence_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/diligence_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"diligence_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/diligence",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"device_name\":\"phone\",\r\n        \"ip\":\"127.0.0.1\",\r\n        \"username\":\"Admin\",\r\n        \"company_code\": \"OPR\",\r\n        \"diligence_id\": \"1\",\r\n        \"diligence_code\": \"DG\",\r\n        \"diligence_name_th\": \"เบี้ยขยัน\",\r\n        \"diligence_name_en\": \"DILIGENCE\",\r\n        \"diligence_punchcard\": \"N\",\r\n        \"diligence_punchcard_times\": 0,\r\n        \"diligence_punchcard_timespermonth\": 0,\r\n        \"diligence_late\": \"N\",\r\n        \"diligence_late_acc\": 0,\r\n        \"diligence_late_times\": 0,\r\n        \"diligence_late_timespermonth\": 0,\r\n        \"diligence_ba\": \"N\",\r\n        \"diligence_before_min\": 0,\r\n        \"diligence_after_min\": 0,\r\n        \"diligence_passpro\": \"N\",\r\n        \"diligence_wrongcondition\": \"1\",\r\n        \"diligence_someperiod\": \"N\",\r\n        \"diligence_someperiod_first\": \"N\",\r\n        \"modified_by\": \"admin\",\r\n        \"flag\": false,\r\n        \"steppay_data\": [\r\n          {\r\n            \"company_code\": \"OPR\",\r\n            \"diligence_code\": \"DG\",\r\n            \"steppay_step\": 1,\r\n            \"steppay_type\": \"1\",\r\n            \"steppay_amount\": 300.0\r\n          },\r\n          {\r\n            \"company_code\": \"OPR\",\r\n            \"diligence_code\": \"DG\",\r\n            \"steppay_step\": 2,\r\n            \"steppay_type\": \"2\",\r\n            \"steppay_amount\": 400.0\r\n          },\r\n          {\r\n            \"company_code\": \"OPR\",\r\n            \"diligence_code\": \"DG\",\r\n            \"steppay_step\": 3,\r\n            \"steppay_type\": \"3\",\r\n            \"steppay_amount\": 500.0\r\n          }\r\n        ]\r\n      }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/diligence",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"diligence"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/diligence_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"diligence_id\":\"1\",\r\n    \"diligence_code\":\"DG\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/diligence_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"diligence_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/doUploadMTDiligence",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/OPR/OPRFileImport/(OPR)Import Diligence.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/doUploadMTDiligence?fileName=DILIGENCE_20230201.xls&token=Bearer {{token}}&by=Adminn",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"doUploadMTDiligence"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "DILIGENCE_20230201.xls"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {

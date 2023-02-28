@@ -442,4 +442,68 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
      #endregion
+
+    #region InputMTDiligence
+
+    [DataContract]
+    public class InputMTDiligence
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string diligence_id { get; set; }
+        [DataMember]
+        public string diligence_code { get; set; }
+        [DataMember]
+        public string diligence_name_th { get; set; }
+        [DataMember]
+        public string diligence_name_en { get; set; }
+        [DataMember]
+        public string diligence_punchcard { get; set; }
+        [DataMember]
+        public int diligence_punchcard_times { get; set; }
+        [DataMember]
+        public int diligence_punchcard_timespermonth { get; set; }
+        [DataMember]
+        public string diligence_late { get; set; }
+        [DataMember]
+        public int diligence_late_times { get; set; }
+        [DataMember]
+        public int diligence_late_timespermonth { get; set; }
+        [DataMember]
+        public int diligence_late_acc { get; set; }
+
+        [DataMember]
+        public string diligence_ba { get; set; }
+        [DataMember]
+        public int diligence_before_min { get; set; }
+        [DataMember]
+        public int diligence_after_min { get; set; }
+
+        [DataMember]
+        public string diligence_passpro { get; set; }
+        [DataMember]
+        public string diligence_wrongcondition { get; set; }
+        [DataMember]
+        public string diligence_someperiod { get; set; }
+        [DataMember]
+        public string diligence_someperiod_first { get; set; }
+
+        [DataMember]
+        public List<cls_TRDiligenceSteppay> steppay_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+    #endregion
 }
