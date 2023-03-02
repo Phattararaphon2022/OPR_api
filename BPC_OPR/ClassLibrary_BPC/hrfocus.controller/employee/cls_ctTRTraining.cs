@@ -204,7 +204,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO EMP_TR_TRAINING");
                 obj_str.Append(" (");
-                obj_str.Append(", COMPANY_CODE ");
+                obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
                 obj_str.Append(", EMPTRAINING_NO ");
                 obj_str.Append(", INSTITUTE_CODE ");
@@ -223,7 +223,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append(", @COMPANY_CODE ");
+                obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @EMPTRAINING_NO ");
                 obj_str.Append(", @INSTITUTE_CODE ");

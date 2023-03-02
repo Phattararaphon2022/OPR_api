@@ -33,17 +33,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("EMP_TR_POSITION.COMPANY_CODE");
                 obj_str.Append(", WORKER_CODE");
-                obj_str.Append("EMPPOSITION_ID");
+                obj_str.Append(", EMPPOSITION_ID");
                 obj_str.Append(", EMPPOSITION_DATE");
                 obj_str.Append(", ISNULL(EMPPOSITION_POSITION, '') AS EMPPOSITION_POSITION");
                 obj_str.Append(", ISNULL(EMPPOSITION_REASON, '') AS EMPPOSITION_REASON");
+                obj_str.Append(", ISNULL(EMP_MT_POSITION.POSITION_NAME_TH,'') AS POSITION_NAME_TH");
+                obj_str.Append(", ISNULL(EMP_MT_POSITION.POSITION_NAME_EN,'') AS POSITION_NAME_EN");
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(", ISNULL(EMP_TR_POSITION.MODIFIED_BY, EMP_TR_POSITION.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(EMP_TR_POSITION.MODIFIED_DATE, EMP_TR_POSITION.CREATED_DATE) AS MODIFIED_DATE");
 
                 obj_str.Append(" FROM EMP_TR_POSITION");
+                obj_str.Append(" INNER JOIN EMP_MT_POSITION ON EMP_MT_POSITION.POSITION_CODE=EMP_TR_POSITION.EMPPOSITION_POSITION");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -63,6 +67,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.empposition_date = Convert.ToDateTime(dr["EMPPOSITION_DATE"]);
                     model.empposition_position = dr["EMPPOSITION_POSITION"].ToString();
                     model.empposition_reason = dr["EMPPOSITION_REASON"].ToString();
+
+                    model.position_name_th = dr["POSITION_NAME_TH"].ToString();
+                    model.position_name_en = dr["POSITION_NAME_EN"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -84,7 +91,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = "";
 
             if (!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND EMP_TR_POSITION.COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
                 strCondition += " AND WORKER_CODE='" + emp + "'";

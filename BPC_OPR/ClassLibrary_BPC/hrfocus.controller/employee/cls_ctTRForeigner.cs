@@ -289,9 +289,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKPERMIT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_ISSUE"].Value = model.workpermit_issue;
                 obj_cmd.Parameters.Add("@WORKPERMIT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_EXPIRE"].Value = model.workpermit_expire;
                 obj_cmd.Parameters.Add("@ENTRY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@ENTRY_DATE"].Value = model.entry_date;
-                obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
+                obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
                 obj_cmd.Parameters.Add("@CERTIFICATE_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_EXPIRE"].Value = model.certificate_expire;
-                obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
+                obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
                 obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;

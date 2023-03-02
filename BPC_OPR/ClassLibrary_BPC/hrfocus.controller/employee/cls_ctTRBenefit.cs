@@ -38,7 +38,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE");
 
                 obj_str.Append(", EMPBENEFIT_ID");
-                obj_str.Append(", HRM_TR_EMPBENEFIT.ITEM_CODE AS ITEM_CODE");
+                obj_str.Append(", ITEM_CODE");
                 obj_str.Append(", EMPBENEFIT_AMOUNT");
                 obj_str.Append(", EMPBENEFIT_STARTDATE");
                 obj_str.Append(", EMPBENEFIT_ENDDATE");
@@ -205,10 +205,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO EMP_TR_BENEFIT");
                 obj_str.Append(" (");
-                obj_str.Append(", COMPANY_CODE ");
+                obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
 
-                obj_str.Append("EMPBENEFIT_ID ");
+                obj_str.Append(", EMPBENEFIT_ID ");
                 obj_str.Append(", ITEM_CODE ");
                 obj_str.Append(", EMPBENEFIT_AMOUNT ");
                 obj_str.Append(", EMPBENEFIT_STARTDATE ");
@@ -227,10 +227,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append(", @COMPANY_CODE ");
+                obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
 
-                obj_str.Append("@EMPBENEFIT_ID ");
+                obj_str.Append(", @EMPBENEFIT_ID ");
                 obj_str.Append(", @ITEM_CODE ");
                 obj_str.Append(", @EMPBENEFIT_AMOUNT ");
                 obj_str.Append(", @EMPBENEFIT_STARTDATE ");

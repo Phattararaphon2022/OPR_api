@@ -359,6 +359,24 @@ namespace BPC_OPR
         Task<string> doUploadEmpAssessment(string token, string by, string fileName, Stream stream);
         #endregion
 
+        #region TR_Criminal
+        [OperationContract(Name = "empcriminallist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRCriminalList(FillterWorker input);
+
+        [OperationContract(Name = "empcriminal")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRCriminal(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empcriminal_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRCriminal(InputTREmpCriminal input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpCriminal?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpCriminal(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #region TR_Salary
         [OperationContract(Name = "empsalarylist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

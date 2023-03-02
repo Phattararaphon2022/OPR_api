@@ -35,7 +35,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", WORKER_CODE");
-                obj_str.Append("EMPDEP_ID");
+                obj_str.Append(", EMPDEP_ID");
                 obj_str.Append(", EMPDEP_DATE");
                 obj_str.Append(", ISNULL(EMPDEP_LEVEL01, '') AS EMPDEP_LEVEL01");
                 obj_str.Append(", ISNULL(EMPDEP_LEVEL02, '') AS EMPDEP_LEVEL02");

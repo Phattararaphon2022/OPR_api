@@ -202,7 +202,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", BANK_ACCOUNT ");
                 obj_str.Append(", BANK_PERCENT ");
                 obj_str.Append(", BANK_CASHPERCENT ");
-                obj_str.Append(", PBANK_BANKNAME ");
+                obj_str.Append(", BANK_BANKNAME ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");

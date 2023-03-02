@@ -124,7 +124,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp, string id)
+        public bool checkDataOld(string com, string emp)
         {
             bool blnResult = false;
             try
@@ -135,7 +135,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_CRIMINAL");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                obj_str.Append(" AND EMPCRIMINAL_ID='" + id + "' ");
+                //obj_str.Append(" AND EMPCRIMINAL_ID='" + id + "' ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -152,7 +152,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string emp, string id)
+        public bool delete(string com, string emp)
         {
             bool blnResult = true;
             try
@@ -164,7 +164,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM EMP_TR_CRIMINAL");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                obj_str.Append(" AND EMPCRIMINAL_ID='" + id + "' ");
+                //obj_str.Append(" AND EMPCRIMINAL_ID='" + id + "' ");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -178,19 +178,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public string insert(cls_TRCriminal model)
+        public bool insert(cls_TRCriminal model)
         {
+            bool blnResult = false;
             string strResult = "";
             try
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code, model.empcriminal_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code))
                 {
-                    if (this.update(model))
-                        return model.empcriminal_id.ToString();
-                    else
-                        return "";
+                    return this.update(model);
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -249,14 +247,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_conn.doClose();
                 strResult = model.empcriminal_id.ToString();
+                blnResult = true;
             }
             catch (Exception ex)
             {
                 Message = "EMPCRM005:" + ex.ToString();
+                blnResult= false;
                 strResult = "";
             }
 
-            return strResult;
+            return blnResult;
         }
 
         public bool update(cls_TRCriminal model)
