@@ -95,6 +95,7 @@
     <Content Include="Initial.xml" />
     <Content Include="BpcOpr.svc" />
     <Content Include="Module_Attendance\ModuleAttendance.svc" />
+    <Content Include="Module_Employee\ModuleEmployee.svc" />
     <Content Include="Module_System\ModuleSystem.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -111,6 +112,11 @@
     <Compile Include="Module_Attendance\IModuleAttendance.cs" />
     <Compile Include="Module_Attendance\ModuleAttendance.svc.cs">
       <DependentUpon>ModuleAttendance.svc</DependentUpon>
+    </Compile>
+     <Compile Include="Module_Employee\DataModuleEmployee.cs" />
+    <Compile Include="Module_Employee\IModuleEmployee.cs" />
+    <Compile Include="Module_Employee\ModuleEmployee.svc.cs">
+      <DependentUpon>ModuleEmployee.svc</DependentUpon>
     </Compile>
     <Compile Include="Module_System\DataModuleSystem.cs" />
     <Compile Include="Module_System\IModuleSystem.cs" />
