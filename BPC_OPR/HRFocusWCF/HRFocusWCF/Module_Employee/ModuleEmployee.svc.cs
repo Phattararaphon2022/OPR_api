@@ -149,6 +149,9 @@ namespace BPC_OPR
                         json.Add("initial_name_th", model.initial_name_th);
                         json.Add("initial_name_en", model.initial_name_en);
 
+                        json.Add("position_name_th", model.position_name_th);
+                        json.Add("position_name_en", model.position_name_en);
+
                         json.Add("index", index);
 
                         index++;
