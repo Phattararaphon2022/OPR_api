@@ -15,8 +15,6 @@ D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Microsoft.IdentityModel.Abstraction
 D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Microsoft.IdentityModel.JsonWebTokens.xml
 D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Microsoft.IdentityModel.Logging.xml
 D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Microsoft.IdentityModel.Tokens.xml
-D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Newtonsoft.Json.pdb
-D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\Newtonsoft.Json.xml
 D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\bin\System.IdentityModel.Tokens.Jwt.xml
 D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\obj\Debug\BPC_OPR.dll
 D:\OPR_api\BPC_OPR\HRFocusWCF\HRFocusWCF\obj\Debug\BPC_OPR.pdb
