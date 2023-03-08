@@ -96,6 +96,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="BpcOpr.svc" />
+    <Content Include="Module_Attendance\ModuleAttendance.svc" />
+    <Content Include="Module_Employee\ModuleEmployee.svc" />
     <Content Include="Module_Project\ModuleProject.svc" />
     <Content Include="Module_System\ModuleSystem.svc" />
     <Content Include="Web.config">
@@ -108,6 +110,16 @@
     <Compile Include="Config.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Attendance\DataModuleAttendance.cs" />
+    <Compile Include="Module_Attendance\IModuleAttendance.cs" />
+    <Compile Include="Module_Attendance\ModuleAttendance.svc.cs">
+      <DependentUpon>ModuleAttendance.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Employee\DataModuleEmployee.cs" />
+    <Compile Include="Module_Employee\IModuleEmployee.cs" />
+    <Compile Include="Module_Employee\ModuleEmployee.svc.cs">
+      <DependentUpon>ModuleEmployee.svc</DependentUpon>
     </Compile>
     <Compile Include="Module_Project\DataModuleProject.cs" />
     <Compile Include="Module_Project\IModuleProject.cs" />
@@ -128,7 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Module_Employee\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>

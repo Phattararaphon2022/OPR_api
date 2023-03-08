@@ -347,5 +347,59 @@ namespace BPC_OPR
         Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream);
 
 
+        //-- Attendance
+        [OperationContract(Name = "timecard_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimecardList(FillterAttendance req);
+
+        [OperationContract(Name = "timecard")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimecard(InputTRTimecard input);
+
+        //-- Timeimpformat
+        [OperationContract(Name = "timeformat_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTimeimpformatList(FillterAttendance req);
+
+        [OperationContract(Name = "timeformat")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTTimeimpformat(InputMTTimeimpformat input);
+
+        [OperationContract(Name = "timeformat_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTTimeimpformat(InputMTTimeimpformat input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doReadSimpleTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
+        string doReadSimpleTimeInput(string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadTimeInput(string fileName, Stream stream);
+
+
+
+
+        //-- Task
+        [OperationContract(Name = "task_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTaskList(FillterTask req);
+
+        [OperationContract(Name = "task_detail")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTaskdetail(InputMTTask input);
+
+        [OperationContract(Name = "task_whose")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTaskwhose(InputMTTask input);
+
+        [OperationContract(Name = "task")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTask(InputMTTask input);
+
+        [OperationContract(Name = "task_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTTask(InputMTTask input);
+
     }
 }
