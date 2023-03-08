@@ -13,8 +13,18 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_code { get; set; }
         public string project_name_th { get; set; }
         public string project_name_en { get; set; }
-        public string project_name_short { get; set; }
-        public string project_type { get; set; }
+
+        public string project_name_sub { get; set; }
+        public string project_codecentral { get; set; }
+
+        public string project_protype { get; set; }
+        public string project_probusiness { get; set; }
+        public string project_roundtime { get; set; }
+        public string project_roundmoney { get; set; }
+
+        public string project_status { get; set; }
+        public string company_code { get; set; }  
+
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   
     }
