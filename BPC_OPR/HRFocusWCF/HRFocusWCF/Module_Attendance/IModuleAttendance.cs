@@ -236,6 +236,38 @@ namespace BPC_OPR
         Task<string> doUploadMTLate(string token, string by, string fileName, Stream stream);
 
         #endregion
+
+        #region Timecard
+        [OperationContract(Name = "timecard_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimecardList(FillterAttendance req);
+
+        [OperationContract(Name = "timecard")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimecard(InputTRTimecard input);
+        #endregion
+
+        #region Timeimport
+        [OperationContract(Name = "timeformat_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTimeimpformatList(FillterAttendance req);
+
+        [OperationContract(Name = "timeformat")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTTimeimpformat(InputMTTimeimpformat input);
+
+        [OperationContract(Name = "timeformat_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTTimeimpformat(InputMTTimeimpformat input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doReadSimpleTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
+        string doReadSimpleTimeInput(string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadTimeInput(string fileName, Stream stream);
+        #endregion
     }
 
 }

@@ -539,4 +539,150 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
     #endregion
+
+    [DataContract]
+    public class FillterAttendance
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+
+    }
+    [DataContract]
+    public class InputTRTimecard
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string shift_code { get; set; }
+        [DataMember]
+        public string timecard_workdate { get; set; }
+        [DataMember]
+        public string timecard_daytype { get; set; }
+        [DataMember]
+        public string timecard_color { get; set; }
+
+        [DataMember]
+        public string timecard_ch1 { get; set; }
+        [DataMember]
+        public string timecard_ch2 { get; set; }
+        [DataMember]
+        public string timecard_ch3 { get; set; }
+        [DataMember]
+        public string timecard_ch4 { get; set; }
+        [DataMember]
+        public string timecard_ch5 { get; set; }
+        [DataMember]
+        public string timecard_ch6 { get; set; }
+        [DataMember]
+        public string timecard_ch7 { get; set; }
+        [DataMember]
+        public string timecard_ch8 { get; set; }
+        [DataMember]
+        public string timecard_ch9 { get; set; }
+        [DataMember]
+        public string timecard_ch10 { get; set; }
+
+        [DataMember]
+        public string timecard_in { get; set; }
+        [DataMember]
+        public string timecard_out { get; set; }
+
+        [DataMember]
+        public int timecard_before_min { get; set; }
+        [DataMember]
+        public int timecard_work1_min { get; set; }
+        [DataMember]
+        public int timecard_work2_min { get; set; }
+        [DataMember]
+        public int timecard_break_min { get; set; }
+        [DataMember]
+        public int timecard_after_min { get; set; }
+        [DataMember]
+        public int timecard_late_min { get; set; }
+
+        [DataMember]
+        public int timecard_before_min_app { get; set; }
+        [DataMember]
+        public int timecard_work1_min_app { get; set; }
+        [DataMember]
+        public int timecard_work2_min_app { get; set; }
+        [DataMember]
+        public int timecard_break_min_app { get; set; }
+        [DataMember]
+        public int timecard_after_min_app { get; set; }
+        [DataMember]
+        public int timecard_late_min_app { get; set; }
+
+        [DataMember]
+        public bool timecard_lock { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+
+        [DataMember]
+        public int index { get; set; }
+
+
+    }
+    [DataContract]
+    public class InputMTTimeimpformat
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string date_format { get; set; }
+        [DataMember]
+        public int card_start { get; set; }
+        [DataMember]
+        public int card_lenght { get; set; }
+        [DataMember]
+        public int date_start { get; set; }
+        [DataMember]
+        public int date_lenght { get; set; }
+        [DataMember]
+        public int hours_start { get; set; }
+        [DataMember]
+        public int hours_lenght { get; set; }
+        [DataMember]
+        public int minute_start { get; set; }
+        [DataMember]
+        public int minute_lenght { get; set; }
+        [DataMember]
+        public int function_start { get; set; }
+        [DataMember]
+        public int function_lenght { get; set; }
+        [DataMember]
+        public int machine_start { get; set; }
+        [DataMember]
+        public int machine_lenght { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+
+    }
 }
