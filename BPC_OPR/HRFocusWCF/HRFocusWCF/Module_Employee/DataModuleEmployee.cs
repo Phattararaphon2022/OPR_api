@@ -217,6 +217,48 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputTREmpLocation
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string emplocation_startdate { get; set; }
+        [DataMember]
+        public string emplocation_enddate { get; set; }
+        [DataMember]
+        public string emplocation_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+
+    [DataContract]
+    public class InputTREmpBranch
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string branch_code { get; set; }
+        [DataMember]
+        public string empbranch_startdate { get; set; }
+        [DataMember]
+        public string empbranch_enddate { get; set; }
+        [DataMember]
+        public string empbranch_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+
+    [DataContract]
     public class InputTRAddress
     {
         [DataMember]

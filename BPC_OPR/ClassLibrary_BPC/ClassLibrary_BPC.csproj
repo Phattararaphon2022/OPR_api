@@ -93,6 +93,8 @@
     <Compile Include="hrfocus.controller\cls_ctSYSApilog.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTProject.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmpbranch.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmplocation.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLate.cs" />
@@ -144,6 +146,8 @@
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
     <Compile Include="hrfocus.model\cls_MTProject.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmpbranch.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmplocation.cs" />
     <Compile Include="hrfocus.service\Attendance\cls_srvAttendanceImport.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRAccumalate.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRAddress.cs" />
