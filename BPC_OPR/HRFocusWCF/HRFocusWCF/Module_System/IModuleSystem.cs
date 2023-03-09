@@ -31,24 +31,63 @@ namespace BPC_OPR
         Task<string> doUploadBank(string token, string by, string fileName, Stream stream);
 
 
-        //-- Reason
+        #region MTReason
         [OperationContract(Name = "reason_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getReasonList(BasicRequest req);
+        string getMTReasonList(InputMTReason input);
 
         [OperationContract(Name = "reason")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageSYSReason(InputSYSReason input);
+        string doManageMTReason(InputMTReason input);
 
         [OperationContract(Name = "reason_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteSYSReason(InputSYSReason input);
+        string doDeleteMTReason(InputMTReason input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReason?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadReason(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReason?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream);
 
-        //--Cardtype
+        #endregion
+
+        #region MTYear
+        [OperationContract(Name = "year_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTYearList(InputMTYear input);
+
+        [OperationContract(Name = "year")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTYear(InputMTYear input);
+
+        [OperationContract(Name = "year_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTYear(InputMTYear input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadYear?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadYear(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTLocation
+        [OperationContract(Name = "location_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTLocationList(InputMTLocation input);
+
+        [OperationContract(Name = "location")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTLocation(InputMTLocation input);
+
+        [OperationContract(Name = "location_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTLocation(InputMTLocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
         [OperationContract(Name = "cardtype_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCardtypeList(BasicRequest req);
@@ -99,22 +138,7 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadLevel?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTLevel(string token, string by, string fileName, Stream stream);
 
-        //-- LOCATION
-        [OperationContract(Name = "location_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getLocationList(BasicRequest req);
-
-        [OperationContract(Name = "location")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageMTLocation(InputMTLocation input);
-
-        [OperationContract(Name = "location_del")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteMTLocation(InputMTLocation input);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadLocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream);
+        
 
         //-- Reduce
         [OperationContract(Name = "reduce_list")]
@@ -186,6 +210,40 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadAddresstype?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTAddresstype(string token, string by, string fileName, Stream stream);
 
+        //-- ComAddress
+        [OperationContract(Name = "comaddress_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getComAddressList(FillterCompany req);
+
+        [OperationContract(Name = "comaddress")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTComAddress(InputComTransaction input);
+
+        [OperationContract(Name = "comaddress_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTComAddress(InputMTComaddress input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadComaddress?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTComAddress(string token, string by, string fileName, Stream stream);
+
+        //-- COMPANY
+        [OperationContract(Name = "company_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getCompanyList(FillterCompany req);
+
+        [OperationContract(Name = "company")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTCompany(InputMTCompany input);
+
+        [OperationContract(Name = "company_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTCompany(InputMTCompany input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadCompany?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTCompany(string token, string by, string fileName, Stream stream);
+
 
         //-- empid
         [OperationContract(Name = "empid_list")]
@@ -204,6 +262,94 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpid?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTEmpid(string token, string by, string fileName, Stream stream);
 
+        #region comBANK
+        [OperationContract(Name = "combank_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getCombankList(FillterCompany req);
+
+        [OperationContract(Name = "combank")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTCombank(InputComTransaction input);
+
+        [OperationContract(Name = "combank_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTCombank(InputMTCombank input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadCombank?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadCombank(string token, string by, string fileName, Stream stream);
+        #endregion
+        //#region combank
+        //[OperationContract(Name = "combank_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getCombankList(FillterCompany req);
+
+        //[OperationContract(Name = "combank")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTCombank(InputComTransaction input);
+
+        //[OperationContract(Name = "combank_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTCombank(InputMTCombank input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadCombank?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTCombank(string token, string by, string fileName, Stream stream);
+        //#endregion
+
+        //-- Comcard
+
+        [OperationContract(Name = "comcard_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getComcardList(FillterCompany req);
+
+        [OperationContract(Name = "comcard")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTComcard(InputComTransaction input);
+
+        [OperationContract(Name = "comcard_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTComcard(InputMTComcard input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadComcard?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadComcard(string token, string by, string fileName, Stream stream);
+
+
+        //-- request
+        [OperationContract(Name = "request_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getRequestList(BasicRequest req);
+
+        [OperationContract(Name = "request")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTRequest(InputMTRequest input);
+
+        [OperationContract(Name = "request_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTRequest(InputMTRequest input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTRequest?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTRequest(string token, string by, string fileName, Stream stream);
+
+
+        //-- combranch
+        [OperationContract(Name = "combranch_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getCombranchList(FillterCompany req);
+
+        [OperationContract(Name = "combranch")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTCombranch(InputMTCombranch input);
+
+        [OperationContract(Name = "combranch_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTCombranch(InputMTCombranch input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadCombranch?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTCombranch(string token, string by, string fileName, Stream stream);
 
         //-- ETHNICITY
         [OperationContract(Name = "ethnicity_list")]

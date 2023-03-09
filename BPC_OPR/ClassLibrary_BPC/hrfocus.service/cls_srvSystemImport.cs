@@ -50,6 +50,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 int success = 0;
                 StringBuilder objStr = new StringBuilder();
 
+                #region BANK
                 switch (type)
                 {
                     case "BANK":
@@ -93,7 +94,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //REASON
+                #endregion
+
+                #region PERIOD //REASON
                 switch (type)
                 {
                     case "REASON":
@@ -104,23 +107,25 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTReason controller = new cls_ctMTReason();
+                                cls_MTReason model = new cls_MTReason();
 
+                                model.reason_id = dr["reason_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["reason_id"].ToString());
+                                model.company_code = dr["company_code"].ToString();
                                 model.reason_code = dr["reason_code"].ToString();
                                 model.reason_name_th = dr["reason_name_th"].ToString();
-                                model.reason_name_en = dr["reason_name_th"].ToString();
+                                model.reason_name_en = dr["reason_name_en"].ToString();
+                                model.reason_group = dr["reason_group"].ToString();
                                 model.modified_by = by;
-
-                                string strID = objReason.insert(model);
-
+                                model.flag = false;
+                                string strID = controller.insert(model);
                                 if (!strID.Equals(""))
                                 {
                                     success++;
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.reason_id + " " + model.reason_group);
                                 }
 
                             }
@@ -134,10 +139,11 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-
                         break;
                 }
-                //Level
+                #endregion
+
+                #region //Level
                 switch (type)
                 {
                     case "LEVEL":
@@ -148,14 +154,16 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTLevel objReason = new cls_ctMTLevel();
+                                cls_MTLevel model = new cls_MTLevel();
 
-                                model.reason_code = dr["level_code"].ToString();
-                                model.reason_name_th = dr["level_name_th"].ToString();
-                                model.reason_name_en = dr["level_name_en"].ToString();
+                                model.level_id = Convert.ToInt32(dr["LEVEL_ID"]);
+                                model.level_code = dr["LEVEL_CODE"].ToString();
+                                model.level_name_th = dr["LEVEL_NAME_TH"].ToString();
+                                model.level_name_en = dr["LEVEL_NAME_EN"].ToString();
+                                model.company_code = dr["COMPANY_CODE"].ToString();
+                                model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
                                 model.modified_by = by;
-
                                 string strID = objReason.insert(model);
 
                                 if (!strID.Equals(""))
@@ -164,7 +172,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.level_code);
                                 }
 
                             }
@@ -181,8 +189,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                
-                //Fmily
+                #endregion
+
+                #region //Fmily
 
                 switch (type)
                 {
@@ -194,12 +203,18 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTFamily objReason = new cls_ctMTFamily();
+                                cls_MTFamily model = new cls_MTFamily();
+                                model = new cls_MTFamily();
 
-                                model.reason_code = dr["family_code"].ToString();
-                                model.reason_name_th = dr["family_name_th"].ToString();
-                                model.reason_name_en = dr["family_name_en"].ToString();
+                                model.family_id = Convert.ToInt32(dr["FAMILY_ID"]);
+                                model.family_code = dr["FAMILY_CODE"].ToString();
+                                model.family_name_th = dr["FAMILY_NAME_TH"].ToString();
+                                model.family_name_en = dr["FAMILY_NAME_EN"].ToString();
+
+                                model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);   
+
+                             
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -210,7 +225,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.family_code);
                                 }
 
                             }
@@ -227,7 +242,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //Addresstype
+                #endregion
+
+                #region //Addresstype
                 switch (type)
                 {
                     case "ADDRESSTYPE":
@@ -238,12 +255,14 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTAddresstype objReason = new cls_ctMTAddresstype();
+                                cls_MTAddresstype model = new cls_MTAddresstype();
+                                model.addresstype_id = Convert.ToInt32(dr["ADDRESSTYPE_ID"]);
+                                model.addresstype_code = dr["ADDRESSTYPE_CODE"].ToString();
+                                model.addresstype_name_th = dr["ADDRESSTYPE_NAME_TH"].ToString();
+                                model.addresstype_name_en = dr["ADDRESSTYPE_NAME_EN"].ToString();
 
-                                model.reason_code = dr["addresstype_code"].ToString();
-                                model.reason_name_th = dr["addresstype_name_th"].ToString();
-                                model.reason_name_en = dr["addresstype_name_en"].ToString();
+                               
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -254,7 +273,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.addresstype_code);
                                 }
 
                             }
@@ -271,7 +290,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //Ethnicity
+                #endregion
+
+                #region//Ethnicity
 
                 switch (type)
                 {
@@ -283,12 +304,15 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTEthnicity objReason = new cls_ctMTEthnicity();
+                                cls_MTEthnicity model = new cls_MTEthnicity();
 
-                                model.reason_code = dr["ethnicity_code"].ToString();
-                                model.reason_name_th = dr["ethnicity_name_th"].ToString();
-                                model.reason_name_en = dr["ethnicity_name_en"].ToString();
+                                model.ethnicity_id = Convert.ToInt32(dr["ETHNICITY_ID"]);
+                                model.ethnicity_code = dr["ETHNICITY_CODE"].ToString();
+                                model.ethnicity_name_th = dr["ETHNICITY_NAME_TH"].ToString();
+                                model.ethnicity_name_en = dr["ETHNICITY_NAME_EN"].ToString();         
+
+                                
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -299,7 +323,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.ethnicity_code);
                                 }
 
                             }
@@ -316,7 +340,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //Bloodtype
+                #endregion
+
+                #region//Bloodtype
                 switch (type)
                 {
                     case "BLOODTYPE":
@@ -327,12 +353,13 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTBloodtype objReason = new cls_ctMTBloodtype();
+                                cls_MTBloodtype model = new cls_MTBloodtype();
 
-                                model.reason_code = dr["bloodtype_code"].ToString();
-                                model.reason_name_th = dr["bloodtype_name_th"].ToString();
-                                model.reason_name_en = dr["bloodtype_name_en"].ToString();
+                                model.bloodtype_id = Convert.ToInt32(dr["BLOODTYPE_ID"]);
+                                model.bloodtype_code = dr["BLOODTYPE_CODE"].ToString();
+                                model.bloodtype_name_th = dr["BLOODTYPE_NAME_TH"].ToString();
+                                model.bloodtype_name_en = dr["BLOODTYPE_NAME_EN"].ToString();               
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -343,7 +370,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.bloodtype_code);
                                 }
 
                             }
@@ -360,7 +387,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //Hospital
+                #endregion
+
+                #region //Hospital
 
                 switch (type)
                 {
@@ -372,12 +401,13 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTHospital objReason = new cls_ctMTHospital();
+                                cls_MTHospital model = new cls_MTHospital();
 
-                                model.reason_code = dr["hospital_code"].ToString();
-                                model.reason_name_th = dr["hospital_name_th"].ToString();
-                                model.reason_name_en = dr["hospital_name_en"].ToString();
+                                model.hospital_id = Convert.ToInt32(dr["HOSPITAL_ID"]);
+                                model.hospital_code = dr["HOSPITAL_CODE"].ToString();
+                                model.hospital_name_th = dr["HOSPITAL_NAME_TH"].ToString();
+                                model.hospital_name_en = dr["HOSPITAL_NAME_EN"].ToString();               
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -388,7 +418,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.hospital_code);
                                 }
 
                             }
@@ -405,7 +435,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //Location
+                #endregion
+
+                #region //Location
 
 
                 switch (type)
@@ -418,24 +450,27 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTLocation controller = new cls_ctMTLocation();
+                                cls_MTLocation model = new cls_MTLocation();
 
-                                model.reason_code = dr["location_code"].ToString();
-                                model.reason_name_th = dr["location_name_th"].ToString();
-                                model.reason_name_en = dr["location_name_en"].ToString();
-                                model.reason_name_en = dr["location_detail"].ToString();
+                                model.company_code = dr["company_code"].ToString();
+                                model.location_id = dr["location_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["location_id"].ToString());
+                                model.location_code = dr["location_code"].ToString();
+                                model.location_name_th = dr["location_name_th"].ToString();
+                                model.location_name_en = dr["location_name_en"].ToString();
+                                model.location_detail = dr["location_detail"].ToString();
+                                model.location_lat = dr["location_lat"].ToString();
+                                model.location_long = dr["location_long"].ToString();
                                 model.modified_by = by;
-
-                                string strID = objReason.insert(model);
-
+                                model.flag = false;
+                                string strID = controller.insert(model);
                                 if (!strID.Equals(""))
                                 {
                                     success++;
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.location_id + " " + model.location_code);
                                 }
 
                             }
@@ -449,10 +484,11 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 strResult += " Fail : " + objStr.ToString();
 
                         }
-
                         break;
                 }
-                 //Province
+                #endregion
+
+                #region  //Province
                 switch (type)
                 {
                     case "PROVINCE":
@@ -463,12 +499,13 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTProvince objReason = new cls_ctMTProvince();
+                                cls_MTProvince model = new cls_MTProvince();
 
-                                model.reason_code = dr["province_code"].ToString();
-                                model.reason_name_th = dr["province_name_th"].ToString();
-                                model.reason_name_en = dr["province_name_en"].ToString();
+                                model.province_id = Convert.ToInt32(dr["PROVINCE_ID"]);
+                                model.province_code = dr["PROVINCE_CODE"].ToString();
+                                model.province_name_th = dr["PROVINCE_NAME_TH"].ToString();
+                                model.province_name_en = dr["PROVINCE_NAME_EN"].ToString();
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -479,7 +516,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.province_code);
                                 }
 
                             }
@@ -496,7 +533,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //Religion
+                #endregion
+
+                #region  //Religion
                 switch (type)
                 {
                     case "RELIGION":
@@ -507,12 +546,13 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTReligion objReason = new cls_ctMTReligion();
+                                cls_MTReligion model = new cls_MTReligion();
 
-                                model.reason_code = dr["religion_code"].ToString();
-                                model.reason_name_th = dr["religion_name_th"].ToString();
-                                model.reason_name_en = dr["religion_name_en"].ToString();
+                                model.religion_id = Convert.ToInt32(dr["RELIGION_ID"]);
+                                model.religion_code = dr["RELIGION_CODE"].ToString();
+                                model.religion_name_th = dr["RELIGION_NAME_TH"].ToString();
+                                model.religion_name_en = dr["RELIGION_NAME_EN"].ToString();         
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -523,7 +563,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.religion_code);
                                 }
 
                             }
@@ -540,7 +580,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //REDUCE
+                #endregion
+
+                #region //REDUCE
                 switch (type)
                 {
                     case "REDUCE":
@@ -551,15 +593,17 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTReduce objReason = new cls_ctMTReduce();
+                                cls_MTReduce model = new cls_MTReduce();
 
-                                model.reason_code = dr["reduce_code"].ToString();
-                                model.reason_name_th = dr["reduce_name_th"].ToString();
-                                model.reason_name_en = dr["reduce_name_en"].ToString();
-                                model.reason_name_en = dr["reduce_amount"].ToString();
-                                model.reason_name_en = dr["reduce_percent"].ToString();
-                                model.reason_name_en = dr["reduce_percent_max"].ToString();
+                                model.reduce_id = Convert.ToInt32(dr["REDUCE_ID"]);
+                                model.reduce_code = dr["REDUCE_CODE"].ToString();
+                                model.reduce_name_th = dr["REDUCE_NAME_TH"].ToString();
+                                model.reduce_name_en = dr["REDUCE_NAME_EN"].ToString();
+
+                                model.reduce_amount = Convert.ToDouble(dr["REDUCE_AMOUNT"]);
+                                model.reduce_percent = Convert.ToDouble(dr["REDUCE_PERCENT"]);
+                                model.reduce_percent_max = Convert.ToDouble(dr["REDUCE_PERCENT_MAX"]);
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -570,7 +614,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.reduce_code);
                                 }
 
                             }
@@ -587,7 +631,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
-                //EmpID Structure
+                #endregion
+
+                #region //EmpID Structure
                 switch (type)
                 {
                     case "EmpID":
@@ -598,12 +644,13 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
 
-                                cls_ctSYSReason objReason = new cls_ctSYSReason();
-                                cls_SYSReason model = new cls_SYSReason();
+                                cls_ctMTEmpID objReason = new cls_ctMTEmpID();
+                                cls_MTEmpID model = new cls_MTEmpID();
 
-                                model.reason_code = dr["empid_code"].ToString();
-                                model.reason_name_th = dr["empid_name_th"].ToString();
-                                model.reason_name_en = dr["empid_name_en"].ToString();
+                                model.empid_id = Convert.ToInt32(dr["EMPID_ID"]);
+                                model.empid_code = dr["EMPID_CODE"].ToString();
+                                model.empid_name_th = dr["EMPID_NAME_TH"].ToString();
+                                model.empid_name_en = dr["EMPID_NAME_EN"].ToString();             
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -614,7 +661,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.reason_code);
+                                    objStr.Append(model.empid_code);
                                 }
 
                             }
@@ -631,8 +678,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
+                #endregion
 
-                //cartype
+
+                #region //cartype
                 switch (type)
                 {
                     case "CARTYPE":
@@ -676,6 +725,13 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
                 }
+
+
+
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -687,3 +743,4 @@ namespace ClassLibrary_BPC.hrfocus.service
     }
 }
 
+                #endregion
