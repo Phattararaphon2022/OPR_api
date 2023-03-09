@@ -4570,7 +4570,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTCompany controller = new cls_ctMTCompany();
-                List<cls_MTCompany> list = controller.getDataByFillter(req.company_code);
+                List<cls_MTCompany> list = controller.getDataByFillter(req.company_id,req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4580,8 +4580,8 @@ namespace BPC_OPR
                     foreach (cls_MTCompany model in list)
                     {
                         JObject json = new JObject();
-                        json.Add("company_code", model.company_code);
                         json.Add("company_id", model.company_id);
+                        json.Add("company_code", model.company_code);
                         json.Add("company_initials", model.company_initials);
                         json.Add("company_name_th", model.company_name_th);
                         json.Add("company_name_en", model.company_name_en);
@@ -4596,10 +4596,7 @@ namespace BPC_OPR
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
-
-
                         json.Add("flag", model.flag);
-
 
                         json.Add("index", index);
 
@@ -4673,13 +4670,10 @@ namespace BPC_OPR
                 cls_ctMTCompany controller = new cls_ctMTCompany();
                 cls_MTCompany model = new cls_MTCompany();
 
-                //string strWorkerCode = input.worker_code;
-                string strComCode = input.company_code;
-
-                //model.company_code = strComCode;
                 model.company_id = input.company_id;
                 model.company_code = input.company_code;
                 model.company_initials = input.company_initials;
+
                 model.company_name_th = input.company_name_th;
                 model.company_name_en = input.company_name_en;
                 model.hrs_perday = input.hrs_perday;
@@ -4689,6 +4683,7 @@ namespace BPC_OPR
                 model.sso_max_wage = input.sso_max_wage;
                 model.sso_min_age = input.sso_min_age;
                 model.sso_max_age = input.sso_max_age;
+
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
@@ -4762,7 +4757,7 @@ namespace BPC_OPR
 
                 if (controller.checkDataOld(input.company_code))
                 {
-                    bool blnResult = controller.delete(input.company_code);
+                    bool blnResult = controller.delete(input.company_id.ToString());
 
                     if (blnResult)
                     {

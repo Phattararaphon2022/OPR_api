@@ -116,7 +116,7 @@ namespace BPC_OPR
 
 
     [DataContract]
-    public class InputMTCompany
+    public class InputMTCompany 
     {
         [DataMember]
         public int company_id { get; set; }
