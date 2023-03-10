@@ -173,6 +173,8 @@ namespace BPC_OPR
         public string transaction_data { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+        [DataMember]
+        public string comcard_id { get; set; }
     }
 
 

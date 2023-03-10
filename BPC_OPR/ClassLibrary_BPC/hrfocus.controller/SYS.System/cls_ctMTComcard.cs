@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ClassLibrary_BPC.hrfocus.controller
 {
    public class cls_ctMTComcard
-   {
+      {
    
      string Message = string.Empty;
 
@@ -18,13 +18,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
         public cls_ctMTComcard() { }
 
-        public string getMessage() { return this.Message.Replace("SYS_MT_COMCARD", "").Replace("cls_ctMTComcard", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("SYS_MT_COMBANkK", "").Replace("cls_ctMTComcard", "").Replace("line", ""); }
 
         public void dispose()
         {
             Obj_conn.doClose();
         }
-
         private List<cls_MTComcard> getData(string condition)
         {
             List<cls_MTComcard> list_model = new List<cls_MTComcard>();
@@ -85,9 +84,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTComcard> getDataByFillter(string com, string type, string id,string code, string branch  )
+        public List<cls_MTComcard> getDataByFillter(string com , string type, string id,  string code, string branch)
         {
-            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            string strCondition = " AND COMBRANCH_CODE='" + branch + "'";
 
             if (!type.Equals(""))
                 strCondition += " AND CARD_TYPE='" + type + "'";
@@ -98,8 +97,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!code.Equals(""))
                 strCondition += " AND COMCARD_CODE='" + code + "'";
 
-            if (!branch.Equals(""))
-                strCondition += " AND COMBRANCH_CODE='" + branch + "'";
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
 
             return this.getData(strCondition);
         }
@@ -236,6 +235,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.comcard_id = this.getNextID();
+
                 obj_cmd.Parameters.Add("@COMCARD_ID", SqlDbType.Int); obj_cmd.Parameters["@COMCARD_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@COMCARD_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMCARD_CODE"].Value = model.comcard_code;
                 obj_cmd.Parameters.Add("@CARD_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@CARD_TYPE"].Value = model.card_type;

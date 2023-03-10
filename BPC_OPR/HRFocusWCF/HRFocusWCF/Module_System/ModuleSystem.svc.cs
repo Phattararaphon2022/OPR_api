@@ -4872,665 +4872,6 @@ namespace BPC_OPR
 
         #endregion
 
-        //#region MTcompany
-        //public string getCompanyList(FilterCompany req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CPN001.1";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCompany objCompany = new cls_ctMTCompany();
-        //        List<cls_MTCompany> list = objCompany.getDataByFillter(req.company_code);
-        //        JArray array = new JArray();
-
-        //        if (list.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_MTCompany model in list)
-        //            {
-        //                JObject json = new JObject();
-
-        //                json.Add("company_id", model.company_id);
-        //                json.Add("company_code", model.company_code);
-        //                json.Add("company_initials", model.company_initials);
-        //                json.Add("company_name_th", model.company_name_th);
-        //                json.Add("company_name_en", model.company_name_en);
-        //                json.Add("hrs_perday", model.hrs_perday);
-
-        //                json.Add("sso_com_rate", model.sso_com_rate);
-        //                json.Add("sso_emp_rate", model.sso_emp_rate);
-        //                json.Add("sso_min_wage", model.sso_min_wage);
-        //                json.Add("sso_max_wage", model.sso_max_wage);
-        //                json.Add("sso_min_age", model.sso_min_age);
-        //                json.Add("sso_max_age", model.sso_max_age);
-
-        //                json.Add("modified_by", model.modified_by);
-        //                json.Add("modified_date", model.modified_date);
-        //                json.Add("flag", model.flag);
-
-        //                json.Add("index", index);
-        //                array.Add(json);
-        //            }
-
-        //            output["success"] = true;
-        //            output["message"] = "";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Data not Found";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = "Data not Found";
-        //        }
-
-        //        objCompany.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doManageMTCompany(InputMTCompany input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CPN001.2";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCompany objCompany = new cls_ctMTCompany();
-        //        cls_MTCompany model = new cls_MTCompany();
-
-        //        model.company_id = input.company_id;
-        //        model.company_code = input.company_code;
-        //        model.company_initials = input.company_initials;
-        //        model.company_name_th = input.company_name_th;
-        //        model.company_name_en = input.company_name_en;
-        //        model.hrs_perday = input.hrs_perday;
-        //        model.sso_com_rate = input.sso_com_rate;
-        //        model.sso_emp_rate = input.sso_emp_rate;
-        //        model.sso_min_wage = input.sso_min_wage;
-        //        model.sso_max_wage = input.sso_max_wage;
-        //        model.sso_min_age = input.sso_min_age;
-        //        model.sso_max_age = input.sso_max_age;
-
-        //        model.modified_by = input.modified_by;
-        //        model.flag = model.flag;
-
-        //        string strID = objCompany.insert(model);
-
-        //        if (!strID.Equals(""))
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            output["record_id"] = strID;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = objCompany.getMessage();
-        //        }
-
-        //        objCompany.dispose();
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doDeleteMTCompany(InputMTCompany input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CPN001.3";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCompany objCompany = new cls_ctMTCompany();
-
-        //        if (objCompany.checkDataOld(input.company_code))
-        //        {
-        //            bool blnResult = objCompany.delete(input.company_code);
-
-        //            if (blnResult)
-        //            {
-        //                output["success"] = true;
-        //                output["message"] = "Remove data successfully";
-
-        //                log.apilog_status = "200";
-        //                log.apilog_message = "";
-        //            }
-        //            else
-        //            {
-        //                output["success"] = false;
-        //                output["message"] = "Remove data not successfully";
-
-        //                log.apilog_status = "500";
-        //                log.apilog_message = objCompany.getMessage();
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            string message = "Not Found Project code : " + input.company_code;
-        //            output["success"] = false;
-        //            output["message"] = message;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = message;
-        //        }
-
-        //        objCompany.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Remove data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public async Task<string> doUploadMTCompany(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CPN001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
-        //            string tmp = srv_import.doImportExcel("COMPANY", fileName, "TEST");
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //#endregion
-
-        //#region MTcombank
-        //public string getCombankList(FillterCompany req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.1";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank objCombank = new cls_ctMTCombank();
-        //        List<cls_MTCombank> list = objCombank.getDataByFillter(req.company_code);
-        //        JArray array = new JArray();
-
-        //        if (list.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_MTCombank model in list)
-        //            {
-        //                JObject json = new JObject();
-
-        //                json.Add("combank_id", model.combank_id);
-        //                json.Add("company_code", model.company_code);
-        //                json.Add("combank_bankcode", model.combank_bankcode);
-        //                json.Add("combank_bankaccount", model.combank_bankaccount);
-        //                json.Add("combank_nameaccount", model.combank_nameaccount);
-        //                json.Add("combank_bankpercent", model.combank_bankpercent);
-        //                json.Add("combank_cashpercent", model.combank_cashpercent);
-        //                json.Add("modified_by", model.modified_by);
-        //                json.Add("modified_date", model.modified_date);
-        //                json.Add("flag", model.flag);
-
-        //                json.Add("index", index);
-        //                array.Add(json);
-        //            }
-
-        //            output["success"] = true;
-        //            output["message"] = "";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Data not Found";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = "Data not Found";
-        //        }
-
-        //        objCombank.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doManageMTCombank(InputComTransaction input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.2";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank controller = new cls_ctMTCombank();
-
-        //        JObject jsonObject = new JObject();
-        //        var jsonArray = JsonConvert.DeserializeObject<List<cls_MTCombank>>(input.transaction_data);
-
-        //        int success = 0;
-        //        int error = 0;
-        //        StringBuilder obj_error = new StringBuilder();
-
-        //        bool clear = controller.delete(input.company_code);
-
-        //        if (clear)
-        //        {
-        //            foreach (cls_MTCombank model in jsonArray)
-        //            {
-
-        //                model.modified_by = input.modified_by;
-
-        //                bool blnResult = controller.insert(model);
-
-        //                if (blnResult)
-        //                    success++;
-        //                else
-        //                {
-        //                    var json = new JavaScriptSerializer().Serialize(model);
-        //                    var tmp2 = JToken.Parse(json);
-        //                    obj_error.Append(tmp2);
-        //                }
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            error = 1;
-        //        }
-
-
-        //        if (error == 0)
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            //output["record_id"] = strID;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            output["error"] = obj_error.ToString();
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = controller.getMessage();
-        //        }
-
-        //        controller.dispose();
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doDeleteMTCombank(InputMTCombank input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.3";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank objCombank = new cls_ctMTCombank();
-
-        //        if (objCombank.checkDataOld(input.company_code))
-        //        {
-        //            bool blnResult = objCombank.delete(input.company_code);
-
-        //            if (blnResult)
-        //            {
-        //                output["success"] = true;
-        //                output["message"] = "Remove data successfully";
-
-        //                log.apilog_status = "200";
-        //                log.apilog_message = "";
-        //            }
-        //            else
-        //            {
-        //                output["success"] = false;
-        //                output["message"] = "Remove data not successfully";
-
-        //                log.apilog_status = "500";
-        //                log.apilog_message = objCombank.getMessage();
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            string message = "Not Found Project code : " + input.company_code;
-        //            output["success"] = false;
-        //            output["message"] = message;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = message;
-        //        }
-
-        //        objCombank.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Remove data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public async Task<string> doUploadMTCombank(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
-        //            string tmp = srv_import.doImportExcel("Combank", fileName, "TEST");
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //#endregion
 
         #region comBank
         public string getCombankList(FillterCompany req)
@@ -5581,9 +4922,6 @@ namespace BPC_OPR
                         json.Add("change", false);
 
                         json.Add("index", index);
-
-                        index++;
-
                         array.Add(json);
                     }
 
@@ -5758,7 +5096,7 @@ namespace BPC_OPR
 
                 cls_ctMTCombank controller = new cls_ctMTCombank();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.combank_bankcode))
                 {
                     bool blnResult = controller.delete(input.company_code);
 
@@ -5875,8 +5213,353 @@ namespace BPC_OPR
         }
         #endregion
 
+
+        //#region comBank
+        //public string getCombankList(FillterCompany req)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CBK001.1";
+        //    log.apilog_by = req.username;
+        //    log.apilog_data = "all";
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTCombank controller = new cls_ctMTCombank();
+        //        List<cls_MTCombank> list = controller.getDataByFillter(req.company_code);
+        //        JArray array = new JArray();
+
+        //        if (list.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_MTCombank model in list)
+        //            {
+        //                JObject json = new JObject();
+        //                json.Add("company_code", model.combank_bankaccount);
+
+        //                json.Add("combank_id", model.combank_id);
+        //                json.Add("combank_bankcode", model.combank_bankcode);
+        //                json.Add("combank_bankaccount", model.combank_bankaccount);
+
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
+
+        //                json.Add("change", false);
+
+        //                json.Add("index", index);
+
+        //                index++;
+
+        //                array.Add(json);
+        //            }
+
+        //            output["success"] = true;
+        //            output["message"] = "";
+        //            output["data"] = array;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Data not Found";
+        //            output["data"] = array;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = "Data not Found";
+        //        }
+
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Retrieved data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //public string doManageMTCombank(InputComTransaction input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CBK001.2";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTCombank controller = new cls_ctMTCombank();
+
+        //        JObject jsonObject = new JObject();
+        //        var jsonArray = JsonConvert.DeserializeObject<List<cls_MTCombank>>(input.transaction_data);
+
+        //        int success = 0;
+        //        int error = 0;
+        //        StringBuilder obj_error = new StringBuilder();
+
+        //        bool clear = controller.delete(input.company_code);
+
+        //        if (clear)
+        //        {
+        //            foreach (cls_MTCombank model in jsonArray)
+        //            {
+
+        //                model.modified_by = input.modified_by;
+
+        //                bool blnResult = controller.insert(model);
+
+        //                if (blnResult)
+        //                    success++;
+        //                else
+        //                {
+        //                    var json = new JavaScriptSerializer().Serialize(model);
+        //                    var tmp2 = JToken.Parse(json);
+        //                    obj_error.Append(tmp2);
+        //                }
+
+        //            }
+        //        }
+        //        else
+        //        {
+        //            error = 1;
+        //        }
+
+
+        //        if (error == 0)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            //output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
+
+        //            output["error"] = obj_error.ToString();
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+
+
+        //        controller.dispose();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Retrieved data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //public string doDeleteMTCombank(InputMTCombank input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CBK001.3";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTCombank controller = new cls_ctMTCombank();
+
+        //        if (controller.checkDataOld(input.company_code, input.worker_code))
+        //        {
+        //            bool blnResult = controller.delete(input.company_code);
+
+        //            if (blnResult)
+        //            {
+        //                output["success"] = true;
+        //                output["message"] = "Remove data successfully";
+
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Remove data not successfully";
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = controller.getMessage();
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            string message = "Not Found Project code : " + input.combank_id;
+        //            output["success"] = false;
+        //            output["message"] = message;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = message;
+        //        }
+
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+
+        //public async Task<string> doUploadCombank(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CBK001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        bool upload = await this.doUploadFile(fileName, stream);
+
+        //        if (upload)
+        //        {
+        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
+        //            string tmp = srv_import.doImportExcel("COMBANK", fileName, "TEST");
+
+        //            output["success"] = true;
+        //            output["message"] = tmp;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //#endregion
+
         #region MTcomcard
-        public string getComcardList(FillterCompany req)
+        public string getComcardList (FillterCompany req)
+
         {
             JObject output = new JObject();
 
@@ -5901,7 +5584,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTComcard objComcard = new cls_ctMTComcard();
-                List<cls_MTComcard> list = objComcard.getDataByFillter(req.company_code, req.card_type, req.comcard_id, req.comcard_code, req.combranch_code);
+                List<cls_MTComcard> list = objComcard.getDataByFillter(req.company_code, req.card_type, req.comcard_id,  req.comcard_code,req.combranch_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5912,6 +5595,8 @@ namespace BPC_OPR
                     {
                         JObject json = new JObject();
                         json.Add("comcard_id", model.comcard_id);
+                        json.Add("card_type", model.card_type);
+
                         json.Add("comcard_code", model.comcard_code);
 
                         json.Add("comcard_issue", model.comcard_issue);
@@ -6000,7 +5685,7 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.company_code);
+                bool clear = controller.delete(input.comcard_id);
 
                 if (clear)
                 {
@@ -6214,222 +5899,7 @@ namespace BPC_OPR
         #endregion
 
 
-        //#region Comaddress
-        //public string getComAddressList(string com, string branch, string type)
-        //{
-        //    JObject output = new JObject();
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CAD001.1";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    cls_ctMTComaddress objAddr = new cls_ctMTComaddress();
-        //    List<cls_MTComaddress> listAddr = objAddr.getDataByFillter(com, branch, type);
-        //    JArray array = new JArray();
-
-        //    if (listAddr.Count > 0)
-        //    {
-        //        int index = 1;
-
-        //        foreach (cls_MTComaddress model in listAddr)
-        //        {
-        //            JObject json = new JObject();
-
-        //            json.Add("comaddress_type", model.comaddress_type);
-        //            json.Add("comaddress_no", model.comaddress_no);
-        //            json.Add("comaddress_moo", model.comaddress_moo);
-        //            json.Add("comaddress_soi", model.comaddress_soi);
-        //            json.Add("comaddress_road", model.comaddress_road);
-        //            json.Add("comaddress_tambon", model.comaddress_tambon);
-        //            json.Add("comaddress_amphur", model.comaddress_amphur);
-        //            json.Add("comaddress_zipcode", model.comaddress_zipcode);
-        //            json.Add("comaddress_tel", model.comaddress_tel);
-        //            json.Add("comaddress_email", model.comaddress_email);
-        //            json.Add("comaddress_line", model.comaddress_line);
-        //            json.Add("comaddress_facebook", model.comaddress_facebook);
-        //            json.Add("province_code", model.province_code);
-
-        //            json.Add("company_code", model.company_code);
-        //            json.Add("combranch_code", model.combranch_code);
-
-        //            json.Add("modified_by", model.modified_by);
-        //            json.Add("modified_date", model.modified_date);
-        //            json.Add("flag", model.flag);
-        //            json.Add("change", false);
-        //            json.Add("index", index);
-        //            index++;
-
-        //            array.Add(json);
-        //        }
-
-        //        output["result"] = "1";
-        //        output["result_text"] = "1";
-        //        output["data"] = array;
-        //    }
-        //    else
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = "Data not Found";
-        //        output["data"] = array;
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doManageMTComAddress(InputComTransaction input) 
-        //{
-        //    JObject output = new JObject();
-
-        //    try
-        //    {
-        //        string company_code = input.company_code;
-
-
-        //        //-- Transaction
-        //        string addr_data = input.transaction_data;
-        //        bool blnResult = true;
-        //        string strMessage = "";
-
-        //        try
-        //        {
-        //            JObject jsonObject = new JObject();
-        //            var jsonArray = JsonConvert.DeserializeObject<List<cls_MTComaddress>>(addr_data);
-        //            cls_ctMTComaddress objAddr = new cls_ctMTComaddress();
-
-        //            foreach (cls_MTComaddress item in jsonArray)
-        //            {
-        //                item.company_code = company_code;
-        //                item.modified_by = input.modified_by;
-        //                blnResult = objAddr.insert(item);
-
-        //                if (!blnResult)
-        //                {
-        //                    strMessage = objAddr.getMessage();
-        //                }
-        //            }
-        //        }
-        //        catch
-        //        {
-        //            blnResult = false;
-        //        }
-
-        //        if (blnResult)
-        //        {
-        //            output["result"] = "1";
-        //            output["result_text"] = "0";
-        //        }
-        //        else
-        //        {
-        //            output["result"] = "2";
-        //            output["result_text"] = strMessage;
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-
-        //    }
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public string doDeleteMTComAddress(InputMTComaddress input)
-        //{
-        //    JObject output = new JObject();
-
-        //    try
-        //    {
-        //        cls_ctMTComaddress objAddr = new cls_ctMTComaddress();
-
-        //        bool blnResult = objAddr.delete(input.company_code, input.combranch_code, input.comaddress_type);
-
-        //        if (blnResult)
-        //        {
-        //            output["result"] = "1";
-        //            output["result_text"] = "0";
-        //        }
-        //        else
-        //        {
-        //            output["result"] = "2";
-        //            output["result_text"] = objAddr.getMessage();
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-
-        //    }
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public async Task<string> doUploadMTComAddress(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CAD001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
-        //            string tmp = srv_import.doImportExcel("COMADDRESS", fileName, "TEST");
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
- 
-        //#endregion
+        
 
         #region MTcomAddress
         public string getComAddressList(FillterCompany req)
@@ -6457,7 +5927,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTComaddress contcomaddress = new cls_ctMTComaddress();
-                List<cls_MTComaddress> list = contcomaddress.getDataByFillter(req.company_code, req.combranch_code, req.comaddress_type);
+                List<cls_MTComaddress> list = contcomaddress.getDataByFillter(req.company_code , req.combranch_code, req.comaddress_type);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
