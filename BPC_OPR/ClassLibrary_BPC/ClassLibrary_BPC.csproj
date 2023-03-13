@@ -156,6 +156,8 @@
     <Compile Include="hrfocus.controller\employee\cls_ctTRSalary.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRTraining.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRTranfer.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmpbranch.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmplocation.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobsub.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobmain.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProtimepol.cs" />
@@ -241,6 +243,8 @@
     <Compile Include="hrfocus.model\employee\cls_TRSalary.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRTraining.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRTranfer.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmpbranch.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmplocation.cs" />
     <Compile Include="hrfocus.service\cls_srvEmpImport.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobworking.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobemp.cs" />
