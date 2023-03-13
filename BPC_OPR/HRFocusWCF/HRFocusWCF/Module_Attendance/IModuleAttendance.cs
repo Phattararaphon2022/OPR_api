@@ -1,0 +1,273 @@
+﻿
+using System.IO;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Threading.Tasks;
+using ClassLibrary_BPC.hrfocus.model;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+namespace BPC_OPR
+{
+    [ServiceContract]
+    public interface IModuleAttendance
+    {
+        #region MTYear
+        //[OperationContract(Name = "year_list")]
+        //[WebInvoke(Method = "POST",RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getMTYearList(InputMTYear input);
+
+        //[OperationContract(Name = "year")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTYear(InputMTYear input);
+
+        //[OperationContract(Name = "year_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTYear(InputMTYear input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadYear?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadYear(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTPeriod
+        //[OperationContract(Name = "period_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getMTPeriodList(InputMTPeriod input);
+
+        //[OperationContract(Name = "period")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTPeriod(InputMTPeriod input);
+
+        //[OperationContract(Name = "period_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTPeriod(InputMTPeriod input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriod?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region MTReason
+        //[OperationContract(Name = "reason_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getMTReasonList(InputMTReason input);
+
+        //[OperationContract(Name = "reason")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTReason(InputMTReason input);
+
+        //[OperationContract(Name = "reason_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTReason(InputMTReason input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReason?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTLocation
+        //[OperationContract(Name = "location_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getMTLocationList(InputMTLocation input);
+
+        //[OperationContract(Name = "location")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTLocation(InputMTLocation input);
+
+        //[OperationContract(Name = "location_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTLocation(InputMTLocation input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTPlanholiday
+        [OperationContract(Name = "planholiday_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanholidayList(InputMTPlanholiday input);
+
+        [OperationContract(Name = "planholiday")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanholiday(InputMTPlanholiday input);
+
+        [OperationContract(Name = "planholiday_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanholiday(InputMTPlanholiday input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanholiday?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanholiday(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region MTShift
+        [OperationContract(Name = "shift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTShiftList(InputMTShift input);
+
+        [OperationContract(Name = "shift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTShift(InputMTShift input);
+
+        [OperationContract(Name = "shift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTShift(InputMTShift input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTShift?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTShift(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTPlanshift
+        [OperationContract(Name = "planshift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanshiftList(InputMTPlanshift input);
+
+        [OperationContract(Name = "planshift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanshift(InputMTPlanshift input);
+
+        [OperationContract(Name = "planshift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanshift(InputMTPlanshift input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanshift?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanshift(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTLeave
+        [OperationContract(Name = "leave_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTLeaveList(InputMTLeave input);
+
+        [OperationContract(Name = "leave")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTLeave(InputMTLeave input);
+
+        [OperationContract(Name = "leave_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTLeave(InputMTLeave input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLeave?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTLeave(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTPlanleave
+        [OperationContract(Name = "planleave_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanleaveList(InputMTPlanleave input);
+
+        [OperationContract(Name = "planleave")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanleave(InputMTPlanleave input);
+
+        [OperationContract(Name = "planleave_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanleave(InputMTPlanleave input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanleave?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanleave(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTRateot
+        [OperationContract(Name = "ot_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTRateotList(InputMTRateot input);
+
+        [OperationContract(Name = "ot")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTRateot(InputMTRateot input);
+
+        [OperationContract(Name = "ot_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTRateot(InputMTRateot input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTRateot?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTRateot(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTDiligence
+        [OperationContract(Name = "diligence_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTDiligenceList(InputMTDiligence input);
+
+        [OperationContract(Name = "diligence")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTDiligence(InputMTDiligence input);
+
+        [OperationContract(Name = "diligence_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTDiligence(InputMTDiligence input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTDiligence?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTDiligence(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTLate
+        [OperationContract(Name = "late_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTLateList(InputMTLate input);
+
+        [OperationContract(Name = "late")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTLate(InputMTLate input);
+
+        [OperationContract(Name = "late_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTLate(InputMTLate input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLate?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTLate(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region Timecard
+        [OperationContract(Name = "timecard_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimecardList(FillterAttendance req);
+
+        [OperationContract(Name = "timecard")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimecard(InputTRTimecard input);
+        #endregion
+
+        #region Timeimport
+        [OperationContract(Name = "timeformat_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTimeimpformatList(FillterAttendance req);
+
+        [OperationContract(Name = "timeformat")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTTimeimpformat(InputMTTimeimpformat input);
+
+        [OperationContract(Name = "timeformat_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTTimeimpformat(InputMTTimeimpformat input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doReadSimpleTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
+        string doReadSimpleTimeInput(string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadTimeInput(string fileName, Stream stream);
+        #endregion
+    }
+
+}

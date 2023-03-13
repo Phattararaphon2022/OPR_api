@@ -84,18 +84,18 @@ namespace BPC_OPR
 
             try
             {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                //{
+                //    output["success"] = false;
+                //    output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                //    log.apilog_status = "500";
+                //    log.apilog_message = BpcOpr.MessageNotAuthen;
+                //    objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                //    return output.ToString(Formatting.None);
+                //}
 
                 cls_ctMTBank controller = new cls_ctMTBank();
                 List<cls_MTBank> list = controller.getDataByFillter("");
@@ -678,7 +678,6 @@ namespace BPC_OPR
         }
         #endregion
 
-
         #region MTReason
         public string getMTReasonList(InputMTReason input)
         {
@@ -946,7 +945,6 @@ namespace BPC_OPR
         }
         #endregion
         
-
         #region MTCardtype
         public string getCardtypeList(BasicRequest req)
         {
@@ -4875,7 +4873,6 @@ namespace BPC_OPR
         }
 
         #endregion
-
 
         #region comBank
         public string getCombankList(FillterCompany req)
