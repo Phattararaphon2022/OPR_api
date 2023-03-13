@@ -1,4 +1,6 @@
-﻿using ClassLibrary_BPC.hrfocus.model.SYS.System;
+﻿using ClassLibrary_BPC.hrfocus.model;
+using ClassLibrary_BPC.hrfocus.model.System;
+//using ClassLibrary_BPC.hrfocus.model.System;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -163,6 +165,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
         public bool insert(cls_MTCodestructure model)
         {
+            bool blnResult = false;
             string strResult = "";
             try
             {
@@ -199,7 +202,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                strResult = model.addresstype_id.ToString();
+                blnResult = true;
+                strResult = model.codestructure_code.ToString();
             }
             catch (Exception ex)
             {
@@ -207,7 +211,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strResult = "";
             }
 
-            return strResult;
+            return blnResult;
 
         }
 

@@ -244,23 +244,68 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCompany?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTCompany(string token, string by, string fileName, Stream stream);
 
+        //-- codestructure
+        //-- Code structure
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getSYSCodestructureList();
 
-        //-- empid
-        [OperationContract(Name = "Polcode_list")]
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getMTPolcode(string com, string type);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getNewCode(string com, string type, string emptype);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getTRPolcode(string id);
+
+        [OperationContract(Name = "doManagePolcode")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getPolcodeList(BasicRequest req);
+        string doManagePolcode(InputMTPolcode input);
 
-        [OperationContract(Name = "Polcode")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageMTPolcode(InputMTPolcode input);
-
-        [OperationContract(Name = "Polcode_del")]
+        [OperationContract(Name = "doDeleteMTPolcode")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteMTPolcode(InputMTPolcode input);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
+
+        //[OperationContract(Name = "codestructure_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getCodestructureList(BasicRequest req);
+
+        //[OperationContract(Name = "codestructure")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTCodestructure(InputMTCodestructure input);
+
+        //[OperationContract(Name = "codestructure_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTCodestructure(InputMTCodestructure input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadcodestructure?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTCodestructure(string token, string by, string fileName, Stream stream);
+
+        //-- empid
+        //[OperationContract(Name = "Polcode_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getPolcodeList(BasicRequest req);
+
+        //[OperationContract(Name = "Polcode")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTPolcode(InputMTPolcode input);
+
+        //[OperationContract(Name = "Polcode_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTPolcode(InputMTPolcode input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
 
         #region comBANK
         [OperationContract(Name = "combank_list")]

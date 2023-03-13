@@ -26,7 +26,43 @@ namespace BPC_OPR
         public string modified_by { get; set; }
 
     }
+
+
+    [DataContract]
+    public class InputMTCodestructure
+    {
+        [DataMember]
+        public string codestructure_code { get; set; }
+        [DataMember]
+        public string codestructure_name_th { get; set; }
+        [DataMember]
+        public string codestructure_name_en { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+
     public class InputMTPolcode
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int polcode_id { get; set; }
+        [DataMember]
+        public string polcode_type { get; set; }
+
+        [DataMember]
+        public string polcode_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    public class InputTRPolcode
     {
         [DataMember]
         public int polcode_id { get; set; }

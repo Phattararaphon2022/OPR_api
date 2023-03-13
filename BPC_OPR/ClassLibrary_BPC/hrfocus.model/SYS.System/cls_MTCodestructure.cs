@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary_BPC.hrfocus.model
+namespace ClassLibrary_BPC.hrfocus.model.System
 {
-    class cls_MTCodestructure
+    public class cls_MTCodestructure
      {
         public cls_MTCodestructure() { }
 

@@ -4,9 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary_BPC.hrfocus.model.SYS.System
+namespace ClassLibrary_BPC.hrfocus.model
 {
-    class cls_TRPolcode
+    public class cls_TRPolcode
     {
+        public cls_TRPolcode() { }
+
+        public int polcode_id { get; set; }
+        public string codestructure_code { get; set; }
+        public int polcode_lenght { get; set; }
+        public string polcode_text { get; set; }
+        public int polcode_order { get; set; }
+
     }
 }
