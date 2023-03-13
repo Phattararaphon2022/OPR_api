@@ -246,21 +246,21 @@ namespace BPC_OPR
 
 
         //-- empid
-        [OperationContract(Name = "empid_list")]
+        [OperationContract(Name = "Polcode_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getEmpidList(BasicRequest req);
+        string getPolcodeList(BasicRequest req);
 
-        [OperationContract(Name = "empid")]
+        [OperationContract(Name = "Polcode")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageMTEmpid(InputMTEmpId input);
+        string doManageMTPolcode(InputMTPolcode input);
 
-        [OperationContract(Name = "empid_del")]
+        [OperationContract(Name = "Polcode_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteMTEmpid(InputMTEmpId input);
+        string doDeleteMTPolcode(InputMTPolcode input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpid?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTEmpid(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
 
         #region comBANK
         [OperationContract(Name = "combank_list")]

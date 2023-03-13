@@ -373,8 +373,8 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region MTEmpId
-        public string getEmpidList(BasicRequest req)
+        #region MTPolcode
+        public string getPolcodeList(BasicRequest req)
         {
             JObject output = new JObject();
 
@@ -398,24 +398,28 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTEmpID controller = new cls_ctMTEmpID();
-                List<cls_MTEmpID> list = controller.getDataByFillter("");
+                cls_ctMTPolcode controller = new cls_ctMTPolcode();
+                List<cls_MTPolcode> list = controller.getDataByFillter("", "", "");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
                 {
                     int index = 1;
 
-                    foreach (cls_MTEmpID model in list)
+                    foreach (cls_MTPolcode model in list)
                     {
                         JObject json = new JObject();
-                        json.Add("empid_id", model.empid_id);
-                        json.Add("empid_code", model.empid_code);
-                        json.Add("empid_name_th", model.empid_name_th);
-                        json.Add("empid_name_en", model.empid_name_en);
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("polcode_id", model.polcode_id);
+                        json.Add("polcode_type", model.polcode_type);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
-                        json.Add("index", index++);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+                        //index++;
+
                         array.Add(json);
                     }
 
@@ -453,7 +457,7 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
-        public string doManageMTEmpid(InputMTEmpId input)
+        public string doManageMTPolcode(InputMTPolcode input)
         {
             JObject output = new JObject();
 
@@ -2251,7 +2255,7 @@ namespace BPC_OPR
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
 
-                    log.apilog_status = "200";
+                    log.apilog_status = "200";  
                     log.apilog_message = "";
                 }
                 else

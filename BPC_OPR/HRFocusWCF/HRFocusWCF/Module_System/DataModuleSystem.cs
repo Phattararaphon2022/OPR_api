@@ -26,19 +26,20 @@ namespace BPC_OPR
         public string modified_by { get; set; }
 
     }
-    public class InputMTEmpId
+    public class InputMTPolcode
     {
         [DataMember]
-        public string empid_id { get; set; }
+        public int polcode_id { get; set; }
         [DataMember]
-        public string empid_code { get; set; }
+        public string codestructure_code { get; set; }
         [DataMember]
-        public string empid_name_th { get; set; }
+        public int polcode_lenght { get; set; }
         [DataMember]
-        public string empid_name_en { get; set; }
+        public string polcode_text { get; set; }
         [DataMember]
-        public string modified_by { get; set; }
-
+        public int polcode_order { get; set; }
+        [DataMember]
+        public int index { get; set; }
     }
     //[DataContract]
     //public class InputSYSReason
