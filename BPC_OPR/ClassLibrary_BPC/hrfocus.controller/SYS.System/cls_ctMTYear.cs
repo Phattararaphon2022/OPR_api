@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ClassLibrary_BPC.hrfocus.model;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using ClassLibrary_BPC.hrfocus.model;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
@@ -107,7 +110,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string com, string code ,string id)
+        public bool checkDataOld(string com, string code, string id)
         {
             bool blnResult = false;
             try
@@ -191,7 +194,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.year_code,model.year_id))
+                if (this.checkDataOld(model.company_code, model.year_code, model.year_id))
                 {
                     return this.update(model);
                 }
@@ -234,7 +237,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@YEAR_ID", SqlDbType.Int); obj_cmd.Parameters["@YEAR_ID"].Value = id ;
+                obj_cmd.Parameters.Add("@YEAR_ID", SqlDbType.Int); obj_cmd.Parameters["@YEAR_ID"].Value = id;
                 obj_cmd.Parameters.Add("@YEAR_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_CODE"].Value = model.year_code;
                 obj_cmd.Parameters.Add("@YEAR_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_NAME_TH"].Value = model.year_name_th;
                 obj_cmd.Parameters.Add("@YEAR_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_NAME_EN"].Value = model.year_name_en;
@@ -302,7 +305,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                
+
                 blnResult = model.year_id;
             }
             catch (Exception ex)

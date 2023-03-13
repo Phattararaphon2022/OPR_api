@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
 using ClassLibrary_BPC.hrfocus.model;
-
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctMTReason
+    public class cls_ctMTReason 
     {
         string Message = string.Empty;
 
@@ -78,7 +80,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTReason> getDataByFillter(string group, string id, string code,string com)
+        public List<cls_MTReason> getDataByFillter(string group, string id, string code, string com)
         {
             string strCondition = "";
 
@@ -96,7 +98,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string group, string code ,string com)
+        public bool checkDataOld(string group, string code, string com)
         {
             bool blnResult = false;
             try
@@ -150,7 +152,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string id,string com)
+        public bool delete(string id, string com)
         {
             bool blnResult = true;
             try
@@ -182,7 +184,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.reason_group, model.reason_code,model.company_code))
+                if (this.checkDataOld(model.reason_group, model.reason_code, model.company_code))
                 {
                     return this.update(model);
                 }

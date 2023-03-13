@@ -88,1097 +88,1097 @@ namespace BPC_OPR
         }
 
         #region MTYear
-        public string getMTYearList(InputMTYear input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //public string getMTYearList(InputMTYear input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTYear objYear = new cls_ctMTYear();
-                List<cls_MTYear> listYear = objYear.getDataByFillter(input.company_code, input.year_group, input.year_id, input.year_code);
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTYear objYear = new cls_ctMTYear();
+        //        List<cls_MTYear> listYear = objYear.getDataByFillter(input.company_code, input.year_group, input.year_id, input.year_code);
 
-                JArray array = new JArray();
+        //        JArray array = new JArray();
 
-                if (listYear.Count > 0)
-                {
-                    int index = 1;
+        //        if (listYear.Count > 0)
+        //        {
+        //            int index = 1;
 
-                    foreach (cls_MTYear model in listYear)
-                    {
-                        JObject json = new JObject();
+        //            foreach (cls_MTYear model in listYear)
+        //            {
+        //                JObject json = new JObject();
 
-                        json.Add("year_id", model.year_id);
-                        json.Add("year_code", model.year_code);
-                        json.Add("year_name_th", model.year_name_th);
-                        json.Add("year_name_en", model.year_name_en);
+        //                json.Add("year_id", model.year_id);
+        //                json.Add("year_code", model.year_code);
+        //                json.Add("year_name_th", model.year_name_th);
+        //                json.Add("year_name_en", model.year_name_en);
 
-                        json.Add("year_fromdate", model.year_fromdate);
-                        json.Add("year_todate", model.year_todate);
-                        json.Add("year_group", model.year_group);
+        //                json.Add("year_fromdate", model.year_fromdate);
+        //                json.Add("year_todate", model.year_todate);
+        //                json.Add("year_group", model.year_group);
 
-                        json.Add("company_code", model.company_code);
+        //                json.Add("company_code", model.company_code);
 
-                        json.Add("modified_by", model.modified_by);
-                        json.Add("modified_date", model.modified_date);
-                        json.Add("flag", model.flag);
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
 
-                        json.Add("index", index);
+        //                json.Add("index", index);
 
-                        index++;
+        //                index++;
 
-                        array.Add(json);
-                    }
+        //                array.Add(json);
+        //            }
 
-                    output["result"] = "1";
-                    output["result_text"] = "1";
-                    output["data"] = array;
-                }
-                else
-                {
-                    output["result"] = "0";
-                    output["result_text"] = "Data not Found";
-                    output["data"] = array;
-                }
-            }
-            catch(Exception e) {
-                return e.ToString();
-            }
-            return output.ToString(Formatting.None);
-        }
-        public string doManageMTYear(InputMTYear input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch(Exception e) {
+        //        return e.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTYear(InputMTYear input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTYear objYear = new cls_ctMTYear();
-                cls_MTYear model = new cls_MTYear();
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTYear objYear = new cls_ctMTYear();
+        //        cls_MTYear model = new cls_MTYear();
 
-                model.company_code = input.company_code;
+        //        model.company_code = input.company_code;
 
-                model.year_id = input.year_id;
-                model.year_code = input.year_code;
-                model.year_name_th = input.year_name_th;
-                model.year_name_en = input.year_name_en;
-                model.year_fromdate = Convert.ToDateTime(input.year_fromdate);
-                model.year_todate = Convert.ToDateTime(input.year_todate);
-                model.year_group = input.year_group;
-                model.company_code = input.company_code;
+        //        model.year_id = input.year_id;
+        //        model.year_code = input.year_code;
+        //        model.year_name_th = input.year_name_th;
+        //        model.year_name_en = input.year_name_en;
+        //        model.year_fromdate = Convert.ToDateTime(input.year_fromdate);
+        //        model.year_todate = Convert.ToDateTime(input.year_todate);
+        //        model.year_group = input.year_group;
+        //        model.company_code = input.company_code;
 
-                model.modified_by = input.modified_by;
-                model.flag = input.flag;
-                string strID = objYear.insert(model);
-                if (!strID.Equals(""))
-                {
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
+        //        model.modified_by = input.modified_by;
+        //        model.flag = input.flag;
+        //        string strID = objYear.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
 
-                    log.apilog_status = "500";
-                    log.apilog_message = objYear.getMessage();
-                }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objYear.getMessage();
+        //        }
 
-                objYear.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
+        //        objYear.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
 
-            }
+        //    }
 
-            return output.ToString(Formatting.None);
+        //    return output.ToString(Formatting.None);
 
-        }
-        public string doDeleteMTYear(InputMTYear input)
-        {
-            JObject output = new JObject();
+        //}
+        //public string doDeleteMTYear(InputMTYear input)
+        //{
+        //    JObject output = new JObject();
 
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
 
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
-            log.apilog_by = input.username;
-            log.apilog_data = tmp.ToString();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
 
-            try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+        //            return output.ToString(Formatting.None);
+        //        }
 
-                cls_ctMTYear controller = new cls_ctMTYear();
+        //        cls_ctMTYear controller = new cls_ctMTYear();
 
-                    bool blnResult = controller.delete(input.year_id);
+        //            bool blnResult = controller.delete(input.year_id);
 
-                    if (blnResult)
-                    {
-                        output["success"] = true;
-                        output["message"] = "Remove data successfully";
+        //            if (blnResult)
+        //            {
+        //                output["success"] = true;
+        //                output["message"] = "Remove data successfully";
 
-                        log.apilog_status = "200";
-                        log.apilog_message = "";
-                    }
-                    else
-                    {
-                        output["success"] = false;
-                        output["message"] = "Remove data not successfully";
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Remove data not successfully";
 
-                        log.apilog_status = "500";
-                        log.apilog_message = controller.getMessage();
-                    }
-                controller.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Remove data not successfully";
+        //                log.apilog_status = "500";
+        //                log.apilog_message = controller.getMessage();
+        //            }
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
 
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
 
-            output["data"] = tmp;
+        //    output["data"] = tmp;
 
-            return output.ToString(Formatting.None);
+        //    return output.ToString(Formatting.None);
 
-        }
-        public async Task<string> doUploadYear(string token, string by, string fileName, Stream stream)
-        {
-            JObject output = new JObject();
+        //}
+        //public async Task<string> doUploadYear(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
 
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
-            log.apilog_by = by;
-            log.apilog_data = "Stream";
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
 
-            try
-            {
-                if (!objBpcOpr.doVerify(token))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-
-
-                bool upload = await this.doUploadFile(fileName, stream);
-
-                if (upload)
-                {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("YEAR", fileName, by);
+        //            return output.ToString(Formatting.None);
+        //        }
 
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+        //        bool upload = await this.doUploadFile(fileName, stream);
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Upload data not successfully";
+        //        if (upload)
+        //        {
+        //            cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+        //            string tmp = srv_import.doImportExcel("YEAR", fileName, by);
 
-                    log.apilog_status = "500";
-                    log.apilog_message = "Upload data not successfully";
-                }
 
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Upload data not successfully";
+        //            output["success"] = true;
+        //            output["message"] = tmp;
 
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
 
-            return output.ToString(Formatting.None);
-        }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
         #endregion
 
         #region MTPeriod
-        public string getMTPeriodList(InputMTPeriod input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //public string getMTPeriodList(InputMTPeriod input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTPeriod controler = new cls_ctMTPeriod();
-                List<cls_MTPeriod> listPeriod = controler.getDataByFillter(input.period_id,input.company_code,input.period_type,input.year_code,input.emptype_code);
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTPeriod controler = new cls_ctMTPeriod();
+        //        List<cls_MTPeriod> listPeriod = controler.getDataByFillter(input.period_id,input.company_code,input.period_type,input.year_code,input.emptype_code);
 
-                JArray array = new JArray();
+        //        JArray array = new JArray();
 
-                if (listPeriod.Count > 0)
-                {
-                    int index = 1;
+        //        if (listPeriod.Count > 0)
+        //        {
+        //            int index = 1;
 
-                    foreach (cls_MTPeriod model in listPeriod)
-                    {
-                        JObject json = new JObject();
-                        json.Add("company_code", model.company_code);
-                        json.Add("period_id", model.period_id);
-                        json.Add("period_type", model.period_type);
-                        json.Add("emptype_code", model.emptype_code);
-                        json.Add("year_code", model.year_code);
-                        json.Add("period_no", model.period_no);
+        //            foreach (cls_MTPeriod model in listPeriod)
+        //            {
+        //                JObject json = new JObject();
+        //                json.Add("company_code", model.company_code);
+        //                json.Add("period_id", model.period_id);
+        //                json.Add("period_type", model.period_type);
+        //                json.Add("emptype_code", model.emptype_code);
+        //                json.Add("year_code", model.year_code);
+        //                json.Add("period_no", model.period_no);
 
-                        json.Add("period_name_th", model.period_name_th);
-                        json.Add("period_name_en", model.period_name_en);
+        //                json.Add("period_name_th", model.period_name_th);
+        //                json.Add("period_name_en", model.period_name_en);
 
-                        json.Add("period_from", model.period_from);
-                        json.Add("period_to", model.period_to);
-                        json.Add("period_payment", model.period_payment);
-                        json.Add("period_dayonperiod", model.period_dayonperiod);
+        //                json.Add("period_from", model.period_from);
+        //                json.Add("period_to", model.period_to);
+        //                json.Add("period_payment", model.period_payment);
+        //                json.Add("period_dayonperiod", model.period_dayonperiod);
 
-                        json.Add("modified_by", model.modified_by);
-                        json.Add("modified_date", model.modified_date);
-                        json.Add("flag", model.flag);
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
 
-                        json.Add("index", index);
+        //                json.Add("index", index);
 
-                        index++;
+        //                index++;
 
-                        array.Add(json);
-                    }
+        //                array.Add(json);
+        //            }
 
-                    output["result"] = "1";
-                    output["result_text"] = "1";
-                    output["data"] = array;
-                }
-                else
-                {
-                    output["result"] = "0";
-                    output["result_text"] = "Data not Found";
-                    output["data"] = array;
-                }
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            return output.ToString(Formatting.None);
-        }
-        public string doManageMTPeriod(InputMTPeriod input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTPeriod(InputMTPeriod input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTPeriod controler = new cls_ctMTPeriod();
-                cls_MTPeriod model = new cls_MTPeriod();
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTPeriod controler = new cls_ctMTPeriod();
+        //        cls_MTPeriod model = new cls_MTPeriod();
 
-                model.company_code = input.company_code;
-
-
-                model.period_id = input.period_id.Equals("") ? 0 : Convert.ToInt32(input.period_id);
-                model.period_type = input.period_type;
-                model.emptype_code = input.emptype_code;
-                model.year_code = input.year_code;
-                model.period_no = input.period_no;
-
-                model.period_name_th = input.period_name_th;
-                model.period_name_en = input.period_name_en;
-
-                model.period_from = Convert.ToDateTime(input.period_from);
-                model.period_to = Convert.ToDateTime(input.period_to);
-                model.period_payment = Convert.ToDateTime(input.period_payment);
-
-                model.period_dayonperiod = input.period_dayonperiod;
-
-                model.modified_by = input.modified_by;
-                model.flag = input.flag;
-                string strID = controler.insert(model);
-                if (!strID.Equals(""))
-                {
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = controler.getMessage();
-                }
-
-                controler.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
-
-            }
-
-            return output.ToString(Formatting.None);
-
-        }
-        public string doDeleteMTPeriod(InputMTPeriod input)
-        {
-            JObject output = new JObject();
-
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
-            log.apilog_by = input.username;
-            log.apilog_data = tmp.ToString();
-
-            try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
-
-                cls_ctMTPeriod controller = new cls_ctMTPeriod();
-
-                bool blnResult = controller.delete(input.company_code,input.period_id);
-
-                if (blnResult)
-                {
-                    output["success"] = true;
-                    output["message"] = "Remove data successfully";
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Remove data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = controller.getMessage();
-                }
-                controller.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Remove data not successfully";
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
-
-            output["data"] = tmp;
-
-            return output.ToString(Formatting.None);
-
-        }
-        public async Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream)
-        {
-            JObject output = new JObject();
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
-            log.apilog_by = by;
-            log.apilog_data = "Stream";
-
-            try
-            {
-                if (!objBpcOpr.doVerify(token))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
+        //        model.company_code = input.company_code;
 
 
-                bool upload = await this.doUploadFile(fileName, stream);
+        //        model.period_id = input.period_id.Equals("") ? 0 : Convert.ToInt32(input.period_id);
+        //        model.period_type = input.period_type;
+        //        model.emptype_code = input.emptype_code;
+        //        model.year_code = input.year_code;
+        //        model.period_no = input.period_no;
 
-                if (upload)
-                {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("PERIOD", fileName, by);
+        //        model.period_name_th = input.period_name_th;
+        //        model.period_name_en = input.period_name_en;
+
+        //        model.period_from = Convert.ToDateTime(input.period_from);
+        //        model.period_to = Convert.ToDateTime(input.period_to);
+        //        model.period_payment = Convert.ToDateTime(input.period_payment);
+
+        //        model.period_dayonperiod = input.period_dayonperiod;
+
+        //        model.modified_by = input.modified_by;
+        //        model.flag = input.flag;
+        //        string strID = controler.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controler.getMessage();
+        //        }
+
+        //        controler.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //    }
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public string doDeleteMTPeriod(InputMTPeriod input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTPeriod controller = new cls_ctMTPeriod();
+
+        //        bool blnResult = controller.delete(input.company_code,input.period_id);
+
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public async Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
 
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+        //        bool upload = await this.doUploadFile(fileName, stream);
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Upload data not successfully";
+        //        if (upload)
+        //        {
+        //            cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+        //            string tmp = srv_import.doImportExcel("PERIOD", fileName, by);
 
-                    log.apilog_status = "500";
-                    log.apilog_message = "Upload data not successfully";
-                }
 
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Upload data not successfully";
+        //            output["success"] = true;
+        //            output["message"] = tmp;
 
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
 
-            return output.ToString(Formatting.None);
-        }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
         #endregion
 
         #region MTReason
-        public string getMTReasonList(InputMTReason input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //public string getMTReasonList(InputMTReason input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+        //            return output.ToString(Formatting.None);
+        //        }
 
-            cls_ctMTReason objReason = new cls_ctMTReason();
-            List<cls_MTReason> listReason = objReason.getDataByFillter(input.reason_group, input.reason_id, input.reason_code,input.company_code);
-            JArray array = new JArray();
+        //    cls_ctMTReason objReason = new cls_ctMTReason();
+        //    List<cls_MTReason> listReason = objReason.getDataByFillter(input.reason_group, input.reason_id, input.reason_code,input.company_code);
+        //    JArray array = new JArray();
 
-            if (listReason.Count > 0)
-            {
+        //    if (listReason.Count > 0)
+        //    {
 
-                int index = 1;
+        //        int index = 1;
 
-                foreach (cls_MTReason model in listReason)
-                {
-                    JObject json = new JObject();
-                    json.Add("company_code", model.company_code);
-                    json.Add("reason_id", model.reason_id);
-                    json.Add("reason_code", model.reason_code);
-                    json.Add("reason_name_th", model.reason_name_th);
-                    json.Add("reason_name_en", model.reason_name_en);
-                    json.Add("reason_group", model.reason_group);
-                    json.Add("modified_by", model.modified_by);
-                    json.Add("modified_date", model.modified_date);
-                    json.Add("flag", model.flag);
+        //        foreach (cls_MTReason model in listReason)
+        //        {
+        //            JObject json = new JObject();
+        //            json.Add("company_code", model.company_code);
+        //            json.Add("reason_id", model.reason_id);
+        //            json.Add("reason_code", model.reason_code);
+        //            json.Add("reason_name_th", model.reason_name_th);
+        //            json.Add("reason_name_en", model.reason_name_en);
+        //            json.Add("reason_group", model.reason_group);
+        //            json.Add("modified_by", model.modified_by);
+        //            json.Add("modified_date", model.modified_date);
+        //            json.Add("flag", model.flag);
 
-                    json.Add("index", index);
+        //            json.Add("index", index);
 
-                    index++;
+        //            index++;
 
-                    array.Add(json);
-                }
-                output["result"] = "1";
-                output["result_text"] = "1";
-                output["data"] = array;
-            }
-            else
-            {
-                output["result"] = "0";
-                output["result_text"] = "Data not Found";
-                output["data"] = array;
-            }
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
+        //            array.Add(json);
+        //        }
+        //        output["result"] = "1";
+        //        output["result_text"] = "1";
+        //        output["data"] = array;
+        //    }
+        //    else
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = "Data not Found";
+        //        output["data"] = array;
+        //    }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.ToString();
+        //    }
 
-            return output.ToString(Formatting.None);
-        }
-        public string doManageMTReason(InputMTReason input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTReason(InputMTReason input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTReason objReason = new cls_ctMTReason();
-                cls_MTReason model = new cls_MTReason();
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTReason objReason = new cls_ctMTReason();
+        //        cls_MTReason model = new cls_MTReason();
 
-                model.reason_id = input.reason_id.Equals("") ? 0 : Convert.ToInt32(input.reason_id);
-                model.company_code = input.company_code;
-                model.reason_code = input.reason_code;
-                model.reason_name_th = input.reason_name_th;
-                model.reason_name_en = input.reason_name_en;
-                model.reason_group = input.reason_group;
-                model.modified_by = input.modified_by;
-                model.flag = input.flag;
-                string strID = objReason.insert(model);
-                if (!strID.Equals(""))
-                {
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
+        //        model.reason_id = input.reason_id.Equals("") ? 0 : Convert.ToInt32(input.reason_id);
+        //        model.company_code = input.company_code;
+        //        model.reason_code = input.reason_code;
+        //        model.reason_name_th = input.reason_name_th;
+        //        model.reason_name_en = input.reason_name_en;
+        //        model.reason_group = input.reason_group;
+        //        model.modified_by = input.modified_by;
+        //        model.flag = input.flag;
+        //        string strID = objReason.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
 
-                    log.apilog_status = "500";
-                    log.apilog_message = objReason.getMessage();
-                }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objReason.getMessage();
+        //        }
 
-                objReason.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
+        //        objReason.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
 
-            }
-
-
-            return output.ToString(Formatting.None);
-
-        }
-        public string doDeleteMTReason(InputMTReason input)
-        {
-            JObject output = new JObject();
-
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
-            log.apilog_by = input.username;
-            log.apilog_data = tmp.ToString();
-
-            try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
-
-                cls_ctMTReason objReason = new cls_ctMTReason();
-
-                bool blnResult = objReason.delete(input.reason_id,input.company_code);
-
-                if (blnResult)
-                {
-                    output["success"] = true;
-                    output["message"] = "Remove data successfully";
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Remove data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = objReason.getMessage();
-                }
-                objReason.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Remove data not successfully";
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
-
-            output["data"] = tmp;
-
-            return output.ToString(Formatting.None);
+        //    }
 
 
-        }
-        public async Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream)
-        {
-            JObject output = new JObject();
+        //    return output.ToString(Formatting.None);
 
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
-            log.apilog_by = by;
-            log.apilog_data = "Stream";
+        //}
+        //public string doDeleteMTReason(InputMTReason input)
+        //{
+        //    JObject output = new JObject();
 
-            try
-            {
-                if (!objBpcOpr.doVerify(token))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
 
-                    return output.ToString(Formatting.None);
-                }
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTReason objReason = new cls_ctMTReason();
+
+        //        bool blnResult = objReason.delete(input.reason_id,input.company_code);
+
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objReason.getMessage();
+        //        }
+        //        objReason.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
 
 
-                bool upload = await this.doUploadFile(fileName, stream);
+        //}
+        //public async Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
 
-                if (upload)
-                {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("REASON", fileName, by);
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
 
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+        //        bool upload = await this.doUploadFile(fileName, stream);
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Upload data not successfully";
+        //        if (upload)
+        //        {
+        //            cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+        //            string tmp = srv_import.doImportExcel("REASON", fileName, by);
 
-                    log.apilog_status = "500";
-                    log.apilog_message = "Upload data not successfully";
-                }
 
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Upload data not successfully";
+        //            output["success"] = true;
+        //            output["message"] = tmp;
 
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
 
-            return output.ToString(Formatting.None);
-        }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
         #endregion
 
         #region MTLocation
-        public string getMTLocationList(InputMTLocation input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //public string getMTLocationList(InputMTLocation input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTLocation objLocation = new cls_ctMTLocation();
-                List<cls_MTLocation> listLocation = objLocation.getDataByFillter(input.location_id,input.location_code,input.company_code);
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTLocation objLocation = new cls_ctMTLocation();
+        //        List<cls_MTLocation> listLocation = objLocation.getDataByFillter(input.location_id,input.location_code,input.company_code);
 
-                JArray array = new JArray();
+        //        JArray array = new JArray();
 
-                if (listLocation.Count > 0)
-                {
+        //        if (listLocation.Count > 0)
+        //        {
 
-                    int index = 1;
+        //            int index = 1;
 
-                    foreach (cls_MTLocation model in listLocation)
-                    {
-                        JObject json = new JObject();
-                        json.Add("company_code", model.company_code);
-                        json.Add("location_id", model.location_id);
-                        json.Add("location_code", model.location_code);
-                        json.Add("location_name_th", model.location_name_th);
-                        json.Add("location_name_en", model.location_name_en);
-                        json.Add("location_detail", model.location_detail);
-                        json.Add("location_lat", model.location_lat);
-                        json.Add("location_long", model.location_long);
-                        json.Add("modified_by", model.modified_by);
-                        json.Add("modified_date", model.modified_date);
-                        json.Add("flag", model.flag);
+        //            foreach (cls_MTLocation model in listLocation)
+        //            {
+        //                JObject json = new JObject();
+        //                json.Add("company_code", model.company_code);
+        //                json.Add("location_id", model.location_id);
+        //                json.Add("location_code", model.location_code);
+        //                json.Add("location_name_th", model.location_name_th);
+        //                json.Add("location_name_en", model.location_name_en);
+        //                json.Add("location_detail", model.location_detail);
+        //                json.Add("location_lat", model.location_lat);
+        //                json.Add("location_long", model.location_long);
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
 
-                        json.Add("index", index);
+        //                json.Add("index", index);
 
-                        index++;
+        //                index++;
 
-                        array.Add(json);
-                    }
+        //                array.Add(json);
+        //            }
 
-                    output["result"] = "1";
-                    output["result_text"] = "1";
-                    output["data"] = array;
-                }
-                else
-                {
-                    output["result"] = "0";
-                    output["result_text"] = "Data not Found";
-                    output["data"] = array;
-                }
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            return output.ToString(Formatting.None);
-        }
-        public string doManageMTLocation(InputMTLocation input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTLocation(InputMTLocation input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctMTLocation objLocation = new cls_ctMTLocation();
-                cls_MTLocation model = new cls_MTLocation();
-                model.company_code = input.company_code;
-                model.location_id = input.location_id.Equals("") ? 0 : Convert.ToInt32(input.location_id);
-                model.location_code = input.location_code;
-                model.location_name_th = input.location_name_th;
-                model.location_name_en = input.location_name_en;
-                model.location_detail = input.location_detail;
-                model.location_lat = input.location_lat;
-                model.location_long = input.location_long;
-                model.modified_by = input.modified_by;
-                model.flag = input.flag;
-                string strID = objLocation.insert(model);
-                if (!strID.Equals(""))
-                {
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTLocation objLocation = new cls_ctMTLocation();
+        //        cls_MTLocation model = new cls_MTLocation();
+        //        model.company_code = input.company_code;
+        //        model.location_id = input.location_id.Equals("") ? 0 : Convert.ToInt32(input.location_id);
+        //        model.location_code = input.location_code;
+        //        model.location_name_th = input.location_name_th;
+        //        model.location_name_en = input.location_name_en;
+        //        model.location_detail = input.location_detail;
+        //        model.location_lat = input.location_lat;
+        //        model.location_long = input.location_long;
+        //        model.modified_by = input.modified_by;
+        //        model.flag = input.flag;
+        //        string strID = objLocation.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
 
-                    log.apilog_status = "500";
-                    log.apilog_message = objLocation.getMessage();
-                }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objLocation.getMessage();
+        //        }
 
-                objLocation.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
+        //        objLocation.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
 
-            }
+        //    }
 
-            return output.ToString(Formatting.None);
+        //    return output.ToString(Formatting.None);
 
-        }
-        public string doDeleteMTLocation(InputMTLocation input)
-        {
-            JObject output = new JObject();
+        //}
+        //public string doDeleteMTLocation(InputMTLocation input)
+        //{
+        //    JObject output = new JObject();
 
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
 
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
-            log.apilog_by = input.username;
-            log.apilog_data = tmp.ToString();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
 
-            try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+        //            return output.ToString(Formatting.None);
+        //        }
 
-                cls_ctMTLocation controller = new cls_ctMTLocation();
+        //        cls_ctMTLocation controller = new cls_ctMTLocation();
 
-                bool blnResult = controller.delete(input.location_id,input.company_code);
+        //        bool blnResult = controller.delete(input.location_id,input.company_code);
 
-                if (blnResult)
-                {
-                    output["success"] = true;
-                    output["message"] = "Remove data successfully";
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Remove data not successfully";
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
 
-                    log.apilog_status = "500";
-                    log.apilog_message = controller.getMessage();
-                }
-                controller.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Remove data not successfully";
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
 
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
 
-            output["data"] = tmp;
+        //    output["data"] = tmp;
 
-            return output.ToString(Formatting.None);
+        //    return output.ToString(Formatting.None);
 
-        }
-        public async Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream)
-        {
-            JObject output = new JObject();
+        //}
+        //public async Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
 
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
-            log.apilog_by = by;
-            log.apilog_data = "Stream";
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
 
-            try
-            {
-                if (!objBpcOpr.doVerify(token))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
-
-
-                bool upload = await this.doUploadFile(fileName, stream);
-
-                if (upload)
-                {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("LOCATION", fileName, by);
+        //            return output.ToString(Formatting.None);
+        //        }
 
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+        //        bool upload = await this.doUploadFile(fileName, stream);
 
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Upload data not successfully";
+        //        if (upload)
+        //        {
+        //            cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+        //            string tmp = srv_import.doImportExcel("LOCATION", fileName, by);
 
-                    log.apilog_status = "500";
-                    log.apilog_message = "Upload data not successfully";
-                }
 
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Upload data not successfully";
+        //            output["success"] = true;
+        //            output["message"] = tmp;
 
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
 
-            return output.ToString(Formatting.None);
-        }
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
         #endregion
 
         #region MTPlanholiday

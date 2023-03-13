@@ -67,50 +67,50 @@ namespace ClassLibrary_BPC.hrfocus.service
                 DataTable dt = doReadExcel(filename);
                 switch (type)
                 {
-                    #region YEAR
-                    case "YEAR":
-                        if (dt.Rows.Count > 0)
-                        {
-                            foreach (DataRow dr in dt.Rows)
-                            {
+                    // #region YEAR
+                    // case "YEAR":
+                    //     if (dt.Rows.Count > 0)
+                    //     {
+                    //         foreach (DataRow dr in dt.Rows)
+                    //         {
 
-                                cls_ctMTYear controller = new cls_ctMTYear();
-                                cls_MTYear model = new cls_MTYear();
+                    //             cls_ctMTYear controller = new cls_ctMTYear();
+                    //             cls_MTYear model = new cls_MTYear();
 
-                                model.company_code = dr["company_code"].ToString();
-                                model.year_id = dr["year_id"].ToString();
-                                model.year_code = dr["year_code"].ToString();
-                                model.year_name_th = dr["year_name_th"].ToString();
-                                model.year_name_en = dr["year_name_en"].ToString();
-                                model.year_fromdate = Convert.ToDateTime(dr["year_fromdate"].ToString());
-                                model.year_todate = Convert.ToDateTime(dr["year_todate"].ToString());
-                                model.year_group = dr["year_group"].ToString();
-                                model.modified_by = by;
-                                model.flag = false;
-                                string strID = controller.insert(model);
+                    //             model.company_code = dr["company_code"].ToString();
+                    //             model.year_id = dr["year_id"].ToString();
+                    //             model.year_code = dr["year_code"].ToString();
+                    //             model.year_name_th = dr["year_name_th"].ToString();
+                    //             model.year_name_en = dr["year_name_en"].ToString();
+                    //             model.year_fromdate = Convert.ToDateTime(dr["year_fromdate"].ToString());
+                    //             model.year_todate = Convert.ToDateTime(dr["year_todate"].ToString());
+                    //             model.year_group = dr["year_group"].ToString();
+                    //             model.modified_by = by;
+                    //             model.flag = false;
+                    //             string strID = controller.insert(model);
 
-                                if (!strID.Equals(""))
-                                {
-                                    success++;
-                                }
-                                else
-                                {
-                                    objStr.Append(model.year_code +" "+ model.year_group);
-                                }
+                    //             if (!strID.Equals(""))
+                    //             {
+                    //                 success++;
+                    //             }
+                    //             else
+                    //             {
+                    //                 objStr.Append(model.year_code +" "+ model.year_group);
+                    //             }
 
-                            }
+                    //         }
 
-                            strResult = "";
+                    //         strResult = "";
 
-                            if (success > 0)
-                                strResult += "Success : " + success.ToString();
+                    //         if (success > 0)
+                    //             strResult += "Success : " + success.ToString();
 
-                            if (objStr.Length > 0)
-                                strResult += " Fail : " + objStr.ToString();
+                    //         if (objStr.Length > 0)
+                    //             strResult += " Fail : " + objStr.ToString();
 
-                        }
-                        break;
-                    #endregion
+                    //     }
+                    //     break;
+                    // #endregion
 
                     #region PERIOD
                     case "PERIOD":

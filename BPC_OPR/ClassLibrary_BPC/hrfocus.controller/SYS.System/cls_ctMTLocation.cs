@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
 using ClassLibrary_BPC.hrfocus.model;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
@@ -96,7 +99,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string code ,string com)
+        public bool checkDataOld(string code, string com)
         {
             bool blnResult = false;
             try
@@ -149,7 +152,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string id,string com)
+        public bool delete(string id, string com)
         {
             bool blnResult = true;
             try
@@ -180,7 +183,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.location_code,model.company_code))
+                if (this.checkDataOld(model.location_code, model.company_code))
                 {
                     return this.update(model);
                 }
