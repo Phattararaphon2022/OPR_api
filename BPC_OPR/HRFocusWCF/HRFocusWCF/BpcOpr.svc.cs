@@ -171,6 +171,10 @@ namespace BPC_OPR
         public string ip { get; set; }
         [DataMember]
         public string username { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string language { get; set; }
     }
 
     public class RequestData
