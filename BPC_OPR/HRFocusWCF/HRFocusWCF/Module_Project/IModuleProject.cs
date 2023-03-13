@@ -346,6 +346,28 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobworking?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream);
 
+        //Task
+        [OperationContract(Name = "task_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTaskList(FillterTask req);
+
+        [OperationContract(Name = "task_detail")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTaskdetail(InputMTTask input);
+
+        [OperationContract(Name = "task_whose")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTaskwhose(InputMTTask input);
+
+        [OperationContract(Name = "task")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTask(InputMTTask input);
+
+        [OperationContract(Name = "task_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTTask(InputMTTask input);
+
+
 
     }
 }

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HRFocus>
-  <ServerName>NB-HRFOCUS-08</ServerName>
+  <ServerName>161.82.218.95</ServerName>
   <DBName>OPR</DBName>
   <DBLoginID>sa</DBLoginID>
-  <DBPassword>password@1</DBPassword>
+  <DBPassword>Sql2019*</DBPassword>
   <Language>T</Language>
   <BirthDay>N</BirthDay>
   <EndProbation>N</EndProbation>

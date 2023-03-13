@@ -3772,6 +3772,7 @@ namespace BPC_OPR
         }
         #endregion
 
+
         #region Timecard
         public string getTRTimecardList(FillterAttendance req)
         {
