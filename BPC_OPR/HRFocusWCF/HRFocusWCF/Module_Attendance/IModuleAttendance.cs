@@ -237,6 +237,25 @@ namespace BPC_OPR
 
         #endregion
 
+        #region SetPolicyAtt
+        [OperationContract(Name = "SetPolicyAtt_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getPolicyAttendance(InputSetPolicyAtt input);
+
+        [OperationContract(Name = "SetPolicyAtt")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetPolicyAttendance(InputSetPolicyAtt input);
+
+        [OperationContract(Name = "SetPolicyAtt_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeletePolicyAttendance(InputSetPolicyAtt input);
+
+        #endregion
+
+        [OperationContract(Name = "SetBatchPlanshift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPlanshift(InputBatchPlanshift input);
+
         #region Timecard
         [OperationContract(Name = "timecard_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

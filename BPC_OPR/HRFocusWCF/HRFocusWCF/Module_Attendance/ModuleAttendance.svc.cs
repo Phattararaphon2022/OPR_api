@@ -9,6 +9,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Web;
 using ClassLibrary_BPC.hrfocus.controller;
+using ClassLibrary_BPC.hrfocus.service;
 using ClassLibrary_BPC.hrfocus.model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -24,7 +25,6 @@ using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 using System.Configuration;
 using System.Web.Script.Serialization;
-using ClassLibrary_BPC.hrfocus.service;
 using System.Runtime.Serialization.Json;
 
 namespace BPC_OPR
@@ -3772,6 +3772,472 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region Batch policy
+        public string getPolicyAttendance(InputSetPolicyAtt input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                string worker_code = "";
+                cls_ctTREmppolatt objPol = new cls_ctTREmppolatt();
+                if (input.emp_data.Count > 0)
+                {
+                    worker_code = input.emp_data[0].worker_code;
+                }
+                List<cls_TREmppolatt> listPol = objPol.getDataByFillter(input.company_code, worker_code , input.pol_type);
+
+                JArray array = new JArray();
+
+                if (listPol.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TREmppolatt model in listPol)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("emppolatt_policy_code", model.emppolatt_policy_code);
+                        json.Add("emppolatt_policy_type", model.emppolatt_policy_type);
+                        json.Add("emppolatt_policy_note", model.emppolatt_policy_note);
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.created_date);
+                        json.Add("flag", model.flag);
+                        cls_ctMTWorker controller = new cls_ctMTWorker();
+                        List<cls_MTWorker> list = controller.getDataByFillter(model.company_code, model.worker_code);
+                        JArray arrayWorker = new JArray();
+                        if (list.Count > 0)
+                        {
+                            int indexWorker = 1;
+
+                            foreach (cls_MTWorker modelWorker in list)
+                            {
+                                JObject jsonWokker = new JObject();
+
+                                jsonWokker.Add("company_code", modelWorker.company_code);
+                                jsonWokker.Add("worker_id", modelWorker.worker_id);
+                                jsonWokker.Add("worker_code", modelWorker.worker_code);
+                                jsonWokker.Add("worker_card", modelWorker.worker_card);
+                                jsonWokker.Add("worker_initial", modelWorker.worker_initial);
+
+                                jsonWokker.Add("worker_fname_th", modelWorker.worker_fname_th);
+                                jsonWokker.Add("worker_lname_th", modelWorker.worker_lname_th);
+                                jsonWokker.Add("worker_fname_en", modelWorker.worker_fname_en);
+                                jsonWokker.Add("worker_lname_en", modelWorker.worker_lname_en);
+
+                                jsonWokker.Add("worker_type", modelWorker.worker_type);
+                                jsonWokker.Add("worker_gender", modelWorker.worker_gender);
+                                jsonWokker.Add("worker_birthdate", modelWorker.worker_birthdate);
+                                jsonWokker.Add("worker_hiredate", modelWorker.worker_hiredate);
+                                jsonWokker.Add("worker_status", modelWorker.worker_status);
+                                jsonWokker.Add("religion_code", modelWorker.religion_code);
+                                jsonWokker.Add("blood_code", modelWorker.blood_code);
+                                jsonWokker.Add("worker_height", modelWorker.worker_height);
+                                jsonWokker.Add("worker_weight", modelWorker.worker_weight);
+
+                                jsonWokker.Add("worker_resigndate", modelWorker.worker_resigndate);
+                                jsonWokker.Add("worker_resignstatus", modelWorker.worker_resignstatus);
+                                jsonWokker.Add("worker_resignreason", modelWorker.worker_resignreason);
+
+                                jsonWokker.Add("worker_probationdate", modelWorker.worker_probationdate);
+                                jsonWokker.Add("worker_probationenddate", modelWorker.worker_probationenddate);
+                                jsonWokker.Add("worker_probationday", modelWorker.worker_probationday);
+
+                                jsonWokker.Add("worker_taxmethod", modelWorker.worker_taxmethod);
+
+                                jsonWokker.Add("hrs_perday", modelWorker.hrs_perday);
+
+                                jsonWokker.Add("modified_by", modelWorker.modified_by);
+                                jsonWokker.Add("modified_date", modelWorker.modified_date);
+
+                                jsonWokker.Add("self_admin", modelWorker.self_admin);
+
+                                jsonWokker.Add("flag", modelWorker.flag);
+
+                                jsonWokker.Add("initial_name_th", modelWorker.initial_name_th);
+                                jsonWokker.Add("initial_name_en", modelWorker.initial_name_en);
+
+                                jsonWokker.Add("position_name_th", modelWorker.position_name_th);
+                                jsonWokker.Add("position_name_en", modelWorker.position_name_en);
+                                indexWorker++;
+
+                                arrayWorker.Add(jsonWokker);
+                            }
+                            json.Add("emp_data", arrayWorker);
+                        }
+                        else
+                        {
+                            json.Add("emp_data", arrayWorker);
+                        }
+                        json.Add("index", index);
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doSetPolicyAttendance(InputSetPolicyAtt input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTREmppolatt objPol = new cls_ctTREmppolatt();
+                List<cls_TREmppolatt> listPol = new List<cls_TREmppolatt>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TREmppolatt model = new cls_TREmppolatt();
+                    model.emppolatt_policy_code = input.pol_code;
+                    model.emppolatt_policy_type = input.pol_type;
+                    model.emppolatt_policy_note = input.pol_note;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPol.Add(model);
+                }
+                if (listPol.Count > 0)
+                {
+                    strID = objPol.insert(listPol);
+                }
+                if (strID)
+                {
+                    try
+                    {
+                        if (input.pol_type.Equals("LV"))
+                        {
+                            string year = DateTime.Now.Year.ToString();
+
+                            foreach (cls_TREmppolatt pol in listPol)
+                            {
+                                cls_srvProcessTime srvTime = new cls_srvProcessTime();
+                                srvTime.doSetEmpleaveacc(year, pol.company_code, pol.worker_code, input.modified_by);
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPol.getMessage();
+                }
+
+                objPol.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeletePolicyAttendance(InputSetPolicyAtt input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTREmppolatt controller = new cls_ctTREmppolatt();
+
+                bool blnResult = controller.delete(input.company_code,input.emp_data[0].worker_code,input.pol_type);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        public string doSetBatchPlanshift(InputBatchPlanshift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                bool blnResult = true;
+                string strMessage = "";
+
+                try
+                {
+                    int intCountSuccss = 0;
+                    int intCountFail = 0;
+                    System.Text.StringBuilder obj_fail = new System.Text.StringBuilder();
+
+                    //-- Step 1 Get Plan Year
+
+                    cls_ctMTYear ctYear = new cls_ctMTYear();
+                    List<cls_MTYear> listYear = ctYear.getDataByFillter(input.company_code, "LEAVE", "", input.year_code);
+
+                    if (listYear.Count > 0)
+                    {
+                        DateTime dateFrom = listYear[0].year_fromdate;
+                        DateTime dateTo = listYear[0].year_todate;
+
+
+                        //-- Step 2 get plan schedule
+                        cls_ctTRPlanschedule ctSchedule = new cls_ctTRPlanschedule();
+                        List<cls_TRPlanschedule> listPlanschedule = ctSchedule.getDataByFillter(input.company_code, input.planshift_code);
+
+
+                        foreach (cls_MTWorker worker in input.transaction_data)
+                        {
+                            //-- Step 3 get holiday
+                            cls_ctTRHoliday ctTRHoliday = new cls_ctTRHoliday();
+                            List<cls_TRHoliday> listHoliday = ctTRHoliday.getDataByWorker(input.company_code, worker.worker_code);
+
+                            List<cls_TRTimecard> listTimecard = new List<cls_TRTimecard>();
+                            foreach (cls_TRPlanschedule schedule in listPlanschedule)
+                            {
+                                dateFrom = Convert.ToDateTime(schedule.planschedule_fromdate).Date;
+                                dateTo = Convert.ToDateTime(schedule.planschedule_todate).Date;
+
+                                //-- Loop date
+                                for (DateTime dateStart = dateFrom; dateStart <= dateTo; dateStart = dateStart.AddDays(1))
+                                {
+                                    string daytype = "N";
+                                    string dateName = dateStart.ToString("ddd");
+
+                                    //-- Check holiday
+                                    bool blnHoliday = false;
+                                    foreach (cls_TRHoliday holiday in listHoliday)
+                                    {
+                                        if (Convert.ToDateTime(holiday.holiday_date) == dateStart)
+                                        {
+                                            daytype = holiday.holiday_daytype;
+                                            blnHoliday = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!blnHoliday)
+                                    {
+                                        if (dateName.Equals("Sun") && schedule.planschedule_sun_off.Equals("Y"))
+                                            daytype = "O";
+                                        else if (dateName.Equals("Mon") && schedule.planschedule_mon_off.Equals("Y"))
+                                            daytype = "O";
+                                        else if (dateName.Equals("Tue") && schedule.planschedule_tue_off.Equals("Y"))
+                                            daytype = "O";
+                                        else if (dateName.Equals("Wed") && schedule.planschedule_wed_off.Equals("Y"))
+                                            daytype = "O";
+                                        else if (dateName.Equals("Thu") && schedule.planschedule_thu_off.Equals("Y"))
+                                            daytype = "O";
+                                        else if (dateName.Equals("Fri") && schedule.planschedule_fri_off.Equals("Y"))
+                                            daytype = "O";
+                                        else if (dateName.Equals("Sat") && schedule.planschedule_sat_off.Equals("Y"))
+                                            daytype = "O";
+                                    }
+
+                                    cls_TRTimecard timecard = new cls_TRTimecard();
+                                    timecard.company_code = input.company_code;
+                                    timecard.timecard_workdate = dateStart.Date;
+                                    timecard.timecard_daytype = daytype;
+                                    timecard.shift_code = schedule.shift_code;
+
+                                    timecard.timecard_color = "0";
+
+                                    timecard.modified_by = input.username;
+
+
+                                    //-- Add to timecard
+                                    listTimecard.Add(timecard);
+                                }
+                            }
+
+
+                            if (listTimecard.Count > 0)
+                            {
+                                cls_ctTRTimecard ctTimecard = new cls_ctTRTimecard();
+
+                                bool blnRecord = ctTimecard.insert_plantime(input.company_code, "",worker.worker_code, listTimecard[0].timecard_workdate, listTimecard[listTimecard.Count - 1].timecard_workdate, listTimecard);
+
+                                if (blnRecord)
+                                {
+                                    intCountSuccss++;
+                                    blnResult = true;
+
+                                }
+                                else
+                                {
+                                    intCountFail++;
+                                    obj_fail.Append(worker.worker_code + " --> " + ctTimecard.getMessage() + "|");
+                                    blnResult = false;
+                                }
+                            }
+
+                        } //-- foreach (JObject json in jsonArray.Children<JObject>())
+                        strMessage = "Success: " + intCountSuccss + " | Fail: " + intCountFail.ToString();
+                        output["result_fail"] = obj_fail.ToString();
+
+
+                    }
+                    else
+                    {
+                        strMessage = "Check the year policy";
+                        blnResult = false;
+                    }
+
+                }
+                catch
+                {
+                    blnResult = false;
+                }
+
+                if (blnResult)
+                {
+                    output["result"] = "1";
+                    output["result_text"] = strMessage;
+                }
+                else
+                {
+                    output["result"] = "2";
+                    output["result_text"] = strMessage;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
 
         #region Timecard
         public string getTRTimecardList(FillterAttendance req)

@@ -1140,7 +1140,90 @@ namespace ClassLibrary_BPC.hrfocus.service
 
             return strResult;
         }
+        public string doSetEmpleaveacc(string year, string com, string emp, string modified_by)
+        {
+            string strResult = "";
+
+            bool blnResult = false;
+
+            try
+            {
+                //-- Step 1 Get policy leave (emp)
+                cls_ctTREmppolatt ct_polemp = new cls_ctTREmppolatt();
+                List<cls_TREmppolatt> list_polemp = ct_polemp.getDataByFillter(com, emp, "LV");
+
+                if (list_polemp.Count > 0)
+                {
+                    cls_TREmppolatt polemp = list_polemp[0];
+
+                    //-- Step 2 Get policy leave
+
+                    cls_ctMTLeave ct_leave = new cls_ctMTLeave();
+                    List<cls_MTLeave> list_leave = ct_leave.getDataByFillter(com, "", "");
+
+                    cls_ctTRPlanleave ct_planleave = new cls_ctTRPlanleave();
+                    List<cls_TRPlanleave> list_planleave = ct_planleave.getDataByFillter(com, polemp.emppolatt_policy_code);
+
+                    if (list_planleave.Count > 0)
+                    {
+                        List<cls_TREmpleaveacc> list_leaveacc = new List<cls_TREmpleaveacc>();
+
+                        foreach (cls_TRPlanleave planleave in list_planleave)
+                        {
+                            cls_MTLeave polleave = null;
+
+                            foreach (cls_MTLeave leave in list_leave)
+                            {
+                                if (planleave.leave_code.Equals(leave.leave_code))
+                                {
+                                    polleave = leave;
+                                    break;
+                                }
+                            }
+
+                            if (polleave != null)
+                            {
+                                cls_TREmpleaveacc leaveacc = new cls_TREmpleaveacc();
+                                leaveacc.company_code = com;
+                                leaveacc.worker_code = emp;
+                                leaveacc.year_code = year;
+                                leaveacc.leave_code = polleave.leave_code;
+                                leaveacc.empleaveacc_annual = polleave.leave_day_peryear;
+                                leaveacc.empleaveacc_bf = 0;
+                                leaveacc.empleaveacc_used = 0;
+                                leaveacc.empleaveacc_remain = leaveacc.empleaveacc_annual;
+                                leaveacc.modified_by = modified_by;
+
+                                list_leaveacc.Add(leaveacc);
+
+                            }
+
+                        }
+
+
+                        //-- Step 3 Record
+                        if (list_leaveacc.Count > 0)
+                        {
+                            cls_ctTREmpleaveacc ct_empleaveacc = new cls_ctTREmpleaveacc();
+                            blnResult = ct_empleaveacc.insert(com, emp, year, list_leaveacc);
+                        }
+
+                    }
+
+                }
+                                
+            }
+            catch (Exception ex)
+            {
+                strResult = "ProcessTime(doSetEmpleaveacc)::" + ex.ToString();
+            }
+            
+
+            return strResult;
+        }
     }
+
+
 
     public class cls_Timecompare
     {

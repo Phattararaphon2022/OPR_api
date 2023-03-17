@@ -74,6 +74,8 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpleaveacc.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTREmppolatt.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRHoliday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLate.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLeaveWorkage.cs" />
@@ -130,6 +132,8 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TREmpleaveacc.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TREmppolatt.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRLate.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRLeaveWorkage.cs" />

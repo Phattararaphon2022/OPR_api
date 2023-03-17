@@ -319,7 +319,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     {
 
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code == null?"":model.project_code;
                         obj_cmd.Parameters["@WORKER_CODE"].Value = worker;
                         obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                         obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
@@ -348,6 +348,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             catch (Exception ex)
             {
+                blnResult = false;
                 Message = "ERROR::(Timecard.insert_plantime)" + ex.ToString();
                 obj_conn.doRollback();
             }
