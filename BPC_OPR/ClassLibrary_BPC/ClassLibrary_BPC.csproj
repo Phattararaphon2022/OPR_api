@@ -71,6 +71,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanholiday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanshift.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftallowance.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTask.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTimeimpformat.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanholiday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanleave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanshift.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTPlantimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
@@ -180,6 +183,7 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProuniform.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProtype.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProbusiness.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRTimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimecard.cs" />
     <Compile Include="hrfocus.model\cls_MTTask.cs" />
     <Compile Include="hrfocus.model\cls_MTTimeimpformat.cs" />

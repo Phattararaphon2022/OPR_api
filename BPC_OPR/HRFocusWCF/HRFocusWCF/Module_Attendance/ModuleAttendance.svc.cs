@@ -3772,6 +3772,321 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region MTPlantimeallw
+        public string getMTPlantimeallwList(InputMTPlantimeallw input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlantimeallw objPlantimeallw = new cls_ctMTPlantimeallw();
+                List<cls_MTPlantimeallw> listPlantimeallw = objPlantimeallw.getDataByFillter(input.company_code, input.plantimeallw_id, input.plantimeallw_code);
+
+                JArray array = new JArray();
+
+                if (listPlantimeallw.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTPlantimeallw model in listPlantimeallw)
+                    {
+                        JObject json = new JObject();
+
+
+                        json.Add("plantimeallw_id", model.plantimeallw_id);
+                        json.Add("plantimeallw_code", model.plantimeallw_code);
+                        json.Add("plantimeallw_name_th", model.plantimeallw_name_th);
+                        json.Add("plantimeallw_name_en", model.plantimeallw_name_en);
+                        json.Add("company_code", model.company_code);
+                        json.Add("plantimeallw_passpro", model.plantimeallw_passpro);
+                        json.Add("plantimeallw_lastperiod", model.plantimeallw_lastperiod);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRTimeallw objTimeallw = new cls_ctTRTimeallw();
+                        List<cls_TRTimeallw> listTR = objTimeallw.getDataByFillter(model.company_code, model.plantimeallw_code);
+                        JArray arrayTR = new JArray();
+                        if (listTR.Count > 0)
+                        {
+                            int indexTR = 1;
+
+                            foreach (cls_TRTimeallw modelTR in listTR)
+                            {
+                                JObject jsonTR = new JObject();
+
+                                jsonTR.Add("company_code", modelTR.company_code);
+                                jsonTR.Add("plantimeallw_code", modelTR.plantimeallw_code);
+                                jsonTR.Add("timeallw_no", modelTR.timeallw_no);
+                                jsonTR.Add("timeallw_time", modelTR.timeallw_time);
+                                jsonTR.Add("timeallw_type", modelTR.timeallw_type);
+                                jsonTR.Add("timeallw_method", modelTR.timeallw_method);
+                                jsonTR.Add("timeallw_timein", modelTR.timeallw_timein);
+                                jsonTR.Add("timeallw_timeout", modelTR.timeallw_timeout);
+                                jsonTR.Add("timeallw_normalday", modelTR.timeallw_normalday);
+                                jsonTR.Add("timeallw_offday", modelTR.timeallw_offday);
+                                jsonTR.Add("timeallw_companyday", modelTR.timeallw_companyday);
+                                jsonTR.Add("timeallw_holiday", modelTR.timeallw_holiday);
+                                jsonTR.Add("timeallw_leaveday", modelTR.timeallw_leaveday);
+                   
+                                jsonTR.Add("index", indexTR);
+                                indexTR++;
+
+                                arrayTR.Add(jsonTR);
+                            }
+                            json.Add("timeallw_data", arrayTR);
+                        }
+                        else
+                        {
+                            json.Add("timeallw_data", arrayTR);
+                        }
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTPlantimeallw(InputMTPlantimeallw input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPlantimeallw objPlantimeallw = new cls_ctMTPlantimeallw();
+                cls_MTPlantimeallw model = new cls_MTPlantimeallw();
+                model.company_code = input.company_code;
+                model.plantimeallw_id = input.plantimeallw_id.Equals("") ? 0 : Convert.ToInt32(input.plantimeallw_id);
+                model.plantimeallw_code = input.plantimeallw_code;
+                model.plantimeallw_name_th = input.plantimeallw_name_th;
+                model.plantimeallw_name_en = input.plantimeallw_name_en;
+                model.plantimeallw_passpro = input.plantimeallw_passpro;
+                model.plantimeallw_lastperiod = input.plantimeallw_lastperiod;
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+                string strID = objPlantimeallw.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRTimeallw objTimeallw = new cls_ctTRTimeallw(); 
+                        bool  blnResult = objTimeallw.insert(input.company_code, input.plantimeallw_code, input.timeallw_data);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPlantimeallw.getMessage();
+                }
+
+                objPlantimeallw.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTPlantimeallw(InputMTPlantimeallw input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPlantimeallw controller = new cls_ctMTPlantimeallw();
+
+                bool blnResult = controller.delete(input.plantimeallw_id,input.company_code);
+
+                if (blnResult)
+                {
+                    cls_ctTRTimeallw objTR = new cls_ctTRTimeallw();
+                    objTR.delete(input.company_code, input.plantimeallw_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTPlantimeallw(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("ALLOWANCE", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
         #region Batch policy
         public string getPolicyAttendance(InputSetPolicyAtt input)
         {
@@ -4067,6 +4382,7 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region SetPlanShift
         public string doSetBatchPlanshift(InputBatchPlanshift input)
         {
             JObject output = new JObject();
@@ -4238,6 +4554,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
+        #endregion
 
         #region Timecard
         public string getTRTimecardList(FillterAttendance req)
@@ -4858,6 +5175,7 @@ namespace BPC_OPR
         }
 
         #endregion
+
 
         public string doUploadTimeInput(string fileName, Stream stream)
         {

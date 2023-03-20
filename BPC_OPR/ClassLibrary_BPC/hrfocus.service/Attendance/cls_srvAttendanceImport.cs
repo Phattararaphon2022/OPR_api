@@ -67,7 +67,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 DataTable dt = doReadExcel(filename);
                 switch (type)
                 {
-                    // #region YEAR
+                    #region YEAR
                     // case "YEAR":
                     //     if (dt.Rows.Count > 0)
                     //     {
@@ -110,7 +110,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                     //     }
                     //     break;
-                    // #endregion
+                     #endregion
 
                     #region PERIOD
                     case "PERIOD":
@@ -624,6 +624,48 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 else
                                 {
                                     objStr.Append(model.late_id + " " + model.late_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
+                    #region ALLOWANCE
+                    case "ALLOWANCE":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTPlantimeallw controller = new cls_ctMTPlantimeallw();
+                                cls_MTPlantimeallw model = new cls_MTPlantimeallw();
+                                model.company_code = dr["company_code"].ToString();
+                                model.plantimeallw_id = dr["plantimeallw_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["plantimeallw_id"].ToString());
+                                model.plantimeallw_code = dr["plantimeallw_code"].ToString();
+                                model.plantimeallw_name_th = dr["plantimeallw_name_th"].ToString();
+                                model.plantimeallw_name_en = dr["plantimeallw_name_en"].ToString();
+                                model.plantimeallw_passpro = dr["plantimeallw_passpro"].ToString(); ;
+                                model.plantimeallw_lastperiod = dr["plantimeallw_lastperiod"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.plantimeallw_id + " " + model.plantimeallw_code);
                                 }
 
                             }
