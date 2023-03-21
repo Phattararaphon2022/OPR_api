@@ -1,5 +1,6 @@
 ﻿using ClassLibrary_BPC.hrfocus.controller;
 using ClassLibrary_BPC.hrfocus.model;
+using ClassLibrary_BPC.hrfocus.model.SYS.System;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -535,6 +536,246 @@ namespace ClassLibrary_BPC.hrfocus.service
                 }
                 #endregion
 
+                #region  //Course
+                switch (type)
+                {
+                    case "COURSE":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTCcourse objCourse = new cls_ctMTCcourse();
+                                cls_MTCcourse model = new cls_MTCcourse();
+
+                                model.course_id = Convert.ToInt32(dr["COURSE_ID"]);                                
+                                model.course_code = dr["COURSE_CODE"].ToString();
+                                model.course_name_th = dr["COURSE_NAME_TH"].ToString();
+                                model.course_name_en = dr["COURSE_NAME_EN"].ToString();
+
+                                model.modified_by = by;
+
+                                string strID = objCourse.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.course_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region  //Institute
+                switch (type)
+                {
+                    case "COURSE":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTInstitute objInstitute = new cls_ctMTInstitute();
+                                cls_MTInstitute model = new cls_MTInstitute();
+
+                                model.institute_id = Convert.ToInt32(dr["institute_id"]);
+                                model.institute_code = dr["institute_code"].ToString();
+                                model.institute_name_th = dr["institute_name_th"].ToString();
+                                model.institute_name_th = dr["institute_name_th"].ToString();
+
+                                model.modified_by = by;
+
+                                string strID = objInstitute.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.institute_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region  //Faculty
+                switch (type)
+                {
+                    case "FACULTY":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTFaculty objCourse = new cls_ctMTFaculty();
+                                cls_MTFaculty model = new cls_MTFaculty();
+
+                                model.faculty_id = Convert.ToInt32(dr["faculty_id"]);
+                                model.faculty_code = dr["faculty_code"].ToString();
+                                model.faculty_name_th = dr["faculty_name_th"].ToString();
+                                model.faculty_name_en = dr["faculty_name_en"].ToString();
+
+                                model.modified_by = by;
+
+                                string strID = objCourse.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.faculty_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region  //Major
+                switch (type)
+                {
+                    case "QUALIFICATION":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTQualification objQualification = new cls_ctMTQualification();
+                                cls_MTQualification model = new cls_MTQualification();
+
+                                model.qualification_id = Convert.ToInt32(dr["qualification_id"]);
+                                model.qualification_code = dr["qualification_code"].ToString();
+                                model.qualification_name_th = dr["qualification_name_th"].ToString();
+                                model.qualification_name_en = dr["qualification_name_en"].ToString();
+
+                                model.modified_by = by;
+
+                                string strID = objQualification.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.qualification_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region  //Qualification
+                switch (type)
+                {
+                    case "COURSE":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTCcourse objCourse = new cls_ctMTCcourse();
+                                cls_MTCcourse model = new cls_MTCcourse();
+
+                                model.course_id = Convert.ToInt32(dr["COURSE_ID"]);
+                                model.course_code = dr["COURSE_CODE"].ToString();
+                                model.course_name_th = dr["COURSE_NAME_TH"].ToString();
+                                model.course_name_en = dr["COURSE_NAME_EN"].ToString();
+
+                                model.modified_by = by;
+
+                                string strID = objCourse.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.course_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
                 #region  //Religion
                 switch (type)
                 {
@@ -615,6 +856,59 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 else
                                 {
                                     objStr.Append(model.reduce_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region //Year
+                switch (type)
+                {
+                    case "Year":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTYear objYear = new cls_ctMTYear();
+                                cls_MTYear model = new cls_MTYear();
+
+                                //model.year_id = Convert.ToInt32(dr["year_id"]);
+                                model.year_code = dr["year_code"].ToString();
+                                model.year_name_th = dr["year_name_th"].ToString();
+                                model.year_name_en = dr["year_name_en"].ToString();
+                                model.company_code = dr["company_code"].ToString();
+
+                                model.year_fromdate = Convert.ToDateTime(dr["year_fromdate"]);
+
+                                model.year_todate = Convert.ToDateTime(dr["year_todate"]);
+                                model.year_group = dr["year_group"].ToString();
+                                model.modified_by = by;
+
+                                string strID = objYear.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.year_code);
                                 }
 
                             }
