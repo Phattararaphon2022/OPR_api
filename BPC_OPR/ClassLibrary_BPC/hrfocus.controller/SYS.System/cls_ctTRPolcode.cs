@@ -119,7 +119,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT POLCODE_ID");
-                obj_str.Append(" FROM HRM_TR_POLCODE");
+                obj_str.Append(" FROM SYS_TR_POLCODE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND POLCODE_ID='" + polid + "'");
                 obj_str.Append(" AND CODESTRUCTURE_CODE='" + struccode + "'");
@@ -148,7 +148,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM HRM_TR_POLCODE");
+                obj_str.Append(" DELETE FROM SYS_TR_POLCODE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND POLCODE_ID='" + polid + "'");
                 obj_str.Append(" AND CODESTRUCTURE_CODE='" + struccode + "'");
@@ -173,7 +173,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO HRM_TR_POLCODE");
+                obj_str.Append("INSERT INTO SYS_TR_POLCODE");
                 obj_str.Append(" (");
                 obj_str.Append("POLCODE_ID ");
                 obj_str.Append(", CODESTRUCTURE_CODE ");
@@ -196,7 +196,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
 
-                obj_str2.Append(" DELETE FROM HRM_TR_POLCODE");
+                obj_str2.Append(" DELETE FROM SYS_TR_POLCODE");
                 obj_str2.Append(" WHERE POLCODE_ID='" + list_model[0].polcode_id + "'");
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
 

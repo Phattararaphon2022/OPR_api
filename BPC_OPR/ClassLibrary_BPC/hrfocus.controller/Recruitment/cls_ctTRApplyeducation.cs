@@ -35,7 +35,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", APPLYWORK_CODE");
-                obj_str.Append(", EMPEDUCATION_NO");
+                obj_str.Append(", REQEDUCATION_NO");
                 obj_str.Append(", ISNULL(INSTITUTE_CODE, '') AS INSTITUTE_CODE");
                 obj_str.Append(", ISNULL(FACULTY_CODE, '') AS FACULTY_CODE");
                 obj_str.Append(", ISNULL(MAJOR_CODE, '') AS MAJOR_CODE");

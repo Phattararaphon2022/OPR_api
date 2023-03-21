@@ -129,6 +129,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTReason.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCodestructure.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolcode.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctSYSCodestructure.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTReason.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCodestructure.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTPolcode.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_SYSCodestructure.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_TRPolcode.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />

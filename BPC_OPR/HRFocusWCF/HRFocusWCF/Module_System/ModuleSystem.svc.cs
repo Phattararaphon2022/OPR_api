@@ -378,14 +378,336 @@ namespace BPC_OPR
         
 
 
+        //#region Policy structure code
+        //public string getSYSCodestructureList()
+        //{
+
+        //    JObject output = new JObject();
+
+        //    cls_ctMTCodestructure objStruc = new cls_ctMTCodestructure();
+        //    List<cls_MTCodestructure> listStruc = objStruc.getData();
+
+        //    JArray array = new JArray();
+
+        //    if (listStruc.Count > 0)
+        //    {
+        //        int index = 1;
+
+        //        foreach (cls_MTCodestructure model in listStruc)
+        //        {
+        //            JObject json = new JObject();
+
+        //            json.Add("codestructure_code", model.codestructure_code);
+        //            json.Add("codestructure_name_th", model.codestructure_name_th);
+        //            json.Add("codestructure_name_en", model.codestructure_name_en);
+
+        //            json.Add("index", index);
+
+        //            index++;
+
+        //            array.Add(json);
+        //        }
+
+        //        output["result"] = "1";
+        //        output["result_text"] = "1";
+        //        output["data"] = array;
+        //    }
+        //    else
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = "Data not Found";
+        //        output["data"] = array;
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string getMTPolcode(string com, string type)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_ctMTPolcode objPol = new cls_ctMTPolcode();
+
+        //    List<cls_MTPolcode> listPol = objPol.getDataByFillter(com, "", type);
+
+        //    JArray array = new JArray();
+
+        //    if (listPol.Count > 0)
+        //    {
+        //        int index = 1;
+
+        //        foreach (cls_MTPolcode model in listPol)
+        //        {
+        //            JObject json = new JObject();
+
+        //            json.Add("company_code", model.company_code);
+        //            json.Add("polcode_id", model.polcode_id);
+        //            json.Add("polcode_type", model.polcode_type);
+        //            json.Add("modified_by", model.modified_by);
+        //            json.Add("modified_date", model.modified_date);
+        //            json.Add("flag", model.flag);
+
+        //            json.Add("index", index);
+
+        //            index++;
+
+        //            array.Add(json);
+        //        }
+
+        //        output["result"] = "1";
+        //        output["result_text"] = "1";
+        //        output["data"] = array;
+        //    }
+        //    else
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = "Data not Found";
+        //        output["data"] = array;
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string getTRPolcode(string id)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
+        //    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(id);
+
+        //    JArray array = new JArray();
+
+        //    if (listTRPolcode.Count > 0)
+        //    {
+        //        int index = 1;
+
+        //        foreach (cls_TRPolcode model in listTRPolcode)
+        //        {
+        //            JObject json = new JObject();
+
+        //            json.Add("polcode_id", model.polcode_id);
+        //            json.Add("codestructure_code", model.codestructure_code);
+        //            json.Add("polcode_lenght", model.polcode_lenght);
+        //            json.Add("polcode_text", model.polcode_text);
+        //            json.Add("polcode_order", model.polcode_order);
+
+        //            json.Add("index", index);
+
+        //            index++;
+
+        //            array.Add(json);
+        //        }
+
+        //        output["result"] = "1";
+        //        output["result_text"] = "1";
+        //        output["data"] = array;
+        //    }
+        //    else
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = "Data not Found";
+        //        output["data"] = array;
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManagePolcode(InputMTPolcode input)
+        //{
+        //    JObject output = new JObject();
+
+        //    try
+        //    {
+        //        cls_ctMTPolcode objMTPolcode = new cls_ctMTPolcode();
+        //        cls_MTPolcode model = new cls_MTPolcode();
+
+        //        model.company_code = input.company_code;
+        //        model.polcode_id = input.polcode_id;
+        //        model.polcode_type = input.polcode_type;
+        //        model.modified_by = input.modified_by;
+        //        model.flag = model.flag;
+
+        //        string strID = objMTPolcode.insert(model);
+
+        //        if (!strID.Equals(""))
+        //        {
+        //            string polcode_data = input.polcode_data;
+
+        //            try
+        //            {
+        //                JObject jsonObject = new JObject();
+        //                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRPolcode>>(polcode_data);
+
+
+        //                List<cls_TRPolcode> list_model = new List<cls_TRPolcode>();
+
+        //                int intID = Convert.ToInt32(strID);
+
+        //                foreach (cls_TRPolcode item in jsonArray)
+        //                {
+        //                    item.polcode_id = intID;
+        //                    list_model.Add(item);
+        //                }
+
+        //                if (list_model.Count > 0)
+        //                {
+        //                    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
+        //                    objTRPolcode.insert(list_model);
+        //                }
+
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                string str = ex.ToString();
+        //            }
+
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "0";
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "2";
+        //            output["result_text"] = objMTPolcode.getMessage();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //    }
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public string doDeleteMTPolcode(InputMTPolcode input)
+        //{
+        //    JObject output = new JObject();
+
+        //    try
+        //    {
+        //        cls_ctMTPolcode objMTPolcode = new cls_ctMTPolcode();
+
+        //        bool blnResult = objMTPolcode.delete(input.polcode_id.ToString());
+
+        //        if (blnResult)
+        //        {
+        //            output["result"] = "1";
+        //            output["result_text"] = "0";
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "2";
+        //            output["result_text"] = objMTPolcode.getMessage();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //    }
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+
+        //public string getNewCode(string com, string type, string emptype)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_ctMTPolcode objPol = new cls_ctMTPolcode();
+
+        //    List<cls_MTPolcode> listPol = objPol.getDataByFillter(com, "", type);
+
+
+        //    if (listPol.Count > 0)
+        //    {
+        //        string strID = "";
+
+        //        cls_MTPolcode polcode = listPol[0];
+
+        //        cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
+        //        List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
+
+        //        foreach (cls_TRPolcode model in listTRPolcode)
+        //        {
+
+        //            switch (model.codestructure_code)
+        //            {
+
+        //                case "1CHA":
+        //                    strID += model.polcode_text.Substring(0, model.polcode_lenght);
+        //                    break;
+
+        //                case "2COM":
+        //                    strID += com.Substring(0, model.polcode_lenght);
+        //                    break;
+
+        //                case "3BRA":
+        //                    break;
+
+        //                case "4EMT":
+        //                    strID += emptype;
+        //                    break;
+
+        //                case "5YEA":
+        //                    DateTime dateNowY = DateTime.Now;
+        //                    string formatY = "";
+        //                    for (int i = 0; i < model.polcode_lenght; i++)
+        //                    {
+        //                        formatY += "y";
+        //                    }
+        //                    strID += dateNowY.ToString(formatY);
+        //                    break;
+
+        //                case "6MON":
+        //                    DateTime dateNowM = DateTime.Now;
+        //                    string formatM = "";
+        //                    for (int i = 0; i < model.polcode_lenght; i++)
+        //                    {
+        //                        formatM += "M";
+        //                    }
+        //                    strID += dateNowM.ToString(formatM);
+        //                    break;
+
+        //                //case "MAUT":
+        //                //    cls_ctMTWorker objWorker = new cls_ctMTWorker();
+        //                //    int intRunningID = objWorker.doGetNextRunningID(com, strID);
+        //                //    strID += intRunningID.ToString().PadLeft(model.polcode_lenght, '0');
+        //                //    break;
+
+        //            }
+
+
+        //        }
+
+
+
+
+        //        output["result"] = "1";
+        //        output["result_text"] = "1";
+        //        output["data"] = strID;
+        //    }
+        //    else
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = "Data not Found";
+        //        output["data"] = "";
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //#endregion
+
         #region Policy structure code
         public string getSYSCodestructureList()
         {
-
             JObject output = new JObject();
 
-            cls_ctMTCodestructure objStruc = new cls_ctMTCodestructure();
-            List<cls_MTCodestructure> listStruc = objStruc.getData();
+            cls_ctSYSCodestructure objStruc = new cls_ctSYSCodestructure();
+            List<cls_SYSCodestructure> listStruc = objStruc.getData();
 
             JArray array = new JArray();
 
@@ -393,7 +715,7 @@ namespace BPC_OPR
             {
                 int index = 1;
 
-                foreach (cls_MTCodestructure model in listStruc)
+                foreach (cls_SYSCodestructure model in listStruc)
                 {
                     JObject json = new JObject();
 
