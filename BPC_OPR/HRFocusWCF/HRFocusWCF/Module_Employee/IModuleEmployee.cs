@@ -37,7 +37,7 @@ namespace BPC_OPR
         #region Dep
         [OperationContract(Name = "dep_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getDepList(BasicRequest req);
+        string getDepList(FillterWorker req);
 
         [OperationContract(Name = "dep")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

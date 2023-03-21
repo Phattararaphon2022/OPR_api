@@ -113,6 +113,8 @@ namespace BPC_OPR
         public string worker_code { get; set; }
         [DataMember]
         public DateTime paydate { get; set; }
+        [DataMember]
+        public string level_code { get; set; }
     }
     [DataContract]
     public class InputMTDep

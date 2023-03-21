@@ -454,7 +454,7 @@ namespace BPC_OPR
 
         #region Dep(EMP002)
 
-        public string getDepList(BasicRequest req)
+        public string getDepList(FillterWorker req)
         {
             JObject output = new JObject();
 
@@ -479,7 +479,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTDep controller = new cls_ctMTDep();
-                List<cls_MTDep> list = controller.getDataByFillter("");
+                List<cls_MTDep> list = controller.getDataByFillter("", req.level_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)

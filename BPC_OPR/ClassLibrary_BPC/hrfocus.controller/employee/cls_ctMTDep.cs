@@ -80,12 +80,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTDep> getDataByFillter(string code)
+        public List<cls_MTDep> getDataByFillter(string code,string level)
         {
             string strCondition = "";
 
             if (!code.Equals(""))
                 strCondition += " AND DEP_CODE='" + code + "'";
+
+            if (!level.Equals(""))
+                strCondition += " AND DEP_LEVEL='" + level + "'";
 
             return this.getData(strCondition);
         }
