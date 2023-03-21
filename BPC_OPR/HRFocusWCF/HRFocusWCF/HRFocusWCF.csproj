@@ -98,6 +98,7 @@
     <Content Include="Module_Attendance\ModuleAttendance.svc" />
     <Content Include="Module_Employee\ModuleEmployee.svc" />
     <Content Include="Module_Project\ModuleProject.svc" />
+    <Content Include="Module_Recruitment\ModuleRecruitment.svc" />
     <Content Include="Module_System\ModuleSystem.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -125,6 +126,11 @@
     <Compile Include="Module_Project\ModuleProject.svc.cs">
       <DependentUpon>ModuleProject.svc</DependentUpon>
     </Compile>
+    <Compile Include="Module_Recruitment\DataModuleRecruitment.cs" />
+    <Compile Include="Module_Recruitment\IModuleRecruitment.cs" />
+    <Compile Include="Module_Recruitment\ModuleRecruitment.svc.cs">
+      <DependentUpon>ModuleRecruitment.svc</DependentUpon>
+    </Compile>
     <Compile Include="Module_System\DataModuleSystem.cs" />
     <Compile Include="Module_System\IModuleSystem.cs" />
     <Compile Include="Module_System\ModuleSystem.svc.cs">
@@ -146,6 +152,7 @@
     <Content Include="ClassDiagram1.cd">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ClassDiagram3.cd" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
