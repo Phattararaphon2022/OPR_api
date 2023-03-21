@@ -2,8 +2,8 @@
 <HRFocus>
   <ServerName>.\\SQLEXPRESS</ServerName>
   <DBName>OPR</DBName>
-  <DBLoginID>sa</DBLoginID>
-  <DBPassword>Sql2019*</DBPassword>
+  <DBLoginID>Test</DBLoginID>
+  <DBPassword>Sql2019***</DBPassword>
   <Language>T</Language>
   <BirthDay>N</BirthDay>
   <EndProbation>N</EndProbation>
