@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HRFocus>
-  <ServerName>.\\SQLEXPRESS</ServerName>
+  <ServerName>.\SQL2019E</ServerName>
   <DBName>OPR</DBName>
-  <DBLoginID>Test</DBLoginID>
-  <DBPassword>Sql2019***</DBPassword>
+  <DBLoginID>sa</DBLoginID>
+  <DBPassword>2019</DBPassword>
   <Language>T</Language>
   <BirthDay>N</BirthDay>
   <EndProbation>N</EndProbation>

@@ -283,6 +283,15 @@ namespace BPC_OPR
         [OperationContract(Name = "timecard")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageTRTimecard(InputTRTimecard input);
+
+        [OperationContract(Name = "timesheet")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimesheet(InputTRTimecard input);
+
+        [OperationContract(Name = "daytype_list")]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getDaytype();
+
         #endregion
 
         #region Timeimport

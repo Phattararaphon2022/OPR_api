@@ -368,6 +368,11 @@ namespace BPC_OPR
         string doDeleteMTTask(InputMTTask input);
 
 
+        //-- Project monitor
+        [OperationContract(Name = "project_monitor")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getProjectMonitor(FillterProject req);
+
 
     }
 }

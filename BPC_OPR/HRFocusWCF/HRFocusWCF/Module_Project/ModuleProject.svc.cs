@@ -7180,5 +7180,183 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+        public string getProjectMonitor(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO019.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                JArray array = new JArray();
+
+                cls_ctMTProject ct_project = new cls_ctMTProject();
+                List<cls_MTProject> list_project = ct_project.getDataByFillter("", "", "", "");
+
+                JObject json;
+
+                foreach (cls_MTProject project in list_project)
+                {
+
+                    //-- Job contract
+                    cls_ctTRProjobcontract contract_controller = new cls_ctTRProjobcontract();
+                    List<cls_TRProjobcontract> contract_list = contract_controller.getDataByFillter(req.project_code, "");
+
+                    //-- Job cost
+                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
+
+                    cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
+                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code);
+
+
+                    int count_emp_project = 0;
+                    int count_working_project = 0;
+                    int count_leave_project = 0;
+                    int count_absent_project = 0;
+
+                    double sum_cost_project = 0;
+                    double sum_pay_project = 0;
+
+                    foreach (cls_MTProjobmain jobmain in list_jobmain)
+                    {
+                        int count_emp = 0;
+                        int count_working = 0;
+                        int count_leave = 0;
+                        int count_absent = 0;
+
+                        double sum_cost = 0;
+                        double sum_pay = 0;
+
+                        //-- Contract
+                        cls_TRProjobcontract contract = null;
+                        foreach (cls_TRProjobcontract tmp in contract_list)
+                        {
+                            if (tmp.projob_code.Equals(jobmain.projobmain_code))
+                            {
+                                contract = tmp;
+                                break;
+                            }
+                        }
+
+                        //-- Allow
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(req.company, jobmain.project_code, jobmain.projobmain_code);
+
+                        foreach (cls_TRProjobcost cost in cost_list_max)
+                        {
+                            sum_cost += cost.projobcost_amount;
+                        }
+
+
+                        if (contract != null)
+                        {
+                            count_emp += contract.projobcontract_emp;
+                        }
+
+
+                        json = new JObject();
+
+                        json.Add("project_id", project.project_id);
+                        json.Add("project_code", project.project_code);
+                        json.Add("project_name_th", project.project_name_th);
+                        json.Add("project_name_en", project.project_name_en);
+
+                        json.Add("project_business", jobmain.projobmain_code);
+                        if (req.language.Equals("EN"))
+                        {
+                            json.Add("project_type", jobmain.projobmain_name_en);
+                        }
+                        else
+                        {
+                            json.Add("project_type", jobmain.projobmain_name_th);
+                        }
+
+                        json.Add("project_manpower", count_emp);
+                        json.Add("project_working", count_working);
+                        json.Add("project_leave", count_leave);
+                        json.Add("project_absent", count_absent);
+
+                        json.Add("project_cost", sum_cost);
+                        json.Add("project_pay", sum_pay);
+                        json.Add("root", false);
+
+                        array.Add(json);
+
+                        //-- Summary
+                        count_emp_project += count_emp;
+                        count_working_project += count_working;
+                        count_leave_project += count_leave;
+                        count_absent_project += count_absent;
+
+                        sum_cost_project += sum_cost;
+                        sum_pay_project += sum_pay;
+
+                    }
+
+                    json = new JObject();
+
+                    json.Add("project_id", project.project_id);
+                    json.Add("project_code", project.project_code);
+                    json.Add("project_name_th", project.project_name_th);
+                    json.Add("project_name_en", project.project_name_en);
+
+                    json.Add("project_type", project.project_protype);
+                    json.Add("project_business", project.project_probusiness);
+
+                    json.Add("project_manpower", count_emp_project);
+                    json.Add("project_working", count_working_project);
+                    json.Add("project_leave", count_leave_project);
+                    json.Add("project_absent", count_absent_project);
+
+                    json.Add("project_cost", sum_cost_project);
+                    json.Add("project_pay", sum_pay_project);
+                    json.Add("root", true);
+
+                    array.Add(json);
+
+
+
+                } //-- Next project
+
+
+                output["success"] = true;
+                output["message"] = "";
+                output["data"] = array;
+
+                log.apilog_status = "200";
+                log.apilog_message = "";
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
     }
 }
