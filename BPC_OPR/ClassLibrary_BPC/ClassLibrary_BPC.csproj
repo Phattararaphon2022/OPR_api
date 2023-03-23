@@ -86,6 +86,7 @@
     <Compile Include="hrfocus.controller\cls_ctMTTask.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTimeimpformat.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRTimeinput.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTRGroup.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDep.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTGroup.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="hrfocus.model\cls_TRTaskdetail.cs" />
     <Compile Include="hrfocus.model\cls_TRTaskwhose.cs" />
     <Compile Include="hrfocus.model\cls_TRTimeinput.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TRGroup.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobsub.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobmain.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProtimepol.cs" />

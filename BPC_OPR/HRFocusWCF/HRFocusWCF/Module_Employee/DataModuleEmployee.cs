@@ -529,6 +529,28 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputTREmpGroup
+    {
+        [DataMember]
+        public int empgroup_id { get; set; }
+        [DataMember]
+        public string empgroup_code { get; set; }
+        [DataMember]
+        public string empgroup_date { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
     public class InputTREmpEducation
     {
         [DataMember]

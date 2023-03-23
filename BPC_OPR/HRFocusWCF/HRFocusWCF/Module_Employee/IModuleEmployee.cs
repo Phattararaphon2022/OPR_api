@@ -325,6 +325,24 @@ namespace BPC_OPR
         Task<string> doUploadEmpPosition(string token, string by, string fileName, Stream stream);
         #endregion
 
+        #region TR_Group
+        [OperationContract(Name = "empgrouplist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRGroupList(FillterWorker input);
+
+        [OperationContract(Name = "empgroup")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRGroup(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empgroup_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRGroup(InputTREmpGroup input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpGroup?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpGroup(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #region TR_Education
         [OperationContract(Name = "empeducationlist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
