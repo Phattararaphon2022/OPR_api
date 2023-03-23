@@ -26,19 +26,56 @@ namespace BPC_OPR
         public string modified_by { get; set; }
 
     }
-    public class InputMTEmpId
+
+
+    [DataContract]
+    public class InputMTCodestructure
     {
         [DataMember]
-        public string empid_id { get; set; }
+        public string codestructure_code { get; set; }
         [DataMember]
-        public string empid_code { get; set; }
+        public string codestructure_name_th { get; set; }
         [DataMember]
-        public string empid_name_th { get; set; }
+        public string codestructure_name_en { get; set; }
         [DataMember]
-        public string empid_name_en { get; set; }
+        public int index { get; set; }
+    }
+
+
+    public class InputMTPolcode
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int polcode_id { get; set; }
+        [DataMember]
+        public string polcode_type { get; set; }
+
+        [DataMember]
+        public string polcode_data { get; set; }
+
         [DataMember]
         public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
 
+    public class InputTRPolcode
+    {
+        [DataMember]
+        public int polcode_id { get; set; }
+        [DataMember]
+        public string codestructure_code { get; set; }
+        [DataMember]
+        public int polcode_lenght { get; set; }
+        [DataMember]
+        public string polcode_text { get; set; }
+        [DataMember]
+        public int polcode_order { get; set; }
+        [DataMember]
+        public int index { get; set; }
     }
     //[DataContract]
     //public class InputSYSReason
@@ -90,6 +127,26 @@ namespace BPC_OPR
         public string comcard_code { get; set; }
         [DataMember]
         public string company_id { get; set; }
+         [DataMember]
+        public string course_id { get; set; }
+         [DataMember]
+        public string course_code { get; set; }
+        [DataMember]
+         public string institute_id { get; set; }
+        [DataMember]
+         public string institute_code { get; set; }
+        [DataMember]
+        public string faculty_id { get; set; }
+        [DataMember]
+        public string faculty_code { get; set; }
+        [DataMember]
+        public string major_id { get; set; }
+        [DataMember]
+        public string major_code { get; set; }
+        [DataMember]
+        public string qualification_id { get; set; }
+        [DataMember]
+        public string qualification_code { get; set; }
     }
 
     [DataContract]
@@ -175,6 +232,16 @@ namespace BPC_OPR
         public string modified_by { get; set; }
         [DataMember]
         public string comcard_id { get; set; }
+        [DataMember]
+        public string course_id { get; set; }
+        [DataMember]
+        public string institute_id { get; set; }
+        [DataMember]
+        public string faculty_id { get; set; }
+         [DataMember]
+        public string major_id { get; set; }
+         [DataMember]
+         public string qualification_id { get; set; }
     }
 
 
@@ -308,8 +375,112 @@ namespace BPC_OPR
         public int index { get; set; }
     }
 
+    [DataContract]
+    public class InputMTCourse
+    {
+        [DataMember]
+        public int course_id { get; set; }
+        [DataMember]
+        public string course_code { get; set; }
+        [DataMember]
+        public string course_name_th { get; set; }
+        [DataMember]
+        public string course_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
+    public class InputMTInstitute
+    {
+        [DataMember]
+        public int institute_id { get; set; }
+        [DataMember]
+        public string institute_code { get; set; }
+        [DataMember]
+        public string institute_name_th { get; set; }
+        [DataMember]
+        public string institute_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
 
 
+    [DataContract]
+    public class InputMTFaculty
+    {
+        [DataMember]
+        public int faculty_id { get; set; }
+        [DataMember]
+        public string faculty_code { get; set; }
+        [DataMember]
+        public string faculty_name_th { get; set; }
+        [DataMember]
+        public string faculty_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
+    public class InputMTMajor
+    {
+        [DataMember]
+        public int major_id { get; set; }
+        [DataMember]
+        public string major_code { get; set; }
+        [DataMember]
+        public string major_name_th { get; set; }
+        [DataMember]
+        public string major_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+
+    [DataContract]
+    public class InputMTQualification
+    {
+        [DataMember]
+        public int qualification_id { get; set; }
+        [DataMember]
+        public string qualification_code { get; set; }
+        [DataMember]
+        public string qualification_name_th { get; set; }
+        [DataMember]
+        public string qualification_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
 
     [DataContract]
     public class InputMTRequest

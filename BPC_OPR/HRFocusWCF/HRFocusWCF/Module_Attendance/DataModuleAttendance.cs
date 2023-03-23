@@ -540,6 +540,92 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputMTPlantimeallw
+    public class InputMTPlantimeallw
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string plantimeallw_id { get; set; }
+        [DataMember]
+        public string plantimeallw_code { get; set; }
+        [DataMember]
+        public string plantimeallw_name_th { get; set; }
+        [DataMember]
+        public string plantimeallw_name_en { get; set; }
+
+        [DataMember]
+        public string plantimeallw_passpro { get; set; }
+        [DataMember]
+        public string plantimeallw_lastperiod { get; set; }
+
+        [DataMember]
+        public List<cls_TRTimeallw> timeallw_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
+    #region InputSetPolicyAtt
+
+    [DataContract]
+    public class InputSetPolicyAtt
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string pol_code { get; set; }
+        [DataMember]
+        public string pol_type { get; set; }
+        [DataMember]
+        public string pol_note { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
+    public class InputBatchPlanshift
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string planshift_code { get; set; }
+        [DataMember]
+        public string year_code { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> transaction_data { get; set; }
+
+    }
+
     [DataContract]
     public class FillterAttendance
     {

@@ -244,23 +244,68 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCompany?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTCompany(string token, string by, string fileName, Stream stream);
 
-
-        //-- empid
-        [OperationContract(Name = "empid_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getEmpidList(BasicRequest req);
-
-        [OperationContract(Name = "empid")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageMTEmpid(InputMTEmpId input);
-
-        [OperationContract(Name = "empid_del")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteMTEmpid(InputMTEmpId input);
+        //-- codestructure
+        //-- Code structure
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getSYSCodestructureList();
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpid?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTEmpid(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getMTPolcode(string com, string type);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getNewCode(string com, string type, string emptype);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        string getTRPolcode(string id);
+
+        [OperationContract(Name = "doManagePolcode")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManagePolcode(InputMTPolcode input);
+
+        [OperationContract(Name = "doDeleteMTPolcode")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPolcode(InputMTPolcode input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
+
+        //[OperationContract(Name = "codestructure_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getCodestructureList(BasicRequest req);
+
+        //[OperationContract(Name = "codestructure")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTCodestructure(InputMTCodestructure input);
+
+        //[OperationContract(Name = "codestructure_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTCodestructure(InputMTCodestructure input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadcodestructure?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTCodestructure(string token, string by, string fileName, Stream stream);
+
+        //-- empid
+        //[OperationContract(Name = "Polcode_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getPolcodeList(BasicRequest req);
+
+        //[OperationContract(Name = "Polcode")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTPolcode(InputMTPolcode input);
+
+        //[OperationContract(Name = "Polcode_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTPolcode(InputMTPolcode input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
 
         #region comBANK
         [OperationContract(Name = "combank_list")]
@@ -401,6 +446,103 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadHospital?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadHospital(string token, string by, string fileName, Stream stream);
+
+
+        //-- Course
+        [OperationContract(Name = "course_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getCourseList(BasicRequest req);
+
+        [OperationContract(Name = "course")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTCourse(InputMTCourse input);
+
+        [OperationContract(Name = "course_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTCourse(InputMTCourse input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadCourse?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTCourse(string token, string by, string fileName, Stream stream);
+
+
+
+
+        //-- Institute
+        [OperationContract(Name = "institute_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getInstituteList(BasicRequest req);
+
+        [OperationContract(Name = "institute")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTInstitute(InputMTInstitute input);
+
+        [OperationContract(Name = "institute_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTInstitute(InputMTInstitute input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadInstitute?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTInstitute(string token, string by, string fileName, Stream stream);
+
+
+        //-- Faculty
+        [OperationContract(Name = "faculty_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getFacultyList(BasicRequest req);
+
+        [OperationContract(Name = "faculty")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTFaculty(InputMTFaculty input);
+
+        [OperationContract(Name = "faculty_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTFaculty(InputMTFaculty input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadfaculty?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTFaculty(string token, string by, string fileName, Stream stream);
+
+        //-- Major
+        [OperationContract(Name = "major_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMajorList(BasicRequest req);
+
+        [OperationContract(Name = "major")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTMajor(InputMTMajor input);
+
+        [OperationContract(Name = "major_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTMajor(InputMTMajor input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadmajor?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTMajor(string token, string by, string fileName, Stream stream);
+
+
+        //-- Qualification
+        [OperationContract(Name = "qualification_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getQualificationList(BasicRequest req);
+
+        [OperationContract(Name = "qualification")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTQualification(InputMTQualification input);
+
+        [OperationContract(Name = "qualification_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTQualification(InputMTQualification input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadqualification?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTQualification(string token, string by, string fileName, Stream stream);
+
+        
+
+
+
+
 
     }
 }

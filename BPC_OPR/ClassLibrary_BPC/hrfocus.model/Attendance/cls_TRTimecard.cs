@@ -82,6 +82,10 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public int timecard_leavededuct_min { get; set; }
 
+        //-- Show only
+        public string worker_name_th { get; set; }
+        public string worker_name_en { get; set; }
+        public string projob_code { get; set; }
 
     }
 }

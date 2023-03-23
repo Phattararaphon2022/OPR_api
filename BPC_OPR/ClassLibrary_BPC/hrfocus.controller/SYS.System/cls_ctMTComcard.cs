@@ -18,7 +18,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
         public cls_ctMTComcard() { }
 
-        public string getMessage() { return this.Message.Replace("SYS_MT_COMBANkK", "").Replace("cls_ctMTComcard", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("SYS_MT_COMCARD", "").Replace("cls_ctMTComcard", "").Replace("line", ""); }
 
         public void dispose()
         {
