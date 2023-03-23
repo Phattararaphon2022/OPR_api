@@ -120,11 +120,45 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTRreqTraining(InputTRReqTraining input);
 
-       
-
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqTraining?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadreqTraining(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_Assessment
+        [OperationContract(Name = "reqassessmentlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRAssessmentList(FillterApplywork input);
+
+        [OperationContract(Name = "reqassessment")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRAssessment(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqassessment_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRAssessment(InputTRReqAssessment input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqAssessment?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqAssessment(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_Criminal
+        [OperationContract(Name = "reqcriminallist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRCriminalList(FillterApplywork input);
+
+        [OperationContract(Name = "reqcriminal")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRCriminal(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqcriminal_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRCriminal(InputTRReqCriminal input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqCriminal?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream);
         #endregion
      
     }

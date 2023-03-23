@@ -251,6 +251,58 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputTRReqAssessment
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string applywork_code { get; set; }
+        [DataMember]
+        public int reqassessment_id { get; set; }
+        [DataMember]
+        public string reqassessment_location { get; set; }
+        [DataMember]
+        public string reqassessment_topic { get; set; }
+        [DataMember]
+        public DateTime reqassessment_fromdate { get; set; }
+        [DataMember]
+        public DateTime reqassessment_todate { get; set; }
+        [DataMember]
+        public double reqassessment_count { get; set; }
+        [DataMember]
+        public string reqassessment_result { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+
+    [DataContract]
+    public class InputTRReqCriminal
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string applywork_code { get; set; }
+        [DataMember]
+        public int reqcriminal_id { get; set; }
+        [DataMember]
+        public string reqcriminal_location { get; set; }
+        [DataMember]
+        public DateTime reqcriminal_fromdate { get; set; }
+        [DataMember]
+        public DateTime reqcriminal_todate { get; set; }
+        [DataMember]
+        public double reqcriminal_count { get; set; }
+        [DataMember]
+        public string reqcriminal_result { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+
+    [DataContract]
     public class InputTRReqTraining
     {
         [DataMember]

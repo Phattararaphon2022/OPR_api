@@ -92,6 +92,8 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyeducation.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyforeigner.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplytraining.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqAssessment.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqCriminal.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDep.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTGroup.cs" />
@@ -209,6 +211,8 @@
     <Compile Include="hrfocus.model\Recruitment\cls_TRApplyeducation.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRApplyforeigner.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRApplytraining.cs" />
+    <Compile Include="hrfocus.model\Recruitment\cls_TRReqAssessment.cs" />
+    <Compile Include="hrfocus.model\Recruitment\cls_TRReqCriminal.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTBank.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTDep.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTGroup.cs" />
