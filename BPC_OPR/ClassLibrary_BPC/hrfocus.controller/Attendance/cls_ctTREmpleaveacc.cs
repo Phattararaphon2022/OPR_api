@@ -23,7 +23,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_TREmpleaveacc> getData(string language, string condition)
+        private List<cls_TREmpleaveacc> getData(string condition)
         {
             List<cls_TREmpleaveacc> list_model = new List<cls_TREmpleaveacc>();
             cls_TREmpleaveacc model;
@@ -45,20 +45,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(ATT_TR_EMPLEAVEACC.MODIFIED_BY, ATT_TR_EMPLEAVEACC.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(ATT_TR_EMPLEAVEACC.MODIFIED_DATE, ATT_TR_EMPLEAVEACC.CREATED_DATE) AS MODIFIED_DATE");
-
-
-                if (language.Equals("TH") || language.Equals("th"))
-                {
-                    obj_str.Append(", LEAVE_NAME_TH AS LEAVE_DETAIL");
-                    obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL");
-                }
-                else
-                {
-                    obj_str.Append(", LEAVE_NAME_EN AS LEAVE_DETAIL");
-                    obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL");
-                }
-
-
+                obj_str.Append(", LEAVE_NAME_TH AS LEAVE_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", LEAVE_NAME_EN AS LEAVE_DETAIL_EN");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
                 obj_str.Append(" FROM ATT_TR_EMPLEAVEACC");
 
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=ATT_TR_EMPLEAVEACC.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=ATT_TR_EMPLEAVEACC.WORKER_CODE");
@@ -89,8 +79,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.empleaveacc_used = Convert.ToDouble(dr["EMPLEAVEACC_USED"]);
                     model.empleaveacc_remain = Convert.ToDouble(dr["EMPLEAVEACC_REMAIN"]);
 
-                    model.worker_detail = Convert.ToString(dr["WORKER_DETAIL"]);
-                    model.leave_detail = Convert.ToString(dr["LEAVE_DETAIL"]);
+                    model.worker_detail_th = Convert.ToString(dr["WORKER_DETAIL_TH"]);
+                    model.leave_detail_th = Convert.ToString(dr["LEAVE_DETAIL_TH"]);
+                    model.worker_detail_en = Convert.ToString(dr["WORKER_DETAIL_EN"]);
+                    model.leave_detail_en = Convert.ToString(dr["LEAVE_DETAIL_EN"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -107,7 +99,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TREmpleaveacc> getDataByFillter(string language, string com, string emp, string year)
+        public List<cls_TREmpleaveacc> getDataByFillter(string com, string emp, string year)
         {
             string strCondition = "";
 
@@ -119,7 +111,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!year.Equals(""))
                 strCondition += " AND ATT_TR_EMPLEAVEACC.YEAR_CODE='" + year + "'";
 
-            return this.getData(language, strCondition);
+            return this.getData(strCondition);
         }
 
         public bool checkDataOld(string com, string emp, string year, string leave)
