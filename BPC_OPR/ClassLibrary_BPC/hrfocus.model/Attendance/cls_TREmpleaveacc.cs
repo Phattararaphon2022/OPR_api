@@ -24,8 +24,10 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public bool flag { get; set; }
 
-        public string worker_detail { get; set; }
-        public string leave_detail { get; set; }
+        public string worker_detail_th { get; set; }
+        public string leave_detail_th { get; set; }
+        public string worker_detail_en { get; set; }
+        public string leave_detail_en { get; set; }
 
     }
 }

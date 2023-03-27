@@ -1221,6 +1221,85 @@ namespace ClassLibrary_BPC.hrfocus.service
 
             return strResult;
         }
+        public bool doCalleaveacc(string year, string com, string emp, string modified_by)
+        {
+            string strResult = "";
+
+            bool blnResult = false;
+
+            try
+            {
+                //-- Step 1 Get plan year
+                cls_ctMTYear ct_year = new cls_ctMTYear();
+                List<cls_MTYear> list_year = ct_year.getDataByFillter(com, "LEAVE", "", year);
+
+                if (list_year.Count == 0)
+                    return false;
+
+                cls_MTYear md_year = list_year[0];
+
+                //-- Step 2 Get leave acc
+                cls_ctTREmpleaveacc ct_empleaveacc = new cls_ctTREmpleaveacc();
+                List<cls_TREmpleaveacc> list_leaveacc = ct_empleaveacc.getDataByFillter(com, emp, year);
+
+                List<cls_TREmpleaveacc> list_leaveacc_new = new List<cls_TREmpleaveacc>();
+
+                foreach (cls_TREmpleaveacc model in list_leaveacc)
+                {
+                    model.empleaveacc_used = 0;
+                    model.empleaveacc_remain = model.empleaveacc_annual;
+
+                    list_leaveacc_new.Add(model);
+                }
+
+                //-- Step 3 get leave request
+                cls_ctTRTimeleave objTRTimeleave = new cls_ctTRTimeleave();
+                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillter("","",com, emp,Convert.ToDateTime( md_year.year_fromdate),Convert.ToDateTime( md_year.year_todate));
+
+                foreach (cls_TRTimeleave leave_used in listTRTimeleave)
+                {
+
+                    foreach (cls_TREmpleaveacc leave_acc in list_leaveacc_new)
+                    {
+
+                        if (leave_used.leave_code.Equals(leave_acc.leave_code))
+                        {
+                            if (leave_used.timeleave_type.Equals("F"))
+                                leave_acc.empleaveacc_used += leave_used.timeleave_actualday;
+                            else
+                                leave_acc.empleaveacc_used += (leave_used.timeleave_min / 480.0);
+                        }
+
+                    }
+
+                }
+
+                List<cls_TREmpleaveacc> list_leaveacc_record = new List<cls_TREmpleaveacc>();
+
+                foreach (cls_TREmpleaveacc leave_acc in list_leaveacc_new)
+                {
+                    leave_acc.empleaveacc_remain = leave_acc.empleaveacc_annual - leave_acc.empleaveacc_used;
+
+                    if (leave_acc.empleaveacc_remain < 0)
+                        leave_acc.empleaveacc_remain = 0;
+
+                    list_leaveacc_record.Add(leave_acc);
+
+                }
+
+                ct_empleaveacc.insert(com, emp, year, list_leaveacc_record);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                strResult = "ProcessTime(doCalleaveacc)::" + ex.ToString();
+            }
+
+
+            return blnResult;
+        }
     }
 
 
