@@ -541,6 +541,7 @@ namespace BPC_OPR
     #endregion
 
     #region InputMTPlantimeallw
+    [DataContract]
     public class InputMTPlantimeallw
     {
         [DataMember]
@@ -607,6 +608,8 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputBatchPlanshift
+    [DataContract]
     public class InputBatchPlanshift
     {
         [DataMember]
@@ -625,7 +628,9 @@ namespace BPC_OPR
         public List<cls_MTWorker> transaction_data { get; set; }
 
     }
+    #endregion
 
+    #region FillterAttendance
     [DataContract]
     public class FillterAttendance
     {
@@ -649,6 +654,9 @@ namespace BPC_OPR
         public string todate { get; set; }
 
     }
+    #endregion
+
+    #region InputTRTimecard
     [DataContract]
     public class InputTRTimecard
     {
@@ -732,6 +740,9 @@ namespace BPC_OPR
 
 
     }
+    #endregion
+
+    #region InputMTTimeimpformat
     [DataContract]
     public class InputMTTimeimpformat
     {
@@ -771,4 +782,58 @@ namespace BPC_OPR
         public int index { get; set; }
 
     }
+    #endregion
+
+    #region InputTRTimeleave
+    [DataContract]
+    public class InputTRTimeleave
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_name { get; set; }
+        [DataMember]
+        public string timeleave_id { get; set; }
+        [DataMember]
+        public string timeleave_doc { get; set; }
+        [DataMember]
+        public string timeleave_fromdate { get; set; }
+        [DataMember]
+        public string timeleave_todate { get; set; }
+        [DataMember]
+        public string timeleave_type { get; set; }
+        [DataMember]
+        public int timeleave_min { get; set; }
+        [DataMember]
+        public int timeleave_actualday { get; set; }
+        [DataMember]
+        public bool timeleave_incholiday { get; set; }
+        [DataMember]
+        public bool timeleave_deduct { get; set; }
+        [DataMember]
+        public string timeleave_note { get; set; }
+        [DataMember]
+        public string leave_code { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string status { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string leave_data { get; set; }
+    }
+    #endregion  
 }

@@ -271,9 +271,11 @@ namespace BPC_OPR
 
         #endregion
 
+        #region SetBatchPlanshift
         [OperationContract(Name = "SetBatchPlanshift")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchPlanshift(InputBatchPlanshift input);
+        #endregion
 
         #region Timecard
         [OperationContract(Name = "timecard_list")]
@@ -315,6 +317,22 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
         string doUploadTimeInput(string fileName, Stream stream);
         #endregion
+
+        #region TRTimeleave
+        [OperationContract(Name = "timeleave_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeleaveList(InputTRTimeleave input);
+
+        [OperationContract(Name = "timeleave")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimeleave(InputTRTimeleave input);
+
+        [OperationContract(Name = "timeleave_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimeleave(InputTRTimeleave input);
+        #endregion
+
+
     }
 
 }
