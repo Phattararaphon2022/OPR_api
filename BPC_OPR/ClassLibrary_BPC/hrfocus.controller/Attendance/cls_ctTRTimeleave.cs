@@ -146,6 +146,31 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+        public List<cls_TRTimeleave> getDataByFillteracc(string id, string status, string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            string strCondition = "";
+
+            strCondition += " AND ATT_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
+
+            if (!emp.Equals(""))
+            {
+                strCondition += " AND ATT_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
+            }
+            if (!status.Equals(""))
+            {
+                strCondition += " AND ATT_TR_TIMELEAVE.STATUS NOT IN ('"+status+"')";
+            }
+            if (!id.Equals(""))
+            {
+                strCondition += " AND ATT_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
+            }
+            strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "'";
+            strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+
+            return this.getData(strCondition);
+        }
+
 
         public cls_TRTimeleave getDataByID(string id)
         {

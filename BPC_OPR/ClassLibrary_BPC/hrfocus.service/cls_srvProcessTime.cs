@@ -1254,7 +1254,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                 //-- Step 3 get leave request
                 cls_ctTRTimeleave objTRTimeleave = new cls_ctTRTimeleave();
-                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillter("","",com, emp,Convert.ToDateTime( md_year.year_fromdate),Convert.ToDateTime( md_year.year_todate));
+                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillteracc("", "4", com, emp, Convert.ToDateTime(md_year.year_fromdate), Convert.ToDateTime(md_year.year_todate));
 
                 foreach (cls_TRTimeleave leave_used in listTRTimeleave)
                 {
