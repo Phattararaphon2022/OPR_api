@@ -5202,5 +5202,260 @@ namespace BPC_OPR
 
         }
         #endregion
+
+        #region TRTimeshift
+        public string getTRTimeshiftList(InputTRTimeshift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeshift_fromdate);
+                DateTime dateto = Convert.ToDateTime(input.timeshift_todate);
+
+                cls_ctTRTimeshift objTRTime = new cls_ctTRTimeshift();
+                List<cls_TRTimeshift> listTRTime = objTRTime.getDataByFillter(input.timeshift_id, input.status, input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTime.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimeshift model in listTRTime)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("timeshift_id", model.timeshift_id);
+                        json.Add("timeshift_doc", model.timeshift_doc);
+                        json.Add("timeshift_workdate", model.timeshift_workdate);
+                        json.Add("timeshift_old", model.timeshift_old);
+                        json.Add("shift_old_th", model.shift_old_th);
+                        json.Add("shift_old_en", model.shift_old_en);
+                        json.Add("timeshift_new", model.timeshift_new);
+                        json.Add("shift_new_th", model.shift_new_th);
+                        json.Add("shift_new_en", model.shift_new_en);
+                        json.Add("timeshift_note", model.timeshift_note);
+      
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_detail_th", model.reason_detail_th);
+                        json.Add("reason_detail_en", model.reason_detail_en);
+                        json.Add("status", model.status);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRTimeshift(InputTRTimeshift input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            string strID = "";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimeshift objTRTime = new cls_ctTRTimeshift();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRTimeshift>>(input.timeshift_data);
+                foreach (cls_TRTimeshift shiftdata in jsonArray)
+                {
+                    cls_TRTimeshift model = new cls_TRTimeshift();
+
+                    model.company_code = shiftdata.company_code;
+                    model.worker_code = shiftdata.worker_code;
+
+                    model.timeshift_id = shiftdata.timeshift_id;
+                    model.timeshift_doc = shiftdata.timeshift_doc;
+
+                    model.timeshift_workdate = Convert.ToDateTime(shiftdata.timeshift_workdate);
+
+                    model.timeshift_old = shiftdata.timeshift_old;
+                    model.timeshift_new = shiftdata.timeshift_new;
+
+                    model.timeshift_note = shiftdata.timeshift_note;
+
+                    model.reason_code = shiftdata.reason_code;
+                    model.status = shiftdata.status;
+
+                    model.modified_by = input.username;
+                    model.flag = shiftdata.flag;
+
+                    strID = objTRTime.insert(model);
+                    if (!strID.Equals(""))
+                    {
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTime.getMessage();
+                }
+
+                objTRTime.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRTimeshift(InputTRTimeshift input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRTimeshift controller = new cls_ctTRTimeshift();
+
+                cls_TRTimeshift model = controller.getDataByID(input.timeshift_id);
+
+                bool blnResult = controller.delete(input.timeshift_id);
+
+                if (blnResult)
+                {
+                    cls_ctTRTimecard objTRTimecard = new cls_ctTRTimecard();
+                    List<cls_TRTimecard> list_timecard = objTRTimecard.getDataByFillter(model.company_code,"", model.worker_code, model.timeshift_workdate.Date, model.timeshift_workdate.Date);
+
+                    if (list_timecard.Count > 0)
+                    {
+                        cls_TRTimecard timecard = list_timecard[0];
+                        timecard.shift_code = model.timeshift_old;
+
+                        objTRTimecard.update(timecard);
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
     }
 }

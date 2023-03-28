@@ -290,6 +290,20 @@ namespace BPC_OPR
         string doDeleteTRTimeot(InputTRTimeot input);
         #endregion
 
+        #region TRTimeshift
+        [OperationContract(Name = "timeshift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeshiftList(InputTRTimeshift input);
+
+        [OperationContract(Name = "timeshift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimeshift(InputTRTimeshift input);
+
+        [OperationContract(Name = "timeshift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimeshift(InputTRTimeshift input);
+        #endregion
+
 
     }
 
