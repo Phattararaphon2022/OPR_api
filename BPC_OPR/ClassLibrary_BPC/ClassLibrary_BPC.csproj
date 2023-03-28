@@ -89,6 +89,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeot.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeshift.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTask.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTimeimpformat.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRTimeinput.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_TRTimecard.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimeleave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimeot.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRTimeshift.cs" />
     <Compile Include="hrfocus.model\cls_MTTask.cs" />
     <Compile Include="hrfocus.model\cls_MTTimeimpformat.cs" />
     <Compile Include="hrfocus.model\cls_TRTaskdetail.cs" />
