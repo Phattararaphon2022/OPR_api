@@ -40,5 +40,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string leave_detail_th { get; set; }
         public string worker_detail_en { get; set; }
         public string leave_detail_en { get; set; }
+        public string reason_th { get; set; }
+        public string reason_en { get; set; }
     }
 }
