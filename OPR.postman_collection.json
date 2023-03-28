@@ -2348,6 +2348,148 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Req Time Shift",
+					"item": [
+						{
+							"name": "Attendance/timeshift_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeshift_fromdate\":\"2023-03-28\",\r\n    \"timeshift_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeshift_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"timeshift_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/timeshift",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeshift_id\\\":\\\"0\\\",\\\"timeshift_doc\\\":\\\"ESH221003006\\\",\\\"timeshift_workdate\\\":\\\"2023-03-28\\\",\\\"timeshift_old\\\":\\\"Shift N1\\\",\\\"timeshift_new\\\":\\\"Shift N2\\\",\\\"timeshift_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":\\\"1\\\",\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeshift",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"timeshift"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/timeshift_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeshift_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"timeshift_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {
