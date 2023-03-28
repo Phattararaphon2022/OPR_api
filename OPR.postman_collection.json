@@ -10,344 +10,6 @@
 			"name": "Attendance",
 			"item": [
 				{
-					"name": "Year",
-					"item": [
-						{
-							"name": "Attendance/year_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"year_group\":\"TAX\",\r\n    \"year_id\":\"\",\r\n    \"year_code\":\"\"\r\n\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/year_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"year_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/year",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"year_id\":\"\",\r\n    \"year_code\":\"2023\",\r\n    \"year_name_th\":\"ปีภาษี\",\r\n    \"year_name_en\":\"Tax Calendar\",\r\n    \"year_fromdate\":\"2023-01-01\",\r\n    \"year_todate\":\"2023-12-31\",\r\n    \"year_group\":\"TAX\",\r\n    \"modified_by\":\"Admin\",\r\n    \"fag\":false\r\n\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/year",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"year"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/year_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"year_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/year_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"year_del"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/doUploadYear",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/D:/OPR/OPRFileImport/(OPR)Import Year.xlsx"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/doUploadYear?fileName=YEAE_20230201.xls&token=Bearer {{token}}&by=Adminn",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"doUploadYear"
-									],
-									"query": [
-										{
-											"key": "fileName",
-											"value": "YEAE_20230201.xls"
-										},
-										{
-											"key": "token",
-											"value": "Bearer {{token}}"
-										},
-										{
-											"key": "by",
-											"value": "Adminn"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Reason",
-					"item": [
-						{
-							"name": "Attendance/reason_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reason_id\":\"\",\r\n    \"reason_code\":\"\",\r\n    \"reason_group\":\"LEAVE\"\r\n\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/reason_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"reason_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/reason",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reason_id\":\"\",\r\n    \"reason_code\":\"01\",\r\n    \"reason_group\":\"LEAVE\",\r\n    \"reason_name_th\":\"ลาพักร้อน\",\r\n    \"reason_name_en\":\"Summer\",\r\n    \"modified_by\":\"Admin\",\r\n    \"flag\":false\r\n\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/reason",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"reason"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/reason_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reason_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/reason_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"reason_del"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/doUploadMTReason",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/doUploadMTReason?fileName=REASON_20230213.xls&token=Bearer {{token}}&by=Admin",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"doUploadMTReason"
-									],
-									"query": [
-										{
-											"key": "fileName",
-											"value": "REASON_20230213.xls"
-										},
-										{
-											"key": "token",
-											"value": "Bearer {{token}}"
-										},
-										{
-											"key": "by",
-											"value": "Admin"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
 					"name": "Period",
 					"item": [
 						{
@@ -500,175 +162,6 @@
 										{
 											"key": "fileName",
 											"value": "PERIOD_20230201.xls"
-										},
-										{
-											"key": "token",
-											"value": "Bearer {{token}}"
-										},
-										{
-											"key": "by",
-											"value": "Adminn"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Location",
-					"item": [
-						{
-							"name": "Attendance/location_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"location_id\":\"\",\r\n    \"location_code\":\"\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/location_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"location_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/location",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"location_id\":\"\",\r\n    \"location_code\":\"00000\",\r\n    \"location_name_th\":\"สำนักงานใหญ่\",\r\n    \"location_name_en\":\"CENTER\",\r\n    \"location_detail\":\"952 อาคารรามาแลนด์ ชั้นที่ 11 ถนนพระรามสี่ แขวงสุริยวงศ์  เขตบางรัก จังหวัดกรุงเทพฯ 10500\",\r\n    \"location_lat\":\"13.7606452\",\r\n    \"location_long\":\"100.6331538\",\r\n    \"modified_by\":\"Admin\",\r\n    \"flag\":false\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/location",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"location"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/location_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"location_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/location_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"location_del"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/doUploadMTLocation",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/D:/OPR/OPRFileImport/(OPR)Import Location.xlsx"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/doUploadMTLocation?fileName=LOCATION_20230201.xls&token=Bearer {{token}}&by=Adminn",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"doUploadMTLocation"
-									],
-									"query": [
-										{
-											"key": "fileName",
-											"value": "LOCATION_20230201.xls"
 										},
 										{
 											"key": "token",
@@ -2573,7 +2066,7 @@
 					]
 				},
 				{
-					"name": "Time Leave",
+					"name": "Req Time Leave",
 					"item": [
 						{
 							"name": "Attendance/timeleave_list",
@@ -2651,7 +2144,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timeleave_fromdate\":\"2023-03-27\",\r\n    \"timeleave_todate\":\"2023-03-27\",\r\n    \"status\":\"\",\r\n    \"leave_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeleave_id\\\":0,\\\"timeleave_doc\\\":\\\"ELV221003004\\\",\\\"timeleave_fromdate\\\":\\\"2023-03-27\\\",\\\"timeleave_todate\\\":\\\"2023-03-27\\\",\\\"timeleave_type\\\":\\\"F\\\",\\\"timeleave_min\\\":480,\\\"timeleave_actualday\\\":1,\\\"timeleave_incholiday\\\":false,\\\"timeleave_deduct\\\":\\\"false\\\",\\\"timeleave_note\\\":\\\"TEST\\\",\\\"leave_code\\\":\\\"LB01\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":0,\\\"flag\\\":false}]\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"leave_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeleave_id\\\":1,\\\"timeleave_doc\\\":\\\"ELV221003004\\\",\\\"timeleave_fromdate\\\":\\\"2023-03-27\\\",\\\"timeleave_todate\\\":\\\"2023-03-27\\\",\\\"timeleave_type\\\":\\\"F\\\",\\\"timeleave_min\\\":480,\\\"timeleave_actualday\\\":1,\\\"timeleave_incholiday\\\":false,\\\"timeleave_deduct\\\":\\\"false\\\",\\\"timeleave_note\\\":\\\"TEST123\\\",\\\"leave_code\\\":\\\"LB01\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":1,\\\"flag\\\":false}]\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2713,6 +2206,148 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Req Time OT",
+					"item": [
+						{
+							"name": "Attendance/timeot_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeot_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeot_fromdate\":\"2023-03-28\",\r\n    \"timeot_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeot_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"timeot_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/timeot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"ot_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeot_id\\\":\\\"1\\\",\\\"timeot_doc\\\":\\\"EOT220930006\\\",\\\"timeot_workdate\\\":\\\"2023-03-28\\\",\\\"timeot_beforemin\\\":\\\"480\\\",\\\"timeot_normalmin\\\":\\\"0\\\",\\\"timeot_breakmin\\\":\\\"0\\\",\\\"timeot_aftermin\\\":\\\"0\\\",\\\"timeot_note\\\":\\\"TEST\\\",\\\"location_code\\\":\\\"00000\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":\\\"1\\\",\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeot",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"timeot"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/timeot_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeot_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeot_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_Attendance",
+										"ModuleAttendance.svc",
+										"Attendance",
+										"timeot_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {
@@ -2736,6 +2371,518 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "System",
+			"item": [
+				{
+					"name": "Year",
+					"item": [
+						{
+							"name": "System/year_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"year_group\":\"TAX\",\r\n    \"year_id\":\"\",\r\n    \"year_code\":\"\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/year_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"year_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/year",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"year_id\":\"\",\r\n    \"year_code\":\"2023\",\r\n    \"year_name_th\":\"ปีภาษี\",\r\n    \"year_name_en\":\"Tax Calendar\",\r\n    \"year_fromdate\":\"2023-01-01\",\r\n    \"year_todate\":\"2023-12-31\",\r\n    \"year_group\":\"TAX\",\r\n    \"modified_by\":\"Admin\",\r\n    \"fag\":false\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/year",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"year"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/year_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"year_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/year_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"year_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/doUploadYear",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/OPR/OPRFileImport/(OPR)Import Year.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/doUploadYear?fileName=YEAE_20230201.xls&token=Bearer {{token}}&by=Adminn",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"doUploadYear"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "YEAE_20230201.xls"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reason",
+					"item": [
+						{
+							"name": "System/reason_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reason_id\":\"\",\r\n    \"reason_code\":\"\",\r\n    \"reason_group\":\"LEAVE\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/reason_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"reason_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/reason",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reason_id\":\"\",\r\n    \"reason_code\":\"01\",\r\n    \"reason_group\":\"LEAVE\",\r\n    \"reason_name_th\":\"ลาพักร้อน\",\r\n    \"reason_name_en\":\"Summer\",\r\n    \"modified_by\":\"Admin\",\r\n    \"flag\":false\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/reason",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"reason"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/reason_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reason_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/reason_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"reason_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/doUploadMTReason",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/doUploadMTReason?fileName=REASON_20230213.xls&token=Bearer {{token}}&by=Admin",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"doUploadMTReason"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "REASON_20230213.xls"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Admin"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Location",
+					"item": [
+						{
+							"name": "System/location_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"location_id\":\"\",\r\n    \"location_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/location_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"location_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/location",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"location_id\":\"\",\r\n    \"location_code\":\"00000\",\r\n    \"location_name_th\":\"สำนักงานใหญ่\",\r\n    \"location_name_en\":\"CENTER\",\r\n    \"location_detail\":\"952 อาคารรามาแลนด์ ชั้นที่ 11 ถนนพระรามสี่ แขวงสุริยวงศ์  เขตบางรัก จังหวัดกรุงเทพฯ 10500\",\r\n    \"location_lat\":\"13.7606452\",\r\n    \"location_long\":\"100.6331538\",\r\n    \"modified_by\":\"Admin\",\r\n    \"flag\":false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/location",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"location"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/location_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"location_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/location_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"location_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/doUploadMTLocation",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/OPR/OPRFileImport/(OPR)Import Location.xlsx"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/doUploadMTLocation?fileName=LOCATION_20230201.xls&token=Bearer {{token}}&by=Adminn",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"doUploadMTLocation"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "LOCATION_20230201.xls"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
