@@ -54,7 +54,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(TIMELEAVE_NOTE, '') AS TIMELEAVE_NOTE");
 
                 obj_str.Append(", ATT_TR_TIMELEAVE.LEAVE_CODE");
-                obj_str.Append(", ISNULL(REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_TH, '') AS REASON_NAME_TH");
+                obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_EN, '') AS REASON_NAME_EN");
                 obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
 
                 obj_str.Append(", ISNULL(ATT_TR_TIMELEAVE.MODIFIED_BY, ATT_TR_TIMELEAVE.CREATED_BY) AS MODIFIED_BY");
@@ -65,7 +67,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=ATT_TR_TIMELEAVE.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=ATT_TR_TIMELEAVE.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
                 obj_str.Append(" INNER JOIN ATT_MT_LEAVE ON ATT_MT_LEAVE.COMPANY_CODE=ATT_TR_TIMELEAVE.COMPANY_CODE AND ATT_MT_LEAVE.LEAVE_CODE=ATT_TR_TIMELEAVE.LEAVE_CODE");
-
+                obj_str.Append(" INNER JOIN SYS_MT_REASON ON ATT_MT_LEAVE.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=ATT_TR_TIMELEAVE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'LEAVE'");
 
                 obj_str.Append(" WHERE 1=1");
 
@@ -104,6 +106,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.timeleave_note = dr["TIMELEAVE_NOTE"].ToString();
                     model.leave_code = dr["LEAVE_CODE"].ToString();
                     model.reason_code = dr["REASON_CODE"].ToString();
+                    model.reason_en = dr["REASON_NAME_EN"].ToString();
+                    model.reason_th = dr["REASON_NAME_TH"].ToString();
                     model.status = Convert.ToInt32(dr["STATUS"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
