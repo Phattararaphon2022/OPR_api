@@ -304,6 +304,20 @@ namespace BPC_OPR
         string doDeleteTRTimeshift(InputTRTimeshift input);
         #endregion
 
+        #region MTWorkflow
+        [OperationContract(Name = "workflow_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTWorkflowList(InputMTWorkflow input);
+
+        [OperationContract(Name = "workflow")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTWorkflow(InputMTWorkflow input);
+
+        [OperationContract(Name = "workflow_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTWorkflow(InputMTWorkflow input);
+        #endregion
+
 
     }
 

@@ -831,4 +831,52 @@ namespace BPC_OPR
         public string timeshift_data { get; set; }
     }
     #endregion
+
+    #region InputMTWorkflow
+    [DataContract]
+    public class InputMTWorkflow
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string workflow_id { get; set; }
+        [DataMember]
+        public string workflow_code { get; set; }
+        [DataMember]
+        public string workflow_name_th { get; set; }
+        [DataMember]
+        public string workflow_name_en { get; set; }
+        [DataMember]
+        public string workflow_type { get; set; }
+
+        [DataMember]
+        public int step1 { get; set; }
+        [DataMember]
+        public int step2 { get; set; }
+        [DataMember]
+        public int step3 { get; set; }
+        [DataMember]
+        public int step4 { get; set; }
+        [DataMember]
+        public int step5 { get; set; }
+
+        [DataMember]
+        public int totalapprove { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
 }

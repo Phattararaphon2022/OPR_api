@@ -74,6 +74,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTWorkflow.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpleaveacc.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmppolatt.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlantimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTWorkflow.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmpleaveacc.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmppolatt.cs" />
