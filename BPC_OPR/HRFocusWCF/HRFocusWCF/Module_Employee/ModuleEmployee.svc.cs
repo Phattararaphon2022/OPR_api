@@ -8837,7 +8837,317 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region Set batch
 
+        //Set Position
+        public string doSetBatchPosition(InputSetPosition input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.1";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRPosition objPo = new cls_ctTRPosition();
+                List<cls_TRPosition> listPo = new List<cls_TRPosition>();
+                bool strID = false;
+                foreach(cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRPosition model = new cls_TRPosition();
+                    model.empposition_position = input.empposition_position;
+                    model.empposition_reason = input.empposition_reason;
+                    model.empposition_date = Convert.ToDateTime(input.empposition_date);
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+
+        //Set Group
+        public string doSetBatchGroup(InputSetGroup input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRGroup objPo = new cls_ctTRGroup();
+                List<cls_TRGroup> listPo = new List<cls_TRGroup>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRGroup model = new cls_TRGroup();
+                    model.empgroup_code = input.empgroup_code;
+                    model.empgroup_date = Convert.ToDateTime(input.empgroup_date);
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Location
+        public string doSetBatchLocation(InputSetLocation input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTREmplocation objPo = new cls_ctTREmplocation();
+                List<cls_TREmplocation> listPo = new List<cls_TREmplocation>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TREmplocation model = new cls_TREmplocation();
+                    model.location_code = input.location_code;
+                    model.emplocation_startdate = Convert.ToDateTime(input.emplocation_startdate);
+                    model.emplocation_enddate = Convert.ToDateTime(input.emplocation_enddate);
+                    model.emplocation_note = input.emplocation_note;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Salary
+        public string doSetBatchSalary(InputSetSalary input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.4";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRSalary objPo = new cls_ctTRSalary();
+                List<cls_TRSalary> listPo = new List<cls_TRSalary>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRSalary model = new cls_TRSalary();
+                    model.empsalary_amount = input.empsalary_amount;
+                    model.empsalary_incamount = input.empsalary_incamount;
+                    model.empsalary_incpercent = input.empsalary_incpercent;
+                    model.empsalary_date = Convert.ToDateTime(input.empsalary_date);
+                    model.empsalary_reason = input.empsalary_reason;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
 
 
     }

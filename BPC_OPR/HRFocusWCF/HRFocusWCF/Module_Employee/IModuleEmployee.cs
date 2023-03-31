@@ -493,6 +493,28 @@ namespace BPC_OPR
         string getTRAccumalateList(FillterWorker input);
         #endregion
 
+        #region set batch
+        //set position
+        [OperationContract(Name = "setbatchposition")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPosition(InputSetPosition input);
+
+        //set group
+        [OperationContract(Name = "setbatchgroup")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchGroup(InputSetGroup input);
+
+        //set location
+        [OperationContract(Name = "setbatchlocation")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchLocation(InputSetLocation input);
+
+        //set salary
+        [OperationContract(Name = "setbatchsalary")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchSalary(InputSetSalary input);
+        #endregion
+
         #endregion
     }
 }

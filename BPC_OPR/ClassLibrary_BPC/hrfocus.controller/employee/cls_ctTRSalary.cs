@@ -315,5 +315,122 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public bool insertlist(List<cls_TRSalary> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO EMP_TR_SALARY");
+                obj_str.Append(" (");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
+
+                obj_str.Append(", EMPSALARY_ID ");
+                obj_str.Append(", EMPSALARY_AMOUNT ");
+                obj_str.Append(", EMPSALARY_DATE ");
+                obj_str.Append(", EMPSALARY_REASON ");
+                obj_str.Append(", EMPSALARY_INCAMOUNT ");
+                obj_str.Append(", EMPSALARY_INCPERCENT ");
+
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
+                obj_str.Append(", FLAG ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
+
+                obj_str.Append(", @EMPSALARY_ID ");
+                obj_str.Append(", @EMPSALARY_AMOUNT ");
+                obj_str.Append(", @EMPSALARY_DATE ");
+                obj_str.Append(", @EMPSALARY_REASON ");
+                obj_str.Append(", @EMPSALARY_INCAMOUNT ");
+                obj_str.Append(", @EMPSALARY_INCPERCENT ");
+
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
+                obj_str.Append(", '1' ");
+                obj_str.Append(" )");
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                string strWorkerID = "";
+                foreach (cls_TRSalary model in list_model)
+                {
+                    strWorkerID += "'" + model.worker_code + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM EMP_TR_SALARY");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+                obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
+                obj_str2.Append(" AND EMPSALARY_DATE='" + list_model[0].empsalary_date.ToString("yyyy-MM-ddTHH:mm:ss") + "'");
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPSALARY_ID", SqlDbType.Int);
+                    obj_cmd.Parameters.Add("@EMPSALARY_AMOUNT", SqlDbType.Decimal);
+                    obj_cmd.Parameters.Add("@EMPSALARY_DATE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@EMPSALARY_REASON", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPSALARY_INCAMOUNT", SqlDbType.Decimal);
+                    obj_cmd.Parameters.Add("@EMPSALARY_INCPERCENT", SqlDbType.Decimal); 
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+
+                    foreach (cls_TRSalary model in list_model)
+                    {
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                        obj_cmd.Parameters["@EMPSALARY_ID"].Value = this.getNextID();
+                        obj_cmd.Parameters["@EMPSALARY_AMOUNT"].Value = model.empsalary_amount;
+                        obj_cmd.Parameters["@EMPSALARY_DATE"].Value = model.empsalary_date;
+                        obj_cmd.Parameters["@EMPSALARY_REASON"].Value = model.empsalary_reason;
+                        obj_cmd.Parameters["@EMPSALARY_INCAMOUNT"].Value = model.empsalary_incamount;
+                        obj_cmd.Parameters["@EMPSALARY_INCPERCENT"].Value = model.empsalary_incpercent;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+
+                        obj_cmd.ExecuteNonQuery();
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                        obj_conn.doRollback();
+                    obj_conn.doClose();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                    obj_conn.doClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPSLR099:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
     }
 }
