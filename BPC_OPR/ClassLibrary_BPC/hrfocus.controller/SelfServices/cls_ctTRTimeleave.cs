@@ -30,8 +30,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append(" ATT_TR_TIMELEAVE.COMPANY_CODE");
-                obj_str.Append(", ATT_TR_TIMELEAVE.WORKER_CODE");
+                obj_str.Append(" SELF_TR_TIMELEAVE.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMELEAVE.WORKER_CODE");
 
                 obj_str.Append(", LEAVE_NAME_TH AS LEAVE_DETAIL_TH");
                 obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
@@ -53,28 +53,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(TIMELEAVE_NOTE, '') AS TIMELEAVE_NOTE");
 
-                obj_str.Append(", ATT_TR_TIMELEAVE.LEAVE_CODE");
+                obj_str.Append(", SELF_TR_TIMELEAVE.LEAVE_CODE");
                 obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_CODE, '') AS REASON_CODE");
                 obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_TH, '') AS REASON_NAME_TH");
                 obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_EN, '') AS REASON_NAME_EN");
                 obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
 
-                obj_str.Append(", ISNULL(ATT_TR_TIMELEAVE.MODIFIED_BY, ATT_TR_TIMELEAVE.CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(ATT_TR_TIMELEAVE.MODIFIED_DATE, ATT_TR_TIMELEAVE.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_BY, SELF_TR_TIMELEAVE.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_DATE, SELF_TR_TIMELEAVE.CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM ATT_TR_TIMELEAVE");
+                obj_str.Append(" FROM SELF_TR_TIMELEAVE");
 
-                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=ATT_TR_TIMELEAVE.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=ATT_TR_TIMELEAVE.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMELEAVE.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMELEAVE.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
-                obj_str.Append(" INNER JOIN ATT_MT_LEAVE ON ATT_MT_LEAVE.COMPANY_CODE=ATT_TR_TIMELEAVE.COMPANY_CODE AND ATT_MT_LEAVE.LEAVE_CODE=ATT_TR_TIMELEAVE.LEAVE_CODE");
-                obj_str.Append(" INNER JOIN SYS_MT_REASON ON ATT_MT_LEAVE.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=ATT_TR_TIMELEAVE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'LEAVE'");
+                obj_str.Append(" INNER JOIN ATT_MT_LEAVE ON ATT_MT_LEAVE.COMPANY_CODE=SELF_TR_TIMELEAVE.COMPANY_CODE AND ATT_MT_LEAVE.LEAVE_CODE=SELF_TR_TIMELEAVE.LEAVE_CODE");
+                obj_str.Append(" INNER JOIN SYS_MT_REASON ON ATT_MT_LEAVE.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMELEAVE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'LEAVE'");
 
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY ATT_TR_TIMELEAVE.COMPANY_CODE, ATT_TR_TIMELEAVE.WORKER_CODE, TIMELEAVE_FROMDATE");
+                obj_str.Append(" ORDER BY SELF_TR_TIMELEAVE.COMPANY_CODE, SELF_TR_TIMELEAVE.WORKER_CODE, TIMELEAVE_FROMDATE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -129,19 +129,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
 
-            strCondition += " AND ATT_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
+            strCondition += " AND SELF_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
+                strCondition += " AND SELF_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
             }
             if (!status.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMELEAVE.STATUS='" + status + "'";
+                strCondition += " AND SELF_TR_TIMELEAVE.STATUS='" + status + "'";
             }
             if (!id.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
+                strCondition += " AND SELF_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
             }
             strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "'";
             strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
@@ -154,19 +154,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
 
-            strCondition += " AND ATT_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
+            strCondition += " AND SELF_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
+                strCondition += " AND SELF_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
             }
             if (!status.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMELEAVE.STATUS NOT IN ('"+status+"')";
+                strCondition += " AND SELF_TR_TIMELEAVE.STATUS NOT IN ('"+status+"')";
             }
             if (!id.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
+                strCondition += " AND SELF_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
             }
             strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "'";
             strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
@@ -179,7 +179,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         public cls_TRTimeleave getDataByID(string id)
         {
 
-            string strCondition = " AND ATT_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
+            string strCondition = " AND SELF_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
 
             List<cls_TRTimeleave> list_model = this.getData(strCondition);
 
@@ -198,7 +198,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT COMPANY_CODE");
-                obj_str.Append(" FROM ATT_TR_TIMELEAVE");
+                obj_str.Append(" FROM SELF_TR_TIMELEAVE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "'");
                 obj_str.Append(" AND TIMELEAVE_FROMDATE='" + datefrom.ToString("MM/dd/yyyy") + "'");
@@ -229,7 +229,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT COMPANY_CODE");
-                obj_str.Append(" FROM ATT_TR_TIMELEAVE");
+                obj_str.Append(" FROM SELF_TR_TIMELEAVE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + model.company_code + "'");
                 obj_str.Append(" AND WORKER_CODE='" + model.worker_code + "'");
                 obj_str.Append(" AND TIMELEAVE_FROMDATE='" + model.timeleave_fromdate.ToString("MM/dd/yyyy") + "'");
@@ -261,7 +261,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT MAX(TIMELEAVE_ID) ");
-                obj_str.Append(" FROM ATT_TR_TIMELEAVE");
+                obj_str.Append(" FROM SELF_TR_TIMELEAVE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -287,7 +287,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_TR_TIMELEAVE");
+                obj_str.Append(" DELETE FROM SELF_TR_TIMELEAVE");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND TIMELEAVE_ID='" + id + "'");
 
@@ -317,7 +317,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
-                obj_str.Append("INSERT INTO ATT_TR_TIMELEAVE");
+                obj_str.Append("INSERT INTO SELF_TR_TIMELEAVE");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
@@ -423,7 +423,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE ATT_TR_TIMELEAVE SET ");
+                obj_str.Append("UPDATE SELF_TR_TIMELEAVE SET ");
 
                 obj_str.Append(" TIMELEAVE_DOC=@TIMELEAVE_DOC ");
                 obj_str.Append(", TIMELEAVE_FROMDATE=@TIMELEAVE_FROMDATE ");

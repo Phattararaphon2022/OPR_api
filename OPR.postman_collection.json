@@ -2064,574 +2064,6 @@
 							"response": []
 						}
 					]
-				},
-				{
-					"name": "Req Time Leave",
-					"item": [
-						{
-							"name": "Attendance/timeleave_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeleave_fromdate\":\"2023-03-27\",\r\n    \"timeleave_todate\":\"2023-03-27\",\r\n    \"status\":\"\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeleave_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeleave_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/timeleave",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"leave_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeleave_id\\\":1,\\\"timeleave_doc\\\":\\\"ELV221003004\\\",\\\"timeleave_fromdate\\\":\\\"2023-03-27\\\",\\\"timeleave_todate\\\":\\\"2023-03-27\\\",\\\"timeleave_type\\\":\\\"F\\\",\\\"timeleave_min\\\":480,\\\"timeleave_actualday\\\":1,\\\"timeleave_incholiday\\\":false,\\\"timeleave_deduct\\\":\\\"false\\\",\\\"timeleave_note\\\":\\\"TEST123\\\",\\\"leave_code\\\":\\\"LB01\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":1,\\\"flag\\\":false}]\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeleave",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeleave"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/timeleave_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeleave_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeleave_del"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Req Time OT",
-					"item": [
-						{
-							"name": "Attendance/timeot_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeot_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeot_fromdate\":\"2023-03-28\",\r\n    \"timeot_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeot_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeot_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/timeot",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"ot_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeot_id\\\":\\\"1\\\",\\\"timeot_doc\\\":\\\"EOT220930006\\\",\\\"timeot_workdate\\\":\\\"2023-03-28\\\",\\\"timeot_beforemin\\\":\\\"480\\\",\\\"timeot_normalmin\\\":\\\"0\\\",\\\"timeot_breakmin\\\":\\\"0\\\",\\\"timeot_aftermin\\\":\\\"0\\\",\\\"timeot_note\\\":\\\"TEST\\\",\\\"location_code\\\":\\\"00000\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":\\\"1\\\",\\\"flag\\\":false}]\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeot",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeot"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/timeot_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeot_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeot_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeot_del"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Req Time Shift",
-					"item": [
-						{
-							"name": "Attendance/timeshift_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeshift_fromdate\":\"2023-03-28\",\r\n    \"timeshift_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeshift_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeshift_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/timeshift",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeshift_id\\\":\\\"0\\\",\\\"timeshift_doc\\\":\\\"ESH221003006\\\",\\\"timeshift_workdate\\\":\\\"2023-03-28\\\",\\\"timeshift_old\\\":\\\"Shift N1\\\",\\\"timeshift_new\\\":\\\"Shift N2\\\",\\\"timeshift_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":\\\"1\\\",\\\"flag\\\":false}]\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeshift",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeshift"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/timeshift_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/timeshift_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"timeshift_del"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Workflow",
-					"item": [
-						{
-							"name": "Attendance/workflow_list",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"\",\r\n    \"workflow_code\":\"\",\r\n    \"workflow_type\":\"\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/workflow_list",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"workflow_list"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/workflow",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"\",\r\n    \"workflow_code\":\"LV1-2\",\r\n    \"workflow_name_th\":\"ผู้อนุมัติ 1 คน รหัสแทนตำแหน่ง รหัส 2\",\r\n    \"workflow_name_en\":\"1 approver, position code, code 2\",\r\n    \"workflow_type\":\"LEAVE\",\r\n    \"step1\":1,\r\n    \"step2\":0,\r\n    \"step3\":0,\r\n    \"step4\":0,\r\n    \"step5\":0,\r\n    \"totalapprove\":1,\r\n    \"modified_by\":\"admin\",\r\n    \"flag\":false\r\n\r\n    \r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/workflow",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"workflow"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Attendance/workflow_del",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/Module_Attendance/ModuleAttendance.svc/Attendance/workflow_del",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"Module_Attendance",
-										"ModuleAttendance.svc",
-										"Attendance",
-										"workflow_del"
-									]
-								}
-							},
-							"response": []
-						}
-					]
 				}
 			],
 			"auth": {
@@ -3161,6 +2593,579 @@
 											"key": "by",
 											"value": "Adminn"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "SelfServices",
+			"item": [
+				{
+					"name": "Req Time Leave",
+					"item": [
+						{
+							"name": "SelfServices/timeleave_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeleave_fromdate\":\"2023-03-27\",\r\n    \"timeleave_todate\":\"2023-03-27\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeleave_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeleave_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeleave",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"leave_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeleave_id\\\":1,\\\"timeleave_doc\\\":\\\"ELV221003004\\\",\\\"timeleave_fromdate\\\":\\\"2023-03-27\\\",\\\"timeleave_todate\\\":\\\"2023-03-27\\\",\\\"timeleave_type\\\":\\\"F\\\",\\\"timeleave_min\\\":480,\\\"timeleave_actualday\\\":1,\\\"timeleave_incholiday\\\":false,\\\"timeleave_deduct\\\":\\\"false\\\",\\\"timeleave_note\\\":\\\"TEST123\\\",\\\"leave_code\\\":\\\"LB01\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":1,\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeleave",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeleave"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeleave_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeleave_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeleave_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Req Time OT",
+					"item": [
+						{
+							"name": "SelfServices/timeot_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeot_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeot_fromdate\":\"2023-03-28\",\r\n    \"timeot_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeot_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeot_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"ot_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeot_id\\\":\\\"1\\\",\\\"timeot_doc\\\":\\\"EOT220930006\\\",\\\"timeot_workdate\\\":\\\"2023-03-28\\\",\\\"timeot_beforemin\\\":\\\"480\\\",\\\"timeot_normalmin\\\":\\\"0\\\",\\\"timeot_breakmin\\\":\\\"0\\\",\\\"timeot_aftermin\\\":\\\"0\\\",\\\"timeot_note\\\":\\\"TEST\\\",\\\"location_code\\\":\\\"00000\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":\\\"1\\\",\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeot",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeot"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeot_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeot_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeot_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeot_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Req Time Shift",
+					"item": [
+						{
+							"name": "SelfServices/timeshift_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeshift_fromdate\":\"2023-03-28\",\r\n    \"timeshift_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeshift_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeshift_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeshift",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeshift_id\\\":\\\"0\\\",\\\"timeshift_doc\\\":\\\"ESH221003006\\\",\\\"timeshift_workdate\\\":\\\"2023-03-28\\\",\\\"timeshift_old\\\":\\\"Shift N1\\\",\\\"timeshift_new\\\":\\\"Shift N2\\\",\\\"timeshift_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":\\\"1\\\",\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeshift",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeshift"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeshift_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeshift_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeshift_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Workflow",
+					"item": [
+						{
+							"name": "SelfServices/workflow_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"\",\r\n    \"workflow_code\":\"\",\r\n    \"workflow_type\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/workflow_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"workflow_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/workflow",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"\",\r\n    \"workflow_code\":\"LV1-2\",\r\n    \"workflow_name_th\":\"ผู้อนุมัติ 1 คน รหัสแทนตำแหน่ง รหัส 2\",\r\n    \"workflow_name_en\":\"1 approver, position code, code 2\",\r\n    \"workflow_type\":\"LEAVE\",\r\n    \"step1\":1,\r\n    \"step2\":0,\r\n    \"step3\":0,\r\n    \"step4\":0,\r\n    \"step5\":0,\r\n    \"totalapprove\":1,\r\n    \"modified_by\":\"admin\",\r\n    \"flag\":false\r\n\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/workflow",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"workflow"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/workflow_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/workflow_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"workflow_del"
 									]
 								}
 							},

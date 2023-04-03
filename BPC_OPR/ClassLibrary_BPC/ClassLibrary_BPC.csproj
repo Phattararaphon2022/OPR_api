@@ -74,7 +74,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
-    <Compile Include="hrfocus.controller\Attendance\cls_ctMTWorkflow.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTWorkflow.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpleaveacc.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmppolatt.cs" />
@@ -88,9 +88,9 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
-    <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeleave.cs" />
-    <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeot.cs" />
-    <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeshift.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeleave.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeot.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeshift.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTask.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTimeimpformat.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRTimeinput.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlantimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
-    <Compile Include="hrfocus.model\Attendance\cls_MTWorkflow.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTWorkflow.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmpleaveacc.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmppolatt.cs" />
@@ -204,9 +204,9 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProbusiness.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimecard.cs" />
-    <Compile Include="hrfocus.model\Attendance\cls_TRTimeleave.cs" />
-    <Compile Include="hrfocus.model\Attendance\cls_TRTimeot.cs" />
-    <Compile Include="hrfocus.model\Attendance\cls_TRTimeshift.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimeleave.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimeot.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimeshift.cs" />
     <Compile Include="hrfocus.model\cls_MTTask.cs" />
     <Compile Include="hrfocus.model\cls_MTTimeimpformat.cs" />
     <Compile Include="hrfocus.model\cls_TRTaskdetail.cs" />

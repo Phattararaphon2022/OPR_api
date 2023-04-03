@@ -31,8 +31,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append(" ATT_TR_TIMESHIFT.COMPANY_CODE");
-                obj_str.Append(", ATT_TR_TIMESHIFT.WORKER_CODE");
+                obj_str.Append(" SELF_TR_TIMESHIFT.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMESHIFT.WORKER_CODE");
 
                 obj_str.Append(", TIMESHIFT_ID");
                 obj_str.Append(", ISNULL(TIMESHIFT_DOC, '') AS TIMESHIFT_DOC");
@@ -45,7 +45,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(TIMESHIFT_NOTE, '') AS TIMESHIFT_NOTE");
 
-                obj_str.Append(", ISNULL(ATT_TR_TIMESHIFT.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.REASON_CODE, '') AS REASON_CODE");
 
                 obj_str.Append(", ISNULL(REASON_NAME_TH, '') AS REASON_DETAIL_TH");
                 obj_str.Append(", ISNULL(ATT_MT_SHIFT.SHIFT_NAME_TH, '') AS SHIFT_NEW_TH");
@@ -58,24 +58,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
                 obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
 
-                obj_str.Append(", ISNULL(ATT_TR_TIMESHIFT.MODIFIED_BY, ATT_TR_TIMESHIFT.CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(ATT_TR_TIMESHIFT.MODIFIED_DATE, ATT_TR_TIMESHIFT.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_BY, SELF_TR_TIMESHIFT.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_DATE, SELF_TR_TIMESHIFT.CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM ATT_TR_TIMESHIFT");
+                obj_str.Append(" FROM SELF_TR_TIMESHIFT");
 
-                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=ATT_TR_TIMESHIFT.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=ATT_TR_TIMESHIFT.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMESHIFT.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
 
-                obj_str.Append(" LEFT JOIN SYS_MT_REASON ON SYS_MT_REASON.REASON_CODE=ATT_TR_TIMESHIFT.REASON_CODE AND REASON_GROUP = 'SHT'");
-                obj_str.Append(" INNER JOIN ATT_MT_SHIFT ON ATT_MT_SHIFT.COMPANY_CODE=ATT_TR_TIMESHIFT.COMPANY_CODE AND ATT_MT_SHIFT.SHIFT_CODE=ATT_TR_TIMESHIFT.TIMESHIFT_NEW ");
-                obj_str.Append(" INNER JOIN ATT_MT_SHIFT as OLDSHIFT ON OLDSHIFT.COMPANY_CODE=ATT_TR_TIMESHIFT.COMPANY_CODE AND OLDSHIFT.SHIFT_CODE=ATT_TR_TIMESHIFT.TIMESHIFT_OLD ");
+                obj_str.Append(" LEFT JOIN SYS_MT_REASON ON SYS_MT_REASON.REASON_CODE=SELF_TR_TIMESHIFT.REASON_CODE AND REASON_GROUP = 'SHT'");
+                obj_str.Append(" INNER JOIN ATT_MT_SHIFT ON ATT_MT_SHIFT.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE AND ATT_MT_SHIFT.SHIFT_CODE=SELF_TR_TIMESHIFT.TIMESHIFT_NEW ");
+                obj_str.Append(" INNER JOIN ATT_MT_SHIFT as OLDSHIFT ON OLDSHIFT.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE AND OLDSHIFT.SHIFT_CODE=SELF_TR_TIMESHIFT.TIMESHIFT_OLD ");
 
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY ATT_TR_TIMESHIFT.COMPANY_CODE, ATT_TR_TIMESHIFT.WORKER_CODE, TIMESHIFT_WORKDATE");
+                obj_str.Append(" ORDER BY SELF_TR_TIMESHIFT.COMPANY_CODE, SELF_TR_TIMESHIFT.WORKER_CODE, TIMESHIFT_WORKDATE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -126,13 +126,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
             if (!id.Equals(""))
-                strCondition += " AND ATT_TR_TIMESHIFT.TIMEOT_ID='" + id + "'";
+                strCondition += " AND SELF_TR_TIMESHIFT.TIMEOT_ID='" + id + "'";
             if (!status.Equals(""))
-                strCondition += " AND ATT_TR_TIMESHIFT.STATUS='" + status + "'";
+                strCondition += " AND SELF_TR_TIMESHIFT.STATUS='" + status + "'";
             if (!com.Equals(""))
-                strCondition += " AND ATT_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
+                strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
             if (!emp.Equals(""))
-                strCondition += " AND ATT_TR_TIMESHIFT.WORKER_CODE='" + emp + "'";
+                strCondition += " AND SELF_TR_TIMESHIFT.WORKER_CODE='" + emp + "'";
             strCondition += " AND (TIMESHIFT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
 
             return this.getData(strCondition);
@@ -141,7 +141,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         public cls_TRTimeshift getDataByID(string id)
         {
 
-            string strCondition = " AND ATT_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
+            string strCondition = " AND SELF_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
 
             List<cls_TRTimeshift> list_model = this.getData(strCondition);
 
@@ -162,7 +162,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT COMPANY_CODE");
-                obj_str.Append(" FROM ATT_TR_TIMESHIFT");
+                obj_str.Append(" FROM SELF_TR_TIMESHIFT");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "'");
                 obj_str.Append(" AND TIMESHIFT_WORKDATE='" + date.ToString("MM/dd/yyyy") + "'");
@@ -190,7 +190,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT MAX(TIMESHIFT_ID) ");
-                obj_str.Append(" FROM ATT_TR_TIMESHIFT");
+                obj_str.Append(" FROM SELF_TR_TIMESHIFT");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -216,7 +216,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_TR_TIMESHIFT");
+                obj_str.Append(" DELETE FROM SELF_TR_TIMESHIFT");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND TIMESHIFT_ID='" + id + "'");
 
@@ -246,7 +246,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
-                obj_str.Append("INSERT INTO ATT_TR_TIMESHIFT");
+                obj_str.Append("INSERT INTO SELF_TR_TIMESHIFT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
@@ -333,7 +333,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE ATT_TR_TIMESHIFT SET ");
+                obj_str.Append("UPDATE SELF_TR_TIMESHIFT SET ");
 
                 obj_str.Append(" TIMESHIFT_DOC=@TIMESHIFT_DOC ");
                 obj_str.Append(", TIMESHIFT_OLD=@TIMESHIFT_OLD ");

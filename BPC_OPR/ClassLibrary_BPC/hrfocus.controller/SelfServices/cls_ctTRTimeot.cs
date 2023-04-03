@@ -31,8 +31,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append(" ATT_TR_TIMEOT.COMPANY_CODE");
-                obj_str.Append(", ATT_TR_TIMEOT.WORKER_CODE");
+                obj_str.Append(" SELF_TR_TIMEOT.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMEOT.WORKER_CODE");
 
                 obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
                 obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
@@ -49,30 +49,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(TIMEOT_NOTE, '') AS TIMEOT_NOTE");
 
-                obj_str.Append(", ISNULL(ATT_TR_TIMEOT.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.REASON_CODE, '') AS REASON_CODE");
                 obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_TH, '') AS REASON_NAME_TH");
                 obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_EN, '') AS REASON_NAME_EN");
-                obj_str.Append(", ISNULL(ATT_TR_TIMEOT.LOCATION_CODE, '') AS LOCATION_CODE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.LOCATION_CODE, '') AS LOCATION_CODE");
                 obj_str.Append(", ISNULL(SYS_MT_LOCATION.LOCATION_NAME_TH, '') AS LOCATION_NAME_TH");
                 obj_str.Append(", ISNULL(SYS_MT_LOCATION.LOCATION_NAME_EN, '') AS LOCATION_NAME_EN");
                 obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
 
-                obj_str.Append(", ISNULL(ATT_TR_TIMEOT.MODIFIED_BY, ATT_TR_TIMEOT.CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(ATT_TR_TIMEOT.MODIFIED_DATE, ATT_TR_TIMEOT.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_BY, SELF_TR_TIMEOT.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_DATE, SELF_TR_TIMEOT.CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM ATT_TR_TIMEOT");
+                obj_str.Append(" FROM SELF_TR_TIMEOT");
 
-                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=ATT_TR_TIMEOT.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=ATT_TR_TIMEOT.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMEOT.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMEOT.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
-                obj_str.Append(" INNER JOIN SYS_MT_REASON ON ATT_TR_TIMEOT.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=ATT_TR_TIMEOT.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'OT' ");
-                obj_str.Append(" INNER JOIN SYS_MT_LOCATION ON ATT_TR_TIMEOT.COMPANY_CODE=SYS_MT_LOCATION.COMPANY_CODE AND SYS_MT_LOCATION.LOCATION_CODE=ATT_TR_TIMEOT.LOCATION_CODE ");
+                obj_str.Append(" INNER JOIN SYS_MT_REASON ON SELF_TR_TIMEOT.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMEOT.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'OT' ");
+                obj_str.Append(" INNER JOIN SYS_MT_LOCATION ON SELF_TR_TIMEOT.COMPANY_CODE=SYS_MT_LOCATION.COMPANY_CODE AND SYS_MT_LOCATION.LOCATION_CODE=SELF_TR_TIMEOT.LOCATION_CODE ");
 
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY ATT_TR_TIMEOT.COMPANY_CODE, ATT_TR_TIMEOT.WORKER_CODE, ATT_TR_TIMEOT.TIMEOT_WORKDATE");
+                obj_str.Append(" ORDER BY SELF_TR_TIMEOT.COMPANY_CODE, SELF_TR_TIMEOT.WORKER_CODE, SELF_TR_TIMEOT.TIMEOT_WORKDATE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -124,13 +124,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
             if(!id.Equals(""))
-                strCondition += " AND ATT_TR_TIMEOT.TIMEOT_ID='" + id + "'";
+                strCondition += " AND SELF_TR_TIMEOT.TIMEOT_ID='" + id + "'";
             if (!status.Equals(""))
-                strCondition += " AND ATT_TR_TIMEOT.STATUS='" + status + "'";
+                strCondition += " AND SELF_TR_TIMEOT.STATUS='" + status + "'";
             if(!com.Equals(""))
-                strCondition += " AND ATT_TR_TIMEOT.COMPANY_CODE='" + com + "'";
+                strCondition += " AND SELF_TR_TIMEOT.COMPANY_CODE='" + com + "'";
             if(!emp.Equals(""))
-                strCondition += " AND ATT_TR_TIMEOT.WORKER_CODE='" + emp + "'";
+                strCondition += " AND SELF_TR_TIMEOT.WORKER_CODE='" + emp + "'";
             strCondition += " AND (TIMEOT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
 
             return this.getData(strCondition);
@@ -144,7 +144,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT COMPANY_CODE");
-                obj_str.Append(" FROM ATT_TR_TIMEOT");
+                obj_str.Append(" FROM SELF_TR_TIMEOT");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "'");
                 obj_str.Append(" AND TIMEOT_WORKDATE='" + date.ToString("MM/dd/yyyy") + "'");
@@ -172,7 +172,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT MAX(TIMEOT_ID) ");
-                obj_str.Append(" FROM ATT_TR_TIMEOT");
+                obj_str.Append(" FROM SELF_TR_TIMEOT");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -198,7 +198,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_TR_TIMEOT");
+                obj_str.Append(" DELETE FROM SELF_TR_TIMEOT");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND TIMEOT_ID='" + id + "'");
 
@@ -228,7 +228,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
-                obj_str.Append("INSERT INTO ATT_TR_TIMEOT");
+                obj_str.Append("INSERT INTO SELF_TR_TIMEOT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
@@ -324,7 +324,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE ATT_TR_TIMEOT SET ");
+                obj_str.Append("UPDATE SELF_TR_TIMEOT SET ");
 
                 obj_str.Append(" TIMEOT_DOC=@TIMEOT_DOC ");
                 obj_str.Append(", TIMEOT_BEFOREMIN=@TIMEOT_BEFOREMIN ");
