@@ -73,7 +73,7 @@ namespace BPC_OPR
                     {
                         JObject json = new JObject();
 
-                        json.Add("company", model.company_code);
+                        json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("leave_code", model.leave_code);
 
@@ -991,6 +991,200 @@ namespace BPC_OPR
 
                 bool blnResult = controller.delete(input.workflow_id,input.company_code);
 
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region TRLineapprove
+        public string getTRLineapproveList(InputTRLineapprove input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRLineapprove objTRLineapprove = new cls_ctTRLineapprove();
+                List<cls_TRLineapprove> list = objTRLineapprove.getDataByFillter(input.company_code, input.lineapprove_id, input.worker_code, input.lineapprove_leave, input.lineapprove_ot, input.lineapprove_shift, input.lineapprove_punchcard, input.lineapprove_checking);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRLineapprove model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("lineapprove_id", model.lineapprove_id);
+
+                        json.Add("lineapprove_leave", model.lineapprove_leave);
+                        json.Add("lineapprove_ot", model.lineapprove_ot);
+                        json.Add("lineapprove_shift", model.lineapprove_shift);
+                        json.Add("lineapprove_punchcard", model.lineapprove_punchcard);
+                        json.Add("lineapprove_checkin", model.lineapprove_checkin);
+             
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRLineapprove(InputTRLineapprove input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRLineapprove objTRTimeleave = new cls_ctTRLineapprove();
+                bool strID = objTRTimeleave.insert(input.lineapprove_data);
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTimeleave.getMessage();
+                }
+
+                objTRTimeleave.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRLineapprove(InputTRLineapprove input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRLineapprove controller = new cls_ctTRLineapprove();
+                bool blnResult = controller.delete(input.company_code,input.lineapprove_id);
                 if (blnResult)
                 {
                     output["success"] = true;

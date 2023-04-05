@@ -68,6 +68,20 @@ namespace BPC_OPR
         string doDeleteMTWorkflow(InputMTWorkflow input);
         #endregion
 
+        #region TRLineapprove
+        [OperationContract(Name = "lineapprove_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRLineapproveList(InputTRLineapprove input);
+
+        [OperationContract(Name = "lineapprove")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRLineapprove(InputTRLineapprove input);
+
+        [OperationContract(Name = "lineapprove_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRLineapprove(InputTRLineapprove input);
+        #endregion
+
 
     }
 
