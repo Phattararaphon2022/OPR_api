@@ -3172,6 +3172,148 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "LineApprove",
+					"item": [
+						{
+							"name": "SelfServices/lineapprove_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"\",\r\n    \"lineapprove_id\":\"\",\r\n    \"lineapprove_leave\":\"\",\r\n    \"lineapprove_ot\":\"\",\r\n    \"lineapprove_shift\":\"\",\r\n    \"lineapprove_punchcard\":\"\",\r\n    \"lineapprove_checkin\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/lineapprove_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"lineapprove_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/lineapprove",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"lineapprove_data\":[\r\n        {\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"lineapprove_id\":0,\r\n    \"lineapprove_leave\":\"LV1-2\",\r\n    \"lineapprove_ot\":\"\",\r\n    \"lineapprove_shift\":\"\",\r\n    \"lineapprove_punchcard\":\"\",\r\n    \"lineapprove_checkin\":\"\",\r\n    \"modified_by\":\"Admin\",\r\n    \"flag\":false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/lineapprove",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"lineapprove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/lineapprove_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP02\",\r\n    \"lineapprove_id\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/lineapprove_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"lineapprove_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},

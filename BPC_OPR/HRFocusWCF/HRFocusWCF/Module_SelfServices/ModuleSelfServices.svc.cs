@@ -1053,7 +1053,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRLineapprove objTRLineapprove = new cls_ctTRLineapprove();
-                List<cls_TRLineapprove> list = objTRLineapprove.getDataByFillter(input.company_code, input.lineapprove_id, input.worker_code, input.lineapprove_leave, input.lineapprove_ot, input.lineapprove_shift, input.lineapprove_punchcard, input.lineapprove_checking);
+                List<cls_TRLineapprove> list = objTRLineapprove.getDataByFillter(input.company_code, input.lineapprove_id, input.worker_code, input.lineapprove_leave, input.lineapprove_ot, input.lineapprove_shift, input.lineapprove_punchcard, input.lineapprove_checkin);
 
                 JArray array = new JArray();
 
@@ -1126,7 +1126,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRLineapprove objTRTimeleave = new cls_ctTRLineapprove();
-                bool strID = objTRTimeleave.insert(input.lineapprove_data);
+                bool strID = objTRTimeleave.insert(input.lineapprove_data,input.username);
                 if (strID)
                 {
                     output["success"] = true;
@@ -1184,7 +1184,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRLineapprove controller = new cls_ctTRLineapprove();
-                bool blnResult = controller.delete(input.company_code,input.lineapprove_id);
+                bool blnResult = controller.delete(input.company_code,input.lineapprove_id,input.worker_code);
                 if (blnResult)
                 {
                     output["success"] = true;

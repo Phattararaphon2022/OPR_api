@@ -59,7 +59,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.worker_code = Convert.ToString(dr["WORKER_CODE"]);
                     model.lineapprove_id = Convert.ToInt32(dr["LINEAPPROVE_ID"]);
-                    model.lineapprove_leave = Convert.ToString(dr["LINEAPPROVE_ID"]);
+                    model.lineapprove_leave = Convert.ToString(dr["LINEAPPROVE_LEAVE"]);
                     model.lineapprove_ot = Convert.ToString(dr["LINEAPPROVE_OT"]);
                     model.lineapprove_shift = Convert.ToString(dr["LINEAPPROVE_SHIFT"]);
                     model.lineapprove_punchcard = Convert.ToString(dr["LINEAPPROVE_PUNCHCARD"]);
@@ -130,7 +130,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string lineid)
+        public bool delete(string com, string lineid,string worker_code)
         {
             bool blnResult = true;
             try
@@ -141,7 +141,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" DELETE FROM SELF_TR_LINEAPPROVE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND LINEAPPROVE_ID='" + lineid + "' ");
+                if (!lineid.Equals(""))
+                    obj_str.Append(" AND LINEAPPROVE_ID='" + lineid + "' ");
+                if (!worker_code.Equals(""))
+                    obj_str.Append(" AND WORKER_CODE='" + worker_code + "' ");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -212,7 +215,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@LINEAPPROVE_PUNCHCARD", SqlDbType.VarChar); obj_cmd.Parameters["@LINEAPPROVE_PUNCHCARD"].Value = model.lineapprove_punchcard;
                 obj_cmd.Parameters.Add("@LINEAPPROVE_CHECKIN", SqlDbType.VarChar); obj_cmd.Parameters["@LINEAPPROVE_CHECKIN"].Value = model.lineapprove_checkin;
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
-                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = model.modified_date;
+                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
 
 
@@ -254,7 +257,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return intResult;
         }
-        public bool insert(List<cls_TRLineapprove> list_model)
+        public bool insert(List<cls_TRLineapprove> list_model,string username)
         {
             bool blnResult = false;
             try
@@ -313,6 +316,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+                int id = 1;
+                try
+                {
+                    System.Text.StringBuilder obj_str3 = new System.Text.StringBuilder();
+
+                    obj_str3.Append("SELECT MAX(LINEAPPROVE_ID) ");
+                    obj_str3.Append(" FROM SELF_TR_LINEAPPROVE");
+
+                    DataTable dt = obj_conn.doGetTableTransaction(obj_str3.ToString());
+                    if (dt.Rows.Count > 0)
+                    {
+                        id = Convert.ToInt32(dt.Rows[0][0]) + 1;
+                    }
+                }
+                catch
+                {
+
+                }
                 if (blnResult)
                 {
                     SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
@@ -329,20 +350,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
                     obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit);
-                    int id = this.getNextID();
                     foreach (cls_TRLineapprove model in list_model)
                     {
 
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                         obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                         obj_cmd.Parameters["@LINEAPPROVE_ID"].Value = id;
-                        obj_cmd.Parameters["@LINEAPPROVE_LEAVE"].Value = model;
+                        obj_cmd.Parameters["@LINEAPPROVE_LEAVE"].Value = model.lineapprove_leave;
                         obj_cmd.Parameters["@LINEAPPROVE_OT"].Value = model.lineapprove_ot;
                         obj_cmd.Parameters["@LINEAPPROVE_SHIFT"].Value = model.lineapprove_shift;
                         obj_cmd.Parameters["@LINEAPPROVE_PUNCHCARD"].Value = model.lineapprove_punchcard;
                         obj_cmd.Parameters["@LINEAPPROVE_CHECKIN"].Value = model.lineapprove_checkin;
-                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
-                        obj_cmd.Parameters["@CREATED_DATE"].Value = model.modified_date;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = username;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                         obj_cmd.Parameters["@FLAG"].Value = model.flag;
                         id++;
                         obj_cmd.ExecuteNonQuery();
@@ -412,7 +432,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@LINEAPPROVE_PUNCHCARD", SqlDbType.VarChar); obj_cmd.Parameters["@LINEAPPROVE_PUNCHCARD"].Value = model.lineapprove_punchcard;
                 obj_cmd.Parameters.Add("@LINEAPPROVE_CHECKIN", SqlDbType.VarChar); obj_cmd.Parameters["@LINEAPPROVE_CHECKIN"].Value = model.lineapprove_checkin;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
-                obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = model.modified_date;
+                obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
 
                 obj_cmd.ExecuteNonQuery();
