@@ -106,10 +106,12 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBloodtype.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCardtype.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCcourse.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTComaddlocation.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTComaddress.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCombank.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCombranch.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTComcard.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTComLocation.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCompany.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCourse.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTEmpID.cs" />
@@ -131,10 +133,13 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTReason.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTCodestructure.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolcode.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTRound.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTRounds.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctSYSCodestructure.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctTRRound.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLate.cs" />
@@ -225,10 +230,12 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTBloodtype.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCardtype.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCcourse.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTComaddlocation.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTComaddress.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCombank.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCombranch.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTComcard.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTComLocation.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCompany.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCourse.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTEmpID.cs" />
@@ -246,6 +253,8 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTReduce.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTReligion.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTRequest.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTRound.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTRounds.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTYear.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTReason.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCodestructure.cs" />
@@ -254,6 +263,7 @@
     <Compile Include="hrfocus.model\SYS.System\cls_TRPolcode.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_TRRound.cs" />
     <Compile Include="hrfocus.service\Attendance\cls_srvAttendanceImport.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRAccumalate.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRAddress.cs" />

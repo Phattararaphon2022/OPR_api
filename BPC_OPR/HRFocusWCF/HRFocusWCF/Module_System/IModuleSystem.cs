@@ -227,6 +227,28 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadComaddress?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTComAddress(string token, string by, string fileName, Stream stream);
 
+
+
+        //-- Comaddlocation
+        [OperationContract(Name = "comaddlocation_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getComaddlocationList(FillterCompany req);
+
+        [OperationContract(Name = "comaddlocation")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTComaddlocation(InputComTransaction input);
+
+        [OperationContract(Name = "comaddlocation_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTComaddlocation(InputMTComaddlocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadComaddlocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTComaddlocation(string token, string by, string fileName, Stream stream);
+
+
+
+
         //-- COMPANY
         [OperationContract(Name = "company_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -395,6 +417,63 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCombranch?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTCombranch(string token, string by, string fileName, Stream stream);
+
+        //-- ComLocation
+        [OperationContract(Name = "comlocation_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getComlocationList(FillterCompany req);
+
+        [OperationContract(Name = "comlocation")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTComlocation(InputMTComLocation input);
+
+        [OperationContract(Name = "comlocation_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTComlocation(InputMTComLocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadcomlocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTComlocation(string token, string by, string fileName, Stream stream);
+
+
+        #region Rounds
+        [OperationContract(Name = "rounds_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTRoundsList(InputMTRounds input);
+
+        [OperationContract(Name = "rounds")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTRounds(InputMTRounds input);
+
+        [OperationContract(Name = "rounds_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTRounds(InputMTRounds input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadRounds?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        //-- TRRound
+        //[OperationContract(Name = "round_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getMTRoundList(BasicRequest req);
+
+        //[OperationContract(Name = "round")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTRound(InputMTRounds input);
+
+        //[OperationContract(Name = "round_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTRound(InputMTRounds input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadRound?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTRound(string token, string by, string fileName, Stream stream);
+
+
+       
 
         //-- ETHNICITY
         [OperationContract(Name = "ethnicity_list")]

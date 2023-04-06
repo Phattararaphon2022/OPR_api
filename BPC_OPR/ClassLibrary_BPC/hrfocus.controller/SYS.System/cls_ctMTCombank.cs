@@ -246,26 +246,26 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_COMBANkK SET ");
                 obj_str.Append(" COMBANK_BANKCODE=@COMBANK_BANKCODE ");
-                obj_str.Append(", COMBANK_BANKACCOUNT=@COMBANK_BANKACCOUNT ");
 
-                obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+                obj_str.Append(" MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
 
                 obj_str.Append(" WHERE COMBANK_ID=@COMBANK_ID ");
+                obj_str.Append(" AND COMBANK_BANKACCOUNT=@COMBANK_BANKACCOUNT ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMBANK_BANKCODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKCODE"].Value = model.combank_bankcode;
-                obj_cmd.Parameters.Add("@COMBANK_BANKACCOUNT", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKACCOUNT"].Value = model.combank_bankaccount;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
                 obj_cmd.Parameters.Add("@COMBANK_ID", SqlDbType.Int); obj_cmd.Parameters["@COMBANK_ID"].Value = model.combank_id;
+                obj_cmd.Parameters.Add("@COMBANK_BANKACCOUNT", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKACCOUNT"].Value = model.combank_bankaccount;
 
                 obj_cmd.ExecuteNonQuery();
 

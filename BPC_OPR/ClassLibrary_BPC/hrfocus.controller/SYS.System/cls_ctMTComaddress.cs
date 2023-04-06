@@ -38,18 +38,27 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", COMBRANCH_CODE");
                 obj_str.Append(", COMADDRESS_TYPE");
 
-                obj_str.Append(", ISNULL(COMADDRESS_NO, '') AS COMADDRESS_NO");
-                obj_str.Append(", ISNULL(COMADDRESS_MOO, '') AS COMADDRESS_MOO");
-                obj_str.Append(", ISNULL(COMADDRESS_SOI, '') AS COMADDRESS_SOI");
-                obj_str.Append(", ISNULL(COMADDRESS_ROAD, '') AS COMADDRESS_ROAD");
-                obj_str.Append(", ISNULL(COMADDRESS_TAMBON, '') AS COMADDRESS_TAMBON");
-                obj_str.Append(", ISNULL(COMADDRESS_AMPHUR, '') AS COMADDRESS_AMPHUR");
+                obj_str.Append(", ISNULL(COMADDRESSTH_NO, '') AS COMADDRESSTH_NO");
+                obj_str.Append(", ISNULL(COMADDRESSTH_MOO, '') AS COMADDRESSTH_MOO");
+                obj_str.Append(", ISNULL(COMADDRESSTH_SOI, '') AS COMADDRESSTH_SOI");
+                obj_str.Append(", ISNULL(COMADDRESSTH_ROAD, '') AS COMADDRESSTH_ROAD");
+                obj_str.Append(", ISNULL(COMADDRESSTH_TAMBON, '') AS COMADDRESSTH_TAMBON");
+                obj_str.Append(", ISNULL(COMADDRESSTH_AMPHUR, '') AS COMADDRESSTH_AMPHUR");
+                obj_str.Append(", ISNULL(PROVINCETH_CODE, '') AS PROVINCETH_CODE");
+
+                obj_str.Append(", ISNULL(COMADDRESSEN_NO, '') AS COMADDRESSEN_NO");
+                obj_str.Append(", ISNULL(COMADDRESSEN_MOO, '') AS COMADDRESSEN_MOO");
+                obj_str.Append(", ISNULL(COMADDRESSEN_SOI, '') AS COMADDRESSEN_SOI");
+                obj_str.Append(", ISNULL(COMADDRESSEN_ROAD, '') AS COMADDRESSEN_ROAD");
+                obj_str.Append(", ISNULL(COMADDRESSEN_TAMBON, '') AS COMADDRESSEN_TAMBON");
+                obj_str.Append(", ISNULL(COMADDRESSEN_AMPHUR, '') AS COMADDRESSEN_AMPHUR");
                 obj_str.Append(", ISNULL(COMADDRESS_ZIPCODE, '') AS COMADDRESS_ZIPCODE");
+                obj_str.Append(", ISNULL(PROVINCEEN_CODE, '') AS PROVINCEEN_CODE");
+
                 obj_str.Append(", ISNULL(COMADDRESS_TEL, '') AS COMADDRESS_TEL");
                 obj_str.Append(", ISNULL(COMADDRESS_EMAIL, '') AS COMADDRESS_EMAIL");
                 obj_str.Append(", ISNULL(COMADDRESS_LINE, '') AS COMADDRESS_LINE");
                 obj_str.Append(", ISNULL(COMADDRESS_FACEBOOK, '') AS COMADDRESS_FACEBOOK");
-                obj_str.Append(", ISNULL(PROVINCE_CODE, '') AS PROVINCE_CODE");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -71,18 +80,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.company_code = Convert.ToString(dr["COMPANY_CODE"]);
                     model.combranch_code = Convert.ToString(dr["COMBRANCH_CODE"]);
                     model.comaddress_type = Convert.ToString(dr["COMADDRESS_TYPE"]);
-                    model.comaddress_no = Convert.ToString(dr["COMADDRESS_NO"]);
-                    model.comaddress_moo = Convert.ToString(dr["COMADDRESS_MOO"]);
-                    model.comaddress_soi = Convert.ToString(dr["COMADDRESS_SOI"]);
-                    model.comaddress_road = Convert.ToString(dr["COMADDRESS_ROAD"]);
-                    model.comaddress_tambon = Convert.ToString(dr["COMADDRESS_TAMBON"]);
-                    model.comaddress_amphur = Convert.ToString(dr["COMADDRESS_AMPHUR"]);
+
+                    model.comaddressth_no = Convert.ToString(dr["COMADDRESSTH_NO"]);
+                    model.comaddressth_moo = Convert.ToString(dr["COMADDRESSTH_MOO"]);
+                    model.comaddressth_soi = Convert.ToString(dr["COMADDRESSTH_SOI"]);
+                    model.comaddressth_road = Convert.ToString(dr["COMADDRESSTH_ROAD"]);
+                    model.comaddressth_tambon = Convert.ToString(dr["COMADDRESSTH_TAMBON"]);
+                    model.comaddressth_amphur = Convert.ToString(dr["COMADDRESSTH_AMPHUR"]);
+                    model.provinceth_code = Convert.ToString(dr["PROVINCETH_CODE"]);
+
+                    model.comaddressen_no = Convert.ToString(dr["COMADDRESSEN_NO"]);
+                    model.comaddressen_moo = Convert.ToString(dr["COMADDRESSEN_MOO"]);
+                    model.comaddressen_soi = Convert.ToString(dr["COMADDRESSEN_SOI"]);
+                    model.comaddressen_road = Convert.ToString(dr["COMADDRESSEN_ROAD"]);
+                    model.comaddressen_tambon = Convert.ToString(dr["COMADDRESSEN_TAMBON"]);
+                    model.comaddressen_amphur = Convert.ToString(dr["COMADDRESSEN_AMPHUR"]);
                     model.comaddress_zipcode = Convert.ToString(dr["COMADDRESS_ZIPCODE"]);
+                    model.provinceen_code = Convert.ToString(dr["PROVINCEEN_CODE"]);
+
                     model.comaddress_tel = Convert.ToString(dr["COMADDRESS_TEL"]);
                     model.comaddress_email = Convert.ToString(dr["COMADDRESS_EMAIL"]);
                     model.comaddress_line = Convert.ToString(dr["COMADDRESS_LINE"]);
                     model.comaddress_facebook = Convert.ToString(dr["COMADDRESS_FACEBOOK"]);
-                    model.province_code = Convert.ToString(dr["PROVINCE_CODE"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -93,7 +112,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "CAD001:" + ex.ToString();
+                Message = "CCAD001:" + ex.ToString();
             }
 
             return list_model;
@@ -134,7 +153,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "CAD002:" + ex.ToString();
+                Message = "CCAD002:" + ex.ToString();
             }
 
             return intResult;
@@ -162,7 +181,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "CAD003:" + ex.ToString();
+                Message = "CCAD003:" + ex.ToString();
             }
 
             return blnResult;
@@ -188,7 +207,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "CAD004:" + ex.ToString();
+                Message = "CCAD004:" + ex.ToString();
             }
 
             return blnResult;
@@ -214,18 +233,29 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", COMBRANCH_CODE ");
                 obj_str.Append(", COMADDRESS_TYPE ");
-                obj_str.Append(", COMADDRESS_NO ");
-                obj_str.Append(", COMADDRESS_MOO ");
-                obj_str.Append(", COMADDRESS_SOI ");
-                obj_str.Append(", COMADDRESS_ROAD ");
-                obj_str.Append(", COMADDRESS_TAMBON ");
-                obj_str.Append(", COMADDRESS_AMPHUR ");
+
+                obj_str.Append(", COMADDRESSTH_NO ");
+                obj_str.Append(", COMADDRESSTH_MOO ");
+                obj_str.Append(", COMADDRESSTH_SOI ");
+                obj_str.Append(", COMADDRESSTH_ROAD ");
+                obj_str.Append(", COMADDRESSTH_TAMBON ");
+                obj_str.Append(", COMADDRESSTH_AMPHUR ");
+                obj_str.Append(", PROVINCETH_CODE ");
+
+                obj_str.Append(", COMADDRESSEN_NO ");
+                obj_str.Append(", COMADDRESSEN_MOO ");
+                obj_str.Append(", COMADDRESSEN_SOI ");
+                obj_str.Append(", COMADDRESSEN_ROAD ");
+                obj_str.Append(", COMADDRESSEN_TAMBON ");
+                obj_str.Append(", COMADDRESSEN_AMPHUR ");
                 obj_str.Append(", COMADDRESS_ZIPCODE ");
+                obj_str.Append(", PROVINCEEN_CODE ");
+
+
                 obj_str.Append(", COMADDRESS_TEL ");
                 obj_str.Append(", COMADDRESS_EMAIL ");
                 obj_str.Append(", COMADDRESS_LINE ");
                 obj_str.Append(", COMADDRESS_FACEBOOK ");
-                obj_str.Append(", PROVINCE_CODE ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -235,18 +265,29 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @COMBRANCH_CODE ");
                 obj_str.Append(", @COMADDRESS_TYPE ");
-                obj_str.Append(", @COMADDRESS_NO ");
-                obj_str.Append(", @COMADDRESS_MOO ");
-                obj_str.Append(", @COMADDRESS_SOI ");
-                obj_str.Append(", @COMADDRESS_ROAD ");
-                obj_str.Append(", @COMADDRESS_TAMBON ");
-                obj_str.Append(", @COMADDRESS_AMPHUR ");
+
+                obj_str.Append(", @COMADDRESSTH_NO ");
+                obj_str.Append(", @COMADDRESSTH_MOO ");
+                obj_str.Append(", @COMADDRESSTH_SOI ");
+                obj_str.Append(", @COMADDRESSTH_ROAD ");
+                obj_str.Append(", @COMADDRESSTH_TAMBON ");
+                obj_str.Append(", @COMADDRESSTH_AMPHUR ");
+                obj_str.Append(", @PROVINCETH_CODE ");
+
+                obj_str.Append(", @COMADDRESSEN_NO ");
+                obj_str.Append(", @COMADDRESSEN_MOO ");
+                obj_str.Append(", @COMADDRESSEN_SOI ");
+                obj_str.Append(", @COMADDRESSEN_ROAD ");
+                obj_str.Append(", @COMADDRESSEN_TAMBON ");
+                obj_str.Append(", @COMADDRESSEN_AMPHUR ");
                 obj_str.Append(", @COMADDRESS_ZIPCODE ");
+                obj_str.Append(", @PROVINCEEN_CODE ");
+
+
                 obj_str.Append(", @COMADDRESS_TEL ");
                 obj_str.Append(", @COMADDRESS_EMAIL ");
                 obj_str.Append(", @COMADDRESS_LINE ");
                 obj_str.Append(", @COMADDRESS_FACEBOOK ");
-                obj_str.Append(", @PROVINCE_CODE ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -261,18 +302,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@COMBRANCH_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBRANCH_CODE"].Value = model.combranch_code;
                 obj_cmd.Parameters.Add("@COMADDRESS_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_TYPE"].Value = model.comaddress_type;
-                obj_cmd.Parameters.Add("@COMADDRESS_NO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_NO"].Value = model.comaddress_no;
-                obj_cmd.Parameters.Add("@COMADDRESS_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_MOO"].Value = model.comaddress_moo;
-                obj_cmd.Parameters.Add("@COMADDRESS_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_SOI"].Value = model.comaddress_soi;
-                obj_cmd.Parameters.Add("@COMADDRESS_ROAD", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_ROAD"].Value = model.comaddress_road;
-                obj_cmd.Parameters.Add("@COMADDRESS_TAMBON", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_TAMBON"].Value = model.comaddress_tambon;
-                obj_cmd.Parameters.Add("@COMADDRESS_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_AMPHUR"].Value = model.comaddress_amphur;
+                
+                obj_cmd.Parameters.Add("@COMADDRESSTH_NO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_NO"].Value = model.comaddressth_no;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_MOO"].Value = model.comaddressth_moo;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_SOI"].Value = model.comaddressth_soi;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_ROAD", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_ROAD"].Value = model.comaddressth_road;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_TAMBON", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_TAMBON"].Value = model.comaddressth_tambon;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_AMPHUR"].Value = model.comaddressth_amphur;
+                obj_cmd.Parameters.Add("@PROVINCETH_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCETH_CODE"].Value = model.provinceth_code;
+
+                obj_cmd.Parameters.Add("@COMADDRESSEN_NO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_NO"].Value = model.comaddressen_no;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_MOO"].Value = model.comaddressen_moo;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_SOI"].Value = model.comaddressen_soi;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_ROAD", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_ROAD"].Value = model.comaddressen_road;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_TAMBON", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_TAMBON"].Value = model.comaddressen_tambon;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_AMPHUR"].Value = model.comaddressen_amphur;
                 obj_cmd.Parameters.Add("@COMADDRESS_ZIPCODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_ZIPCODE"].Value = model.comaddress_zipcode;
+                obj_cmd.Parameters.Add("@PROVINCEEN_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCEEN_CODE"].Value = model.provinceen_code;
+
                 obj_cmd.Parameters.Add("@COMADDRESS_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_TEL"].Value = model.comaddress_tel;
                 obj_cmd.Parameters.Add("@COMADDRESS_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_EMAIL"].Value = model.comaddress_email;
                 obj_cmd.Parameters.Add("@COMADDRESS_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_LINE"].Value = model.comaddress_line;
                 obj_cmd.Parameters.Add("@COMADDRESS_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_FACEBOOK"].Value = model.comaddress_facebook;
-                obj_cmd.Parameters.Add("@PROVINCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCE_CODE"].Value = model.province_code;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -286,7 +337,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "CAD005:" + ex.ToString();
+                Message = "CCAD005:" + ex.ToString();
                 strResult = "";
             }
 
@@ -303,18 +354,29 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE SYS_MT_COMADDRESS SET ");
 
 
-                obj_str.Append(" COMADDRESS_NO=@COMADDRESS_NO ");
-                obj_str.Append(", COMADDRESS_MOO=@COMADDRESS_MOO ");
-                obj_str.Append(", COMADDRESS_SOI=@COMADDRESS_SOI ");
-                obj_str.Append(", COMADDRESS_ROAD=@COMADDRESS_ROAD ");
-                obj_str.Append(", COMADDRESS_TAMBON=@COMADDRESS_TAMBON ");
-                obj_str.Append(", COMADDRESS_AMPHUR=@COMADDRESS_AMPHUR ");
+                obj_str.Append(" COMADDRESSTH_NO=@COMADDRESSTH_NO ");
+                obj_str.Append(", COMADDRESSTH_MOO=@COMADDRESSTH_MOO ");
+                obj_str.Append(", COMADDRESSTH_SOI=@COMADDRESSTH_SOI ");
+                obj_str.Append(", COMADDRESSTH_ROAD=@COMADDRESSTH_ROAD ");
+                obj_str.Append(", COMADDRESSTH_TAMBON=@COMADDRESSTH_TAMBON ");
+                obj_str.Append(", COMADDRESSTH_AMPHUR=@COMADDRESSTH_AMPHUR ");
+                obj_str.Append(", PROVINCETH_CODE=@PROVINCETH_CODE ");
+
+
+                obj_str.Append(", COMADDRESSEN_NO=@COMADDRESSEN_NO ");
+                obj_str.Append(", COMADDRESSEN_MOO=@COMADDRESSEN_MOO ");
+                obj_str.Append(", COMADDRESSEN_SOI=@COMADDRESSEN_SOI ");
+                obj_str.Append(", COMADDRESSEN_ROAD=@COMADDRESSEN_ROAD ");
+                obj_str.Append(", COMADDRESSEN_TAMBON=@COMADDRESSEN_TAMBON ");
+                obj_str.Append(", COMADDRESSEN_AMPHUR=@COMADDRESSEN_AMPHUR ");
+                obj_str.Append(", PROVINCEEN_CODE=@PROVINCEEN_CODE ");
+
+
                 obj_str.Append(", COMADDRESS_ZIPCODE=@COMADDRESS_ZIPCODE ");
                 obj_str.Append(", COMADDRESS_TEL=@COMADDRESS_TEL ");
                 obj_str.Append(", COMADDRESS_EMAIL=@COMADDRESS_EMAIL ");
                 obj_str.Append(", COMADDRESS_LINE=@COMADDRESS_LINE ");
                 obj_str.Append(", COMADDRESS_FACEBOOK=@COMADDRESS_FACEBOOK ");
-                obj_str.Append(", PROVINCE_CODE=@PROVINCE_CODE ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -327,18 +389,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@COMADDRESS_NO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_NO"].Value = model.comaddress_no;
-                obj_cmd.Parameters.Add("@COMADDRESS_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_MOO"].Value = model.comaddress_moo;
-                obj_cmd.Parameters.Add("@COMADDRESS_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_SOI"].Value = model.comaddress_soi;
-                obj_cmd.Parameters.Add("@COMADDRESS_ROAD", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_ROAD"].Value = model.comaddress_road;
-                obj_cmd.Parameters.Add("@COMADDRESS_TAMBON", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_TAMBON"].Value = model.comaddress_tambon;
-                obj_cmd.Parameters.Add("@COMADDRESS_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_AMPHUR"].Value = model.comaddress_amphur;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_NO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_NO"].Value = model.comaddressth_no;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_MOO"].Value = model.comaddressth_moo;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_SOI"].Value = model.comaddressth_soi;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_ROAD", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_ROAD"].Value = model.comaddressth_road;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_TAMBON", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_TAMBON"].Value = model.comaddressth_tambon;
+                obj_cmd.Parameters.Add("@COMADDRESSTH_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSTH_AMPHUR"].Value = model.comaddressth_amphur;
+                obj_cmd.Parameters.Add("@PROVINCETH_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCETH_CODE"].Value = model.provinceth_code;
+
+
+                obj_cmd.Parameters.Add("@COMADDRESSEN_NO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_NO"].Value = model.comaddressen_no;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_MOO"].Value = model.comaddressen_moo;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_SOI"].Value = model.comaddressen_soi;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_ROAD", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_ROAD"].Value = model.comaddressen_road;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_TAMBON", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_TAMBON"].Value = model.comaddressen_tambon;
+                obj_cmd.Parameters.Add("@COMADDRESSEN_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESSEN_AMPHUR"].Value = model.comaddressen_amphur;
                 obj_cmd.Parameters.Add("@COMADDRESS_ZIPCODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_ZIPCODE"].Value = model.comaddress_zipcode;
+                obj_cmd.Parameters.Add("@PROVINCEEN_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCEEN_CODE"].Value = model.provinceen_code;
+
+
+
                 obj_cmd.Parameters.Add("@COMADDRESS_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_TEL"].Value = model.comaddress_tel;
                 obj_cmd.Parameters.Add("@COMADDRESS_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_EMAIL"].Value = model.comaddress_email;
                 obj_cmd.Parameters.Add("@COMADDRESS_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_LINE"].Value = model.comaddress_line;
                 obj_cmd.Parameters.Add("@COMADDRESS_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRESS_FACEBOOK"].Value = model.comaddress_facebook;
-                obj_cmd.Parameters.Add("@PROVINCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCE_CODE"].Value = model.province_code;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
@@ -355,7 +429,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "CAD006:" + ex.ToString();
+                Message = "CCAD006:" + ex.ToString();
             }
 
             return blnResult;

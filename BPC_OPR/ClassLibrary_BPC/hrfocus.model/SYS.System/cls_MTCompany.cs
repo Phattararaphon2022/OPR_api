@@ -13,10 +13,15 @@ namespace ClassLibrary_BPC.hrfocus.model
         public int company_id { get; set; }
         
         public string company_code { get; set; }
-
+        public string combranch_code { get; set; } 
         public string company_initials { get; set; }
         public string company_name_th { get; set; }
         public string company_name_en { get; set; }
+        public string sso_tax_no { get; set; }
+        public string citizen_no { get; set; }
+        public string provident_fund_no { get; set; }
+        public string sso_security_no { get; set; }
+        public string sso_branch_no { get; set; }
 
         public double hrs_perday { get; set; }
         public double sso_com_rate { get; set; }
