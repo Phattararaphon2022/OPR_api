@@ -493,6 +493,42 @@ namespace BPC_OPR
         string getTRAccumalateList(FillterWorker input);
         #endregion
 
+        #region TR_Supply
+        [OperationContract(Name = "empsupplylist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRSupplyList(FillterWorker input);
+
+        [OperationContract(Name = "empsupply")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRSupply(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empsupply_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRSupply(InputTREmpSupply input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpSupply?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpSupply(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_Uniform
+        [OperationContract(Name = "empuniformlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRUniformList(FillterWorker input);
+
+        [OperationContract(Name = "empuniform")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRUniform(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empuniform_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRUniform(InputTREmpUniform input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpUnifrom?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpUnifrom(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #region set batch
         //set position
         [OperationContract(Name = "setbatchposition")]
@@ -513,6 +549,16 @@ namespace BPC_OPR
         [OperationContract(Name = "setbatchsalary")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchSalary(InputSetSalary input);
+
+        //set provident
+        [OperationContract(Name = "setbatchprovident")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchProvident(InputSetProvident input);
+
+        //set benefits
+        [OperationContract(Name = "setbatchbenefit")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchBenefits(InputSetBenefits input);
         #endregion
 
         #endregion
