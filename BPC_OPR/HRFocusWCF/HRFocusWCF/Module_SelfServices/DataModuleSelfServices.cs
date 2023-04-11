@@ -282,4 +282,26 @@ namespace BPC_OPR
 
     }
     #endregion
+
+    #region InputTRAccountpos
+    [DataContract]
+    public class InputTRAccountpos
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string account_type { get; set; }
+        [DataMember]
+        public string position_code { get; set; }
+    }
+    #endregion
 }

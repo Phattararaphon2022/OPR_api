@@ -96,6 +96,20 @@ namespace BPC_OPR
         string doDeleteeMTAccount(InputMTAccount input);
         #endregion
 
+        #region TRAccountpos
+        [OperationContract(Name = "accountpos_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRAccountposList(InputTRAccountpos input);
+
+        [OperationContract(Name = "accountpos")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRAccountpos(InputTRAccountpos input);
+
+        [OperationContract(Name = "accountpos_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeTRAccountpos(InputTRAccountpos input);
+        #endregion
+
 
     }
 

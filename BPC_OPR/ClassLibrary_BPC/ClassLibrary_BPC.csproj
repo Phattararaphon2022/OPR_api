@@ -89,6 +89,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccountpos.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRLineapprove.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeleave.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeot.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProbusiness.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimecard.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRAccountpos.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRLineapprove.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimeleave.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimeot.cs" />
