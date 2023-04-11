@@ -262,35 +262,6 @@ namespace BPC_OPR
         string doUploadTimeInput(string fileName, Stream stream);
         #endregion
 
-        #region TRTimeleave
-        [OperationContract(Name = "timeleave_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTRTimeleaveList(InputTRTimeleave input);
-
-        [OperationContract(Name = "timeleave")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageTRTimeleave(InputTRTimeleave input);
-
-        [OperationContract(Name = "timeleave_del")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteTRTimeleave(InputTRTimeleave input);
-        #endregion
-
-        #region TRTimeot
-        [OperationContract(Name = "timeot_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTRTimeotList(InputTRTimeot input);
-
-        [OperationContract(Name = "timeot")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageTRTimeot(InputTRTimeot input);
-
-        [OperationContract(Name = "timeot_del")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteTRTimeot(InputTRTimeot input);
-        #endregion
-
-
     }
 
 }
