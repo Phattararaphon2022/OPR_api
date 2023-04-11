@@ -4145,6 +4145,7 @@ namespace BPC_OPR
                 timecard.company_code = input.company_code;
                 timecard.worker_code = input.worker_code;
                 timecard.project_code = input.project_code;
+                timecard.projob_code = input.projob_code;
                 timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
                 timecard.timecard_daytype = input.timecard_daytype;
                 timecard.shift_code = input.shift_code;

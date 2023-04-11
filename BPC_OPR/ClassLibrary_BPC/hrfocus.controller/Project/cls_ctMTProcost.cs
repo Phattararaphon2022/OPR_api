@@ -88,9 +88,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProcost> getDataByFillter(string code)
+        public List<cls_MTProcost> getDataByFillter(string com, string code)
         {
-            string strCondition = "";
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND PROCOST_CODE='" + code + "'";

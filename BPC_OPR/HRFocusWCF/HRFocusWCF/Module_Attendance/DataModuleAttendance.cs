@@ -558,11 +558,14 @@ namespace BPC_OPR
     public class InputTRTimecard
     {
         [DataMember]
-        public string company_code { get; set; }
+        public string company_code { get; set; }        
+        [DataMember]
+        public string worker_code { get; set; }
         [DataMember]
         public string project_code { get; set; }
         [DataMember]
-        public string worker_code { get; set; }
+        public string projob_code { get; set; }
+
         [DataMember]
         public string shift_code { get; set; }
         [DataMember]

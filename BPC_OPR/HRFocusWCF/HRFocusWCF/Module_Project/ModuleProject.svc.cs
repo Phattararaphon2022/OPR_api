@@ -1310,7 +1310,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProcost controller = new cls_ctMTProcost();
-                List<cls_MTProcost> list = controller.getDataByFillter("");
+                List<cls_MTProcost> list = controller.getDataByFillter(req.company, "");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1624,6 +1624,10 @@ namespace BPC_OPR
 
                 cls_ctMTProject controller = new cls_ctMTProject();
                 List<cls_MTProject> list = controller.getDataByFillter(req.project_code, "", "", "");
+
+                cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1647,9 +1651,44 @@ namespace BPC_OPR
                         json.Add("project_status", model.project_status);
                         json.Add("company_code", model.company_code);
 
+                        int manpower = 0;    
+                        double sum_cost = 0;
 
-                        json.Add("project_emp", 0);
-                        json.Add("project_cost", 0);
+                        cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code);
+                        foreach (cls_MTProjobmain jobmain in list_job)
+                        {
+                            
+                            int count_emp = 0;
+                            int count_working = 0;
+                            List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code);
+                            foreach (cls_TRProjobshift tmp in shift_list)
+                            {
+                                count_emp += tmp.projobshift_emp;
+                                count_working += tmp.projobshift_working;
+                            }
+
+                            double cost = 0;
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(model.company_code, model.project_code, jobmain.projobmain_code);
+                            foreach (cls_TRProjobcost jobcost in cost_list_max)
+                            {
+                                if (jobcost.procost_type.Equals("D"))
+                                    cost += jobcost.projobcost_amount * count_working;
+                                else
+                                    cost += jobcost.projobcost_amount;
+
+                            }
+
+
+                            //-- Total
+                            cost *= count_emp;
+
+                            sum_cost += cost;
+                            manpower += count_emp;
+                        }
+
+                        json.Add("project_emp", manpower);
+                        json.Add("project_cost", sum_cost);
                         json.Add("project_start", new DateTime());
                         json.Add("project_end", new DateTime());
             
@@ -3711,6 +3750,11 @@ namespace BPC_OPR
                 cls_ctTRProjobcontract contract_controller = new cls_ctTRProjobcontract();
                 List<cls_TRProjobcontract> contract_list = contract_controller.getDataByFillter(req.project_code, "");
 
+                //-- Job shift
+                cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(req.project_code, "");
+
+
                 //-- Job cost
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 
@@ -3758,15 +3802,28 @@ namespace BPC_OPR
                         json.Add("index", index++);
 
                         //-- Contract
-                        cls_TRProjobcontract contract = null;
-                        foreach (cls_TRProjobcontract tmp in contract_list)
+                        //cls_TRProjobcontract contract = null;
+                        //foreach (cls_TRProjobcontract tmp in contract_list)
+                        //{
+                        //    if (tmp.projob_code.Equals(model.projobmain_code))
+                        //    {
+                        //        contract = tmp;
+                        //        break;
+                        //    }                                
+                        //}
+                        
+                        //-- Job shift
+                        int manpower = 0;
+                        int working = 0;
+                        foreach (cls_TRProjobshift tmp in shift_list)
                         {
                             if (tmp.projob_code.Equals(model.projobmain_code))
                             {
-                                contract = tmp;
-                                break;
-                            }                                
+                                manpower += tmp.projobshift_emp;
+                                working += tmp.projobshift_working;
+                            }
                         }
+
 
                         //-- Allow
                         List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(req.company, req.project_code, model.projobmain_code);
@@ -3777,30 +3834,22 @@ namespace BPC_OPR
                         {
                             switch (i)
                             {
-                                case 1: model.allow1 += cost.projobcost_amount; break;
-                                case 2: model.allow2 += cost.projobcost_amount; break;
-                                case 3: model.allow3 += cost.projobcost_amount; break;
-                                case 4: model.allow4 += cost.projobcost_amount; break;
-                                case 5: model.allow5 += cost.projobcost_amount; break;
-                                case 6: model.allow6 += cost.projobcost_amount; break;
-                                case 7: model.allow7 += cost.projobcost_amount; break;
-                                case 8: model.allow8 += cost.projobcost_amount; break;
-                                case 9: model.allow9 += cost.projobcost_amount; break;
-                                case 10: model.allow10 += cost.projobcost_amount; break;
+                                case 1: model.allow1 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 2: model.allow2 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 3: model.allow3 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 4: model.allow4 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 5: model.allow5 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 6: model.allow6 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 7: model.allow7 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 8: model.allow8 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 9: model.allow9 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 10: model.allow10 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
                             }
 
                             i++;
                         }
                         
-
-                        if (contract != null)
-                        {
-                            model.emp_total = contract.projobcontract_emp;                            
-                        }
-                        else
-                        {
-                            model.emp_total = 0;
-                        }
+                        model.emp_total = manpower;
 
                         model.allow_emp = model.allow1 + model.allow2 + model.allow3 + model.allow4 + model.allow5 + model.allow6 + model.allow7 + model.allow8 + model.allow9 + model.allow10;
                         model.allow_total = model.allow_emp * model.emp_total;
@@ -3859,6 +3908,17 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+        private double doGetAmountPerday(double amount, string type)
+        {
+            double result = amount;
+
+            if (type.Equals("M"))
+                result = amount / 30;
+
+            return result;
+        }
+
         public string doManageMTProjobmainList(InputProjectTransaction input)
         {
             JObject output = new JObject();
@@ -4568,6 +4628,9 @@ namespace BPC_OPR
                         json.Add("projobcost_todate", model.projobcost_todate);
                         json.Add("projobcost_version", model.projobcost_version);
                         json.Add("projobcost_status", model.projobcost_status);
+
+                        json.Add("projobcost_auto", model.projobcost_auto);
+
                         json.Add("projob_code", model.projob_code);
                         json.Add("project_code", model.project_code);
 
@@ -4649,6 +4712,7 @@ namespace BPC_OPR
                 model.projobcost_todate = Convert.ToDateTime(input.projobcost_todate);
                 model.projobcost_version = input.projobcost_version;
                 model.projobcost_status = input.projobcost_status;
+                model.projobcost_auto = input.projobcost_auto;
                 
                 model.projob_code = input.projob_code;
                 model.project_code = input.project_code;
@@ -6602,6 +6666,396 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region TRProjobshift
+        public string getTRProjobshiftList(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO020.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                cls_ctTRProjobshift controller = new cls_ctTRProjobshift();
+                List<cls_TRProjobshift> list = controller.getDataByFillter(req.project_code, req.job_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
+                    //-- Allow
+                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(req.company, req.project_code, req.job_code);
+
+                    foreach (cls_TRProjobshift model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("projobshift_id", model.projobshift_id);                       
+                        json.Add("projobshift_shift", model.projobshift_shift);
+
+                        json.Add("projobshift_sun", model.projobshift_sun);
+                        json.Add("projobshift_mon", model.projobshift_mon);
+                        json.Add("projobshift_tue", model.projobshift_tue);
+                        json.Add("projobshift_wed", model.projobshift_wed);
+                        json.Add("projobshift_thu", model.projobshift_thu);
+                        json.Add("projobshift_fri", model.projobshift_fri);
+                        json.Add("projobshift_sat", model.projobshift_sat);
+
+                        json.Add("projobshift_emp", model.projobshift_emp);
+                        json.Add("projobshift_working", model.projobshift_working);
+                        json.Add("projobshift_hrsperday", model.projobshift_hrsperday);
+                        json.Add("projobshift_hrsot", model.projobshift_hrsot);
+
+                        json.Add("projob_code", model.projob_code);
+                        json.Add("project_code", model.project_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                                               
+
+                        int working = model.projobshift_working;
+                        double allow1 = 0; double allow2 = 0; double allow3 = 0; double allow4 = 0; double allow5 = 0;
+                        double allow6 = 0; double allow7 = 0; double allow8 = 0; double allow9 = 0; double allow10 = 0;
+                        int i = 1;
+                        foreach (cls_TRProjobcost cost in cost_list_max)
+                        {                            
+                            switch (i)
+                            {
+                                case 1: allow1 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 2: allow2 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 3: allow3 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 4: allow4 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 5: allow5 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 6: allow6 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 7: allow7 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 8: allow8 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 9: allow9 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 10: allow10 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                            }
+
+                            i++;
+                        }
+
+                        double allow_emp = allow1 + allow2 + allow3 + allow4 + allow5 + allow6 + allow7 + allow8 + allow9 + allow10;
+                        double allow_total = allow_emp * model.projobshift_emp;
+
+                        json.Add("allow1", allow1);
+                        json.Add("allow2", allow2);
+                        json.Add("allow3", allow3);
+                        json.Add("allow4", allow4);
+                        json.Add("allow5", allow5);
+                        json.Add("allow6", allow6);
+                        json.Add("allow7", allow7);
+                        json.Add("allow8", allow8);
+                        json.Add("allow9", allow9);
+                        json.Add("allow10", allow10);                        
+                        json.Add("allow_emp", allow_emp);
+                        json.Add("allow_total", allow_total);
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRProjobshiftList(InputProjectTransaction input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO020.5";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProjobshift controller = new cls_ctTRProjobshift();
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRProjobshift>>(input.transaction_data);
+
+                int success = 0;
+                int error = 0;
+                StringBuilder obj_error = new StringBuilder();
+
+                bool clear = controller.delete(input.project_code, input.job_code);
+
+                if (clear)
+                {
+                    foreach (cls_TRProjobshift model in jsonArray)
+                    {
+                        model.modified_by = input.modified_by;
+
+                        bool blnResult = controller.insert(model);
+
+                        if (blnResult)
+                            success++;
+                        else
+                        {
+                            var json = new JavaScriptSerializer().Serialize(model);
+                            var tmp2 = JToken.Parse(json);
+                            obj_error.Append(tmp2);
+                        }
+
+                    }
+                }
+                else
+                {
+                    error = 1;
+                }
+
+
+                if (error == 0)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    output["error"] = obj_error.ToString();
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        public string doDeleteTRProjobshift(InputTRProjobshift input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO020.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
+
+                if (controller.checkDataOld(input.project_code, input.projob_code))
+                {
+                    bool blnResult = controller.delete(input.project_code, input.projob_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.project_code + " | Job : " + input.projob_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO020.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvProjectImport srv_import = new cls_srvProjectImport();
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBSHIFT", fileName, by);
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
        
         #region Task
         public string getMTTaskList(FillterTask req)
@@ -6963,11 +7417,11 @@ namespace BPC_OPR
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
                         srvTime.doSummarizeTime(input.company_code, intTaskID.ToString());
                     }
-                    //else if (input.task_type.Trim().Equals("CAL_TIME"))
-                    //{
-                    //    cls_srvProcessTime srvTime = new cls_srvProcessTime();
-                    //    srvTime.doCalculateTime(input.company_code, intTaskID.ToString());
-                    //}
+                    else if (input.task_type.Trim().Equals("CAL_TIME"))
+                    {
+                        cls_srvProcessTime srvTime = new cls_srvProcessTime();
+                        srvTime.doCalculateTime(input.company_code, intTaskID.ToString());
+                    }
                     else if (input.task_type.Trim().Equals("IMP_TIME"))
                     {
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
@@ -7205,26 +7659,34 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
                 JArray array = new JArray();
 
-                cls_ctMTProject ct_project = new cls_ctMTProject();
-                List<cls_MTProject> list_project = ct_project.getDataByFillter("", "", "", "");
+                cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+                cls_ctMTProject project_controller = new cls_ctMTProject();
+                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness);
 
                 JObject json;
 
                 foreach (cls_MTProject project in list_project)
-                {
-
-                    //-- Job contract
-                    cls_ctTRProjobcontract contract_controller = new cls_ctTRProjobcontract();
-                    List<cls_TRProjobcontract> contract_list = contract_controller.getDataByFillter(req.project_code, "");
-
-                    //-- Job cost
-                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
-
-
+                {                                        
+                    //-- Job main
                     cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
                     List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code);
+
+                    //-- Job shift
+                    cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                    List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(req.project_code, "");
+
+                    //-- Time card
+                    cls_ctTRTimecard time_controller = new cls_ctTRTimecard();
+                    List<cls_TRTimecard> time_list = time_controller.getDataByFillter(req.company, req.project_code, "", fromdate, todate);
+
+                    //-- Time wage
+                    cls_ctTRWageday wage_controller = new cls_ctTRWageday();
+                    List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company, req.project_code, "", fromdate, todate, "");
 
 
                     int count_emp_project = 0;
@@ -7235,6 +7697,9 @@ namespace BPC_OPR
                     double sum_cost_project = 0;
                     double sum_pay_project = 0;
 
+                    JArray array_job = new JArray();
+
+
                     foreach (cls_MTProjobmain jobmain in list_jobmain)
                     {
                         int count_emp = 0;
@@ -7244,60 +7709,63 @@ namespace BPC_OPR
 
                         double sum_cost = 0;
                         double sum_pay = 0;
-
-                        //-- Contract
-                        cls_TRProjobcontract contract = null;
-                        foreach (cls_TRProjobcontract tmp in contract_list)
+                        
+                        //-- Job shift
+                        int manpower = 0;                        
+                        foreach (cls_TRProjobshift tmp in shift_list)
                         {
                             if (tmp.projob_code.Equals(jobmain.projobmain_code))
                             {
-                                contract = tmp;
-                                break;
+                                manpower += tmp.projobshift_emp;                                
+                            }
+                        }
+
+                        //-- Working      
+                        foreach (cls_TRTimecard tmp in time_list)
+                        {
+                            if (tmp.projob_code.Equals(jobmain.projobmain_code))
+                            {
+                                if (tmp.timecard_work1_min_app > 0)
+                                    count_working++;
+
+                                if (tmp.timecard_daytype.Equals("A"))
+                                    count_absent++;
                             }
                         }
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(req.company, jobmain.project_code, jobmain.projobmain_code);
-
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(req.company, jobmain.project_code, jobmain.projobmain_code);                                                
                         foreach (cls_TRProjobcost cost in cost_list_max)
                         {
-                            sum_cost += cost.projobcost_amount;
+                            sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
                         }
+                        sum_cost *= manpower;
 
-
-                        if (contract != null)
+                        //-- Wage      
+                        foreach (cls_TRWageday tmp in wage_list)
                         {
-                            count_emp += contract.projobcontract_emp;
+                            if (tmp.projob_code.Equals(jobmain.projobmain_code))
+                            {
+                                sum_pay += tmp.wageday_wage;
+                            }
                         }
 
 
                         json = new JObject();
 
-                        json.Add("project_id", project.project_id);
-                        json.Add("project_code", project.project_code);
-                        json.Add("project_name_th", project.project_name_th);
-                        json.Add("project_name_en", project.project_name_en);
+                        json.Add("projobmain_id", jobmain.projobmain_id);
+                        json.Add("projobmain_code", jobmain.projobmain_code);
+                        json.Add("projobmain_name_th", jobmain.projobmain_name_th);
+                        json.Add("projobmain_name_en", jobmain.projobmain_name_en);
+                        json.Add("projobmain_type", jobmain.projobmain_type);
+                        json.Add("projobmain_manpower", manpower);
+                        json.Add("projobmain_working", count_working);
+                        json.Add("projobmain_leave", count_leave);
+                        json.Add("projobmain_absent", count_absent);
+                        json.Add("projobmain_cost", sum_cost);
+                        json.Add("projobmain_pay", sum_pay);
 
-                        json.Add("project_business", jobmain.projobmain_code);
-                        if (req.language.Equals("EN"))
-                        {
-                            json.Add("project_type", jobmain.projobmain_name_en);
-                        }
-                        else
-                        {
-                            json.Add("project_type", jobmain.projobmain_name_th);
-                        }
-
-                        json.Add("project_manpower", count_emp);
-                        json.Add("project_working", count_working);
-                        json.Add("project_leave", count_leave);
-                        json.Add("project_absent", count_absent);
-
-                        json.Add("project_cost", sum_cost);
-                        json.Add("project_pay", sum_pay);
-                        json.Add("root", false);
-
-                        array.Add(json);
+                        array_job.Add(json);
 
                         //-- Summary
                         count_emp_project += count_emp;
@@ -7307,24 +7775,25 @@ namespace BPC_OPR
 
                         sum_cost_project += sum_cost;
                         sum_pay_project += sum_pay;
+                        
 
                     }
 
+                    //-- Summary by project
                     json = new JObject();
-
                     json.Add("project_id", project.project_id);
                     json.Add("project_code", project.project_code);
                     json.Add("project_name_th", project.project_name_th);
                     json.Add("project_name_en", project.project_name_en);
-
                     json.Add("project_type", project.project_protype);
-                    json.Add("project_business", project.project_probusiness);
-
+                    json.Add("project_business", project.project_probusiness);     
                     json.Add("project_manpower", count_emp_project);
                     json.Add("project_working", count_working_project);
                     json.Add("project_leave", count_leave_project);
                     json.Add("project_absent", count_absent_project);
 
+                    json.Add("projobmain_data", array_job);
+                    
                     json.Add("project_cost", sum_cost_project);
                     json.Add("project_pay", sum_pay_project);
                     json.Add("root", true);
@@ -7358,5 +7827,260 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+        public string getJobMonitor(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO021.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+                JArray array = new JArray();
+
+                cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+                cls_ctMTProject project_controller = new cls_ctMTProject();
+                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness);
+
+                JObject json;
+
+                //-- Job main
+                cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
+                List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.project_code);
+
+                //-- Job shift
+                cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(req.project_code, "");
+
+                //-- Time card
+                cls_ctTRTimecard time_controller = new cls_ctTRTimecard();
+                List<cls_TRTimecard> time_list;
+
+                //-- Time wage
+                cls_ctTRWageday wage_controller = new cls_ctTRWageday();
+                List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company, req.project_code, "", fromdate, todate, "");
+                
+                
+
+                foreach (cls_MTProjobmain jobmain in list_jobmain)
+                {
+                    
+                    int count_working = 0;
+                    int count_leave = 0;
+                    int count_absent = 0;
+
+                    double sum_cost = 0;
+                    double sum_pay = 0;
+
+                    //-- Cost by job
+                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataMaxDate(req.company, jobmain.project_code, jobmain.projobmain_code);
+                    foreach (cls_TRProjobcost cost in cost_list_max)
+                    {
+                        sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
+                    }
+
+                    //-- Job shift
+                    int manpower = 0;
+                    foreach (cls_TRProjobshift tmp in shift_list)
+                    {
+                        if (tmp.projob_code.Equals(jobmain.projobmain_code))
+                        {
+                            manpower += tmp.projobshift_emp;
+                        }
+                    }
+
+                    //-- Working   
+                    JArray array_timecard = new JArray();
+                    time_list = time_controller.getDataByJob(req.company, jobmain.project_code, jobmain.projobmain_code, fromdate, todate);
+
+                    foreach (cls_TRTimecard timecard in time_list)
+                    {
+                        #region timecard
+                        if (timecard.timecard_work1_min_app > 0)
+                            count_working++;
+
+                        if (timecard.timecard_daytype.Equals("A"))
+                            count_absent++;
+
+                        json = new JObject();
+                        json.Add("worker_code", timecard.worker_code);
+                        json.Add("shift_code", timecard.shift_code);
+                        json.Add("timecard_workdate", timecard.timecard_workdate);
+                        json.Add("timecard_daytype", timecard.timecard_daytype);
+                        json.Add("timecard_color", timecard.timecard_color);
+                        json.Add("timecard_lock", timecard.timecard_lock);
+
+                        json.Add("timecard_ch1", timecard.timecard_ch1);
+                        json.Add("timecard_ch2", timecard.timecard_ch2);
+                        json.Add("timecard_ch3", timecard.timecard_ch3);
+                        json.Add("timecard_ch4", timecard.timecard_ch4);
+                        json.Add("timecard_ch5", timecard.timecard_ch5);
+                        json.Add("timecard_ch6", timecard.timecard_ch6);
+                        json.Add("timecard_ch7", timecard.timecard_ch7);
+                        json.Add("timecard_ch8", timecard.timecard_ch8);
+                        json.Add("timecard_ch9", timecard.timecard_ch9);
+                        json.Add("timecard_ch10", timecard.timecard_ch10);
+
+                        //-- Time in
+                        if (!timecard.timecard_ch1.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("timecard_in", timecard.timecard_ch1.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!timecard.timecard_ch3.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("timecard_in", timecard.timecard_ch3.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else
+                        {
+                            json.Add("timecard_in", "-");
+                        }
+
+                        //-- Time out
+                        if (!timecard.timecard_ch10.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("timecard_out", timecard.timecard_ch10.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!timecard.timecard_ch8.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("timecard_out", timecard.timecard_ch8.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!timecard.timecard_ch4.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("timecard_out", timecard.timecard_ch4.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else
+                        {
+                            json.Add("timecard_out", "-");
+                        }
+
+
+                        json.Add("timecard_before_min", timecard.timecard_before_min);
+                        json.Add("timecard_work1_min", timecard.timecard_work1_min);
+                        json.Add("timecard_work2_min", timecard.timecard_work2_min);
+                        json.Add("timecard_break_min", timecard.timecard_break_min);
+                        json.Add("timecard_after_min", timecard.timecard_after_min);
+                        json.Add("timecard_late_min", timecard.timecard_late_min);
+
+                        json.Add("timecard_before_min_app", timecard.timecard_before_min_app);
+                        json.Add("timecard_work1_min_app", timecard.timecard_work1_min_app);
+                        json.Add("timecard_work2_min_app", timecard.timecard_work2_min_app);
+                        json.Add("timecard_break_min_app", timecard.timecard_break_min_app);
+                        json.Add("timecard_after_min_app", timecard.timecard_after_min_app);
+                        json.Add("timecard_late_min_app", timecard.timecard_late_min_app);
+
+                        int hrs = (timecard.timecard_work1_min_app + timecard.timecard_work2_min_app) / 60;
+                        int min = (timecard.timecard_work1_min_app + timecard.timecard_work2_min_app) - (hrs * 60);
+                        json.Add("work_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (timecard.timecard_before_min_app + timecard.timecard_after_min_app) / 60;
+                        min = (timecard.timecard_before_min_app + timecard.timecard_after_min_app) - (hrs * 60);
+                        json.Add("ot_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (timecard.timecard_late_min_app) / 60;
+                        min = (timecard.timecard_late_min_app) - (hrs * 60);
+                        json.Add("late_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+
+                        json.Add("modified_by", timecard.modified_by);
+                        json.Add("modified_date", timecard.modified_date);
+                        json.Add("flag", timecard.flag);
+
+                        json.Add("worker_name_th", timecard.worker_name_th);
+                        json.Add("worker_name_en", timecard.worker_name_en);
+                        json.Add("projob_code", timecard.projob_code);
+
+                        //-- Wage      
+                        cls_TRWageday wage = new cls_TRWageday();
+                        foreach (cls_TRWageday wageday in wage_list)
+                        {
+                            if (timecard.worker_code.Equals(wageday.worker_code) && timecard.timecard_workdate.Equals(wageday.wageday_date))
+                            {
+                                wage = wageday;
+                                break;
+                            }
+                        }
+
+                        json.Add("wageday_wage", wage.wageday_wage);
+
+                        json.Add("wageday_before_amount", wage.wageday_before_amount);
+                        json.Add("wageday_normal_amount", wage.wageday_normal_amount);
+                        json.Add("wageday_break_amount", wage.wageday_break_amount);
+                        json.Add("wageday_after_amount", wage.wageday_after_amount);
+                        json.Add("ot1_amount", wage.ot1_amount);
+                        json.Add("ot15_amount", wage.ot15_amount);
+                        json.Add("ot2_amount", wage.ot2_amount);
+                        json.Add("ot3_amount", wage.ot3_amount);
+                        json.Add("late_amount", wage.late_amount);
+                        json.Add("leave_amount", wage.leave_amount);
+                        json.Add("absent_amount", wage.absent_amount);
+                        json.Add("allowance_amount", wage.allowance_amount);
+
+                        array_timecard.Add(json);
+                        #endregion
+                    }                    
+
+
+                    json = new JObject();
+
+                    json.Add("projobmain_id", jobmain.projobmain_id);
+                    json.Add("projobmain_code", jobmain.projobmain_code);
+                    json.Add("projobmain_name_th", jobmain.projobmain_name_th);
+                    json.Add("projobmain_name_en", jobmain.projobmain_name_en);
+                    json.Add("projobmain_type", jobmain.projobmain_type);
+                    json.Add("projobmain_manpower", manpower);
+                    json.Add("projobmain_working", count_working);
+                    json.Add("projobmain_leave", count_leave);
+                    json.Add("projobmain_absent", count_absent);
+                    json.Add("projobmain_cost", sum_cost);
+                    json.Add("projobmain_pay", sum_pay);
+
+                    json.Add("timecard_data", array_timecard);
+
+                    array.Add(json);                   
+
+                }    
+
+                output["success"] = true;
+                output["message"] = "";
+                output["data"] = array;
+
+                log.apilog_status = "200";
+                log.apilog_message = "";
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        
     }
 }

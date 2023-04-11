@@ -86,12 +86,14 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftallowance.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeallw.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRWageday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeot.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTask.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTimeimpformat.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRTimeinput.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctTRProjobshift.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTApplywork.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyaddress.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyCard.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLate.cs" />
@@ -208,6 +211,7 @@
     <Compile Include="hrfocus.model\cls_TRTaskdetail.cs" />
     <Compile Include="hrfocus.model\cls_TRTaskwhose.cs" />
     <Compile Include="hrfocus.model\cls_TRTimeinput.cs" />
+    <Compile Include="hrfocus.model\Project\cls_TRProjobshift.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobsub.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobmain.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProtimepol.cs" />

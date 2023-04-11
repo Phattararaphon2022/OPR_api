@@ -44,6 +44,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBCOST_VERSION");
                 obj_str.Append(", PROJOBCOST_STATUS");
 
+                obj_str.Append(", ISNULL(PROJOBCOST_AUTO, 0) AS PROJOBCOST_AUTO");
+
                 obj_str.Append(", PROJOB_CODE");     
                 obj_str.Append(", PROJECT_CODE");                
 
@@ -72,7 +74,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobcost_todate = Convert.ToDateTime(dr["PROJOBCOST_TODATE"]);
 
                     model.projobcost_version = Convert.ToString(dr["PROJOBCOST_VERSION"]);
-                    model.projobcost_status = Convert.ToString(dr["PROJOBCOST_STATUS"]); 
+                    model.projobcost_status = Convert.ToString(dr["PROJOBCOST_STATUS"]);
+
+                    model.projobcost_auto = Convert.ToBoolean(dr["PROJOBCOST_AUTO"]); 
                     
                     model.projob_code = Convert.ToString(dr["PROJOB_CODE"]);                                        
                     model.project_code = Convert.ToString(dr["PROJECT_CODE"]);
@@ -116,6 +120,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" SELECT PRO_MT_PROCOST.PROCOST_CODE");
                 obj_str.Append(" , PRO_MT_PROCOST.PROCOST_NAME_TH");
                 obj_str.Append(" , PRO_MT_PROCOST.PROCOST_NAME_EN");
+                obj_str.Append(" , PRO_MT_PROCOST.PROCOST_TYPE");
                 obj_str.Append(" , ISNULL((SELECT TOP 1 PROJOBCOST_AMOUNT FROM PRO_TR_PROJOBCOST WHERE PROJECT_CODE='" + project + "' AND PROJOB_CODE= '" + job + "' AND PROJOBCOST_CODE=PRO_MT_PROCOST.PROCOST_CODE ORDER BY PROJOBCOST_TODATE DESC), 0) AS ALLOW");
                                 
                 obj_str.Append(" FROM PRO_MT_PROCOST");
@@ -131,6 +136,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.projobcost_id = 1;
                     model.projobcost_code = Convert.ToString(dr["PROCOST_CODE"]);
+                    model.procost_type = Convert.ToString(dr["PROCOST_TYPE"]);
                     model.projobcost_amount = Convert.ToDouble(dr["ALLOW"]);                   
                     list_model.Add(model);
                 }
@@ -277,6 +283,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", PROJOBCOST_VERSION ");
                 obj_str.Append(", PROJOBCOST_STATUS ");
+
+                obj_str.Append(", PROJOBCOST_AUTO ");
                 
                 obj_str.Append(", PROJOB_CODE ");     
                 obj_str.Append(", PROJECT_CODE ");      
@@ -296,6 +304,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @PROJOBCOST_VERSION ");
                 obj_str.Append(", @PROJOBCOST_STATUS ");
+
+                obj_str.Append(", @PROJOBCOST_AUTO ");
 
                 obj_str.Append(", @PROJOB_CODE ");
                 obj_str.Append(", @PROJECT_CODE ");
@@ -318,6 +328,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJOBCOST_VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCOST_VERSION"].Value = model.projobcost_version;
                 obj_cmd.Parameters.Add("@PROJOBCOST_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBCOST_STATUS"].Value = model.projobcost_status;
+
+                obj_cmd.Parameters.Add("@PROJOBCOST_AUTO", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBCOST_AUTO"].Value = model.projobcost_auto;
                 
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;               
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
@@ -353,7 +365,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBCOST_FROMDATE=@PROJOBCOST_FROMDATE ");
                 obj_str.Append(", PROJOBCOST_TODATE=@PROJOBCOST_TODATE ");
                 obj_str.Append(", PROJOBCOST_VERSION=@PROJOBCOST_VERSION ");
-                obj_str.Append(", PROJOBCOST_STATUS=@PROJOBCOST_STATUS ");                                  
+                obj_str.Append(", PROJOBCOST_STATUS=@PROJOBCOST_STATUS ");
+
+                obj_str.Append(", PROJOBCOST_AUTO=@PROJOBCOST_AUTO ");      
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -369,7 +383,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBCOST_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCOST_TODATE"].Value = model.projobcost_todate;
 
                 obj_cmd.Parameters.Add("@PROJOBCOST_VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCOST_VERSION"].Value = model.projobcost_version;
-                obj_cmd.Parameters.Add("@PROJOBCOST_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBCOST_STATUS"].Value = model.projobcost_status;  
+                obj_cmd.Parameters.Add("@PROJOBCOST_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBCOST_STATUS"].Value = model.projobcost_status;
+
+                obj_cmd.Parameters.Add("@PROJOBCOST_AUTO", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBCOST_AUTO"].Value = model.projobcost_auto;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
