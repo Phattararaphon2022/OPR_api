@@ -158,6 +158,12 @@ namespace BPC_OPR
 
         [DataMember]
         public string job_code { get; set; }
+
+        [DataMember]
+        public string fromdate { get; set; }
+
+        [DataMember]
+        public string todate { get; set; }
     }
 
     [DataContract]
@@ -342,6 +348,8 @@ namespace BPC_OPR
         [DataMember]
         public string projobcost_status { get; set; }
         [DataMember]
+        public bool projobcost_auto { get; set; }
+        [DataMember]
         public string projob_code { get; set; }
         [DataMember]
         public string project_code { get; set; }
@@ -366,6 +374,21 @@ namespace BPC_OPR
         public string project_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+    }
+
+    [DataContract]
+    public class InputTRProjobshift
+    {
+
+        [DataMember]
+        public int projobshift_id { get; set; }
+        [DataMember]
+        public string projob_code { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+
     }
 
     [DataContract]

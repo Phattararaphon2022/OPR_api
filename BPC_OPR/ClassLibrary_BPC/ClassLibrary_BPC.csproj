@@ -71,9 +71,13 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanholiday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanleave.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlanshift.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTWorkflow.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpleaveacc.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTREmppolatt.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRHoliday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLate.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLeaveWorkage.cs" />
@@ -82,10 +86,16 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftallowance.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRShiftbreak.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeallw.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRWageday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeleave.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeot.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeshift.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTask.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTTimeimpformat.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRTimeinput.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctTRProjobshift.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTApplywork.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyaddress.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyCard.cs" />
@@ -139,7 +149,11 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
+<<<<<<< HEAD
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRRound.cs" />
+=======
+    <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />
+>>>>>>> 91207e2e845e91319665925a0fdada8dcc9af4de
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLate.cs" />
@@ -148,9 +162,13 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanholiday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanleave.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTPlanshift.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_MTPlantimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTWorkflow.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TREmpleaveacc.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TREmppolatt.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRLate.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRLeaveWorkage.cs" />
@@ -177,6 +195,8 @@
     <Compile Include="hrfocus.controller\employee\cls_ctTRSalary.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRTraining.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRTranfer.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmpbranch.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmplocation.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobsub.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobmain.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProtimepol.cs" />
@@ -195,12 +215,17 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProuniform.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProtype.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProbusiness.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRTimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRTimecard.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimeleave.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimeot.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimeshift.cs" />
     <Compile Include="hrfocus.model\cls_MTTask.cs" />
     <Compile Include="hrfocus.model\cls_MTTimeimpformat.cs" />
     <Compile Include="hrfocus.model\cls_TRTaskdetail.cs" />
     <Compile Include="hrfocus.model\cls_TRTaskwhose.cs" />
     <Compile Include="hrfocus.model\cls_TRTimeinput.cs" />
+    <Compile Include="hrfocus.model\Project\cls_TRProjobshift.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobsub.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobmain.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProtimepol.cs" />
@@ -283,6 +308,8 @@
     <Compile Include="hrfocus.model\employee\cls_TRSalary.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRTraining.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRTranfer.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmpbranch.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmplocation.cs" />
     <Compile Include="hrfocus.service\cls_srvEmpImport.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobworking.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobemp.cs" />

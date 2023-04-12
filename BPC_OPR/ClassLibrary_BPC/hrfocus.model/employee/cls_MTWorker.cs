@@ -59,6 +59,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string initial_name_th { get; set; }
         public string initial_name_en { get; set; }
 
+        public string position_name_th { get; set; }
+        public string position_name_en { get;set; }
+
 
     }
 }

@@ -33,10 +33,11 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadWorker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadWorker(string token, string by, string fileName, Stream stream);
         #endregion
+
         #region Dep
         [OperationContract(Name = "dep_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getDepList(BasicRequest req);
+        string getDepList(FillterWorker req);
 
         [OperationContract(Name = "dep")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -139,6 +140,44 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadStatus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadStatus(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_Location
+        [OperationContract(Name = "emplocationlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTREmpLocationList(FillterWorker input);
+
+        [OperationContract(Name = "emplocation")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTREmpLocation(InputWorkerTransaction input);
+
+        [OperationContract(Name = "emplocation_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTREmpLocation(InputTREmpLocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpLocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpLocation(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region TR_Branch
+        [OperationContract(Name = "empbranchlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTREmpBranchList(FillterWorker input);
+
+        [OperationContract(Name = "empbranch")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTREmpBranch(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empbranch_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTREmpBranch(InputTREmpBranch input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpBranch?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpBranch(string token, string by, string fileName, Stream stream);
+
         #endregion
 
         #region TR_Address

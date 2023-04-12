@@ -36,9 +36,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", PROJECT_CODE");
-                obj_str.Append(", WORKER_CODE");
+                obj_str.Append("ATT_TR_TIMECARD.COMPANY_CODE");
+                obj_str.Append(", ATT_TR_TIMECARD.WORKER_CODE");
+
+                obj_str.Append(", ATT_TR_TIMECARD.PROJECT_CODE");
+                obj_str.Append(", ATT_TR_TIMECARD.PROJOB_CODE");
+
                 obj_str.Append(", SHIFT_CODE");
                 obj_str.Append(", TIMECARD_WORKDATE");
                 obj_str.Append(", TIMECARD_DAYTYPE");
@@ -70,16 +73,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(TIMECARD_LOCK, 0) AS TIMECARD_LOCK");
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(ATT_TR_TIMECARD.MODIFIED_BY, ATT_TR_TIMECARD.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(ATT_TR_TIMECARD.MODIFIED_DATE, ATT_TR_TIMECARD.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(", ISNULL(EMP_MT_INITIAL.INITIAL_NAME_TH, '') + ISNULL(WORKER_FNAME_TH, '') + ' ' + ISNULL(WORKER_LNAME_TH, '') AS WORKER_NAME_TH");
+                obj_str.Append(", ISNULL(EMP_MT_INITIAL.INITIAL_NAME_EN, '') + ISNULL(WORKER_FNAME_EN, '') + ' ' + ISNULL(WORKER_LNAME_EN, '') AS WORKER_NAME_EN");
+                
 
                 obj_str.Append(" FROM ATT_TR_TIMECARD");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON ATT_TR_TIMECARD.COMPANY_CODE=EMP_MT_WORKER.COMPANY_CODE AND ATT_TR_TIMECARD.WORKER_CODE=EMP_MT_WORKER.WORKER_CODE");
+                obj_str.Append(" LEFT JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
+
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE, WORKER_CODE, TIMECARD_WORKDATE");
+                obj_str.Append(" ORDER BY ATT_TR_TIMECARD.COMPANY_CODE, ATT_TR_TIMECARD.WORKER_CODE, ATT_TR_TIMECARD.TIMECARD_WORKDATE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -87,9 +97,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_TRTimecard();
 
-                    model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.project_code = dr["PROJECT_CODE"].ToString();
+                    model.company_code = dr["COMPANY_CODE"].ToString();                    
                     model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.project_code = dr["PROJECT_CODE"].ToString();
+                    model.projob_code = dr["PROJOB_CODE"].ToString();
+
                     model.shift_code = dr["SHIFT_CODE"].ToString();
 
                     model.timecard_workdate = Convert.ToDateTime(dr["TIMECARD_WORKDATE"]);
@@ -127,6 +139,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
+                    model.worker_name_th = dr["WORKER_NAME_TH"].ToString();
+                    model.worker_name_en = dr["WORKER_NAME_EN"].ToString();
+                    
+
                     list_model.Add(model);
                 }
 
@@ -143,13 +159,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
 
-            strCondition += " AND COMPANY_CODE='" + com + "'";
-            strCondition += " AND PROJECT_CODE='" + project + "'";
+            strCondition += " AND ATT_TR_TIMECARD.COMPANY_CODE='" + com + "'";
+
+            if (!project.Equals(""))
+                strCondition += " AND ATT_TR_TIMECARD.PROJECT_CODE='" + project + "'";
 
             strCondition += " AND (TIMECARD_WORKDATE BETWEEN '" + fromdate.ToString(this.FormatDateDB) + "' AND '" + todate.ToString(this.FormatDateDB) + "' )";
 
             if (!worker.Equals(""))
-                strCondition += " AND WORKER_CODE='" + worker + "'";
+                strCondition += " AND ATT_TR_TIMECARD.WORKER_CODE='" + worker + "'";
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRTimecard> getDataByJob(string com, string project, string job, DateTime fromdate, DateTime todate)
+        {
+            string strCondition = "";
+
+            strCondition += " AND ATT_TR_TIMECARD.COMPANY_CODE='" + com + "'";
+            strCondition += " AND ATT_TR_TIMECARD.PROJECT_CODE='" + project + "'";
+            strCondition += " AND ATT_TR_TIMECARD.PROJOB_CODE='" + job + "'";
+
+            strCondition += " AND (TIMECARD_WORKDATE BETWEEN '" + fromdate.ToString(this.FormatDateDB) + "' AND '" + todate.ToString(this.FormatDateDB) + "' )";
+
+            
 
             return this.getData(strCondition);
         }
@@ -271,9 +304,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str = new System.Text.StringBuilder();
                     obj_str.Append("INSERT INTO ATT_TR_TIMECARD");
                     obj_str.Append(" (");
-                    obj_str.Append("COMPANY_CODE ");
-                    obj_str.Append(", PROJECT_CODE ");
+                    obj_str.Append("COMPANY_CODE ");                    
                     obj_str.Append(", WORKER_CODE ");
+                    obj_str.Append(", PROJECT_CODE ");
+                    obj_str.Append(", PROJOB_CODE ");
                     obj_str.Append(", SHIFT_CODE ");
                     obj_str.Append(", TIMECARD_WORKDATE ");
                     obj_str.Append(", TIMECARD_DAYTYPE ");
@@ -285,9 +319,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(" )");
 
                     obj_str.Append(" VALUES(");
-                    obj_str.Append("@COMPANY_CODE ");
-                    obj_str.Append(", @PROJECT_CODE ");
+                    obj_str.Append("@COMPANY_CODE ");                    
                     obj_str.Append(", @WORKER_CODE ");
+                    obj_str.Append(", @PROJECT_CODE ");
+                    obj_str.Append(", @PROJOB_CODE ");
+
                     obj_str.Append(", @SHIFT_CODE ");
                     obj_str.Append(", @TIMECARD_WORKDATE ");
                     obj_str.Append(", @TIMECARD_DAYTYPE ");
@@ -301,9 +337,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
                     obj_cmd.Transaction = obj_conn.getTransaction();
 
-                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
-                    obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);                    
                     obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar);
+
                     obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.Date);
                     obj_cmd.Parameters.Add("@TIMECARD_DAYTYPE", SqlDbType.VarChar);
@@ -318,9 +356,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     foreach (cls_TRTimecard model in list_model)
                     {
 
-                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;                        
                         obj_cmd.Parameters["@WORKER_CODE"].Value = worker;
+
+                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code == null ? "" : model.project_code;
+                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.projob_code == null ? "" : model.projob_code;
+
                         obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                         obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
                         obj_cmd.Parameters["@TIMECARD_DAYTYPE"].Value = model.timecard_daytype;
@@ -348,7 +389,124 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             catch (Exception ex)
             {
+                blnResult = false;
                 Message = "ERROR::(Timecard.insert_plantime)" + ex.ToString();
+                obj_conn.doRollback();
+            }
+            finally
+            {
+                obj_conn.doClose();
+            }
+
+            return blnResult;
+        }
+
+        public bool insert(cls_TRTimecard model)
+        {
+            bool blnResult = false;
+            cls_ctConnection obj_conn = new cls_ctConnection();
+            try
+            {
+                if (this.checkDataOld(model.company_code, model.project_code, model.worker_code, model.timecard_workdate))
+                    return true;
+
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+
+                //-- Step 2 insert
+                if (true)
+                {
+                    obj_str = new System.Text.StringBuilder();
+                    obj_str.Append("INSERT INTO ATT_TR_TIMECARD");
+                    obj_str.Append(" (");
+                    obj_str.Append("COMPANY_CODE ");                    
+                    obj_str.Append(", WORKER_CODE ");
+                    obj_str.Append(", PROJECT_CODE ");
+                    obj_str.Append(", PROJOB_CODE ");
+                    
+                    obj_str.Append(", SHIFT_CODE ");
+                    obj_str.Append(", TIMECARD_WORKDATE ");
+                    obj_str.Append(", TIMECARD_DAYTYPE ");
+                    obj_str.Append(", TIMECARD_COLOR ");
+                    obj_str.Append(", TIMECARD_LOCK ");
+                    obj_str.Append(", CREATED_BY ");
+                    obj_str.Append(", CREATED_DATE ");
+                    obj_str.Append(", FLAG ");
+                    obj_str.Append(" )");
+
+                    obj_str.Append(" VALUES(");
+                    obj_str.Append("@COMPANY_CODE ");                    
+                    obj_str.Append(", @WORKER_CODE ");
+
+                    obj_str.Append(", @PROJECT_CODE ");
+                    obj_str.Append(", @PROJOB_CODE ");
+
+                    obj_str.Append(", @SHIFT_CODE ");
+                    obj_str.Append(", @TIMECARD_WORKDATE ");
+                    obj_str.Append(", @TIMECARD_DAYTYPE ");
+                    obj_str.Append(", @TIMECARD_COLOR ");
+                    obj_str.Append(", @TIMECARD_LOCK ");
+                    obj_str.Append(", @CREATED_BY ");
+                    obj_str.Append(", @CREATED_DATE ");
+                    obj_str.Append(", @FLAG ");
+                    obj_str.Append(" )");
+
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);                    
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+
+                    obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar);
+
+                    obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.Date);
+                    obj_cmd.Parameters.Add("@TIMECARD_DAYTYPE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@TIMECARD_COLOR", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@TIMECARD_LOCK", SqlDbType.Bit);
+
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit);
+
+                    obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;                    
+                    obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                    obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                    obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+
+                    obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
+                    obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
+                    obj_cmd.Parameters["@TIMECARD_DAYTYPE"].Value = model.timecard_daytype;
+                    obj_cmd.Parameters["@TIMECARD_COLOR"].Value = model.timecard_color;
+                    obj_cmd.Parameters["@TIMECARD_LOCK"].Value = false;
+
+                    obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+                    obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+                    obj_cmd.Parameters["@FLAG"].Value = false;
+
+                    obj_cmd.ExecuteNonQuery();
+
+                    blnResult = obj_conn.doCommit();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Timecard.insert)" + ex.ToString();
                 obj_conn.doRollback();
             }
             finally
@@ -426,9 +584,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
 
-                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");                
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
+                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
                 obj_str.Append(" AND TIMECARD_WORKDATE=@TIMECARD_WORKDATE ");
 
 
@@ -491,9 +650,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;                
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+
                 obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
 
                 obj_cmd.ExecuteNonQuery();
@@ -570,9 +732,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
 
-                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");                
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
+                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
+
                 obj_str.Append(" AND TIMECARD_WORKDATE=@TIMECARD_WORKDATE ");
 
 
@@ -648,9 +812,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;                
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+
                 obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
 
                 obj_cmd.ExecuteNonQuery();
@@ -704,9 +871,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
-                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");                
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
+
+                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
+
                 obj_str.Append(" AND TIMECARD_WORKDATE=@TIMECARD_WORKDATE ");
 
 
@@ -718,9 +888,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;                
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+
                 obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
 
                 obj_cmd.ExecuteNonQuery();

@@ -2,6 +2,8 @@
 using ClassLibrary_BPC.hrfocus.model;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1140,7 +1142,205 @@ namespace ClassLibrary_BPC.hrfocus.service
 
             return strResult;
         }
+        public string doSetEmpleaveacc(string year, string com, string emp, string modified_by)
+        {
+            string strResult = "";
+
+            bool blnResult = false;
+
+            try
+            {
+                //-- Step 1 Get policy leave (emp)
+                cls_ctTREmppolatt ct_polemp = new cls_ctTREmppolatt();
+                List<cls_TREmppolatt> list_polemp = ct_polemp.getDataByFillter(com, emp, "LV");
+
+                if (list_polemp.Count > 0)
+                {
+                    cls_TREmppolatt polemp = list_polemp[0];
+
+                    //-- Step 2 Get policy leave
+
+                    cls_ctMTLeave ct_leave = new cls_ctMTLeave();
+                    List<cls_MTLeave> list_leave = ct_leave.getDataByFillter(com, "", "");
+
+                    cls_ctTRPlanleave ct_planleave = new cls_ctTRPlanleave();
+                    List<cls_TRPlanleave> list_planleave = ct_planleave.getDataByFillter(com, polemp.emppolatt_policy_code);
+
+                    if (list_planleave.Count > 0)
+                    {
+                        List<cls_TREmpleaveacc> list_leaveacc = new List<cls_TREmpleaveacc>();
+
+                        foreach (cls_TRPlanleave planleave in list_planleave)
+                        {
+                            cls_MTLeave polleave = null;
+
+                            foreach (cls_MTLeave leave in list_leave)
+                            {
+                                if (planleave.leave_code.Equals(leave.leave_code))
+                                {
+                                    polleave = leave;
+                                    break;
+                                }
+                            }
+
+                            if (polleave != null)
+                            {
+                                cls_TREmpleaveacc leaveacc = new cls_TREmpleaveacc();
+                                leaveacc.company_code = com;
+                                leaveacc.worker_code = emp;
+                                leaveacc.year_code = year;
+                                leaveacc.leave_code = polleave.leave_code;
+                                leaveacc.empleaveacc_annual = polleave.leave_day_peryear;
+                                leaveacc.empleaveacc_bf = 0;
+                                leaveacc.empleaveacc_used = 0;
+                                leaveacc.empleaveacc_remain = leaveacc.empleaveacc_annual;
+                                leaveacc.modified_by = modified_by;
+
+                                list_leaveacc.Add(leaveacc);
+
+                            }
+
+                        }
+
+
+                        //-- Step 3 Record
+                        if (list_leaveacc.Count > 0)
+                        {
+                            cls_ctTREmpleaveacc ct_empleaveacc = new cls_ctTREmpleaveacc();
+                            blnResult = ct_empleaveacc.insert(com, emp, year, list_leaveacc);
+                        }
+
+                    }
+
+                }
+                                
+            }
+            catch (Exception ex)
+            {
+                strResult = "ProcessTime(doSetEmpleaveacc)::" + ex.ToString();
+            }
+            
+
+            return strResult;
+        }
+        public bool doCalleaveacc(string year, string com, string emp, string modified_by)
+        {
+            string strResult = "";
+
+            bool blnResult = false;
+
+            try
+            {
+                //-- Step 1 Get plan year
+                cls_ctMTYear ct_year = new cls_ctMTYear();
+                List<cls_MTYear> list_year = ct_year.getDataByFillter(com, "LEAVE", "", year);
+
+                if (list_year.Count == 0)
+                    return false;
+
+                cls_MTYear md_year = list_year[0];
+
+                //-- Step 2 Get leave acc
+                cls_ctTREmpleaveacc ct_empleaveacc = new cls_ctTREmpleaveacc();
+                List<cls_TREmpleaveacc> list_leaveacc = ct_empleaveacc.getDataByFillter(com, emp, year);
+
+                List<cls_TREmpleaveacc> list_leaveacc_new = new List<cls_TREmpleaveacc>();
+
+                foreach (cls_TREmpleaveacc model in list_leaveacc)
+                {
+                    model.empleaveacc_used = 0;
+                    model.empleaveacc_remain = model.empleaveacc_annual;
+
+                    list_leaveacc_new.Add(model);
+                }
+
+                //-- Step 3 get leave request
+                cls_ctTRTimeleave objTRTimeleave = new cls_ctTRTimeleave();
+                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillteracc("", "4", com, emp, Convert.ToDateTime(md_year.year_fromdate), Convert.ToDateTime(md_year.year_todate));
+
+                foreach (cls_TRTimeleave leave_used in listTRTimeleave)
+                {
+
+                    foreach (cls_TREmpleaveacc leave_acc in list_leaveacc_new)
+                    {
+
+                        if (leave_used.leave_code.Equals(leave_acc.leave_code))
+                        {
+                            if (leave_used.timeleave_type.Equals("F"))
+                                leave_acc.empleaveacc_used += leave_used.timeleave_actualday;
+                            else
+                                leave_acc.empleaveacc_used += (leave_used.timeleave_min / 480.0);
+                        }
+
+                    }
+
+                }
+
+                List<cls_TREmpleaveacc> list_leaveacc_record = new List<cls_TREmpleaveacc>();
+
+                foreach (cls_TREmpleaveacc leave_acc in list_leaveacc_new)
+                {
+                    leave_acc.empleaveacc_remain = leave_acc.empleaveacc_annual - leave_acc.empleaveacc_used;
+
+                    if (leave_acc.empleaveacc_remain < 0)
+                        leave_acc.empleaveacc_remain = 0;
+
+                    list_leaveacc_record.Add(leave_acc);
+
+                }
+
+                ct_empleaveacc.insert(com, emp, year, list_leaveacc_record);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                strResult = "ProcessTime(doCalleaveacc)::" + ex.ToString();
+            }
+
+
+            return blnResult;
+        }
+
+        public string doCalculateTime(string com, string taskid)
+        {
+            string strResult = "";
+
+            cls_ctConnection obj_conn = new cls_ctConnection();
+
+            try
+            {
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_conn.doConnect();
+
+
+                obj_str.Append(" EXEC [dbo].[ATT_PRO_CALTIME] '" + com + "', '" + taskid + "' ");
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                obj_cmd.CommandType = CommandType.Text;
+
+                int intCountSuccess = obj_cmd.ExecuteNonQuery();
+
+                if (intCountSuccess > 0)
+                {
+                    strResult = "Success::" + intCountSuccess.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return strResult;
+        }
     }
+
+
 
     public class cls_Timecompare
     {

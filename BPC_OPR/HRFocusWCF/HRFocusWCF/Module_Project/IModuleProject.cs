@@ -292,6 +292,26 @@ namespace BPC_OPR
         Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream);
 
         //--
+
+        [OperationContract(Name = "projobshift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProjobshiftList(FillterProject req);
+
+        [OperationContract(Name = "projobshifts")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRProjobshiftList(InputProjectTransaction input);
+       
+        [OperationContract(Name = "projobshift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRProjobshift(InputTRProjobshift input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobshift?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream);
+
+
+
+        //--
         [OperationContract(Name = "projobsub_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTProjobsubList(FillterProject req);
@@ -345,6 +365,37 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobworking?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream);
+
+        //Task
+        [OperationContract(Name = "task_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTaskList(FillterTask req);
+
+        [OperationContract(Name = "task_detail")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTaskdetail(InputMTTask input);
+
+        [OperationContract(Name = "task_whose")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTaskwhose(InputMTTask input);
+
+        [OperationContract(Name = "task")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTask(InputMTTask input);
+
+        [OperationContract(Name = "task_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTTask(InputMTTask input);
+
+
+        //-- Project monitor
+        [OperationContract(Name = "project_monitor")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getProjectMonitor(FillterProject req);
+       
+        [OperationContract(Name = "job_monitor")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getJobMonitor(FillterProject req);
 
 
     }

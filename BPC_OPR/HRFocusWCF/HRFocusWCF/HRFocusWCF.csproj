@@ -62,9 +62,9 @@
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.19.0\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Bin\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.19.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.19.0\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -95,6 +95,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="BpcOpr.svc" />
+    <Content Include="Module_SelfServices\ModuleSelfServices.svc" />
     <Content Include="Module_Attendance\ModuleAttendance.svc" />
     <Content Include="Module_Employee\ModuleEmployee.svc" />
     <Content Include="Module_Project\ModuleProject.svc" />
@@ -110,6 +111,11 @@
     <Compile Include="Config.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Module_SelfServices\DataModuleSelfServices.cs" />
+    <Compile Include="Module_SelfServices\IModuleSelfServices.cs" />
+    <Compile Include="Module_SelfServices\ModuleSelfServices.svc.cs">
+      <DependentUpon>ModuleSelfServices.svc</DependentUpon>
     </Compile>
     <Compile Include="Module_Attendance\DataModuleAttendance.cs" />
     <Compile Include="Module_Attendance\IModuleAttendance.cs" />
@@ -153,6 +159,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="ClassDiagram3.cd" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -18,6 +18,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string projobcost_version { get; set; }
         public string projobcost_status { get; set; }
 
+        public bool projobcost_auto { get; set; }
+
         public string projob_code { get; set; }    
         public string project_code { get; set; }
                    
@@ -27,5 +29,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime modified_date { get; set; }
 
         public bool flag { get; set; }
+
+        //-- Show
+        public string procost_type { get; set; }       
     }
 }

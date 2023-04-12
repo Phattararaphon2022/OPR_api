@@ -11,24 +11,6 @@ namespace BPC_OPR
     [ServiceContract]
     public interface IModuleAttendance
     {
-        #region MTYear
-        //[OperationContract(Name = "year_list")]
-        //[WebInvoke(Method = "POST",RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getMTYearList(InputMTYear input);
-
-        //[OperationContract(Name = "year")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doManageMTYear(InputMTYear input);
-
-        //[OperationContract(Name = "year_del")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doDeleteMTYear(InputMTYear input);
-
-        //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadYear?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadYear(string token, string by, string fileName, Stream stream);
-
-        #endregion
 
         #region MTPeriod
         //[OperationContract(Name = "period_list")]
@@ -46,44 +28,6 @@ namespace BPC_OPR
         //[OperationContract]
         //[WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriod?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         //Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream);
-        #endregion
-
-        #region MTReason
-        //[OperationContract(Name = "reason_list")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getMTReasonList(InputMTReason input);
-
-        //[OperationContract(Name = "reason")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doManageMTReason(InputMTReason input);
-
-        //[OperationContract(Name = "reason_del")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doDeleteMTReason(InputMTReason input);
-
-        //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReason?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadMTReason(string token, string by, string fileName, Stream stream);
-
-        #endregion
-
-        #region MTLocation
-        //[OperationContract(Name = "location_list")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getMTLocationList(InputMTLocation input);
-
-        //[OperationContract(Name = "location")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doManageMTLocation(InputMTLocation input);
-
-        //[OperationContract(Name = "location_del")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doDeleteMTLocation(InputMTLocation input);
-
-        //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadMTLocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadMTLocation(string token, string by, string fileName, Stream stream);
-
         #endregion
 
         #region MTPlanholiday
@@ -237,6 +181,46 @@ namespace BPC_OPR
 
         #endregion
 
+        #region MTPlantimeallw
+        [OperationContract(Name = "plantimeallw_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlantimeallwList(InputMTPlantimeallw input);
+
+        [OperationContract(Name = "plantimeallw")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlantimeallw(InputMTPlantimeallw input);
+
+        [OperationContract(Name = "plantimeallw_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlantimeallw(InputMTPlantimeallw input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlantimeallw?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlantimeallw(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region SetPolicyAtt
+        [OperationContract(Name = "SetPolicyAtt_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getPolicyAttendance(InputSetPolicyAtt input);
+
+        [OperationContract(Name = "SetPolicyAtt")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetPolicyAttendance(InputSetPolicyAtt input);
+
+        [OperationContract(Name = "SetPolicyAtt_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeletePolicyAttendance(InputSetPolicyAtt input);
+
+        #endregion
+
+        #region SetBatchPlanshift
+        [OperationContract(Name = "SetBatchPlanshift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPlanshift(InputBatchPlanshift input);
+        #endregion
+
         #region Timecard
         [OperationContract(Name = "timecard_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -245,6 +229,15 @@ namespace BPC_OPR
         [OperationContract(Name = "timecard")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageTRTimecard(InputTRTimecard input);
+
+        [OperationContract(Name = "timesheet")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimesheet(InputTRTimecard input);
+
+        [OperationContract(Name = "daytype_list")]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getDaytype();
+
         #endregion
 
         #region Timeimport
@@ -268,6 +261,7 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadTimeInput?fileName={fileName}", ResponseFormat = WebMessageFormat.Json)]
         string doUploadTimeInput(string fileName, Stream stream);
         #endregion
+
     }
 
 }

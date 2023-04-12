@@ -58,7 +58,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_TRTimeinput();
 
                     model.timeinput_card = dr["TIMEINPUT_CARD"].ToString();
-                    model.timeinput_date = Convert.ToDateTime(dr["TIMEINPUT_DATE"]);
+                    model.timeinput_date = Convert.ToDateTime(dr["TIMEINPUT_DATE"]).Date;
                     model.timeinput_hhmm = dr["TIMEINPUT_HHMM"].ToString();
                     model.timeinput_terminal = dr["TIMEINPUT_TERMINAL"].ToString();
                     model.timeinput_function = dr["TIMEINPUT_FUNCTION"].ToString();
