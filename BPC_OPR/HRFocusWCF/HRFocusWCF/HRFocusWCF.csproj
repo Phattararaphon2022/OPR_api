@@ -95,6 +95,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="BpcOpr.svc" />
+    <Content Include="Module_Payroll\ModulePayroll.svc" />
     <Content Include="Module_SelfServices\ModuleSelfServices.svc" />
     <Content Include="Module_Attendance\ModuleAttendance.svc" />
     <Content Include="Module_Employee\ModuleEmployee.svc" />
@@ -111,6 +112,11 @@
     <Compile Include="Config.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Module_Payroll\DataModulePayroll.cs" />
+    <Compile Include="Module_Payroll\IModulePayroll.cs" />
+    <Compile Include="Module_Payroll\ModulePayroll.svc.cs">
+      <DependentUpon>ModulePayroll.svc</DependentUpon>
     </Compile>
     <Compile Include="Module_SelfServices\DataModuleSelfServices.cs" />
     <Compile Include="Module_SelfServices\IModuleSelfServices.cs" />
