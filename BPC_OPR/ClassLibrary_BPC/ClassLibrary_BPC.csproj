@@ -149,11 +149,8 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
-<<<<<<< HEAD
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRRound.cs" />
-=======
     <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />
->>>>>>> 91207e2e845e91319665925a0fdada8dcc9af4de
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTLate.cs" />

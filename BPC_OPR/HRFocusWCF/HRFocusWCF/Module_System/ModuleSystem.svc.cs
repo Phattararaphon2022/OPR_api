@@ -375,17 +375,18 @@ namespace BPC_OPR
         }
         #endregion
 
-        
+
+
+
 
 
         //#region Policy structure code
         //public string getSYSCodestructureList()
         //{
-
         //    JObject output = new JObject();
 
-        //    cls_ctMTCodestructure objStruc = new cls_ctMTCodestructure();
-        //    List<cls_MTCodestructure> listStruc = objStruc.getData();
+        //    cls_ctSYSCodestructure objStruc = new cls_ctSYSCodestructure();
+        //    List<cls_SYSCodestructure> listStruc = objStruc.getData();
 
         //    JArray array = new JArray();
 
@@ -393,7 +394,7 @@ namespace BPC_OPR
         //    {
         //        int index = 1;
 
-        //        foreach (cls_MTCodestructure model in listStruc)
+        //        foreach (cls_SYSCodestructure model in listStruc)
         //        {
         //            JObject json = new JObject();
 
@@ -421,13 +422,13 @@ namespace BPC_OPR
 
         //    return output.ToString(Formatting.None);
         //}
-        //public string getMTPolcode(string com, string type)
+        //public string getMTPolcode(InputMTPolcode req)
         //{
         //    JObject output = new JObject();
 
         //    cls_ctMTPolcode objPol = new cls_ctMTPolcode();
 
-        //    List<cls_MTPolcode> listPol = objPol.getDataByFillter(com, "", type);
+        //    List<cls_MTPolcode> listPol = objPol.getDataByFillter(req.company_code, "", req.polcode_type);
 
         //    JArray array = new JArray();
 
@@ -466,12 +467,12 @@ namespace BPC_OPR
 
         //    return output.ToString(Formatting.None);
         //}
-        //public string getTRPolcode(string id)
+        //public string getTRPolcode(FillterCompany req)
         //{
         //    JObject output = new JObject();
 
         //    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-        //    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(id);
+        //    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.polcode_id);
 
         //    JArray array = new JArray();
 
@@ -701,328 +702,922 @@ namespace BPC_OPR
 
         //#endregion
 
-        #region Policy structure code
-        public string getSYSCodestructureList()
+
+        #region structure
+        public string getCodestructureList(FillterCompany req)
         {
             JObject output = new JObject();
 
-            cls_ctSYSCodestructure objStruc = new cls_ctSYSCodestructure();
-            List<cls_SYSCodestructure> listStruc = objStruc.getData();
-
-            JArray array = new JArray();
-
-            if (listStruc.Count > 0)
-            {
-                int index = 1;
-
-                foreach (cls_SYSCodestructure model in listStruc)
-                {
-                    JObject json = new JObject();
-
-                    json.Add("codestructure_code", model.codestructure_code);
-                    json.Add("codestructure_name_th", model.codestructure_name_th);
-                    json.Add("codestructure_name_en", model.codestructure_name_en);
-
-                    json.Add("index", index);
-
-                    index++;
-
-                    array.Add(json);
-                }
-
-                output["result"] = "1";
-                output["result_text"] = "1";
-                output["data"] = array;
-            }
-            else
-            {
-                output["result"] = "0";
-                output["result_text"] = "Data not Found";
-                output["data"] = array;
-            }
-
-            return output.ToString(Formatting.None);
-        }
-        public string getMTPolcode(string com, string type)
-        {
-            JObject output = new JObject();
-
-            cls_ctMTPolcode objPol = new cls_ctMTPolcode();
-
-            List<cls_MTPolcode> listPol = objPol.getDataByFillter(com, "", type);
-
-            JArray array = new JArray();
-
-            if (listPol.Count > 0)
-            {
-                int index = 1;
-
-                foreach (cls_MTPolcode model in listPol)
-                {
-                    JObject json = new JObject();
-
-                    json.Add("company_code", model.company_code);
-                    json.Add("polcode_id", model.polcode_id);
-                    json.Add("polcode_type", model.polcode_type);
-                    json.Add("modified_by", model.modified_by);
-                    json.Add("modified_date", model.modified_date);
-                    json.Add("flag", model.flag);
-
-                    json.Add("index", index);
-
-                    index++;
-
-                    array.Add(json);
-                }
-
-                output["result"] = "1";
-                output["result_text"] = "1";
-                output["data"] = array;
-            }
-            else
-            {
-                output["result"] = "0";
-                output["result_text"] = "Data not Found";
-                output["data"] = array;
-            }
-
-            return output.ToString(Formatting.None);
-        }
-        public string getTRPolcode(string id)
-        {
-            JObject output = new JObject();
-
-            cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-            List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(id);
-
-            JArray array = new JArray();
-
-            if (listTRPolcode.Count > 0)
-            {
-                int index = 1;
-
-                foreach (cls_TRPolcode model in listTRPolcode)
-                {
-                    JObject json = new JObject();
-
-                    json.Add("polcode_id", model.polcode_id);
-                    json.Add("codestructure_code", model.codestructure_code);
-                    json.Add("polcode_lenght", model.polcode_lenght);
-                    json.Add("polcode_text", model.polcode_text);
-                    json.Add("polcode_order", model.polcode_order);
-
-                    json.Add("index", index);
-
-                    index++;
-
-                    array.Add(json);
-                }
-
-                output["result"] = "1";
-                output["result_text"] = "1";
-                output["data"] = array;
-            }
-            else
-            {
-                output["result"] = "0";
-                output["result_text"] = "Data not Found";
-                output["data"] = array;
-            }
-
-            return output.ToString(Formatting.None);
-        }
-        public string doManagePolcode(InputMTPolcode input)
-        {
-            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CODE001.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
 
             try
             {
-                cls_ctMTPolcode objMTPolcode = new cls_ctMTPolcode();
-                cls_MTPolcode model = new cls_MTPolcode();
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
 
-                model.company_code = input.company_code;
-                model.polcode_id = input.polcode_id;
-                model.polcode_type = input.polcode_type;
-                model.modified_by = input.modified_by;
-                model.flag = model.flag;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
 
-                string strID = objMTPolcode.insert(model);
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTCodestructure objCardtype = new cls_ctMTCodestructure();
+                List<cls_MTCodestructure> list = objCardtype.getDataByFillter("");
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTCodestructure model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("codestructure_code", model.codestructure_code);
+                        json.Add("codestructure_name_th", model.codestructure_name_th);
+                        json.Add("codestructure_name_en", model.codestructure_name_en);
+   
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                objCardtype.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageCodestructure(InputMTCodestructure input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CODE001.2";
+            //log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTCodestructure objCodestructure = new cls_ctMTCodestructure();
+                cls_MTCodestructure model = new cls_MTCodestructure();
+
+                //model.cardtype_id = Convert.ToInt32(input.cardtype_id);
+                model.codestructure_code = input.codestructure_code;
+                model.codestructure_name_th = input.codestructure_name_th;
+                model.codestructure_name_en = input.codestructure_name_en;
+
+
+                bool strID = objCodestructure.insert(model);
 
                 if (!strID.Equals(""))
                 {
-                    string polcode_data = input.polcode_data;
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
 
-                    try
-                    {
-                        JObject jsonObject = new JObject();
-                        var jsonArray = JsonConvert.DeserializeObject<List<cls_TRPolcode>>(polcode_data);
-
-
-                        List<cls_TRPolcode> list_model = new List<cls_TRPolcode>();
-
-                        int intID = Convert.ToInt32(strID);
-
-                        foreach (cls_TRPolcode item in jsonArray)
-                        {
-                            item.polcode_id = intID;
-                            list_model.Add(item);
-                        }
-
-                        if (list_model.Count > 0)
-                        {
-                            cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                            objTRPolcode.insert(list_model);
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        string str = ex.ToString();
-                    }
-
-
-                    output["result"] = "1";
-                    output["result_text"] = "0";
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
-                    output["result"] = "2";
-                    output["result_text"] = objMTPolcode.getMessage();
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objCodestructure.getMessage();
                 }
+
+                objCodestructure.dispose();
 
             }
             catch (Exception ex)
             {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
-            return output.ToString(Formatting.None);
+            output["data"] = tmp;
 
+            return output.ToString(Formatting.None);
         }
-        public string doDeleteMTPolcode(InputMTPolcode input)
+        public string doDeleteCodestructure(InputMTCodestructure input)
         {
             JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CODE001.3";
+            //log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
 
             try
             {
-                cls_ctMTPolcode objMTPolcode = new cls_ctMTPolcode();
-
-                bool blnResult = objMTPolcode.delete(input.polcode_id.ToString());
-
-                if (blnResult)
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
-                    output["result"] = "1";
-                    output["result_text"] = "0";
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTCodestructure objCardtype = new cls_ctMTCodestructure();
+
+                if (objCardtype.checkDataOld(input.codestructure_code))
+                {
+                    bool blnResult = objCardtype.delete(input.codestructure_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = objCardtype.getMessage();
+                    }
+
                 }
                 else
                 {
-                    output["result"] = "2";
-                    output["result_text"] = objMTPolcode.getMessage();
+                    string message = "Not Found Project code : " + input.codestructure_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                objCardtype.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadCodestructure(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CODE001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
+                    string tmp = srv_import.doImportExcel("codestructure", fileName, "TEST");
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
                 }
 
             }
             catch (Exception ex)
             {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        //#region TRPolcode
+        //public string getTRPolcodeList(FillterCompany req)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CODE001.1";
+        //    log.apilog_by = req.username;
+        //    log.apilog_data = "all";
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctTRPolcode objCardtype = new cls_ctTRPolcode();
+        //        List<cls_TRPolcode> list = objCardtype.getDataByFillter("");
+        //        JArray array = new JArray();
+
+        //        if (list.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_TRPolcode model in list)
+        //            {
+        //                JObject json = new JObject();
+
+        //                json.Add("codestructure_code", model.codestructure_code);
+        //                json.Add("codestructure_name_th", model.codestructure_name_th);
+        //                json.Add("codestructure_name_en", model.codestructure_name_en);
+
+        //                json.Add("index", index++);
+        //                array.Add(json);
+        //            }
+
+        //            output["success"] = true;
+        //            output["message"] = "";
+        //            output["data"] = array;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Data not Found";
+        //            output["data"] = array;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = "Data not Found";
+        //        }
+
+        //        objCardtype.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Retrieved data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageTRPolcode(InputTRPolcode input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CODE001.2";
+        //    //log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctTRPolcode objCodestructure = new cls_ctTRPolcode();
+        //        cls_TRPolcode model = new cls_TRPolcode();
+
+        //        //model.cardtype_id = Convert.ToInt32(input.cardtype_id);
+        //        model.codestructure_code = input.codestructure_code;
+        //        model.codestructure_name_th = input.codestructure_name_th;
+        //        model.codestructure_name_en = input.codestructure_name_en;
+
+
+        //        bool strID = objCodestructure.insert(model);
+
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objCodestructure.getMessage();
+        //        }
+
+        //        objCodestructure.dispose();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Retrieved data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doDeleteCodestructure(InputMTCodestructure input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CODE001.3";
+        //    //log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctTRPolcode objCardtype = new cls_ctTRPolcode();
+
+        //        if (objCardtype.checkDataOld(input.codestructure_code))
+        //        {
+        //            bool blnResult = objCardtype.delete(input.codestructure_code);
+
+        //            if (blnResult)
+        //            {
+        //                output["success"] = true;
+        //                output["message"] = "Remove data successfully";
+
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Remove data not successfully";
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = objCardtype.getMessage();
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            string message = "Not Found Project code : " + input.codestructure_code;
+        //            output["success"] = false;
+        //            output["message"] = message;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = message;
+        //        }
+
+        //        objCardtype.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public async Task<string> doUploadTRPolcode(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CODE001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        bool upload = await this.doUploadFile(fileName, stream);
+
+        //        if (upload)
+        //        {
+        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
+        //            string tmp = srv_import.doImportExcel("TRPolcode", fileName, "TEST");
+
+        //            output["success"] = true;
+        //            output["message"] = tmp;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //#endregion
+
+        #region TRPolcode
+        public string getTRPolcodeList(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CBR001.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRPolcode controller = new cls_ctTRPolcode();
+                List<cls_TRPolcode> list = controller.getDataByFillter("");
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRPolcode model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("polcode_id", model.polcode_id);
+                        json.Add("codestructure_code", model.codestructure_code);
+
+                        json.Add("polcode_lenght", model.polcode_lenght);
+                        json.Add("polcode_text", model.polcode_text);
+                        json.Add("polcode_order", model.polcode_order);
+
+                        //json.Add("company_code", model.company_code);
+                        //json.Add("modified_by", model.modified_by);
+                        //json.Add("modified_date", model.modified_date);
+                        //json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRPolcode(InputTRPolcode input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CBR001.2";
+            //log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRPolcode controller = new cls_ctTRPolcode();
+                cls_TRPolcode model = new cls_TRPolcode();
+
+                model.polcode_id = input.polcode_id;
+                model.codestructure_code = input.codestructure_code;
+
+                model.polcode_lenght = input.polcode_lenght;
+                model.polcode_text = input.polcode_text;
+                model.polcode_order = input.polcode_order;
+
+                //model.company_code = input.company_code;
+                //model.modified_by = input.modified_by;
+                //model.flag = model.flag;
+
+                string strID = controller.insert(model);
+
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
 
             }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        public string doDeleteTRPolcode(InputTRPolcode input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CBR001.3";
+            //log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRPolcode controller = new cls_ctTRPolcode();
+
+                if (controller.checkDataOld(input.codestructure_code, input.codestructure_code))
+                {
+                    bool blnResult = controller.delete(input.polcode_id.ToString());
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.codestructure_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
 
             return output.ToString(Formatting.None);
 
         }
-
-        public string getNewCode(string com, string type, string emptype)
+        public async Task<string> doUploadTRPolcode(string token, string by, string fileName, Stream stream)
         {
             JObject output = new JObject();
 
-            cls_ctMTPolcode objPol = new cls_ctMTPolcode();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CBR001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
 
-            List<cls_MTPolcode> listPol = objPol.getDataByFillter(com, "", type);
-
-
-            if (listPol.Count > 0)
+            try
             {
-                string strID = "";
-
-                cls_MTPolcode polcode = listPol[0];
-
-                cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
-
-                foreach (cls_TRPolcode model in listTRPolcode)
+                if (!objBpcOpr.doVerify(token))
                 {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
 
-                    switch (model.codestructure_code)
-                    {
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
 
-                        case "1CHA":
-                            strID += model.polcode_text.Substring(0, model.polcode_lenght);
-                            break;
-
-                        case "2COM":
-                            strID += com.Substring(0, model.polcode_lenght);
-                            break;
-
-                        case "3BRA":
-                            break;
-
-                        case "4EMT":
-                            strID += emptype;
-                            break;
-
-                        case "5YEA":
-                            DateTime dateNowY = DateTime.Now;
-                            string formatY = "";
-                            for (int i = 0; i < model.polcode_lenght; i++)
-                            {
-                                formatY += "y";
-                            }
-                            strID += dateNowY.ToString(formatY);
-                            break;
-
-                        case "6MON":
-                            DateTime dateNowM = DateTime.Now;
-                            string formatM = "";
-                            for (int i = 0; i < model.polcode_lenght; i++)
-                            {
-                                formatM += "M";
-                            }
-                            strID += dateNowM.ToString(formatM);
-                            break;
-
-                        //case "MAUT":
-                        //    cls_ctMTWorker objWorker = new cls_ctMTWorker();
-                        //    int intRunningID = objWorker.doGetNextRunningID(com, strID);
-                        //    strID += intRunningID.ToString().PadLeft(model.polcode_lenght, '0');
-                        //    break;
-
-                    }
-
-
+                    return output.ToString(Formatting.None);
                 }
 
 
+                bool upload = await this.doUploadFile(fileName, stream);
 
+                if (upload)
+                {
+                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
+                    string tmp = srv_import.doImportExcel("TRPolcode", fileName, "TEST");
 
-                output["result"] = "1";
-                output["result_text"] = "1";
-                output["data"] = strID;
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                output["result"] = "0";
-                output["result_text"] = "Data not Found";
-                output["data"] = "";
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
         }
 
         #endregion
-
 
         #region MTReason
         public string getMTReasonList(InputMTReason input)
