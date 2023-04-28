@@ -529,6 +529,24 @@ namespace BPC_OPR
         Task<string> doUploadEmpUnifrom(string token, string by, string fileName, Stream stream);
         #endregion
 
+        #region TR_Suggest
+        [OperationContract(Name = "empsuggestlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRSuggestList(FillterWorker input);
+
+        [OperationContract(Name = "empsuggest")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRSuggest(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empsuggest_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRSuggest(InputTREmpSuggest input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpSuggest?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpSuggest(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #region set batch
         //set position
         [OperationContract(Name = "setbatchposition")]

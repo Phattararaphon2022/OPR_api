@@ -1,4 +1,4 @@
-﻿using ClassLibrary_BPC.hrfocus.model.Recruitment;
+﻿using ClassLibrary_BPC.hrfocus.model;
 using System;
 using System.Collections.Generic;
 using System.Data;

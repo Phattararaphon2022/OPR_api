@@ -46,33 +46,61 @@ namespace BPC_OPR
         public double applywork_height { get; set; }
         [DataMember]
         public double applywork_weight { get; set; }
-      
-
-        //-- Transaction
-        //[DataMember]
-        //public string card_data { get; set; }
-        //[DataMember]
-        //public string reduce_data { get; set; }
-        //[DataMember]
-        //public string salary_data { get; set; }
-        //[DataMember]
-        //public string family_data { get; set; }
-        //[DataMember]
-        //public string dep_data { get; set; }
-        //--
-
-        ////[DataMember]
-        ////public bool self_admin { get; set; }
-
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+    }
 
-        //[DataMember]
-        //public string worker_pwd { get; set; }
+    //ReqWorker
+    [DataContract]
+    public class InputReqWorker
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int worker_id { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_card { get; set; }
+        [DataMember]
+        public string worker_initial { get; set; }
+        [DataMember]
+        public string worker_fname_th { get; set; }
+        [DataMember]
+        public string worker_lname_th { get; set; }
+        [DataMember]
+        public string worker_fname_en { get; set; }
+        [DataMember]
+        public string worker_lname_en { get; set; }
+
+        [DataMember]
+        public string worker_type { get; set; }
+        [DataMember]
+        public string worker_gender { get; set; }
+        [DataMember]
+        public string worker_birthdate { get; set; }
+        [DataMember]
+        public string worker_hiredate { get; set; }
+        [DataMember]
+        public string worker_status { get; set; }
+        [DataMember]
+        public string religion_code { get; set; }
+        [DataMember]
+        public string blood_code { get; set; }
+        [DataMember]
+        public double worker_height { get; set; }
+        [DataMember]
+        public double worker_weight { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
     }
 
     //Fillter All
@@ -100,7 +128,20 @@ namespace BPC_OPR
     public class InputApplyTransaction
     {
         [DataMember]
-        public string applywork_code { get; set; }
+        public string worker_code { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string transaction_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+    }
+
+    [DataContract]
+    public class InputReqWorkerTransaction
+    {
+        [DataMember]
+        public string work_code { get; set; }
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
