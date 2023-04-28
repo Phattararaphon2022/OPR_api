@@ -39,7 +39,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -133,7 +133,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -230,7 +230,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -297,7 +297,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -404,7 +404,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -497,7 +497,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -561,7 +561,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -647,7 +647,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -739,7 +739,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -816,7 +816,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self001";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -864,6 +864,34 @@ namespace BPC_OPR
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+                        cls_ctTRLineapprove objTRLineapp = new cls_ctTRLineapprove();
+                        List<cls_TRLineapprove> listTRLineapp = objTRLineapp.getDataByFillter(model.company_code, model.workflow_type,model.workflow_code,"");
+                        JArray arrayTRLineapp = new JArray();
+                        if (listTRLineapp.Count > 0)
+                        {
+                            int indexTRLineapp = 1;
+
+                            foreach (cls_TRLineapprove modelTRLineapp in listTRLineapp)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRLineapp.company_code);
+                                jsonTRPlan.Add("workflow_type", modelTRLineapp.workflow_type);
+                                jsonTRPlan.Add("workflow_code", modelTRLineapp.workflow_code);
+                                jsonTRPlan.Add("position_level", modelTRLineapp.position_level);
+
+                                jsonTRPlan.Add("index", indexTRLineapp);
+
+
+                                indexTRLineapp++;
+
+                                arrayTRLineapp.Add(jsonTRPlan);
+                            }
+                            json.Add("lineapprove_data", arrayTRLineapp);
+                        }
+                        else
+                        {
+                            json.Add("lineapprove_data", arrayTRLineapp);
+                        }
                         json.Add("index", index);
 
                         index++;
@@ -892,7 +920,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self001";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -933,6 +961,19 @@ namespace BPC_OPR
                 string strID = objMT.insert(model);
                 if (!strID.Equals(""))
                 {
+                    try
+                    {
+                        cls_ctTRLineapprove objTRLineapp = new cls_ctTRLineapprove();
+                        //objTRLineapp.delete(input.company_code, input.workflow_type,input.workflow_code,"");
+                        if (input.lineapprove_data.Count > 0)
+                        {
+                            objTRLineapp.insert(input.lineapprove_data,input.username);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -969,7 +1010,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self001";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -993,6 +1034,15 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
+                    try
+                    {
+                        cls_ctTRLineapprove objTRLineapp = new cls_ctTRLineapprove();
+                        objTRLineapp.delete(input.company_code, input.workflow_type, input.workflow_code, "");
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1034,7 +1084,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self003";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1053,7 +1103,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRLineapprove objTRLineapprove = new cls_ctTRLineapprove();
-                List<cls_TRLineapprove> list = objTRLineapprove.getDataByFillter(input.company_code, input.lineapprove_id, input.worker_code, input.lineapprove_leave, input.lineapprove_ot, input.lineapprove_shift, input.lineapprove_punchcard, input.lineapprove_checkin);
+                List<cls_TRLineapprove> list = objTRLineapprove.getDataByFillter(input.company_code, input.workflow_type, input.workflow_code, input.position_level);
 
                 JArray array = new JArray();
 
@@ -1066,15 +1116,10 @@ namespace BPC_OPR
                         JObject json = new JObject();
 
                         json.Add("company_code", model.company_code);
-                        json.Add("worker_code", model.worker_code);
-                        json.Add("lineapprove_id", model.lineapprove_id);
-
-                        json.Add("lineapprove_leave", model.lineapprove_leave);
-                        json.Add("lineapprove_ot", model.lineapprove_ot);
-                        json.Add("lineapprove_shift", model.lineapprove_shift);
-                        json.Add("lineapprove_punchcard", model.lineapprove_punchcard);
-                        json.Add("lineapprove_checkin", model.lineapprove_checkin);
-             
+                        json.Add("workflow_type", model.workflow_type);
+                        json.Add("workflow_code", model.workflow_code);
+                        json.Add("position_level", model.position_level);
+                         
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -1107,7 +1152,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self003";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1165,7 +1210,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self003";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1184,7 +1229,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRLineapprove controller = new cls_ctTRLineapprove();
-                bool blnResult = controller.delete(input.company_code,input.lineapprove_id,input.worker_code);
+                bool blnResult = controller.delete(input.company_code,input.workflow_type,input.workflow_code,input.position_level);
                 if (blnResult)
                 {
                     output["success"] = true;
@@ -1228,7 +1273,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1303,7 +1348,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1376,7 +1421,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1439,7 +1484,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1502,7 +1547,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1565,7 +1610,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1628,7 +1673,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1692,7 +1737,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1756,7 +1801,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self002";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 

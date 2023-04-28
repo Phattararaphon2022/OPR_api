@@ -3110,7 +3110,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"\",\r\n    \"workflow_code\":\"LV1-2\",\r\n    \"workflow_name_th\":\"ผู้อนุมัติ 1 คน รหัสแทนตำแหน่ง รหัส 2\",\r\n    \"workflow_name_en\":\"1 approver, position code, code 2\",\r\n    \"workflow_type\":\"LEAVE\",\r\n    \"step1\":1,\r\n    \"step2\":0,\r\n    \"step3\":0,\r\n    \"step4\":0,\r\n    \"step5\":0,\r\n    \"totalapprove\":1,\r\n    \"modified_by\":\"admin\",\r\n    \"flag\":false\r\n\r\n    \r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"\",\r\n    \"workflow_code\":\"LV1-2\",\r\n    \"workflow_name_th\":\"ผู้อนุมัติ 1 คน รหัสแทนตำแหน่ง รหัส 2\",\r\n    \"workflow_name_en\":\"1 approver, position code, code 2\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"step1\":1,\r\n    \"step2\":0,\r\n    \"step3\":0,\r\n    \"step4\":0,\r\n    \"step5\":0,\r\n    \"totalapprove\":1,\r\n    \"modified_by\":\"admin\",\r\n    \"flag\":false,\r\n    \"lineapprove_data\":[{\r\n        \"company_code\":\"OPR\",\r\n        \"workflow_type\":\"LEA\",\r\n        \"workflow_code\":\"LV1-2\",\r\n        \"position_level\":\"1\",\r\n        \"flag\":false\r\n    }]\r\n\r\n    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3193,7 +3193,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"\",\r\n    \"lineapprove_id\":\"\",\r\n    \"lineapprove_leave\":\"\",\r\n    \"lineapprove_ot\":\"\",\r\n    \"lineapprove_shift\":\"\",\r\n    \"lineapprove_punchcard\":\"\",\r\n    \"lineapprove_checkin\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"workflow_code\":\"LV1-2\",\r\n    \"position_level\":\"\",\r\n    \"flag\":false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3252,7 +3252,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"lineapprove_data\":[\r\n        {\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"lineapprove_id\":0,\r\n    \"lineapprove_leave\":\"LV1-2\",\r\n    \"lineapprove_ot\":\"\",\r\n    \"lineapprove_shift\":\"\",\r\n    \"lineapprove_punchcard\":\"\",\r\n    \"lineapprove_checkin\":\"\",\r\n    \"modified_by\":\"Admin\",\r\n    \"flag\":false\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"lineapprove_data\":[\r\n        {\r\n        \"company_code\":\"OPR\",\r\n        \"workflow_type\":\"LEA\",\r\n        \"workflow_code\":\"LV1-2\",\r\n        \"position_level\":\"1\",\r\n        \"flag\":false\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3291,7 +3291,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP02\",\r\n    \"lineapprove_id\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"workflow_code\":\"LV1-2\",\r\n    \"position_level\":\"\",\r\n    \"flag\":false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

@@ -204,7 +204,8 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
-
+        [DataMember]
+        public List<cls_TRLineapprove> lineapprove_data { get; set; }
     }
     #endregion
 
@@ -218,23 +219,15 @@ namespace BPC_OPR
         public string ip { get; set; }
         [DataMember]
         public string username { get; set; }
-
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
-        public string worker_code { get; set; }
+        public string workflow_type { get; set; }
         [DataMember]
-        public string lineapprove_id { get; set; }
+        public string workflow_code { get; set; }
         [DataMember]
-        public string lineapprove_leave { get; set; }
-        [DataMember]
-        public string lineapprove_ot { get; set; }
-        [DataMember]
-        public string lineapprove_shift { get; set; }
-        [DataMember]
-        public string lineapprove_punchcard { get; set; }
-        [DataMember]
-        public string lineapprove_checkin { get; set; }
+        public string position_level { get; set; }
+      
         [DataMember]
         public List<cls_TRLineapprove> lineapprove_data { get; set; }
 
