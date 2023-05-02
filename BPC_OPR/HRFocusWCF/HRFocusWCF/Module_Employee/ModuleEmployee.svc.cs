@@ -804,6 +804,7 @@ namespace BPC_OPR
                         json.Add("position_code", model.position_code);
                         json.Add("position_name_th", model.position_name_th);
                         json.Add("position_name_en", model.position_name_en);
+                        json.Add("position_level", model.position_level);
                         json.Add("company_code", model.company_code);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -881,6 +882,7 @@ namespace BPC_OPR
                 model.position_code = input.position_code;
                 model.position_name_th = input.position_name_th;
                 model.position_name_en = input.position_name_en;
+                model.position_level = input.position_level;
                 model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 

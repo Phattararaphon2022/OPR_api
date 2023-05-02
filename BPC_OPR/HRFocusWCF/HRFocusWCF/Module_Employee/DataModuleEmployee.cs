@@ -150,6 +150,8 @@ namespace BPC_OPR
         [DataMember]
         public string position_name_en { get; set; }
         [DataMember]
+        public int position_level { get; set; }
+        [DataMember]
         public string company_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }

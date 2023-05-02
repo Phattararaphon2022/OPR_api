@@ -66,6 +66,10 @@ namespace BPC_OPR
         [OperationContract(Name = "workflow_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteMTWorkflow(InputMTWorkflow input);
+
+        [OperationContract(Name = "positionlevel")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getPositionLevelList(InputMTWorkflow input);
         #endregion
 
         #region TRLineapprove

@@ -359,5 +359,38 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public List<cls_MTWorkflow> getpositionlevel(string com)
+        {
+            List<cls_MTWorkflow> list_model = new List<cls_MTWorkflow>();
+            cls_MTWorkflow model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+                obj_str.Append("DISTINCT POSITION_LEVEL");
+                obj_str.Append(" FROM EMP_MT_POSITION");
+                obj_str.Append(" WHERE COMPANY_CODE='"+com+"'");
+                obj_str.Append(" ORDER BY POSITION_LEVEL");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_MTWorkflow();
+
+                    model.position_level = Convert.ToInt32(dr["POSITION_LEVEL"]);
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Workflw.getpositionlevel)" + ex.ToString();
+            }
+
+            return list_model;
+        }
     }
 }

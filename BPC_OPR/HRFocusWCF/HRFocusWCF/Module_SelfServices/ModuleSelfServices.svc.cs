@@ -969,6 +969,10 @@ namespace BPC_OPR
                         {
                             objTRLineapp.insert(input.lineapprove_data,input.username);
                         }
+                        else
+                        {
+                            objTRLineapp.delete(input.company_code, input.workflow_type, input.workflow_code, "");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1076,6 +1080,65 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
 
+        }
+        public string getPositionLevelList(InputMTWorkflow input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self001";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTWorkflow objMT = new cls_ctMTWorkflow();
+                List<cls_MTWorkflow> list = objMT.getpositionlevel(input.company_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTWorkflow model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("position_level", model.position_level);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(model.position_level);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
         }
         #endregion
 
