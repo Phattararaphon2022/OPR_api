@@ -74,6 +74,12 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctMTBonus.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctMTItem.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctMTProvident.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRBonusrate.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRProvidentWorkage.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRTaxrate.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTWorkflow.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpleaveacc.cs" />
@@ -162,6 +168,12 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlantimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_MTBonus.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_MTItem.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_MTProvident.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRBonusrate.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRProvidentWorkage.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRTaxrate.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTWorkflow.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRDiligenceSteppay.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmpleaveacc.cs" />
@@ -333,10 +345,7 @@
   <ItemGroup>
     <EmbeddedResource Include="frmExportData.resx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="hrfocus.controller\Payroll\" />
-    <Folder Include="hrfocus.model\Payroll\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

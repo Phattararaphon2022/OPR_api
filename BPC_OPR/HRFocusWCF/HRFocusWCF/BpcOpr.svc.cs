@@ -175,6 +175,13 @@ namespace BPC_OPR
         public string company { get; set; }
         [DataMember]
         public string language { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string item_code { get; set; }
+
+        [DataMember]
+        public string bonus_code { get; set; }
     }
 
     public class RequestData
