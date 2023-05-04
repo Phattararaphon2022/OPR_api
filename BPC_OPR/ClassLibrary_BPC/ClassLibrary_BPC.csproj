@@ -76,6 +76,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTBonus.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTItem.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctMTPeriods.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTProvident.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRBonusrate.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRProvidentWorkage.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTBonus.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTItem.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_MTPeriods.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTProvident.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRBonusrate.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRProvidentWorkage.cs" />
