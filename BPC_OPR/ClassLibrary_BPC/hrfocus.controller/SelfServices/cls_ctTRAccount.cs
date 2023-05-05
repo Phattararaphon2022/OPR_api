@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using ClassLibrary_BPC.hrfocus.model;
-
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctTRAccountdep
+  public  class cls_ctTRAccount
     {
-           string Message = string.Empty;
+             string Message = string.Empty;
 
         cls_ctConnection Obj_conn = new cls_ctConnection();
 
-        public cls_ctTRAccountdep() { }
+        public cls_ctTRAccount() { }
 
         public string getMessage() { return this.Message; }
 
@@ -21,10 +20,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_TRAccountdep> getData(string condition)
+        private List<cls_TRAccount> getData(string condition)
         {
-            List<cls_TRAccountdep> list_model = new List<cls_TRAccountdep>();
-            cls_TRAccountdep model;
+            List<cls_TRAccount> list_model = new List<cls_TRAccount>();
+            cls_TRAccount model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -34,10 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_TYPE");
-                obj_str.Append(", LEVEL_CODE");
-                obj_str.Append(", DEP_CODE");
+                obj_str.Append(", WORKER_CODE");
 
-                obj_str.Append(" FROM SELF_TR_ACCOUNTDEP");
+                obj_str.Append(" FROM SELF_TR_ACCOUNT");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -49,13 +47,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_TRAccountdep();
+                    model = new cls_TRAccount();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_type = dr["ACCOUNT_TYPE"].ToString();
-                    model.level_code = dr["LEVEL_CODE"].ToString();
-                    model.dep_code = dr["DEP_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
 
                     list_model.Add(model);
                 }
@@ -63,13 +60,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Accountdep.getData)" + ex.ToString();
+                Message = "ERROR::(TRTRAccountpos.getData)" + ex.ToString();
             }
 
             return list_model;
         }
 
-        public List<cls_TRAccountdep> getDataByFillter(string com,string user,string type,string level,string dep)
+        public List<cls_TRAccount> getDataByFillter(string com,string user,string type,string worker)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -81,16 +78,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!type.Equals(""))
                 strCondition += " AND ACCOUNT_TYPE='" + type + "'";
 
-            if (!level.Equals(""))
-                strCondition += " AND LEVEL_CODE='" + level + "'";
-
-            if (!dep.Equals(""))
-                strCondition += " AND DEP_CODE='" + dep + "'";
+            if (!worker.Equals(""))
+                strCondition += " AND WORKER_CODE='" + worker + "'";
 
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string com, string user, string type, string level, string dep)
+        public bool checkDataOld(string com,string user,string type,string worker)
         {
             bool blnResult = false;
             try
@@ -98,12 +92,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ACCOUNT_USER");
-                obj_str.Append(" FROM SELF_TR_ACCOUNTDEP");
+                obj_str.Append(" FROM SELF_TR_ACCOUNT");
                 obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
                 obj_str.Append(" AND ACCOUNT_USER='" + user + "'");
                 obj_str.Append(" AND ACCOUNT_TYPE='" + type + "'");
-                obj_str.Append(" AND LEVEL_CODE='" + level + "'");
-                obj_str.Append(" AND DEP_CODE='" + dep + "'");
+                if (!worker.Equals(""))
+                {
+                    obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -114,12 +110,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Accountdep.checkDataOld)" + ex.ToString();
+                Message = "ERROR::(TRAccountpos.checkDataOld)" + ex.ToString();
             }
 
             return blnResult;
         }
-        public bool delete(string com, string user, string type, string level, string dep)
+        public bool delete(string com, string user, string type, string worker)
         {
             bool blnResult = true;
             try
@@ -128,15 +124,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM SELF_TR_ACCOUNTDEP");
+                obj_str.Append(" DELETE FROM SELF_TR_ACCOUNT");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND ACCOUNT_USER='" + user + "'");
                 obj_str.Append(" AND ACCOUNT_TYPE='" + type + "'");
-                if(!level.Equals(""))
-                    obj_str.Append(" AND LEVEL_CODE='" + level + "'");
-                if (!dep.Equals(""))
-                    obj_str.Append(" AND DEP_CODE='" + dep + "'");
+                if (!worker.Equals(""))
+                {
+                    obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+                }
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -144,40 +140,38 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "ERROR::(Accountdep.delete)" + ex.ToString();
+                Message = "ERROR::(TRAccountpos.delete)" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public string insert(cls_TRAccountdep model)
+        public string insert(cls_TRAccount model)
         {
             string blnResult = "";
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.account_user,model.account_type,model.level_code,model.dep_code))
+                if (this.checkDataOld(model.company_code, model.account_user,model.account_type,model.worker_code))
                 {
                     return this.update(model);
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("INSERT INTO SELF_TR_ACCOUNTDEP");
+                obj_str.Append("INSERT INTO SELF_TR_ACCOUNT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", ACCOUNT_USER ");
                 obj_str.Append(", ACCOUNT_TYPE ");
-                obj_str.Append(", LEVEL_CODE ");
-                obj_str.Append(", DEP_CODE ");
+                obj_str.Append(", WORKER_CODE ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @ACCOUNT_USER ");
                 obj_str.Append(", @ACCOUNT_TYPE ");
-                obj_str.Append(", @LEVEL_CODE ");
-                obj_str.Append(", @DEP_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(" )");
 
                 obj_conn.doConnect();
@@ -187,8 +181,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
                 obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
-                obj_cmd.Parameters.Add("@LEVEL_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LEVEL_CODE"].Value = model.level_code;
-                obj_cmd.Parameters.Add("@DEP_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_CODE"].Value = model.dep_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -197,12 +190,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Accountdep.insert)" + ex.ToString();
+                Message = "ERROR::(TRAccountpos.insert)" + ex.ToString();
             }
 
             return blnResult;
         }
-        public bool insert(List<cls_TRAccountdep> list_model)
+
+        public bool insert(List<cls_TRAccount> list_model)
         {
             bool blnResult = false;
             try
@@ -210,21 +204,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO SELF_TR_ACCOUNTDEP");
+                obj_str.Append("INSERT INTO SELF_TR_ACCOUNT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", ACCOUNT_USER ");
                 obj_str.Append(", ACCOUNT_TYPE ");
-                obj_str.Append(", LEVEL_CODE ");
-                obj_str.Append(", DEP_CODE ");
+                obj_str.Append(", WORKER_CODE ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @ACCOUNT_USER ");
                 obj_str.Append(", @ACCOUNT_TYPE ");
-                obj_str.Append(", @LEVEL_CODE ");
-                obj_str.Append(", @DEP_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(" )");
 
 
@@ -235,7 +227,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Step 1 delete data old
                 System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
 
-                obj_str2.Append(" DELETE FROM SELF_TR_ACCOUNTDEP");
+                obj_str2.Append(" DELETE FROM SELF_TR_ACCOUNT");
                 obj_str2.Append(" WHERE 1=1 ");
                 obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
                 obj_str2.Append(" AND ACCOUNT_USER='" + list_model[0].account_user + "' ");
@@ -250,16 +242,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar);
-                    obj_cmd.Parameters.Add("@LEVEL_CODE", SqlDbType.VarChar);
-                    obj_cmd.Parameters.Add("@DEP_CODE", SqlDbType.VarChar);
-                    foreach (cls_TRAccountdep model in list_model)
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+                    foreach (cls_TRAccount model in list_model)
                     {
 
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                         obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
                         obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
-                        obj_cmd.Parameters["@LEVEL_CODE"].Value = model.level_code;
-                        obj_cmd.Parameters["@DEP_CODE"].Value = model.dep_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                         obj_cmd.ExecuteNonQuery();
 
                     }
@@ -281,13 +271,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Accountdep.insert)" + ex.ToString();
+                Message = "ERROR::(TRAccountpos.insert)" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public string update(cls_TRAccountdep model)
+        public string update(cls_TRAccount model)
         {
             string blnResult = "";
             try
@@ -296,12 +286,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE SELF_TR_ACCOUNTDEP SET ");
+                obj_str.Append("UPDATE SELF_TR_ACCOUNT SET ");
                 obj_str.Append(" COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(", ACCOUNT_USER=@ACCOUNT_USER ");
                 obj_str.Append(", ACCOUNT_TYPE=@ACCOUNT_TYPE ");
-                obj_str.Append(", LEVEL_CODE=@LEVEL_CODE ");
-                obj_str.Append(", DEP_CODE=@DEP_CODE ");
+                obj_str.Append(", WORKER_CODE=@WORKER_CODE ");
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND ACCOUNT_USER=@ACCOUNT_USER ");
                 obj_str.Append(" AND ACCOUNT_TYPE=@ACCOUNT_TYPE ");
@@ -315,8 +304,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
                 obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
-                obj_cmd.Parameters.Add("@LEVEL_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LEVEL_CODE"].Value = model.level_code;
-                obj_cmd.Parameters.Add("@DEP_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_CODE"].Value = model.dep_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -326,7 +314,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Accountdep.update)" + ex.ToString();
+                Message = "ERROR::(TRAccountpos.update)" + ex.ToString();
             }
 
             return blnResult;

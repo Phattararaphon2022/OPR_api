@@ -9,7 +9,6 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string account_pwd { get; set; }
         public string account_type { get; set; }
         public int account_level { get; set; }
-        public string account_emp { get; set; }
         public string account_email { get; set; }
         public bool account_email_alert { get; set; }
         public string account_line { get; set; }

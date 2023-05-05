@@ -256,8 +256,6 @@ namespace BPC_OPR
         [DataMember]
         public int account_level { get; set; }
         [DataMember]
-        public string account_emp { get; set; }
-        [DataMember]
         public string account_email { get; set; }
         [DataMember]
         public bool account_email_alert { get; set; }
@@ -265,6 +263,13 @@ namespace BPC_OPR
         public string account_line { get; set; }
         [DataMember]
         public bool account_line_alert { get; set; }
+
+        [DataMember]
+        public List<cls_TRAccountpos> positonn_data { get; set; }
+        [DataMember]
+        public List<cls_TRAccountdep> dep_data { get; set; }
+        [DataMember]
+        public List<cls_TRAccount> worker_data { get; set; }
 
         [DataMember]
         public string modified_by { get; set; }

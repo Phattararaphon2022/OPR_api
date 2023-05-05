@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using ClassLibrary_BPC.hrfocus.model;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
 namespace ClassLibrary_BPC.hrfocus.controller
 {
     public class cls_ctMTAccount
@@ -33,10 +36,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" COMPANY_CODE");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_PWD");
-
                 obj_str.Append(", ACCOUNT_TYPE");
                 obj_str.Append(", ACCOUNT_LEVEL");
-                obj_str.Append(", ACCOUNT_EMP");
                 
                 obj_str.Append(", ACCOUNT_EMAIL");
                 obj_str.Append(", ACCOUNT_EMAIL_ALERT");
@@ -62,11 +63,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.account_user = dr["ACCOUNT_USER"].ToString();
-                    model.account_pwd = dr["ACCOUNT_PWD"].ToString();
+                    model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
 
                     model.account_type = dr["ACCOUNT_TYPE"].ToString();
                     model.account_level = Convert.ToInt32(dr["ACCOUNT_LEVEL"].ToString());
-                    model.account_emp = dr["ACCOUNT_EMP"].ToString();
                     model.account_email = dr["ACCOUNT_EMAIL"].ToString();
                     model.account_email_alert = Convert.ToBoolean(dr["ACCOUNT_EMAIL_ALERT"].ToString());
                     model.account_line = dr["ACCOUNT_LINE"].ToString();
@@ -88,7 +88,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTAccount> getDataByFillter(string com,string user, string type ,string emp)
+        public List<cls_MTAccount> getDataByFillter(string com,string user, string type)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -97,8 +97,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND ACCOUNT_USER='" + user + "'";
             if (!type.Equals(""))
                 strCondition += " AND ACCOUNT_TYPE='" + type + "'";
-            if (!emp.Equals(""))
-                strCondition += " AND ACCOUNT_EMP='" + emp + "'";
 
             return this.getData(strCondition);
         }
@@ -166,7 +164,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     return this.update(model);
                 }
-
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("INSERT INTO SELF_MT_ACCOUNT");
@@ -174,10 +171,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", ACCOUNT_USER ");
                 obj_str.Append(", ACCOUNT_PWD ");
-
                 obj_str.Append(", ACCOUNT_TYPE ");
                 obj_str.Append(", ACCOUNT_LEVEL ");
-                obj_str.Append(", ACCOUNT_EMP ");
                 obj_str.Append(", ACCOUNT_EMAIL ");
                 obj_str.Append(", ACCOUNT_EMAIL_ALERT ");
                 obj_str.Append(", ACCOUNT_LINE ");
@@ -192,10 +187,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @ACCOUNT_USER ");
                 obj_str.Append(", @ACCOUNT_PWD ");
-
                 obj_str.Append(", @ACCOUNT_TYPE ");
                 obj_str.Append(", @ACCOUNT_LEVEL ");
-                obj_str.Append(", @ACCOUNT_EMP ");
                 obj_str.Append(", @ACCOUNT_EMAIL ");
                 obj_str.Append(", @ACCOUNT_EMAIL_ALERT ");
                 obj_str.Append(", @ACCOUNT_LINE ");
@@ -212,11 +205,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
-                obj_cmd.Parameters.Add("@ACCOUNT_PWD", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_PWD"].Value = model.account_pwd;
-
+                obj_cmd.Parameters.Add("@ACCOUNT_PWD", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_PWD"].Value = this.Encrypt(model.account_pwd);
                 obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
                 obj_cmd.Parameters.Add("@ACCOUNT_LEVEL", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_LEVEL"].Value = model.account_level;
-                obj_cmd.Parameters.Add("@ACCOUNT_EMP", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_EMP"].Value = model.account_emp;
                 obj_cmd.Parameters.Add("@ACCOUNT_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_EMAIL"].Value = model.account_email;
                 obj_cmd.Parameters.Add("@ACCOUNT_EMAIL_ALERT", SqlDbType.Bit); obj_cmd.Parameters["@ACCOUNT_EMAIL_ALERT"].Value = model.account_email_alert;
                 obj_cmd.Parameters.Add("@ACCOUNT_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_LINE"].Value = model.account_line;
@@ -251,11 +242,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE SELF_MT_ACCOUNT SET ");
 
                 obj_str.Append("ACCOUNT_USER=@ACCOUNT_USER ");
-                obj_str.Append(", ACCOUNT_PWD=@ACCOUNT_PWD ");
+                if(!model.account_pwd.Equals(""))
+                    obj_str.Append(", ACCOUNT_PWD=@ACCOUNT_PWD ");
 
                 obj_str.Append(", ACCOUNT_TYPE=@ACCOUNT_TYPE ");
                 obj_str.Append(", ACCOUNT_LEVEL=@ACCOUNT_LEVEL ");
-                obj_str.Append(", ACCOUNT_EMP=@ACCOUNT_EMP ");
                 obj_str.Append(", ACCOUNT_EMAIL=@ACCOUNT_EMAIL ");
                 obj_str.Append(", ACCOUNT_EMAIL_ALERT=@ACCOUNT_EMAIL_ALERT ");
                 obj_str.Append(", ACCOUNT_LINE=@ACCOUNT_LINE ");
@@ -274,11 +265,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
-                obj_cmd.Parameters.Add("@ACCOUNT_PWD", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_PWD"].Value = model.account_pwd;
-
+                if (!model.account_pwd.Equals(""))
+                {
+                   obj_cmd.Parameters.Add("@ACCOUNT_PWD", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_PWD"].Value = this.Encrypt(model.account_pwd);
+                }
                 obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
                 obj_cmd.Parameters.Add("@ACCOUNT_LEVEL", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_LEVEL"].Value = model.account_level;
-                obj_cmd.Parameters.Add("@ACCOUNT_EMP", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_EMP"].Value = model.account_emp;
                 obj_cmd.Parameters.Add("@ACCOUNT_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_EMAIL"].Value = model.account_email;
                 obj_cmd.Parameters.Add("@ACCOUNT_EMAIL_ALERT", SqlDbType.Bit); obj_cmd.Parameters["@ACCOUNT_EMAIL_ALERT"].Value = model.account_email_alert;
                 obj_cmd.Parameters.Add("@ACCOUNT_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_LINE"].Value = model.account_line;
@@ -300,6 +292,39 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
 
             return blnResult;
+        }
+
+        public string Encrypt(string input)
+        {
+            return Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(input)));
+        }
+        private byte[] Encrypt(byte[] input)
+        {
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes("hjiweykaksd", new byte[] { 0x43, 0x87, 0x23, 0x72, 0x45, 0x56, 0x68, 0x14, 0x62, 0x84 });
+            MemoryStream ms = new MemoryStream();
+            Aes aes = new AesManaged();
+            aes.Key = pdb.GetBytes(aes.KeySize / 8);
+            aes.IV = pdb.GetBytes(aes.BlockSize / 8);
+            CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
+            cs.Write(input, 0, input.Length);
+            cs.Close();
+            return ms.ToArray();
+        }
+        public string Decrypt(string input)
+        {
+            return Encoding.UTF8.GetString(Decrypt(Convert.FromBase64String(input)));
+        }
+        private byte[] Decrypt(byte[] input)
+        {
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes("hjiweykaksd", new byte[] { 0x43, 0x87, 0x23, 0x72, 0x45, 0x56, 0x68, 0x14, 0x62, 0x84 });
+            MemoryStream ms = new MemoryStream();
+            Aes aes = new AesManaged();
+            aes.Key = pdb.GetBytes(aes.KeySize / 8);
+            aes.IV = pdb.GetBytes(aes.BlockSize / 8);
+            CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write);
+            cs.Write(input, 0, input.Length);
+            cs.Close();
+            return ms.ToArray();
         }
     }
 }

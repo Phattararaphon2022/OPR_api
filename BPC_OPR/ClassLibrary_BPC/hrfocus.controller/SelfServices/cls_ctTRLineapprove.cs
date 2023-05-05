@@ -241,13 +241,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_conn.doOpenTransaction();
 
                 //-- Step 1 delete data old
-                //string strWorkerID = "";
-                //foreach (cls_TRLineapprove model in list_model)
-                //{
-                //    strWorkerID += "'" + model.worker_code + "',";
-                //}
-                //if (strWorkerID.Length > 0)
-                //    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                string posilevel = "";
+                foreach (cls_TRLineapprove model in list_model)
+                {
+                    posilevel += "'" + model.position_level + "',";
+                }
+                if (posilevel.Length > 0)
+                    posilevel = posilevel.Substring(0, posilevel.Length - 1);
 
                 System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
 
@@ -255,7 +255,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str2.Append(" WHERE 1=1 ");
                 obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
                 obj_str2.Append(" AND WORKFLOW_TYPE='" + list_model[0].workflow_type + "' ");
-                obj_str2.Append(" AND WORKFLOW_CODE='" + list_model[0].workflow_code + "' ");
+                obj_str2.Append(" AND POSITION_LEVEL IN (" + posilevel + ")");
+                //obj_str2.Append(" AND WORKFLOW_CODE='" + list_model[0].workflow_code + "' ");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
                 //int id = 1;

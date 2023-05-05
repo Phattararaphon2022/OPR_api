@@ -189,6 +189,87 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
+        public bool insert(List<cls_TRAccountpos> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO SELF_TR_ACCOUNTPOS");
+                obj_str.Append(" (");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", ACCOUNT_USER ");
+                obj_str.Append(", ACCOUNT_TYPE ");
+                obj_str.Append(", POSITION_CODE ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @ACCOUNT_USER ");
+                obj_str.Append(", @ACCOUNT_TYPE ");
+                obj_str.Append(", @POSITION_CODE ");
+                obj_str.Append(" )");
+
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM SELF_TR_ACCOUNTPOS");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+                obj_str2.Append(" AND ACCOUNT_USER='" + list_model[0].account_user + "' ");
+                obj_str2.Append(" AND ACCOUNT_TYPE='" + list_model[0].account_type + "' ");
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@POSITION_CODE", SqlDbType.VarChar);
+                    foreach (cls_TRAccountpos model in list_model)
+                    {
+
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
+                        obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
+                        obj_cmd.Parameters["@POSITION_CODE"].Value = model.position_code;
+                        obj_cmd.ExecuteNonQuery();
+
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                    {
+                        obj_conn.doRollback();
+                    }
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                }
+                obj_conn.doClose();
+
+                blnResult = true;
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Accountpos.insert)" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
         public string update(cls_TRAccountpos model)
         {
             string blnResult = "";

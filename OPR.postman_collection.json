@@ -3149,7 +3149,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"1\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"workflow_id\":\"1\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"workflow_code\":\"LV1-2\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3374,7 +3374,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"\",\r\n    \"account_emp\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"\",\r\n    \"worker_code\":\"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3433,7 +3433,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_pwd\":\"1234\",\r\n    \"account_type\":\"Emp\",\r\n    \"account_level\":0,\r\n    \"account_emp\":\"EMP01\",\r\n    \"account_email\":\"EMP01@gmail.com\",\r\n    \"account_email_alert\":false,\r\n    \"account_line\":\"EMP01_line\",\r\n    \"account_line_alert\":false,\r\n    \"flag\":false\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_pwd\":\"1234\",\r\n    \"account_type\":\"Emp\",\r\n    \"account_level\":1,\r\n    \"account_email\":\"EMP01@gmail.com\",\r\n    \"account_email_alert\":false,\r\n    \"account_line\":\"EMP01_line\",\r\n    \"account_line_alert\":false,\r\n    \"flag\":false,\r\n    \"positonn_data\":[\r\n        // {\r\n        // \"company_code\":\"OPR\",\r\n        // \"account_user\":\"Test\",\r\n        // \"account_type\":\"Emp\",\r\n        // \"position_code\":\"002\"\r\n        // }\r\n    ],\r\n    \"dep_data\":[\r\n        // {\r\n        // \"company_code\":\"OPR\",\r\n        // \"account_user\":\"Test\",\r\n        // \"account_type\":\"Emp\",\r\n        // \"level_code\":\"1\",\r\n        // \"dep_code\":\"L1\"\r\n        // }\r\n    ],\r\n    \"worker_data\":[\r\n        {\r\n        \"company_code\":\"OPR\",\r\n        \"account_user\":\"Test\",\r\n        \"account_type\":\"Emp\",\r\n        \"worker_code\":\"EMP01\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3472,7 +3472,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"Emp\",\r\n    \"account_emp\":\"EMP01\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"Emp\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
