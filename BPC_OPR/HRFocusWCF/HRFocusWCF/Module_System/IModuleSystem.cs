@@ -88,6 +88,7 @@ namespace BPC_OPR
 
         #endregion
 
+        #region Cardtype
         [OperationContract(Name = "cardtype_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCardtypeList(BasicRequest req);
@@ -103,7 +104,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadcardtype?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadCardType(string token, string by, string fileName, Stream stream);
+        #endregion
 
+        #region FAMILY
         //-- FAMILY
         [OperationContract(Name = "family_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -120,8 +123,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadFamily?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTFamily(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- LEVEL
+        #region LEVEL
         [OperationContract(Name = "level_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getLevelList(BasicRequest req);
@@ -137,10 +141,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadLevel?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTLevel(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        
-
-        //-- Reduce
+        #region Reduce
         [OperationContract(Name = "reduce_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getReduceList(BasicRequest req);
@@ -156,9 +159,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadReduce?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTReduce(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-    //-- RELIGION
+        #region RELIGION
         [OperationContract(Name = "religion_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getReligionList(BasicRequest req);
@@ -174,8 +177,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadReligion?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTReligion(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- PROVINCE
+        #region PROVINCE
         [OperationContract(Name = "province_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getProvinceList(BasicRequest req);
@@ -191,9 +195,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadProvince?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTProvince(string token, string by, string fileName, Stream stream);
+#endregion
 
-
-        //-- Addresstype
+        #region Addresstype
         [OperationContract(Name = "addresstype_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getAddresstypeList(BasicRequest req);
@@ -209,8 +213,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadAddresstype?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTAddresstype(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- ComAddress
+        #region ComAddress
         [OperationContract(Name = "comaddress_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getComAddressList(FillterCompany req);
@@ -226,8 +231,27 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadComaddress?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTComAddress(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- COMPANY
+        #region Comaddlocation
+        [OperationContract(Name = "comaddlocation_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getComaddlocationList(FillterCompany req);
+
+        [OperationContract(Name = "comaddlocation")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTComaddlocation(InputComTransaction input);
+
+        [OperationContract(Name = "comaddlocation_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTComaddlocation(InputMTComaddlocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadComaddlocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTComaddlocation(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region COMPANY
         [OperationContract(Name = "company_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCompanyList(FillterCompany req);
@@ -244,68 +268,91 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCompany?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTCompany(string token, string by, string fileName, Stream stream);
 
-        //-- codestructure
-        //-- Code structure
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
-        string getSYSCodestructureList();
+        #endregion
 
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
-        string getMTPolcode(string com, string type);
+        //#region test Code structure
+        //[OperationContract]
 
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
-        string getNewCode(string com, string type, string emptype);
-
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
-        string getTRPolcode(string id);
-
-        [OperationContract(Name = "doManagePolcode")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManagePolcode(InputMTPolcode input);
-
-        [OperationContract(Name = "doDeleteMTPolcode")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteMTPolcode(InputMTPolcode input);
+        //[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
+        //string getSYSCodestructureList();
 
         //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
-
-        //[OperationContract(Name = "codestructure_list")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getCodestructureList(BasicRequest req);
-
-        //[OperationContract(Name = "codestructure")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doManageMTCodestructure(InputMTCodestructure input);
-
-        //[OperationContract(Name = "codestructure_del")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doDeleteMTCodestructure(InputMTCodestructure input);
+        //[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
+        //string getMTPolcode(InputMTPolcode req);
 
         //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadcodestructure?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadMTCodestructure(string token, string by, string fileName, Stream stream);
+        //[WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getNewCode(string com, string type, string emptype);
 
-        //-- empid
-        //[OperationContract(Name = "Polcode_list")]
+        //[OperationContract]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getPolcodeList(BasicRequest req);
+        //string getTRPolcode(FillterCompany req);
 
-        //[OperationContract(Name = "Polcode")]
+        //[OperationContract(Name = "doManagePolcode")]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doManageMTPolcode(InputMTPolcode input);
+        //string doManagePolcode(InputMTPolcode input);
 
-        //[OperationContract(Name = "Polcode_del")]
+        //[OperationContract(Name = "doDeleteMTPolcode")]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         //string doDeleteMTPolcode(InputMTPolcode input);
+        //#endregion
+
+        #region Codestructure
+
+        [OperationContract(Name = "codestructure_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getCodestructureList(FillterCompany req);
+
+        [OperationContract(Name = "codestructure")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageCodestructure(InputMTCodestructure input);
+
+        [OperationContract(Name = "codestructure_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteCodestructure(InputMTCodestructure input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadCodestructure?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadCodestructure(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TRPolcode
+        //-- TRPolcode
+        [OperationContract(Name = "TRPolcode_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPolcodeList(BasicRequest req);
+
+        [OperationContract(Name = "TRPolcode")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPolcode(InputTRPolcode input);
+
+        [OperationContract(Name = "TRPolcode_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPolcode(InputTRPolcode input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRPolcode(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        //#region TRPolcode
+
+        //[OperationContract(Name = "TRPolcode_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getTRPolcodeList(FillterCompany req);
+
+        //[OperationContract(Name = "TRPolcode")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageTRPolcode(InputTRPolcode input);
+
+        //[OperationContract(Name = "TRPolcode_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteTRPolcode(InputTRPolcode input);
 
         //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadMTPolcode(string token, string by, string fileName, Stream stream);
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadTRPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadTRPolcode(string token, string by, string fileName, Stream stream);
+        //#endregion
 
         #region comBANK
         [OperationContract(Name = "combank_list")]
@@ -324,25 +371,8 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCombank?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadCombank(string token, string by, string fileName, Stream stream);
         #endregion
-        //#region combank
-        //[OperationContract(Name = "combank_list")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getCombankList(FillterCompany req);
 
-        //[OperationContract(Name = "combank")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doManageMTCombank(InputComTransaction input);
-
-        //[OperationContract(Name = "combank_del")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string doDeleteMTCombank(InputMTCombank input);
-
-        //[OperationContract]
-        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadCombank?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        //Task<string> doUploadMTCombank(string token, string by, string fileName, Stream stream);
-        //#endregion
-
-        //-- Comcard
+        #region Comcard
 
         [OperationContract(Name = "comcard_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -359,9 +389,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadComcard?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadComcard(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-        //-- request
+        #region request
         [OperationContract(Name = "request_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getRequestList(BasicRequest req);
@@ -377,9 +407,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTRequest?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTRequest(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-        //-- combranch
+        #region combranch
         [OperationContract(Name = "combranch_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCombranchList(FillterCompany req);
@@ -395,8 +425,46 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCombranch?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTCombranch(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- ETHNICITY
+        #region ComLocation
+        [OperationContract(Name = "comlocation_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getComlocationList(FillterCompany req);
+
+        [OperationContract(Name = "comlocation")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTComlocation(InputMTComLocation input);
+
+        [OperationContract(Name = "comlocation_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTComlocation(InputMTComLocation input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadcomlocation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTComlocation(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region Rounds
+        [OperationContract(Name = "rounds_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTRoundsList(InputMTRounds input);
+
+        [OperationContract(Name = "rounds")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTRounds(InputMTRounds input);
+
+        [OperationContract(Name = "rounds_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTRounds(InputMTRounds input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadRounds?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region ETHNICITY
         [OperationContract(Name = "ethnicity_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getEthnicityList(BasicRequest req);
@@ -412,8 +480,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadEthnicity?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTEthnicity(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- Bloodtype
+        #region Bloodtype
         [OperationContract(Name = "bloodtype_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getBloodtypeList(BasicRequest req);
@@ -429,8 +498,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadBloodtype?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadBloodtype(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //--  Hospital
+        #region Hospital
         [OperationContract(Name = "hospital_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getHospitalList(BasicRequest req);
@@ -446,9 +516,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadHospital?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadHospital(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-        //-- Course
+        #region Course
         [OperationContract(Name = "course_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCourseList(BasicRequest req);
@@ -464,11 +534,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadCourse?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTCourse(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-
-
-        //-- Institute
+        #region Institute
         [OperationContract(Name = "institute_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getInstituteList(BasicRequest req);
@@ -484,9 +552,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadInstitute?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTInstitute(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-        //-- Faculty
+        #region Faculty
         [OperationContract(Name = "faculty_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getFacultyList(BasicRequest req);
@@ -502,8 +570,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadfaculty?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTFaculty(string token, string by, string fileName, Stream stream);
+        #endregion
 
-        //-- Major
+        #region Major
         [OperationContract(Name = "major_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMajorList(BasicRequest req);
@@ -519,9 +588,9 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadmajor?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTMajor(string token, string by, string fileName, Stream stream);
+        #endregion
 
-
-        //-- Qualification
+        #region Qualification
         [OperationContract(Name = "qualification_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getQualificationList(BasicRequest req);
@@ -537,12 +606,6 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadqualification?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTQualification(string token, string by, string fileName, Stream stream);
-
-        
-
-
-
-
-
+        #endregion
     }
 }

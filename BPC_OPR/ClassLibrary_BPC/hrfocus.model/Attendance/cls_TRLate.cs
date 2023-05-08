@@ -5,7 +5,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_TRLate
     {
         public cls_TRLate() { }
-
+        
         public string company_code { get; set; }
         public string late_code { get; set; }
         public int late_from { get; set; }

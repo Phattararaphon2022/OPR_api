@@ -147,6 +147,14 @@ namespace BPC_OPR
         public string qualification_id { get; set; }
         [DataMember]
         public string qualification_code { get; set; }
+        [DataMember]
+        public string comlocation_code { get; set; }
+        [DataMember]
+        public string comlocation_id { get; set; }
+        [DataMember]
+        public string polcode_id { get; set; }
+        [DataMember]
+        public string polcode_type { get; set; }
     }
 
     [DataContract]
@@ -156,6 +164,8 @@ namespace BPC_OPR
         public string company_code { get; set; }
         [DataMember]
         public int combranch_id { get; set; }
+        [DataMember]
+        public string sso_combranch_no { get; set; }
         [DataMember]
         public string combranch_code { get; set; }
         [DataMember]
@@ -172,6 +182,87 @@ namespace BPC_OPR
     }
 
 
+    
+
+
+    [DataContract]
+    public class InputMTRounds
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public int rounds_id { get; set; }
+        [DataMember]
+        public string rounds_code { get; set; }
+        [DataMember]
+        public string rounds_name_th { get; set; }
+        [DataMember]
+        public string rounds_name_en { get; set; }
+        [DataMember]
+        public string rounds_group { get; set; }
+        [DataMember]
+        public string rounds_data { get; set; }
+        [DataMember]
+        public string rounds_from { get; set; }
+        [DataMember]
+        public string rounds_to { get; set; }
+        [DataMember]
+        public string rounds_result { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputTRRound
+    {
+        [DataMember]
+        public string round_code { get; set; }
+        [DataMember]
+        public string round_from { get; set; }
+        [DataMember]
+        public string round_to { get; set; }
+        [DataMember]
+        public string round_result { get; set; }
+
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
+    public class InputMTComLocation
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int comlocation_id { get; set; }
+        
+        [DataMember]
+        public string comlocation_code { get; set; }
+        [DataMember]
+        public string comlocation_name_th { get; set; }
+        [DataMember]
+        public string comlocation_name_en { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+
+        [DataMember]
+        public int index { get; set; }
+    }
+
+
+
     [DataContract]
     public class InputMTCompany 
     {
@@ -185,6 +276,16 @@ namespace BPC_OPR
         public string company_name_th { get; set; }
         [DataMember]
         public string company_name_en { get; set; }
+
+        [DataMember]
+        public string sso_tax_no { get; set; }
+        [DataMember]
+        public string citizen_no { get; set; }
+        [DataMember]
+        public string provident_fund_no { get; set; }
+
+
+
         [DataMember]
         public double hrs_perday { get; set; }
 
@@ -192,6 +293,11 @@ namespace BPC_OPR
         public double sso_com_rate { get; set; }
         [DataMember]
         public double sso_emp_rate { get; set; }
+        [DataMember]
+        public string sso_security_no { get; set; }
+        [DataMember]
+        public string sso_branch_no { get; set; }
+
         [DataMember]
         public double sso_min_wage { get; set; }
         [DataMember]
@@ -242,6 +348,9 @@ namespace BPC_OPR
         public string major_id { get; set; }
          [DataMember]
          public string qualification_id { get; set; }
+         [DataMember]
+         public string comlocation_code { get; set; }
+
     }
 
 
@@ -255,20 +364,43 @@ namespace BPC_OPR
         public string combranch_code { get; set; }
         [DataMember]
         public string comaddress_type { get; set; }
+
         [DataMember]
-        public string comaddress_no { get; set; }
+        public string comaddressth_no { get; set; }
         [DataMember]
-        public string comaddress_moo { get; set; }
+        public string comaddressth_moo { get; set; }
         [DataMember]
-        public string comaddress_soi { get; set; }
+        public string comaddressth_soi { get; set; }
         [DataMember]
-        public string comaddress_road { get; set; }
+        public string comaddressth_road { get; set; }
         [DataMember]
-        public string comaddress_tambon { get; set; }
+        public string comaddressth_tambon { get; set; }
         [DataMember]
-        public string comaddress_amphur { get; set; }
+        public string comaddressth_amphur { get; set; }
         [DataMember]
         public string comaddress_zipcode { get; set; }
+        [DataMember]
+        public string provinceth_code { get; set; }
+
+
+
+        [DataMember]
+        public string comaddressen_no { get; set; }
+        [DataMember]
+        public string comaddressen_moo { get; set; }
+        [DataMember]
+        public string comaddressen_soi { get; set; }
+        [DataMember]
+        public string comaddressen_road { get; set; }
+        [DataMember]
+        public string comaddressen_tambon { get; set; }
+        [DataMember]
+        public string comaddressen_amphur { get; set; }
+        
+        [DataMember]
+        public string provinceen_code { get; set; }
+
+
         [DataMember]
         public string comaddress_tel { get; set; }
         [DataMember]
@@ -277,13 +409,79 @@ namespace BPC_OPR
         public string comaddress_line { get; set; }
         [DataMember]
         public string comaddress_facebook { get; set; }
-        [DataMember]
-        public string province_code { get; set; }
+        
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]
         public string modified_date { get; set; }
     }
+
+
+
+    [DataContract]
+    public class InputMTComaddlocation
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string comlocation_code { get; set; }
+        
+        [DataMember]
+        public string comaddress_type { get; set; }
+
+        [DataMember]
+        public string comaddlocationth_no { get; set; }
+        [DataMember]
+        public string comaddlocationth_moo { get; set; }
+        [DataMember]
+        public string comaddlocationth_soi { get; set; }
+        [DataMember]
+        public string comaddlocationth_road { get; set; }
+        [DataMember]
+        public string comaddlocationth_tambon { get; set; }
+        [DataMember]
+        public string comaddlocationth_amphur { get; set; }
+        [DataMember]
+        public string comaddlocation_zipcode { get; set; }
+        [DataMember]
+        public string provinceth_code { get; set; }
+
+
+
+        [DataMember]
+        public string comaddlocationen_no { get; set; }
+        [DataMember]
+        public string comaddlocationen_moo { get; set; }
+        [DataMember]
+        public string comaddlocationen_soi { get; set; }
+        [DataMember]
+        public string comaddlocationen_road { get; set; }
+        [DataMember]
+        public string comaddlocationen_tambon { get; set; }
+        [DataMember]
+        public string comaddlocationen_amphur { get; set; }
+
+        [DataMember]
+        public string provinceen_code { get; set; }
+
+
+        [DataMember]
+        public string comaddlocation_tel { get; set; }
+        [DataMember]
+        public string comaddlocation_email { get; set; }
+        [DataMember]
+        public string comaddlocation_line { get; set; }
+        [DataMember]
+        public string comaddlocation_facebook { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+
+
+
     [DataContract]
     public class InputMTCardtype
     {

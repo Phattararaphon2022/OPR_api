@@ -4,19 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary_BPC.hrfocus.model.System
-
-   {
-    public class cls_MTCombranch
-    {
-        public cls_MTCombranch() { }
+namespace ClassLibrary_BPC.hrfocus.model.SYS.System
+{
+  public class cls_MTComLocation
+     {
+        public cls_MTComLocation() { }
 
         public string company_code { get; set; }
-        public int combranch_id { get; set; }
-        public string sso_combranch_no { get; set; }
-        public string combranch_code { get; set; }
-        public string combranch_name_th { get; set; }
-        public string combranch_name_en { get; set; }        	    
+        public int comlocation_id { get; set; }
+        public string comlocation_code { get; set; }
+        public string comlocation_name_th { get; set; }
+        public string comlocation_name_en { get; set; }        	    
 
 	    public string created_by { get;set; }
         public DateTime created_date { get; set; }

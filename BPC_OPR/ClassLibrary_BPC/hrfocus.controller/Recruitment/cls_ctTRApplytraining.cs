@@ -89,7 +89,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "REQTRN001:" + ex.ToString();
+                Message = "REQQ001:" + ex.ToString();
             }
 
             return list_model;
@@ -128,7 +128,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "REQTRN002:" + ex.ToString();
+                Message = "REQQ002:" + ex.ToString();
             }
 
             return intResult;
@@ -144,7 +144,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT REQTRAINING_NO");
                 obj_str.Append(" FROM REQ_TR_TRAINING");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND APPLYWORRK_CODE='" + emp + "' ");
+                obj_str.Append(" AND APPLYWORK_CODE='" + emp + "' ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -155,7 +155,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "REQTRN003:" + ex.ToString();
+                Message = "REQQ003:" + ex.ToString();
             }
 
             return blnResult;
@@ -180,7 +180,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "REQTRN004:" + ex.ToString();
+                Message = "REQQ004:" + ex.ToString();
             }
 
             return blnResult;
@@ -273,7 +273,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "REQTRN005:" + ex.ToString();
+                Message = "REQQ005:" + ex.ToString();
                 strResult = "";
             }
 
@@ -337,7 +337,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "REQTRN006:" + ex.ToString();
+                Message = "REQQ006:" + ex.ToString();
             }
 
             return blnResult;

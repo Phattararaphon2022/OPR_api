@@ -28,6 +28,7 @@ using ClassLibrary_BPC.hrfocus.model.System;
 
 using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.controller;
+using ClassLibrary_BPC.hrfocus;
 namespace BPC_OPR
 {
 
@@ -1768,13 +1769,690 @@ namespace BPC_OPR
         }
         #endregion
 
+         #region Assessment
+         public string getTRAssessmentList(FillterApplywork input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQASM001.1";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqAssessment controller = new cls_ctTRReqAssessment();
+                 List<cls_TRReqAssessment> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_TRReqAssessment model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("applywork_code", model.applywork_code);
+                         json.Add("reqassessment_id", model.reqassessment_id);
+                         json.Add("reqassessment_location", model.reqassessment_location);
+                         json.Add("reqassessment_topic", model.reqassessment_topic);
+                         json.Add("reqassessment_fromdate", model.reqassessment_fromdate);
+                         json.Add("reqassessment_todate", model.reqassessment_todate);
+                         json.Add("reqassessment_count", model.reqassessment_count);
+                         json.Add("reqassessment_result", model.reqassessment_result);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doManageTRAssessment(InputApplyTransaction input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQASM001.2";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqAssessment controller = new cls_ctTRReqAssessment();
+
+                 JObject jsonObject = new JObject();
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRReqAssessment>>(input.transaction_data);
+
+                 int success = 0;
+                 int error = 0;
+                 StringBuilder obj_error = new StringBuilder();
+
+                 bool clear = controller.delete(input.company_code, input.worker_code);
+
+                 if (clear)
+                 {
+                     foreach (cls_TRReqAssessment model in jsonArray)
+                     {
+
+                         model.modified_by = input.modified_by;
+
+                         bool blnResult = controller.insert(model);
+
+                         if (blnResult)
+                             success++;
+                         else
+                         {
+                             var json = new JavaScriptSerializer().Serialize(model);
+                             var tmp2 = JToken.Parse(json);
+                             obj_error.Append(tmp2);
+                         }
+
+                     }
+                 }
+                 else
+                 {
+                     error = 1;
+                 }
+
+
+                 if (error == 0)
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     //output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     output["error"] = obj_error.ToString();
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doDeleteTRAssessment(InputTRReqAssessment input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQASM001.3";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqAssessment controller = new cls_ctTRReqAssessment();
+
+                 if (controller.checkDataOld(input.company_code, input.applywork_code))
+                 {
+                     bool blnResult = controller.delete(input.company_code, input.applywork_code);
+
+                     if (blnResult)
+                     {
+                         output["success"] = true;
+                         output["message"] = "Remove data successfully";
+
+                         log.apilog_status = "200";
+                         log.apilog_message = "";
+                     }
+                     else
+                     {
+                         output["success"] = false;
+                         output["message"] = "Remove data not successfully";
+
+                         log.apilog_status = "500";
+                         log.apilog_message = controller.getMessage();
+                     }
+
+                 }
+                 else
+                 {
+                     string message = "Not Found Project code : " + input.reqassessment_id;
+                     output["success"] = false;
+                     output["message"] = message;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = message;
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Remove data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+
+         }
+
+         public async Task<string> doUploadReqAssessment(string token, string by, string fileName, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQASM001.4";
+             log.apilog_by = by;
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 if (!objBpcOpr.doVerify(token))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+
+                 bool upload = await this.doUploadFile(fileName, stream);
+
+                 if (upload)
+                 {
+                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     string tmp = srv_import.doImportExcel("REQASSESSMENT", fileName, "TEST");
+
+                     output["success"] = true;
+                     output["message"] = tmp;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Upload data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = "Upload data not successfully";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+         #endregion
+
+         #region TR_Criminal
+         public string getTRCriminalList(FillterApplywork input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQCRM001.1";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqCriminal controller = new cls_ctTRReqCriminal();
+                 List<cls_TRReqCriminal> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_TRReqCriminal model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("applywork_code", model.applywork_code);
+                         json.Add("reqcriminal_id", model.reqcriminal_id);
+                         json.Add("reqcriminal_location", model.reqcriminal_location);
+                         json.Add("reqcriminal_fromdate", model.reqcriminal_fromdate);
+                         json.Add("reqcriminal_todate", model.reqcriminal_todate);
+                         json.Add("reqcriminal_count", model.reqcriminal_count);
+                         json.Add("reqcriminal_result", model.reqcriminal_result);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doManageTRCriminal(InputApplyTransaction input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQCRM001.2";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqCriminal controller = new cls_ctTRReqCriminal();
+
+                 JObject jsonObject = new JObject();
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRReqCriminal>>(input.transaction_data);
+
+                 int success = 0;
+                 int error = 0;
+                 StringBuilder obj_error = new StringBuilder();
+
+                 bool clear = controller.delete(input.company_code, input.worker_code);
+
+                 if (clear)
+                 {
+                     foreach (cls_TRReqCriminal model in jsonArray)
+                     {
+
+                         model.modified_by = input.modified_by;
+
+                         bool blnResult = controller.insert(model);
+
+                         if (blnResult)
+                             success++;
+                         else
+                         {
+                             var json = new JavaScriptSerializer().Serialize(model);
+                             var tmp2 = JToken.Parse(json);
+                             obj_error.Append(tmp2);
+                         }
+
+                     }
+                 }
+                 else
+                 {
+                     error = 1;
+                 }
+
+
+                 if (error == 0)
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     //output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     output["error"] = obj_error.ToString();
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doDeleteTRCriminal(InputTRReqCriminal input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQCRM001.3";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqCriminal controller = new cls_ctTRReqCriminal();
+
+                 if (controller.checkDataOld(input.company_code, input.applywork_code))
+                 {
+                     bool blnResult = controller.delete(input.company_code, input.applywork_code);
+
+                     if (blnResult)
+                     {
+                         output["success"] = true;
+                         output["message"] = "Remove data successfully";
+
+                         log.apilog_status = "200";
+                         log.apilog_message = "";
+                     }
+                     else
+                     {
+                         output["success"] = false;
+                         output["message"] = "Remove data not successfully";
+
+                         log.apilog_status = "500";
+                         log.apilog_message = controller.getMessage();
+                     }
+
+                 }
+                 else
+                 {
+                     string message = "Not Found Project code : " + input.reqcriminal_id;
+                     output["success"] = false;
+                     output["message"] = message;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = message;
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Remove data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+
+         }
+
+         public async Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQCRM001.4";
+             log.apilog_by = by;
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 if (!objBpcOpr.doVerify(token))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+
+                 bool upload = await this.doUploadFile(fileName, stream);
+
+                 if (upload)
+                 {
+                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     string tmp = srv_import.doImportExcel("REQCRIMINAL", fileName, "TEST");
+
+                     output["success"] = true;
+                     output["message"] = tmp;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Upload data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = "Upload data not successfully";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+         #endregion
+
          #region Training
          public string getTRreqTrainingList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQTRN001.1";
+             log.apilog_code = "REQQ001.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -1868,7 +2546,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQTRN001.2";
+             log.apilog_code = "REQQ001.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -1974,7 +2652,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQTRN001.3";
+             log.apilog_code = "REQQ001.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -1992,7 +2670,7 @@ namespace BPC_OPR
                      return output.ToString(Formatting.None);
                  }
 
-                 cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
+                 cls_ctTRTraining controller = new cls_ctTRTraining();
 
                  if (controller.checkDataOld(input.company_code, input.applywork_code))
                  {
@@ -2052,7 +2730,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQTRN001.4";
+             log.apilog_code = "REQQ001.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -2110,6 +2788,349 @@ namespace BPC_OPR
              return output.ToString(Formatting.None);
          }
          #endregion
+
+         //#region Training
+         //public string getTRreqTrainingList(FillterApplywork input)
+         //{
+         //    JObject output = new JObject();
+
+         //    cls_SYSApilog log = new cls_SYSApilog();
+         //    log.apilog_code = "REQTRN001.1";
+         //    log.apilog_by = input.username;
+         //    log.apilog_data = "all";
+
+         //    try
+         //    {
+         //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+         //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+         //        {
+         //            output["success"] = false;
+         //            output["message"] = BpcOpr.MessageNotAuthen;
+
+         //            log.apilog_status = "500";
+         //            log.apilog_message = BpcOpr.MessageNotAuthen;
+         //            objBpcOpr.doRecordLog(log);
+
+         //            return output.ToString(Formatting.None);
+         //        }
+
+         //        cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
+         //        List<cls_TRApplytraining> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+         //        JArray array = new JArray();
+
+         //        if (list.Count > 0)
+         //        {
+         //            int index = 1;
+
+         //            foreach (cls_TRApplytraining model in list)
+         //            {
+         //                JObject json = new JObject();
+         //                json.Add("company_code", model.company_code);
+         //                json.Add("applywork_code", model.applywork_code);
+         //                json.Add("reqtraining_no", model.reqtraining_no);
+         //                json.Add("reqtraining_start", model.reqtraining_start);
+         //                json.Add("reqtraining_finish", model.reqtraining_finish);
+         //                json.Add("reqtraining_status", model.reqtraining_status);
+         //                json.Add("reqtraining_hours", model.reqtraining_hours);
+         //                json.Add("reqtraining_cost", model.reqtraining_cost);
+         //                json.Add("reqtraining_note", model.reqtraining_note);
+         //                json.Add("institute_code", model.institute_code);
+         //                json.Add("institute_other", model.institute_other);
+         //                json.Add("course_code", model.course_code);
+         //                json.Add("course_other", model.course_other);
+
+         //                json.Add("modified_by", model.modified_by);
+         //                json.Add("modified_date", model.modified_date);
+         //                json.Add("index", index++);
+         //                array.Add(json);
+         //            }
+
+         //            output["success"] = true;
+         //            output["message"] = "";
+         //            output["data"] = array;
+
+         //            log.apilog_status = "200";
+         //            log.apilog_message = "";
+         //        }
+         //        else
+         //        {
+         //            output["success"] = false;
+         //            output["message"] = "Data not Found";
+         //            output["data"] = array;
+
+         //            log.apilog_status = "404";
+         //            log.apilog_message = "Data not Found";
+         //        }
+
+         //        controller.dispose();
+         //    }
+         //    catch (Exception ex)
+         //    {
+         //        output["success"] = false;
+         //        output["message"] = "(C)Retrieved data not successfully";
+
+         //        log.apilog_status = "500";
+         //        log.apilog_message = ex.ToString();
+         //    }
+         //    finally
+         //    {
+         //        objBpcOpr.doRecordLog(log);
+         //    }
+
+         //    return output.ToString(Formatting.None);
+         //}
+
+         //public string doManageTRreqTraining(InputApplyTransaction input)
+         //{
+         //    JObject output = new JObject();
+
+         //    var json_data = new JavaScriptSerializer().Serialize(input);
+         //    var tmp = JToken.Parse(json_data);
+
+
+         //    cls_SYSApilog log = new cls_SYSApilog();
+         //    log.apilog_code = "REQTRN001.2";
+         //    log.apilog_by = input.modified_by;
+         //    log.apilog_data = tmp.ToString();
+
+         //    try
+         //    {
+         //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+         //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+         //        {
+         //            output["success"] = false;
+         //            output["message"] = BpcOpr.MessageNotAuthen;
+
+         //            log.apilog_status = "500";
+         //            log.apilog_message = BpcOpr.MessageNotAuthen;
+         //            objBpcOpr.doRecordLog(log);
+
+         //            return output.ToString(Formatting.None);
+         //        }
+
+         //        cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
+
+         //        JObject jsonObject = new JObject();
+         //        var jsonArray = JsonConvert.DeserializeObject<List<cls_TRApplytraining>>(input.transaction_data);
+
+         //        int success = 0;
+         //        int error = 0;
+         //        StringBuilder obj_error = new StringBuilder();
+
+         //        bool clear = controller.delete(input.company_code, input.applywork_code);
+
+         //        if (clear)
+         //        {
+         //            foreach (cls_TRApplytraining model in jsonArray)
+         //            {
+
+         //                model.modified_by = input.modified_by;
+
+         //                bool blnResult = controller.insert(model);
+
+         //                if (blnResult)
+         //                    success++;
+         //                else
+         //                {
+         //                    var json = new JavaScriptSerializer().Serialize(model);
+         //                    var tmp2 = JToken.Parse(json);
+         //                    obj_error.Append(tmp2);
+         //                }
+
+         //            }
+         //        }
+         //        else
+         //        {
+         //            error = 1;
+         //        }
+
+
+         //        if (error == 0)
+         //        {
+         //            output["success"] = true;
+         //            output["message"] = "Retrieved data successfully";
+         //            //output["record_id"] = strID;
+
+         //            log.apilog_status = "200";
+         //            log.apilog_message = "";
+         //        }
+         //        else
+         //        {
+
+         //            output["success"] = false;
+         //            output["message"] = "Retrieved data not successfully";
+
+         //            output["error"] = obj_error.ToString();
+
+         //            log.apilog_status = "500";
+         //            log.apilog_message = controller.getMessage();
+         //        }
+
+         //        controller.dispose();
+
+         //    }
+         //    catch (Exception ex)
+         //    {
+         //        output["success"] = false;
+         //        output["message"] = "(C)Retrieved data not successfully";
+
+         //        log.apilog_status = "500";
+         //        log.apilog_message = ex.ToString();
+         //    }
+         //    finally
+         //    {
+         //        objBpcOpr.doRecordLog(log);
+         //    }
+
+         //    output["data"] = tmp;
+
+         //    return output.ToString(Formatting.None);
+         //}
+
+         //public string doDeleteTRreqTraining(InputTRReqTraining input)
+         //{
+         //    JObject output = new JObject();
+
+         //    var json_data = new JavaScriptSerializer().Serialize(input);
+         //    var tmp = JToken.Parse(json_data);
+
+         //    cls_SYSApilog log = new cls_SYSApilog();
+         //    log.apilog_code = "REQTRN001.3";
+         //    log.apilog_by = input.modified_by;
+         //    log.apilog_data = tmp.ToString();
+
+         //    try
+         //    {
+         //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+         //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+         //        {
+         //            output["success"] = false;
+         //            output["message"] = BpcOpr.MessageNotAuthen;
+         //            log.apilog_status = "500";
+         //            log.apilog_message = BpcOpr.MessageNotAuthen;
+         //            objBpcOpr.doRecordLog(log);
+
+         //            return output.ToString(Formatting.None);
+         //        }
+
+         //        cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
+
+         //        if (controller.checkDataOld(input.company_code, input.applywork_code))
+         //        {
+         //            bool blnResult = controller.delete(input.company_code, input.applywork_code);
+
+         //            if (blnResult)
+         //            {
+         //                output["success"] = true;
+         //                output["message"] = "Remove data successfully";
+
+         //                log.apilog_status = "200";
+         //                log.apilog_message = "";
+         //            }
+         //            else
+         //            {
+         //                output["success"] = false;
+         //                output["message"] = "Remove data not successfully";
+
+         //                log.apilog_status = "500";
+         //                log.apilog_message = controller.getMessage();
+         //            }
+
+         //        }
+         //        else
+         //        {
+         //            string message = "Not Found Project code : " + input.reqtraining_no;
+         //            output["success"] = false;
+         //            output["message"] = message;
+
+         //            log.apilog_status = "404";
+         //            log.apilog_message = message;
+         //        }
+
+         //        controller.dispose();
+         //    }
+         //    catch (Exception ex)
+         //    {
+         //        output["success"] = false;
+         //        output["message"] = "(C)Remove data not successfully";
+
+         //        log.apilog_status = "500";
+         //        log.apilog_message = ex.ToString();
+         //    }
+         //    finally
+         //    {
+         //        objBpcOpr.doRecordLog(log);
+         //    }
+
+         //    output["data"] = tmp;
+
+         //    return output.ToString(Formatting.None);
+
+         //}
+
+         //public async Task<string> doUploadreqTraining(string token, string by, string fileName, Stream stream)
+         //{
+         //    JObject output = new JObject();
+
+         //    cls_SYSApilog log = new cls_SYSApilog();
+         //    log.apilog_code = "REQTRN001.4";
+         //    log.apilog_by = by;
+         //    log.apilog_data = "Stream";
+
+         //    try
+         //    {
+         //        if (!objBpcOpr.doVerify(token))
+         //        {
+         //            output["success"] = false;
+         //            output["message"] = BpcOpr.MessageNotAuthen;
+
+         //            log.apilog_status = "500";
+         //            log.apilog_message = BpcOpr.MessageNotAuthen;
+         //            objBpcOpr.doRecordLog(log);
+
+         //            return output.ToString(Formatting.None);
+         //        }
+
+
+         //        bool upload = await this.doUploadFile(fileName, stream);
+
+         //        if (upload)
+         //        {
+         //            cls_srvEmpImport srv_import = new cls_srvEmpImport();
+         //            string tmp = srv_import.doImportExcel("REQTRAINING", fileName, "TEST");
+
+         //            output["success"] = true;
+         //            output["message"] = tmp;
+
+         //            log.apilog_status = "200";
+         //            log.apilog_message = "";
+         //        }
+         //        else
+         //        {
+         //            output["success"] = false;
+         //            output["message"] = "Upload data not successfully";
+
+         //            log.apilog_status = "500";
+         //            log.apilog_message = "Upload data not successfully";
+         //        }
+
+         //    }
+         //    catch (Exception ex)
+         //    {
+         //        output["success"] = false;
+         //        output["message"] = "(C)Upload data not successfully";
+
+         //        log.apilog_status = "500";
+         //        log.apilog_message = ex.ToString();
+         //    }
+         //    finally
+         //    {
+         //        objBpcOpr.doRecordLog(log);
+         //    }
+
+         //    return output.ToString(Formatting.None);
+         //}
+         //#endregion
 
 
 
