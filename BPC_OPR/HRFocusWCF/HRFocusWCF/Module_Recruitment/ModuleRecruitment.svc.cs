@@ -26,7 +26,6 @@ using System.Web.Script.Serialization;
 using ClassLibrary_BPC.hrfocus.service;
 using ClassLibrary_BPC.hrfocus.model.System;
 
-using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.controller;
 namespace BPC_OPR
 {
@@ -436,32 +435,32 @@ namespace BPC_OPR
                  }
 
                  cls_ctTRApplyaddress controller = new cls_ctTRApplyaddress();
-                 List<cls_TRApplyaddress> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                 List<cls_TRAddress> list = controller.getDataByFillter(input.company_code, input.worker_code);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
                  {
                      int index = 1;
 
-                     foreach (cls_TRApplyaddress model in list)
+                     foreach (cls_TRAddress model in list)
                      {
                          JObject json = new JObject();
                          json.Add("company_code", model.company_code);
-                         json.Add("applywork_code", model.applywork_code);
-                         json.Add("applyaddress_id", model.applyaddress_id);
-                         json.Add("applyaddress_type", model.applyaddress_type);
-                         json.Add("applyaddress_no", model.applyaddress_no);
-                         json.Add("applyaddress_moo", model.applyaddress_moo);
-                         json.Add("applyaddress_soi", model.applyaddress_soi);
-                         json.Add("applyaddress_road", model.applyaddress_road);
-                         json.Add("applyaddress_tambon", model.applyaddress_tambon);
-                         json.Add("applyaddress_amphur", model.applyaddress_amphur);
-                         json.Add("applyprovince_code", model.applyprovince_code);
-                         json.Add("applyaddress_zipcode", model.applyaddress_zipcode);
-                         json.Add("applyaddress_tel", model.applyaddress_tel);
-                         json.Add("applyaddress_email", model.applyaddress_email);
-                         json.Add("applyaddress_line", model.applyaddress_line);
-                         json.Add("applyaddress_facebook", model.applyaddress_facebook);
+                         json.Add("worker_code", model.worker_code);
+                         json.Add("address_id", model.address_id);
+                         json.Add("address_type", model.address_type);
+                         json.Add("address_no", model.address_no);
+                         json.Add("address_moo", model.address_moo);
+                         json.Add("address_soi", model.address_soi);
+                         json.Add("address_road", model.address_road);
+                         json.Add("address_tambon", model.address_tambon);
+                         json.Add("address_amphur", model.address_amphur);
+                         json.Add("province_code", model.province_code);
+                         json.Add("address_zipcode", model.address_zipcode);
+                         json.Add("address_tel", model.address_tel);
+                         json.Add("address_email", model.address_email);
+                         json.Add("address_line", model.address_line);
+                         json.Add("address_facebook", model.address_facebook);
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
                          json.Add("index", index++);
@@ -534,7 +533,7 @@ namespace BPC_OPR
                  cls_ctTRApplyaddress controller = new cls_ctTRApplyaddress();
 
                  JObject jsonObject = new JObject();
-                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRApplyaddress>>(input.transaction_data);
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRAddress>>(input.transaction_data);
 
                  int success = 0;
                  int error = 0;
@@ -544,7 +543,7 @@ namespace BPC_OPR
 
                  if (clear)
                  {
-                     foreach (cls_TRApplyaddress model in jsonArray)
+                     foreach (cls_TRAddress model in jsonArray)
                      {
 
                          model.modified_by = input.modified_by;
@@ -638,9 +637,9 @@ namespace BPC_OPR
 
                  cls_ctTRApplyaddress controller = new cls_ctTRApplyaddress();
 
-                 if (controller.checkDataOld(input.company_code, input.applywork_code))
+                 if (controller.checkDataOld(input.company_code, input.worker_code))
                  {
-                     bool blnResult = controller.delete(input.company_code, input.applywork_code);
+                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
                      if (blnResult)
                      {
@@ -781,14 +780,14 @@ namespace BPC_OPR
                  }
 
                  cls_ctTRApplyCard controller = new cls_ctTRApplyCard();
-                 List<cls_TRApplyCard> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                 List<cls_TRCard> list = controller.getDataByFillter(input.company_code, input.worker_code);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
                  {
                      int index = 1;
 
-                     foreach (cls_TRApplyCard model in list)
+                     foreach (cls_TRCard model in list)
                      {
                          JObject json = new JObject();
                          json.Add("card_id", model.card_id);
@@ -872,7 +871,7 @@ namespace BPC_OPR
                  cls_ctTRApplyCard controller = new cls_ctTRApplyCard();
 
                  JObject jsonObject = new JObject();
-                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRApplyCard>>(input.transaction_data);
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRCard>>(input.transaction_data);
 
                  int success = 0;
                  int error = 0;
@@ -882,7 +881,7 @@ namespace BPC_OPR
 
                  if (clear)
                  {
-                     foreach (cls_TRApplyCard model in jsonArray)
+                     foreach (cls_TRCard model in jsonArray)
                      {
 
                          model.modified_by = input.modified_by;
@@ -976,9 +975,9 @@ namespace BPC_OPR
 
                  cls_ctTRApplyCard controller = new cls_ctTRApplyCard();
 
-                 if (controller.checkDataOld(input.company_code, input.applywork_code))
+                 if (controller.checkDataOld(input.company_code, input.worker_code))
                  {
-                     bool blnResult = controller.delete(input.company_code, input.applywork_code);
+                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
                      if (blnResult)
                      {
@@ -1120,18 +1119,18 @@ namespace BPC_OPR
                  }
 
                  cls_ctTRApplyforeigner controller = new cls_ctTRApplyforeigner();
-                 List<cls_TRApplyforeigner> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                 List<cls_TRForeigner> list = controller.getDataByFillter(input.company_code, input.applywork_code);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
                  {
                      int index = 1;
 
-                     foreach (cls_TRApplyforeigner model in list)
+                     foreach (cls_TRForeigner model in list)
                      {
                          JObject json = new JObject();
                          json.Add("company_code", model.company_code);
-                         json.Add("applywork_code", model.applywork_code);
+                         json.Add("worker_code", model.worker_code);
                          json.Add("foreigner_id", model.foreigner_id);
                          json.Add("passport_no", model.passport_no);
                          json.Add("passport_issue", model.passport_issue);
@@ -1219,10 +1218,10 @@ namespace BPC_OPR
                  }
 
                  cls_ctTRApplyforeigner controller = new cls_ctTRApplyforeigner();
-                 cls_TRApplyforeigner model = new cls_TRApplyforeigner();
+                 cls_TRForeigner model = new cls_TRForeigner();
 
                  model.company_code = input.company_code;
-                 model.applywork_code = input.applywork_code;
+                 model.worker_code = input.worker_code;
                  model.foreigner_id = Convert.ToInt32(input.foreigner_id);
                  model.passport_no = input.passport_no;
                  model.passport_issue = Convert.ToDateTime(input.passport_issue);
@@ -1311,9 +1310,9 @@ namespace BPC_OPR
 
                  cls_ctTRApplyforeigner controller = new cls_ctTRApplyforeigner();
 
-                 if (controller.checkDataOld(input.company_code, input.applywork_code, input.foreigner_id.ToString()))
+                 if (controller.checkDataOld(input.company_code, input.worker_code, input.foreigner_id.ToString()))
                  {
-                     bool blnResult = controller.delete(input.company_code, input.applywork_code, input.foreigner_id.ToString());
+                     bool blnResult = controller.delete(input.company_code, input.worker_code, input.foreigner_id.ToString());
 
                      if (blnResult)
                      {
@@ -1454,22 +1453,22 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRApplyeducation controller = new cls_ctTRApplyeducation();
-                List<cls_TRApplyeducation> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                List<cls_TREducation> list = controller.getDataByFillter(input.company_code, input.applywork_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
                 {
                     int index = 1;
 
-                    foreach (cls_TRApplyeducation model in list)
+                    foreach (cls_TREducation model in list)
                     {
                         JObject json = new JObject();
                         json.Add("company_code", model.company_code);
-                        json.Add("applywork_code", model.applywork_code);
-                        json.Add("reqeducation_no", model.reqeducation_no);
-                        json.Add("reqeducation_gpa", model.reqeducation_gpa);
-                        json.Add("reqeducation_start", model.reqeducation_start);
-                        json.Add("reqeducation_finish", model.reqeducation_finish);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("reqeducation_no", model.empeducation_no);
+                        json.Add("reqeducation_gpa", model.empeducation_gpa);
+                        json.Add("reqeducation_start", model.empeducation_start);
+                        json.Add("reqeducation_finish", model.empeducation_finish);
                         json.Add("institute_code", model.institute_code);
                         json.Add("faculty_code", model.faculty_code);
                         json.Add("major_code", model.major_code);
@@ -1547,7 +1546,7 @@ namespace BPC_OPR
                 cls_ctTRApplyeducation controller = new cls_ctTRApplyeducation();
 
                 JObject jsonObject = new JObject();
-                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRApplyeducation>>(input.transaction_data);
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TREducation>>(input.transaction_data);
 
                 int success = 0;
                 int error = 0;
@@ -1557,7 +1556,7 @@ namespace BPC_OPR
 
                 if (clear)
                 {
-                    foreach (cls_TRApplyeducation model in jsonArray)
+                    foreach (cls_TREducation model in jsonArray)
                     {
 
                         model.modified_by = input.modified_by;
@@ -1651,9 +1650,9 @@ namespace BPC_OPR
 
                 cls_ctTREducation controller = new cls_ctTREducation();
 
-                if (controller.checkDataOld(input.company_code, input.applywork_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code))
                 {
-                    bool blnResult = controller.delete(input.company_code, input.applywork_code);
+                    bool blnResult = controller.delete(input.company_code, input.worker_code);
 
                     if (blnResult)
                     {
@@ -1794,25 +1793,25 @@ namespace BPC_OPR
                  }
 
                  cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
-                 List<cls_TRApplytraining> list = controller.getDataByFillter(input.company_code, input.applywork_code);
+                 List<cls_TRTraining> list = controller.getDataByFillter(input.company_code, input.applywork_code);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
                  {
                      int index = 1;
 
-                     foreach (cls_TRApplytraining model in list)
+                     foreach (cls_TRTraining model in list)
                      {
                          JObject json = new JObject();
                          json.Add("company_code", model.company_code);
-                         json.Add("applywork_code", model.applywork_code);
-                         json.Add("reqtraining_no", model.reqtraining_no);
-                         json.Add("reqtraining_start", model.reqtraining_start);
-                         json.Add("reqtraining_finish", model.reqtraining_finish);
-                         json.Add("reqtraining_status", model.reqtraining_status);
-                         json.Add("reqtraining_hours", model.reqtraining_hours);
-                         json.Add("reqtraining_cost", model.reqtraining_cost);
-                         json.Add("reqtraining_note", model.reqtraining_note);
+                         json.Add("worker_code", model.worker_code);
+                         json.Add("reqtraining_no", model.emptraining_no);
+                         json.Add("reqtraining_start", model.emptraining_start);
+                         json.Add("reqtraining_finish", model.emptraining_finish);
+                         json.Add("reqtraining_status", model.emptraining_status);
+                         json.Add("reqtraining_hours", model.emptraining_hours);
+                         json.Add("reqtraining_cost", model.emptraining_cost);
+                         json.Add("reqtraining_note", model.emptraining_note);
                          json.Add("institute_code", model.institute_code);
                          json.Add("institute_other", model.institute_other);
                          json.Add("course_code", model.course_code);
@@ -1890,7 +1889,7 @@ namespace BPC_OPR
                  cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
 
                  JObject jsonObject = new JObject();
-                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRApplytraining>>(input.transaction_data);
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRTraining>>(input.transaction_data);
 
                  int success = 0;
                  int error = 0;
@@ -1900,7 +1899,7 @@ namespace BPC_OPR
 
                  if (clear)
                  {
-                     foreach (cls_TRApplytraining model in jsonArray)
+                     foreach (cls_TRTraining model in jsonArray)
                      {
 
                          model.modified_by = input.modified_by;
@@ -1994,9 +1993,9 @@ namespace BPC_OPR
 
                  cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
 
-                 if (controller.checkDataOld(input.company_code, input.applywork_code))
+                 if (controller.checkDataOld(input.company_code, input.worker_code))
                  {
-                     bool blnResult = controller.delete(input.company_code, input.applywork_code);
+                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
                      if (blnResult)
                      {
@@ -2111,11 +2110,5 @@ namespace BPC_OPR
          }
          #endregion
 
-
-
-
-    //    public void DoWork()
-    //    {
-    //    }
     }
 }
