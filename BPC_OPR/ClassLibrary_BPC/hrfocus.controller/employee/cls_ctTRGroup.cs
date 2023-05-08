@@ -1,51 +1,51 @@
 ﻿using ClassLibrary_BPC.hrfocus.model;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctTREmplocation
+    public class cls_ctTRGroup
     {
         string Message = string.Empty;
 
         cls_ctConnection Obj_conn = new cls_ctConnection();
 
-        public cls_ctTREmplocation() { }
+        public cls_ctTRGroup() { }
 
-        public string getMessage() { return this.Message.Replace("EMP_TR_LOCATION", "").Replace("cls_ctTREmplocation", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("EMP_TR_GROUP", "").Replace("cls_ctTRGroup", "").Replace("line", ""); }
 
         public void dispose()
         {
             Obj_conn.doClose();
         }
 
-        private List<cls_TREmplocation> getData(string condition)
+        private List<cls_TRGroup> getData(string condition)
         {
-            List<cls_TREmplocation> list_model = new List<cls_TREmplocation>();
-            cls_TREmplocation model;
+            List<cls_TRGroup> list_model = new List<cls_TRGroup>();
+            cls_TRGroup model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("EMPGROUP_ID");
+                obj_str.Append(", EMPGROUP_CODE");
+                obj_str.Append(", EMPGROUP_DATE");
+
+                obj_str.Append(", COMPANY_CODE");
                 obj_str.Append(", WORKER_CODE");
-                obj_str.Append(", LOCATION_CODE");
-                obj_str.Append(", EMPLOCATION_STARTDATE");
-                obj_str.Append(", EMPLOCATION_ENDDATE");
-                obj_str.Append(", EMPLOCATION_NOTE");
 
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM EMP_TR_LOCATION");
+                obj_str.Append(" FROM EMP_TR_GROUP");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -57,16 +57,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_TREmplocation();
+                    model = new cls_TRGroup();
 
-                    
+                    model.empgroup_id = Convert.ToInt32(dr["EMPGROUP_ID"]);
+                    model.empgroup_code = dr["EMPGROUP_CODE"].ToString();
+                    model.empgroup_date = Convert.ToDateTime(dr["EMPGROUP_DATE"]);
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
-                    model.location_code = dr["LOCATION_CODE"].ToString();
-                    model.emplocation_startdate = Convert.ToDateTime(dr["EMPLOCATION_STARTDATE"]);
-                    model.emplocation_enddate = Convert.ToDateTime(dr["EMPLOCATION_ENDDATE"]);
-                    model.emplocation_note = dr["EMPLOCATION_NOTE"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -76,13 +74,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPLCT001:" + ex.ToString();
+                Message = "EMPGRP001:" + ex.ToString();
             }
 
             return list_model;
         }
 
-        public List<cls_TREmplocation> getDataByFillter(string com, string emp)
+        public List<cls_TRGroup> getDataByFillter(string com, string emp)
         {
             string strCondition = "";
 
@@ -102,9 +100,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ISNULL(EMPLOCATION_ID, 1) ");
-                obj_str.Append(" FROM EMP_TR_LOCATION");
-                obj_str.Append(" ORDER BY EMPLOCATION_ID DESC ");
+                obj_str.Append("SELECT ISNULL(EMPGROUP_ID, 1) ");
+                obj_str.Append(" FROM EMP_TR_GROUP");
+                obj_str.Append(" ORDER BY EMPGROUP_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -115,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPLCT002:" + ex.ToString();
+                Message = "EMPGRP002:" + ex.ToString();
             }
 
             return intResult;
@@ -128,8 +126,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT LOCATION_CODE");
-                obj_str.Append(" FROM EMP_TR_LOCATION");
+                obj_str.Append("SELECT EMPGROUP_ID");
+                obj_str.Append(" FROM EMP_TR_GROUP");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
@@ -142,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPLCT003:" + ex.ToString();
+                Message = "EMPGRP003:" + ex.ToString();
             }
 
             return blnResult;
@@ -157,7 +155,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("DELETE FROM EMP_TR_LOCATION");
+                obj_str.Append("DELETE FROM EMP_TR_GROUP");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
@@ -167,13 +165,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "EMPLCT004:" + ex.ToString();
+                Message = "EMPGRP004:" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public bool insert(cls_TREmplocation model)
+        public bool insert(cls_TRGroup model)
         {
             bool blnResult = false;
             string strResult = "";
@@ -189,26 +187,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO EMP_TR_LOCATION");
+                obj_str.Append("INSERT INTO EMP_TR_GROUP");
                 obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append("EMPGROUP_ID ");
+                obj_str.Append(", EMPGROUP_CODE ");
+                obj_str.Append(", EMPGROUP_DATE ");
+                obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
-                obj_str.Append(", LOCATION_CODE ");
-                obj_str.Append(", EMPLOCATION_STARTDATE ");
-                obj_str.Append(", EMPLOCATION_ENDDATE ");
-                obj_str.Append(", EMPLOCATION_NOTE ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append("@EMPGROUP_ID ");
+                obj_str.Append(", @EMPGROUP_CODE ");
+                obj_str.Append(", @EMPGROUP_DATE ");
+                obj_str.Append(", @COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
-                obj_str.Append(", @LOCATION_CODE ");
-                obj_str.Append(", @EMPLOCATION_STARTDATE ");
-                obj_str.Append(", @EMPLOCATION_ENDDATE ");
-                obj_str.Append(", @EMPLOCATION_NOTE ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", '1' ");
@@ -218,17 +214,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                //model.family_id = this.getNextID();
+                model.empgroup_id = this.getNextID();
 
-                //obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@EMPGROUP_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPGROUP_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@EMPGROUP_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPGROUP_CODE"].Value = model.empgroup_code;
+                obj_cmd.Parameters.Add("@EMPGROUP_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPGROUP_DATE"].Value = model.empgroup_date;
+
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
-                obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
-                obj_cmd.Parameters.Add("@EMPLOCATION_STARTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPLOCATION_STARTDATE"].Value = model.emplocation_startdate;
-                obj_cmd.Parameters.Add("@EMPLOCATION_ENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPLOCATION_ENDDATE"].Value = model.emplocation_enddate;
-                obj_cmd.Parameters.Add("@EMPLOCATION_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPLOCATION_NOTE"].Value = model.emplocation_note;
-
-                
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -237,51 +230,45 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_conn.doClose();
                 blnResult = true;
-                strResult = model.location_code.ToString();
+                strResult = model.empgroup_id.ToString();
             }
             catch (Exception ex)
             {
-                Message = "EMPLCT005:" + ex.ToString();
+                Message = "EMPGRP005:" + ex.ToString();
                 strResult = "";
             }
 
             return blnResult;
         }
 
-        public bool update(cls_TREmplocation model)
+        public bool update(cls_TRGroup model)
         {
             bool blnResult = false;
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("UPDATE EMP_TR_LOCATION SET ");
+                obj_str.Append("UPDATE EMP_TR_GROUP SET ");
 
-                obj_str.Append(" LOCATION_CODE=@LOCATION_CODE ");
-                obj_str.Append(", EMPLOCATION_STARTDATE=@EMPLOCATION_STARTDATE ");
-                obj_str.Append(", EMPLOCATION_ENDDATE=@EMPLOCATION_ENDDATE ");
-                obj_str.Append(", EMPLOCATION_NOTE=@EMPLOCATION_NOTE ");
+                obj_str.Append(" EMPGROUP_CODE=@EMPGROUP_CODE ");
+                obj_str.Append(", EMPGROUP_DATE=@EMPGROUP_DATE ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
-                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
+                obj_str.Append(" WHERE EMPGROUP_ID=@EMPGROUP_ID ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
-                obj_cmd.Parameters.Add("@EMPLOCATION_STARTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPLOCATION_STARTDATE"].Value = model.emplocation_startdate;
-                obj_cmd.Parameters.Add("@EMPLOCATION_ENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPLOCATION_ENDDATE"].Value = model.emplocation_enddate;
-                obj_cmd.Parameters.Add("@EMPLOCATION_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPLOCATION_NOTE"].Value = model.emplocation_note;
+                obj_cmd.Parameters.Add("@EMPGROUP_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPGROUP_CODE"].Value = model.empgroup_code;
+                obj_cmd.Parameters.Add("@EMPGROUP_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPGROUP_DATE"].Value = model.empgroup_date;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                obj_cmd.Parameters.Add("@EMPGROUP_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPGROUP_ID"].Value = model.empgroup_id;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -291,13 +278,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPLCT006:" + ex.ToString();
+                Message = "EMPGRP005:" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public bool insertlist(List<cls_TREmplocation> list_model)
+        public bool insertlist(List<cls_TRGroup> list_model)
         {
             bool blnResult = false;
             try
@@ -305,26 +292,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO EMP_TR_LOCATION");
+                obj_str.Append("INSERT INTO EMP_TR_GROUP");
                 obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append("EMPGROUP_ID ");
+                obj_str.Append(", EMPGROUP_CODE ");
+                obj_str.Append(", EMPGROUP_DATE ");
+                obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
-                obj_str.Append(", LOCATION_CODE ");
-                obj_str.Append(", EMPLOCATION_STARTDATE ");
-                obj_str.Append(", EMPLOCATION_ENDDATE ");
-                obj_str.Append(", EMPLOCATION_NOTE ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append("@EMPGROUP_ID ");
+                obj_str.Append(", @EMPGROUP_CODE ");
+                obj_str.Append(", @EMPGROUP_DATE ");
+                obj_str.Append(", @COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
-                obj_str.Append(", @LOCATION_CODE ");
-                obj_str.Append(", @EMPLOCATION_STARTDATE ");
-                obj_str.Append(", @EMPLOCATION_ENDDATE ");
-                obj_str.Append(", @EMPLOCATION_NOTE ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", '1' ");
@@ -336,7 +321,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 //-- Step 1 delete data old
                 string strWorkerID = "";
-                foreach (cls_TREmplocation model in list_model)
+                foreach (cls_TRGroup model in list_model)
                 {
                     strWorkerID += "'" + model.worker_code + "',";
                 }
@@ -344,11 +329,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
                 System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
 
-                obj_str2.Append(" DELETE FROM EMP_TR_LOCATION");
+                obj_str2.Append(" DELETE FROM EMP_TR_GROUP");
                 obj_str2.Append(" WHERE 1=1 ");
                 obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
                 obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
-                obj_str2.Append(" AND EMPLOCATION_STARTDATE ='" + list_model[0].emplocation_startdate.ToString("yyyy-MM-ddTHH:mm:ss") + "'");
+                obj_str2.Append(" AND EMPGROUP_DATE='" + list_model[0].empgroup_date.ToString("yyyy-MM-ddTHH:mm:ss") + "'");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
 
@@ -357,23 +342,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
                     obj_cmd.Transaction = obj_conn.getTransaction();
 
+                    obj_cmd.Parameters.Add("@EMPGROUP_ID", SqlDbType.Int);
+                    obj_cmd.Parameters.Add("@EMPGROUP_CODE", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@EMPGROUP_DATE", SqlDbType.DateTime);
                     obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
-                    obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar);
-                    obj_cmd.Parameters.Add("@EMPLOCATION_STARTDATE", SqlDbType.DateTime);
-                    obj_cmd.Parameters.Add("@EMPLOCATION_ENDDATE", SqlDbType.DateTime);
-                    obj_cmd.Parameters.Add("@EMPLOCATION_NOTE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
 
-                    foreach (cls_TREmplocation model in list_model)
+                    foreach (cls_TRGroup model in list_model)
                     {
+                        obj_cmd.Parameters["@EMPGROUP_ID"].Value = this.getNextID();
+                        obj_cmd.Parameters["@EMPGROUP_CODE"].Value = model.empgroup_code;
+                        obj_cmd.Parameters["@EMPGROUP_DATE"].Value = model.empgroup_date;
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                         obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
-                        obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
-                        obj_cmd.Parameters["@EMPLOCATION_STARTDATE"].Value = model.emplocation_startdate;
-                        obj_cmd.Parameters["@EMPLOCATION_ENDDATE"].Value = model.emplocation_enddate;
-                        obj_cmd.Parameters["@EMPLOCATION_NOTE"].Value = model.emplocation_note;
                         obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                         obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
@@ -395,7 +378,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPLCT099:" + ex.ToString();
+                Message = "EMPGRP099:" + ex.ToString();
             }
 
             return blnResult;

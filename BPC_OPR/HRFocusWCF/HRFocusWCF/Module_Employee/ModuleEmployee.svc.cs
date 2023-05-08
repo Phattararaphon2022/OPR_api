@@ -2290,13 +2290,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Location(EMP026)
+        #region TR_Location(EMP027)
         public string getTREmpLocationList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP026.1";
+            log.apilog_code = "EMP027.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -2384,7 +2384,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP026.2";
+            log.apilog_code = "EMP027.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2490,7 +2490,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP026.3";
+            log.apilog_code = "EMP027.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2568,7 +2568,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP026.4";
+            log.apilog_code = "EMP027.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2627,13 +2627,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Branch(EMP027)
+        #region TR_Branch(EMP028)
         public string getTREmpBranchList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.1";
+            log.apilog_code = "EMP028.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -2721,7 +2721,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.2";
+            log.apilog_code = "EMP028.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2827,7 +2827,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.3";
+            log.apilog_code = "EMP028.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2905,7 +2905,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.4";
+            log.apilog_code = "EMP028.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5644,6 +5644,341 @@ namespace BPC_OPR
                 {
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPPOSITION", fileName, "TEST");
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TR_Group(EMP029)
+        public string getTRGroupList(FillterWorker input)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP029.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRGroup controller = new cls_ctTRGroup();
+                List<cls_TRGroup> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRGroup model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empgroup_id", model.empgroup_id);
+                        json.Add("empgroup_code", model.empgroup_code);
+                        json.Add("empgroup_date", model.empgroup_date);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageTRGroup(InputWorkerTransaction input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP029.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRGroup controller = new cls_ctTRGroup();
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRGroup>>(input.transaction_data);
+
+                int success = 0;
+                int error = 0;
+                StringBuilder obj_error = new StringBuilder();
+
+                bool clear = controller.delete(input.company_code, input.worker_code);
+
+                if (clear)
+                {
+                    foreach (cls_TRGroup model in jsonArray)
+                    {
+
+                        model.modified_by = input.modified_by;
+
+                        bool blnResult = controller.insert(model);
+
+                        if (blnResult)
+                            success++;
+                        else
+                        {
+                            var json = new JavaScriptSerializer().Serialize(model);
+                            var tmp2 = JToken.Parse(json);
+                            obj_error.Append(tmp2);
+                        }
+
+                    }
+                }
+                else
+                {
+                    error = 1;
+                }
+
+
+                if (error == 0)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    output["error"] = obj_error.ToString();
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doDeleteTRGroup(InputTREmpGroup input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP029.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRGroup controller = new cls_ctTRGroup();
+
+                if (controller.checkDataOld(input.company_code, input.worker_code))
+                {
+                    bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.empgroup_id;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public async Task<string> doUploadEmpGroup(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP029.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                    string tmp = srv_import.doImportExcel("EMPGROUP", fileName, "TEST");
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8504,7 +8839,1493 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region TR_Supply(EMP029)
+        public string getTRSupplyList(FillterWorker input)
+        {
+            JObject output = new JObject();
 
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP029.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRSupply controller = new cls_ctTRSupply();
+                List<cls_TRSupply> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRSupply model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empsupply_id", model.empsupply_id);
+                        json.Add("empsupply_code", model.empsupply_code);
+                        json.Add("empsupply_qauntity", model.empsupply_qauntity);
+                        json.Add("empsupply_issuedate", model.empsupply_issuedate);
+                        json.Add("empsupply_note", model.empsupply_note);
+                        json.Add("empsupply_returndate", model.empsupply_returndate);
+                        json.Add("empsupply_returnstatus", model.empsupply_returnstatus);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageTRSupply(InputWorkerTransaction input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP029.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRSupply controller = new cls_ctTRSupply();
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRSupply>>(input.transaction_data);
+
+                int success = 0;
+                int error = 0;
+                StringBuilder obj_error = new StringBuilder();
+
+                bool clear = controller.delete(input.company_code, input.worker_code);
+
+                if (clear)
+                {
+                    foreach (cls_TRSupply model in jsonArray)
+                    {
+
+                        model.modified_by = input.modified_by;
+
+                        bool blnResult = controller.insert(model);
+
+                        if (blnResult)
+                            success++;
+                        else
+                        {
+                            var json = new JavaScriptSerializer().Serialize(model);
+                            var tmp2 = JToken.Parse(json);
+                            obj_error.Append(tmp2);
+                        }
+
+                    }
+                }
+                else
+                {
+                    error = 1;
+                }
+
+
+                if (error == 0)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    output["error"] = obj_error.ToString();
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doDeleteTRSupply(InputTREmpSupply input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP016.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRSupply controller = new cls_ctTRSupply();
+
+                if (controller.checkDataOld(input.company_code, input.worker_code))
+                {
+                    bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.empsupply_id;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public async Task<string> doUploadEmpSupply(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP016.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                    string tmp = srv_import.doImportExcel("EMPSUPPLY", fileName, "TEST");
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TR_Uniform(EMP030)
+        public string getTRUniformList(FillterWorker input)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+                List<cls_TRUniform> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRUniform model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empuniform_id", model.empuniform_id);
+                        json.Add("empuniform_code", model.empuniform_code);
+                        json.Add("empuniform_qauntity", model.empuniform_qauntity);
+                        json.Add("empuniform_amount", model.empuniform_amount);
+                        json.Add("empuniform_issuedate", model.empuniform_issuedate);
+                        json.Add("empuniform_note", model.empuniform_note);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageTRUniform(InputWorkerTransaction input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRUniform>>(input.transaction_data);
+
+                int success = 0;
+                int error = 0;
+                StringBuilder obj_error = new StringBuilder();
+
+                bool clear = controller.delete(input.company_code, input.worker_code);
+
+                if (clear)
+                {
+                    foreach (cls_TRUniform model in jsonArray)
+                    {
+
+                        model.modified_by = input.modified_by;
+
+                        bool blnResult = controller.insert(model);
+
+                        if (blnResult)
+                            success++;
+                        else
+                        {
+                            var json = new JavaScriptSerializer().Serialize(model);
+                            var tmp2 = JToken.Parse(json);
+                            obj_error.Append(tmp2);
+                        }
+
+                    }
+                }
+                else
+                {
+                    error = 1;
+                }
+
+
+                if (error == 0)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    output["error"] = obj_error.ToString();
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doDeleteTRUniform(InputTREmpUniform input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+
+                if (controller.checkDataOld(input.company_code, input.worker_code))
+                {
+                    bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.empuniform_id;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public async Task<string> doUploadEmpUnifrom(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                    string tmp = srv_import.doImportExcel("EMPUNIFORM", fileName, "TEST");
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TR_Suggest(EMP031)
+        public string getTRSuggestList(FillterWorker input)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP031.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRSuggest controller = new cls_ctTRSuggest();
+                List<cls_TRSuggest> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRSuggest model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empsuggest_id", model.empsuggest_id);
+                        json.Add("empsuggest_code", model.empsuggest_code);
+                        json.Add("empuniform_issuedate", model.empsuggest_date);
+                        json.Add("empuniform_note", model.empsuggest_note);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageTRSuggest(InputWorkerTransaction input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP031.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRSuggest controller = new cls_ctTRSuggest();
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRSuggest>>(input.transaction_data);
+
+                int success = 0;
+                int error = 0;
+                StringBuilder obj_error = new StringBuilder();
+
+                bool clear = controller.delete(input.company_code, input.worker_code);
+
+                if (clear)
+                {
+                    foreach (cls_TRSuggest model in jsonArray)
+                    {
+
+                        model.modified_by = input.modified_by;
+
+                        bool blnResult = controller.insert(model);
+
+                        if (blnResult)
+                            success++;
+                        else
+                        {
+                            var json = new JavaScriptSerializer().Serialize(model);
+                            var tmp2 = JToken.Parse(json);
+                            obj_error.Append(tmp2);
+                        }
+
+                    }
+                }
+                else
+                {
+                    error = 1;
+                }
+
+
+                if (error == 0)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    output["error"] = obj_error.ToString();
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doDeleteTRSuggest(InputTREmpSuggest input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRSuggest controller = new cls_ctTRSuggest();
+
+                if (controller.checkDataOld(input.company_code, input.worker_code))
+                {
+                    bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.empsuggest_id;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public async Task<string> doUploadEmpSuggest(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP031.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                    string tmp = srv_import.doImportExcel("EMPSUGGEST", fileName, "TEST");
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region Set batch
+
+        //Set Position
+        public string doSetBatchPosition(InputSetPosition input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.1";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRPosition objPo = new cls_ctTRPosition();
+                List<cls_TRPosition> listPo = new List<cls_TRPosition>();
+                bool strID = false;
+                foreach(cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRPosition model = new cls_TRPosition();
+                    model.empposition_position = input.empposition_position;
+                    model.empposition_reason = input.empposition_reason;
+                    model.empposition_date = Convert.ToDateTime(input.empposition_date);
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+
+        //Set Group
+        public string doSetBatchGroup(InputSetGroup input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRGroup objPo = new cls_ctTRGroup();
+                List<cls_TRGroup> listPo = new List<cls_TRGroup>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRGroup model = new cls_TRGroup();
+                    model.empgroup_code = input.empgroup_code;
+                    model.empgroup_date = Convert.ToDateTime(input.empgroup_date);
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Location
+        public string doSetBatchLocation(InputSetLocation input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTREmplocation objPo = new cls_ctTREmplocation();
+                List<cls_TREmplocation> listPo = new List<cls_TREmplocation>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TREmplocation model = new cls_TREmplocation();
+                    model.location_code = input.location_code;
+                    model.emplocation_startdate = Convert.ToDateTime(input.emplocation_startdate);
+                    model.emplocation_enddate = Convert.ToDateTime(input.emplocation_enddate);
+                    model.emplocation_note = input.emplocation_note;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Salary
+        public string doSetBatchSalary(InputSetSalary input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.4";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRSalary objPo = new cls_ctTRSalary();
+                List<cls_TRSalary> listPo = new List<cls_TRSalary>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRSalary model = new cls_TRSalary();
+                    model.empsalary_amount = input.empsalary_amount;
+                    model.empsalary_incamount = input.empsalary_incamount;
+                    model.empsalary_incpercent = input.empsalary_incpercent;
+                    model.empsalary_date = Convert.ToDateTime(input.empsalary_date);
+                    model.empsalary_reason = input.empsalary_reason;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Provident
+        public string doSetBatchProvident(InputSetProvident input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.5";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRProvident objPo = new cls_ctTRProvident();
+                List<cls_TRProvident> listPo = new List<cls_TRProvident>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRProvident model = new cls_TRProvident();
+                    model.provident_code = input.provident_code;
+                    model.empprovident_card = input.empprovident_card;
+                    model.empprovident_entry = Convert.ToDateTime(input.empprovident_entry);
+                    model.empprovident_start = Convert.ToDateTime(input.empprovident_start);
+                    model.empprovident_end = Convert.ToDateTime(input.empprovident_end);
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Benefits
+        public string doSetBatchBenefits(InputSetBenefits input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.5";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRBenefit objPo = new cls_ctTRBenefit();
+                List<cls_TRBenefit> listPo = new List<cls_TRBenefit>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRBenefit model = new cls_TRBenefit();
+                    model.item_code = input.item_code;
+                    model.empbenefit_amount = input.empbenefit_amount;
+                    model.empbenefit_startdate = Convert.ToDateTime(input.empbenefit_startdate);
+                    model.empbenefit_enddate = Convert.ToDateTime(input.empbenefit_enddate);
+                    model.empbenefit_reason = input.empbenefit_reason;
+                    model.empbenefit_note = input.empbenefit_note;
+                    model.empbenefit_paytype = input.empbenefit_paytype;
+                    model.empbenefit_break = input.empbenefit_break;
+                    model.empbenefit_breakreason = input.empbenefit_breakreason;
+                    model.empbenefit_conditionpay = input.empbenefit_conditionpay;
+                    model.empbenefit_payfirst = input.empbenefit_payfirst;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        #endregion
 
 
     }

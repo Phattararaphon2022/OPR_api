@@ -6,29 +6,21 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.model
 {
-    public class cls_TRApplyCard
+    public class cls_TRSuggest
     {
-        public cls_TRApplyCard() { }
+        public cls_TRSuggest() { }
 
         public string company_code { get; set; }
-        public string applywork_code { get; set; }
+        public string worker_code { get; set; }
 
-        public int card_id { get; set; }
-        public string card_code { get; set; }
-
-        public string card_type { get; set; }
-
-        public DateTime card_issue { get; set; }
-        public DateTime card_expire { get; set; }
-
-
+        public int empsuggest_id { get; set; }
+        public string empsuggest_code { get; set; }
+        public DateTime empsuggest_date { get; set; }
+        public string empsuggest_note { get; set; }
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
-
-
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }
-
         public bool flag { get; set; }
     }
 }

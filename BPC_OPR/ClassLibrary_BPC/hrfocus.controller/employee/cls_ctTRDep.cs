@@ -360,5 +360,144 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
+        public bool insertlist(List<cls_TRDep> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO EMP_TR_DEP");
+                obj_str.Append(" (");
+                obj_str.Append("EMPDEP_ID ");
+                obj_str.Append(", EMPDEP_DATE ");
+                obj_str.Append(", EMPDEP_LEVEL01 ");
+                obj_str.Append(", EMPDEP_LEVEL02 ");
+                obj_str.Append(", EMPDEP_LEVEL03 ");
+                obj_str.Append(", EMPDEP_LEVEL04 ");
+                obj_str.Append(", EMPDEP_LEVEL05 ");
+                obj_str.Append(", EMPDEP_LEVEL06 ");
+                obj_str.Append(", EMPDEP_LEVEL07 ");
+                obj_str.Append(", EMPDEP_LEVEL08 ");
+                obj_str.Append(", EMPDEP_LEVEL09 ");
+                obj_str.Append(", EMPDEP_LEVEL10 ");
+                obj_str.Append(", EMPDEP_REASON ");
+                obj_str.Append(", COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
+                obj_str.Append(", FLAG ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@EMPDEP_ID ");
+                obj_str.Append(", @EMPDEP_DATE ");
+                obj_str.Append(", @EMPDEP_LEVEL01 ");
+                obj_str.Append(", @EMPDEP_LEVEL02 ");
+                obj_str.Append(", @EMPDEP_LEVEL03 ");
+                obj_str.Append(", @EMPDEP_LEVEL04 ");
+                obj_str.Append(", @EMPDEP_LEVEL05 ");
+                obj_str.Append(", @EMPDEP_LEVEL06 ");
+                obj_str.Append(", @EMPDEP_LEVEL07 ");
+                obj_str.Append(", @EMPDEP_LEVEL08 ");
+                obj_str.Append(", @EMPDEP_LEVEL09 ");
+                obj_str.Append(", @EMPDEP_LEVEL10 ");
+                obj_str.Append(", @EMPDEP_REASON ");
+                obj_str.Append(", @COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
+                obj_str.Append(", '1' ");
+                obj_str.Append(" )");
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                string strWorkerID = "";
+                foreach (cls_TRDep model in list_model)
+                {
+                    strWorkerID += "'" + model.worker_code + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM EMP_TR_DEP");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+                obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
+                obj_str2.Append(" AND EMPDEP_DATE='" + Convert.ToDateTime(list_model[0].empdep_date) + "'");
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_ID", SqlDbType.Int);
+                    obj_cmd.Parameters.Add("@EMPDEP_DATE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL01", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL02", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL03", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL04", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL05", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL06", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL07", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL08", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL09", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_LEVEL10", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPDEP_REASON", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+
+                    foreach (cls_TRDep model in list_model)
+                    {
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                        obj_cmd.Parameters["@EMPDEP_ID"].Value = this.getNextID();
+                        obj_cmd.Parameters["@EMPDEP_DATE"].Value = model.empdep_date;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL01"].Value = model.empdep_level01;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL02"].Value = model.empdep_level02;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL03"].Value = model.empdep_level03;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL04"].Value = model.empdep_level04;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL05"].Value = model.empdep_level05;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL06"].Value = model.empdep_level06;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL07"].Value = model.empdep_level07;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL08"].Value = model.empdep_level08;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL09"].Value = model.empdep_level09;
+                        obj_cmd.Parameters["@EMPDEP_LEVEL10"].Value = model.empdep_level10;
+                        obj_cmd.Parameters["@EMPDEP_REASON"].Value = model.empdep_reason;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+
+                        obj_cmd.ExecuteNonQuery();
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                        obj_conn.doRollback();
+                    obj_conn.doClose();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                    obj_conn.doClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPDEP099:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
     }
 }

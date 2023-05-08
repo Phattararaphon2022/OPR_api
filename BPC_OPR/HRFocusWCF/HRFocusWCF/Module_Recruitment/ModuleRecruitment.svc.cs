@@ -26,7 +26,7 @@ using System.Web.Script.Serialization;
 using ClassLibrary_BPC.hrfocus.service;
 using ClassLibrary_BPC.hrfocus.model.System;
 
-using ClassLibrary_BPC.hrfocus.model.Recruitment;
+using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.controller;
 namespace BPC_OPR
 {
@@ -72,13 +72,13 @@ namespace BPC_OPR
 
 
 
-         #region Applywork
-         public string getApplyworkList(FillterApplywork req)
+         #region Recruit Worker
+         public string getReqWorkerList(FillterApplywork req)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "APW001.1";
+             log.apilog_code = "REQ001.1";
              log.apilog_by = req.username;
              log.apilog_data = "all";
 
@@ -98,37 +98,33 @@ namespace BPC_OPR
                  }
 
                  cls_ctMTApplywork controller = new cls_ctMTApplywork();
-                 List<cls_MTApplywork> list = controller.getDataByFillter(req.company_code, req.applywork_code);
+                 List<cls_MTWorker> list = controller.getDataByFillter(req.company_code, req.worker_code);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
                  {
                      int index = 1;
 
-                     foreach (cls_MTApplywork model in list)
+                     foreach (cls_MTWorker model in list)
                      {
                          JObject json = new JObject();
                          json.Add("company_code", model.company_code);
-                         json.Add("applywork_id", model.applywork_id);
-                         json.Add("applywork_code", model.applywork_code);
-                         json.Add("applywork_initial", model.applywork_initial);
+                         json.Add("worker_id", model.worker_id);
+                         json.Add("worker_code", model.worker_code);
+                         json.Add("worker_card", model.worker_card);
+                         json.Add("worker_initial", model.worker_initial);
 
-                         json.Add("applywork_fname_th", model.applywork_fname_th);
-                         json.Add("applywork_lname_th", model.applywork_lname_th);
-                         json.Add("applywork_fname_en", model.applywork_fname_en);
-                         json.Add("applywork_lname_en", model.applywork_lname_en);
-
-
-                         json.Add("applywork_birthdate", model.applywork_birthdate);
-                         json.Add("applywork_startdate", model.applywork_startdate);
-
-
-                         json.Add("province_code", model.province_code);
-                         json.Add("bloodtype_code", model.bloodtype_code);
-
-                         json.Add("applywork_height", model.applywork_height);
-                         json.Add("applywork_weight", model.applywork_weight);
-
+                         json.Add("worker_fname_th", model.worker_fname_th);
+                         json.Add("worker_lname_th", model.worker_lname_th);
+                         json.Add("worker_fname_en", model.worker_fname_en);
+                         json.Add("worker_lname_en", model.worker_lname_en);
+                         json.Add("worker_gender", model.worker_gender);
+                         json.Add("worker_birthdate", model.worker_birthdate);
+                         json.Add("worker_hiredate", model.worker_hiredate);
+                         json.Add("religion_code", model.religion_code);
+                         json.Add("blood_code", model.blood_code);
+                         json.Add("worker_height", model.worker_height);
+                         json.Add("worker_weight", model.worker_weight);
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
@@ -175,7 +171,7 @@ namespace BPC_OPR
 
              return output.ToString(Formatting.None);
          }
-         public string doManageMTApplywork(InputMTApplywork input)
+         public string doManageReqWorker(InputReqWorker input)
          {
              JObject output = new JObject();
 
@@ -184,7 +180,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "APW001.2";
+             log.apilog_code = "REQ001.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -204,26 +200,27 @@ namespace BPC_OPR
                  }
 
                  cls_ctMTApplywork controller = new cls_ctMTApplywork();
-                 cls_MTApplywork model = new cls_MTApplywork();
+                 cls_MTWorker model = new cls_MTWorker();
 
-                 string strApplyworkCode = input.applywork_code;
+                 string strWorkerCode = input.worker_code;
                  string strComCode = input.company_code;
 
                  model.company_code = strComCode;
-                 model.applywork_id = input.applywork_id;
-                 model.applywork_code = strApplyworkCode;
-                 model.applywork_initial = input.applywork_initial;
-                 model.applywork_fname_th = input.applywork_fname_th;
-                 model.applywork_lname_th = input.applywork_lname_th;
-                 model.applywork_fname_en = input.applywork_fname_en;
-                 model.applywork_lname_en = input.applywork_lname_en;
-                 model.applywork_birthdate = Convert.ToDateTime(input.applywork_birthdate);
-                 model.applywork_startdate = Convert.ToDateTime(input.applywork_startdate);
-                 model.province_code = input.province_code;
-                 model.bloodtype_code = input.bloodtype_code;
-                 model.applywork_height = input.applywork_height;
-                 model.applywork_weight = input.applywork_weight;
-
+                 model.worker_id = input.worker_id;
+                 model.worker_code = strWorkerCode;
+                 model.worker_card = input.worker_card;
+                 model.worker_initial = input.worker_initial;
+                 model.worker_fname_th = input.worker_fname_th;
+                 model.worker_lname_th = input.worker_lname_th;
+                 model.worker_fname_en = input.worker_fname_en;
+                 model.worker_lname_en = input.worker_lname_en;
+                 model.worker_gender = input.worker_gender;
+                 model.worker_birthdate = Convert.ToDateTime(input.worker_birthdate);
+                 model.worker_hiredate = Convert.ToDateTime(input.worker_hiredate);
+                 model.religion_code = input.religion_code;
+                 model.blood_code = input.blood_code;
+                 model.worker_height = input.worker_height;
+                 model.worker_weight = input.worker_weight;
 
                  model.modified_by = input.modified_by;
                  model.flag = model.flag;
@@ -268,7 +265,7 @@ namespace BPC_OPR
 
              return output.ToString(Formatting.None);
          }
-         public string doDeleteMTApplywork(InputMTApplywork input)
+         public string doDeleteReqWorker(InputReqWorker input)
          {
              JObject output = new JObject();
 
@@ -296,9 +293,9 @@ namespace BPC_OPR
 
                  cls_ctMTApplywork controller = new cls_ctMTApplywork();
 
-                 if (controller.checkDataOld(input.applywork_code))
+                 if (controller.checkDataOld(input.worker_code))
                  {
-                     bool blnResult = controller.delete(input.applywork_code);
+                     bool blnResult = controller.delete(input.worker_code);
 
                      if (blnResult)
                      {
@@ -320,7 +317,7 @@ namespace BPC_OPR
                  }
                  else
                  {
-                     string message = "Not Found Project code : " + input.applywork_code;
+                     string message = "Not Found Project code : " + input.worker_code;
                      output["success"] = false;
                      output["message"] = message;
 
@@ -348,12 +345,12 @@ namespace BPC_OPR
              return output.ToString(Formatting.None);
 
          }
-         public async Task<string> doUploadApplywork(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "APW001.4";
+             log.apilog_code = "REQ001.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -377,7 +374,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvEmpImport srv_import = new cls_srvEmpImport();
-                     string tmp = srv_import.doImportExcel("Applywork", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("ReqWorker", fileName, "TEST");
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -543,7 +540,7 @@ namespace BPC_OPR
                  int error = 0;
                  StringBuilder obj_error = new StringBuilder();
 
-                 bool clear = controller.delete(input.company_code, input.applywork_code);
+                 bool clear = controller.delete(input.company_code, input.worker_code);
 
                  if (clear)
                  {
@@ -881,7 +878,7 @@ namespace BPC_OPR
                  int error = 0;
                  StringBuilder obj_error = new StringBuilder();
 
-                 bool clear = controller.delete(input.company_code, input.applywork_code);
+                 bool clear = controller.delete(input.company_code, input.worker_code);
 
                  if (clear)
                  {
@@ -1556,7 +1553,7 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.company_code, input.applywork_code);
+                bool clear = controller.delete(input.company_code, input.worker_code);
 
                 if (clear)
                 {
@@ -1899,7 +1896,7 @@ namespace BPC_OPR
                  int error = 0;
                  StringBuilder obj_error = new StringBuilder();
 
-                 bool clear = controller.delete(input.company_code, input.applywork_code);
+                 bool clear = controller.delete(input.company_code, input.worker_code);
 
                  if (clear)
                  {
