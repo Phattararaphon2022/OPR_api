@@ -24,10 +24,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_TRApplyforeigner> getData(string condition)
+        private List<cls_TRForeigner> getData(string condition)
         {
-            List<cls_TRApplyforeigner> list_model = new List<cls_TRApplyforeigner>();
-            cls_TRApplyforeigner model;
+            List<cls_TRForeigner> list_model = new List<cls_TRForeigner>();
+            cls_TRForeigner model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -35,7 +35,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", APPLYWORK_CODE");
+                obj_str.Append(", WORKER_CODE");
 
                 obj_str.Append(", FOREIGNER_ID");
                 obj_str.Append(", PASSPORT_NO");
@@ -63,16 +63,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE, APPLYWORK_CODE");
+                obj_str.Append(" ORDER BY COMPANY_CODE, WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_TRApplyforeigner();
+                    model = new cls_TRForeigner();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.applywork_code = dr["APPLYWORK_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
 
                     model.foreigner_id = Convert.ToInt32(dr["FOREIGNER_ID"]);
                     model.passport_no = dr["PASSPORT_NO"].ToString();
@@ -105,7 +105,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRApplyforeigner> getDataByFillter(string com, string emp)
+        public List<cls_TRForeigner> getDataByFillter(string com, string emp)
         {
             string strCondition = "";
 
@@ -113,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
-                strCondition += " AND APPLYWORK_CODE='" + emp + "'";
+                strCondition += " AND WORKER_CODE='" + emp + "'";
 
             return this.getData(strCondition);
         }
@@ -154,7 +154,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT FOREIGNER_ID");
                 obj_str.Append(" FROM REQ_TR_FOREIGNER");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND APPLYWORK_CODE='" + emp + "' ");
+                obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
                 obj_str.Append(" AND FOREIGNER_ID='" + id + "' ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -183,7 +183,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM REQ_TR_FOREIGNER");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND APPLYWORK_CODE='" + emp + "' ");
+                obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
                 obj_str.Append(" AND FOREIGNER_ID='" + id + "' ");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
@@ -198,14 +198,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public string insert(cls_TRApplyforeigner model)
+        public string insert(cls_TRForeigner model)
         {
             string strResult = "";
             try
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.applywork_code, model.foreigner_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.foreigner_id.ToString()))
                 {
                     if (this.update(model))
                         return model.foreigner_id.ToString();
@@ -219,7 +219,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("INSERT INTO REQ_TR_FOREIGNER");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
-                obj_str.Append(", APPLYWORK_CODE ");
+                obj_str.Append(", WORKER_CODE ");
 
                 obj_str.Append(", FOREIGNER_ID ");
                 obj_str.Append(", PASSPORT_NO ");
@@ -245,7 +245,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
-                obj_str.Append(", @APPLYWORK_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @FOREIGNER_ID ");
                 obj_str.Append(", @PASSPORT_NO ");
                 obj_str.Append(", @PASSPORT_ISSUE ");
@@ -275,7 +275,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 model.foreigner_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@APPLYWORK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@APPLYWORK_CODE"].Value = model.applywork_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.Parameters.Add("@FOREIGNER_ID", SqlDbType.Int); obj_cmd.Parameters["@FOREIGNER_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@PASSPORT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@PASSPORT_NO"].Value = model.passport_no;
@@ -311,7 +311,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return strResult;
         }
 
-        public bool update(cls_TRApplyforeigner model)
+        public bool update(cls_TRForeigner model)
         {
             bool blnResult = false;
             try
