@@ -816,7 +816,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
+            log.apilog_code = "Self012";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -888,7 +888,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
+            log.apilog_code = "Self012";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -974,7 +974,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
+            log.apilog_code = "Self012";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1041,7 +1041,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
+            log.apilog_code = "Self010";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1123,7 +1123,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
+            log.apilog_code = "Self010";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -1210,7 +1210,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
+            log.apilog_code = "Self010";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
