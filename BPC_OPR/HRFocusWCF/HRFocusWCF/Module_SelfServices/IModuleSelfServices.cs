@@ -128,7 +128,19 @@ namespace BPC_OPR
         string doDeleteeTRAccountdep(InputTRAccountdep input);
         #endregion
 
+        #region TRTimecheckin
+        [OperationContract(Name = "timecheckin_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimecheckinList(InputTRTimecheckin input);
 
+        [OperationContract(Name = "timecheckin")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimecheckin(InputTRTimecheckin input);
+
+        [OperationContract(Name = "timecheckin_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimecheckin(InputTRTimecheckin input);
+        #endregion
     }
 
 }

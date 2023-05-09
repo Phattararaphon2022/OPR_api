@@ -326,4 +326,47 @@ namespace BPC_OPR
         public string dep_code { get; set; }
     }
     #endregion
+
+    #region InputTRTimecheckin
+    [DataContract]
+    public class InputTRTimecheckin
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string timecheckin_id { get; set; }
+        [DataMember]
+        public string timecheckin_workdate { get; set; }
+        [DataMember]
+        public string timecheckin_workdate_to { get; set; }
+        [DataMember]
+        public string timecheckin_time { get; set; }
+        [DataMember]
+        public string timecheckin_type { get; set; }
+        [DataMember]
+        public double timecheckin_lat { get; set; }
+        [DataMember]
+        public double timecheckin_long { get; set; }
+        [DataMember]
+        public string timecheckin_note { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timecheckin_data { get; set; }
+    }
+    #endregion
 }

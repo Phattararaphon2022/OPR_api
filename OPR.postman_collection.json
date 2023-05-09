@@ -3032,6 +3032,148 @@
 					]
 				},
 				{
+					"name": "Req Time Checkin",
+					"item": [
+						{
+							"name": "SelfServices/timecheckin_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_id\":\"\",\r\n    \"timecheckin_time\":\"\",\r\n    \"timecheckin_type\":\"\",\r\n    \"location_code\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timecheckin_workdate\":\"\",\r\n    \"timecheckin_workdate_to\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timecheckin_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timecheckin_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timecheckin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"timecheckin_id\\\":0,\\\"timecheckin_workdate\\\":\\\"05-08-2023\\\",\\\"timecheckin_time\\\":\\\"17:00\\\",\\\"timecheckin_type\\\":\\\"O\\\",\\\"timecheckin_lat\\\":13.321,\\\"timecheckin_long\\\":14.123,\\\"timecheckin_note\\\":\\\"TEST\\\",\\\"location_code\\\":\\\"00000\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timecheckin",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timecheckin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timecheckin_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_id\":1,\r\n    \"timecheckin_time\":\"\",\r\n    \"timecheckin_type\":\"\",\r\n    \"timecheckin_workdate\":\"\",\r\n    \"worker_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timecheckin_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timecheckin_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Workflow",
 					"item": [
 						{
