@@ -3174,6 +3174,148 @@
 					]
 				},
 				{
+					"name": "Req Time Onsite",
+					"item": [
+						{
+							"name": "SelfServices/timeonsite_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_id\":\"\",\r\n    \"location_code\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timeonsite_workdate\":\"\",\r\n    \"timeonsite_workdate_to\":\"\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeonsite_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeonsite_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeonsite",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"timeonsite_id\\\":0,\\\"timeonsite_doc\\\":\\\"1234\\\",\\\"timeonsite_workdate\\\":\\\"05-09-2023\\\",\\\"timeonsite_in\\\":\\\"07:00\\\",\\\"timeonsite_out\\\":\\\"16:00\\\",\\\"timeonsite_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"location_code\\\":\\\"00000\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"status\\\":\\\"2\\\",\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeonsite",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeonsite"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timeonsite_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_id\":1,\r\n    \"worker_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeonsite_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeonsite_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Workflow",
 					"item": [
 						{

@@ -54,6 +54,34 @@ namespace BPC_OPR
         string doDeleteTRTimeshift(InputTRTimeshift input);
         #endregion
 
+        #region TRTimecheckin
+        [OperationContract(Name = "timecheckin_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimecheckinList(InputTRTimecheckin input);
+
+        [OperationContract(Name = "timecheckin")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimecheckin(InputTRTimecheckin input);
+
+        [OperationContract(Name = "timecheckin_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimecheckin(InputTRTimecheckin input);
+        #endregion
+
+        #region TRTimeonsite
+        [OperationContract(Name = "timeonsite_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeonsiteList(InputTRTimeonsite input);
+
+        [OperationContract(Name = "timeonsite")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimeonsite(InputTRTimeonsite input);
+
+        [OperationContract(Name = "timeonsite_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimeonsite(InputTRTimeonsite input);
+        #endregion
+
         #region MTWorkflow
         [OperationContract(Name = "workflow_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -126,20 +154,6 @@ namespace BPC_OPR
         [OperationContract(Name = "accountdep_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeTRAccountdep(InputTRAccountdep input);
-        #endregion
-
-        #region TRTimecheckin
-        [OperationContract(Name = "timecheckin_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTRTimecheckinList(InputTRTimecheckin input);
-
-        [OperationContract(Name = "timecheckin")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageTRTimecheckin(InputTRTimecheckin input);
-
-        [OperationContract(Name = "timecheckin_del")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteTRTimecheckin(InputTRTimecheckin input);
         #endregion
     }
 

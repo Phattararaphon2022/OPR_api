@@ -160,6 +160,94 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputTRTimecheckin
+    [DataContract]
+    public class InputTRTimecheckin
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string timecheckin_id { get; set; }
+        [DataMember]
+        public string timecheckin_workdate { get; set; }
+        [DataMember]
+        public string timecheckin_workdate_to { get; set; }
+        [DataMember]
+        public string timecheckin_time { get; set; }
+        [DataMember]
+        public string timecheckin_type { get; set; }
+        [DataMember]
+        public double timecheckin_lat { get; set; }
+        [DataMember]
+        public double timecheckin_long { get; set; }
+        [DataMember]
+        public string timecheckin_note { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timecheckin_data { get; set; }
+    }
+    #endregion
+
+    #region InputTRTimeonsite
+    [DataContract]
+    public class InputTRTimeonsite
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string timeonsite_id { get; set; }
+        [DataMember]
+        public string timeonsite_doc { get; set; }
+        [DataMember]
+        public string timeonsite_workdate { get; set; }
+        [DataMember]
+        public string timeonsite_workdate_to { get; set; }
+        [DataMember]
+        public string timeonsite_in { get; set; }
+        [DataMember]
+        public string timeonsite_out { get; set; }
+        [DataMember]
+        public string timeonsite_note { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string status { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timeonsite_data { get; set; }
+    }
+    #endregion
+
     #region InputMTWorkflow
     [DataContract]
     public class InputMTWorkflow
@@ -327,46 +415,4 @@ namespace BPC_OPR
     }
     #endregion
 
-    #region InputTRTimecheckin
-    [DataContract]
-    public class InputTRTimecheckin
-    {
-        [DataMember]
-        public string device_name { get; set; }
-        [DataMember]
-        public string ip { get; set; }
-        [DataMember]
-        public string username { get; set; }
-        [DataMember]
-        public string company_code { get; set; }
-        [DataMember]
-        public string timecheckin_id { get; set; }
-        [DataMember]
-        public string timecheckin_workdate { get; set; }
-        [DataMember]
-        public string timecheckin_workdate_to { get; set; }
-        [DataMember]
-        public string timecheckin_time { get; set; }
-        [DataMember]
-        public string timecheckin_type { get; set; }
-        [DataMember]
-        public double timecheckin_lat { get; set; }
-        [DataMember]
-        public double timecheckin_long { get; set; }
-        [DataMember]
-        public string timecheckin_note { get; set; }
-        [DataMember]
-        public string location_code { get; set; }
-        [DataMember]
-        public string worker_code { get; set; }
-        [DataMember]
-        public string modified_by { get; set; }
-        [DataMember]
-        public DateTime modified_date { get; set; }
-        [DataMember]
-        public bool flag { get; set; }
-        [DataMember]
-        public string timecheckin_data { get; set; }
-    }
-    #endregion
 }

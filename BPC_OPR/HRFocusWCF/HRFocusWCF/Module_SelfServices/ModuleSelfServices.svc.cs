@@ -811,6 +811,463 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region TRTimecheckin
+        public string getTRTimecheckinList(InputTRTimecheckin input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self008";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimecheckin objTRTimecheckin = new cls_ctTRTimecheckin();
+                List<cls_TRTimecheckin> listTRTimecheckin = objTRTimecheckin.getDataByFillter(input.company_code, input.timecheckin_id, input.timecheckin_time, input.timecheckin_type, input.location_code, input.worker_code, input.timecheckin_workdate, input.timecheckin_workdate_to);
+
+                JArray array = new JArray();
+
+                if (listTRTimecheckin.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimecheckin model in listTRTimecheckin)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("timecheckin_id", model.timecheckin_id);
+                        json.Add("timecheckin_workdate", model.timecheckin_workdate.ToString("yyyy-MM-dd"));
+                        json.Add("timecheckin_time", model.timecheckin_time);
+                        json.Add("timecheckin_type", model.timecheckin_type);
+                        json.Add("timecheckin_lat", model.timecheckin_lat);
+                        json.Add("timecheckin_long", model.timecheckin_long);
+                        json.Add("timecheckin_note", model.timecheckin_note);
+                        json.Add("location_code", model.location_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRTimecheckin(InputTRTimecheckin input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self008";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            string strID = "";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimecheckin objTRTimecheckin = new cls_ctTRTimecheckin();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRTimecheckin>>(input.timecheckin_data);
+                foreach (cls_TRTimecheckin otdata in jsonArray)
+                {
+                    cls_TRTimecheckin model = new cls_TRTimecheckin();
+
+                    model.company_code = otdata.company_code;
+                    model.timecheckin_id = otdata.timecheckin_id.Equals("") ? 0 : Convert.ToInt32(otdata.timecheckin_id);
+                    model.timecheckin_workdate = Convert.ToDateTime(otdata.timecheckin_workdate);
+                    model.timecheckin_time = otdata.timecheckin_time;
+                    model.timecheckin_type = otdata.timecheckin_type;
+                    model.timecheckin_lat = otdata.timecheckin_lat;
+                    model.timecheckin_long = otdata.timecheckin_long;
+                    model.timecheckin_note = otdata.timecheckin_note;
+                    model.location_code = otdata.location_code;
+                    model.worker_code = otdata.worker_code;
+                    model.modified_by = input.username;
+                    model.flag = otdata.flag;
+
+                    strID = objTRTimecheckin.insert(model);
+                    if (!strID.Equals(""))
+                    {
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTimecheckin.getMessage();
+                }
+
+                objTRTimecheckin.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRTimecheckin(InputTRTimecheckin input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self008";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                if (input.timecheckin_workdate.Equals(null))
+                {
+                    input.timecheckin_workdate = "";
+                }
+                cls_ctTRTimecheckin controller = new cls_ctTRTimecheckin();
+                bool blnResult = controller.delete(input.company_code, input.timecheckin_id.ToString(), input.timecheckin_time, input.timecheckin_type, input.timecheckin_workdate, input.worker_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region TRTimeonsite
+        public string getTRTimeonsiteList(InputTRTimeonsite input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self008";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimeonsite objTRTimeonsite = new cls_ctTRTimeonsite();
+                List<cls_TRTimeonsite> listTRTimeonsite = objTRTimeonsite.getDataByFillter(input.company_code,input.timeonsite_id,input.location_code,input.worker_code,input.timeonsite_workdate,input.timeonsite_workdate_to,input.status);
+
+                JArray array = new JArray();
+
+                if (listTRTimeonsite.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimeonsite model in listTRTimeonsite)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("timeonsite_id", model.timeonsite_id);
+                        json.Add("timeonsite_doc", model.timeonsite_doc);
+                        json.Add("timeonsite_workdate", model.timeonsite_workdate.ToString("yyyy-MM-dd"));
+                        json.Add("timeonsite_in", model.timeonsite_in);
+                        json.Add("timeonsite_out", model.timeonsite_out);
+                        json.Add("timeonsite_note", model.timeonsite_note);
+                        json.Add("reason_code", model.reason_code);
+                        //cls_ctMTReason objRason = new cls_ctMTReason();
+                        //List<cls_MTReason> listReason = objRason.getDataByFillter("ONS", "", model.reason_code, model.company_code);
+                        //json.Add("reason_name_th", listReason[0].reason_name_th);
+                        //json.Add("reason_name_en", listReason[0].reason_name_en);
+                        json.Add("location_code", model.location_code);
+                        //cls_ctMTLocation objlocation = new cls_ctMTLocation();
+                        //List<cls_MTLocation> listlocation = objlocation.getDataByFillter("",model.location_code,model.company_code);
+                        //json.Add("location_name_th", listlocation[0].location_name_th);
+                        //json.Add("location_name_en", listlocation[0].location_name_en);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("status", model.status);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRTimeonsite(InputTRTimeonsite input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self008";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            string strID = "";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimeonsite objTRTimeonsite = new cls_ctTRTimeonsite();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRTimeonsite>>(input.timeonsite_data);
+                foreach (cls_TRTimeonsite data in jsonArray)
+                {
+                    cls_TRTimeonsite model = new cls_TRTimeonsite();
+
+                    model.company_code = data.company_code;
+                    model.timeonsite_id = data.timeonsite_id.Equals("") ? 0 : Convert.ToInt32(data.timeonsite_id);
+                    model.timeonsite_doc = data.timeonsite_doc;
+                    model.timeonsite_workdate = Convert.ToDateTime(data.timeonsite_workdate);
+                    model.timeonsite_in = data.timeonsite_in;
+                    model.timeonsite_out = data.timeonsite_out;
+                    model.timeonsite_note = data.timeonsite_note;
+                    model.reason_code = data.reason_code;
+                    model.location_code = data.location_code;
+                    model.worker_code = data.worker_code;
+                    model.status = data.status;
+                    model.modified_by = input.username;
+                    model.flag = data.flag;
+
+                    strID = objTRTimeonsite.insert(model);
+                    if (!strID.Equals(""))
+                    {
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTimeonsite.getMessage();
+                }
+
+                objTRTimeonsite.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRTimeonsite(InputTRTimeonsite input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self008";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimeonsite controller = new cls_ctTRTimeonsite();
+                bool blnResult = controller.delete(input.company_code,input.timeonsite_id,input.worker_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
         #region MTWorkflow
         public string getMTWorkflowList(InputMTWorkflow input)
         {
@@ -2019,231 +2476,6 @@ namespace BPC_OPR
 
                 cls_ctTRAccountdep controller = new cls_ctTRAccountdep();
                 bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type,input.level_code,input.dep_code);
-                if (blnResult)
-                {
-                    output["success"] = true;
-                    output["message"] = "Remove data successfully";
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Remove data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = controller.getMessage();
-                }
-                controller.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Remove data not successfully";
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
-
-            output["data"] = tmp;
-
-            return output.ToString(Formatting.None);
-
-        }
-        #endregion
-
-        #region TRTimecheckin
-        public string getTRTimecheckinList(InputTRTimecheckin input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            try
-            {
-
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctTRTimecheckin objTRTimecheckin = new cls_ctTRTimecheckin();
-                List<cls_TRTimecheckin> listTRTimecheckin = objTRTimecheckin.getDataByFillter(input.company_code,input.timecheckin_id,input.timecheckin_time,input.timecheckin_type,input.location_code,input.worker_code,input.timecheckin_workdate,input.timecheckin_workdate_to);
-
-                JArray array = new JArray();
-
-                if (listTRTimecheckin.Count > 0)
-                {
-                    int index = 1;
-
-                    foreach (cls_TRTimecheckin model in listTRTimecheckin)
-                    {
-                        JObject json = new JObject();
-                        json.Add("company_code", model.company_code);
-                        json.Add("timecheckin_id", model.timecheckin_id);
-                        json.Add("timecheckin_workdate", model.timecheckin_workdate.ToString("yyyy-MM-dd"));
-                        json.Add("timecheckin_time", model.timecheckin_time);
-                        json.Add("timecheckin_type", model.timecheckin_type);
-                        json.Add("timecheckin_lat", model.timecheckin_lat);
-                        json.Add("timecheckin_long", model.timecheckin_long);
-                        json.Add("timecheckin_note", model.timecheckin_note);
-                        json.Add("location_code", model.location_code);
-                        json.Add("worker_code", model.worker_code);
-                        json.Add("modified_by", model.modified_by);
-                        json.Add("modified_date", model.modified_date);
-                        json.Add("flag", model.flag);
-
-                        json.Add("index", index);
-
-                        index++;
-
-                        array.Add(json);
-                    }
-
-                    output["result"] = "1";
-                    output["result_text"] = "1";
-                    output["data"] = array;
-                }
-                else
-                {
-                    output["result"] = "0";
-                    output["result_text"] = "Data not Found";
-                    output["data"] = array;
-                }
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-            return output.ToString(Formatting.None);
-        }
-        public string doManageTRTimecheckin(InputTRTimecheckin input)
-        {
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
-            string strID = "";
-            try
-            {
-
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
-                cls_ctTRTimecheckin objTRTimecheckin = new cls_ctTRTimecheckin();
-                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRTimecheckin>>(input.timecheckin_data);
-                foreach (cls_TRTimecheckin otdata in jsonArray)
-                {
-                    cls_TRTimecheckin model = new cls_TRTimecheckin();
-
-                    model.company_code = otdata.company_code;
-                    model.timecheckin_id = otdata.timecheckin_id.Equals("") ? 0 : Convert.ToInt32(otdata.timecheckin_id);
-                    model.timecheckin_workdate = Convert.ToDateTime(otdata.timecheckin_workdate);
-                    model.timecheckin_time = otdata.timecheckin_time;
-                    model.timecheckin_type = otdata.timecheckin_type;
-                    model.timecheckin_lat = otdata.timecheckin_lat;
-                    model.timecheckin_long = otdata.timecheckin_long;
-                    model.timecheckin_note = otdata.timecheckin_note;
-                    model.location_code = otdata.location_code;
-                    model.worker_code = otdata.worker_code;
-                    model.modified_by = input.username;
-                    model.flag = otdata.flag;
-
-                    strID = objTRTimecheckin.insert(model);
-                    if (!strID.Equals(""))
-                    {
-
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                if (!strID.Equals(""))
-                {
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = objTRTimecheckin.getMessage();
-                }
-
-                objTRTimecheckin.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
-
-            }
-
-            return output.ToString(Formatting.None);
-
-        }
-        public string doDeleteTRTimecheckin(InputTRTimecheckin input)
-        {
-            JObject output = new JObject();
-
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "Self008";
-            log.apilog_by = input.username;
-            log.apilog_data = tmp.ToString();
-
-            try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
-                if (input.timecheckin_workdate.Equals(null))
-                {
-                    input.timecheckin_workdate = "";
-                }
-                cls_ctTRTimecheckin controller = new cls_ctTRTimecheckin();
-                bool blnResult = controller.delete(input.company_code,input.timecheckin_id.ToString(),input.timecheckin_time,input.timecheckin_type,input.timecheckin_workdate,input.worker_code);
-
                 if (blnResult)
                 {
                     output["success"] = true;
