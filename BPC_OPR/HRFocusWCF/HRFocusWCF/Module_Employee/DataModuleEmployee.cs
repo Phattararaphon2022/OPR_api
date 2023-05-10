@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using ClassLibrary_BPC.hrfocus.model;
 
 namespace BPC_OPR
 {
@@ -149,6 +150,8 @@ namespace BPC_OPR
         public string position_name_th { get; set; }
         [DataMember]
         public string position_name_en { get; set; }
+        [DataMember]
+        public int position_level { get; set; }
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
@@ -529,6 +532,28 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputTREmpGroup
+    {
+        [DataMember]
+        public int empgroup_id { get; set; }
+        [DataMember]
+        public string empgroup_code { get; set; }
+        [DataMember]
+        public string empgroup_date { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
     public class InputTREmpEducation
     {
         [DataMember]
@@ -764,6 +789,64 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputTREmpSupply
+    {
+        [DataMember]
+        public int empsupply_id { get; set; }
+        [DataMember]
+        public string empsupply_code { get; set; }
+        [DataMember]
+        public string empsupply_qauntity { get; set; }
+        [DataMember]
+        public string empsupply_issuedate { get; set; }
+        [DataMember]
+        public string empsupply_note { get; set; }
+        [DataMember]
+        public string empsupply_returndate { get; set; }
+        [DataMember]
+        public string empsupply_returnstatus { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
+    public class InputTREmpUniform
+    {
+        [DataMember]
+        public int empuniform_id { get; set; }
+        [DataMember]
+        public string empuniform_code { get; set; }
+        [DataMember]
+        public string empuniform_qauntity { get; set; }
+        [DataMember]
+        public string empuniform_amount { get; set; }
+        [DataMember]
+        public string empuniform_issuedate { get; set; }
+        [DataMember]
+        public string empuniform_note { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
     public class InputWorkerTransaction
     {
         [DataMember]
@@ -774,5 +857,250 @@ namespace BPC_OPR
         public string transaction_data { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+    }
+
+    //Set batch
+    [DataContract]
+    public class InputSetPosition
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string empposition_position { get; set; }
+        [DataMember]
+        public string empposition_reason { get; set; }
+        [DataMember]
+        public string empposition_date { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetDep
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string empdep_date { get; set; }
+        [DataMember]
+        public string empdep_level01 { get; set; }
+        [DataMember]
+        public string empdep_level02 { get; set; }
+        [DataMember]
+        public string empdep_level03 { get; set; }
+        [DataMember]
+        public string empdep_level04 { get; set; }
+        [DataMember]
+        public string empdep_level05 { get; set; }
+        [DataMember]
+        public string empdep_level06 { get; set; }
+        [DataMember]
+        public string empdep_level07 { get; set; }
+        [DataMember]
+        public string empdep_level08 { get; set; }
+        [DataMember]
+        public string empdep_level09 { get; set; }
+        [DataMember]
+        public string empdep_level10 { get; set; }
+        [DataMember]
+        public string empdep_reason { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetGroup
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string empgroup_code { get; set; }
+        [DataMember]
+        public string empgroup_date { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetLocation
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string emplocation_startdate { get; set; }
+        [DataMember]
+        public string emplocation_enddate { get; set; }
+        [DataMember]
+        public string emplocation_note { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetSalary
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public double empsalary_amount { get; set; }
+        [DataMember]
+        public double empsalary_incamount { get; set; }
+        [DataMember]
+        public double empsalary_incpercent { get; set; }
+        [DataMember]
+        public string empsalary_reason { get; set; }
+        [DataMember]
+        public string empsalary_date { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetProvident
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string provident_code { get; set; }
+        [DataMember]
+        public string empprovident_card { get; set; }
+        [DataMember]
+        public string empprovident_entry { get; set; }
+        [DataMember]
+        public string empprovident_start { get; set; }
+        [DataMember]
+        public string empprovident_end { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetBenefits
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string item_code { get; set; }
+        [DataMember]
+        public double empbenefit_amount { get; set; }
+        [DataMember]
+        public string empbenefit_startdate { get; set; }
+        [DataMember]
+        public string empbenefit_enddate { get; set; }
+        [DataMember]
+        public string empbenefit_reason { get; set; }
+        [DataMember]
+        public string empbenefit_note { get; set; }
+        [DataMember]
+        public string empbenefit_paytype { get; set; }
+        [DataMember]
+        public bool empbenefit_break { get; set; }
+        [DataMember]
+        public string empbenefit_breakreason { get; set; }
+
+        [DataMember]
+        public string empbenefit_conditionpay { get; set; }
+
+        [DataMember]
+        public string empbenefit_payfirst { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputTREmpSuggest
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int empsuggest_id { get; set; }
+        [DataMember]
+        public string empsuggest_code { get; set; }
+        [DataMember]
+        public string empsuggest_date { get; set; }
+        [DataMember]
+        public string empsuggest_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+
+
     }
 }

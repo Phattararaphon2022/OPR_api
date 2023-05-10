@@ -1,4 +1,4 @@
-﻿using ClassLibrary_BPC.hrfocus.model.Recruitment;
+﻿using ClassLibrary_BPC.hrfocus.model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,10 +24,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_TRApplyCard> getData(string condition)
+        private List<cls_TRCard> getData(string condition)
         {
-            List<cls_TRApplyCard> list_model = new List<cls_TRApplyCard>();
-            cls_TRApplyCard model;
+            List<cls_TRCard> list_model = new List<cls_TRCard>();
+            cls_TRCard model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -41,7 +41,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(CARD_EXPIRE, '') AS CARD_EXPIRE");
 
                 obj_str.Append(", COMPANY_CODE");
-                obj_str.Append(", APPLYWORK_CODE");
+                obj_str.Append(", WORKER_CODE");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -52,13 +52,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY APPLYWORK_CODE");
+                obj_str.Append(" ORDER BY WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_TRApplyCard();
+                    model = new cls_TRCard();
 
                     model.card_id = Convert.ToInt32(dr["CARD_ID"]);
                     model.card_code = dr["CARD_CODE"].ToString();
@@ -67,7 +67,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.card_expire = Convert.ToDateTime(dr["CARD_EXPIRE"]);
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.applywork_code = dr["APPLYWORK_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -83,7 +83,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRApplyCard> getDataByFillter(string com, string emp)
+        public List<cls_TRCard> getDataByFillter(string com, string emp)
         {
             string strCondition = "";
 
@@ -91,7 +91,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
-                strCondition += " AND APPLYWORK_CODE='" + emp + "'";
+                strCondition += " AND WORKER_CODE='" + emp + "'";
 
             return this.getData(strCondition);
         }
@@ -132,7 +132,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT CARD_ID");
                 obj_str.Append(" FROM REQ_TR_CARD");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND APPLYWORK_CODE='" + emp + "' ");
+                obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -160,7 +160,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM REQ_TR_CARD");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND APPLYWORK_CODE='" + emp + "' ");
+                obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -174,7 +174,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool insert(cls_TRApplyCard model)
+        public bool insert(cls_TRCard model)
         {
             bool blnResult = false;
             string strResult = "";
@@ -182,7 +182,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.applywork_code))
+                if (this.checkDataOld(model.company_code, model.worker_code))
                 {
                     return this.update(model);
 
@@ -200,7 +200,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", CARD_EXPIRE ");
 
                 obj_str.Append(", COMPANY_CODE ");
-                obj_str.Append(", APPLYWORK_CODE ");
+                obj_str.Append(", WORKER_CODE ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -215,7 +215,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @CARD_EXPIRE ");
 
                 obj_str.Append(", @COMPANY_CODE ");
-                obj_str.Append(", @APPLYWORK_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -235,7 +235,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@CARD_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CARD_EXPIRE"].Value = model.card_expire;
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@APPLYWORK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@APPLYWORK_CODE"].Value = model.applywork_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
@@ -256,7 +256,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool update(cls_TRApplyCard model)
+        public bool update(cls_TRCard model)
         {
             bool blnResult = false;
             try
@@ -273,7 +273,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND PAALYWORK_CODE=@PAALYWORK_CODE ");
+                obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
                 obj_str.Append(" AND CARD_ID=@CARD_ID ");
 
                 obj_conn.doConnect();
@@ -289,7 +289,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@PAALYWORK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PAALYWORK_CODE"].Value = model.applywork_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                 obj_cmd.Parameters.Add("@CARD_ID", SqlDbType.Int); obj_cmd.Parameters["@CARD_ID"].Value = model.card_id;
 
                 obj_cmd.ExecuteNonQuery();

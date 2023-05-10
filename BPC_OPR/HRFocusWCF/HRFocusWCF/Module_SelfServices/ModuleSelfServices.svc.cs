@@ -39,7 +39,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -73,7 +73,7 @@ namespace BPC_OPR
                     {
                         JObject json = new JObject();
 
-                        json.Add("company", model.company_code);
+                        json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("leave_code", model.leave_code);
 
@@ -133,7 +133,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -230,7 +230,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -297,7 +297,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -404,7 +404,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -497,7 +497,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -561,7 +561,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -647,7 +647,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             string strID = "";
@@ -739,7 +739,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -816,7 +816,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self001";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -864,6 +864,34 @@ namespace BPC_OPR
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+                        cls_ctTRLineapprove objTRLineapp = new cls_ctTRLineapprove();
+                        List<cls_TRLineapprove> listTRLineapp = objTRLineapp.getDataByFillter(model.company_code, model.workflow_type,model.workflow_code,"");
+                        JArray arrayTRLineapp = new JArray();
+                        if (listTRLineapp.Count > 0)
+                        {
+                            int indexTRLineapp = 1;
+
+                            foreach (cls_TRLineapprove modelTRLineapp in listTRLineapp)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRLineapp.company_code);
+                                jsonTRPlan.Add("workflow_type", modelTRLineapp.workflow_type);
+                                jsonTRPlan.Add("workflow_code", modelTRLineapp.workflow_code);
+                                jsonTRPlan.Add("position_level", modelTRLineapp.position_level);
+
+                                jsonTRPlan.Add("index", indexTRLineapp);
+
+
+                                indexTRLineapp++;
+
+                                arrayTRLineapp.Add(jsonTRPlan);
+                            }
+                            json.Add("lineapprove_data", arrayTRLineapp);
+                        }
+                        else
+                        {
+                            json.Add("lineapprove_data", arrayTRLineapp);
+                        }
                         json.Add("index", index);
 
                         index++;
@@ -892,7 +920,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "Self001";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -933,6 +961,24 @@ namespace BPC_OPR
                 string strID = objMT.insert(model);
                 if (!strID.Equals(""))
                 {
+                    try
+                    {
+                        cls_ctTRLineapprove objTRLineapp = new cls_ctTRLineapprove();
+                        //objTRLineapp.delete(input.company_code, input.workflow_type,input.workflow_code,"");
+                        if (input.lineapprove_data.Count > 0)
+                        {
+                            objTRLineapp.delete(input.company_code, input.workflow_type, input.workflow_code, "");
+                            objTRLineapp.insert(input.lineapprove_data,input.username);
+                        }
+                        else
+                        {
+                            objTRLineapp.delete(input.company_code, input.workflow_type, input.workflow_code, "");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -969,7 +1015,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "Self001";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -991,6 +1037,988 @@ namespace BPC_OPR
 
                 bool blnResult = controller.delete(input.workflow_id,input.company_code);
 
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctTRLineapprove objTRLineapp = new cls_ctTRLineapprove();
+                        objTRLineapp.delete(input.company_code, input.workflow_type, input.workflow_code, "");
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string getPositionLevelList(InputMTWorkflow input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self001";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTWorkflow objMT = new cls_ctMTWorkflow();
+                List<cls_MTWorkflow> list = objMT.getpositionlevel(input.company_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTWorkflow model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("position_level", model.position_level);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(model.position_level);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TRLineapprove
+        public string getTRLineapproveList(InputTRLineapprove input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self003";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRLineapprove objTRLineapprove = new cls_ctTRLineapprove();
+                List<cls_TRLineapprove> list = objTRLineapprove.getDataByFillter(input.company_code, input.workflow_type, input.workflow_code, input.position_level);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRLineapprove model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("workflow_type", model.workflow_type);
+                        json.Add("workflow_code", model.workflow_code);
+                        json.Add("position_level", model.position_level);
+                         
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRLineapprove(InputTRLineapprove input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self003";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRLineapprove objTRTimeleave = new cls_ctTRLineapprove();
+                bool strID = objTRTimeleave.insert(input.lineapprove_data,input.username);
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTimeleave.getMessage();
+                }
+
+                objTRTimeleave.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRLineapprove(InputTRLineapprove input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self003";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRLineapprove controller = new cls_ctTRLineapprove();
+                bool blnResult = controller.delete(input.company_code,input.workflow_type,input.workflow_code,input.position_level);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region MTAccount
+        public string getMTAccountList(InputMTAccount input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTAccount objMTAccount = new cls_ctMTAccount();
+                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTAccount model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("account_user", model.account_user);
+                        //json.Add("account_pwd", model.account_pwd);
+                        json.Add("account_pwd", "");
+                        json.Add("account_type", model.account_type);
+                        json.Add("account_level", model.account_level);
+                        json.Add("account_email", model.account_email);
+                        json.Add("account_email_alert", model.account_email_alert);
+                        json.Add("account_line", model.account_line);
+                        json.Add("account_line_alert", model.account_line_alert);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRAccountpos objTRAccountpos = new cls_ctTRAccountpos();
+                        List<cls_TRAccountpos> listTRAccountpos = objTRAccountpos.getDataByFillter(model.company_code, model.account_user, model.account_type, "");
+                        JArray arrayTRAccountpos = new JArray();
+                        if (listTRAccountpos.Count > 0)
+                        {
+                            int indexTRAccount = 1;
+
+                            foreach (cls_TRAccountpos modelTRAccount in listTRAccountpos)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRAccount.company_code);
+                                jsonTRPlan.Add("account_user", modelTRAccount.account_user);
+                                jsonTRPlan.Add("account_type", modelTRAccount.account_type);
+                                jsonTRPlan.Add("position_code", modelTRAccount.position_code);
+
+                                jsonTRPlan.Add("index", indexTRAccount);
+
+
+                                indexTRAccount++;
+
+                                arrayTRAccountpos.Add(jsonTRPlan);
+                            }
+                            json.Add("position_data", arrayTRAccountpos);
+                        }
+                        else
+                        {
+                            json.Add("position_data", arrayTRAccountpos);
+                        }
+                        cls_ctTRAccountdep objTRAccountdep = new cls_ctTRAccountdep();
+                        List<cls_TRAccountdep> listTRAccountdep = objTRAccountdep.getDataByFillter(model.company_code, model.account_user, model.account_type, "","");
+                        JArray arrayTRAccountdep = new JArray();
+                        if (listTRAccountdep.Count > 0)
+                        {
+                            int indexTRAccountdep = 1;
+
+                            foreach (cls_TRAccountdep modelTRAccountdep in listTRAccountdep)
+                            {
+                                JObject jsonTRdep = new JObject();
+                                jsonTRdep.Add("company_code", modelTRAccountdep.company_code);
+                                jsonTRdep.Add("account_user", modelTRAccountdep.account_user);
+                                jsonTRdep.Add("account_type", modelTRAccountdep.account_type);
+                                jsonTRdep.Add("level_code", modelTRAccountdep.level_code);
+                                jsonTRdep.Add("dep_code", modelTRAccountdep.dep_code);
+
+                                jsonTRdep.Add("index", indexTRAccountdep);
+
+
+                                indexTRAccountdep++;
+
+                                arrayTRAccountdep.Add(jsonTRdep);
+                            }
+                            json.Add("dep_data", arrayTRAccountdep);
+                        }
+                        else
+                        {
+                            json.Add("dep_data", arrayTRAccountdep);
+                        }
+
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataByFillter(model.company_code, model.account_user, model.account_type, "");
+                        JArray arrayTRAccount = new JArray();
+                        if (listTRAccount.Count > 0)
+                        {
+                            int indexTRAccount = 1;
+
+                            foreach (cls_TRAccount modelTRAccount in listTRAccount)
+                            {
+                                JObject jsonTRdep = new JObject();
+                                jsonTRdep.Add("company_code", modelTRAccount.company_code);
+                                jsonTRdep.Add("account_user", modelTRAccount.account_user);
+                                jsonTRdep.Add("account_type", modelTRAccount.account_type);
+                                jsonTRdep.Add("worker_code", modelTRAccount.worker_code);
+
+                                jsonTRdep.Add("index", indexTRAccount);
+
+
+                                indexTRAccount++;
+
+                                arrayTRAccount.Add(jsonTRdep);
+                            }
+                            json.Add("worker_data", arrayTRAccount);
+                        }
+                        else
+                        {
+                            json.Add("worker_data", arrayTRAccount);
+                        }
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTAccount(InputMTAccount input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTAccount objMTAccount = new cls_ctMTAccount();
+                cls_MTAccount model = new cls_MTAccount();
+                Authen objAuthen = new Authen(); 
+                model.company_code = input.company_code;
+                model.account_user = input.account_user;
+                //model.account_pwd = objAuthen.Encrypt(input.account_pwd);
+                model.account_pwd = input.account_pwd;
+                model.account_type = input.account_type;
+                model.account_level = input.account_level;
+                model.account_email = input.account_email;
+                model.account_email_alert = input.account_email_alert;
+                model.account_line = input.account_line;
+                model.account_line_alert = input.account_line_alert;
+
+                model.modified_by = input.username;
+                model.flag = input.flag;
+                string strID = objMTAccount.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRAccountpos objTRAccoutpos = new cls_ctTRAccountpos();
+                        cls_ctTRAccountdep objTRAccoutdep = new cls_ctTRAccountdep();
+                        cls_ctTRAccount objTRAccout = new cls_ctTRAccount();
+                        //objTRLineapp.delete(input.company_code, input.workflow_type,input.workflow_code,"");
+                        if (input.positonn_data.Count > 0)
+                        {
+                            objTRAccoutpos.insert(input.positonn_data);
+                        }
+                        else
+                        {
+                            objTRAccoutpos.delete(input.company_code, input.account_user, input.account_type);
+                        }
+                        if (input.dep_data.Count > 0)
+                        {
+                            objTRAccoutdep.insert(input.dep_data);
+                        }
+                        else
+                        {
+                            objTRAccoutdep.delete(input.company_code, input.account_user, input.account_type,"","");
+                        }
+                        if (input.worker_data.Count > 0)
+                        {
+                            objTRAccout.insert(input.worker_data);
+                        }
+                        else
+                        {
+                            objTRAccout.delete(input.company_code, input.account_user, input.account_type, "");
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTAccount.getMessage();
+                }
+
+                objMTAccount.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTAccount(InputMTAccount input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTAccount controller = new cls_ctMTAccount();
+                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type);
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctTRAccountpos objTRpos = new cls_ctTRAccountpos();
+                        cls_ctTRAccountdep objTRdep = new cls_ctTRAccountdep();
+                        cls_ctTRAccount objTRAcount = new cls_ctTRAccount();
+                        objTRpos.delete(input.company_code, input.account_user, input.account_type);
+                        objTRdep.delete(input.company_code, input.account_user, input.account_type, "", "");
+                        objTRAcount.delete(input.company_code, input.account_user, input.account_type, "");
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region TRAccountpos
+        public string getTRAccountposList(InputTRAccountpos input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccountpos objMTAccountpost = new cls_ctTRAccountpos();
+                List<cls_TRAccountpos> list = objMTAccountpost.getDataByFillter(input.company_code, input.account_user, input.account_type, input.position_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRAccountpos model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("account_user", model.account_user);
+                        json.Add("account_type", model.account_type);
+                        json.Add("position_code", model.position_code);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRAccountpos(InputTRAccountpos input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccountpos objTRAccountpos = new cls_ctTRAccountpos();
+                cls_TRAccountpos model = new cls_TRAccountpos();
+                model.company_code = input.company_code;
+                model.account_user = input.account_user;
+                model.account_type = input.account_type;
+                model.position_code = input.position_code;
+                string strID = objTRAccountpos.insert(model);
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRAccountpos.getMessage();
+                }
+
+                objTRAccountpos.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeTRAccountpos(InputTRAccountpos input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRAccountpos controller = new cls_ctTRAccountpos();
+                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region TRAccountdep
+        public string getTRAccountdepList(InputTRAccountdep input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccountdep objMTAccountpost = new cls_ctTRAccountdep();
+                List<cls_TRAccountdep> list = objMTAccountpost.getDataByFillter(input.company_code, input.account_user, input.account_type, input.level_code,input.dep_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRAccountdep model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("account_user", model.account_user);
+                        json.Add("account_type", model.account_type);
+                        json.Add("level_code", model.level_code);
+                        json.Add("dep_code", model.dep_code);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRAccountdep(InputTRAccountdep input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccountdep objTRAccountdep = new cls_ctTRAccountdep();
+                cls_TRAccountdep model = new cls_TRAccountdep();
+                model.company_code = input.company_code;
+                model.account_user = input.account_user;
+                model.account_type = input.account_type;
+                model.level_code = input.level_code;
+                model.dep_code = input.dep_code;
+                string strID = objTRAccountdep.insert(model);
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRAccountdep.getMessage();
+                }
+
+                objTRAccountdep.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeTRAccountdep(InputTRAccountdep input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRAccountdep controller = new cls_ctTRAccountdep();
+                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type,input.level_code,input.dep_code);
                 if (blnResult)
                 {
                     output["success"] = true;

@@ -296,5 +296,109 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public bool insertlist(List<cls_TREmplocation> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO EMP_TR_LOCATION");
+                obj_str.Append(" (");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
+                obj_str.Append(", LOCATION_CODE ");
+                obj_str.Append(", EMPLOCATION_STARTDATE ");
+                obj_str.Append(", EMPLOCATION_ENDDATE ");
+                obj_str.Append(", EMPLOCATION_NOTE ");
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
+                obj_str.Append(", FLAG ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
+                obj_str.Append(", @LOCATION_CODE ");
+                obj_str.Append(", @EMPLOCATION_STARTDATE ");
+                obj_str.Append(", @EMPLOCATION_ENDDATE ");
+                obj_str.Append(", @EMPLOCATION_NOTE ");
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
+                obj_str.Append(", '1' ");
+                obj_str.Append(" )");
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                string strWorkerID = "";
+                foreach (cls_TREmplocation model in list_model)
+                {
+                    strWorkerID += "'" + model.worker_code + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM EMP_TR_LOCATION");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+                obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
+                obj_str2.Append(" AND EMPLOCATION_STARTDATE ='" + list_model[0].emplocation_startdate.ToString("yyyy-MM-ddTHH:mm:ss") + "'");
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPLOCATION_STARTDATE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@EMPLOCATION_ENDDATE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@EMPLOCATION_NOTE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+
+                    foreach (cls_TREmplocation model in list_model)
+                    {
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                        obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
+                        obj_cmd.Parameters["@EMPLOCATION_STARTDATE"].Value = model.emplocation_startdate;
+                        obj_cmd.Parameters["@EMPLOCATION_ENDDATE"].Value = model.emplocation_enddate;
+                        obj_cmd.Parameters["@EMPLOCATION_NOTE"].Value = model.emplocation_note;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+
+                        obj_cmd.ExecuteNonQuery();
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                        obj_conn.doRollback();
+                    obj_conn.doClose();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                    obj_conn.doClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPLCT099:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
     }
 }

@@ -1630,18 +1630,371 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-
-
-
-
-
-
-
-
-
-
         
+        //#region Payroll Set batch
+        //public string doSetBatchBonus(InputTRList input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "PAYSB007.1";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctTRBonus objPo = new cls_ctTRBonus();
+        //        List<cls_TRBonus> listPo = new List<cls_TRBonus>();
+        //        bool strID = false;
+        //        foreach (cls_MTWorker modelWorker in input.emp_data)
+        //        {
+        //            cls_TRBonus model = new cls_TRBonus();
+
+        //            model.paypolbonus_code = input.paypolbonus_code;
+        //            model.company_code = input.company_code;
+        //            model.worker_code = modelWorker.worker_code;
+
+        //            model.flag = input.flag;
+        //            model.created_by = input.modified_by;
+
+        //            listPo.Add(model);
+        //        }
+        //        if (listPo.Count > 0)
+        //        {
+        //            strID = objPo.insertlist(input.company_code, input.bonus_code, listPo);
+
+
+        //        }
+        //        if (strID)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objPo.getMessage();
+        //        }
+        //        objPo.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+        //    }
+
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //#endregion
+
+        #region batch set bonus
+        public string getBatchBonusList(InputTRList input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAYSB007.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRBonus objMTBonus = new cls_ctTRBonus();
+                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("","", input.company_code, input.paypolbonus_code);
+
+                JArray array = new JArray();
+
+                if (listMTBonus.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRBonus model in listMTBonus)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_detail", model.worker_detail);
+                        json.Add("paypolbonus_code", model.paypolbonus_code);
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.created_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doSetBatchBonus(InputTRList input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAYSB007.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+            {
+                string company_code = input.company_code;
+                string bonus_code = input.worker_code;
+
+                //-- Transaction
+                string pay_data = input.transaction_data;
+                //bool blnResult = true;
+                //string strMessage = "";
+
+               try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                    cls_ctTRBonus objPol = new cls_ctTRBonus();
+                    List<cls_TRBonus> listPol = new List<cls_TRBonus>();
+                    bool strID = false;
+                    foreach (cls_MTWorker modelWorker in input.emp_data)
+                         {
+                      
+                    cls_TRBonus model = new cls_TRBonus();
+
+                    model.paypolbonus_code = input.paypolbonus_code;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPol.Add(model);
+                }
+                if (listPol.Count > 0)
+                {
+                    strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
+
+
+                }
+                if (strID)
+                {
+                
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPol.getMessage();
+                }
+                      
+                objPol.dispose();
+            }
+             catch (Exception ex)
+               {
+                   output["result"] = "0";
+                   output["result_text"] = ex.ToString();
+               }
+
+
+               return output.ToString(Formatting.None);
+            }
+
+        }
+       
+        public string doDeleteBatchBonus(InputTRList input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAYSB007.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRBonus controller = new cls_ctTRBonus();
+                bool blnResult = controller.delete(input.company_code, input.worker_code, input.paypolbonus_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadBatchBonus(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAYSB007.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    string tmp = srv_import.doImportExcel("SetBonus", fileName, by);
+
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
     }
 
 }

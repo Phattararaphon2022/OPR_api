@@ -1,4 +1,5 @@
-﻿using ClassLibrary_BPC.hrfocus.model.Payroll;
+﻿using ClassLibrary_BPC.hrfocus.model;
+using ClassLibrary_BPC.hrfocus.model.Payroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -188,7 +189,76 @@ namespace BPC_OPR
 
      #endregion
 
+    //public class InputSetTRPaypolbonus
+    //{
+    //    [DataMember]
+    //    public string device_name { get; set; }
+    //    [DataMember]
+    //    public string ip { get; set; }
+    //    [DataMember]
+    //    public string username { get; set; }
+    //    [DataMember]
+    //    public string company_code { get; set; }
 
+    //    [DataMember]
+    //    public string worker_code { get; set; }
+    //    [DataMember]
+    //    public string worker_detail { get; set; }
+    //    [DataMember]
+    //    public List<cls_MTWorker> emp_data { get; set; }
+    //    [DataMember]
+    //    public string paypolbonus_code { get; set; }
+
+    //    [DataMember]
+    //    public string modified_by { get; set; }
+    //    [DataMember]
+    //    public DateTime modified_date { get; set; }
+    //    [DataMember]
+    //    public int index { get; set; }
+    //     [DataMember]
+    //    public bool flag { get; set; }
+
+    //     [DataMember]
+    //     public string transaction_data { get; set; }       
+    //}
+
+
+    [DataContract]
+    public class InputTRList
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_detail { get; set; }
+        [DataMember]
+        public string bonus_code { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string paypolbonus_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        
+        [DataMember]
+        public string transaction_data { get; set; }
+        
+    }
     #region InputMTPeriod
     [DataContract]
     public class InputMTPeriod

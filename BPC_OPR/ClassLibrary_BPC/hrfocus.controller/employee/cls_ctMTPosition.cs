@@ -39,6 +39,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(POSITION_NAME_TH, '') AS POSITION_NAME_TH");
                 obj_str.Append(", ISNULL(POSITION_NAME_EN, '') AS POSITION_NAME_EN");
                 obj_str.Append(", COMPANY_CODE");
+                obj_str.Append(", ISNULL(POSITION_LEVEL, 0) AS POSITION_LEVEL");
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -48,7 +49,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY POSITION_CODE");
+                obj_str.Append(" ORDER BY POSITION_LEVEL");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -60,6 +61,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.position_code = dr["POSITION_CODE"].ToString();
                     model.position_name_th = dr["POSITION_NAME_TH"].ToString();
                     model.position_name_en = dr["POSITION_NAME_EN"].ToString();
+                    model.position_level = Convert.ToInt32(dr["POSITION_LEVEL"]);
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -186,6 +188,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", POSITION_CODE ");
                 obj_str.Append(", POSITION_NAME_TH ");
                 obj_str.Append(", POSITION_NAME_EN ");
+                obj_str.Append(", POSITION_LEVEL ");
                 obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -197,6 +200,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @POSITION_CODE ");
                 obj_str.Append(", @POSITION_NAME_TH ");
                 obj_str.Append(", @POSITION_NAME_EN ");
+                obj_str.Append(", @POSITION_LEVEL ");
                 obj_str.Append(", @COMPANY_CODE ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -213,6 +217,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@POSITION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION_CODE"].Value = model.position_code;
                 obj_cmd.Parameters.Add("@POSITION_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION_NAME_TH"].Value = model.position_name_th;
                 obj_cmd.Parameters.Add("@POSITION_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION_NAME_EN"].Value = model.position_name_en;
+                obj_cmd.Parameters.Add("@POSITION_LEVEL", SqlDbType.Int); obj_cmd.Parameters["@POSITION_LEVEL"].Value = model.position_level;
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -243,6 +248,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" POSITION_CODE=@POSITION_CODE ");
                 obj_str.Append(", POSITION_NAME_TH=@POSITION_NAME_TH ");
                 obj_str.Append(", POSITION_NAME_EN=@POSITION_NAME_EN ");
+                obj_str.Append(", POSITION_LEVEL=@POSITION_LEVEL ");
                 obj_str.Append(", COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -256,6 +262,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@POSITION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION_CODE"].Value = model.position_code;
                 obj_cmd.Parameters.Add("@POSITION_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION_NAME_TH"].Value = model.position_name_th;
                 obj_cmd.Parameters.Add("@POSITION_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION_NAME_EN"].Value = model.position_name_en;
+                obj_cmd.Parameters.Add("@POSITION_LEVEL", SqlDbType.Int); obj_cmd.Parameters["@POSITION_LEVEL"].Value = model.position_level;
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

@@ -114,6 +114,34 @@ namespace BPC_OPR
         #endregion
 
 
+        #region payroll set batch
+
+        //set bonus
+
+        #region set bonus
+        [OperationContract(Name = "setbonus_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchBonusList(InputTRList input);
+
+        [OperationContract(Name = "setpaypolbonus")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchBonus(InputTRList input);
+
+        [OperationContract(Name = "setbonus_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteBatchBonus(InputTRList input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetBonus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchBonus(string token, string by, string fileName, Stream stream);
+        #endregion
+
+
+        //[OperationContract(Name = "setpaypolbonus")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doSetBatchBonus(InputTRList input);
+
+        #endregion
 
     }
 }

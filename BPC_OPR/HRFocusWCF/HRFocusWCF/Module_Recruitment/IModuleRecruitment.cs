@@ -15,25 +15,42 @@ namespace BPC_OPR
     public interface IModuleRecruitment
     {
         #region applywork
-        [OperationContract(Name = "applywork_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getApplyworkList(FillterApplywork req);
+        //[OperationContract(Name = "applywork_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getApplyworkList(FillterApplywork req);
 
-        [OperationContract(Name = "applywork")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageMTApplywork(InputMTApplywork input);
+        //[OperationContract(Name = "applywork")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTApplywork(InputMTApplywork input);
 
-        [OperationContract(Name = "applywork_del")]
+        //[OperationContract(Name = "applywork_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTApplywork(InputMTApplywork input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadApplywork?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadApplywork(string token, string by, string fileName, Stream stream);
+
+        //recruit
+        [OperationContract(Name = "reqworker_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteMTApplywork(InputMTApplywork input);
+        string getReqWorkerList(FillterApplywork req);
+
+        [OperationContract(Name = "reqworker")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageReqWorker(InputReqWorker input);
+
+        [OperationContract(Name = "reqworker_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteReqWorker(InputReqWorker input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplywork?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplywork(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqworker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream);
         #endregion
 
         #region TR_Address
-        [OperationContract(Name = "reqaddlist")]
+        [OperationContract(Name = "reqadd_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRApplyAddressList(FillterApplywork input);
 

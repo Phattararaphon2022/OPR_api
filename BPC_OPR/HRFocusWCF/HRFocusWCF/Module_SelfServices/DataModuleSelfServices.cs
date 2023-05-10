@@ -204,7 +204,126 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
+        [DataMember]
+        public List<cls_TRLineapprove> lineapprove_data { get; set; }
+    }
+    #endregion
 
+    #region InputTRLineapprove
+    [DataContract]
+    public class InputTRLineapprove
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string workflow_type { get; set; }
+        [DataMember]
+        public string workflow_code { get; set; }
+        [DataMember]
+        public string position_level { get; set; }
+      
+        [DataMember]
+        public List<cls_TRLineapprove> lineapprove_data { get; set; }
+
+    }
+    #endregion
+
+    #region InputMTAccount
+    [DataContract]
+    public class InputMTAccount
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string account_pwd { get; set; }
+        [DataMember]
+        public string account_type { get; set; }
+        [DataMember]
+        public int account_level { get; set; }
+        [DataMember]
+        public string account_email { get; set; }
+        [DataMember]
+        public bool account_email_alert { get; set; }
+        [DataMember]
+        public string account_line { get; set; }
+        [DataMember]
+        public bool account_line_alert { get; set; }
+
+        [DataMember]
+        public List<cls_TRAccountpos> positonn_data { get; set; }
+        [DataMember]
+        public List<cls_TRAccountdep> dep_data { get; set; }
+        [DataMember]
+        public List<cls_TRAccount> worker_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
+    #region InputTRAccountpos
+    [DataContract]
+    public class InputTRAccountpos
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string account_type { get; set; }
+        [DataMember]
+        public string position_code { get; set; }
+    }
+    #endregion
+
+    #region InputTRAccountdep
+    [DataContract]
+    public class InputTRAccountdep
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string account_type { get; set; }
+        [DataMember]
+        public string level_code { get; set; }
+        [DataMember]
+        public string dep_code { get; set; }
     }
     #endregion
 }
