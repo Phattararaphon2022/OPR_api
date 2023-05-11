@@ -168,7 +168,7 @@ namespace BPC_OPR
 
     #endregion
 
-    #region bonus
+    #region Bonusrate
     [DataContract]
     public class InputTRBonusrate
     {
@@ -189,40 +189,7 @@ namespace BPC_OPR
 
      #endregion
 
-    //public class InputSetTRPaypolbonus
-    //{
-    //    [DataMember]
-    //    public string device_name { get; set; }
-    //    [DataMember]
-    //    public string ip { get; set; }
-    //    [DataMember]
-    //    public string username { get; set; }
-    //    [DataMember]
-    //    public string company_code { get; set; }
-
-    //    [DataMember]
-    //    public string worker_code { get; set; }
-    //    [DataMember]
-    //    public string worker_detail { get; set; }
-    //    [DataMember]
-    //    public List<cls_MTWorker> emp_data { get; set; }
-    //    [DataMember]
-    //    public string paypolbonus_code { get; set; }
-
-    //    [DataMember]
-    //    public string modified_by { get; set; }
-    //    [DataMember]
-    //    public DateTime modified_date { get; set; }
-    //    [DataMember]
-    //    public int index { get; set; }
-    //     [DataMember]
-    //    public bool flag { get; set; }
-
-    //     [DataMember]
-    //     public string transaction_data { get; set; }       
-    //}
-
-
+    #region set Batch
     [DataContract]
     public class InputTRList
     {
@@ -234,17 +201,35 @@ namespace BPC_OPR
         public string username { get; set; }
         [DataMember]
         public string company_code { get; set; }
-
         [DataMember]
         public string worker_code { get; set; }
         [DataMember]
         public string worker_detail { get; set; }
-        [DataMember]
-        public string bonus_code { get; set; }
+
         [DataMember]
         public List<cls_MTWorker> emp_data { get; set; }
+
+
+        //set bonus
+        [DataMember]
+        public string bonus_code { get; set; }
+        
         [DataMember]
         public string paypolbonus_code { get; set; }
+
+        //set provident
+        [DataMember]
+        public string provident_code { get; set; }
+        [DataMember]
+        public string paypolprovident_code { get; set; }
+
+        //set item
+        [DataMember]
+        public string item_code { get; set; }
+        [DataMember]
+        public string paypolitem_code { get; set; }
+
+
 
         [DataMember]
         public string modified_by { get; set; }
@@ -259,6 +244,11 @@ namespace BPC_OPR
         public string transaction_data { get; set; }
         
     }
+
+    #endregion
+
+    
+
     #region InputMTPeriod
     [DataContract]
     public class InputMTPeriod

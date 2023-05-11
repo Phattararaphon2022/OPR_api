@@ -75,6 +75,8 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRBonus.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRPolItem.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRPolProvident.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccount.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccountdep.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTAccount.cs" />
@@ -180,6 +182,8 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRBonus.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRPolItem.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRPolProvident.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTAccount.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTBonus.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTItem.cs" />
