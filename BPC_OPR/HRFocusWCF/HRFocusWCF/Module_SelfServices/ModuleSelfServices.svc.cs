@@ -1268,6 +1268,262 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region MTArea
+        public string getMTAreaList(InputMTArea input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTArea objMTArea = new cls_ctMTArea();
+                List<cls_MTArea> list = objMTArea.getDataByFillter(input.company_code,input.area_id,input.location_code,input.project_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTArea model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("area_id", model.area_id);
+                        json.Add("area_lat", model.area_lat);
+                        json.Add("area_long", model.area_long);
+                        json.Add("area_distance", model.area_distance);
+                        json.Add("location_code", model.location_code);
+                        json.Add("project_code", model.project_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRArea objTRArea = new cls_ctTRArea();
+                        List<cls_TRArea> listTRArea = objTRArea.getDataByFillter(model.company_code,model.location_code,"");
+                        JArray arrayTRArea = new JArray();
+                        if (listTRArea.Count > 0)
+                        {
+                            int indexTRAccount = 1;
+
+                            foreach (cls_TRArea modelTRArea in listTRArea)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRArea.company_code);
+                                jsonTRPlan.Add("location_code", modelTRArea.location_code);
+                                jsonTRPlan.Add("worker_code", modelTRArea.worker_code);
+
+                                jsonTRPlan.Add("index", indexTRAccount);
+
+
+                                indexTRAccount++;
+
+                                arrayTRArea.Add(jsonTRPlan);
+                            }
+                            json.Add("area_data", arrayTRArea);
+                        }
+                        else
+                        {
+                            json.Add("area_data", arrayTRArea);
+                        }
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTArea(InputMTArea input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTArea objMTArea = new cls_ctMTArea();
+                cls_MTArea model = new cls_MTArea();
+                model.company_code = input.company_code;
+                model.area_id = input.area_id;
+                model.area_lat = input.area_lat;
+                model.area_long = input.area_long;
+                model.area_distance = input.area_distance;
+                model.location_code = input.location_code;
+                model.project_code = input.project_code;
+
+                model.modified_by = input.username;
+                model.flag = input.flag;
+                string strID = objMTArea.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRArea objTRArea = new cls_ctTRArea();
+                        if (input.area_data.Count > 0)
+                        {
+                            objTRArea.insert(input.area_data);
+                        }
+                        else
+                        {
+                            objTRArea.delete(input.company_code,input.location_code,"");
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTArea.getMessage();
+                }
+
+                objMTArea.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTArea(InputMTArea input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTArea controller = new cls_ctMTArea();
+                bool blnResult = controller.delete(input.company_code,input.area_id,input.location_code);
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctTRArea objTRArea = new cls_ctTRArea();
+                        objTRArea.delete(input.company_code,input.location_code,"");
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
         #region MTWorkflow
         public string getMTWorkflowList(InputMTWorkflow input)
         {

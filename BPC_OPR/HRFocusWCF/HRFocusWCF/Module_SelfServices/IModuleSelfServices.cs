@@ -82,6 +82,20 @@ namespace BPC_OPR
         string doDeleteTRTimeonsite(InputTRTimeonsite input);
         #endregion
 
+        #region MTAccount
+        [OperationContract(Name = "area_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTAreaList(InputMTArea input);
+
+        [OperationContract(Name = "area")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTArea(InputMTArea input);
+
+        [OperationContract(Name = "area_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTArea(InputMTArea input);
+        #endregion
+
         #region MTWorkflow
         [OperationContract(Name = "workflow_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

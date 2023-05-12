@@ -322,6 +322,44 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputMTArea
+    [DataContract]
+    public class InputMTArea
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int area_id { get; set; }
+        [DataMember]
+        public double area_lat { get; set; }
+        [DataMember]
+        public double area_long { get; set; }
+        [DataMember]
+        public double area_distance { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public List<cls_TRArea> area_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
     #region InputMTAccount
     [DataContract]
     public class InputMTAccount
