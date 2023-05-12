@@ -82,6 +82,20 @@ namespace BPC_OPR
         string doDeleteTRTimeonsite(InputTRTimeonsite input);
         #endregion
 
+        #region TRTimeonsite
+        [OperationContract(Name = "timedaytype_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimedaytypeList(InputTRTimedaytype input);
+
+        [OperationContract(Name = "timedaytype")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimedaytype(InputTRTimedaytype input);
+
+        [OperationContract(Name = "timedaytype_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimedaytype(InputTRTimedaytype input);
+        #endregion
+
         #region MTAccount
         [OperationContract(Name = "area_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

@@ -1036,6 +1036,228 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region TRTimedaytype
+        public string getTRTimedaytypeList(InputTRTimedaytype input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self011";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimedaytype objTRTimedaytype = new cls_ctTRTimedaytype();
+                List<cls_TRTimedaytype> listTRTimedaytype = objTRTimedaytype.getDataByFillter(input.company_code,input.timedaytype_id,input.worker_code,input.timedaytype_workdate,input.timedaytype_workdate_to,input.status);
+
+                JArray array = new JArray();
+
+                if (listTRTimedaytype.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimedaytype model in listTRTimedaytype)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("timedaytype_id", model.timedaytype_id);
+                        json.Add("timedaytype_doc", model.timedaytype_doc);
+                        json.Add("timedaytype_workdate", model.timedaytype_workdate.ToString("yyyy-MM-dd"));
+                        json.Add("timedaytype_old", model.timedaytype_old);
+                        json.Add("timedaytype_new", model.timedaytype_new);
+                        json.Add("timedaytype_note", model.timedaytype_note);
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("status", model.status);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRTimedaytype(InputTRTimedaytype input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self011";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            string strID = "";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimedaytype objTRTimedaytype = new cls_ctTRTimedaytype();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRTimedaytype>>(input.timedaytype_data);
+                foreach (cls_TRTimedaytype data in jsonArray)
+                {
+                    cls_TRTimedaytype model = new cls_TRTimedaytype();
+
+                    model.company_code = data.company_code;
+                    model.worker_code = data.worker_code;
+                    model.timedaytype_id = data.timedaytype_id.Equals("") ? 0 : Convert.ToInt32(data.timedaytype_id);
+                    model.timedaytype_doc = data.timedaytype_doc;
+                    model.timedaytype_workdate = Convert.ToDateTime(data.timedaytype_workdate);
+                    model.timedaytype_old = data.timedaytype_old;
+                    model.timedaytype_new = data.timedaytype_new;
+                    model.timedaytype_note = data.timedaytype_note;
+                    model.reason_code = data.reason_code;
+                    model.status = data.status;
+                    model.modified_by = input.username;
+                    model.flag = data.flag;
+
+                    strID = objTRTimedaytype.insert(model);
+                    if (!strID.Equals(""))
+                    {
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTimedaytype.getMessage();
+                }
+
+                objTRTimedaytype.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRTimedaytype(InputTRTimedaytype input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self011";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTimedaytype controller = new cls_ctTRTimedaytype();
+                bool blnResult = controller.delete(input.company_code, input.timedaytype_id, input.worker_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
         #region TRTimeonsite
         public string getTRTimeonsiteList(InputTRTimeonsite input)
         {

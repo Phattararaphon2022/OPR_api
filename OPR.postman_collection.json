@@ -3316,6 +3316,148 @@
 					]
 				},
 				{
+					"name": "Req Time Day Type",
+					"item": [
+						{
+							"name": "SelfServices/timedaytype_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timedaytype_id\":0,\r\n    \"worker_code\":\"\",\r\n    \"timedaytype_workdate\":\"\",\r\n    \"timedaytype_workdate_to\":\"\",\r\n    \"status\":0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timedaytype_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timedaytype_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timedaytype",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timedaytype_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timedaytype_id\\\":0,\\\"timedaytype_doc\\\":\\\"12345\\\",\\\"timedaytype_workdate\\\":\\\"05-12-2023\\\",\\\"timedaytype_old\\\":\\\"O\\\",\\\"timedaytype_new\\\":\\\"N\\\",\\\"timedaytype_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":2,\\\"flag\\\":false}]\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timedaytype",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timedaytype"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/timedaytype_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timedaytype_id\":1,\r\n    \"worker_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timedaytype_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timedaytype_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Area",
 					"item": [
 						{

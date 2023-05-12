@@ -203,6 +203,49 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputTRTimedaytype
+    [DataContract]
+    public class InputTRTimedaytype
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int timedaytype_id { get; set; }
+        [DataMember]
+        public string timedaytype_doc { get; set; }
+        [DataMember]
+        public string timedaytype_workdate { get; set; }
+        [DataMember]
+        public string timedaytype_workdate_to { get; set; }
+        [DataMember]
+        public string timedaytype_old { get; set; }
+        [DataMember]
+        public string timedaytype_new { get; set; }
+        [DataMember]
+        public string timedaytype_note { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public int status { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timedaytype_data { get; set; }
+    }
+    #endregion
+
     #region InputTRTimeonsite
     [DataContract]
     public class InputTRTimeonsite

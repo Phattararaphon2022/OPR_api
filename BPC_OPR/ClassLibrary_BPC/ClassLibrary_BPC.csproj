@@ -104,6 +104,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRLineapprove.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimecheckin.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimedaytype.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeleave.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeonsite.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimeot.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="hrfocus.model\SelfServices\cls_TRArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRLineapprove.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimecheckin.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRTimedaytype.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimeleave.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimeonsite.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimeot.cs" />
