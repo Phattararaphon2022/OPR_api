@@ -67,6 +67,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.paypolitem_code = dr["PAYPOLITEM_CODE"].ToString();
+                    model.worker_detail = dr["WORKER_DETAIL"].ToString();
 
                     model.created_by = dr["CREATED_BY"].ToString();
                     model.created_date = Convert.ToDateTime(dr["CREATED_DATE"]);

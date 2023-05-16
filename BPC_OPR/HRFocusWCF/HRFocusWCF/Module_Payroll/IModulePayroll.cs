@@ -127,7 +127,7 @@ namespace BPC_OPR
 
         [OperationContract(Name = "setbonus_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteBatchBonus(InputTRList input);
+        string doDeleteBatchBonus(InputTRPaypolbonus input);
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetBonus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]

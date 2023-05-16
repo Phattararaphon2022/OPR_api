@@ -247,6 +247,26 @@ namespace BPC_OPR
 
     #endregion
 
+    [DataContract]
+    public class InputTRPaypolbonus
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_detail { get; set; }
+        [DataMember]
+        public string paypolbonus_code { get; set; }        
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+        
     
 
     #region InputMTPeriod

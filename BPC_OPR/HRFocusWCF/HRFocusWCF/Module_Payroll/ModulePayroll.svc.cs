@@ -1631,90 +1631,13 @@ namespace BPC_OPR
         }
         #endregion
         
-        //#region Payroll Set batch
-        //public string doSetBatchBonus(InputTRList input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "PAYSB007.1";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-        //        cls_ctTRBonus objPo = new cls_ctTRBonus();
-        //        List<cls_TRBonus> listPo = new List<cls_TRBonus>();
-        //        bool strID = false;
-        //        foreach (cls_MTWorker modelWorker in input.emp_data)
-        //        {
-        //            cls_TRBonus model = new cls_TRBonus();
-
-        //            model.paypolbonus_code = input.paypolbonus_code;
-        //            model.company_code = input.company_code;
-        //            model.worker_code = modelWorker.worker_code;
-
-        //            model.flag = input.flag;
-        //            model.created_by = input.modified_by;
-
-        //            listPo.Add(model);
-        //        }
-        //        if (listPo.Count > 0)
-        //        {
-        //            strID = objPo.insertlist(input.company_code, input.bonus_code, listPo);
-
-
-        //        }
-        //        if (strID)
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            output["record_id"] = strID;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = objPo.getMessage();
-        //        }
-        //        objPo.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-        //    }
-
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //#endregion
 
         #region batch set bonus
         public string getBatchBonusList(InputTRList input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSB007.1";
+            log.apilog_code = "PAYTRB007.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1785,7 +1708,7 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSB007.2";
+            log.apilog_code = "PAYTRB007.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
             {
@@ -1866,8 +1789,8 @@ namespace BPC_OPR
             }
 
         }
-       
-        public string doDeleteBatchBonus(InputTRList input)
+
+        public string doDeleteBatchBonus(InputTRPaypolbonus input)
         {
             JObject output = new JObject();
 
@@ -1875,8 +1798,8 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSB007.3";
-            log.apilog_by = input.username;
+            log.apilog_code = "PAYTRB007.3";
+            log.apilog_by = input.worker_code;
             log.apilog_data = tmp.ToString();
 
             try
@@ -1889,16 +1812,20 @@ namespace BPC_OPR
                     log.apilog_status = "500";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
                     objBpcOpr.doRecordLog(log);
+
                     return output.ToString(Formatting.None);
                 }
 
                 cls_ctTRBonus controller = new cls_ctTRBonus();
-                bool blnResult = controller.delete(input.company_code, input.worker_code, input.paypolbonus_code);
+
+                bool blnResult = controller.delete(input.company_code, input.worker_code,input.paypolbonus_code);
 
                 if (blnResult)
                 {
+                   
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
+
                     log.apilog_status = "200";
                     log.apilog_message = "";
                 }
@@ -1935,7 +1862,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSB007.4";
+            log.apilog_code = "PAYTRB007.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2394,7 +2321,7 @@ namespace BPC_OPR
                     }
                     if (listPol.Count > 0)
                     {
-                        strID = objPol.insertlist(input.company_code,"", listPol);
+                        strID = objPol.insertlist(input.company_code, input.item_code, listPol);
 
 
                     }

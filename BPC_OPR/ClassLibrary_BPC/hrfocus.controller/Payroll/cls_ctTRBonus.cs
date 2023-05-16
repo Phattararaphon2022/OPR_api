@@ -73,6 +73,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.paypolbonus_code = dr["PAYPOLBONUS_CODE"].ToString();
 
+                    model.worker_detail = dr["WORKER_DETAIL"].ToString();
+
+
                     model.created_by = dr["CREATED_BY"].ToString();
                     model.created_date = Convert.ToDateTime(dr["CREATED_DATE"]);
 
@@ -85,7 +88,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "PAYSB001:" + ex.ToString();
+                Message = "PAYTRB001:" + ex.ToString();
             }
 
             return list_model;
@@ -120,7 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "EMPPST002:" + ex.ToString();
+                Message = "PAYTRB002:" + ex.ToString();
             }
 
             return intResult;
@@ -146,7 +149,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "PAYSB003:" + ex.ToString();
+                Message = "PAYTRB003:" + ex.ToString();
             }
 
             return blnResult;
@@ -165,13 +168,14 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "'");
                 obj_str.Append(" AND PAYPOLBONUS_CODE='" + bonuscode + "'");
-                blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+                blnResult = Obj_conn.doExecuteSQL(obj_str.ToString());
+
 
             }
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "PAYSB004:" + ex.ToString();
+                Message = "PAYTRB004:" + ex.ToString();
             }
 
             return blnResult;
@@ -235,7 +239,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "PAYSB005:" + ex.ToString();
+                Message = "PAYTRB005:" + ex.ToString();
                 //strResult = "";
             }
 
@@ -276,7 +280,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "PAYSB006:" + ex.ToString();
+                Message = "PAYTRB006:" + ex.ToString();
             }
 
             return blnResult;
@@ -381,7 +385,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "PAYSB007:" + ex.ToString();
+                Message = "PAYTRB007:" + ex.ToString();
             }
 
             return blnResult;
