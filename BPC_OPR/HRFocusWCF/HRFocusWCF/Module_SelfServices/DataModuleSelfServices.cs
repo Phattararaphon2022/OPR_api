@@ -403,6 +403,85 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputMTTopic
+    [DataContract]
+    public class InputMTTopic
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int topic_id { get; set; }
+        [DataMember]
+        public string topic_code { get; set; }
+        [DataMember]
+        public string topic_name_th { get; set; }
+        [DataMember]
+        public string topic_name_en { get; set; }
+        [DataMember]
+        public string topic_type { get; set; }
+        [DataMember]
+        public List<cls_MTTopic> topic_data { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
+    #region InputMTReqdoc
+    [DataContract]
+    public class InputMTReqdoc
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int reqdoc_id { get; set; }
+        [DataMember]
+        public string reqdoc_doc { get; set; }
+        [DataMember]
+        public string reqdoc_date { get; set; }
+        [DataMember]
+        public string reqdoc_date_to { get; set; }
+        [DataMember]
+        public string reqdoc_note { get; set; }
+        [DataMember]
+        public string status { get; set; }
+        [DataMember]
+        public List<cls_TRReqempinfo> reqempinfo_data { get; set; }
+        [DataMember]
+        public List<cls_TRReqdocatt> reqdocatt_data { get; set; }
+
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
     #region InputMTAccount
     [DataContract]
     public class InputMTAccount

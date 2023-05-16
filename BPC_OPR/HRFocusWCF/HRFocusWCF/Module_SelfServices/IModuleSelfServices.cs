@@ -82,7 +82,7 @@ namespace BPC_OPR
         string doDeleteTRTimeonsite(InputTRTimeonsite input);
         #endregion
 
-        #region TRTimeonsite
+        #region TRTimedaytype
         [OperationContract(Name = "timedaytype_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRTimedaytypeList(InputTRTimedaytype input);
@@ -96,7 +96,7 @@ namespace BPC_OPR
         string doDeleteTRTimedaytype(InputTRTimedaytype input);
         #endregion
 
-        #region MTAccount
+        #region MTArea
         [OperationContract(Name = "area_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTAreaList(InputMTArea input);
@@ -108,6 +108,38 @@ namespace BPC_OPR
         [OperationContract(Name = "area_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeMTArea(InputMTArea input);
+        #endregion
+
+        #region MTTopic
+        [OperationContract(Name = "topic_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTTopicList(InputMTTopic input);
+
+        [OperationContract(Name = "topic")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTTopic(InputMTTopic input);
+
+        [OperationContract(Name = "topic_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTTopic(InputMTTopic input);
+        #endregion
+
+        #region MTTopic
+        [OperationContract(Name = "reqdoc_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqdocList(InputMTReqdoc input);
+
+        [OperationContract(Name = "reqdoc")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTReqdoc(InputMTReqdoc input);
+
+        [OperationContract(Name = "reqdoc_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTReqdoc(InputMTReqdoc input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReqdoc?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTReqdoc(string token, string by, string fileName, Stream stream);
         #endregion
 
         #region MTWorkflow

@@ -3600,6 +3600,337 @@
 					]
 				},
 				{
+					"name": "Topic",
+					"item": [
+						{
+							"name": "SelfServices/topic_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"topic_id\":0,\r\n    \"topic_code\":\"\",\r\n    \"topic_type\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/topic_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"topic_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/topic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"topic_id\":0,\r\n    \"topic_code\":\"0001\",\r\n    \"topic_name_th\":\"แก้ไขข้อมูล\",\r\n    \"topic_name_en\":\"Edit info\",\r\n    \"topic_type\":\"EMP\",\r\n    \"flag\":false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/topic",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"topic"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/topic_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"topic_id\":1,\r\n    \"topic_code\":\"0001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/topic_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"topic_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Req Doc",
+					"item": [
+						{
+							"name": "SelfServices/reqdoc_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":0,\r\n    \"worker_code\":\"\",\r\n    \"reqdoc_date\":\"\",\r\n    \"reqdoc_date_to\":\"\",\r\n    \"status\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/reqdoc_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"reqdoc_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/reqdoc",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":1,\r\n    \"worker_code\":\"EMP01\",\r\n    \"reqdoc_doc\":\"DOC_20230516133520\",\r\n    \"reqdoc_date\":\"16-05-2023\",\r\n    \"reqdoc_note\":\"TEST\",\r\n    \"status\":\"2\",\r\n    \"reqempinfo_data\":[\r\n        {\r\n            \"reqdoc_id\":0,\r\n            \"reqdocempinfo_no\":0,\r\n            \"topic_code\":\"0001\",\r\n            \"reqempinfo_detail\":\"TESTEMPINFO\"\r\n        }\r\n    ],\r\n    \"reqdocatt_data\":[\r\n        {\r\n            \"reqdoc_id\":0,\r\n            \"reqdoc_att_no\":0,\r\n            \"reqdoc_att_file_name\":\"TESTDOCATT_01\",\r\n            \"reqdoc_att_file_type\":\"PDF\",\r\n            \"reqdoc_att_path\":\"C:/temp/TESTDOCATT_01.pdf\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/reqdoc",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"reqdoc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/reqdoc_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/reqdoc_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"reqdoc_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Attendance/doUploadMTPlanholiday Copy",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/phattaraphon.p/Downloads/Workflow Onweb(1).pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/doUploadMTReqdoc?fileName=DOC_20230516143822.pdf&token=Bearer {{token}}&by=Adminn",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"doUploadMTReqdoc"
+									],
+									"query": [
+										{
+											"key": "fileName",
+											"value": "DOC_20230516143822.pdf"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}"
+										},
+										{
+											"key": "by",
+											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Workflow",
 					"item": [
 						{

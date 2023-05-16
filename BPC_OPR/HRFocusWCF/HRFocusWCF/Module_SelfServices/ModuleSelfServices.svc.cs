@@ -34,6 +34,39 @@ namespace BPC_OPR
     {
         BpcOpr objBpcOpr = new BpcOpr();
 
+        private async Task<bool> doUploadFile(string fileName, Stream stream)
+        {
+            bool result = false;
+
+            try
+            {
+                string FilePath = Path.Combine
+                  (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
+
+                MultipartParser parser = new MultipartParser(stream);
+
+                if (parser.Success)
+                {
+                    //absolute filename, extension included.
+                    var filename = parser.Filename;
+                    var filetype = parser.ContentType;
+                    var ext = Path.GetExtension(filename);
+
+                    using (var file = File.Create(FilePath))
+                    {
+                        await file.WriteAsync(parser.FileContents, 0, parser.FileContents.Length);
+                        result = true;
+
+                    }
+                }
+
+            }
+            catch { }
+
+            return result;
+
+        }
+
         #region TRTimeleave
         public string getTRTimeleaveList(InputTRTimeleave input)
         {
@@ -1743,6 +1776,595 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
 
+        }
+        #endregion
+
+        #region MTTopic
+        public string getMTTopicList(InputMTTopic input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTTopic objMTTopic = new cls_ctMTTopic();
+                List<cls_MTTopic> list = objMTTopic.getDataByFillter(input.company_code,input.topic_id,input.topic_code,input.topic_type);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTTopic model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("topic_id", model.topic_id);
+                        json.Add("topic_code", model.topic_code);
+                        json.Add("topic_name_th", model.topic_name_th);
+                        json.Add("topic_name_en", model.topic_name_en);
+                        json.Add("topic_type", model.topic_type);
+     
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+          
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTTopic(InputMTTopic input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTTopic objMTTopic = new cls_ctMTTopic();
+                cls_MTTopic model = new cls_MTTopic();
+                model.company_code = input.company_code;
+                model.topic_id = input.topic_id;
+                model.topic_code = input.topic_code;
+                model.topic_name_th = input.topic_name_th;
+                model.topic_name_en = input.topic_name_en;
+                model.topic_type = input.topic_type;
+
+                model.modified_by = input.username;
+                model.flag = input.flag;
+                string strID = objMTTopic.insert(model);
+                if (!strID.Equals(""))
+                {
+                 
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTTopic.getMessage();
+                }
+
+                objMTTopic.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTTopic(InputMTTopic input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTTopic controller = new cls_ctMTTopic();
+                bool blnResult = controller.delete(input.company_code,input.topic_id,input.topic_code);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region MTReqdoc
+        public string getMTReqdocList(InputMTReqdoc input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTReqdoc objMTReqdoc = new cls_ctMTReqdoc();
+                List<cls_MTReqdoc> list = objMTReqdoc.getDataByFillter(input.company_code,input.reqdoc_id,input.worker_code,input.reqdoc_date,input.reqdoc_date_to,input.status);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTReqdoc model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("reqdoc_id", model.reqdoc_id);
+                        json.Add("reqdoc_doc", model.reqdoc_doc);
+                        json.Add("reqdoc_date", model.reqdoc_date);
+                        json.Add("reqdoc_note", model.reqdoc_note);
+                        json.Add("status", model.status);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
+                        List<cls_TRReqempinfo> listTRReqempinfo = objTRReqempinfo.getDataByFillter(model.reqdoc_id,0,0);
+                        JArray arrayTRReqempinfo = new JArray();
+                        if (listTRReqempinfo.Count > 0)
+                        {
+                            int indexTR = 1;
+
+                            foreach (cls_TRReqempinfo modelTRReqempinfo in listTRReqempinfo)
+                            {
+                                JObject jsonTRReqempinfo = new JObject();
+                                jsonTRReqempinfo.Add("reqdoc_id", modelTRReqempinfo.reqdoc_id);
+                                jsonTRReqempinfo.Add("reqdocempinfo_no", modelTRReqempinfo.reqdocempinfo_no);
+                                jsonTRReqempinfo.Add("topic_code", modelTRReqempinfo.topic_code);
+                                jsonTRReqempinfo.Add("reqempinfo_detail", modelTRReqempinfo.reqempinfo_detail);
+
+                                jsonTRReqempinfo.Add("index", indexTR);
+
+
+                                indexTR++;
+
+                                arrayTRReqempinfo.Add(jsonTRReqempinfo);
+                            }
+                            json.Add("reqempinfo_data", arrayTRReqempinfo);
+                        }
+                        else
+                        {
+                            json.Add("reqempinfo_data", arrayTRReqempinfo);
+                        }
+                        cls_ctTRReqdocatt objTRReqedocatt = new cls_ctTRReqdocatt();
+                        List<cls_TRReqdocatt> listTRReqdocatt = objTRReqedocatt.getDataByFillter(model.reqdoc_id,0,"","");
+                        JArray arrayTRReqdocatt = new JArray();
+                        if (listTRReqdocatt.Count > 0)
+                        {
+                            int indexTR = 1;
+
+                            foreach (cls_TRReqdocatt modelTRReqdocatt in listTRReqdocatt)
+                            {
+                                JObject jsonTRReqdocatt = new JObject();
+                                jsonTRReqdocatt.Add("reqdoc_id", modelTRReqdocatt.reqdoc_id);
+                                jsonTRReqdocatt.Add("reqdoc_att_no", modelTRReqdocatt.reqdoc_att_no);
+                                jsonTRReqdocatt.Add("reqdoc_att_file_name", modelTRReqdocatt.reqdoc_att_file_name);
+                                jsonTRReqdocatt.Add("reqdoc_att_file_type", modelTRReqdocatt.reqdoc_att_file_type);
+                                jsonTRReqdocatt.Add("reqdoc_att_path", modelTRReqdocatt.reqdoc_att_path);
+
+                                jsonTRReqdocatt.Add("index", indexTR);
+
+
+                                indexTR++;
+
+                                arrayTRReqdocatt.Add(jsonTRReqdocatt);
+                            }
+                            json.Add("reqdocatt_data", arrayTRReqdocatt);
+                        }
+                        else
+                        {
+                            json.Add("reqdocatt_data", arrayTRReqdocatt);
+                        }
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTReqdoc(InputMTReqdoc input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTReqdoc objMTReqdoc= new cls_ctMTReqdoc();
+                cls_MTReqdoc model = new cls_MTReqdoc();
+                model.company_code = input.company_code;
+                model.reqdoc_id = input.reqdoc_id;
+                model.worker_code = input.worker_code;
+                model.reqdoc_doc = input.reqdoc_doc;
+                model.reqdoc_date = Convert.ToDateTime(input.reqdoc_date);
+                model.reqdoc_note = input.reqdoc_note;
+                model.status = Convert.ToInt32(input.status);
+
+                model.modified_by = input.username;
+                model.flag = input.flag;
+                string strID = objMTReqdoc.insert(model);
+                if (!strID.Equals(""))
+                {
+                    if (input.reqempinfo_data.Count > 0)
+                    {
+                        cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
+                        foreach (cls_TRReqempinfo data in input.reqempinfo_data)
+                        {
+                            cls_TRReqempinfo modelempinfo = new cls_TRReqempinfo();
+
+                            modelempinfo.reqdoc_id = Convert.ToInt32(strID);
+                            modelempinfo.reqdocempinfo_no = data.reqdocempinfo_no;
+                            modelempinfo.topic_code = data.topic_code;
+                            modelempinfo.reqempinfo_detail = data.reqempinfo_detail;
+
+                            strID = objTRReqempinfo.insert(modelempinfo);
+                            if (!strID.Equals(""))
+                            {
+
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                    }
+                    if (input.reqdocatt_data.Count > 0)
+                    {
+                        cls_ctTRReqdocatt objTRReqdocatt = new cls_ctTRReqdocatt();
+                        foreach (cls_TRReqdocatt data in input.reqdocatt_data)
+                        {
+                            cls_TRReqdocatt modeldocatt = new cls_TRReqdocatt();
+
+                            modeldocatt.reqdoc_id = Convert.ToInt32(strID);
+                            modeldocatt.reqdoc_att_no = data.reqdoc_att_no;
+                            modeldocatt.reqdoc_att_file_name = data.reqdoc_att_file_name;
+                            modeldocatt.reqdoc_att_file_type = data.reqdoc_att_file_type;
+                            modeldocatt.reqdoc_att_path = data.reqdoc_att_path;
+
+                            strID = objTRReqdocatt.insert(modeldocatt);
+                            if (!strID.Equals(""))
+                            {
+
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTReqdoc.getMessage();
+                }
+
+                objMTReqdoc.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTReqdoc(InputMTReqdoc input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTReqdoc controller = new cls_ctMTReqdoc();
+                bool blnResult = controller.delete(input.company_code,input.reqdoc_id,"","");
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
+                        objTRReqempinfo.delete(input.reqdoc_id,0);
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    try
+                    {
+                        cls_ctTRReqdocatt objTRReqdocatt = new cls_ctTRReqdocatt();
+                        objTRReqdocatt.delete(input.reqdoc_id,0);
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTReqdoc(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    string FilePath = Path.Combine
+              (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
+                    output["success"] = true;
+                    output["message"] = FilePath;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
         }
         #endregion
 
