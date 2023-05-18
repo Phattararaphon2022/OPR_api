@@ -275,6 +275,42 @@ namespace BPC_OPR
     }
 #endregion
 
+    #region InputTRLeave
+    [DataContract]
+    public class InputTRLeave
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string year_code { get; set; }
+        [DataMember]
+        public string leave_code { get; set; }
+        [DataMember]
+        public double empleaveacc_bf { get; set; }
+        [DataMember]
+        public double empleaveacc_annual { get; set; }
+        [DataMember]
+        public double empleaveacc_used { get; set; }
+        [DataMember]
+        public double empleaveacc_remain { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
     #region InputMTPlanleave
     [DataContract]
     public class InputMTPlanleave
