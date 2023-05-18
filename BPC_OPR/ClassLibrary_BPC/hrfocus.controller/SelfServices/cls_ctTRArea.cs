@@ -220,7 +220,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str2.Append(" WHERE 1=1 ");
                 obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
                 obj_str2.Append(" AND LOCATION_CODE='" + list_model[0].location_code + "' ");
-                obj_str2.Append(" AND WORKER_CODE IN (" + emp + ")");
+                //obj_str2.Append(" AND WORKER_CODE IN (" + emp + ")");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
                 if (blnResult)
