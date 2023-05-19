@@ -59,6 +59,8 @@ namespace BPC_OPR
         public bool flag { get; set; }
         [DataMember]
         public string leave_data { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
     }
     #endregion  
 
@@ -525,6 +527,9 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
+
+        [DataMember]
+        public string workflow_type { get; set; }
 
     }
     #endregion

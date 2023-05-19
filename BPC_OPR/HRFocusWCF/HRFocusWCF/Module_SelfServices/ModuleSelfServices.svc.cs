@@ -323,6 +323,68 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
+        public string doGetLeaveActualDay(InputTRTimeleave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self007";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
+                DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
+
+                cls_ctTRTimecard objTRTimecard = new cls_ctTRTimecard();
+                List<cls_TRTimecard> listTRTimecard = objTRTimecard.getDataByFillter(input.company_code,input.project_code,input.worker_code,datefrom,dateto);
+
+                int intDays = 0;
+
+                if (listTRTimecard.Count > 0)
+                {
+                    foreach (cls_TRTimecard model in listTRTimecard)
+                    {
+                        if (model.timecard_daytype.Equals("O") || model.timecard_daytype.Equals("H") || model.timecard_daytype.Equals("C"))
+                        {
+
+                        }
+                        else
+                        {
+                            intDays++;
+                        }
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = intDays;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = intDays;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         #endregion
 
         #region TRTimeot
@@ -3231,6 +3293,73 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
 
+        }
+        public string getMTAccountworkflowList(InputMTAccount input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(input.company_code, input.account_user, input.account_type, input.workflow_type);
+
+                JArray array = new JArray();
+
+                if (listTRAccount.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRAccount model in listTRAccount)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("account_user", model.account_user);
+                        json.Add("account_type", model.account_type);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empposition_position", model.empposition_position);
+                        json.Add("position_level", model.position_level);
+                        json.Add("workflow_code", model.workflow_code);
+                        json.Add("workflow_type", model.workflow_type);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
         }
         #endregion
 

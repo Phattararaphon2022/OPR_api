@@ -594,6 +594,12 @@ namespace BPC_OPR
     public class InputTRTimecard
     {
         [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
         public string company_code { get; set; }        
         [DataMember]
         public string worker_code { get; set; }
@@ -606,6 +612,8 @@ namespace BPC_OPR
         public string shift_code { get; set; }
         [DataMember]
         public string timecard_workdate { get; set; }
+        [DataMember]
+        public string timecard_workdate_to { get; set; }
         [DataMember]
         public string timecard_daytype { get; set; }
         [DataMember]

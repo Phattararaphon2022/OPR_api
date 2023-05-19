@@ -24,6 +24,10 @@ namespace BPC_OPR
         [OperationContract(Name = "timeleave_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTRTimeleave(InputTRTimeleave input);
+
+        [OperationContract(Name = "timeleave_actualday")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetLeaveActualDay(InputTRTimeleave input);
         #endregion
 
         #region TRTimeot
@@ -186,6 +190,11 @@ namespace BPC_OPR
         [OperationContract(Name = "account_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeMTAccount(InputMTAccount input);
+
+
+        [OperationContract(Name = "account_workflow")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTAccountworkflowList(InputMTAccount input);
         #endregion
 
         #region TRAccountpos
