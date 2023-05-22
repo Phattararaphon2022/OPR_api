@@ -219,6 +219,22 @@ namespace BPC_OPR
                     {
                         cls_srvProcessTime srv_time = new cls_srvProcessTime();
                         srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code,"",model.worker_code,"","LEA");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "LEA";
+                            modeljob.status_job = "W";
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
                     }
                     else
                     {
@@ -289,6 +305,8 @@ namespace BPC_OPR
                 {
                     cls_srvProcessTime srv_time = new cls_srvProcessTime();
                     srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(model.company_code, 0, model.timeleave_id.ToString(), "LEA");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -547,6 +565,22 @@ namespace BPC_OPR
                     strID = objTRTime.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "OT");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "OT";
+                            modeljob.status_job = "W";
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
                         
                     }
                     else
@@ -615,6 +649,8 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(input.company_code, 0, input.timeot_id.ToString(), "OT");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -789,7 +825,22 @@ namespace BPC_OPR
                     strID = objTRTime.insert(model);
                     if (!strID.Equals(""))
                     {
-
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "SHT");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "SHT";
+                            modeljob.status_job = "W";
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
                     }
                     else
                     {
@@ -870,6 +921,8 @@ namespace BPC_OPR
 
                         objTRTimecard.update(timecard);
                     }
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(input.company_code, 0, input.timeshift_id.ToString(), "SHT");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1250,7 +1303,22 @@ namespace BPC_OPR
                     strID = objTRTimedaytype.insert(model);
                     if (!strID.Equals(""))
                     {
-
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "DAT");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "DAT";
+                            modeljob.status_job = "W";
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
                     }
                     else
                     {
@@ -1317,6 +1385,8 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(input.company_code, 0, input.timedaytype_id.ToString(), "DAT");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1482,7 +1552,22 @@ namespace BPC_OPR
                     strID = objTRTimeonsite.insert(model);
                     if (!strID.Equals(""))
                     {
-
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "ONS");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "ONS";
+                            modeljob.status_job = "W";
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
                     }
                     else
                     {
@@ -1549,6 +1634,8 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(input.company_code, 0, input.timeonsite_id.ToString(), "ONS");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -2427,6 +2514,211 @@ namespace BPC_OPR
             }
 
             return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region MTJobtable
+        public string getMTJobtableList(InputMTJobtable input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                List<cls_MTJobtable> list = objMTJob.getDataByFillter(input.company_code, input.jobtable_id, input.job_id, input.job_type, input.workflow_code, input.status_job, input.job_date, input.job_date_to);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTJobtable model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("jobtable_id", model.jobtable_id);
+                        json.Add("job_id", model.job_id);
+                        json.Add("job_type", model.job_type);
+                        json.Add("status_job", model.status_job);
+                        json.Add("job_nextstep", model.job_nextstep);
+                        json.Add("job_date", model.job_date);
+                        json.Add("job_finishdate", model.job_finishdate);
+                        json.Add("workflow_code", model.workflow_code);
+
+                        json.Add("created_by", model.created_by);
+                        json.Add("created_date", model.created_date);
+                  
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTJobtable(InputMTJobtable input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                cls_MTJobtable model = new cls_MTJobtable();
+                model.company_code = input.company_code;
+                model.jobtable_id = input.jobtable_id;
+                model.job_id = input.job_id;
+                model.job_type = input.job_type;
+                model.status_job = input.status_job;
+                model.job_nextstep = input.job_nextstep;
+                model.job_date = Convert.ToDateTime(input.job_date);
+                model.job_finishdate = Convert.ToDateTime(input.job_finishdate);
+                model.workflow_code = input.workflow_code;
+
+                model.created_by = input.username;
+                string strID = objMTJob.insert(model);
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTJob.getMessage();
+                }
+
+                objMTJob.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTJobtable(InputMTJobtable input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTJobtable controller = new cls_ctMTJobtable();
+                bool blnResult = controller.delete(input.company_code,input.jobtable_id,input.job_id,input.job_type);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
         }
         #endregion
 
@@ -3317,7 +3609,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(input.company_code, input.account_user, input.account_type, input.workflow_type);
+                List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(input.company_code, input.account_user,input.worker_code,input.account_type,input.workflow_type);
 
                 JArray array = new JArray();
 
@@ -3337,6 +3629,7 @@ namespace BPC_OPR
                         json.Add("position_level", model.position_level);
                         json.Add("workflow_code", model.workflow_code);
                         json.Add("workflow_type", model.workflow_type);
+                        json.Add("totalapprove", model.totalapprove);
                         json.Add("index", index);
 
                         index++;

@@ -484,6 +484,48 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputMTJobtable
+    [DataContract]
+    public class InputMTJobtable
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int jobtable_id { get; set; }
+        [DataMember]
+        public string job_id { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
+        [DataMember]
+        public string status_job { get; set; }
+        [DataMember]
+        public int job_nextstep { get; set; }
+        [DataMember]
+        public string job_date { get; set; }
+        [DataMember]
+        public string job_date_to { get; set; }
+        [DataMember]
+        public string job_finishdate { get; set; }
+        [DataMember]
+        public string workflow_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
     #region InputMTAccount
     [DataContract]
     public class InputMTAccount
@@ -530,6 +572,8 @@ namespace BPC_OPR
 
         [DataMember]
         public string workflow_type { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
 
     }
     #endregion

@@ -75,6 +75,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdoc.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTTopic.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccount.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="hrfocus.model\Payroll\cls_TRProvidentWorkage.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRTaxrate.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTArea.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTJobtable.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdoc.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTTopic.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTWorkflow.cs" />

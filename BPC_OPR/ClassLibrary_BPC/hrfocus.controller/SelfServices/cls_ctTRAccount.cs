@@ -101,6 +101,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMP_MT_POSITION.POSITION_LEVEL ");
                 obj_str.Append(", ISNULL(SELF_TR_LINEAPPROVE.WORKFLOW_CODE,'') AS WORKFLOW_CODE ");
                 obj_str.Append(", ISNULL(SELF_TR_LINEAPPROVE.WORKFLOW_TYPE,'') AS WORKFLOW_TYPE ");
+                obj_str.Append(", SELF_MT_WORKFLOW.TOTALAPPROVE ");
 
                 obj_str.Append(" FROM SELF_TR_ACCOUNT");
                 obj_str.Append(" JOIN EMP_TR_POSITION ON EMP_TR_POSITION.WORKER_CODE = SELF_TR_ACCOUNT.WORKER_CODE AND EMP_TR_POSITION.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
@@ -109,6 +110,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND EMP_MT_POSITION.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
                 obj_str.Append(" LEFT JOIN SELF_TR_LINEAPPROVE ON SELF_TR_LINEAPPROVE.POSITION_LEVEL = EMP_MT_POSITION.POSITION_LEVEL");
                 obj_str.Append(" AND SELF_TR_LINEAPPROVE.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" LEFT JOIN SELF_MT_WORKFLOW ON SELF_MT_WORKFLOW.WORKFLOW_CODE = SELF_TR_LINEAPPROVE.WORKFLOW_CODE");
+                obj_str.Append(" AND SELF_MT_WORKFLOW.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -128,6 +131,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.position_level = Convert.ToInt32(dr["POSITION_LEVEL"].ToString());
                     model.workflow_code = dr["WORKFLOW_CODE"].ToString();
                     model.workflow_type = dr["WORKFLOW_TYPE"].ToString();
+                    model.totalapprove = Convert.ToInt32(dr["TOTALAPPROVE"]);
 
                     list_model.Add(model);
                 }
@@ -141,7 +145,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRAccount> getDataworkflowByFillter(string com, string user, string type, string workflow_type)
+        public List<cls_TRAccount> getDataworkflowByFillter(string com, string user,string worker_code, string type, string workflow_type)
         {
             string strCondition = "";
             if (!com.Equals(""))
@@ -149,6 +153,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!user.Equals(""))
                 strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_USER='" + user + "'";
+
+            if (!worker_code.Equals(""))
+                strCondition += " AND SELF_TR_ACCOUNT.WORKER_CODE='" + worker_code + "'";
 
             if (!type.Equals(""))
                 strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_TYPE='" + type + "'";

@@ -2886,6 +2886,45 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "SelfServices/timeleave_del Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"project_code\":\"\",\r\n    \"timeleave_fromdate\":\"2023-04-12\",\r\n    \"timeleave_todate\":\"2023-04-17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/timeleave_actualday",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"timeleave_actualday"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -4073,6 +4112,148 @@
 					]
 				},
 				{
+					"name": "Jobtable",
+					"item": [
+						{
+							"name": "SelfServices/jobtable_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"jobtable_id\":0,\r\n    \"job_id\":\"\",\r\n    \"job_type\":\"\",\r\n    \"workflow_code\":\"\",\r\n    \"status_job\":\"\",\r\n    \"job_date\":\"\",\r\n    \"job_date_to\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/jobtable_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"jobtable_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/jobtable",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"jobtable_id\":0,\r\n    \"job_id\":\"1\",\r\n    \"job_type\":\"LEA\",\r\n    \"status_job\":\"W\",\r\n    \"job_nextstep\":1,\r\n    \"job_date\":\"27-05-2023\",\r\n    \"job_finishdate\":\"28-05-2023\",\r\n    \"workflow_code\":\"LV1-2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/jobtable",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"jobtable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/jobtable_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"jobtable_id\":0,\r\n    \"job_id\":\"1\",\r\n    \"job_type\":\"LEA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/jobtable_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"jobtable_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Workflow",
 					"item": [
 						{
@@ -4530,6 +4711,45 @@
 										"ModuleSelfServices.svc",
 										"SelfServices",
 										"account_del"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/account_workflow",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"EMP01\",\r\n    \"account_type\":\"Emp\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"worker_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/account_workflow",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"account_workflow"
 									]
 								}
 							},
