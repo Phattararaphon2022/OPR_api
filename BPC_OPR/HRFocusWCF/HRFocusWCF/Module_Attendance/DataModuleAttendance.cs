@@ -531,6 +531,9 @@ namespace BPC_OPR
         public string pol_type { get; set; }
         [DataMember]
         public string pol_note { get; set; }
+
+        [DataMember]
+        public string year_code { get; set; }
         [DataMember]
         public List<cls_MTWorker> emp_data { get; set; }
         [DataMember]

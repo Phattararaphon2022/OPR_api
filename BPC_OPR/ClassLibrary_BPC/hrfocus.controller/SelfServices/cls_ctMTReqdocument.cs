@@ -6,13 +6,13 @@ using ClassLibrary_BPC.hrfocus.model;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctMTJobtable
+   public class cls_ctMTReqdocument
     {
-          string Message = string.Empty;
+        string Message = string.Empty;
 
         cls_ctConnection Obj_conn = new cls_ctConnection();
 
-        public cls_ctMTJobtable() { }
+        public cls_ctMTReqdocument() { }
 
         public string getMessage() { return this.Message; }
 
@@ -21,10 +21,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_MTJobtable> getData(string condition)
+        private List<cls_MTReqdocument> getData(string condition)
         {
-            List<cls_MTJobtable> list_model = new List<cls_MTJobtable>();
-            cls_MTJobtable model;
+            List<cls_MTReqdocument> list_model = new List<cls_MTReqdocument>();
+            cls_MTReqdocument model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -32,41 +32,38 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", JOBTABLE_ID");
+                obj_str.Append(", DOCUMENT_ID");
                 obj_str.Append(", JOB_ID");
                 obj_str.Append(", JOB_TYPE");
-                obj_str.Append(", STATUS_JOB");
-                obj_str.Append(", JOB_NEXTSTEP");
-                obj_str.Append(", JOB_DATE");
-                obj_str.Append(", ISNULL(JOB_FINISHDATE, JOB_DATE) AS JOB_FINISHDATE");
-                obj_str.Append(", WORKFLOW_CODE");
-
+                obj_str.Append(", DOCUMENT_NAME");
+                obj_str.Append(", DOCUMENT_TYPE");
+                obj_str.Append(", DOCUMENT_PATH");
+              
                 obj_str.Append(", CREATED_BY");
                 obj_str.Append(", CREATED_DATE");
 
-                obj_str.Append(" FROM SELF_MT_JOBTABLE");
+                obj_str.Append(" FROM SELF_MT_REQDOCUMENT");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY JOB_DATE");
+                obj_str.Append(" ORDER BY DOCUMENT_ID");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_MTJobtable();
+                    model = new cls_MTReqdocument();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.jobtable_id = Convert.ToInt32(dr["JOBTABLE_ID"]);
+                    model.document_id = Convert.ToInt32(dr["DOCUMENT_ID"]);
                     model.job_id = dr["JOB_ID"].ToString();
                     model.job_type = dr["JOB_TYPE"].ToString();
-                    model.status_job = dr["STATUS_JOB"].ToString();
-                    model.job_nextstep = Convert.ToInt32(dr["JOB_NEXTSTEP"]);
-                    model.job_date = Convert.ToDateTime(dr["JOB_DATE"]);
-                    model.job_finishdate = Convert.ToDateTime(dr["JOB_FINISHDATE"]);
-                    model.workflow_code = dr["WORKFLOW_CODE"].ToString();
+                    model.document_name = dr["DOCUMENT_NAME"].ToString();
+                    model.document_type = dr["DOCUMENT_TYPE"].ToString();
+                    model.document_path = dr["DOCUMENT_PATH"].ToString();
+              
                     model.created_by = dr["CREATED_BY"].ToString();
                     model.created_date = Convert.ToDateTime(dr["CREATED_DATE"]);
 
@@ -76,19 +73,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(MTJobtable.getData)" + ex.ToString();
+                Message = "ERROR::(MTReqdocument.getData)" + ex.ToString();
             }
 
             return list_model;
         }
-        public List<cls_MTJobtable> getDataByFillter(string com, int jabtable_id, string job_id, string job_type,string workflow_code, string status, string datefrom, string dateto)
+        public List<cls_MTReqdocument> getDataByFillter(string com, int doc_id, string job_id, string job_type)
         {
             string strCondition = "";
             if(!com.Equals(""))
                 strCondition += " AND COMPANY_CODE='" + com + "'";
 
-            if (!jabtable_id.Equals(0))
-                strCondition += " AND JOBTABLE_ID='" + jabtable_id + "'";
+            if (!doc_id.Equals(0))
+                strCondition += " AND DOCUMENT_ID='" + doc_id + "'";
 
             if (!job_id.Equals(""))
                 strCondition += " AND JOB_ID='" + job_id + "'";
@@ -96,33 +93,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!job_type.Equals(""))
                 strCondition += " AND JOB_TYPE='" + job_type + "'";
 
-            if (!workflow_code.Equals(""))
-                strCondition += " AND WORKFLOW_CODE='" + workflow_code + "'";
-
-            if (!status.Equals(""))
-                strCondition += " AND STATUS_JOB='" + status + "'";
-
-            if (!datefrom.Equals("") && !dateto.Equals(""))
-                strCondition += " AND (JOB_DATE BETWEEN '" + datefrom + "' AND '" + dateto + "'";
-
             return this.getData(strCondition);
         }
-        public bool checkDataOld(string com, int jobtable_id,string job_id,string job_type)
+        public bool checkDataOld(string com, int doc_id)
         {
             bool blnResult = false;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT JOB_ID");
-                obj_str.Append(" FROM SELF_MT_JOBTABLE");
+                obj_str.Append("SELECT DOCUMENT_ID");
+                obj_str.Append(" FROM SELF_MT_REQDOCUMENT");
                 obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
-                if (!jobtable_id.Equals(0))
-                    obj_str.Append(" AND JOBTABLE_ID='" + jobtable_id + "'");
-                if (!job_id.Equals(""))
-                    obj_str.Append(" AND JOB_ID='" + job_id + "'");
-                if (!job_type.Equals(""))
-                    obj_str.Append(" AND JOB_TYPE='" + job_type + "'");
+                obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -133,12 +116,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(MTJobtable.checkDataOld)" + ex.ToString();
+                Message = "ERROR::(MTReqdocument.checkDataOld)" + ex.ToString();
             }
 
             return blnResult;
         }
-        public bool delete(string com, int jobtable_id, string job_id, string job_type)
+        public bool delete(string com, int doc_id, string job_id, string job_type)
         {
             bool blnResult = true;
             try
@@ -147,14 +130,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM SELF_MT_JOBTABLE");
-                obj_str.Append(" WHERE 1=1 ");
-                if (!com.Equals(""))
-                    obj_str.Append(" AND COMPANY_CODE='" + com + "'");
-                if (!jobtable_id.Equals(0))
-                    obj_str.Append(" AND JOBTABLE_ID='" + jobtable_id + "'");
+                obj_str.Append(" DELETE FROM SELF_MT_REQDOCUMENT");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+                if (!doc_id.Equals(0))
+                    obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
+
                 if (!job_id.Equals(""))
                     obj_str.Append(" AND JOB_ID='" + job_id + "'");
+
                 if (!job_type.Equals(""))
                     obj_str.Append(" AND JOB_TYPE='" + job_type + "'");
 
@@ -164,7 +147,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "ERROR::(MTJobtable.delete)" + ex.ToString();
+                Message = "ERROR::(MTReqdocument.delete)" + ex.ToString();
             }
 
             return blnResult;
@@ -176,8 +159,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT MAX(JOBTABLE_ID) ");
-                obj_str.Append(" FROM SELF_MT_JOBTABLE");
+                obj_str.Append("SELECT MAX(DOCUMENT_ID) ");
+                obj_str.Append(" FROM SELF_MT_REQDOCUMENT");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -188,36 +171,34 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(MTJobtable.getNextID)" + ex.ToString();
+                Message = "ERROR::(MTReqdocument.getNextID)" + ex.ToString();
             }
 
             return intResult;
         }
-        public string insert(cls_MTJobtable model)
+        public string insert(cls_MTReqdocument model)
         {
             string blnResult = "";
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code,model.jobtable_id,model.job_id,model.job_type))
+                if (this.checkDataOld(model.company_code,model.document_id))
                 {
-                    return this.update(model);
+                    return model.document_id.ToString();
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
-                obj_str.Append("INSERT INTO SELF_MT_JOBTABLE");
+                obj_str.Append("INSERT INTO SELF_MT_REQDOCUMENT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
-                obj_str.Append(", JOBTABLE_ID");
+                obj_str.Append(", DOCUMENT_ID");
                 obj_str.Append(", JOB_ID");
                 obj_str.Append(", JOB_TYPE");
-                obj_str.Append(", STATUS_JOB");
-                obj_str.Append(", JOB_NEXTSTEP");
-                obj_str.Append(", JOB_DATE");
-                //obj_str.Append(", JOB_FINISHDATE");
-                obj_str.Append(", WORKFLOW_CODE");
+                obj_str.Append(", DOCUMENT_NAME");
+                obj_str.Append(", DOCUMENT_TYPE");
+                obj_str.Append(", DOCUMENT_PATH");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -225,14 +206,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
-                obj_str.Append(", @JOBTABLE_ID ");
+                obj_str.Append(", @DOCUMENT_ID ");
                 obj_str.Append(", @JOB_ID ");
                 obj_str.Append(", @JOB_TYPE ");
-                obj_str.Append(", @STATUS_JOB ");
-                obj_str.Append(", @JOB_NEXTSTEP ");
-                obj_str.Append(", @JOB_DATE ");
-                //obj_str.Append(", @JOB_FINISHDATE ");
-                obj_str.Append(", @WORKFLOW_CODE ");
+                obj_str.Append(", @DOCUMENT_NAME ");
+                obj_str.Append(", @DOCUMENT_TYPE ");
+                obj_str.Append(", @DOCUMENT_PATH ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -243,14 +222,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@JOBTABLE_ID", SqlDbType.Int); obj_cmd.Parameters["@JOBTABLE_ID"].Value = id; ;
+                obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = id; ;
                 obj_cmd.Parameters.Add("@JOB_ID", SqlDbType.VarChar); obj_cmd.Parameters["@JOB_ID"].Value = model.job_id;
                 obj_cmd.Parameters.Add("@JOB_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@JOB_TYPE"].Value = model.job_type;
-                obj_cmd.Parameters.Add("@STATUS_JOB", SqlDbType.Char); obj_cmd.Parameters["@STATUS_JOB"].Value = model.status_job;
-                obj_cmd.Parameters.Add("@JOB_NEXTSTEP", SqlDbType.Int); obj_cmd.Parameters["@JOB_NEXTSTEP"].Value = model.job_nextstep;
-                obj_cmd.Parameters.Add("@JOB_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@JOB_DATE"].Value = model.job_date;
-                //obj_cmd.Parameters.Add("@JOB_FINISHDATE", SqlDbType.DateTime); obj_cmd.Parameters["@JOB_FINISHDATE"].Value = model.job_finishdate;
-                obj_cmd.Parameters.Add("@WORKFLOW_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKFLOW_CODE"].Value = model.workflow_code;
+                obj_cmd.Parameters.Add("@DOCUMENT_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_NAME"].Value = model.document_name;
+                obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
+                obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -262,12 +239,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(MTJobtable.insert)" + ex.ToString();
+                Message = "ERROR::(MTReqdocument.insert)" + ex.ToString();
             }
 
             return blnResult;
         }
-        public string update(cls_MTJobtable model)
+        public string update(cls_MTReqdocument model)
         {
             string blnResult = "";
             try
@@ -276,19 +253,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE SELF_MT_JOBTABLE SET ");
+                obj_str.Append("UPDATE SELF_MT_REQDOCUMENT SET ");
                 obj_str.Append(" COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(", JOB_TYPE=@JOB_TYPE ");
-                obj_str.Append(", STATUS_JOB=@STATUS_JOB ");
-                obj_str.Append(", JOB_NEXTSTEP=@JOB_NEXTSTEP ");
-                //obj_str.Append(", JOB_DATE=@JOB_DATE ");
-                if (!model.job_finishdate.Equals(null))
-                    obj_str.Append(", JOB_FINISHDATE=@JOB_FINISHDATE ");
-                obj_str.Append(", WORKFLOW_CODE=@WORKFLOW_CODE ");
+                obj_str.Append(", DOCUMENT_NAME=@DOCUMENT_NAME ");
+                obj_str.Append(", DOCUMENT_TYPE=@DOCUMENT_TYPE ");
+                obj_str.Append(", DOCUMENT_PATH=@DOCUMENT_PATH ");
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                if(!model.jobtable_id.Equals(0))
-                    obj_str.Append(" AND JOBTABLE_ID=@JOBTABLE_ID ");
+                if(!model.document_id.Equals(0))
+                    obj_str.Append(" AND DOCUMENT_ID=@DOCUMENT_ID ");
                 if (!model.job_id.Equals(""))
                     obj_str.Append(" AND JOB_ID=@JOB_ID ");
                 if (!model.job_type.Equals(""))
@@ -301,31 +274,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@JOBTABLE_ID", SqlDbType.Int); obj_cmd.Parameters["@JOBTABLE_ID"].Value = model.jobtable_id; ;
+                obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = model.document_id; ;
                 obj_cmd.Parameters.Add("@JOB_ID", SqlDbType.VarChar); obj_cmd.Parameters["@JOB_ID"].Value = model.job_id;
                 obj_cmd.Parameters.Add("@JOB_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@JOB_TYPE"].Value = model.job_type;
-                obj_cmd.Parameters.Add("@STATUS_JOB", SqlDbType.Char); obj_cmd.Parameters["@STATUS_JOB"].Value = model.status_job;
-                obj_cmd.Parameters.Add("@JOB_NEXTSTEP", SqlDbType.Int); obj_cmd.Parameters["@JOB_NEXTSTEP"].Value = model.job_nextstep;
-                //obj_cmd.Parameters.Add("@JOB_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@JOB_DATE"].Value = model.job_date;
-                if (!model.job_finishdate.Equals(null))
-                {
-                    obj_cmd.Parameters.Add("@JOB_FINISHDATE", SqlDbType.DateTime); obj_cmd.Parameters["@JOB_FINISHDATE"].Value = model.job_finishdate;
-                }
-                obj_cmd.Parameters.Add("@WORKFLOW_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKFLOW_CODE"].Value = model.workflow_code;
-
+                obj_cmd.Parameters.Add("@DOCUMENT_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_NAME"].Value = model.document_name;
+                obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
+                obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
+             
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
 
-                blnResult = model.jobtable_id.ToString();
+                blnResult = model.document_id.ToString();
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(MTJobtable.update)" + ex.ToString();
+                Message = "ERROR::(MTReqdocument.update)" + ex.ToString();
             }
 
             return blnResult;
         }
-
     }
 }

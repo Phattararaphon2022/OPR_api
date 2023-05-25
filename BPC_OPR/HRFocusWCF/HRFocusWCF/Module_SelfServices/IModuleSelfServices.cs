@@ -144,6 +144,14 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReqdoc?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTReqdoc(string token, string by, string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doGetMTReqdoc?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        byte[] DownloadFile(string file_Path);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doDeleteMTReqdoc?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        string DeleteFile(string file_Path);
         #endregion
 
         #region MTJobtable
@@ -158,6 +166,20 @@ namespace BPC_OPR
         [OperationContract(Name = "jobtable_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeMTJobtable(InputMTJobtable input);
+        #endregion
+
+        #region MTReqdocument
+        [OperationContract(Name = "reqdocument_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqdocumentList(InputMTReqdocument input);
+
+        [OperationContract(Name = "reqdocument")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTReqdocument(InputMTReqdocument input);
+
+        [OperationContract(Name = "reqdocument_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTReqdocument(InputMTReqdocument input);
         #endregion
 
         #region MTWorkflow

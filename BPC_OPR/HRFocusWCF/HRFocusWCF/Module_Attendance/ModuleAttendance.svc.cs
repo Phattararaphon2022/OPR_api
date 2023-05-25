@@ -1745,11 +1745,14 @@ namespace BPC_OPR
                         json.Add("worker_code", model.worker_code);
                         json.Add("year_code", model.year_code);
                         json.Add("leave_code", model.leave_code);
+                        cls_ctMTLeave objMTLeave = new cls_ctMTLeave();
+                        List<cls_MTLeave> listMTLeave = objMTLeave.getDataByFillter(model.company_code, "", model.leave_code);
+                        json.Add("leave_name_th", listMTLeave[0].leave_name_th);
+                        json.Add("leave_name_en", listMTLeave[0].leave_name_en);
                         json.Add("empleaveacc_bf", model.empleaveacc_bf);
                         json.Add("empleaveacc_annual", model.empleaveacc_annual);
                         json.Add("empleaveacc_used", model.empleaveacc_used);
                         json.Add("empleaveacc_remain", model.empleaveacc_remain);
-
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -3675,7 +3678,7 @@ namespace BPC_OPR
                             foreach (cls_TREmppolatt pol in listPol)
                             {
                                 cls_srvProcessTime srvTime = new cls_srvProcessTime();
-                                srvTime.doSetEmpleaveacc(year, pol.company_code, pol.worker_code, input.modified_by);
+                                srvTime.doSetEmpleaveacc(input.year_code, pol.company_code, pol.worker_code, input.modified_by);
                             }
 
                         }

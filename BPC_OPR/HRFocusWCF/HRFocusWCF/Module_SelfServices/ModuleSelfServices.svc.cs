@@ -41,7 +41,9 @@ namespace BPC_OPR
             try
             {
                 string FilePath = Path.Combine
-                  (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
+  (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
+                //string FilePath = Path.Combine
+                //  (HostingEnvironment.MapPath("~/Uploads"), fileName);
 
                 MultipartParser parser = new MultipartParser(stream);
 
@@ -66,6 +68,34 @@ namespace BPC_OPR
             return result;
 
         }
+        public byte[] DownloadFile(string filePath)
+        {  byte[] data = {};
+            try
+            {
+                data =  File.ReadAllBytes(filePath);
+            }
+            catch
+            {
+            }
+            return data;
+        }
+        public string DeleteFile(string filePath)
+        {
+            JObject output = new JObject();
+            try
+            {
+                File.Delete(filePath);
+                output["success"] = true;
+                output["message"] = filePath;
+            }
+            catch
+            {
+                output["success"] = false;
+                output["message"] = filePath;
+            }
+            return output.ToString(Formatting.None);
+        }
+
 
         #region TRTimeleave
         public string getTRTimeleaveList(InputTRTimeleave input)
@@ -90,11 +120,11 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
-                DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
+                //DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
+                //DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
 
                 cls_ctTRTimeleave objTRTimeleave = new cls_ctTRTimeleave();
-                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillter(input.timeleave_id,input.status, input.company_code, input.worker_code, datefrom, dateto);
+                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillter(input.timeleave_id, input.status, input.company_code, input.worker_code, input.timeleave_fromdate, input.timeleave_todate);
 
                 JArray array = new JArray();
 
@@ -133,10 +163,44 @@ namespace BPC_OPR
                         json.Add("reason_th", model.reason_th);
                         json.Add("reason_en", model.reason_en);
                         json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+                        cls_ctMTReqdocument objMTReqdoc = new cls_ctMTReqdocument();
+                        List<cls_MTReqdocument> listTRReqdoc = objMTReqdoc.getDataByFillter(model.company_code,0,model.timeleave_id.ToString(),"LEA");
+                        JArray arrayTRReqdoc = new JArray();
+                        if (listTRReqdoc.Count > 0)
+                        {
+                            int indexTRReqdoc = 1;
+
+                            foreach (cls_MTReqdocument modelTRReqdoc in listTRReqdoc)
+                            {
+                                JObject jsonTRReqdoc = new JObject();
+                                jsonTRReqdoc.Add("company_code", modelTRReqdoc.company_code);
+                                jsonTRReqdoc.Add("document_id", modelTRReqdoc.document_id);
+                                jsonTRReqdoc.Add("job_id", modelTRReqdoc.job_id);
+                                jsonTRReqdoc.Add("job_type", modelTRReqdoc.job_type);
+                                jsonTRReqdoc.Add("document_name", modelTRReqdoc.document_name);
+                                jsonTRReqdoc.Add("document_type", modelTRReqdoc.document_type);
+                                jsonTRReqdoc.Add("document_path", modelTRReqdoc.document_path);
+                                jsonTRReqdoc.Add("created_by", modelTRReqdoc.created_by);
+                                jsonTRReqdoc.Add("created_date", modelTRReqdoc.created_date);
+
+                                jsonTRReqdoc.Add("index", indexTRReqdoc);
+
+
+                                indexTRReqdoc++;
+
+                                arrayTRReqdoc.Add(jsonTRReqdoc);
+                            }
+                            json.Add("reqdoc_data", arrayTRReqdoc);
+                        }
+                        else
+                        {
+                            json.Add("reqdoc_data", arrayTRReqdoc);
+                        }
 
                         json.Add("index", index);
 
@@ -217,10 +281,26 @@ namespace BPC_OPR
                     strID = objTRTimeleave.insert(model);
                     if (!strID.Equals(""))
                     {
-                        cls_srvProcessTime srv_time = new cls_srvProcessTime();
-                        srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
+                        if (leavedata.reqdoc_data.Count > 0)
+                        {
+                            foreach (cls_MTReqdocument reqdoc in leavedata.reqdoc_data)
+                            {
+                                cls_ctMTReqdocument objMTReqdocu = new cls_ctMTReqdocument();
+                                cls_MTReqdocument modelreqdoc = new cls_MTReqdocument();
+                                modelreqdoc.company_code = reqdoc.company_code;
+                                modelreqdoc.document_id = reqdoc.document_id;
+                                modelreqdoc.job_id = strID;
+                                modelreqdoc.job_type = reqdoc.job_type;
+                                modelreqdoc.document_name = reqdoc.document_name;
+                                modelreqdoc.document_type = reqdoc.document_type;
+                                modelreqdoc.document_path = reqdoc.document_path;
+
+                                modelreqdoc.created_by = input.username;
+                                string strIDs = objMTReqdocu.insert(modelreqdoc);
+                            }
+                        }
                         cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code,"",model.worker_code,"","LEA");
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "LEA");
                         if (listTRAccount.Count > 0)
                         {
                             cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
@@ -230,11 +310,14 @@ namespace BPC_OPR
                             modeljob.job_id = strID;
                             modeljob.job_type = "LEA";
                             modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(leavedata.timeleave_fromdate);
                             modeljob.job_nextstep = listTRAccount[0].totalapprove;
                             modeljob.workflow_code = listTRAccount[0].workflow_code;
                             modeljob.created_by = input.username;
                             string strID1 = objMTJob.insert(modeljob);
                         }
+                        cls_srvProcessTime srv_time = new cls_srvProcessTime();
+                        srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
                     }
                     else
                     {
@@ -307,6 +390,15 @@ namespace BPC_OPR
                     srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
                     cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
                     MTJob.delete(model.company_code, 0, model.timeleave_id.ToString(), "LEA");
+                    cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
+                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(model.company_code, 0, model.timeleave_id.ToString(), "LEA");
+                    if (filelist.Count > 0)
+                    {
+                        foreach(cls_MTReqdocument filedata in filelist){
+                            File.Delete(filedata.document_path);
+                        }
+                    }
+                    MTReqdoc.delete(model.company_code,0,model.timeleave_id.ToString(),"LEA");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -576,6 +668,7 @@ namespace BPC_OPR
                             modeljob.job_id = strID;
                             modeljob.job_type = "OT";
                             modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(otdata.timeot_workdate);
                             modeljob.job_nextstep = listTRAccount[0].totalapprove;
                             modeljob.workflow_code = listTRAccount[0].workflow_code;
                             modeljob.created_by = input.username;
@@ -836,6 +929,7 @@ namespace BPC_OPR
                             modeljob.job_id = strID;
                             modeljob.job_type = "SHT";
                             modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(shiftdata.timeshift_workdate);
                             modeljob.job_nextstep = listTRAccount[0].totalapprove;
                             modeljob.workflow_code = listTRAccount[0].workflow_code;
                             modeljob.created_by = input.username;
@@ -1314,6 +1408,7 @@ namespace BPC_OPR
                             modeljob.job_id = strID;
                             modeljob.job_type = "DAT";
                             modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(data.timedaytype_workdate);
                             modeljob.job_nextstep = listTRAccount[0].totalapprove;
                             modeljob.workflow_code = listTRAccount[0].workflow_code;
                             modeljob.created_by = input.username;
@@ -1563,6 +1658,7 @@ namespace BPC_OPR
                             modeljob.job_id = strID;
                             modeljob.job_type = "ONS";
                             modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(data.timeonsite_workdate);
                             modeljob.job_nextstep = listTRAccount[0].totalapprove;
                             modeljob.workflow_code = listTRAccount[0].workflow_code;
                             modeljob.created_by = input.username;
@@ -2717,6 +2813,213 @@ namespace BPC_OPR
 
             output["data"] = tmp;
 
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region MTReqdocument
+        public string getMTReqdocumentList(InputMTReqdocument input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self000";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTReqdocument objMTReqdocument = new cls_ctMTReqdocument();
+                List<cls_MTReqdocument> list = objMTReqdocument.getDataByFillter(input.company_code,input.document_id,input.job_id,input.job_type);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTReqdocument model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("jobtable_id", model.document_id);
+                        json.Add("job_id", model.job_id);
+                        json.Add("job_type", model.job_type);
+                        json.Add("status_job", model.document_name);
+                        json.Add("job_nextstep", model.document_type);
+                        json.Add("job_date", model.document_path);
+
+                        json.Add("created_by", model.created_by);
+                        json.Add("created_date", model.created_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTReqdocument(InputMTReqdocument input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self000";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTReqdocument objMTReqdocu = new cls_ctMTReqdocument();
+                cls_MTReqdocument model = new cls_MTReqdocument();
+                model.company_code = input.company_code;
+                model.document_id = input.document_id;
+                model.job_id = input.job_id;
+                model.job_type = input.job_type;
+                model.document_name = input.document_name;
+                model.document_type = input.document_type;
+                model.document_path = input.document_path;
+
+                model.created_by = input.username;
+                string strID = objMTReqdocu.insert(model);
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTReqdocu.getMessage();
+                }
+
+                objMTReqdocu.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTReqdocument(InputMTReqdocument input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self002";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTReqdocument controller = new cls_ctMTReqdocument();
+                bool blnResult = controller.delete(input.company_code,input.document_id,input.job_id,input.job_type);
+                if (blnResult)
+                {
+                    cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
+                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(input.company_code, input.document_id,"", "");
+                    if (filelist.Count > 0)
+                    {
+                        foreach (cls_MTReqdocument filedata in filelist)
+                        {
+                            File.Delete(filedata.document_path);
+                        }
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
             return output.ToString(Formatting.None);
 
         }

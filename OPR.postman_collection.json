@@ -954,7 +954,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"\",\r\n    \"year_code\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"year_code\":\"STD\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2767,7 +2767,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeleave_fromdate\":\"2023-03-27\",\r\n    \"timeleave_todate\":\"2023-03-27\",\r\n    \"status\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeleave_id\":0,\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeleave_fromdate\":\"2023-01-01\",\r\n    \"timeleave_todate\":\"2023-12-31\",\r\n    \"status\":0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2826,7 +2826,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"leave_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeleave_id\\\":1,\\\"timeleave_doc\\\":\\\"ELV221003004\\\",\\\"timeleave_fromdate\\\":\\\"2023-03-27\\\",\\\"timeleave_todate\\\":\\\"2023-03-27\\\",\\\"timeleave_type\\\":\\\"F\\\",\\\"timeleave_min\\\":480,\\\"timeleave_actualday\\\":1,\\\"timeleave_incholiday\\\":false,\\\"timeleave_deduct\\\":\\\"false\\\",\\\"timeleave_note\\\":\\\"TEST123\\\",\\\"leave_code\\\":\\\"LB01\\\",\\\"reason_code\\\":\\\"01\\\",\\\"status\\\":1,\\\"flag\\\":false}]\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"leave_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeleave_id\\\":1,\\\"timeleave_doc\\\":\\\"ELV221003005\\\",\\\"timeleave_fromdate\\\":\\\"2023-05-23\\\",\\\"timeleave_todate\\\":\\\"2023-05-23\\\",\\\"timeleave_type\\\":\\\"F\\\",\\\"timeleave_min\\\":480,\\\"timeleave_actualday\\\":1,\\\"timeleave_incholiday\\\":false,\\\"timeleave_deduct\\\":false,\\\"timeleave_note\\\":\\\"TEST123\\\",\\\"leave_code\\\":\\\"LB01\\\",\\\"reason_code\\\":\\\"02\\\",\\\"status\\\":1,\\\"flag\\\":false,\\\"reqdoc_data\\\":[{\\\"company_code\\\":\\\"OPR\\\",\\\"document_id\\\":0,\\\"job_id\\\":\\\"1\\\",\\\"job_type\\\":\\\"LEA\\\",\\\"document_name\\\":\\\"LEAVE_20230523174442\\\",\\\"document_type\\\":\\\"pdf\\\",\\\"document_path\\\":\\\"D:/OPR/Imports\\\",\\\"created_by\\\":\\\"Admin\\\",\\\"created_date\\\":\\\"2023-05-24T11:56:43.197\\\",\\\"index\\\":1},{\\\"company_code\\\":\\\"OPR\\\",\\\"document_id\\\":0,\\\"job_id\\\":\\\"1\\\",\\\"job_type\\\":\\\"LEA\\\",\\\"document_name\\\":\\\"LEAVE_DOC202305241419\\\",\\\"document_type\\\":\\\"png\\\",\\\"document_path\\\":\\\"D:\\\\\\\\\\\\\\\\OPR\\\\\\\\Imports\\\\\\\\LEAVE_DOC202305241419.png\\\",\\\"created_by\\\":\\\"EMP01\\\",\\\"created_date\\\":\\\"2023-05-24T07:19:28.900Z\\\"}]}]\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2888,7 +2888,7 @@
 							"response": []
 						},
 						{
-							"name": "SelfServices/timeleave_del Copy",
+							"name": "SelfServices/timeleave_actualday",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -4063,7 +4063,7 @@
 							"response": []
 						},
 						{
-							"name": "Attendance/doUploadMTPlanholiday Copy",
+							"name": "SelfServices/doUploadMTReqdoc",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -4103,6 +4103,106 @@
 										{
 											"key": "by",
 											"value": "Adminn"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/doGetMTReqdoc",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/phattaraphon.p/Downloads/Workflow Onweb(1).pdf",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/doGetMTReqdoc?file_Path=LEAVE_DOC202305241650.jpg",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"doGetMTReqdoc"
+									],
+									"query": [
+										{
+											"key": "file_Path",
+											"value": "LEAVE_DOC202305241650.jpg"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										},
+										{
+											"key": "by",
+											"value": "Adminn",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/doDeleteMTReqdoc",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/phattaraphon.p/Downloads/Workflow Onweb(1).pdf",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/doDeleteMTReqdoc?file_Path=LEAVE_DOC202305241650.jpg",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"doDeleteMTReqdoc"
+									],
+									"query": [
+										{
+											"key": "file_Path",
+											"value": "LEAVE_DOC202305241650.jpg"
+										},
+										{
+											"key": "token",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										},
+										{
+											"key": "by",
+											"value": "Adminn",
+											"disabled": true
 										}
 									]
 								}
@@ -4246,6 +4346,148 @@
 										"ModuleSelfServices.svc",
 										"SelfServices",
 										"jobtable_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reqdocument",
+					"item": [
+						{
+							"name": "SelfServices/reqdocument_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"document_id\":0,\r\n    \"job_id\":\"\",\r\n    \"job_type\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/reqdocument_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"reqdocument_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/reqdocument",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"document_id\":0,\r\n    \"job_id\":\"1\",\r\n    \"job_type\":\"LEA\",\r\n    \"document_name\":\"LEAVE_20230523174442\",\r\n    \"document_type\":\"pdf\",\r\n    \"document_path\":\"D:/OPR/Imports\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/reqdocument",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"reqdocument"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/reqdocument_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"jobtable_id\":0,\r\n    \"job_id\":\"1\",\r\n    \"job_type\":\"LEA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/reqdocument_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"reqdocument_del"
 									]
 								}
 							},
