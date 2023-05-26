@@ -520,7 +520,7 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                DateTime datefrom = Convert.ToDateTime(input.timeot_fromdate);
+                DateTime datefrom = Convert.ToDateTime(input.timeot_workdate);
                 DateTime dateto = Convert.ToDateTime(input.timeot_todate);
 
                 cls_ctTRTimeot objTRTime = new cls_ctTRTimeot();
@@ -548,7 +548,7 @@ namespace BPC_OPR
 
                         json.Add("timeot_beforemin", model.timeot_beforemin);
                         json.Add("timeot_normalmin", model.timeot_normalmin);
-                        json.Add("timeot_break", model.timeot_breakmin);
+                        json.Add("timeot_breakmin", model.timeot_breakmin);
                         json.Add("timeot_aftermin", model.timeot_aftermin);
 
                         int hrs = (model.timeot_beforemin) / 60;
@@ -576,10 +576,44 @@ namespace BPC_OPR
                         json.Add("reason_name_th", model.reason_name_th);
                         json.Add("reason_name_en", model.reason_name_en);
                         json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+                        cls_ctMTReqdocument objMTReqdoc = new cls_ctMTReqdocument();
+                        List<cls_MTReqdocument> listTRReqdoc = objMTReqdoc.getDataByFillter(model.company_code, 0, model.timeot_id.ToString(), "OT");
+                        JArray arrayTRReqdoc = new JArray();
+                        if (listTRReqdoc.Count > 0)
+                        {
+                            int indexTRReqdoc = 1;
+
+                            foreach (cls_MTReqdocument modelTRReqdoc in listTRReqdoc)
+                            {
+                                JObject jsonTRReqdoc = new JObject();
+                                jsonTRReqdoc.Add("company_code", modelTRReqdoc.company_code);
+                                jsonTRReqdoc.Add("document_id", modelTRReqdoc.document_id);
+                                jsonTRReqdoc.Add("job_id", modelTRReqdoc.job_id);
+                                jsonTRReqdoc.Add("job_type", modelTRReqdoc.job_type);
+                                jsonTRReqdoc.Add("document_name", modelTRReqdoc.document_name);
+                                jsonTRReqdoc.Add("document_type", modelTRReqdoc.document_type);
+                                jsonTRReqdoc.Add("document_path", modelTRReqdoc.document_path);
+                                jsonTRReqdoc.Add("created_by", modelTRReqdoc.created_by);
+                                jsonTRReqdoc.Add("created_date", modelTRReqdoc.created_date);
+
+                                jsonTRReqdoc.Add("index", indexTRReqdoc);
+
+
+                                indexTRReqdoc++;
+
+                                arrayTRReqdoc.Add(jsonTRReqdoc);
+                            }
+                            json.Add("reqdoc_data", arrayTRReqdoc);
+                        }
+                        else
+                        {
+                            json.Add("reqdoc_data", arrayTRReqdoc);
+                        }
 
                         json.Add("index", index);
 
@@ -657,6 +691,24 @@ namespace BPC_OPR
                     strID = objTRTime.insert(model);
                     if (!strID.Equals(""))
                     {
+                        if (otdata.reqdoc_data.Count > 0)
+                        {
+                            foreach (cls_MTReqdocument reqdoc in otdata.reqdoc_data)
+                            {
+                                cls_ctMTReqdocument objMTReqdocu = new cls_ctMTReqdocument();
+                                cls_MTReqdocument modelreqdoc = new cls_MTReqdocument();
+                                modelreqdoc.company_code = reqdoc.company_code;
+                                modelreqdoc.document_id = reqdoc.document_id;
+                                modelreqdoc.job_id = strID;
+                                modelreqdoc.job_type = reqdoc.job_type;
+                                modelreqdoc.document_name = reqdoc.document_name;
+                                modelreqdoc.document_type = reqdoc.document_type;
+                                modelreqdoc.document_path = reqdoc.document_path;
+
+                                modelreqdoc.created_by = input.username;
+                                string strIDs = objMTReqdocu.insert(modelreqdoc);
+                            }
+                        }
                         cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
                         List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "OT");
                         if (listTRAccount.Count > 0)
@@ -744,6 +796,17 @@ namespace BPC_OPR
                 {
                     cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
                     MTJob.delete(input.company_code, 0, input.timeot_id.ToString(), "OT");
+                    cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
+                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(input.company_code, 0, input.timeot_id.ToString(), "OT");
+                    if (filelist.Count > 0)
+                    {
+                        foreach (cls_MTReqdocument filedata in filelist)
+                        {
+                            File.Delete(filedata.document_path);
+                        }
+                    }
+                    MTReqdoc.delete(input.company_code, 0, input.timeot_id.ToString(), "OT");
+
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -3044,7 +3107,7 @@ namespace BPC_OPR
                 if (blnResult)
                 {
                     cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
-                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(input.company_code, input.document_id,"", "");
+                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(input.company_code, input.document_id,input.job_id, input.job_type);
                     if (filelist.Count > 0)
                     {
                         foreach (cls_MTReqdocument filedata in filelist)

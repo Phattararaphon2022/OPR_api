@@ -83,7 +83,7 @@ namespace BPC_OPR
         [DataMember]
         public string worker_name { get; set; }
         [DataMember]
-        public string timeot_id { get; set; }
+        public int timeot_id { get; set; }
         [DataMember]
         public string timeot_doc { get; set; }
         [DataMember]
@@ -101,13 +101,11 @@ namespace BPC_OPR
         [DataMember]
         public string reason_code { get; set; }
         [DataMember]
-        public string status { get; set; }
+        public int status { get; set; }
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]
         public DateTime modified_date { get; set; }
-        [DataMember]
-        public string timeot_fromdate { get; set; }
         [DataMember]
         public string timeot_todate { get; set; }
         [DataMember]
