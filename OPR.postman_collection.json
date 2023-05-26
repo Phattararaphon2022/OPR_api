@@ -3374,7 +3374,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_id\":\"\",\r\n    \"location_code\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timeonsite_workdate\":\"\",\r\n    \"timeonsite_workdate_to\":\"\",\r\n    \"status\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_id\":0,\r\n    \"location_code\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timeonsite_workdate\":\"\",\r\n    \"timeonsite_workdate_to\":\"\",\r\n    \"status\":0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3433,7 +3433,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"timeonsite_id\\\":0,\\\"timeonsite_doc\\\":\\\"1234\\\",\\\"timeonsite_workdate\\\":\\\"05-09-2023\\\",\\\"timeonsite_in\\\":\\\"07:00\\\",\\\"timeonsite_out\\\":\\\"16:00\\\",\\\"timeonsite_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"location_code\\\":\\\"00000\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"status\\\":\\\"2\\\",\\\"flag\\\":false}]\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeonsite_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"timeonsite_id\\\":1,\\\"timeonsite_doc\\\":\\\"ONSITE_20230526152255\\\",\\\"timeonsite_workdate\\\":\\\"2023-05-26\\\",\\\"timeonsite_in\\\":\\\"08:00\\\",\\\"timeonsite_out\\\":\\\"17:00\\\",\\\"timeonsite_note\\\":\\\"TEST\\\",\\\"reason_code\\\":\\\"01\\\",\\\"location_code\\\":\\\"00000\\\",\\\"status\\\":0,\\\"flag\\\":false,\\\"reqdoc_data\\\":[{\\\"company_code\\\":\\\"OPR\\\",\\\"document_id\\\":6,\\\"job_id\\\":\\\"1\\\",\\\"job_type\\\":\\\"ONS\\\",\\\"document_name\\\":\\\"ONSITE_DOC20230526152427.png\\\",\\\"document_type\\\":\\\"image/png\\\",\\\"document_path\\\":\\\"D:\\\\\\\\\\\\\\\\OPR\\\\\\\\Imports\\\\\\\\ONSITE_DOC20230526152427.png\\\",\\\"created_by\\\":\\\"EMP01\\\",\\\"created_date\\\":\\\"2023-05-26T15:24:29.637\\\",\\\"index\\\":1}]}]\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

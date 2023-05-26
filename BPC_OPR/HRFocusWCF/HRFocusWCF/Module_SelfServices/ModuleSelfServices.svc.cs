@@ -1665,7 +1665,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRTimeonsite objTRTimeonsite = new cls_ctTRTimeonsite();
-                List<cls_TRTimeonsite> listTRTimeonsite = objTRTimeonsite.getDataByFillter(input.company_code,input.timeonsite_id,input.location_code,input.worker_code,input.timeonsite_workdate,input.timeonsite_workdate_to,input.status);
+                List<cls_TRTimeonsite> listTRTimeonsite = objTRTimeonsite.getDataByFillter(input.company_code, input.timeonsite_id, input.location_code, input.worker_code, input.timeonsite_workdate, input.timeonstie_todate, input.status);
 
                 JArray array = new JArray();
 
@@ -1684,21 +1684,61 @@ namespace BPC_OPR
                         json.Add("timeonsite_out", model.timeonsite_out);
                         json.Add("timeonsite_note", model.timeonsite_note);
                         json.Add("reason_code", model.reason_code);
+                        json.Add("reason_name_en", model.reason_name_en);
+                        json.Add("reason_name_th", model.reason_name_th);
                         //cls_ctMTReason objRason = new cls_ctMTReason();
                         //List<cls_MTReason> listReason = objRason.getDataByFillter("ONS", "", model.reason_code, model.company_code);
                         //json.Add("reason_name_th", listReason[0].reason_name_th);
                         //json.Add("reason_name_en", listReason[0].reason_name_en);
                         json.Add("location_code", model.location_code);
+                        json.Add("location_name_en", model.location_name_en);
+                        json.Add("location_name_th", model.location_name_th);
                         //cls_ctMTLocation objlocation = new cls_ctMTLocation();
                         //List<cls_MTLocation> listlocation = objlocation.getDataByFillter("",model.location_code,model.company_code);
                         //json.Add("location_name_th", listlocation[0].location_name_th);
                         //json.Add("location_name_en", listlocation[0].location_name_en);
                         json.Add("worker_code", model.worker_code);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+                        json.Add("worker_detail_th", model.worker_detail_th);
                         json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+                        cls_ctMTReqdocument objMTReqdoc = new cls_ctMTReqdocument();
+                        List<cls_MTReqdocument> listTRReqdoc = objMTReqdoc.getDataByFillter(model.company_code, 0, model.timeonsite_id.ToString(), "ONS");
+                        JArray arrayTRReqdoc = new JArray();
+                        if (listTRReqdoc.Count > 0)
+                        {
+                            int indexTRReqdoc = 1;
+
+                            foreach (cls_MTReqdocument modelTRReqdoc in listTRReqdoc)
+                            {
+                                JObject jsonTRReqdoc = new JObject();
+                                jsonTRReqdoc.Add("company_code", modelTRReqdoc.company_code);
+                                jsonTRReqdoc.Add("document_id", modelTRReqdoc.document_id);
+                                jsonTRReqdoc.Add("job_id", modelTRReqdoc.job_id);
+                                jsonTRReqdoc.Add("job_type", modelTRReqdoc.job_type);
+                                jsonTRReqdoc.Add("document_name", modelTRReqdoc.document_name);
+                                jsonTRReqdoc.Add("document_type", modelTRReqdoc.document_type);
+                                jsonTRReqdoc.Add("document_path", modelTRReqdoc.document_path);
+                                jsonTRReqdoc.Add("created_by", modelTRReqdoc.created_by);
+                                jsonTRReqdoc.Add("created_date", modelTRReqdoc.created_date);
+
+                                jsonTRReqdoc.Add("index", indexTRReqdoc);
+
+
+                                indexTRReqdoc++;
+
+                                arrayTRReqdoc.Add(jsonTRReqdoc);
+                            }
+                            json.Add("reqdoc_data", arrayTRReqdoc);
+                        }
+                        else
+                        {
+                            json.Add("reqdoc_data", arrayTRReqdoc);
+                        }
 
                         json.Add("index", index);
 
@@ -1770,6 +1810,24 @@ namespace BPC_OPR
                     strID = objTRTimeonsite.insert(model);
                     if (!strID.Equals(""))
                     {
+                        if (data.reqdoc_data.Count > 0)
+                        {
+                            foreach (cls_MTReqdocument reqdoc in data.reqdoc_data)
+                            {
+                                cls_ctMTReqdocument objMTReqdocu = new cls_ctMTReqdocument();
+                                cls_MTReqdocument modelreqdoc = new cls_MTReqdocument();
+                                modelreqdoc.company_code = reqdoc.company_code;
+                                modelreqdoc.document_id = reqdoc.document_id;
+                                modelreqdoc.job_id = strID;
+                                modelreqdoc.job_type = reqdoc.job_type;
+                                modelreqdoc.document_name = reqdoc.document_name;
+                                modelreqdoc.document_type = reqdoc.document_type;
+                                modelreqdoc.document_path = reqdoc.document_path;
+
+                                modelreqdoc.created_by = input.username;
+                                string strIDs = objMTReqdocu.insert(modelreqdoc);
+                            }
+                        }
                         cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
                         List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "ONS");
                         if (listTRAccount.Count > 0)
@@ -1855,6 +1913,16 @@ namespace BPC_OPR
                 {
                     cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
                     MTJob.delete(input.company_code, 0, input.timeonsite_id.ToString(), "ONS");
+                    cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
+                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(input.company_code, 0, input.timeonsite_id.ToString(), "ONS");
+                    if (filelist.Count > 0)
+                    {
+                        foreach (cls_MTReqdocument filedata in filelist)
+                        {
+                            File.Delete(filedata.document_path);
+                        }
+                    }
+                    MTReqdoc.delete(input.company_code, 0, input.timeonsite_id.ToString(), "ONS");
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 

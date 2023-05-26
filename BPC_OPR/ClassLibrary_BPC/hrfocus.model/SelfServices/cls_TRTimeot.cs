@@ -21,13 +21,8 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string timeot_note { get; set; }
         public string location_code { get; set; }
-        public string location_name_th { get; set; }
-        public string location_name_en { get; set; }
         public string reason_code { get; set; }
-        public string reason_name_th { get; set; }
-        public string reason_name_en { get; set; }
         public int status { get; set; }
-        public string status_job { get; set; }
 
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
@@ -39,6 +34,11 @@ namespace ClassLibrary_BPC.hrfocus.model
         //-- Show only
         public string worker_detail_th { get; set; }
         public string worker_detail_en { get; set; }
+        public string location_name_th { get; set; }
+        public string location_name_en { get; set; }
+        public string reason_name_th { get; set; }
+        public string reason_name_en { get; set; }
+        public string status_job { get; set; }
 
         public List<cls_MTReqdocument> reqdoc_data { get; set; }
 

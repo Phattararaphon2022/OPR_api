@@ -261,13 +261,13 @@ namespace BPC_OPR
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
-        public string timeonsite_id { get; set; }
+        public int timeonsite_id { get; set; }
         [DataMember]
         public string timeonsite_doc { get; set; }
         [DataMember]
         public string timeonsite_workdate { get; set; }
         [DataMember]
-        public string timeonsite_workdate_to { get; set; }
+        public string timeonstie_todate { get; set; }
         [DataMember]
         public string timeonsite_in { get; set; }
         [DataMember]
@@ -281,7 +281,7 @@ namespace BPC_OPR
         [DataMember]
         public string worker_code { get; set; }
         [DataMember]
-        public string status { get; set; }
+        public int status { get; set; }
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]

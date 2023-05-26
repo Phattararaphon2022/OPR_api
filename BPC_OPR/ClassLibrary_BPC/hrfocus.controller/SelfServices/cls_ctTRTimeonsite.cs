@@ -30,29 +30,45 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", WORKER_CODE");
-                obj_str.Append(", TIMEONSITE_ID");
-                obj_str.Append(", TIMEONSITE_DOC");
-                obj_str.Append(", TIMEONSITE_WORKDATE");
-                obj_str.Append(", TIMEONSITE_IN");
-                obj_str.Append(", TIMEONSITE_OUT");
-                obj_str.Append(", TIMEONSITE_NOTE");
-                obj_str.Append(", REASON_CODE");
-                obj_str.Append(", LOCATION_CODE");
-                obj_str.Append(", STATUS");
+                obj_str.Append(" SELF_TR_TIMEONSITE.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.WORKER_CODE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_ID");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_DOC");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_WORKDATE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_IN");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_OUT");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_NOTE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.STATUS");
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_TH, '') AS REASON_NAME_TH");
+                obj_str.Append(", ISNULL(SYS_MT_REASON.REASON_NAME_EN, '') AS REASON_NAME_EN");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.LOCATION_CODE, '') AS LOCATION_CODE");
+                obj_str.Append(", ISNULL(SYS_MT_LOCATION.LOCATION_NAME_TH, '') AS LOCATION_NAME_TH");
+                obj_str.Append(", ISNULL(SYS_MT_LOCATION.LOCATION_NAME_EN, '') AS LOCATION_NAME_EN");
+                obj_str.Append(", ISNULL(SYS_MT_LOCATION.LOCATION_NAME_EN, '') AS LOCATION_NAME_EN");
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
-                obj_str.Append(", ISNULL(FLAG, 0) AS FLAG");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.MODIFIED_BY, SELF_TR_TIMEONSITE.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.MODIFIED_DATE, SELF_TR_TIMEONSITE.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.FLAG, 0) AS FLAG");
+                obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
 
                 obj_str.Append(" FROM SELF_TR_TIMEONSITE");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMEONSITE.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMEONSITE.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL");
+                obj_str.Append(" INNER JOIN SYS_MT_REASON ON SELF_TR_TIMEONSITE.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE");
+                obj_str.Append(" AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMEONSITE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'ONS'");
+                obj_str.Append(" INNER JOIN SYS_MT_LOCATION ON SELF_TR_TIMEONSITE.COMPANY_CODE=SYS_MT_LOCATION.COMPANY_CODE");
+                obj_str.Append(" AND SYS_MT_LOCATION.LOCATION_CODE=SELF_TR_TIMEONSITE.LOCATION_CODE");
+                obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMEONSITE.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE");
+                obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMEONSITE.TIMEONSITE_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'ONS'");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY TIMEONSITE_ID");
+                obj_str.Append(" ORDER BY SELF_TR_TIMEONSITE.TIMEONSITE_ID");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -62,15 +78,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
                     model.timeonsite_id = Convert.ToInt32(dr["TIMEONSITE_ID"]);
                     model.timeonsite_doc = dr["TIMEONSITE_DOC"].ToString();
                     model.timeonsite_workdate = Convert.ToDateTime(dr["TIMEONSITE_WORKDATE"]);
                     model.timeonsite_in = dr["TIMEONSITE_IN"].ToString();
                     model.timeonsite_out = dr["TIMEONSITE_OUT"].ToString();
                     model.timeonsite_note = dr["TIMEONSITE_NOTE"].ToString();
-                    model.reason_code = dr["REASON_CODE"].ToString();
+
                     model.location_code = dr["LOCATION_CODE"].ToString();
-                    model.status = Convert.ToInt32(dr["STATUS"].ToString());
+                    model.location_name_th = dr["LOCATION_NAME_TH"].ToString();
+                    model.location_name_en = dr["LOCATION_NAME_EN"].ToString();
+                    model.reason_code = dr["REASON_CODE"].ToString();
+                    model.reason_name_th = dr["REASON_NAME_TH"].ToString();
+                    model.reason_name_en = dr["REASON_NAME_EN"].ToString();
+                    model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
                     model.flag = Convert.ToBoolean(dr["FLAG"]);
@@ -86,30 +110,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_TRTimeonsite> getDataByFillter(string com,string id,string location_code,string worker_code,string datefrom,string dateto,string status)
+        public List<cls_TRTimeonsite> getDataByFillter(string com,int id,string location_code,string worker_code,string datefrom,string dateto,int status)
         {
             string strCondition = "";
             if(!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND SELF_TR_TIMEONSITE.COMPANY_CODE='" + com + "'";
 
-            if (!id.Equals(""))
-                strCondition += " AND TIMEONSITE_ID='" + id + "'";
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMEONSITE.TIMEONSITE_ID='" + id + "'";
 
             if (!datefrom.Equals("") && !dateto.Equals(""))
-                strCondition += " AND (TIMEONSITE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "'";
+                strCondition += " AND (SELF_TR_TIMEONSITE.TIMEONSITE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
 
             if (!location_code.Equals(""))
-                strCondition += " AND LOCATION_CODE='" + location_code + "'";
+                strCondition += " AND SELF_TR_TIMEONSITE.LOCATION_CODE='" + location_code + "'";
 
             if (!worker_code.Equals(""))
-                strCondition += " AND WORKER_CODE='" + worker_code + "'";
+                strCondition += " AND SELF_TR_TIMEONSITE.WORKER_CODE='" + worker_code + "'";
 
-            if (!status.Equals(""))
-                strCondition += " AND STATUS='" + status + "'";
+            if (!status.Equals(0))
+                strCondition += " AND SELF_TR_TIMEONSITE.STATUS='" + status + "'";
 
             return this.getData(strCondition);
         }
-        public bool checkDataOld(string com, string id,string worker_code)
+        public bool checkDataOld(string com, int id,string worker_code)
         {
             bool blnResult = false;
             try
@@ -136,7 +160,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public bool delete(string com,string id,string worker_code)
+        public bool delete(string com,int id,string worker_code)
         {
             bool blnResult = true;
             try
@@ -149,7 +173,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1 ");
                 if (!com.Equals(""))
                     obj_str.Append(" AND COMPANY_CODE='" + com + "'");
-                if (!id.Equals(""))
+                if (!id.Equals(0))
                     obj_str.Append(" AND TIMEONSITE_ID='" + id + "'");
                 if (!worker_code.Equals(""))
                     obj_str.Append(" AND WORKER_CODE='" + worker_code + "'");
@@ -195,7 +219,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code,model.timeonsite_id.ToString(),model.worker_code))
+                if (this.checkDataOld(model.company_code,model.timeonsite_id,model.worker_code))
                 {
                     return this.update(model);
                 }
