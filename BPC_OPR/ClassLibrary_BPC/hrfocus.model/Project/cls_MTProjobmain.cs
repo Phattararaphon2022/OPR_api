@@ -15,27 +15,15 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string projobmain_name_en { get; set; }
 
         public string projobmain_type { get; set; }
-        public string projobmain_shift { get; set; }
-
-        public bool projobmain_sun { get; set; }
-        public bool projobmain_mon { get; set; }
-        public bool projobmain_tue { get; set; }
-        public bool projobmain_wed { get; set; }
-        public bool projobmain_thu { get; set; }
-        public bool projobmain_fri { get; set; }
-        public bool projobmain_sat { get; set; }
-
-        public int projobmain_working { get; set; }
-        public double projobmain_hrsperday { get; set; }
-        public double projobmain_hrsot { get; set; }
-
-        public bool projobmain_autoot { get; set; }
+       
 
         public string projobmain_timepol { get; set; }
         public string projobmain_slip { get; set; }
         public string projobmain_uniform { get; set; }
 
         public string project_code { get; set; }
+
+        public string version { get; set; }
       
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   
