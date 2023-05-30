@@ -228,7 +228,18 @@ namespace BPC_OPR
         public string item_code { get; set; }
         [DataMember]
         public string paypolitem_code { get; set; }
-
+        //payitems
+      
+        [DataMember]
+        public DateTime payitem_date { get; set; }
+        [DataMember]
+        public double payitem_amount { get; set; }
+        [DataMember]
+        public double payitem_quantity { get; set; }
+        [DataMember]
+        public string payitem_paytype { get; set; }
+        [DataMember]
+        public string payitem_note { get; set; }
 
 
         [DataMember]
@@ -247,6 +258,7 @@ namespace BPC_OPR
 
     #endregion
 
+    #region TRPaypolbonus
     [DataContract]
     public class InputTRPaypolbonus
     {
@@ -265,9 +277,9 @@ namespace BPC_OPR
         [DataMember]
         public int index { get; set; }
     }
+    #endregion
 
-        
-    
+
 
     #region InputMTPeriod
     [DataContract]
@@ -312,6 +324,94 @@ namespace BPC_OPR
 
     }
     #endregion
+
+
+    #region TRPayitem
+    [DataContract]
+    public class InputTRPayitem
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string item_code { get; set; }
+        [DataMember]
+        public string payitem_date { get; set; }
+        [DataMember]
+        public double payitem_amount { get; set; }
+        [DataMember]
+        public double payitem_quantity { get; set; }
+        [DataMember]
+        public string payitem_paytype { get; set; }
+        [DataMember]
+        public string payitem_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+         [DataMember]
+        public string transaction_data { get; set; }
+
+        [DataMember]
+         public DateTime date { get; set; }
+        public string language { get; set; }
+         [DataMember]
+        public string com { get; set; }
+         [DataMember]
+        public string emp { get; set; }
+       
+         [DataMember]
+        public string item_type { get; set; }
+         [DataMember]
+        public string item { get; set; }
+
+         [DataMember]
+         public List<cls_MTWorker> emp_data { get; set; }
+        
+    }
+    
+
+        #endregion
+
+    #region TRPayitem
+    [DataContract]
+    public class InputTRPayitemlist
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string item_code { get; set; }
+         [DataMember]
+        public string payitem_paytype { get; set; }
+        
+        [DataMember]
+        public string transaction_data { get; set; }
+        [DataMember]
+        public DateTime payitem_date { get; set; }
+
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+    }
+
+    #endregion
+
 
 }
 

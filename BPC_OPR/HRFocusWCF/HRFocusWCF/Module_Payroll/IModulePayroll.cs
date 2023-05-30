@@ -173,5 +173,29 @@ namespace BPC_OPR
 
         #endregion
 
+        #region set TRpayitem
+        [OperationContract(Name = "TRpayitem_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPayitemList(InputTRPayitem input);
+
+        [OperationContract(Name = "TRpayitemlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPayitemList(InputTRPayitem input);
+
+        [OperationContract(Name = "TRpayitem")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPayitem(InputTRPayitem input);
+
+
+        [OperationContract(Name = "TRpayitem_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPayitem(InputTRPayitem input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRpayitem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
+        #endregion
+
+
     }
 }
