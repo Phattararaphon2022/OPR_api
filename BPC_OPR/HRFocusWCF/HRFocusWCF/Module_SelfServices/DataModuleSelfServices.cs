@@ -226,7 +226,7 @@ namespace BPC_OPR
         [DataMember]
         public string timedaytype_workdate { get; set; }
         [DataMember]
-        public string timedaytype_workdate_to { get; set; }
+        public string timedaytype_todate { get; set; }
         [DataMember]
         public string timedaytype_old { get; set; }
         [DataMember]
