@@ -175,11 +175,11 @@ namespace BPC_OPR
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
-        public string timecheckin_id { get; set; }
+        public int timecheckin_id { get; set; }
         [DataMember]
         public string timecheckin_workdate { get; set; }
         [DataMember]
-        public string timecheckin_workdate_to { get; set; }
+        public string timecheckin_todate { get; set; }
         [DataMember]
         public string timecheckin_time { get; set; }
         [DataMember]
@@ -202,6 +202,8 @@ namespace BPC_OPR
         public bool flag { get; set; }
         [DataMember]
         public string timecheckin_data { get; set; }
+        [DataMember]
+        public int status { get; set; }
     }
     #endregion
 
@@ -401,6 +403,9 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
+
+        [DataMember]
+        public string worker_code { get; set; }
 
     }
     #endregion

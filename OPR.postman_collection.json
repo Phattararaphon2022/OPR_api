@@ -3232,7 +3232,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_id\":\"\",\r\n    \"timecheckin_time\":\"\",\r\n    \"timecheckin_type\":\"\",\r\n    \"location_code\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timecheckin_workdate\":\"\",\r\n    \"timecheckin_workdate_to\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_id\":0,\r\n    \"timecheckin_time\":\"\",\r\n    \"timecheckin_type\":\"\",\r\n    \"location_code\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"timecheckin_workdate\":\"\",\r\n    \"timecheckin_todate\":\"\",\r\n    \"status\":0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3291,7 +3291,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"timecheckin_id\\\":0,\\\"timecheckin_workdate\\\":\\\"05-08-2023\\\",\\\"timecheckin_time\\\":\\\"17:00\\\",\\\"timecheckin_type\\\":\\\"O\\\",\\\"timecheckin_lat\\\":13.321,\\\"timecheckin_long\\\":14.123,\\\"timecheckin_note\\\":\\\"TEST\\\",\\\"location_code\\\":\\\"00000\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"flag\\\":false}]\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timecheckin_data\" :\"[{\\\"company_code\\\":\\\"OPR\\\",\\\"timecheckin_id\\\":0,\\\"timecheckin_doc\\\":\\\"CHECKIN_DOC20230601103722\\\",\\\"timecheckin_workdate\\\":\\\"05-08-2023\\\",\\\"timecheckin_time\\\":\\\"17:00\\\",\\\"timecheckin_type\\\":\\\"O\\\",\\\"timecheckin_lat\\\":13.321,\\\"timecheckin_long\\\":14.123,\\\"timecheckin_note\\\":\\\"TEST\\\",\\\"location_code\\\":\\\"00000\\\",\\\"worker_code\\\":\\\"EMP01\\\",\\\"flag\\\":false,\\\"reqdoc_data\\\":[]}]\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3658,7 +3658,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"area_id\":0,\r\n    \"location_code\":\"\",\r\n    \"project_code\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"area_id\":0,\r\n    \"location_code\":\"\",\r\n    \"project_code\":\"\",\r\n    \"worker_code\":\"EMP01\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
