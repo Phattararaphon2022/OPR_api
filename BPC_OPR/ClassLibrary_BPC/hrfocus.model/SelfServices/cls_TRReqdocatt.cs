@@ -10,5 +10,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string reqdoc_att_file_name { get; set; }
         public string reqdoc_att_file_type{ get; set; }
         public string reqdoc_att_path { get; set; }
+        public string created_by { get; set; }
+        public string created_date { get; set; }
     }
 }

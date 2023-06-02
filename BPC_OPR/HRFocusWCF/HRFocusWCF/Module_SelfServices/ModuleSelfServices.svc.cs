@@ -2609,11 +2609,14 @@ namespace BPC_OPR
 
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
                         json.Add("reqdoc_id", model.reqdoc_id);
                         json.Add("reqdoc_doc", model.reqdoc_doc);
                         json.Add("reqdoc_date", model.reqdoc_date);
                         json.Add("reqdoc_note", model.reqdoc_note);
                         json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -2660,6 +2663,8 @@ namespace BPC_OPR
                                 jsonTRReqdocatt.Add("reqdoc_att_file_name", modelTRReqdocatt.reqdoc_att_file_name);
                                 jsonTRReqdocatt.Add("reqdoc_att_file_type", modelTRReqdocatt.reqdoc_att_file_type);
                                 jsonTRReqdocatt.Add("reqdoc_att_path", modelTRReqdocatt.reqdoc_att_path);
+                                jsonTRReqdocatt.Add("created_by", modelTRReqdocatt.created_by);
+                                jsonTRReqdocatt.Add("created_date", modelTRReqdocatt.created_date);
 
                                 jsonTRReqdocatt.Add("index", indexTR);
 
@@ -2674,7 +2679,6 @@ namespace BPC_OPR
                         {
                             json.Add("reqdocatt_data", arrayTRReqdocatt);
                         }
-
                         json.Add("index", index);
 
                         index++;
@@ -2736,9 +2740,28 @@ namespace BPC_OPR
                 string strID = objMTReqdoc.insert(model);
                 if (!strID.Equals(""))
                 {
+
+                    cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                    List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "REQ");
+                    if (listTRAccount.Count > 0)
+                    {
+                        cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                        cls_MTJobtable modeljob = new cls_MTJobtable();
+                        modeljob.company_code = model.company_code;
+                        modeljob.jobtable_id = 0;
+                        modeljob.job_id = strID;
+                        modeljob.job_type = "REQ";
+                        modeljob.status_job = "W";
+                        modeljob.job_date = Convert.ToDateTime(input.reqdoc_date);
+                        modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                        modeljob.workflow_code = listTRAccount[0].workflow_code;
+                        modeljob.created_by = input.username;
+                        string strID1 = objMTJob.insert(modeljob);
+                    }
+                    cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
+                    objTRReqempinfo.delete(Convert.ToInt32(strID),0);
                     if (input.reqempinfo_data.Count > 0)
                     {
-                        cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
                         foreach (cls_TRReqempinfo data in input.reqempinfo_data)
                         {
                             cls_TRReqempinfo modelempinfo = new cls_TRReqempinfo();
@@ -2748,8 +2771,8 @@ namespace BPC_OPR
                             modelempinfo.topic_code = data.topic_code;
                             modelempinfo.reqempinfo_detail = data.reqempinfo_detail;
 
-                            strID = objTRReqempinfo.insert(modelempinfo);
-                            if (!strID.Equals(""))
+                            string strIDinfo = objTRReqempinfo.insert(modelempinfo);
+                            if (!strIDinfo.Equals(""))
                             {
 
                             }
@@ -2760,9 +2783,10 @@ namespace BPC_OPR
                         }
 
                     }
+                    cls_ctTRReqdocatt objTRReqdocatt = new cls_ctTRReqdocatt();
+                    objTRReqdocatt.delete(Convert.ToInt32(strID), 0);
                     if (input.reqdocatt_data.Count > 0)
                     {
-                        cls_ctTRReqdocatt objTRReqdocatt = new cls_ctTRReqdocatt();
                         foreach (cls_TRReqdocatt data in input.reqdocatt_data)
                         {
                             cls_TRReqdocatt modeldocatt = new cls_TRReqdocatt();
@@ -2772,9 +2796,10 @@ namespace BPC_OPR
                             modeldocatt.reqdoc_att_file_name = data.reqdoc_att_file_name;
                             modeldocatt.reqdoc_att_file_type = data.reqdoc_att_file_type;
                             modeldocatt.reqdoc_att_path = data.reqdoc_att_path;
+                            modeldocatt.created_by = input.username;
 
-                            strID = objTRReqdocatt.insert(modeldocatt);
-                            if (!strID.Equals(""))
+                            string strIDdocatt = objTRReqdocatt.insert(modeldocatt);
+                            if (!strIDdocatt.Equals(""))
                             {
 
                             }
@@ -2843,6 +2868,18 @@ namespace BPC_OPR
                 bool blnResult = controller.delete(input.company_code,input.reqdoc_id,"","");
                 if (blnResult)
                 {
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(input.company_code, 0, input.reqdoc_id.ToString(), "REQ");
+                    cls_ctTRReqdocatt MTReqdoc = new cls_ctTRReqdocatt();
+                    List<cls_TRReqdocatt> filelist = MTReqdoc.getDataByFillter(input.reqdoc_id,0,"","");
+                    if (filelist.Count > 0)
+                    {
+                        foreach (cls_TRReqdocatt filedata in filelist)
+                        {
+                            File.Delete(filedata.reqdoc_att_path);
+                        }
+                    }
+                    MTReqdoc.delete(input.reqdoc_id,0);
                     try
                     {
                         cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
@@ -2955,6 +2992,73 @@ namespace BPC_OPR
             }
 
             return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region TRReqdocatt
+        public string doDeleteeTRReqdocatt(InputTRReqdocatt input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self013";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRReqdocatt controller = new cls_ctTRReqdocatt();
+                bool blnResult = controller.delete(input.reqdoc_id,input.reqdoc_att_no);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
         }
         #endregion
 

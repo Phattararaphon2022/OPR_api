@@ -154,6 +154,12 @@ namespace BPC_OPR
         string DeleteFile(string file_Path);
         #endregion
 
+        #region TRReqdocatt
+        [OperationContract(Name = "docatt_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeTRReqdocatt(InputTRReqdocatt input);
+        #endregion
+
         #region MTJobtable
         [OperationContract(Name = "jobtable_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

@@ -31,25 +31,33 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", WORKER_CODE");
-                obj_str.Append(", REQDOC_ID");
-                obj_str.Append(", REQDOC_DOC");
-                obj_str.Append(", REQDOC_DATE");
-                obj_str.Append(", REQDOC_NOTE");
-                obj_str.Append(", STATUS");
-           
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
-                obj_str.Append(", ISNULL(FLAG, 0) AS FLAG");
+                obj_str.Append("SELF_MT_REQDOC.COMPANY_CODE");
+                obj_str.Append(", SELF_MT_REQDOC.WORKER_CODE");
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
+                obj_str.Append(", SELF_MT_REQDOC.REQDOC_ID");
+                obj_str.Append(", SELF_MT_REQDOC.REQDOC_DOC");
+                obj_str.Append(", SELF_MT_REQDOC.REQDOC_DATE");
+                obj_str.Append(", SELF_MT_REQDOC.REQDOC_NOTE");
+                obj_str.Append(", SELF_MT_REQDOC.STATUS");
+
+                obj_str.Append(", ISNULL(SELF_MT_REQDOC.MODIFIED_BY, SELF_MT_REQDOC.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_MT_REQDOC.MODIFIED_DATE, SELF_MT_REQDOC.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_MT_REQDOC.FLAG, 0) AS FLAG");
+                obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
 
                 obj_str.Append(" FROM SELF_MT_REQDOC");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_MT_REQDOC.COMPANY_CODE");
+                obj_str.Append(" AND EMP_MT_WORKER.WORKER_CODE=SELF_MT_REQDOC.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL");
+                obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_MT_REQDOC.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE");
+                obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_MT_REQDOC.REQDOC_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'REQ'");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY REQDOC_ID");
+                obj_str.Append(" ORDER BY SELF_MT_REQDOC.REQDOC_ID");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -59,11 +67,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
                     model.reqdoc_id = Convert.ToInt32(dr["REQDOC_ID"]);
                     model.reqdoc_doc = dr["REQDOC_DOC"].ToString();
                     model.reqdoc_date = Convert.ToDateTime(dr["REQDOC_DATE"]);
                     model.reqdoc_note = dr["REQDOC_NOTE"].ToString();
                     model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
                     model.flag = Convert.ToBoolean(dr["FLAG"]);
@@ -79,27 +90,27 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_MTReqdoc> getDataByFillter(string com,int id,string worker_code,string datefrom,string dateto,string status)
+        public List<cls_MTReqdoc> getDataByFillter(string com,int id,string worker_code,string datefrom,string dateto,int status)
         {
             string strCondition = "";
             if(!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND SELF_MT_REQDOC.COMPANY_CODE='" + com + "'";
 
             if (!id.Equals(0))
-                strCondition += " AND REQDOC_ID='" + id + "'";
+                strCondition += " AND SELF_MT_REQDOC.REQDOC_ID='" + id + "'";
 
             if (!datefrom.Equals("") && !dateto.Equals(""))
-                strCondition += " AND (REQDOC_DATE BETWEEN '" + datefrom + "' AND '" + dateto + "'";
+                strCondition += " AND (SELF_MT_REQDOC.REQDOC_DATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
 
             if (!worker_code.Equals(""))
-                strCondition += " AND WORKER_CODE='" + worker_code + "'";
+                strCondition += " AND SELF_MT_REQDOC.WORKER_CODE='" + worker_code + "'";
 
-            if (!status.Equals(""))
-                strCondition += " AND STATUS='" + status + "'";
+            if (!status.Equals(0))
+                strCondition += " AND SELF_MT_REQDOC.STATUS='" + status + "'";
 
             return this.getData(strCondition);
         }
-        public bool checkDataOld(string com, string date, string worker_code)
+        public bool checkDataOld(string com,int reqdoc_id )
         {
             bool blnResult = false;
             try
@@ -109,8 +120,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT WORKER_CODE");
                 obj_str.Append(" FROM SELF_MT_REQDOC");
                 obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
-                obj_str.Append(" AND REQDOC_DATE ='" + date + "'");
-                obj_str.Append(" AND WORKER_CODE='" + worker_code + "'");
+                obj_str.Append(" AND REQDOC_ID ='" + reqdoc_id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -187,7 +197,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.reqdoc_date.ToString("MM/dd/yyyy"),model.worker_code))
+                if (this.checkDataOld(model.company_code,model.reqdoc_id))
                 {
                     return this.update(model);
                 }

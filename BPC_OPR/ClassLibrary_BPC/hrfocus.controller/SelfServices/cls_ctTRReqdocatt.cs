@@ -36,6 +36,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", REQDOC_ATT_FILENAME");
                 obj_str.Append(", REQDOC_ATT_FILETYPE");
                 obj_str.Append(", REQDOC_ATT_PATH");
+                obj_str.Append(", REQDOC_ATT_PATH");
+
+                obj_str.Append(", CREATED_BY");
+                obj_str.Append(", CREATED_DATE");
 
                 obj_str.Append(" FROM SELF_TR_REQDOC_ATT");
                 obj_str.Append(" WHERE 1=1");
@@ -56,6 +60,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.reqdoc_att_file_name = dr["REQDOC_ATT_FILENAME"].ToString();
                     model.reqdoc_att_file_type = dr["REQDOC_ATT_FILETYPE"].ToString();
                     model.reqdoc_att_path = dr["REQDOC_ATT_PATH"].ToString();
+                    model.created_by = dr["CREATED_BY"].ToString();
+                    model.created_date = Convert.ToDateTime(dr["CREATED_DATE"]).ToString();
 
                     list_model.Add(model);
                 }
@@ -183,6 +189,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", REQDOC_ATT_FILENAME ");
                 obj_str.Append(", REQDOC_ATT_FILETYPE ");
                 obj_str.Append(", REQDOC_ATT_PATH ");
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
@@ -191,6 +199,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @REQDOC_ATT_FILENAME ");
                 obj_str.Append(", @REQDOC_ATT_FILETYPE ");
                 obj_str.Append(", @REQDOC_ATT_PATH ");
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(" )");
 
                 obj_conn.doConnect();
@@ -202,6 +212,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@REQDOC_ATT_FILENAME", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILENAME"].Value = model.reqdoc_att_file_name;
                 obj_cmd.Parameters.Add("@REQDOC_ATT_FILETYPE", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILETYPE"].Value = model.reqdoc_att_file_type;
                 obj_cmd.Parameters.Add("@REQDOC_ATT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_PATH"].Value = model.reqdoc_att_path;
+                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -228,6 +240,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" REQDOC_ATT_FILENAME=@REQDOC_ATT_FILENAME ");
                 obj_str.Append(", REQDOC_ATT_FILETYPE=@REQDOC_ATT_FILETYPE ");
                 obj_str.Append(", REQDOC_ATT_PATH=@REQDOC_ATT_PATH ");
+                obj_str.Append(", CREATED_BY=@CREATED_BY ");
+                obj_str.Append(", CREATED_DATE=@CREATED_DATE ");
 
                 obj_str.Append(" WHERE REQDOC_ID=@REQDOC_ID ");
                 obj_str.Append(" AND REQDOC_ATT_NO=@REQDOC_ATT_NO ");
@@ -244,6 +258,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@REQDOC_ATT_FILENAME", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILENAME"].Value = model.reqdoc_att_file_name;
                 obj_cmd.Parameters.Add("@REQDOC_ATT_FILETYPE", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILETYPE"].Value = model.reqdoc_att_file_type;
                 obj_cmd.Parameters.Add("@REQDOC_ATT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_PATH"].Value = model.reqdoc_att_path;
+                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();

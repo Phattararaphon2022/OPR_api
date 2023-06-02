@@ -4001,7 +4001,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":1,\r\n    \"worker_code\":\"EMP01\",\r\n    \"reqdoc_doc\":\"DOC_20230516133520\",\r\n    \"reqdoc_date\":\"16-05-2023\",\r\n    \"reqdoc_note\":\"TEST\",\r\n    \"status\":\"2\",\r\n    \"reqempinfo_data\":[\r\n        {\r\n            \"reqdoc_id\":0,\r\n            \"reqdocempinfo_no\":0,\r\n            \"topic_code\":\"0001\",\r\n            \"reqempinfo_detail\":\"TESTEMPINFO\"\r\n        }\r\n    ],\r\n    \"reqdocatt_data\":[\r\n        {\r\n            \"reqdoc_id\":0,\r\n            \"reqdoc_att_no\":0,\r\n            \"reqdoc_att_file_name\":\"TESTDOCATT_01\",\r\n            \"reqdoc_att_file_type\":\"PDF\",\r\n            \"reqdoc_att_path\":\"C:/temp/TESTDOCATT_01.pdf\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":0,\r\n    \"worker_code\":\"EMP01\",\r\n    \"reqdoc_doc\":\"DOC_20230516133520\",\r\n    \"reqdoc_date\":\"16-05-2023\",\r\n    \"reqdoc_note\":\"TEST\",\r\n    \"status\":\"2\",\r\n    \"reqempinfo_data\":[\r\n        {\r\n            \"reqdoc_id\":0,\r\n            \"reqdocempinfo_no\":0,\r\n            \"topic_code\":\"00000\",\r\n            \"reqempinfo_detail\":\"TESTEMPINFO\"\r\n        }\r\n    ],\r\n    \"reqdocatt_data\":[\r\n        {\r\n            \"reqdoc_id\":0,\r\n            \"reqdoc_att_no\":0,\r\n            \"reqdoc_att_file_name\":\"TESTDOCATT_01\",\r\n            \"reqdoc_att_file_type\":\"PDF\",\r\n            \"reqdoc_att_path\":\"C:/temp/TESTDOCATT_01.pdf\",\r\n            \"created_by\":\"\",\r\n            \"created_date\":\"\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4204,6 +4204,50 @@
 											"value": "Adminn",
 											"disabled": true
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doc att",
+					"item": [
+						{
+							"name": "SelfServices/docatt_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"reqdoc_id\":1,\r\n    \"reqdoc_att_no\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/docatt_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"docatt_del"
 									]
 								}
 							},

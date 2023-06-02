@@ -472,7 +472,7 @@ namespace BPC_OPR
         [DataMember]
         public string reqdoc_note { get; set; }
         [DataMember]
-        public string status { get; set; }
+        public int status { get; set; }
         [DataMember]
         public List<cls_TRReqempinfo> reqempinfo_data { get; set; }
         [DataMember]
@@ -486,6 +486,29 @@ namespace BPC_OPR
         [DataMember]
         public bool flag { get; set; }
 
+    }
+    #endregion
+
+    #region InputTRReqdocatt
+    [DataContract]
+    public class InputTRReqdocatt
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public int reqdoc_id { get; set; }
+        [DataMember]
+        public int reqdoc_att_no { get; set; }
+        public string reqdoc_att_file_name { get; set; }
+        [DataMember]
+        public string reqdoc_att_file_type { get; set; }
+        [DataMember]
+        public string reqdoc_att_path { get; set; }
     }
     #endregion
 
