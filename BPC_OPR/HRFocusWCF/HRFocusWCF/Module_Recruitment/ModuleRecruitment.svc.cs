@@ -373,8 +373,8 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
-                     string tmp = srv_import.doImportExcel("ReqWorker", fileName, "TEST");
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
+                     string tmp = srv_import.doImportExcel("REQWORKER", fileName, "TEST");
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -719,7 +719,7 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
                      string tmp = srv_import.doImportExcel("REQADDRESS", fileName, "TEST");
 
                      output["success"] = true;
@@ -1057,7 +1057,7 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
                      string tmp = srv_import.doImportExcel("REQCARD", fileName, "TEST");
 
                      output["success"] = true;
@@ -1392,8 +1392,8 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
-                     string tmp = srv_import.doImportExcel("REQHOSPITAL", fileName, "TEST");
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
+                     string tmp = srv_import.doImportExcel("REQFOREIGNER", fileName, "TEST");
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -1732,7 +1732,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                    cls_srvReqImport srv_import = new cls_srvReqImport();
                     string tmp = srv_import.doImportExcel("REQEDUCATION", fileName, "TEST");
 
                     output["success"] = true;
@@ -2071,7 +2071,7 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
                      string tmp = srv_import.doImportExcel("REQASSESSMENT", fileName, "TEST");
 
                      output["success"] = true;
@@ -2409,7 +2409,7 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
                      string tmp = srv_import.doImportExcel("REQCRIMINAL", fileName, "TEST");
 
                      output["success"] = true;
@@ -2752,8 +2752,344 @@ namespace BPC_OPR
 
                  if (upload)
                  {
-                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
                      string tmp = srv_import.doImportExcel("REQTRAINING", fileName, "TEST");
+
+                     output["success"] = true;
+                     output["message"] = tmp;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Upload data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = "Upload data not successfully";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+         #endregion
+
+         #region Suggest
+         public string getTReqsuggestList(FillterApplywork input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQQ001.1";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRApplySuggest controller = new cls_ctTRApplySuggest();
+                 List<cls_TRSuggest> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_TRSuggest model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("worker_code", model.worker_code);
+                         json.Add("empsuggest_id", model.empsuggest_id);
+                         json.Add("empsuggest_code", model.empsuggest_code);
+                         json.Add("empsuggest_date", model.empsuggest_date);
+                         json.Add("empsuggest_note", model.empsuggest_note);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doManageTRReqsuggest(InputApplyTransaction input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQQ001.2";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRApplySuggest controller = new cls_ctTRApplySuggest();
+
+                 JObject jsonObject = new JObject();
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRSuggest>>(input.transaction_data);
+
+                 int success = 0;
+                 int error = 0;
+                 StringBuilder obj_error = new StringBuilder();
+
+                 bool clear = controller.delete(input.company_code, input.worker_code);
+
+                 if (clear)
+                 {
+                     foreach (cls_TRSuggest model in jsonArray)
+                     {
+
+                         model.modified_by = input.modified_by;
+
+                         bool blnResult = controller.insert(model);
+
+                         if (blnResult)
+                             success++;
+                         else
+                         {
+                             var json = new JavaScriptSerializer().Serialize(model);
+                             var tmp2 = JToken.Parse(json);
+                             obj_error.Append(tmp2);
+                         }
+
+                     }
+                 }
+                 else
+                 {
+                     error = 1;
+                 }
+
+
+                 if (error == 0)
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     //output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     output["error"] = obj_error.ToString();
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doDeleteTRreqSuggest(InputTRReqSuggest input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQQ001.3";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRSuggest controller = new cls_ctTRSuggest();
+
+                 if (controller.checkDataOld(input.company_code, input.worker_code))
+                 {
+                     bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                     if (blnResult)
+                     {
+                         output["success"] = true;
+                         output["message"] = "Remove data successfully";
+
+                         log.apilog_status = "200";
+                         log.apilog_message = "";
+                     }
+                     else
+                     {
+                         output["success"] = false;
+                         output["message"] = "Remove data not successfully";
+
+                         log.apilog_status = "500";
+                         log.apilog_message = controller.getMessage();
+                     }
+
+                 }
+                 else
+                 {
+                     string message = "Not Found Project code : " + input.reqsuggest_id;
+                     output["success"] = false;
+                     output["message"] = message;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = message;
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Remove data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+
+         }
+
+         public async Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQQ001.4";
+             log.apilog_by = by;
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 if (!objBpcOpr.doVerify(token))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+
+                 bool upload = await this.doUploadFile(fileName, stream);
+
+                 if (upload)
+                 {
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
+                     string tmp = srv_import.doImportExcel("REQSUGGEST", fileName, "TEST");
 
                      output["success"] = true;
                      output["message"] = tmp;

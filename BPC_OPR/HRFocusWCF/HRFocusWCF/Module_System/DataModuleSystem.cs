@@ -999,6 +999,36 @@ namespace BPC_OPR
         public string modified_by { get; set; }
 
     }
+
+    [DataContract]
+    public class InputMTSupply
+    {
+        [DataMember]
+        public string supply_id { get; set; }
+        [DataMember]
+        public string supply_code { get; set; }
+        [DataMember]
+        public string supply_name_th { get; set; }
+        [DataMember]
+        public string supply_name_en { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+    }
+
+    [DataContract]
+    public class InputMTUniform
+    {
+        [DataMember]
+        public string uniform_id { get; set; }
+        [DataMember]
+        public string uniform_code { get; set; }
+        [DataMember]
+        public string uniform_name_th { get; set; }
+        [DataMember]
+        public string uniform_name_en { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+    }
 }
 
  
