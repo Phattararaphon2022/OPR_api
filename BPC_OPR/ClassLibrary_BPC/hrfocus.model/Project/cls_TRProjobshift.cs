@@ -10,7 +10,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     {
         public cls_TRProjobshift() { }
         public int projobshift_id { get; set; }
-        public string projobshift_shift { get; set; }      
+        public string shift_code { get; set; }      
         public bool projobshift_sun { get; set; }
         public bool projobshift_mon { get; set; }
         public bool projobshift_tue { get; set; }
@@ -26,6 +26,8 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string projob_code { get; set; }
         public string project_code { get; set; }
+
+        public string version { get; set; }    
       
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   

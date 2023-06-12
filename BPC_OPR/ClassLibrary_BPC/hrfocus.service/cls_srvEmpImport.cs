@@ -150,6 +150,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.position_name_th = dr["position_name_th"].ToString();
                                 model.position_name_en = dr["position_name_en"].ToString();
                                 model.company_code = dr["company_code"].ToString();
+                                model.position_level = Convert.ToInt32(dr["position_level"]);
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);

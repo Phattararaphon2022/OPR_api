@@ -15,6 +15,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string projobsub_name_en { get; set; }
 
         public string project_code { get; set; }
+
+        public string version { get; set; }
       
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   

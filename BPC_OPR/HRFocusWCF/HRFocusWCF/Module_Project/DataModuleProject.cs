@@ -164,6 +164,9 @@ namespace BPC_OPR
 
         [DataMember]
         public string todate { get; set; }
+
+        [DataMember]
+        public string version { get; set; }
     }
 
     [DataContract]
@@ -176,7 +179,11 @@ namespace BPC_OPR
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
-        public string transaction_data { get; set; }        
+        public string transaction_data { get; set; }
+
+        [DataMember]
+        public string version { get; set; }
+
         [DataMember]
         public string modified_by { get; set; }
     }
@@ -301,6 +308,8 @@ namespace BPC_OPR
         [DataMember]
         public string project_code { get; set; }
         [DataMember]
+        public string version { get; set; }
+        [DataMember]
         public string modified_by { get; set; }
 
     }
@@ -313,19 +322,17 @@ namespace BPC_OPR
         [DataMember]
         public string projobcontract_ref { get; set; }
         [DataMember]
-        public string projobcontract_date { get; set; }
+        public int projobcontract_working { get; set; }
         [DataMember]
-        public int projobcontract_emp { get; set; }
+        public double projobcontract_hrsperday { get; set; }
         [DataMember]
-        public decimal projobcontract_amount { get; set; }
-        [DataMember]
-        public string projobcontract_fromdate { get; set; }
-        [DataMember]
-        public string projobcontract_todate { get; set; }
+        public double projobcontract_hrsot { get; set; }        
         [DataMember]
         public string projob_code { get; set; }
         [DataMember]
         public string project_code { get; set; }
+        [DataMember]
+        public string version { get; set; }
         [DataMember]
         public string modified_by { get; set; }
     }
@@ -344,7 +351,7 @@ namespace BPC_OPR
         [DataMember]
         public string projobcost_todate { get; set; }
         [DataMember]
-        public string projobcost_version { get; set; }
+        public string version { get; set; }
         [DataMember]
         public string projobcost_status { get; set; }
         [DataMember]
@@ -386,6 +393,10 @@ namespace BPC_OPR
         public string projob_code { get; set; }
         [DataMember]
         public string project_code { get; set; }
+
+        [DataMember]
+        public string version { get; set; }
+
         [DataMember]
         public string modified_by { get; set; }
 
@@ -401,6 +412,9 @@ namespace BPC_OPR
         public string projobsub_code { get; set; }
         [DataMember]
         public string project_code { get; set; }
+
+        [DataMember]
+        public string version { get; set; }
         [DataMember]
         public string modified_by { get; set; }
 
@@ -511,4 +525,58 @@ namespace BPC_OPR
         [DataMember]
         public int index { get; set; }
     }
+
+     [DataContract]
+    public class InputMTProjobversion
+    {
+        [DataMember]
+        public int projobversion_id { get; set; }
+        [DataMember]
+        public string transaction_id { get; set; }
+        [DataMember]
+        public string version { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+        [DataMember]
+        public string transaction_data { get; set; }
+        [DataMember]
+        public string transaction_old { get; set; }
+        [DataMember]
+        public string refso { get; set; }
+        [DataMember]
+        public string custno { get; set; }
+        [DataMember]
+        public string refappcostid { get; set; }
+        [DataMember]
+        public string currency { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }   
+    }
+
+    [DataContract]
+     public class InputTRProjobpol
+     {
+        [DataMember]
+        public int projobpol_id { get; set; }
+        [DataMember]
+        public string projobpol_type { get; set; }
+        [DataMember]
+        public string projobpol_timepol { get; set; }
+        [DataMember]
+        public string projobpol_slip { get; set; }
+        [DataMember]
+        public string projobpol_uniform { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string projobmain_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+         
+
+     }
 }

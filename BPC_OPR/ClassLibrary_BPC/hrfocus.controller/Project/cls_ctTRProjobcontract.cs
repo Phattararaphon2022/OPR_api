@@ -35,16 +35,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append("PROJOBCONTRACT_ID");
-                obj_str.Append(", PROJOBCONTRACT_REF");
-                obj_str.Append(", PROJOBCONTRACT_DATE");
+                obj_str.Append(", ISNULL(PROJOBCONTRACT_REF, '') AS PROJOBCONTRACT_REF");
 
-                obj_str.Append(", ISNULL(PROJOBCONTRACT_EMP, 0) AS PROJOBCONTRACT_EMP");
-                obj_str.Append(", ISNULL(PROJOBCONTRACT_AMOUNT, 0) AS PROJOBCONTRACT_AMOUNT");
-                obj_str.Append(", ISNULL(PROJOBCONTRACT_FROMDATE, '01/01/1900') AS PROJOBCONTRACT_FROMDATE");
-                obj_str.Append(", ISNULL(PROJOBCONTRACT_TODATE, '01/01/1900') AS PROJOBCONTRACT_TODATE");
+                obj_str.Append(", PROJOBCONTRACT_WORKING");
+                obj_str.Append(", PROJOBCONTRACT_HRSPERDAY");
+                obj_str.Append(", PROJOBCONTRACT_HRSOT");                
                
                 obj_str.Append(", PROJOB_CODE");     
-                obj_str.Append(", PROJECT_CODE");                
+                obj_str.Append(", PROJECT_CODE");
+                obj_str.Append(", VERSION");       
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -55,7 +54,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY PROJECT_CODE, PROJOB_CODE, PROJOBCONTRACT_FROMDATE DESC, PROJOBCONTRACT_REF");
+                obj_str.Append(" ORDER BY PROJECT_CODE, PROJOB_CODE, VERSION DESC");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -65,14 +64,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.projobcontract_id = Convert.ToInt32(dr["PROJOBCONTRACT_ID"]);
                     model.projobcontract_ref = Convert.ToString(dr["PROJOBCONTRACT_REF"]);
-                    model.projobcontract_date = Convert.ToDateTime(dr["PROJOBCONTRACT_DATE"]);
-                    model.projobcontract_emp = Convert.ToInt32(dr["PROJOBCONTRACT_EMP"]);
-                    model.projobcontract_amount = Convert.ToDecimal(dr["PROJOBCONTRACT_AMOUNT"]);
-                    model.projobcontract_fromdate = Convert.ToDateTime(dr["PROJOBCONTRACT_FROMDATE"]);
-                    model.projobcontract_todate = Convert.ToDateTime(dr["PROJOBCONTRACT_TODATE"]);
-                    
+                    model.projobcontract_working = Convert.ToInt32(dr["PROJOBCONTRACT_WORKING"]);
+                    model.projobcontract_hrsperday = Convert.ToDouble(dr["PROJOBCONTRACT_HRSPERDAY"]);
+                    model.projobcontract_hrsot = Convert.ToDouble(dr["PROJOBCONTRACT_HRSOT"]);
+                                        
                     model.projob_code = Convert.ToString(dr["PROJOB_CODE"]);                                        
                     model.project_code = Convert.ToString(dr["PROJECT_CODE"]);
+                    model.version = Convert.ToString(dr["VERSION"]);
                    
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -89,7 +87,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRProjobcontract> getDataByFillter(string project, string job)
+        public List<cls_TRProjobcontract> getDataByFillter(string version, string project, string job)
         {
             string strCondition = "";
 
@@ -98,6 +96,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!job.Equals(""))
                 strCondition += " AND PROJOB_CODE='" + job + "'";
+
+            if (!version.Equals(""))
+                strCondition += " AND VERSION='" + version + "'";
 
             return this.getData(strCondition);
         }
@@ -128,7 +129,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string contract_ref)
+        public bool checkDataOld(string version, string project, string job)
         {
             bool blnResult = false;
             try
@@ -139,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM PRO_TR_PROJOBCONTRACT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBCONTRACT_REF='" + contract_ref + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -156,7 +157,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string job, string contract_ref)
+        public bool delete(string version, string project, string job)
         {
             bool blnResult = true;
             try
@@ -168,7 +169,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM PRO_TR_PROJOBCONTRACT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBCOST_CODE='" + contract_ref + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
                 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -214,7 +215,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.projobcontract_ref))
+                if (this.checkDataOld(model.version, model.project_code, model.projob_code))
                 {
                     return this.update(model);
                 }
@@ -226,15 +227,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" (");
                 obj_str.Append("PROJOBCONTRACT_ID ");
                 obj_str.Append(", PROJOBCONTRACT_REF ");
-                obj_str.Append(", PROJOBCONTRACT_DATE ");
-                obj_str.Append(", PROJOBCONTRACT_EMP ");
-                obj_str.Append(", PROJOBCONTRACT_AMOUNT ");
-                obj_str.Append(", PROJOBCONTRACT_FROMDATE ");
-                obj_str.Append(", PROJOBCONTRACT_TODATE ");
-                
+                obj_str.Append(", PROJOBCONTRACT_WORKING ");
+                obj_str.Append(", PROJOBCONTRACT_HRSPERDAY ");
+                obj_str.Append(", PROJOBCONTRACT_HRSOT "); 
                 obj_str.Append(", PROJOB_CODE ");     
-                obj_str.Append(", PROJECT_CODE ");      
-         
+                obj_str.Append(", PROJECT_CODE ");
+                obj_str.Append(", VERSION ");            
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -243,15 +241,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@PROJOBCONTRACT_ID ");
                 obj_str.Append(", @PROJOBCONTRACT_REF ");
-                obj_str.Append(", @PROJOBCONTRACT_DATE ");
-                obj_str.Append(", @PROJOBCONTRACT_EMP ");
-                obj_str.Append(", @PROJOBCONTRACT_AMOUNT ");
-                obj_str.Append(", @PROJOBCONTRACT_FROMDATE ");
-                obj_str.Append(", @PROJOBCONTRACT_TODATE ");
-
+                obj_str.Append(", @PROJOBCONTRACT_WORKING ");
+                obj_str.Append(", @PROJOBCONTRACT_HRSPERDAY ");
+                obj_str.Append(", @PROJOBCONTRACT_HRSOT ");
                 obj_str.Append(", @PROJOB_CODE ");
                 obj_str.Append(", @PROJECT_CODE ");
-
+                obj_str.Append(", @VERSION ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -263,14 +258,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJOBCONTRACT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJOBCONTRACT_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@PROJOBCONTRACT_REF", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCONTRACT_REF"].Value = model.projobcontract_ref;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCONTRACT_DATE"].Value = model.projobcontract_date;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_EMP", SqlDbType.Int); obj_cmd.Parameters["@PROJOBCONTRACT_EMP"].Value = model.projobcontract_emp;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCONTRACT_AMOUNT"].Value = model.projobcontract_amount;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCONTRACT_FROMDATE"].Value = model.projobcontract_fromdate;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCONTRACT_TODATE"].Value = model.projobcontract_todate;
-                
+                obj_cmd.Parameters.Add("@PROJOBCONTRACT_WORKING", SqlDbType.Int); obj_cmd.Parameters["@PROJOBCONTRACT_WORKING"].Value = model.projobcontract_working;
+                obj_cmd.Parameters.Add("@PROJOBCONTRACT_HRSPERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCONTRACT_HRSPERDAY"].Value = model.projobcontract_hrsperday;
+                obj_cmd.Parameters.Add("@PROJOBCONTRACT_HRSOT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCONTRACT_HRSOT"].Value = model.projobcontract_hrsot;
+                        
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;               
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@VERSION"].Value = model.version;
                 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -300,11 +294,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE PRO_TR_PROJOBCONTRACT SET ");
 
                 obj_str.Append(" PROJOBCONTRACT_REF=@PROJOBCONTRACT_REF ");
-                obj_str.Append(", PROJOBCONTRACT_DATE=@PROJOBCONTRACT_DATE ");
-                obj_str.Append(", PROJOBCONTRACT_EMP=@PROJOBCONTRACT_EMP ");
-                obj_str.Append(", PROJOBCONTRACT_AMOUNT=@PROJOBCONTRACT_AMOUNT ");
-                obj_str.Append(", PROJOBCONTRACT_FROMDATE=@PROJOBCONTRACT_FROMDATE ");
-                obj_str.Append(", PROJOBCONTRACT_TODATE=@PROJOBCONTRACT_TODATE ");                               
+                obj_str.Append(", PROJOBCONTRACT_WORKING=@PROJOBCONTRACT_WORKING ");
+                obj_str.Append(", PROJOBCONTRACT_HRSPERDAY=@PROJOBCONTRACT_HRSPERDAY ");
+                obj_str.Append(", PROJOBCONTRACT_HRSOT=@PROJOBCONTRACT_HRSOT ");                                      
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -316,11 +308,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@PROJOBCONTRACT_REF", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCONTRACT_REF"].Value = model.projobcontract_ref;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCONTRACT_DATE"].Value = model.projobcontract_date;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_EMP", SqlDbType.Int); obj_cmd.Parameters["@PROJOBCONTRACT_EMP"].Value = model.projobcontract_emp;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCONTRACT_AMOUNT"].Value = model.projobcontract_amount;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCONTRACT_FROMDATE"].Value = model.projobcontract_fromdate;
-                obj_cmd.Parameters.Add("@PROJOBCONTRACT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCONTRACT_TODATE"].Value = model.projobcontract_todate;    
+                obj_cmd.Parameters.Add("@PROJOBCONTRACT_WORKING", SqlDbType.Int); obj_cmd.Parameters["@PROJOBCONTRACT_WORKING"].Value = model.projobcontract_working;
+                obj_cmd.Parameters.Add("@PROJOBCONTRACT_HRSPERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCONTRACT_HRSPERDAY"].Value = model.projobcontract_hrsperday;
+                obj_cmd.Parameters.Add("@PROJOBCONTRACT_HRSOT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCONTRACT_HRSOT"].Value = model.projobcontract_hrsot;  
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

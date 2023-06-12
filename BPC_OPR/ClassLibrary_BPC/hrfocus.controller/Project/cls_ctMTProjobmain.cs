@@ -40,25 +40,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBMAIN_NAME_EN");
 
                 obj_str.Append(", PROJOBMAIN_TYPE");
-                obj_str.Append(", ISNULL(PROJOBMAIN_SHIFT, '') AS PROJOBMAIN_SHIFT");
-                obj_str.Append(", PROJOBMAIN_SUN");
-                obj_str.Append(", PROJOBMAIN_MON");
-                obj_str.Append(", PROJOBMAIN_TUE");
-                obj_str.Append(", PROJOBMAIN_WED");
-                obj_str.Append(", PROJOBMAIN_THU");
-                obj_str.Append(", PROJOBMAIN_FRI");
-                obj_str.Append(", PROJOBMAIN_SAT");
-
-                obj_str.Append(", PROJOBMAIN_WORKING");
-                obj_str.Append(", PROJOBMAIN_HRSPERDAY");
-                obj_str.Append(", PROJOBMAIN_HRSOT");
-                obj_str.Append(", PROJOBMAIN_AUTOOT");
-
+               
                 obj_str.Append(", ISNULL(PROJOBMAIN_TIMEPOL, '') AS PROJOBMAIN_TIMEPOL");
                 obj_str.Append(", ISNULL(PROJOBMAIN_SLIP, '') AS PROJOBMAIN_SLIP");
                 obj_str.Append(", ISNULL(PROJOBMAIN_UNIFORM, '') AS PROJOBMAIN_UNIFORM");
 
                 obj_str.Append(", PROJECT_CODE");
+                obj_str.Append(", VERSION");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");    
@@ -83,24 +71,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobmain_name_en = dr["PROJOBMAIN_NAME_EN"].ToString();
 
                     model.projobmain_type = dr["PROJOBMAIN_TYPE"].ToString();
-                    model.projobmain_shift = dr["PROJOBMAIN_SHIFT"].ToString();
-                    model.projobmain_sun = Convert.ToBoolean(dr["PROJOBMAIN_SUN"]);
-                    model.projobmain_mon = Convert.ToBoolean(dr["PROJOBMAIN_MON"]);
-                    model.projobmain_tue = Convert.ToBoolean(dr["PROJOBMAIN_TUE"]);
-                    model.projobmain_wed = Convert.ToBoolean(dr["PROJOBMAIN_WED"]);
-                    model.projobmain_thu = Convert.ToBoolean(dr["PROJOBMAIN_THU"]);
-                    model.projobmain_fri = Convert.ToBoolean(dr["PROJOBMAIN_FRI"]);
-                    model.projobmain_sat = Convert.ToBoolean(dr["PROJOBMAIN_SAT"]);
-
-                    model.projobmain_working = Convert.ToInt32(dr["PROJOBMAIN_WORKING"]);
-                    model.projobmain_hrsperday = Convert.ToDouble(dr["PROJOBMAIN_HRSPERDAY"]);
-                    model.projobmain_hrsot = Convert.ToDouble(dr["PROJOBMAIN_HRSOT"]);
-                    model.projobmain_autoot = Convert.ToBoolean(dr["PROJOBMAIN_AUTOOT"]);
-
+                   
                     model.projobmain_timepol = dr["PROJOBMAIN_TIMEPOL"].ToString();
                     model.projobmain_slip = dr["PROJOBMAIN_SLIP"].ToString();
                     model.projobmain_uniform = dr["PROJOBMAIN_UNIFORM"].ToString();
-                    model.project_code = dr["PROJECT_CODE"].ToString(); 
+                    model.project_code = dr["PROJECT_CODE"].ToString();
+
+                    model.version = dr["VERSION"].ToString(); 
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -117,12 +94,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProjobmain> getDataByFillter(string project)
+        public List<cls_MTProjobmain> getDataByFillter(string project, string version)
         {
             string strCondition = "";
 
             if (!project.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            if (!version.Equals(""))
+                strCondition += " AND VERSION='" + version + "'";
             
             return this.getData(strCondition);
         }
@@ -153,7 +133,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string code)
+        public bool checkDataOld(string version, string project, string code)
         {
             bool blnResult = false;
             try
@@ -164,6 +144,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM PRO_MT_PROJOBMAIN");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOBMAIN_CODE='" + code + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -204,7 +185,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string code)
+        public bool delete(string version, string project, string code)
         {
             bool blnResult = true;
             try
@@ -216,6 +197,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM PRO_MT_PROJOBMAIN");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOBMAIN_CODE='" + code + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -236,7 +218,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projobmain_code))
+                if (this.checkDataOld(model.version, model.project_code, model.projobmain_code))
                 {
                     return this.update(model);               
                 }
@@ -252,23 +234,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBMAIN_NAME_EN ");
 
                 obj_str.Append(", PROJOBMAIN_TYPE ");
-                obj_str.Append(", PROJOBMAIN_SHIFT ");
-                obj_str.Append(", PROJOBMAIN_SUN ");
-                obj_str.Append(", PROJOBMAIN_MON ");
-                obj_str.Append(", PROJOBMAIN_TUE ");
-                obj_str.Append(", PROJOBMAIN_WED ");
-                obj_str.Append(", PROJOBMAIN_THU ");
-                obj_str.Append(", PROJOBMAIN_FRI ");
-                obj_str.Append(", PROJOBMAIN_SAT ");
-                obj_str.Append(", PROJOBMAIN_WORKING ");
-                obj_str.Append(", PROJOBMAIN_HRSPERDAY ");
-                obj_str.Append(", PROJOBMAIN_HRSOT ");
-                obj_str.Append(", PROJOBMAIN_AUTOOT ");
+               
 
                 obj_str.Append(", PROJOBMAIN_TIMEPOL ");
                 obj_str.Append(", PROJOBMAIN_SLIP ");
                 obj_str.Append(", PROJOBMAIN_UNIFORM ");
-                obj_str.Append(", PROJECT_CODE ");     
+                obj_str.Append(", PROJECT_CODE ");
+
+                obj_str.Append(", VERSION ");    
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -280,25 +253,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBMAIN_CODE ");
                 obj_str.Append(", @PROJOBMAIN_NAME_TH ");
                 obj_str.Append(", @PROJOBMAIN_NAME_EN ");
-
                 obj_str.Append(", @PROJOBMAIN_TYPE ");
-                obj_str.Append(", @PROJOBMAIN_SHIFT ");
-                obj_str.Append(", @PROJOBMAIN_SUN ");
-                obj_str.Append(", @PROJOBMAIN_MON ");
-                obj_str.Append(", @PROJOBMAIN_TUE ");
-                obj_str.Append(", @PROJOBMAIN_WED ");
-                obj_str.Append(", @PROJOBMAIN_THU ");
-                obj_str.Append(", @PROJOBMAIN_FRI ");
-                obj_str.Append(", @PROJOBMAIN_SAT ");
-                obj_str.Append(", @PROJOBMAIN_WORKING ");
-                obj_str.Append(", @PROJOBMAIN_HRSPERDAY ");
-                obj_str.Append(", @PROJOBMAIN_HRSOT ");
-                obj_str.Append(", @PROJOBMAIN_AUTOOT ");
+              
 
                 obj_str.Append(", @PROJOBMAIN_TIMEPOL ");
                 obj_str.Append(", @PROJOBMAIN_SLIP ");
                 obj_str.Append(", @PROJOBMAIN_UNIFORM ");
                 obj_str.Append(", @PROJECT_CODE ");
+
+                obj_str.Append(", @VERSION ");    
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -317,24 +280,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_EN"].Value = model.projobmain_name_en;
 
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TYPE"].Value = model.projobmain_type;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_SHIFT", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_SHIFT"].Value = model.projobmain_shift;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_SUN", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_SUN"].Value = model.projobmain_sun;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_MON", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_MON"].Value = model.projobmain_mon;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_TUE", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_TUE"].Value = model.projobmain_tue;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_WED", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_WED"].Value = model.projobmain_wed;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_THU", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_THU"].Value = model.projobmain_thu;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_FRI", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_FRI"].Value = model.projobmain_fri;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_SAT"].Value = model.projobmain_sat;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_WORKING", SqlDbType.Int); obj_cmd.Parameters["@PROJOBMAIN_WORKING"].Value = model.projobmain_working;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_HRSPERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_HRSPERDAY"].Value = model.projobmain_hrsperday;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_HRSOT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_HRSOT"].Value = model.projobmain_hrsot;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_AUTOOT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_AUTOOT"].Value = model.projobmain_autoot;
-
+              
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TIMEPOL", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TIMEPOL"].Value = model.projobmain_timepol;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_SLIP", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_SLIP"].Value = model.projobmain_slip;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_UNIFORM", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_UNIFORM"].Value = model.projobmain_uniform;
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
-                
+
+                obj_cmd.Parameters.Add("@VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@VERSION"].Value = model.version;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -393,18 +345,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_EN"].Value = model.projobmain_name_en;
 
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TYPE"].Value = model.projobmain_type;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_SHIFT", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_SHIFT"].Value = model.projobmain_shift;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_SUN", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_SUN"].Value = model.projobmain_sun;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_MON", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_MON"].Value = model.projobmain_mon;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_TUE", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_TUE"].Value = model.projobmain_tue;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_WED", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_WED"].Value = model.projobmain_wed;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_THU", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_THU"].Value = model.projobmain_thu;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_FRI", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_FRI"].Value = model.projobmain_fri;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_SAT"].Value = model.projobmain_sat;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_WORKING", SqlDbType.Int); obj_cmd.Parameters["@PROJOBMAIN_WORKING"].Value = model.projobmain_working;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_HRSPERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_HRSPERDAY"].Value = model.projobmain_hrsperday;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_HRSOT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_HRSOT"].Value = model.projobmain_hrsot;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_AUTOOT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBMAIN_AUTOOT"].Value = model.projobmain_autoot;
+               
 
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TIMEPOL", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TIMEPOL"].Value = model.projobmain_timepol;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_SLIP", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_SLIP"].Value = model.projobmain_slip;
