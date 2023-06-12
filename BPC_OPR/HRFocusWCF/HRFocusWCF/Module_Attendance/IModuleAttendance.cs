@@ -105,6 +105,20 @@ namespace BPC_OPR
 
         #endregion
 
+        #region TRLeave
+        [OperationContract(Name = "leaveacc_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTReaveList(InputTRLeave input);
+
+        [OperationContract(Name = "leaveacc")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTReave(InputTRLeave input);
+
+        [OperationContract(Name = "leaveacc_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTReave(InputTRLeave input);
+        #endregion
+
         #region MTPlanleave
         [OperationContract(Name = "planleave_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

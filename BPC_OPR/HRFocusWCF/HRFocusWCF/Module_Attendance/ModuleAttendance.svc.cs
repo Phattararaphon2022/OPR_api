@@ -1706,6 +1706,216 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region TReave
+        public string getTReaveList(InputTRLeave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTREmpleaveacc objLeave = new cls_ctTREmpleaveacc();
+                List<cls_TREmpleaveacc> listLeave = objLeave.getDataByFillter(input.company_code, input.worker_code, input.year_code);
+
+                JArray array = new JArray();
+
+                if (listLeave.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TREmpleaveacc model in listLeave)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("year_code", model.year_code);
+                        json.Add("leave_code", model.leave_code);
+                        cls_ctMTLeave objMTLeave = new cls_ctMTLeave();
+                        List<cls_MTLeave> listMTLeave = objMTLeave.getDataByFillter(model.company_code, "", model.leave_code);
+                        json.Add("leave_name_th", listMTLeave[0].leave_name_th);
+                        json.Add("leave_name_en", listMTLeave[0].leave_name_en);
+                        json.Add("empleaveacc_bf", model.empleaveacc_bf);
+                        json.Add("empleaveacc_annual", model.empleaveacc_annual);
+                        json.Add("empleaveacc_used", model.empleaveacc_used);
+                        json.Add("empleaveacc_remain", model.empleaveacc_remain);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+               
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTReave(InputTRLeave input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTREmpleaveacc objLeave = new cls_ctTREmpleaveacc();
+                cls_TREmpleaveacc model = new cls_TREmpleaveacc();
+                model.company_code = input.company_code;
+                model.leave_code = input.worker_code;
+                model.year_code = input.year_code;
+                model.leave_code = input.leave_code;
+                model.empleaveacc_bf = input.empleaveacc_bf;
+                model.empleaveacc_annual = input.empleaveacc_annual;
+                model.empleaveacc_used = input.empleaveacc_used;
+                model.empleaveacc_remain = input.empleaveacc_remain;
+
+                model.modified_by = input.username;
+                model.flag = input.flag;
+
+                bool strID = objLeave.insert(model);
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objLeave.getMessage();
+                }
+
+                objLeave.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTReave(InputTRLeave input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT001.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTREmpleaveacc controller = new cls_ctTREmpleaveacc();
+
+                bool blnResult = controller.delete(input.company_code,input.worker_code,input.year_code);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
         #region MTPlanleave
         public string getMTPlanleaveList(InputMTPlanleave input)
         {
@@ -3468,7 +3678,7 @@ namespace BPC_OPR
                             foreach (cls_TREmppolatt pol in listPol)
                             {
                                 cls_srvProcessTime srvTime = new cls_srvProcessTime();
-                                srvTime.doSetEmpleaveacc(year, pol.company_code, pol.worker_code, input.modified_by);
+                                srvTime.doSetEmpleaveacc(input.year_code, pol.company_code, pol.worker_code, input.modified_by);
                             }
 
                         }

@@ -59,6 +59,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_BY, SELF_TR_TIMEOT.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_DATE, SELF_TR_TIMEOT.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
 
                 obj_str.Append(" FROM SELF_TR_TIMEOT");
 
@@ -66,6 +67,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
                 obj_str.Append(" INNER JOIN SYS_MT_REASON ON SELF_TR_TIMEOT.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMEOT.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'OT' ");
                 obj_str.Append(" INNER JOIN SYS_MT_LOCATION ON SELF_TR_TIMEOT.COMPANY_CODE=SYS_MT_LOCATION.COMPANY_CODE AND SYS_MT_LOCATION.LOCATION_CODE=SELF_TR_TIMEOT.LOCATION_CODE ");
+                obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMEOT.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE ");
+                obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMEOT.TIMEOT_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'OT' ");
 
                 obj_str.Append(" WHERE 1=1");
 
@@ -104,6 +107,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.reason_name_th = dr["REASON_NAME_TH"].ToString();
                     model.reason_name_en = dr["REASON_NAME_EN"].ToString();
                     model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -120,12 +124,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRTimeot> getDataByFillter(string id,string status,string com, string emp, DateTime datefrom, DateTime dateto)
+        public List<cls_TRTimeot> getDataByFillter(int id,int status,string com, string emp, DateTime datefrom, DateTime dateto)
         {
             string strCondition = "";
-            if(!id.Equals(""))
+            if(!id.Equals(0))
                 strCondition += " AND SELF_TR_TIMEOT.TIMEOT_ID='" + id + "'";
-            if (!status.Equals(""))
+            if (!status.Equals(0))
                 strCondition += " AND SELF_TR_TIMEOT.STATUS='" + status + "'";
             if(!com.Equals(""))
                 strCondition += " AND SELF_TR_TIMEOT.COMPANY_CODE='" + com + "'";
@@ -189,7 +193,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string id)
+        public bool delete(int id)
         {
             bool blnResult = true;
             try
