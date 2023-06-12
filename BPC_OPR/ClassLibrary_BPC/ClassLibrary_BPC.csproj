@@ -76,6 +76,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRBonus.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPayitem.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaytran.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPolItem.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPolProvident.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccount.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRBonus.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPayitem.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRPaytran.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPolItem.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPolProvident.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTAccount.cs" />
@@ -360,6 +362,7 @@
     <Compile Include="hrfocus.service\cls_srvProcessTime.cs" />
     <Compile Include="hrfocus.service\cls_srvProjectImport.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
+    <Compile Include="hrfocus.service\Payroll\cls_srvProcessPayroll.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
     <Compile Include="hrfocus.utility\cls_Hash.cs" />
     <Compile Include="hrfocus.utility\cls_StyleDataGridView.cs" />

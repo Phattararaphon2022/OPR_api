@@ -247,7 +247,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE SYS_MT_COMBANkK SET ");
                 obj_str.Append(" COMBANK_BANKCODE=@COMBANK_BANKCODE ");
 
-                obj_str.Append(" MODIFIED_BY=@MODIFIED_BY ");
+                obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
 

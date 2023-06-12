@@ -155,6 +155,8 @@ namespace BPC_OPR
         public string polcode_id { get; set; }
         [DataMember]
         public string polcode_type { get; set; }
+        [DataMember]
+        public string combank_bankaccount { get; set; }
     }
 
     [DataContract]
@@ -350,7 +352,8 @@ namespace BPC_OPR
          public string qualification_id { get; set; }
          [DataMember]
          public string comlocation_code { get; set; }
-
+         [DataMember]
+         public int combank_id { get; set; }
     }
 
 

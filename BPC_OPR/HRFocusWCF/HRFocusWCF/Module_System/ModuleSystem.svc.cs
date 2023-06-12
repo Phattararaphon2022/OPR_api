@@ -6525,6 +6525,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        ///
         public string doManageMTCombank(InputComTransaction input)
         {
             JObject output = new JObject();
@@ -6632,7 +6633,7 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
-
+       //
         public string doDeleteMTCombank(InputMTCombank input)
         {
             JObject output = new JObject();
@@ -6641,7 +6642,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBK001.3";
+            log.apilog_code = "EMP011.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6713,6 +6714,88 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
+
+
+        //public string doDeleteMTCombank(InputMTCombank input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CBK001.3";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTCombank controller = new cls_ctMTCombank();
+
+        //        if (controller.checkDataOld(input.company_code, input.combank_bankcode))
+        //        {
+        //            bool blnResult = controller.delete(input.company_code);
+
+        //            if (blnResult)
+        //            {
+        //                output["success"] = true;
+        //                output["message"] = "Remove data successfully";
+
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Remove data not successfully";
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = controller.getMessage();
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            string message = "Not Found Project code : " + input.combank_id;
+        //            output["success"] = false;
+        //            output["message"] = message;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = message;
+        //        }
+
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
 
         public async Task<string> doUploadCombank(string token, string by, string fileName, Stream stream)
         {

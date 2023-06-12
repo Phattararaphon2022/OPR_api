@@ -2,6 +2,7 @@
 using ClassLibrary_BPC.hrfocus.controller;
 using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.service;
+using ClassLibrary_BPC.hrfocus.service.Payroll;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
