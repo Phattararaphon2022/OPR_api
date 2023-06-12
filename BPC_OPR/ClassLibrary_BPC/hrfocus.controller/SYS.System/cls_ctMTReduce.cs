@@ -161,7 +161,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" DELETE FROM SYS_MT_REDUCE");
                 obj_str.Append(" WHERE 1=1 ");
-                obj_str.Append(" AND REDUCE_ID='" + id + "'");
+                //obj_str.Append(" AND REDUCE_ID='" + id + "'");
+                obj_str.Append(" AND REDUCE_CODE='" + id + "'");
 
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());

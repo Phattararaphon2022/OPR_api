@@ -114,6 +114,88 @@ namespace BPC_OPR
         #endregion
 
 
+        #region payroll set batch
+
+        #region set bonus
+        [OperationContract(Name = "setbonus_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchBonusList(InputTRList input);
+
+        [OperationContract(Name = "setpaypolbonus")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchBonus(InputTRList input);
+
+        [OperationContract(Name = "setbonus_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteBatchBonus(InputTRPaypolbonus input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetBonus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchBonus(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region set paypolprovident
+        [OperationContract(Name = "setpolprovident_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchPaypolprovidentList(InputTRList input);
+
+        [OperationContract(Name = "setpaypolprovident")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPaypolprovident(InputTRList input);
+
+        [OperationContract(Name = "setpolprovident_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteBatchPaypolprovident(InputTRList input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPolprovident?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchPaypolprovident(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region set paypolitem
+        [OperationContract(Name = "setpolpaypolitem_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchPaypolitemList(InputTRList input);
+
+        [OperationContract(Name = "setpaypolpaypolitem")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPaypolitem(InputTRList input);
+
+        [OperationContract(Name = "paypolitem_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteBatchPaypolitem(InputTRList input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPaypolitem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchPaypolPaypolitem(string token, string by, string fileName, Stream stream);
+        #endregion
+
+
+        #endregion
+
+        #region set TRpayitem
+        [OperationContract(Name = "TRpayitem_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPayitemList(InputTRPayitem input);
+
+        [OperationContract(Name = "TRpayitemlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPayitemList(InputTRPayitem input);
+
+        [OperationContract(Name = "TRpayitem")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPayitem(InputTRPayitem input);
+
+
+        [OperationContract(Name = "TRpayitem_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPayitem(InputTRPayitem input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRpayitem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
+        #endregion
+
 
     }
 }

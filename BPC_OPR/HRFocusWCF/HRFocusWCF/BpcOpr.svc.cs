@@ -182,6 +182,18 @@ namespace BPC_OPR
 
         [DataMember]
         public string bonus_code { get; set; }
+
+        [DataMember]
+        public string com { get; set; }
+        [DataMember]
+        public string emp { get; set; }
+        [DataMember]
+        public DateTime date { get; set; }
+        [DataMember]
+        public string item_type { get; set; }
+        [DataMember]
+        public string item { get; set; }
+        
     }
 
     public class RequestData
