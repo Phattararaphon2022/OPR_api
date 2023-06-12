@@ -74,6 +74,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
@@ -175,6 +176,8 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTRound.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTRounds.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTSupply.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTUniform.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctSYSCodestructure.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
@@ -336,6 +339,8 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTRequest.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTRound.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTRounds.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTSupply.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTUniform.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTYear.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTReason.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTCodestructure.cs" />
@@ -379,6 +384,7 @@
     <Compile Include="hrfocus.service\cls_srvProcessTime.cs" />
     <Compile Include="hrfocus.service\cls_srvProjectImport.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
+    <Compile Include="hrfocus.service\Recruitment\cls_srvReqImport.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
     <Compile Include="hrfocus.utility\cls_Hash.cs" />
     <Compile Include="hrfocus.utility\cls_StyleDataGridView.cs" />
@@ -388,6 +394,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmExportData.resx" />

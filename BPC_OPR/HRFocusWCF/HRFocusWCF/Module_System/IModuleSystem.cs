@@ -607,5 +607,41 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadqualification?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTQualification(string token, string by, string fileName, Stream stream);
         #endregion
+
+        #region Supply
+        [OperationContract(Name = "supply_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getSupplyList(BasicRequest req);
+
+        [OperationContract(Name = "supply")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTSupply(InputMTSupply input);
+
+        [OperationContract(Name = "supply_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTSupply(InputMTSupply input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSupply?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadSupply(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region Uniform
+        [OperationContract(Name = "uniform_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getUniformList(BasicRequest req);
+
+        [OperationContract(Name = "uniform")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTUniform(InputMTUniform input);
+
+        [OperationContract(Name = "uniform_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTUniform(InputMTUniform input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadUniform?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadUniform(string token, string by, string fileName, Stream stream);
+        #endregion
     }
 }

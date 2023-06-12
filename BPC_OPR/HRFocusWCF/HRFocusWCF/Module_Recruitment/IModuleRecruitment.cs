@@ -177,6 +177,24 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqCriminal?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream);
         #endregion
+
+        #region TR_Suggest
+        [OperationContract(Name = "reqsuggestlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTReqsuggestList(FillterApplywork input);
+
+        [OperationContract(Name = "reqsuggest")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRReqsuggest(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqsuggest_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRreqSuggest(InputTRReqSuggest input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqSuggest?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream);
+        #endregion
      
     }
 

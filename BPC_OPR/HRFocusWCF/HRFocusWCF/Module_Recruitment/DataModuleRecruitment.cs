@@ -349,6 +349,28 @@ namespace BPC_OPR
         public string modified_date { get; set; }
     }
 
+    public class InputTRReqSuggest
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string applywork_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int reqsuggest_id { get; set; }
+        [DataMember]
+        public string reqsuggest_code { get; set; }
+        [DataMember]
+        public string reqsuggest_date { get; set; }
+        [DataMember]
+        public string reqsuggest_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+
     [DataContract]
     public class InputTRReqTraining
     {

@@ -2929,7 +2929,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
-                    string tmp = srv_import.doImportExcel("EMPBranch", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("EMPBRANCH", fileName, "TEST");
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4960,7 +4960,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
-                    string tmp = srv_import.doImportExcel("EMPHOSPITAL", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("EMPFOREIGNER", fileName, "TEST");
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9556,8 +9556,8 @@ namespace BPC_OPR
                         json.Add("worker_code", model.worker_code);
                         json.Add("empsuggest_id", model.empsuggest_id);
                         json.Add("empsuggest_code", model.empsuggest_code);
-                        json.Add("empuniform_issuedate", model.empsuggest_date);
-                        json.Add("empuniform_note", model.empsuggest_note);
+                        json.Add("empsuggest_date", model.empsuggest_date);
+                        json.Add("empsuggest_note", model.empsuggest_note);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
