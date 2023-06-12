@@ -266,6 +266,15 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeTRAccountdep(InputTRAccountdep input);
         #endregion
+
+        #region Approvedoc
+        [OperationContract(Name = "approve_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string Approvegetdoc(InputApprovedoc input);
+        [OperationContract(Name = "approve")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string Approve(InputApprovedoc input);
+        #endregion
     }
 
 }

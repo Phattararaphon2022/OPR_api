@@ -4787,5 +4787,99 @@ namespace BPC_OPR
 
         }
         #endregion
+
+
+        public string Approvegetdoc(InputApprovedoc input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self013";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ApproveJob controller = new cls_ApproveJob();
+                JArray list = controller.ApproveJob_get(input.company_code, input.job_type, input.username);
+
+                 output["result"] = "1";
+                 output["result_text"] = "1";
+                 output["data"] = list;
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string Approve(InputApprovedoc input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "Self013";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ApproveJob controller = new cls_ApproveJob();
+                int success = 0;
+                int fail = 0;
+                JArray array = new JArray();
+                foreach (string id in input.job_id)
+                {
+                    JObject json = new JObject();
+                    bool Status = false;
+                    string result = controller.ApproveJob(ref Status, input.company_code, id, input.job_type, input.username, input.approve_status, input.lang);
+                    if (Status)
+                    {
+                        success++;
+                    }
+                    else
+                    {
+                        fail++;
+                        json.Add("job_id", id);
+                        json.Add("job_type", input.job_type);
+                        json.Add("file_detail", result);
+                        array.Add(json);
+                    }
+                    Status = false;
+                }
+                output["result"] = "1";
+                output["result_text"] = "1";
+                output["data"] = array;
+                output["success"] = success;
+                output["fail"] = fail;
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
     }
 }

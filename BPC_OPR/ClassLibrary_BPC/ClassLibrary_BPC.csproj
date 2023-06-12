@@ -74,6 +74,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdoc.cs" />

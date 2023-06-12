@@ -3090,7 +3090,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":\"\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeshift_fromdate\":\"2023-03-28\",\r\n    \"timeshift_todate\":\"2023-03-28\",\r\n    \"status\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"timeshift_id\":0,\r\n    \"worker_code\":\"EMP01\",\r\n    \"timeshift_fromdate\":\"2023-01-01\",\r\n    \"timeshift_todate\":\"2023-12-31\",\r\n    \"status\":0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3942,7 +3942,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":0,\r\n    \"worker_code\":\"\",\r\n    \"reqdoc_date\":\"\",\r\n    \"reqdoc_date_to\":\"\",\r\n    \"status\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"reqdoc_id\":0,\r\n    \"worker_code\":\"\",\r\n    \"reqdoc_date\":\"\",\r\n    \"reqdoc_date_to\":\"\",\r\n    \"status\":0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5320,6 +5320,109 @@
 										"ModuleSelfServices.svc",
 										"SelfServices",
 										"accountdep_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Approve Doc",
+					"item": [
+						{
+							"name": "SelfServices/approve_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Approve01\",\r\n    \"company_code\":\"OPR\",\r\n    \"job_type\":\"LEA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/approve_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"approve_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/approve",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Approve01\",\r\n    \"company_code\":\"OPR\",\r\n    \"job_type\":\"CI\",\r\n    \"approve_status\":\"A\",\r\n    \"job_id\":[\"16\",\"17\"],\r\n    \"lang\":\"EN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/approve",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"approve"
 									]
 								}
 							},

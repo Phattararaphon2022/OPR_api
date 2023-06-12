@@ -685,4 +685,36 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputApprovedoc
+    [DataContract]
+    public class InputApprovedoc
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
+        [DataMember]
+        public string approve_status { get; set; }
+        [DataMember]
+        public List<string> job_id { get; set; }
+        [DataMember]
+        public string lang { get; set; }
+
+    }
+
+    public class Jobdetail
+    {
+        public string job_id { get; set; }
+        public string worker_code { get; set; }
+        public string workdate { get; set; }
+
+    }
+    #endregion
+
 }
