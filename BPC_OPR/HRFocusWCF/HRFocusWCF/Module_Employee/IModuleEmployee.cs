@@ -32,6 +32,10 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadWorker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadWorker(string token, string by, string fileName, Stream stream);
+
+        [OperationContract(Name = "worker_listbyfillter")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getWorkerFillterList(FillterSearch req);
         #endregion
 
         #region Dep

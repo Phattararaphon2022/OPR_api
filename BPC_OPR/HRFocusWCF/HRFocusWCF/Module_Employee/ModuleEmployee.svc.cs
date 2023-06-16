@@ -449,6 +449,128 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        public string getWorkerFillterList(FillterSearch req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP008.5";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTWorker controller = new cls_ctMTWorker();
+                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTWorker model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_id", model.worker_id);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_card", model.worker_card);
+                        json.Add("worker_initial", model.worker_initial);
+
+                        json.Add("worker_fname_th", model.worker_fname_th);
+                        json.Add("worker_lname_th", model.worker_lname_th);
+                        json.Add("worker_fname_en", model.worker_fname_en);
+                        json.Add("worker_lname_en", model.worker_lname_en);
+
+                        json.Add("worker_type", model.worker_type);
+                        json.Add("worker_gender", model.worker_gender);
+                        json.Add("worker_birthdate", model.worker_birthdate);
+                        json.Add("worker_hiredate", model.worker_hiredate);
+                        json.Add("worker_status", model.worker_status);
+                        json.Add("religion_code", model.religion_code);
+                        json.Add("blood_code", model.blood_code);
+                        json.Add("worker_height", model.worker_height);
+                        json.Add("worker_weight", model.worker_weight);
+
+                        json.Add("worker_resigndate", model.worker_resigndate);
+                        json.Add("worker_resignstatus", model.worker_resignstatus);
+                        json.Add("worker_resignreason", model.worker_resignreason);
+
+                        json.Add("worker_probationdate", model.worker_probationdate);
+                        json.Add("worker_probationenddate", model.worker_probationenddate);
+                        json.Add("worker_probationday", model.worker_probationday);
+
+                        json.Add("worker_taxmethod", model.worker_taxmethod);
+
+                        json.Add("hrs_perday", model.hrs_perday);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("self_admin", model.self_admin);
+
+                        json.Add("flag", model.flag);
+
+                        json.Add("initial_name_th", model.initial_name_th);
+                        json.Add("initial_name_en", model.initial_name_en);
+
+                        json.Add("position_name_th", model.position_name_th);
+                        json.Add("position_name_en", model.position_name_en);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
 
         #endregion
 

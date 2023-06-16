@@ -1100,7 +1100,54 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+    }
 
+    public class FillterSearch
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string level_code { get; set; }
+        [DataMember]
+        public string dep_code { get; set; }
+        [DataMember]
+        public string position_code { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public DateTime date_fill { get; set; }
+        [DataMember]
+        public bool worker_resignstatus { get; set; }
+        [DataMember]
+        public string searchemp { get; set; }
+        [DataMember]
+        public string worker_emptype { get; set; }
+        [DataMember]
+        public string worker_id { get; set; }
+        [DataMember]
+        public string worker_card { get; set; }
+        [DataMember]
+        public string worker_initial { get; set; }
+        [DataMember]
+        public string worker_fname_th { get; set; }
+        [DataMember]
+        public string worker_lname_th { get; set; }
+        [DataMember]
+        public string worker_fname_en { get; set; }
+        [DataMember]
+        public string worker_lname_en { get; set; }
+        [DataMember]
+        public string worker_gender { get; set; }
+        [DataMember]
+        public string group_code { get; set; }
 
     }
 }
