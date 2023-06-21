@@ -49,24 +49,147 @@ namespace BPC_OPR
 
             try
             {
-                if (input.usname.Equals(UserAuthen) && input.pwd.Equals(PwdAuthen))
-                {
-                    RequestData aa = new RequestData();
-                    aa.usname = input.usname;
-                    aa.pwd = input.pwd;
-                    ResponseData bb = Login(aa);
-                    output["success"] = true;
-                    output["message"] = bb.token;
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "No access rights";
+                cls_ctMTAccount Account = new cls_ctMTAccount();
+                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "");
 
-                    log.apilog_status = "404";
-                    log.apilog_message = "No access rights";
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTAccount model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("account_user", model.account_user);
+                        //json.Add("account_pwd", model.account_pwd);
+                        json.Add("account_pwd", "");
+                        json.Add("account_type", model.account_type);
+                        json.Add("account_level", model.account_level);
+                        json.Add("account_email", model.account_email);
+                        json.Add("account_email_alert", model.account_email_alert);
+                        json.Add("account_line", model.account_line);
+                        json.Add("account_line_alert", model.account_line_alert);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        cls_ctTRAccountpos objTRAccountpos = new cls_ctTRAccountpos();
+                        List<cls_TRAccountpos> listTRAccountpos = objTRAccountpos.getDataByFillter(model.company_code, model.account_user, model.account_type, "");
+                        JArray arrayTRAccountpos = new JArray();
+                        if (listTRAccountpos.Count > 0)
+                        {
+                            int indexTRAccount = 1;
+
+                            foreach (cls_TRAccountpos modelTRAccount in listTRAccountpos)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRAccount.company_code);
+                                jsonTRPlan.Add("account_user", modelTRAccount.account_user);
+                                jsonTRPlan.Add("account_type", modelTRAccount.account_type);
+                                jsonTRPlan.Add("position_code", modelTRAccount.position_code);
+
+                                jsonTRPlan.Add("index", indexTRAccount);
+
+
+                                indexTRAccount++;
+
+                                arrayTRAccountpos.Add(jsonTRPlan);
+                            }
+                            json.Add("position_data", arrayTRAccountpos);
+                        }
+                        else
+                        {
+                            json.Add("position_data", arrayTRAccountpos);
+                        }
+                        cls_ctTRAccountdep objTRAccountdep = new cls_ctTRAccountdep();
+                        List<cls_TRAccountdep> listTRAccountdep = objTRAccountdep.getDataByFillter(model.company_code, model.account_user, model.account_type, "", "");
+                        JArray arrayTRAccountdep = new JArray();
+                        if (listTRAccountdep.Count > 0)
+                        {
+                            int indexTRAccountdep = 1;
+
+                            foreach (cls_TRAccountdep modelTRAccountdep in listTRAccountdep)
+                            {
+                                JObject jsonTRdep = new JObject();
+                                jsonTRdep.Add("company_code", modelTRAccountdep.company_code);
+                                jsonTRdep.Add("account_user", modelTRAccountdep.account_user);
+                                jsonTRdep.Add("account_type", modelTRAccountdep.account_type);
+                                jsonTRdep.Add("level_code", modelTRAccountdep.level_code);
+                                jsonTRdep.Add("dep_code", modelTRAccountdep.dep_code);
+
+                                jsonTRdep.Add("index", indexTRAccountdep);
+
+
+                                indexTRAccountdep++;
+
+                                arrayTRAccountdep.Add(jsonTRdep);
+                            }
+                            json.Add("dep_data", arrayTRAccountdep);
+                        }
+                        else
+                        {
+                            json.Add("dep_data", arrayTRAccountdep);
+                        }
+
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataByFillter(model.company_code, model.account_user, model.account_type, "");
+                        JArray arrayTRAccount = new JArray();
+                        if (listTRAccount.Count > 0)
+                        {
+                            int indexTRAccount = 1;
+
+                            foreach (cls_TRAccount modelTRAccount in listTRAccount)
+                            {
+                                JObject jsonTRdep = new JObject();
+                                jsonTRdep.Add("company_code", modelTRAccount.company_code);
+                                jsonTRdep.Add("account_user", modelTRAccount.account_user);
+                                jsonTRdep.Add("account_type", modelTRAccount.account_type);
+                                jsonTRdep.Add("worker_code", modelTRAccount.worker_code);
+
+                                jsonTRdep.Add("index", indexTRAccount);
+
+
+                                indexTRAccount++;
+
+                                arrayTRAccount.Add(jsonTRdep);
+                            }
+                            json.Add("worker_data", arrayTRAccount);
+                        }
+                        else
+                        {
+                            json.Add("worker_data", arrayTRAccount);
+                        }
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+                    Authen objAuthen = new Authen();
+                    if (input.usname.Equals(list[0].account_user) && input.pwd.Equals(list[0].account_pwd))
+                    {
+                        RequestData aa = new RequestData();
+                        aa.usname = input.usname;
+                        aa.pwd = input.pwd;
+                        aa.company_code = input.company_code;
+                        ResponseData bb = Login(aa);
+                        output["success"] = true;
+                        output["message"] = bb.token;
+                        output["user_data"] = array;
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "No access rights";
+
+                        log.apilog_status = "404";
+                        log.apilog_message = "No access rights";
+                    }
                 }
             }
             catch (Exception ex)
@@ -90,7 +213,7 @@ namespace BPC_OPR
 
             Authen objAuthen = new Authen();
 
-            string secureToken = objAuthen.GetJwt(data.usname, data.pwd);
+            string secureToken = objAuthen.GetJwt(data.usname, data.pwd,data.company_code);
             var response = new ResponseData
             {
                 token = secureToken,
@@ -116,12 +239,14 @@ namespace BPC_OPR
                 var handler = new JwtSecurityTokenHandler();
                 var decodedValue = handler.ReadJwtToken(tmp);
 
+                var com = decodedValue.Claims.Single(claim => claim.Type == "company_code");
                 var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
                 var pwd = decodedValue.Claims.Single(claim => claim.Type == "pass_qwer");
                 var iat = decodedValue.Claims.Single(claim => claim.Type == "iat");
+                cls_ctMTAccount Account = new cls_ctMTAccount();
+                List<cls_MTAccount> list = Account.getDataByFillter(com.Value, usr.Value, "");
 
-
-                if (usr.Value.Equals(UserAuthen) && pwd.Value.Equals(PwdAuthen))                
+                if (usr.Value.Equals(list[0].account_user) && pwd.Value.Equals(list[0].account_pwd))                
                 {
 
                     if (objAuthen.doCheckExpireToken(iat.Value))
@@ -199,6 +324,7 @@ namespace BPC_OPR
     public class RequestData
     {
         public RequestData() { }
+        public string company_code { get; set; }
         public string usname { get; set; }
         public string pwd { get; set; }
     }

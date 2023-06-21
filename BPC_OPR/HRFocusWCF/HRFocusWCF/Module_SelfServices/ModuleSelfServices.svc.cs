@@ -233,6 +233,7 @@ namespace BPC_OPR
             log.apilog_code = "Self007";
             log.apilog_by = input.username;
             log.apilog_data = "all";
+            string message = "Retrieved data not successfully";
             string strID = "";
             try
             {
@@ -281,6 +282,30 @@ namespace BPC_OPR
                     strID = objTRTimeleave.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "LEA");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "LEA";
+                            modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(leavedata.timeleave_fromdate);
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
+                        else
+                        {
+                            objTRTimeleave.delete(Convert.ToInt32(strID));
+                            strID = "";
+                            message = "There are no workflow contexts for this worker_code :" + leavedata.worker_code;
+                            break;
+                        }
                         if (leavedata.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in leavedata.reqdoc_data)
@@ -298,23 +323,6 @@ namespace BPC_OPR
                                 modelreqdoc.created_by = input.username;
                                 string strIDs = objMTReqdocu.insert(modelreqdoc);
                             }
-                        }
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "LEA");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "LEA";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(leavedata.timeleave_fromdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
                         }
                         cls_srvProcessTime srv_time = new cls_srvProcessTime();
                         srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
@@ -336,7 +344,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objTRTimeleave.getMessage();
@@ -646,6 +654,7 @@ namespace BPC_OPR
             log.apilog_code = "Self008";
             log.apilog_by = input.username;
             log.apilog_data = "all";
+            string message = "Retrieved data not successfully";
             string strID = "";
             try
             {
@@ -691,6 +700,30 @@ namespace BPC_OPR
                     strID = objTRTime.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "OT");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "OT";
+                            modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(otdata.timeot_workdate);
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
+                        else
+                        {
+                            objTRTime.delete(Convert.ToInt32(strID));
+                            strID = "";
+                            message = "There are no workflow contexts for this worker_code :" + otdata.worker_code;
+                            break;
+                        }
                         if (otdata.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in otdata.reqdoc_data)
@@ -708,23 +741,6 @@ namespace BPC_OPR
                                 modelreqdoc.created_by = input.username;
                                 string strIDs = objMTReqdocu.insert(modelreqdoc);
                             }
-                        }
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "OT");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "OT";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(otdata.timeot_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
                         }
                         
                     }
@@ -745,7 +761,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objTRTime.getMessage();
@@ -971,6 +987,7 @@ namespace BPC_OPR
             log.apilog_code = "Self009";
             log.apilog_by = input.username;
             log.apilog_data = "all";
+            string message = "Retrieved data not successfully";
             string strID = "";
             try
             {
@@ -1015,6 +1032,30 @@ namespace BPC_OPR
                     strID = objTRTime.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "SHT");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "SHT";
+                            modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(shiftdata.timeshift_workdate);
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
+                        else
+                        {
+                            objTRTime.delete(Convert.ToInt32(strID));
+                            strID = "";
+                            message = "There are no workflow contexts for this worker_code :" + shiftdata.worker_code;
+                            break;
+                        }
                         if (shiftdata.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in shiftdata.reqdoc_data)
@@ -1032,23 +1073,6 @@ namespace BPC_OPR
                                 modelreqdoc.created_by = input.username;
                                 string strIDs = objMTReqdocu.insert(modelreqdoc);
                             }
-                        }
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "SHT");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "SHT";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(shiftdata.timeshift_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
                         }
                     }
                     else
@@ -1068,7 +1092,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objTRTime.getMessage();
@@ -1295,6 +1319,7 @@ namespace BPC_OPR
             log.apilog_code = "Self012";
             log.apilog_by = input.username;
             log.apilog_data = "all";
+            string message = "Retrieved data not successfully";
             string strID = "";
             try
             {
@@ -1335,6 +1360,30 @@ namespace BPC_OPR
                     strID = objTRTimecheckin.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "CI");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "CI";
+                            modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(cidata.timecheckin_workdate);
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
+                        else
+                        {
+                            objTRTimecheckin.delete(cidata.company_code, strID, "", cidata.timecheckin_type, "", cidata.worker_code);
+                            strID = "";
+                            message = "There are no workflow contexts for this worker_code :" + cidata.worker_code;
+                            break;
+                        }
                         if (cidata.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in cidata.reqdoc_data)
@@ -1352,23 +1401,6 @@ namespace BPC_OPR
                                 modelreqdoc.created_by = input.username;
                                 string strIDs = objMTReqdocu.insert(modelreqdoc);
                             }
-                        }
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "CI");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "CI";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(cidata.timecheckin_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
                         }
                     }
                     else
@@ -1388,7 +1420,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objTRTimecheckin.getMessage();
@@ -1607,6 +1639,7 @@ namespace BPC_OPR
             log.apilog_code = "Self011";
             log.apilog_by = input.username;
             log.apilog_data = "all";
+            string message = "Retrieved data not successfully";
             string strID = "";
             try
             {
@@ -1645,6 +1678,30 @@ namespace BPC_OPR
                     strID = objTRTimedaytype.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "DAT");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "DAT";
+                            modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(data.timedaytype_workdate);
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
+                        else
+                        {
+                            objTRTimedaytype.delete(data.company_code, Convert.ToInt32(strID), data.worker_code);
+                            strID = "";
+                            message = "There are no workflow contexts for this worker_code :" + data.worker_code;
+                            break;
+                        }
                         if (data.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in data.reqdoc_data)
@@ -1662,23 +1719,6 @@ namespace BPC_OPR
                                 modelreqdoc.created_by = input.username;
                                 string strIDs = objMTReqdocu.insert(modelreqdoc);
                             }
-                        }
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "DAT");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "DAT";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(data.timedaytype_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
                         }
                     }
                     else
@@ -1698,7 +1738,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objTRTimedaytype.getMessage();
@@ -1925,6 +1965,7 @@ namespace BPC_OPR
             log.apilog_code = "Self010";
             log.apilog_by = input.username;
             log.apilog_data = "all";
+            string message = "Retrieved data not successfully";
             string strID = "";
             try
             {
@@ -1964,6 +2005,30 @@ namespace BPC_OPR
                     strID = objTRTimeonsite.insert(model);
                     if (!strID.Equals(""))
                     {
+                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
+                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "ONS");
+                        if (listTRAccount.Count > 0)
+                        {
+                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
+                            cls_MTJobtable modeljob = new cls_MTJobtable();
+                            modeljob.company_code = model.company_code;
+                            modeljob.jobtable_id = 0;
+                            modeljob.job_id = strID;
+                            modeljob.job_type = "ONS";
+                            modeljob.status_job = "W";
+                            modeljob.job_date = Convert.ToDateTime(data.timeonsite_workdate);
+                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
+                            modeljob.workflow_code = listTRAccount[0].workflow_code;
+                            modeljob.created_by = input.username;
+                            string strID1 = objMTJob.insert(modeljob);
+                        }
+                        else
+                        {
+                            objTRTimeonsite.delete(data.company_code, Convert.ToInt32(strID), data.worker_code);
+                            strID = "";
+                            message = "There are no workflow contexts for this worker_code :" + data.worker_code;
+                            break;
+                        }
                         if (data.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in data.reqdoc_data)
@@ -1981,23 +2046,6 @@ namespace BPC_OPR
                                 modelreqdoc.created_by = input.username;
                                 string strIDs = objMTReqdocu.insert(modelreqdoc);
                             }
-                        }
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "ONS");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "ONS";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(data.timeonsite_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
                         }
                     }
                     else
@@ -2017,7 +2065,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objTRTimeonsite.getMessage();
@@ -2709,6 +2757,7 @@ namespace BPC_OPR
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "Self013";
             log.apilog_by = input.username;
+            string message = "Retrieved data not successfully";
             log.apilog_data = "all";
             try
             {
@@ -2757,6 +2806,14 @@ namespace BPC_OPR
                         modeljob.workflow_code = listTRAccount[0].workflow_code;
                         modeljob.created_by = input.username;
                         string strID1 = objMTJob.insert(modeljob);
+                    }
+                    else
+                    {
+                        objMTReqdoc.delete(input.company_code, Convert.ToInt32(strID), "", input.worker_code);
+                        strID = "";
+                        message = "There are no workflow contexts for this worker_code :" + input.worker_code;
+                        input.reqempinfo_data.Clear();
+                        input.reqdocatt_data.Clear();
                     }
                     cls_ctTRReqempinfo objTRReqempinfo = new cls_ctTRReqempinfo();
                     objTRReqempinfo.delete(Convert.ToInt32(strID),0);
@@ -2810,6 +2867,9 @@ namespace BPC_OPR
                         }
 
                     }
+                }
+                if (!strID.Equals(""))
+                {
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -2820,7 +2880,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = message;
 
                     log.apilog_status = "500";
                     log.apilog_message = objMTReqdoc.getMessage();
