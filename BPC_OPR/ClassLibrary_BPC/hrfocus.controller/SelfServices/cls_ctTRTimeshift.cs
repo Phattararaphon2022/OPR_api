@@ -131,7 +131,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = "";
             if (!id.Equals(0))
                 strCondition += " AND SELF_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
-            if (!status.Equals(0))
+            if (!status.Equals(1))
                 strCondition += " AND SELF_TR_TIMESHIFT.STATUS='" + status + "'";
             if (!com.Equals(""))
                 strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";

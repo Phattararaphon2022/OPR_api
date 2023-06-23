@@ -14,5 +14,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string workflow_code { get; set; }
         public string workflow_type { get; set; }
         public int totalapprove { get; set; }
+        public string worker_detail_th { get; set; }
+        public string worker_detail_en { get; set; }
     }
 }

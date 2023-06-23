@@ -129,7 +129,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = "";
             if(!id.Equals(0))
                 strCondition += " AND SELF_TR_TIMEOT.TIMEOT_ID='" + id + "'";
-            if (!status.Equals(0))
+            if (!status.Equals(1))
                 strCondition += " AND SELF_TR_TIMEOT.STATUS='" + status + "'";
             if(!com.Equals(""))
                 strCondition += " AND SELF_TR_TIMEOT.COMPANY_CODE='" + com + "'";

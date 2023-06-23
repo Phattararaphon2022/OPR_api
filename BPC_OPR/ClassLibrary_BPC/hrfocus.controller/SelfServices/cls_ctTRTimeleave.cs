@@ -133,14 +133,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = "";
 
             strCondition += " AND SELF_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
-
+            if (!status.Equals(1))
+            {
+                strCondition += " AND SELF_TR_TIMELEAVE.STATUS='" + status + "'";
+            }
             if (!emp.Equals(""))
             {
                 strCondition += " AND SELF_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
-            }
-            if (!status.Equals(0))
-            {
-                strCondition += " AND SELF_TR_TIMELEAVE.STATUS='" + status + "'";
             }
             if (!id.Equals(0))
             {

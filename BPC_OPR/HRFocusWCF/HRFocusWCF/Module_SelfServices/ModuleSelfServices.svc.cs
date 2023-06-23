@@ -1017,8 +1017,12 @@ namespace BPC_OPR
                     model.timeshift_doc = shiftdata.timeshift_doc;
 
                     model.timeshift_workdate = Convert.ToDateTime(shiftdata.timeshift_workdate);
-
-                    model.timeshift_old = shiftdata.timeshift_old;
+                    cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
+                    List<cls_TRTimecard> listTimecard = objTimecard.getDataByFillter(shiftdata.company_code, "", shiftdata.worker_code, model.timeshift_workdate, model.timeshift_workdate);
+                    if (listTimecard.Count > 0)
+                    {
+                        model.timeshift_old = listTimecard[0].shift_code;
+                    }
                     model.timeshift_new = shiftdata.timeshift_new;
 
                     model.timeshift_note = shiftdata.timeshift_note;
@@ -1154,6 +1158,8 @@ namespace BPC_OPR
 
                         objTRTimecard.update(timecard);
                     }
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(model.company_code, 0, model.timeshift_id.ToString(), "SHT");
                     cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
                     List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(model.company_code, 0, model.timeshift_id.ToString(), "SHT");
                     if (filelist.Count > 0)
@@ -1667,7 +1673,12 @@ namespace BPC_OPR
                     model.timedaytype_id = data.timedaytype_id.Equals("") ? 0 : Convert.ToInt32(data.timedaytype_id);
                     model.timedaytype_doc = data.timedaytype_doc;
                     model.timedaytype_workdate = Convert.ToDateTime(data.timedaytype_workdate);
-                    model.timedaytype_old = data.timedaytype_old;
+                    cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
+                    List<cls_TRTimecard> listTimecard = objTimecard.getDataByFillter(data.company_code, "", data.worker_code, model.timedaytype_workdate, model.timedaytype_workdate);
+                    if (listTimecard.Count > 0)
+                    {
+                        model.timedaytype_old = listTimecard[0].timecard_daytype;
+                    }
                     model.timedaytype_new = data.timedaytype_new;
                     model.timedaytype_note = data.timedaytype_note;
                     model.reason_code = data.reason_code;
@@ -2712,7 +2723,7 @@ namespace BPC_OPR
                                 jsonTRReqdocatt.Add("reqdoc_att_file_type", modelTRReqdocatt.reqdoc_att_file_type);
                                 jsonTRReqdocatt.Add("reqdoc_att_path", modelTRReqdocatt.reqdoc_att_path);
                                 jsonTRReqdocatt.Add("created_by", modelTRReqdocatt.created_by);
-                                jsonTRReqdocatt.Add("created_date", modelTRReqdocatt.created_date);
+                                jsonTRReqdocatt.Add("created_date", Convert.ToDateTime(modelTRReqdocatt.created_date));
 
                                 jsonTRReqdocatt.Add("index", indexTR);
 
@@ -4177,6 +4188,8 @@ namespace BPC_OPR
                                 jsonTRdep.Add("account_user", modelTRAccount.account_user);
                                 jsonTRdep.Add("account_type", modelTRAccount.account_type);
                                 jsonTRdep.Add("worker_code", modelTRAccount.worker_code);
+                                jsonTRdep.Add("worker_detail_en", modelTRAccount.worker_detail_en);
+                                jsonTRdep.Add("worker_detail_th", modelTRAccount.worker_detail_th);
 
                                 jsonTRdep.Add("index", indexTRAccount);
 

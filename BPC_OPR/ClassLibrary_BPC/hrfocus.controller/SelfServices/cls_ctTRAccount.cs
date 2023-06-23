@@ -30,12 +30,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("SELF_TR_ACCOUNT.COMPANY_CODE");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_TYPE");
-                obj_str.Append(", WORKER_CODE");
+                obj_str.Append(", SELF_TR_ACCOUNT.WORKER_CODE");
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
 
                 obj_str.Append(" FROM SELF_TR_ACCOUNT");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_ACCOUNT.COMPANY_CODE ");
+                obj_str.Append(" AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_ACCOUNT.WORKER_CODE ");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -53,6 +58,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_type = dr["ACCOUNT_TYPE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
 
                     list_model.Add(model);
                 }
@@ -70,16 +77,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
             if(!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.COMPANY_CODE='" + com + "'";
 
             if (!user.Equals(""))
-                strCondition += " AND ACCOUNT_USER='" + user + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_USER='" + user + "'";
 
             if (!type.Equals(""))
-                strCondition += " AND ACCOUNT_TYPE='" + type + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_TYPE='" + type + "'";
 
             if (!worker.Equals(""))
-                strCondition += " AND WORKER_CODE='" + worker + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.WORKER_CODE='" + worker + "'";
 
             return this.getData(strCondition);
         }
