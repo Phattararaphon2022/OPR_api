@@ -41,17 +41,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(COMPANY_NAME_TH, '') AS COMPANY_NAME_TH");
                 obj_str.Append(", ISNULL(COMPANY_NAME_EN, '') AS COMPANY_NAME_EN");
 
-                //obj_str.Append(", ISNULL(SSO_TAX_NO, '') AS SSO_TAX_NO");
-                //obj_str.Append(", ISNULL(CITIZEN_NO, '') AS CITIZEN_NO");
-                //obj_str.Append(", ISNULL(PROVIDENT_FUND_NO, '') AS PROVIDENT_FUND_NO");
+                obj_str.Append(", ISNULL(SSO_TAX_NO, '') AS SSO_TAX_NO");
+                obj_str.Append(", ISNULL(CITIZEN_NO, '') AS CITIZEN_NO");
+                obj_str.Append(", ISNULL(PROVIDENT_FUND_NO, '') AS PROVIDENT_FUND_NO");
 
                 obj_str.Append(", ISNULL(HRS_PERDAY, 0) AS HRS_PERDAY");
 
                 obj_str.Append(", ISNULL(SSO_COM_RATE, 0) AS SSO_COM_RATE");
                 obj_str.Append(", ISNULL(SSO_EMP_RATE, 0) AS SSO_EMP_RATE");
 
-                //obj_str.Append(", ISNULL(SSO_SECURITY_NO, '') AS SSO_SECURITY_NO");
-                //obj_str.Append(", ISNULL(SSO_BRANCH_NO, '') AS SSO_BRANCH_NO");
+                obj_str.Append(", ISNULL(SSO_SECURITY_NO, '') AS SSO_SECURITY_NO");
+                obj_str.Append(", ISNULL(SSO_BRANCH_NO, '') AS SSO_BRANCH_NO");
 
                 obj_str.Append(", ISNULL(SSO_MIN_WAGE, 0) AS SSO_MIN_WAGE");
                 obj_str.Append(", ISNULL(SSO_MAX_WAGE, 0) AS SSO_MAX_WAGE");
@@ -81,17 +81,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.company_name_th = dr["COMPANY_NAME_TH"].ToString();
                     model.company_name_en = dr["COMPANY_NAME_EN"].ToString();
 
-                    //model.sso_tax_no = dr["SSO_TAX_NO"].ToString();
-                    //model.citizen_no = dr["CITIZEN_NO"].ToString();
-                    //model.provident_fund_no = dr["PROVIDENT_FUND_NO"].ToString();
+                    model.sso_tax_no = dr["SSO_TAX_NO"].ToString();
+                    model.citizen_no = dr["CITIZEN_NO"].ToString();
+                    model.provident_fund_no = dr["PROVIDENT_FUND_NO"].ToString();
 
                     model.hrs_perday = Convert.ToDouble(dr["HRS_PERDAY"]);
-
                     model.sso_com_rate = Convert.ToDouble(dr["SSO_COM_RATE"]);
                     model.sso_emp_rate = Convert.ToDouble(dr["SSO_EMP_RATE"]);
 
-                    //model.sso_security_no = dr["SSO_SECURITY_NO"].ToString();
-                    //model.sso_branch_no = dr["SSO_BRANCH_NO"].ToString();
+                    model.sso_security_no = dr["SSO_SECURITY_NO"].ToString();
+                    model.sso_branch_no = dr["SSO_BRANCH_NO"].ToString();
 
                     model.sso_min_wage = Convert.ToDouble(dr["SSO_MIN_WAGE"]);
                     model.sso_max_wage = Convert.ToDouble(dr["SSO_MAX_WAGE"]);
