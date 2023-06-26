@@ -1002,6 +1002,47 @@ namespace BPC_OPR
         public string modified_by { get; set; }
 
     }
+    #region Polround
+    [DataContract]
+    public class InputMTPolround
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string polround_pf { get; set; }
+        [DataMember]
+        public string polround_sso { get; set; }
+        [DataMember]
+        public string polround_tax { get; set; }
+        [DataMember]
+        public string polround_wage_day { get; set; }
+        [DataMember]
+        public string polround_wage_summary { get; set; }
+        [DataMember]
+        public string polround_ot_day { get; set; }
+        [DataMember]
+        public string polround_ot_summary { get; set; }
+        [DataMember]
+        public string polround_absent { get; set; }
+        [DataMember]
+        public string polround_late { get; set; }
+        [DataMember]
+        public string polround_leave { get; set; }
+        [DataMember]
+        public string polround_netpay { get; set; }
+        [DataMember]
+        public string polround_timelate { get; set; }
+        [DataMember]
+        public string polround_timeleave { get; set; }
+        [DataMember]
+        public string polround_timeot { get; set; }
+        [DataMember]
+        public string polround_timeworking { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+
+    }
+    #endregion
 
     [DataContract]
     public class InputMTSupply

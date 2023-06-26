@@ -245,7 +245,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@HOSPITAL_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@HOSPITAL_NAME_TH"].Value = model.hospital_name_th;
-                obj_cmd.Parameters.Add("@HOSPITALNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@HOSPITAL_NAME_EN"].Value = model.hospital_name_en;        
+                obj_cmd.Parameters.Add("@HOSPITAL_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@HOSPITAL_NAME_EN"].Value = model.hospital_name_en;        
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
