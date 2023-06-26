@@ -128,7 +128,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!worker_code.Equals(""))
                 strCondition += " AND SELF_TR_TIMECHECKIN.WORKER_CODE='" + worker_code + "'";
 
-            if (!status.Equals(0))
+            if (!status.Equals(1))
                 strCondition += " AND SELF_TR_TIMECHECKIN.STATUS='" + status + "'";
 
             return this.getData(strCondition);

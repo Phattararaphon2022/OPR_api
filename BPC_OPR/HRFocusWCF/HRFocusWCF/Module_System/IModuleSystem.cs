@@ -333,6 +333,10 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRPolcode?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadTRPolcode(string token, string by, string fileName, Stream stream);
+
+        [OperationContract(Name = "getnewcode")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getNewCode(BasicRequest req);
         #endregion
 
         //#region TRPolcode

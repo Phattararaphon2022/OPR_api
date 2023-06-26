@@ -1080,6 +1080,47 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputSetTraining
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int emptraining_no { get; set; }
+        [DataMember]
+        public string emptraining_start { get; set; }
+        [DataMember]
+        public string emptraining_finish { get; set; }
+        [DataMember]
+        public string emptraining_status { get; set; }
+        [DataMember]
+        public double emptraining_hours { get; set; }
+        [DataMember]
+        public double emptraining_cost { get; set; }
+        [DataMember]
+        public string emptraining_note { get; set; }
+        [DataMember]
+        public string institute_code { get; set; }
+        [DataMember]
+        public string institute_other { get; set; }
+        [DataMember]
+        public string course_code { get; set; }
+        [DataMember]
+        public string course_other { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
     public class InputTREmpSuggest
     {
         [DataMember]
@@ -1100,7 +1141,54 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+    }
 
+    public class FillterSearch
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string level_code { get; set; }
+        [DataMember]
+        public string dep_code { get; set; }
+        [DataMember]
+        public string position_code { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public DateTime date_fill { get; set; }
+        [DataMember]
+        public bool worker_resignstatus { get; set; }
+        [DataMember]
+        public string searchemp { get; set; }
+        [DataMember]
+        public string worker_emptype { get; set; }
+        [DataMember]
+        public string worker_id { get; set; }
+        [DataMember]
+        public string worker_card { get; set; }
+        [DataMember]
+        public string worker_initial { get; set; }
+        [DataMember]
+        public string worker_fname_th { get; set; }
+        [DataMember]
+        public string worker_lname_th { get; set; }
+        [DataMember]
+        public string worker_fname_en { get; set; }
+        [DataMember]
+        public string worker_lname_en { get; set; }
+        [DataMember]
+        public string worker_gender { get; set; }
+        [DataMember]
+        public string group_code { get; set; }
 
     }
 }

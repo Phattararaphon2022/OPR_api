@@ -80,7 +80,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRGroup> getDataByFillter(string com, string emp)
+        public List<cls_TRGroup> getDataByFillter(string com, string emp,string code)
         {
             string strCondition = "";
 
@@ -89,6 +89,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!emp.Equals(""))
                 strCondition += " AND WORKER_CODE='" + emp + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND EMPGROUP_CODE='" + code + "'";
 
             return this.getData(strCondition);
         }
@@ -282,6 +285,71 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
 
             return blnResult;
+        }
+
+        public List<cls_TRGroup> getDataBatch(string com,string code, DateTime date)
+        {
+            List<cls_TRGroup> list_model = new List<cls_TRGroup>();
+            cls_TRGroup model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+                obj_str.Append("EMP_TR_GROUP.COMPANY_CODE");
+                obj_str.Append(", EMP_TR_GROUP.WORKER_CODE");
+
+                obj_str.Append(", EMP_TR_GROUP.EMPGROUP_ID");
+                obj_str.Append(", EMP_TR_GROUP.EMPGROUP_CODE");
+                obj_str.Append(", EMP_TR_GROUP.EMPGROUP_DATE");
+
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
+
+                obj_str.Append(", ISNULL(EMP_TR_GROUP.MODIFIED_BY, EMP_TR_GROUP.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(EMP_TR_GROUP.MODIFIED_DATE, EMP_TR_GROUP.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(" FROM EMP_TR_GROUP");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=EMP_TR_GROUP.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=EMP_TR_GROUP.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
+                obj_str.Append(" WHERE 1=1");
+                obj_str.Append(" AND EMP_TR_GROUP.COMPANY_CODE='" + com + "' ");
+
+                if (!code.Equals(""))
+                    obj_str.Append(" AND EMP_TR_GROUP.EMPGROUP_CODE='" + code + "' ");
+                if (!date.Equals(""))
+                    obj_str.Append(" AND EMP_TR_GROUP.EMPGROUP_DATE='" + date.ToString("yyyy-MM-ddTHH:mm:ss") + "' ");
+
+                obj_str.Append(" ORDER BY EMP_TR_GROUP.COMPANY_CODE, EMP_TR_GROUP.WORKER_CODE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRGroup();
+
+                    model.empgroup_id = Convert.ToInt32(dr["EMPGROUP_ID"]);
+                    model.empgroup_code = dr["EMPGROUP_CODE"].ToString();
+                    model.empgroup_date = Convert.ToDateTime(dr["EMPGROUP_DATE"]);
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPGRP001:" + ex.ToString();
+            }
+
+            return list_model;
         }
 
         public bool insertlist(List<cls_TRGroup> list_model)

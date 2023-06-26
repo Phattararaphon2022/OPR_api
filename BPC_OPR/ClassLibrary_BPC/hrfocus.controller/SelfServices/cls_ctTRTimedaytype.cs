@@ -122,7 +122,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!worker_code.Equals(""))
                 strCondition += " AND SELF_TR_TIMEDAYTYPE.WORKER_CODE='" + worker_code + "'";
 
-            if (!status.Equals(0))
+            if (!status.Equals(1))
                 strCondition += " AND STATUS='" + status + "'";
 
             return this.getData(strCondition);

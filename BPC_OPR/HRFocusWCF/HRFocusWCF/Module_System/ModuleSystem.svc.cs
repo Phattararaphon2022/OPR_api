@@ -1617,6 +1617,127 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        public string getNewCode(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CBR001.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPolcode objPol = new cls_ctMTPolcode();
+                List<cls_MTPolcode> listPol = objPol.getDataByFillter(req.com, "", req.type);
+                JArray array = new JArray();
+
+                if (listPol.Count > 0)
+                {
+                    string strID = "";
+                    cls_MTPolcode polcode = listPol[0];
+
+                    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
+                    foreach (cls_TRPolcode model in listTRPolcode)
+                    {
+
+                        switch (model.codestructure_code)
+                        {
+
+                            case "1CHA":
+                                strID += model.polcode_text.Substring(0, model.polcode_lenght);
+                                break;
+
+                            case "2COM":
+                                strID += req.com.Substring(0, model.polcode_lenght);    
+                                break;
+
+                            case "3BRA":
+                                break;
+
+                            case "4EMT":
+                                strID += req.emptype;
+                                break;
+
+                            case "5YEA":
+                                DateTime dateNowY = DateTime.Now;
+                                string formatY = "";
+                                for (int i = 0; i < model.polcode_lenght; i++)
+                                {
+                                    formatY += "y";
+                                }
+                                strID += dateNowY.ToString(formatY);
+                                break;
+
+                            case "6MON":
+                                DateTime dateNowM = DateTime.Now;
+                                string formatM = "";
+                                for (int i = 0; i < model.polcode_lenght; i++)
+                                {
+                                    formatM += "M";
+                                }
+                                strID += dateNowM.ToString(formatM);
+                                break;
+
+                            case "MAUT":
+                                cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                                int intRunningID = objWorker.doGetNextRunningID(req.com, strID);
+                                strID += intRunningID.ToString().PadLeft(model.polcode_lenght, '0');
+                                break;
+
+                        }
+
+
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = "";
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                objPol.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
         #endregion
 
         #region MTReason
@@ -5785,18 +5906,18 @@ namespace BPC_OPR
 
             try
             {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                //{
+                //    output["success"] = false;
+                //    output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                //    log.apilog_status = "500";
+                //    log.apilog_message = BpcOpr.MessageNotAuthen;
+                //    objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                //    return output.ToString(Formatting.None);
+                //}
 
                 cls_ctMTCompany controller = new cls_ctMTCompany();
                 List<cls_MTCompany> list = controller.getDataByFillter(req.company_id,req.company_code);
