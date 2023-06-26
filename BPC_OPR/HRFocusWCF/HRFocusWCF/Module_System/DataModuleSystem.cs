@@ -1003,7 +1003,7 @@ namespace BPC_OPR
 
     }
 
-<<<<<<< HEAD
+ 
     #region Polround
     [DataContract]
     public class InputMTPolround
@@ -1045,8 +1045,7 @@ namespace BPC_OPR
 
     }
     #endregion
-=======
-    [DataContract]
+     [DataContract]
     public class InputMTSupply
     {
         [DataMember]
@@ -1075,7 +1074,6 @@ namespace BPC_OPR
         [DataMember]
         public string modified_by { get; set; }
     }
->>>>>>> c5608d981fcfcd44ce32deefe841d7775a50cf2a
-}
+ }
 
  
