@@ -74,11 +74,9 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
-<<<<<<< HEAD
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
-=======
+
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
->>>>>>> 50f47f8ed0be975915eec82e1fa6563d9f000aee
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
