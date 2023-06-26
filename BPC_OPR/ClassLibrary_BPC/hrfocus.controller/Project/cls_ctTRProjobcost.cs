@@ -34,31 +34,32 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("PROJOBCOST_ID");
-                obj_str.Append(", PROJOBCOST_CODE");                
+                obj_str.Append("PRO_TR_PROJOBCOST.PROJOBCOST_ID");
+                obj_str.Append(", PRO_TR_PROJOBCOST.PROJOBCOST_CODE");               
                 
                 obj_str.Append(", ISNULL(PROJOBCOST_AMOUNT, 0) AS PROJOBCOST_AMOUNT");
-                obj_str.Append(", ISNULL(PROJOBCOST_FROMDATE, '01/01/1900') AS PROJOBCOST_FROMDATE");
-                obj_str.Append(", ISNULL(PROJOBCOST_TODATE, '01/01/1900') AS PROJOBCOST_TODATE");
-
-                obj_str.Append(", PROJOBCOST_VERSION");
-                obj_str.Append(", PROJOBCOST_STATUS");
-
+                obj_str.Append(", PRO_TR_PROJOBCOST.VERSION");
+                obj_str.Append(", ISNULL(PROJOBCOST_STATUS, 'N') AS PROJOBCOST_STATUS");
                 obj_str.Append(", ISNULL(PROJOBCOST_AUTO, 0) AS PROJOBCOST_AUTO");
 
                 obj_str.Append(", PROJOB_CODE");     
-                obj_str.Append(", PROJECT_CODE");                
+                obj_str.Append(", PROJECT_CODE");
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", PRO_MT_PROCOST.PROCOST_TYPE");
+
+                obj_str.Append(", ISNULL(PRO_TR_PROJOBCOST.MODIFIED_BY, PRO_TR_PROJOBCOST.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(PRO_TR_PROJOBCOST.MODIFIED_DATE, PRO_TR_PROJOBCOST.CREATED_DATE) AS MODIFIED_DATE");
 
                 obj_str.Append(" FROM PRO_TR_PROJOBCOST");
+
+                obj_str.Append(" INNER JOIN PRO_MT_PROCOST ON PRO_TR_PROJOBCOST.PROJOBCOST_CODE=PRO_MT_PROCOST.PROCOST_CODE ");
+
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY PROJECT_CODE, PROJOB_CODE, PROJOBCOST_CODE");
+                obj_str.Append(" ORDER BY PRO_TR_PROJOBCOST.PROJECT_CODE, PRO_TR_PROJOBCOST.PROJOB_CODE, PRO_TR_PROJOBCOST.PROJOBCOST_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -67,19 +68,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_TRProjobcost();
 
                     model.projobcost_id = Convert.ToInt32(dr["PROJOBCOST_ID"]);
-                    model.projobcost_code = Convert.ToString(dr["PROJOBCOST_CODE"]);
-                    
-                    model.projobcost_amount = Convert.ToDouble(dr["PROJOBCOST_AMOUNT"]);
-                    model.projobcost_fromdate = Convert.ToDateTime(dr["PROJOBCOST_FROMDATE"]);
-                    model.projobcost_todate = Convert.ToDateTime(dr["PROJOBCOST_TODATE"]);
-
-                    model.projobcost_version = Convert.ToString(dr["PROJOBCOST_VERSION"]);
+                    model.projobcost_code = Convert.ToString(dr["PROJOBCOST_CODE"]);                    
+                    model.projobcost_amount = Convert.ToDouble(dr["PROJOBCOST_AMOUNT"]);                    
+                    model.version = Convert.ToString(dr["VERSION"]);
                     model.projobcost_status = Convert.ToString(dr["PROJOBCOST_STATUS"]);
-
                     model.projobcost_auto = Convert.ToBoolean(dr["PROJOBCOST_AUTO"]); 
                     
                     model.projob_code = Convert.ToString(dr["PROJOB_CODE"]);                                        
                     model.project_code = Convert.ToString(dr["PROJECT_CODE"]);
+
+                    model.procost_type = Convert.ToString(dr["PROCOST_TYPE"]);
                    
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -96,59 +94,62 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRProjobcost> getDataByFillter(string project, string job)
+        public List<cls_TRProjobcost> getDataByFillter(string project, string job, string version)
         {
             string strCondition = "";
 
             if (!project.Equals(""))
-                strCondition += " AND PROJECT_CODE='" + project + "'";
+                strCondition += " AND PRO_TR_PROJOBCOST.PROJECT_CODE='" + project + "'";
 
             if (!job.Equals(""))
-                strCondition += " AND PROJOB_CODE='" + job + "'";
+                strCondition += " AND PRO_TR_PROJOBCOST.PROJOB_CODE='" + job + "'";
+
+            if (!version.Equals(""))
+                strCondition += " AND PRO_TR_PROJOBCOST.VERSION='" + version + "'";
 
             return this.getData(strCondition);
         }
 
-        public List<cls_TRProjobcost> getDataMaxDate(string company, string project, string job)
-        {
-            List<cls_TRProjobcost> list_model = new List<cls_TRProjobcost>();
-            cls_TRProjobcost model;
-            try
-            {
-                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+        //public List<cls_TRProjobcost> getDataMaxDate(string company, string project, string job)
+        //{
+        //    List<cls_TRProjobcost> list_model = new List<cls_TRProjobcost>();
+        //    cls_TRProjobcost model;
+        //    try
+        //    {
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" SELECT PRO_MT_PROCOST.PROCOST_CODE");
-                obj_str.Append(" , PRO_MT_PROCOST.PROCOST_NAME_TH");
-                obj_str.Append(" , PRO_MT_PROCOST.PROCOST_NAME_EN");
-                obj_str.Append(" , PRO_MT_PROCOST.PROCOST_TYPE");
-                obj_str.Append(" , ISNULL((SELECT TOP 1 PROJOBCOST_AMOUNT FROM PRO_TR_PROJOBCOST WHERE PROJECT_CODE='" + project + "' AND PROJOB_CODE= '" + job + "' AND PROJOBCOST_CODE=PRO_MT_PROCOST.PROCOST_CODE ORDER BY PROJOBCOST_TODATE DESC), 0) AS ALLOW");
+        //        obj_str.Append(" SELECT PRO_MT_PROCOST.PROCOST_CODE");
+        //        obj_str.Append(" , PRO_MT_PROCOST.PROCOST_NAME_TH");
+        //        obj_str.Append(" , PRO_MT_PROCOST.PROCOST_NAME_EN");
+        //        obj_str.Append(" , PRO_MT_PROCOST.PROCOST_TYPE");
+        //        obj_str.Append(" , ISNULL((SELECT TOP 1 PROJOBCOST_AMOUNT FROM PRO_TR_PROJOBCOST WHERE PROJECT_CODE='" + project + "' AND PROJOB_CODE= '" + job + "' AND PROJOBCOST_CODE=PRO_MT_PROCOST.PROCOST_CODE ORDER BY PROJOBCOST_TODATE DESC), 0) AS ALLOW");
                                 
-                obj_str.Append(" FROM PRO_MT_PROCOST");
-                obj_str.Append(" WHERE COMPANY_CODE='" + company + "'");                
-                obj_str.Append(" ORDER BY PROCOST_CODE");               
+        //        obj_str.Append(" FROM PRO_MT_PROCOST");
+        //        obj_str.Append(" WHERE COMPANY_CODE='" + company + "'");                
+        //        obj_str.Append(" ORDER BY PROCOST_CODE");               
                 
 
-                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+        //        DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
-                foreach (DataRow dr in dt.Rows)
-                {
-                    model = new cls_TRProjobcost();
+        //        foreach (DataRow dr in dt.Rows)
+        //        {
+        //            model = new cls_TRProjobcost();
 
-                    model.projobcost_id = 1;
-                    model.projobcost_code = Convert.ToString(dr["PROCOST_CODE"]);
-                    model.procost_type = Convert.ToString(dr["PROCOST_TYPE"]);
-                    model.projobcost_amount = Convert.ToDouble(dr["ALLOW"]);                   
-                    list_model.Add(model);
-                }
+        //            model.projobcost_id = 1;
+        //            model.projobcost_code = Convert.ToString(dr["PROCOST_CODE"]);
+        //            model.procost_type = Convert.ToString(dr["PROCOST_TYPE"]);
+        //            model.projobcost_amount = Convert.ToDouble(dr["ALLOW"]);                   
+        //            list_model.Add(model);
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                Message = "BNK010:" + ex.ToString();
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "BNK010:" + ex.ToString();
+        //    }
 
-            return list_model;
-        }
+        //    return list_model;
+        //}
 
         public int getNextID()
         {
@@ -176,7 +177,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string cost, DateTime fromdate)
+        public bool checkDataOld(string project, string job, string cost, string version)
         {
             bool blnResult = false;
             try
@@ -188,7 +189,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
                 obj_str.Append(" AND PROJOBCOST_CODE='" + cost + "'");
-                obj_str.Append(" AND PROJOBCOST_FROMDATE='" + fromdate.ToString("MM/dd/yyyy") + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -205,7 +206,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string job, string cost, DateTime fromdate)
+        public bool delete(string project, string job, string cost, string version)
         {
             bool blnResult = true;
             try
@@ -218,7 +219,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
                 obj_str.Append(" AND PROJOBCOST_CODE='" + cost + "'");
-                obj_str.Append(" AND PROJOBCOST_FROMDATE='" + fromdate.ToString("MM/dd/yyyy") + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
                 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -264,7 +265,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.projobcost_code, model.projobcost_fromdate))
+                if (this.checkDataOld(model.project_code, model.projob_code, model.projobcost_code, model.version))
                 {
                     return this.update(model);
                 }
@@ -278,10 +279,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBCOST_CODE ");
                 
                 obj_str.Append(", PROJOBCOST_AMOUNT ");
-                obj_str.Append(", PROJOBCOST_FROMDATE ");
-                obj_str.Append(", PROJOBCOST_TODATE ");
+                //obj_str.Append(", PROJOBCOST_FROMDATE ");
+                //obj_str.Append(", PROJOBCOST_TODATE ");
 
-                obj_str.Append(", PROJOBCOST_VERSION ");
+                obj_str.Append(", VERSION ");
                 obj_str.Append(", PROJOBCOST_STATUS ");
 
                 obj_str.Append(", PROJOBCOST_AUTO ");
@@ -299,10 +300,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBCOST_CODE ");
                 
                 obj_str.Append(", @PROJOBCOST_AMOUNT ");
-                obj_str.Append(", @PROJOBCOST_FROMDATE ");
-                obj_str.Append(", @PROJOBCOST_TODATE ");
+                //obj_str.Append(", @PROJOBCOST_FROMDATE ");
+                //obj_str.Append(", @PROJOBCOST_TODATE ");
 
-                obj_str.Append(", @PROJOBCOST_VERSION ");
+                obj_str.Append(", @VERSION ");
                 obj_str.Append(", @PROJOBCOST_STATUS ");
 
                 obj_str.Append(", @PROJOBCOST_AUTO ");
@@ -323,10 +324,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBCOST_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCOST_CODE"].Value = model.projobcost_code;
 
                 obj_cmd.Parameters.Add("@PROJOBCOST_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCOST_AMOUNT"].Value = model.projobcost_amount;
-                obj_cmd.Parameters.Add("@PROJOBCOST_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCOST_FROMDATE"].Value = model.projobcost_fromdate;
-                obj_cmd.Parameters.Add("@PROJOBCOST_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCOST_TODATE"].Value = model.projobcost_todate;
 
-                obj_cmd.Parameters.Add("@PROJOBCOST_VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCOST_VERSION"].Value = model.projobcost_version;
+                obj_cmd.Parameters.Add("@VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@VERSION"].Value = model.version;
                 obj_cmd.Parameters.Add("@PROJOBCOST_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBCOST_STATUS"].Value = model.projobcost_status;
 
                 obj_cmd.Parameters.Add("@PROJOBCOST_AUTO", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBCOST_AUTO"].Value = model.projobcost_auto;
@@ -361,10 +360,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE PRO_TR_PROJOBCOST SET ");
 
-                obj_str.Append(" PROJOBCOST_AMOUNT=@PROJOBCOST_AMOUNT ");
-                obj_str.Append(", PROJOBCOST_FROMDATE=@PROJOBCOST_FROMDATE ");
-                obj_str.Append(", PROJOBCOST_TODATE=@PROJOBCOST_TODATE ");
-                obj_str.Append(", PROJOBCOST_VERSION=@PROJOBCOST_VERSION ");
+                obj_str.Append(" PROJOBCOST_AMOUNT=@PROJOBCOST_AMOUNT ");               
                 obj_str.Append(", PROJOBCOST_STATUS=@PROJOBCOST_STATUS ");
 
                 obj_str.Append(", PROJOBCOST_AUTO=@PROJOBCOST_AUTO ");      
@@ -379,10 +375,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@PROJOBCOST_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBCOST_AMOUNT"].Value = model.projobcost_amount;
-                obj_cmd.Parameters.Add("@PROJOBCOST_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCOST_FROMDATE"].Value = model.projobcost_fromdate;
-                obj_cmd.Parameters.Add("@PROJOBCOST_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBCOST_TODATE"].Value = model.projobcost_todate;
-
-                obj_cmd.Parameters.Add("@PROJOBCOST_VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBCOST_VERSION"].Value = model.projobcost_version;
                 obj_cmd.Parameters.Add("@PROJOBCOST_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBCOST_STATUS"].Value = model.projobcost_status;
 
                 obj_cmd.Parameters.Add("@PROJOBCOST_AUTO", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBCOST_AUTO"].Value = model.projobcost_auto;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace ClassLibrary_BPC.hrfocus.model
 {
     public class cls_TRTimeshift
@@ -19,6 +20,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string timeshift_note { get; set; }
         public string reason_code { get; set; }
         public int status { get; set; }
+        public string status_job { get; set; }
 
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
@@ -36,6 +38,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string shift_old_en { get; set; }
         public string shift_new_th { get; set; }
         public string shift_new_en { get; set; }
+
+        public List<cls_MTReqdocument> reqdoc_data { get; set; }
 
     }
 }

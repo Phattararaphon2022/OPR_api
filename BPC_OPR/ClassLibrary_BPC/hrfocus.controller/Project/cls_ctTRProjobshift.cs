@@ -35,7 +35,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append("PROJOBSHIFT_ID");
-                obj_str.Append(", PROJOBSHIFT_SHIFT");
+                obj_str.Append(", SHIFT_CODE");
                 obj_str.Append(", PROJOBSHIFT_EMP");
              
                 obj_str.Append(", PROJOBSHIFT_SUN");
@@ -53,6 +53,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOB_CODE");
                 obj_str.Append(", PROJECT_CODE");
 
+                obj_str.Append(", VERSION");
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");    
 
@@ -62,7 +64,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY PROJOBSHIFT_SHIFT");
+                obj_str.Append(" ORDER BY SHIFT_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -71,7 +73,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_TRProjobshift();
 
                     model.projobshift_id = Convert.ToInt32(dr["PROJOBSHIFT_ID"]);
-                    model.projobshift_shift = dr["PROJOBSHIFT_SHIFT"].ToString();
+                    model.shift_code = dr["SHIFT_CODE"].ToString();
 
                     model.projobshift_emp = Convert.ToInt32(dr["PROJOBSHIFT_EMP"]);
 
@@ -88,7 +90,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobshift_hrsot = Convert.ToDouble(dr["PROJOBSHIFT_HRSOT"]);
 
                     model.projob_code = dr["PROJOB_CODE"].ToString(); 
-                    model.project_code = dr["PROJECT_CODE"].ToString(); 
+                    model.project_code = dr["PROJECT_CODE"].ToString();
+
+                    model.version = dr["VERSION"].ToString(); 
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -105,7 +109,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRProjobshift> getDataByFillter(string project, string job)
+        public List<cls_TRProjobshift> getDataByFillter(string project, string job, string version)
         {
             string strCondition = "";
 
@@ -114,6 +118,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!job.Equals(""))
                 strCondition += " AND PROJOB_CODE='" + job + "'";
+
+            if (!version.Equals(""))
+                strCondition += " AND VERSION='" + version + "'";
             
             return this.getData(strCondition);
         }
@@ -144,18 +151,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string code)
+        public bool checkDataOld(string project, string job, string code, string version)
         {
             bool blnResult = false;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT PROJOBSHIFT_SHIFT");
+                obj_str.Append("SELECT SHIFT_CODE");
                 obj_str.Append(" FROM PRO_TR_PROJOBSHIFT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBSHIFT_SHIFT='" + code + "'");
+                obj_str.Append(" AND SHIFT_CODE='" + code + "'");
+
+                obj_str.Append(" AND VERSION='" + version + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -172,7 +181,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string job)
+        public bool delete(string project, string job, string version)
         {
             bool blnResult = true;
             try
@@ -184,6 +193,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM PRO_TR_PROJOBSHIFT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -197,7 +207,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string job, string shift)
+        public bool delete(string project, string job, string shift, string version)
         {
             bool blnResult = true;
             try
@@ -209,7 +219,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM PRO_TR_PROJOBSHIFT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBSHIFT_SHIFT='" + shift + "'");
+                obj_str.Append(" AND SHIFT_CODE='" + shift + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -230,7 +241,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.projobshift_shift))
+                if (this.checkDataOld(model.project_code, model.projob_code, model.shift_code, model.version))
                 {
                     return this.update(model);               
                 }
@@ -241,7 +252,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("INSERT INTO PRO_TR_PROJOBSHIFT");
                 obj_str.Append(" (");
                 obj_str.Append("PROJOBSHIFT_ID ");
-                obj_str.Append(", PROJOBSHIFT_SHIFT ");
+                obj_str.Append(", SHIFT_CODE ");
                
                 obj_str.Append(", PROJOBSHIFT_SUN ");
                 obj_str.Append(", PROJOBSHIFT_MON ");
@@ -257,7 +268,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBSHIFT_HRSOT ");
 
                 obj_str.Append(", PROJOB_CODE ");
-                obj_str.Append(", PROJECT_CODE ");     
+                obj_str.Append(", PROJECT_CODE ");
+
+                obj_str.Append(", VERSION ");     
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -266,7 +279,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@PROJOBSHIFT_ID ");
-                obj_str.Append(", @PROJOBSHIFT_SHIFT ");
+                obj_str.Append(", @SHIFT_CODE ");
 
                 obj_str.Append(", @PROJOBSHIFT_SUN ");
                 obj_str.Append(", @PROJOBSHIFT_MON ");
@@ -282,7 +295,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBSHIFT_HRSOT ");
 
                 obj_str.Append(", @PROJOB_CODE ");
-                obj_str.Append(", @PROJECT_CODE ");     
+                obj_str.Append(", @PROJECT_CODE ");
+
+                obj_str.Append(", @VERSION ");     
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -296,7 +311,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 model.projobshift_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJOBSHIFT_ID"].Value = model.projobshift_id;
-                obj_cmd.Parameters.Add("@PROJOBSHIFT_SHIFT", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBSHIFT_SHIFT"].Value = model.projobshift_shift;
+                obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
 
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_SUN", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SUN"].Value = model.projobshift_sun;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_MON", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_MON"].Value = model.projobshift_mon;
@@ -312,8 +327,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;                
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
-                
 
+                obj_cmd.Parameters.Add("@VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@VERSION"].Value = model.version;
+                
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                                      
@@ -339,7 +355,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE PRO_TR_PROJOBSHIFT SET ");
               
-                obj_str.Append(" PROJOBSHIFT_SHIFT=@PROJOBSHIFT_SHIFT ");
+                obj_str.Append(" SHIFT_CODE=@SHIFT_CODE ");
                 obj_str.Append(", PROJOBSHIFT_SUN=@PROJOBSHIFT_SUN ");
                 obj_str.Append(", PROJOBSHIFT_MON=@PROJOBSHIFT_MON ");
                 obj_str.Append(", PROJOBSHIFT_TUE=@PROJOBSHIFT_TUE ");
@@ -362,6 +378,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
+                obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.Bit); obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_SUN", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SUN"].Value = model.projobshift_sun;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_MON", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_MON"].Value = model.projobshift_mon;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_TUE", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_TUE"].Value = model.projobshift_tue;

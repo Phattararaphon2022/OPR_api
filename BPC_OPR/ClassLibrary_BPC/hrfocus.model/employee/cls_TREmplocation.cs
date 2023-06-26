@@ -19,5 +19,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime modified_date { get; set; }
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
+
+        //-- Show only
+        public string worker_detail_th { get; set; }
+        public string worker_detail_en { get; set; }
     }
 }

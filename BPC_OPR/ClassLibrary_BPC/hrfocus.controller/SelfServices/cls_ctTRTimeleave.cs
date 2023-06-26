@@ -61,6 +61,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_BY, SELF_TR_TIMELEAVE.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_DATE, SELF_TR_TIMELEAVE.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
 
                 obj_str.Append(" FROM SELF_TR_TIMELEAVE");
 
@@ -68,6 +69,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
                 obj_str.Append(" INNER JOIN ATT_MT_LEAVE ON ATT_MT_LEAVE.COMPANY_CODE=SELF_TR_TIMELEAVE.COMPANY_CODE AND ATT_MT_LEAVE.LEAVE_CODE=SELF_TR_TIMELEAVE.LEAVE_CODE");
                 obj_str.Append(" INNER JOIN SYS_MT_REASON ON ATT_MT_LEAVE.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMELEAVE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'LEAVE'");
+                obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMELEAVE.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMELEAVE.TIMELEAVE_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'LEA'");
 
                 obj_str.Append(" WHERE 1=1");
 
@@ -109,6 +111,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.reason_en = dr["REASON_NAME_EN"].ToString();
                     model.reason_th = dr["REASON_NAME_TH"].ToString();
                     model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -125,26 +128,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRTimeleave> getDataByFillter(string id ,string status, string com, string emp, DateTime datefrom, DateTime dateto)
+        public List<cls_TRTimeleave> getDataByFillter(int id ,int status, string com, string emp, string datefrom, string dateto)
         {
             string strCondition = "";
 
             strCondition += " AND SELF_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
-
+            if (!status.Equals(1))
+            {
+                strCondition += " AND SELF_TR_TIMELEAVE.STATUS='" + status + "'";
+            }
             if (!emp.Equals(""))
             {
                 strCondition += " AND SELF_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
             }
-            if (!status.Equals(""))
-            {
-                strCondition += " AND SELF_TR_TIMELEAVE.STATUS='" + status + "'";
-            }
-            if (!id.Equals(""))
+            if (!id.Equals(0))
             {
                 strCondition += " AND SELF_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
             }
-            strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "'";
-            strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+            if (!datefrom.Equals("") && !dateto.Equals(""))
+            {
+                strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom + "' AND '" + dateto + "'";
+                strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
+            }
 
 
             return this.getData(strCondition);
@@ -176,7 +181,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         }
 
 
-        public cls_TRTimeleave getDataByID(string id)
+        public cls_TRTimeleave getDataByID(int id)
         {
 
             string strCondition = " AND SELF_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
@@ -278,7 +283,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string id)
+        public bool delete(int id)
         {
             bool blnResult = true;
             try
@@ -384,7 +389,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@TIMELEAVE_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_DOC"].Value = model.timeleave_doc;
                 obj_cmd.Parameters.Add("@TIMELEAVE_FROMDATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_FROMDATE"].Value = model.timeleave_fromdate;
                 obj_cmd.Parameters.Add("@TIMELEAVE_TODATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_TODATE"].Value = model.timeleave_todate;
-                obj_cmd.Parameters.Add("@TIMELEAVE_TYPE", SqlDbType.Char); obj_cmd.Parameters["@TIMELEAVE_TYPE"].Value = model.timeleave_type;
+                obj_cmd.Parameters.Add("@TIMELEAVE_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_TYPE"].Value = model.timeleave_type;
 
                 obj_cmd.Parameters.Add("@TIMELEAVE_MIN", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_MIN"].Value = model.timeleave_min;
                 obj_cmd.Parameters.Add("@TIMELEAVE_ACTUALDAY", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_ACTUALDAY"].Value = model.timeleave_actualday;
@@ -453,7 +458,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@TIMELEAVE_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_DOC"].Value = model.timeleave_doc;
                 obj_cmd.Parameters.Add("@TIMELEAVE_FROMDATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_FROMDATE"].Value = model.timeleave_fromdate;
                 obj_cmd.Parameters.Add("@TIMELEAVE_TODATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_TODATE"].Value = model.timeleave_todate;
-                obj_cmd.Parameters.Add("@TIMELEAVE_TYPE", SqlDbType.Char); obj_cmd.Parameters["@TIMELEAVE_TYPE"].Value = model.timeleave_type;
+                obj_cmd.Parameters.Add("@TIMELEAVE_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_TYPE"].Value = model.timeleave_type;
 
                 obj_cmd.Parameters.Add("@TIMELEAVE_MIN", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_MIN"].Value = model.timeleave_min;
                 obj_cmd.Parameters.Add("@TIMELEAVE_ACTUALDAY", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_ACTUALDAY"].Value = model.timeleave_actualday;

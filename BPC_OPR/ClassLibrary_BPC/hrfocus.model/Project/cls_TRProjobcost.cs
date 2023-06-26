@@ -13,9 +13,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public int projobcost_id { get; set; }
         public string projobcost_code { get; set; }       
         public double projobcost_amount { get; set; }
-        public DateTime projobcost_fromdate { get; set; }
-        public DateTime projobcost_todate { get; set; }
-        public string projobcost_version { get; set; }
+       
+        public string version { get; set; }
         public string projobcost_status { get; set; }
 
         public bool projobcost_auto { get; set; }

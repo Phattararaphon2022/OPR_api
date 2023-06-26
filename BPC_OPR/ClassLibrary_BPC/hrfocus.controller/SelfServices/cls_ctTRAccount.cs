@@ -30,12 +30,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("SELF_TR_ACCOUNT.COMPANY_CODE");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_TYPE");
-                obj_str.Append(", WORKER_CODE");
+                obj_str.Append(", SELF_TR_ACCOUNT.WORKER_CODE");
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
 
                 obj_str.Append(" FROM SELF_TR_ACCOUNT");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_ACCOUNT.COMPANY_CODE ");
+                obj_str.Append(" AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_ACCOUNT.WORKER_CODE ");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -53,6 +58,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_type = dr["ACCOUNT_TYPE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
 
                     list_model.Add(model);
                 }
@@ -70,18 +77,100 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
             if(!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.COMPANY_CODE='" + com + "'";
 
             if (!user.Equals(""))
-                strCondition += " AND ACCOUNT_USER='" + user + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_USER='" + user + "'";
 
             if (!type.Equals(""))
-                strCondition += " AND ACCOUNT_TYPE='" + type + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_TYPE='" + type + "'";
 
             if (!worker.Equals(""))
-                strCondition += " AND WORKER_CODE='" + worker + "'";
+                strCondition += " AND SELF_TR_ACCOUNT.WORKER_CODE='" + worker + "'";
 
             return this.getData(strCondition);
+        }
+        private List<cls_TRAccount> getDataworkflow(string condition)
+        {
+            List<cls_TRAccount> list_model = new List<cls_TRAccount>();
+            cls_TRAccount model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append("SELF_TR_ACCOUNT.COMPANY_CODE ");
+                obj_str.Append(", SELF_TR_ACCOUNT.ACCOUNT_USER ");
+                obj_str.Append(", SELF_TR_ACCOUNT.ACCOUNT_TYPE ");
+                obj_str.Append(", SELF_TR_ACCOUNT.WORKER_CODE ");
+                obj_str.Append(", EMP_TR_POSITION.EMPPOSITION_POSITION ");
+                obj_str.Append(", EMP_MT_POSITION.POSITION_LEVEL ");
+                obj_str.Append(", ISNULL(SELF_TR_LINEAPPROVE.WORKFLOW_CODE,'') AS WORKFLOW_CODE ");
+                obj_str.Append(", ISNULL(SELF_TR_LINEAPPROVE.WORKFLOW_TYPE,'') AS WORKFLOW_TYPE ");
+                obj_str.Append(", SELF_MT_WORKFLOW.TOTALAPPROVE ");
+
+                obj_str.Append(" FROM SELF_TR_ACCOUNT");
+                obj_str.Append(" JOIN EMP_TR_POSITION ON EMP_TR_POSITION.WORKER_CODE = SELF_TR_ACCOUNT.WORKER_CODE AND EMP_TR_POSITION.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" AND EMP_TR_POSITION.EMPPOSITION_DATE = (SELECT MAX(EMPPOSITION_DATE) FROM EMP_TR_POSITION WHERE WORKER_CODE=SELF_TR_ACCOUNT.WORKER_CODE)");
+                obj_str.Append(" JOIN EMP_MT_POSITION ON EMP_MT_POSITION.POSITION_CODE = EMP_TR_POSITION.EMPPOSITION_POSITION");
+                obj_str.Append(" AND EMP_MT_POSITION.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" LEFT JOIN SELF_TR_LINEAPPROVE ON SELF_TR_LINEAPPROVE.POSITION_LEVEL = EMP_MT_POSITION.POSITION_LEVEL");
+                obj_str.Append(" AND SELF_TR_LINEAPPROVE.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" LEFT JOIN SELF_MT_WORKFLOW ON SELF_MT_WORKFLOW.WORKFLOW_CODE = SELF_TR_LINEAPPROVE.WORKFLOW_CODE");
+                obj_str.Append(" AND SELF_MT_WORKFLOW.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" WHERE 1=1");
+
+                if (!condition.Equals(""))
+                    obj_str.Append(" " + condition);
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRAccount();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.account_user = dr["ACCOUNT_USER"].ToString();
+                    model.account_type = dr["ACCOUNT_TYPE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.empposition_position = dr["EMPPOSITION_POSITION"].ToString();
+                    model.position_level = Convert.ToInt32(dr["POSITION_LEVEL"].ToString());
+                    model.workflow_code = dr["WORKFLOW_CODE"].ToString();
+                    model.workflow_type = dr["WORKFLOW_TYPE"].ToString();
+                    model.totalapprove = Convert.ToInt32(dr["TOTALAPPROVE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(TRTRAccountpos.getDataworkflow)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+        public List<cls_TRAccount> getDataworkflowByFillter(string com, string user,string worker_code, string type, string workflow_type)
+        {
+            string strCondition = "";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_ACCOUNT.COMPANY_CODE='" + com + "'";
+
+            if (!user.Equals(""))
+                strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_USER='" + user + "'";
+
+            if (!worker_code.Equals(""))
+                strCondition += " AND SELF_TR_ACCOUNT.WORKER_CODE='" + worker_code + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND SELF_TR_ACCOUNT.ACCOUNT_TYPE='" + type + "'";
+
+            if (!workflow_type.Equals(""))
+                strCondition += " AND SELF_TR_LINEAPPROVE.WORKFLOW_TYPE='" + workflow_type + "'";
+
+            return this.getDataworkflow(strCondition);
         }
 
         public bool checkDataOld(string com,string user,string type,string worker)

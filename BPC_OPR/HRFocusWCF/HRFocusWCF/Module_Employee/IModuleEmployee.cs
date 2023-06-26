@@ -32,6 +32,19 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadWorker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadWorker(string token, string by, string fileName, Stream stream);
+
+        [OperationContract(Name = "worker_listbyfillter")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getWorkerFillterList(FillterSearch req);
+
+        //image
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadWorkerImages?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadWorkerImages(string ref_to, Stream stream);
+
+        [OperationContract(Name = "doGetWorkerImages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetWorkerImages(FillterWorker req);
         #endregion
 
         #region Dep
@@ -549,34 +562,76 @@ namespace BPC_OPR
 
         #region set batch
         //set position
+        [OperationContract(Name = "batchpositionlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchPositionList(InputSetPosition input);
+
         [OperationContract(Name = "setbatchposition")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchPosition(InputSetPosition input);
 
+        //set dep
+        [OperationContract(Name = "batchdeplist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchDepList(InputSetDep input);
+
+        [OperationContract(Name = "setbatchdep")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchDep(InputSetDep input);
+
         //set group
+        [OperationContract(Name = "batchgrouplist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchGroupList(InputSetGroup input);
+
         [OperationContract(Name = "setbatchgroup")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchGroup(InputSetGroup input);
 
         //set location
+        [OperationContract(Name = "batchlocationlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchLocationList(InputSetLocation input);
+
         [OperationContract(Name = "setbatchlocation")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchLocation(InputSetLocation input);
 
         //set salary
+        [OperationContract(Name = "batchsalarylist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchSalaryList(InputSetSalary input);
+
         [OperationContract(Name = "setbatchsalary")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchSalary(InputSetSalary input);
 
         //set provident
+        [OperationContract(Name = "batchprovidentlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchProvidentList(InputSetProvident input);
+
         [OperationContract(Name = "setbatchprovident")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchProvident(InputSetProvident input);
 
         //set benefits
+        [OperationContract(Name = "batchbenefitlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchBenefitsList(InputSetBenefits input);
+
         [OperationContract(Name = "setbatchbenefit")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchBenefits(InputSetBenefits input);
+
+        //set training
+        [OperationContract(Name = "batchtraininglist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchTrainingList(InputSetTraining input);
+
+        [OperationContract(Name = "setbatchtraining")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchTraining(InputSetTraining input);
         #endregion
 
         #endregion

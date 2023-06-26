@@ -275,6 +275,42 @@ namespace BPC_OPR
     }
 #endregion
 
+    #region InputTRLeave
+    [DataContract]
+    public class InputTRLeave
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string year_code { get; set; }
+        [DataMember]
+        public string leave_code { get; set; }
+        [DataMember]
+        public double empleaveacc_bf { get; set; }
+        [DataMember]
+        public double empleaveacc_annual { get; set; }
+        [DataMember]
+        public double empleaveacc_used { get; set; }
+        [DataMember]
+        public double empleaveacc_remain { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
     #region InputMTPlanleave
     [DataContract]
     public class InputMTPlanleave
@@ -495,6 +531,9 @@ namespace BPC_OPR
         public string pol_type { get; set; }
         [DataMember]
         public string pol_note { get; set; }
+
+        [DataMember]
+        public string year_code { get; set; }
         [DataMember]
         public List<cls_MTWorker> emp_data { get; set; }
         [DataMember]
@@ -558,6 +597,12 @@ namespace BPC_OPR
     public class InputTRTimecard
     {
         [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
         public string company_code { get; set; }        
         [DataMember]
         public string worker_code { get; set; }
@@ -570,6 +615,8 @@ namespace BPC_OPR
         public string shift_code { get; set; }
         [DataMember]
         public string timecard_workdate { get; set; }
+        [DataMember]
+        public string timecard_workdate_to { get; set; }
         [DataMember]
         public string timecard_daytype { get; set; }
         [DataMember]
@@ -682,5 +729,37 @@ namespace BPC_OPR
         public int index { get; set; }
 
     }
+    #endregion
+
+
+    #region InputSetPolicyAttItem
+    [DataContract]
+    public class InputSetPolicyAttItem
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string item_sa { get; set; }
+        [DataMember]
+        public string item_ot { get; set; }
+        [DataMember]
+        public string item_aw { get; set; }
+        [DataMember]
+        public string item_dg { get; set; }
+        [DataMember]
+        public string item_lv { get; set; }
+        [DataMember]
+        public string item_ab { get; set; }
+        [DataMember]
+        public string item_lt { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+
+    }
+
     #endregion
 }

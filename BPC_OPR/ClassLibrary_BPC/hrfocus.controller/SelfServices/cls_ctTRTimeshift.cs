@@ -60,6 +60,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_BY, SELF_TR_TIMESHIFT.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_DATE, SELF_TR_TIMESHIFT.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
 
                 obj_str.Append(" FROM SELF_TR_TIMESHIFT");
 
@@ -69,6 +70,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" LEFT JOIN SYS_MT_REASON ON SYS_MT_REASON.REASON_CODE=SELF_TR_TIMESHIFT.REASON_CODE AND REASON_GROUP = 'SHT'");
                 obj_str.Append(" INNER JOIN ATT_MT_SHIFT ON ATT_MT_SHIFT.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE AND ATT_MT_SHIFT.SHIFT_CODE=SELF_TR_TIMESHIFT.TIMESHIFT_NEW ");
                 obj_str.Append(" INNER JOIN ATT_MT_SHIFT as OLDSHIFT ON OLDSHIFT.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE AND OLDSHIFT.SHIFT_CODE=SELF_TR_TIMESHIFT.TIMESHIFT_OLD ");
+                obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMESHIFT.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE  ");
+                obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMESHIFT.TIMESHIFT_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'SHT' ");
 
                 obj_str.Append(" WHERE 1=1");
 
@@ -106,6 +109,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.shift_new_th = dr["SHIFT_NEW_TH"].ToString();
                     model.shift_new_en = dr["SHIFT_NEW_EN"].ToString();
                     model.status = Convert.ToInt32(dr["STATUS"].ToString());
+                    model.status_job = dr["STATUS_JOB"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -122,12 +126,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRTimeshift> getDataByFillter(string id,string status, string com, string emp, DateTime datefrom, DateTime dateto)
+        public List<cls_TRTimeshift> getDataByFillter(int id,int status, string com, string emp, DateTime datefrom, DateTime dateto)
         {
             string strCondition = "";
-            if (!id.Equals(""))
-                strCondition += " AND SELF_TR_TIMESHIFT.TIMEOT_ID='" + id + "'";
-            if (!status.Equals(""))
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
+            if (!status.Equals(1))
                 strCondition += " AND SELF_TR_TIMESHIFT.STATUS='" + status + "'";
             if (!com.Equals(""))
                 strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
@@ -138,7 +142,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public cls_TRTimeshift getDataByID(string id)
+        public cls_TRTimeshift getDataByID(int id)
         {
 
             string strCondition = " AND SELF_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
@@ -207,7 +211,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string id)
+        public bool delete(int id)
         {
             bool blnResult = true;
             try

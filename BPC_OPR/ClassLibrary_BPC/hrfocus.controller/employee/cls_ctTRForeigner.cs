@@ -51,8 +51,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ENTRY_DATE");
                 obj_str.Append(", CERTIFICATE_NO");
                 obj_str.Append(", CERTIFICATE_EXPIRE");
-                obj_str.Append(", OTHERDOC_NO");
-                obj_str.Append(", OTHERDOC_EXPIRE");
+                obj_str.Append(", ISNULL(OTHERDOC_NO, '') AS OTHERDOC_NO");
+                obj_str.Append(", ISNULL(OTHERDOC_EXPIRE, '') AS OTHERDOC_EXPIRE");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -235,8 +235,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ENTRY_DATE");
                 obj_str.Append(", CERTIFICATE_NO");
                 obj_str.Append(", CERTIFICATE_EXPIRE");
-                obj_str.Append(", OTHERDOC_NO");
-                obj_str.Append(", OTHERDOC_EXPIRE");
+                if (!model.otherdoc_no.ToString().Equals(""))
+                {
+                    obj_str.Append(", OTHERDOC_NO");
+                    obj_str.Append(", OTHERDOC_EXPIRE");
+                }
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -260,8 +263,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @ENTRY_DATE ");
                 obj_str.Append(", @CERTIFICATE_NO ");
                 obj_str.Append(", @CERTIFICATE_EXPIRE ");
-                obj_str.Append(", @OTHERDOC_NO ");
-                obj_str.Append(", @OTHERDOC_EXPIRE ");
+                if (!model.otherdoc_no.ToString().Equals(""))
+                {
+                    obj_str.Append(", @OTHERDOC_NO");
+                    obj_str.Append(", @OTHERDOC_EXPIRE");
+                }
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -291,8 +297,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@ENTRY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@ENTRY_DATE"].Value = model.entry_date;
                 obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
                 obj_cmd.Parameters.Add("@CERTIFICATE_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_EXPIRE"].Value = model.certificate_expire;
-                obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
-                obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
+                if (!model.otherdoc_no.Equals(""))
+                {
+                    obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
+                    obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
+                }
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;

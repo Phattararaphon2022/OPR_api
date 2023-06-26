@@ -397,6 +397,30 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getJobMonitor(FillterProject req);
 
+        //-- Job version
+        [OperationContract(Name = "projobversion_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjobversionList(FillterProject req);
 
+        [OperationContract(Name = "projobversion")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTProjobversion(InputMTProjobversion input);
+
+        [OperationContract(Name = "projobversion_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTProjobversion(InputMTProjobversion input);
+
+        //-- Job policy
+        [OperationContract(Name = "projobpol_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProjobpolList(FillterProject req);
+
+        [OperationContract(Name = "projobpol")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRProjobpol(InputTRProjobpol input);
+
+        [OperationContract(Name = "projobpol_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRProjobpol(InputTRProjobpol input);
     }
 }

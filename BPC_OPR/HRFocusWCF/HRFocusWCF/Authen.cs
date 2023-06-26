@@ -38,12 +38,13 @@ namespace HRFocusWCF
 
         static string key = "401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429090fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1889";
 
-        public string GetJwt(string user, string pass) //function for JWT Token  
+        public string GetJwt(string user, string pass ,string com) //function for JWT Token  
         {
             byte[] secretKey = Base64UrlDecode(key);//pass key to secure and decode it  
             DateTime issued = DateTime.Now.Date;
             var User = new Dictionary<string, object>()  
                     {  
+                        {"company_code", com}, 
                         {"user_aabbcc", user},  
                         {"pass_qwer", pass},  
                          

@@ -1,0 +1,1760 @@
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_TR_EMPATTITEM]'))
+
+CREATE TABLE [dbo].[ATT_TR_EMPATTITEM](
+	[COMPANY_CODE] [varchar](5) NOT NULL,
+	[WORKER_CODE] [varchar](15) NOT NULL,
+	[EMPATTITEM_SA] [varchar](20) NULL,
+	[EMPATTITEM_OT] [varchar](20) NULL,
+	[EMPATTITEM_AW] [varchar](20) NULL,
+	[EMPATTITEM_DG] [varchar](20) NULL,
+	[EMPATTITEM_LV] [varchar](20) NULL,
+	[EMPATTITEM_AB] [varchar](20) NULL,
+	[EMPATTITEM_LT] [varchar](20) NULL,
+	[CREATED_BY] [varchar](20) NOT NULL,
+	[CREATED_DATE] [datetime] NOT NULL,
+	[MODIFIED_BY] [varchar](20) NULL,
+	[MODIFIED_DATE] [datetime] NULL,
+	[FLAG] [bit] NOT NULL,
+ CONSTRAINT [PK_ATT_TR_EMPATTITEM] PRIMARY KEY CLUSTERED 
+(
+	[COMPANY_CODE] ASC,
+	[WORKER_CODE] ASC
+))
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_MT_TIMEIMPFORMAT]'))
+
+CREATE TABLE [dbo].[ATT_MT_TIMEIMPFORMAT](
+	[COMPANY_CODE] [varchar](5) NOT NULL,
+	[DATE_FORMAT] [varchar](10) NOT NULL,
+	[CARD_START] [int] NOT NULL,
+	[CARD_LENGHT] [int] NOT NULL,
+	[DATE_START] [int] NOT NULL,
+	[DATE_LENGHT] [int] NOT NULL,
+	[HOURS_START] [int] NOT NULL,
+	[HOURS_LENGHT] [int] NOT NULL,
+	[MINUTE_START] [int] NOT NULL,
+	[MINUTE_LENGHT] [int] NOT NULL,
+	[FUNCTION_START] [int] NULL,
+	[FUNCTION_LENGHT] [int] NULL,
+	[MACHINE_START] [int] NULL,
+	[MACHINE_LENGHT] [int] NULL,
+	[CREATED_BY] [varchar](20) NOT NULL,
+	[CREATED_DATE] [datetime] NOT NULL,
+	[MODIFIED_BY] [varchar](20) NULL,
+	[MODIFIED_DATE] [datetime] NULL,
+	[FLAG] [bit] NOT NULL,
+ CONSTRAINT [PK_ATT_MT_TIMEIMPFORMAT] PRIMARY KEY CLUSTERED 
+(
+	[COMPANY_CODE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+IF EXISTS (SELECT * FROM sysobjects WHERE name = 'ATT_FNT_GETSALARY') 
+BEGIN 
+	DROP FUNCTION ATT_FNT_GETSALARY 
+END 
+GO
+
+
+CREATE FUNCTION [dbo].[ATT_FNT_GETSALARY]
+(
+    @CompanyCode varchar (5), @WorkerCode varchar (15), @FromDate datetime, @ToDate datetime, @PayDate datetime
+)
+RETURNS @SALARY TABLE 
+(
+	Salary decimal(12, 2), Working decimal(5, 2)
+) 
+AS
+BEGIN 
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (15) = @WorkerCode
+	DECLARE @period_from datetime = @FromDate
+	DECLARE @period_to datetime = @ToDate
+	DECLARE @period_pay datetime = @PayDate
+
+	
+	DECLARE @salary_amount decimal(12, 2) = 0
+	DECLARE @salary_quantity decimal(5, 2) = 0
+
+	-- Get worker type
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999') FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+					
+	DECLARE @period_day int = 0
+	DECLARE @working int = 0
+	SELECT @period_day=DATEDIFF(day, @period_from, @period_to) + 1 
+
+	DECLARE @working_from datetime = @period_from
+	DECLARE @working_to datetime = @period_to
+
+	-- Start date
+	IF @worker_hiredate > @working_from BEGIN
+		SET @working_from = @worker_hiredate
+	END
+
+	-- Resign date
+	IF @worker_resigndate < @working_to BEGIN
+		SET @working_to = DATEADD(DAY, -1, @worker_resigndate)
+	END
+						
+	IF @working_to < @working_from BEGIN
+		SET @working_to = DATEADD(DAY, -1, @working_from)
+	END
+					
+	-- Get current salary
+	DECLARE @salary_effdate datetime 
+	DECLARE @salary_current decimal(12, 2) = 0
+	SELECT TOP 1 @salary_current = ISNULL(EMPSALARY_AMOUNT, 0), @salary_effdate = EMPSALARY_DATE FROM EMP_TR_SALARY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @period_pay 
+	ORDER BY EMPSALARY_DATE DESC
+
+	DECLARE @salary_old decimal (12, 2) = 0
+	DECLARE @salary_perday decimal (12, 2) = 0
+										
+	IF @worker_emptype = 'M' BEGIN
+		-- Check adjustment
+		IF @salary_effdate > @working_from BEGIN
+
+										
+			SELECT TOP 1 @salary_old = ISNULL(EMPSALARY_AMOUNT, 0) FROM EMP_TR_SALARY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= DATEADD(DAY, -1, @salary_effdate) 
+			ORDER BY EMPSALARY_DATE DESC
+
+			IF @salary_old > 0 AND @salary_current <> @salary_old  BEGIN
+								
+				-- Salary Old
+				SET @salary_perday = @salary_old / @period_day		
+				SELECT @working=DATEDIFF(day, @working_from, @salary_effdate)
+
+				--PRINT 'Salary (Old) perday : ' + CAST(@salary_perday AS varchar) + ' (' + CAST(@working AS varchar) + ')'
+
+				SET @salary_amount = @salary_perday * @working
+
+				-- Salary New
+				SET @salary_perday = @salary_current / @period_day		
+				SELECT @working=DATEDIFF(day, @salary_effdate, @working_to) + 1
+
+				--PRINT 'Salary (New) perday : ' + CAST(@salary_perday AS varchar) + ' (' + CAST(@working AS varchar) + ')'
+
+				SET @salary_amount = @salary_amount + @salary_perday * @working
+
+				--SELECT @working=DATEDIFF(day, @working_from, @working_to) + 1 
+				--SET @salary_quantity = @working
+			END
+			ELSE BEGIN
+							
+				SET @salary_amount = @salary_current
+				SELECT @working=DATEDIFF(day, @working_from, @working_to) + 1 
+				--SET @salary_quantity = @working
+				-- Check not full period
+				IF @working <> @period_day BEGIN
+				
+					SET @salary_perday = @salary_current / 30
+
+					SET @salary_amount = @salary_perday * @working
+					
+
+				END
+							
+			END
+
+		END
+		ELSE BEGIN
+							
+			SET @salary_amount = @salary_current
+			SELECT @working=DATEDIFF(day, @working_from, @working_to) + 1 
+			--SET @salary_quantity = @working
+
+			-- Check not full period
+			IF @working <> @period_day BEGIN
+				
+				SET @salary_perday = @salary_current / 30
+
+				SET @salary_amount = @salary_perday * @working			
+
+			END
+							
+		END
+
+		SELECT @working=DATEDIFF(day, @working_from, @working_to) + 1 
+	    SET @salary_quantity = @working
+
+		-- Round
+		--SELECT @salary_amount=Result FROM HRM_FNT_ROUNDSALARY(@salary_amount)
+						
+	END
+	ELSE BEGIN
+		-- Daily											
+
+		IF @salary_effdate > @working_from BEGIN
+
+			SET @salary_amount = 0
+			SET @working = 0
+										
+			-- loop day
+			DECLARE @timecard_workdate datetime
+			DECLARE cur_day CURSOR FOR 
+			SELECT TIMECARD_WORKDATE
+			FROM ATT_TR_TIMECARD
+			WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+			AND TIMECARD_DAYTYPE = 'N'
+			AND TIMECARD_WORKDATE BETWEEN @period_from AND @period_to
+			AND (TIMECARD_WORK1_MIN_APP > 0 OR TIMECARD_WORK1_MIN_APP > 0)
+
+			OPEN cur_day 
+				FETCH NEXT FROM cur_day INTO @timecard_workdate
+				WHILE @@FETCH_STATUS = 0 
+				BEGIN 
+									
+					SELECT TOP 1 @salary_old = ISNULL(EMPSALARY_AMOUNT, 0) FROM EMP_TR_SALARY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @timecard_workdate 
+					ORDER BY EMPSALARY_DATE DESC
+
+					IF @salary_old > 0 BEGIN
+
+						SET @salary_amount = @salary_amount + @salary_old
+
+					END
+
+					SET @working = @working + 1
+									
+				FETCH NEXT FROM cur_day INTO @timecard_workdate
+				END 
+			CLOSE cur_day 
+			DEALLOCATE cur_day
+
+			SET @salary_quantity = @working		
+
+		END
+		ELSE BEGIN
+
+			-- Get normal day
+			SELECT @working = ISNULL(COUNT(TIMECARD_WORKDATE), 0) FROM ATT_TR_TIMECARD
+			WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+			AND TIMECARD_DAYTYPE = 'N'
+			AND TIMECARD_WORKDATE BETWEEN @period_from AND @period_to
+			AND (TIMECARD_WORK1_MIN_APP > 0 OR TIMECARD_WORK1_MIN_APP > 0)
+							
+			SET @salary_amount = @salary_current * @working
+			SET @salary_quantity = @working														
+							
+		END
+
+		-- Round
+		--SELECT @salary_amount=Result FROM HRM_FNT_ROUNDSALARY(@salary_amount)
+											   
+	END
+
+	
+	INSERT INTO @SALARY VALUES(@salary_amount, @salary_quantity)
+	RETURN
+END
+GO
+
+
+IF EXISTS (SELECT * FROM sysobjects WHERE name = 'ATT_FNT_ROUND_AMOUNT') 
+BEGIN 
+	DROP FUNCTION ATT_FNT_ROUND_AMOUNT 
+END 
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE FUNCTION [dbo].[ATT_FNT_ROUND_AMOUNT]
+(
+	@CompID varchar(10),
+	@Amount decimal (12, 3),
+	@Type varchar(10)
+)
+RETURNS @Round TABLE 
+(
+	Result decimal (12, 2)
+)      
+AS
+BEGIN
+
+	----DECLARE @CompID varchar(10) = 'APT'
+	----DECLARE @Amount decimal (12, 3) = '15000.30'
+	----DECLARE @Type varchar(5) = 'TAX'
+	----DECLARE @Output decimal (12, 3) = '15000.30'
+		
+	--DECLARE @ROUND_CODE varchar(10) = ''
+
+	--SELECT @ROUND_CODE = CASE @Type
+	--WHEN 'PF' THEN ISNULL(POLROUND_PF, '')
+	--WHEN 'SSO' THEN ISNULL(POLROUND_SSO, '')
+	--WHEN 'TAX' THEN ISNULL(POLROUND_TAX, '')
+	--WHEN 'WAGE_DAY' THEN ISNULL(POLROUND_WAGE_DAY, '')
+	--WHEN 'WAGE_SUMMARY' THEN ISNULL(POLROUND_WAGE_SUMMARY, '')
+	--WHEN 'OT_DAY' THEN ISNULL(POLROUND_OT_DAY, '')
+	--WHEN 'OT_SUMMARY' THEN ISNULL(POLROUND_OT_SUMMARY, '')
+	--WHEN 'ABSENT' THEN ISNULL(POLROUND_ABSENT, '')
+	--WHEN 'LATE' THEN ISNULL(POLROUND_LATE, '')
+	--WHEN 'LEAVE' THEN ISNULL(POLROUND_LEAVE, '')
+	--WHEN 'NETPAY' THEN ISNULL(POLROUND_NETPAY, '')
+		
+	--END
+	--FROM [HRM].[dbo].[HRM_MT_POLROUND]
+	--WHERE COMPANY_CODE=@CompID
+
+	----PRINT 'Input:' + CAST(@Amount AS VARCHAR(30))
+
+	----PRINT 'Round type:' + @ROUND_CODE
+	
+	DECLARE @output_amount decimal (12, 2) = @Amount
+
+	--IF @ROUND_CODE <> '' BEGIN
+	--	DECLARE @amount_int int
+	
+	--	DECLARE @round_value decimal (4, 2)
+	--	DECLARE @point decimal (4, 3)
+
+	--	-- Convert to Int
+	--	SET @amount_int = CAST(ROUND(@Amount, 3, 1) AS INT)
+
+	--	-- Get decimal point
+	--	SET @point = ROUND(@Amount, 3, 1) - @amount_int
+
+	--	SET @round_value = 0
+	--	SET @output_amount = ROUND(@Amount, 3, 1)
+
+	--	SELECT TOP 1 @round_value=ISNULL(ROUND_RESULT, 0) 
+	--	FROM HRM_MT_ROUND 
+	--	INNER JOIN HRM_TR_ROUND ON HRM_MT_ROUND.ROUND_ID=HRM_TR_ROUND.ROUND_ID
+	--	WHERE HRM_MT_ROUND.ROUND_CODE = @ROUND_CODE
+	--	AND (@point BETWEEN ROUND_FROM AND ROUND_TO)
+
+	--	SET @output_amount = @amount_int + @round_value
+
+	--	--PRINT 'Output:' + CAST(@output_amount AS VARCHAR(30))
+	--END
+
+	INSERT INTO @Round VALUES(@output_amount)
+	RETURN
+
+END
+
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALABSENT]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALABSENT]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALABSENT]
+(
+    @CompanyCode varchar (5)
+	, @WorkerCode varchar (30)
+	, @Fromdate datetime
+	, @Todate datetime
+	, @TaskBy varchar (30)
+)
+AS
+BEGIN
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (15) = @WorkerCode
+	DECLARE @from_date datetime = @Fromdate
+	DECLARE @to_date datetime = @Todate
+
+	-- Get worker detail
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hrs decimal(3, 2)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+	FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+
+	-- Step 2 Loop day 
+	DECLARE @timecard_date datetime
+	DECLARE @timecard_daytype varchar (1) 
+	DECLARE @timecard_leave int = 0
+
+	DECLARE @working_min int = @worker_hrs * 60
+
+	DECLARE @project_code varchar (20)
+	DECLARE @projob_code varchar (20)
+
+	DECLARE cur_day CURSOR FOR
+	SELECT TIMECARD_WORKDATE, TIMECARD_DAYTYPE, ISNULL(PROJECT_CODE, ''), ISNULL(PROJOB_CODE, '')
+	FROM ATT_TR_TIMECARD
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+	AND (TIMECARD_WORKDATE BETWEEN @from_date AND @to_date)
+	AND TIMECARD_DAYTYPE = 'A'
+
+	OPEN cur_day 
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @project_code, @projob_code
+		WHILE @@FETCH_STATUS = 0 
+		BEGIN 
+
+			PRINT '==== ' + CAST(@timecard_date AS varchar(30))		
+		
+			-- Get wage
+			DECLARE @wage decimal(12, 2) = 0		
+			SELECT TOP 1 @wage = ISNULL(EMPSALARY_AMOUNT, 0) 
+			FROM EMP_TR_SALARY 
+			WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @timecard_date 
+			ORDER BY EMPSALARY_DATE DESC
+
+			IF @worker_emptype = 'M' BEGIN
+				SET @wage = @wage / 30
+			END
+
+			PRINT 'Wage/day: ' + CAST(@wage AS varchar(30))
+
+			--PRINT (@wage / @worker_hrs)
+			--PRINT (@timecard_late / CONVERT(decimal(4,2), 60)) 
+		
+			DECLARE @absent_amount decimal (8, 2) = @wage
+
+		
+
+			IF (EXISTS(SELECT * FROM ATT_TR_WAGEDAY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code)) 	BEGIN
+				UPDATE ATT_TR_WAGEDAY SET ABSENT_AMOUNT = @absent_amount, ABSENT_MIN = @working_min, MODIFIED_BY = @TaskBy, MODIFIED_DATE = getdate()
+				WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code
+			END
+			ELSE BEGIN
+				INSERT INTO ATT_TR_WAGEDAY (COMPANY_CODE, WORKER_CODE, WAGEDAY_DATE, ABSENT_AMOUNT, ABSENT_MIN, CREATED_BY, CREATED_DATE, FLAG, PROJECT_CODE, PROJOB_CODE)
+				VALUES(@company_code, @worker_code, @timecard_date, @absent_amount, @working_min, @TaskBy, getdate(), '0', @project_code, @projob_code)
+			END
+															
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_leave, @project_code, @projob_code
+		END 
+	CLOSE cur_day 
+	DEALLOCATE cur_day
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALALLOWANCE]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALALLOWANCE]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALALLOWANCE]
+(
+    @CompanyCode varchar (5)
+	, @WorkerCode varchar (30)
+	, @Fromdate datetime
+	, @Todate datetime
+	, @TaskBy varchar (30)
+)
+AS
+BEGIN
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (15) = @WorkerCode
+	DECLARE @from_date datetime = @Fromdate
+	DECLARE @to_date datetime = @Todate
+
+	-- Get worker detail
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hrs decimal(3, 2)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+	FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+
+	-- Get Policy
+	DECLARE @pol_aw varchar (15) = ''
+	SELECT @pol_aw=ISNULL(EMPPOLATT_POLICY_CODE, '') FROM ATT_TR_EMPPOLATT WHERE COMPANY_CODE=@company_code AND WORKER_CODE = @worker_code AND EMPPOLATT_POLICY_TYPE = 'AW'
+
+		   	  
+
+
+	-- Step 2 Loop day 
+	DECLARE @timecard_date datetime
+	DECLARE @timecard_daytype varchar (1) 
+	DECLARE @timecard_before int = 0
+	DECLARE @timecard_normal int = 0
+	DECLARE @timecard_break int = 0
+	DECLARE @timecard_after int = 0
+	DECLARE @timecard_shift varchar (10) 
+
+	DECLARE @timecard_in varchar (10) 
+	DECLARE @timecard_out varchar (10) 
+
+	DECLARE @working_min int 
+
+	DECLARE @project_code varchar (20)
+	DECLARE @projob_code varchar (20)
+
+	DECLARE cur_day CURSOR FOR
+	SELECT TIMECARD_WORKDATE, TIMECARD_DAYTYPE, TIMECARD_BEFORE_MIN_APP, TIMECARD_WORK1_MIN_APP + TIMECARD_WORK2_MIN_APP, TIMECARD_BREAK_MIN_APP, TIMECARD_AFTER_MIN_APP, SHIFT_CODE, CONVERT(varchar,ISNULL(TIMECARD_CH1, TIMECARD_CH3),8), CONVERT(varchar,ISNULL(TIMECARD_CH10, TIMECARD_CH4),8), ISNULL(PROJECT_CODE, ''), ISNULL(PROJOB_CODE, '')
+	
+	FROM ATT_TR_TIMECARD
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+	AND TIMECARD_WORKDATE BETWEEN @from_date AND @to_date
+
+	OPEN cur_day 
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_before, @timecard_normal, @timecard_break, @timecard_after, @timecard_shift, @timecard_in, @timecard_out, @project_code, @projob_code
+		WHILE @@FETCH_STATUS = 0 
+		BEGIN 
+
+			PRINT '==== ' + CAST(@timecard_date AS varchar(30))		
+			PRINT 'Shift : ' + @timecard_shift
+
+			PRINT 'Time IN : ' + @timecard_in
+			PRINT 'Time OUT : ' + @timecard_out
+
+			PRINT 'Daytype : ' + @timecard_daytype
+			PRINT 'Min : ' + CAST(@working_min AS varchar(30))
+
+			DECLARE @shift_allowance decimal (10, 2) = 0
+			DECLARE @shift_count int = 0
+		
+			-- Shift allowance
+			DECLARE @timeallw_no int = 0
+			DECLARE @timeallw_type varchar (1) 
+			DECLARE @timeallw_method varchar (1) 
+			DECLARE @timeallw_time int = 0
+			DECLARE @timeallw_timein varchar(5) = ''
+			DECLARE @timeallw_timeout varchar(5) = ''
+			DECLARE @timeallw_normalday decimal(5, 2) = 0
+			DECLARE @timeallw_offday decimal(5, 2) = 0
+			DECLARE @timeallw_companyday decimal(5, 2) = 0
+			DECLARE @timeallw_holidayday decimal(5, 2) = 0
+			DECLARE @timeallw_leaveday decimal(5, 2) = 0
+
+			DECLARE cur_allw CURSOR FOR
+			SELECT TIMEALLW_NO, TIMEALLW_TYPE, TIMEALLW_METHOD, TIMEALLW_TIME, TIMEALLW_TIMEIN, TIMEALLW_TIMEOUT, TIMEALLW_NORMALDAY, TIMEALLW_OFFDAY, TIMEALLW_COMPANYDAY, TIMEALLW_HOLIDAY, TIMEALLW_LEAVEDAY
+			FROM ATT_TR_TIMEALLW
+			WHERE COMPANY_CODE = @company_code AND PLANTIMEALLW_CODE = @pol_aw						
+			ORDER BY TIMEALLW_NO
+
+			OPEN cur_allw 
+			FETCH NEXT FROM cur_allw INTO @timeallw_no, @timeallw_type, @timeallw_method, @timeallw_time, @timeallw_timein, @timeallw_timeout, @timeallw_normalday, @timeallw_offday, @timeallw_companyday, @timeallw_holidayday, @timeallw_leaveday
+			WHILE @@FETCH_STATUS = 0 
+			BEGIN 
+
+					-- Method H = Work Hours, T = Work Time
+
+					
+					DECLARE @condition_pay bit = 0
+
+					IF @timeallw_method = 'H' BEGIN
+						-- Type N = Normal | O = Overtime | A = All
+
+						IF @timeallw_type = 'N' BEGIN							
+							SET @working_min = @timecard_normal
+						END
+
+						IF @timeallw_type = 'O' BEGIN							
+							SET @working_min = @timecard_before + @timecard_after
+						END
+
+						IF @timeallw_type = 'A' BEGIN							
+							SET @working_min = @timecard_before + @timecard_normal + @timecard_after
+						END
+
+						DECLARE @allowance_min int = 0
+
+						SELECT @allowance_min = CAST( SUBSTRING( @timeallw_timein, 1, 2) AS INT) * 60 +  CAST( SUBSTRING( @timeallw_timein, 4, 2) AS INT)
+
+						IF @working_min >= @allowance_min BEGIN
+							SET @condition_pay = 1
+						END
+
+					END
+					ELSE BEGIN
+						-- Type 1 = Work before | 2 = Work IN since | 3 = Work OUT since | 4 = Period
+						DECLARE @timein int = 0
+						DECLARE @timeout int = 0
+
+						DECLARE @timein_shift int = 0
+						DECLARE @timeout_shift int = 0
+
+
+						SELECT @timein = CAST( SUBSTRING( @timeallw_timein, 1, 2) AS INT) * 60 +  CAST( SUBSTRING( @timeallw_timein, 4, 2) AS INT)
+						SELECT @timeout = CAST( SUBSTRING( @timeallw_timeout, 1, 2) AS INT) * 60 +  CAST( SUBSTRING( @timeallw_timeout, 4, 2) AS INT)
+
+						SELECT @timein_shift = CAST( SUBSTRING( @timecard_in, 1, 2) AS INT) * 60 +  CAST( SUBSTRING( @timecard_in, 4, 2) AS INT)
+						SELECT @timeout_shift = CAST( SUBSTRING( @timecard_out, 1, 2) AS INT) * 60 +  CAST( SUBSTRING( @timecard_out, 4, 2) AS INT)
+
+						--PRINT 'shift in : ' + CAST(@timein_shift AS varchar(30))
+						--PRINT 'shift out : ' + CAST(@timeout_shift AS varchar(30))
+
+						--PRINT 'allw in : ' + CAST(@timein AS varchar(30))
+						--PRINT 'allw out : ' + CAST(@timeout AS varchar(30))
+
+						IF @timeallw_type = 1 BEGIN
+							IF @timein_shift < @timein BEGIN							
+								SET @condition_pay = 1
+							END
+						END
+
+						IF @timeallw_type = 2 BEGIN
+							IF @timein_shift >= @timein BEGIN							
+								SET @condition_pay = 1
+							END
+						END
+
+						IF @timeallw_type = 3 BEGIN
+							IF @timeout_shift >= @timein BEGIN							
+								SET @condition_pay = 1
+							END
+						END
+
+						IF @timeallw_type = 4 BEGIN
+							IF @timein_shift >= @timein and @timeout_shift <= @timeout BEGIN							
+								SET @condition_pay = 1
+							END
+						END
+						
+					END
+
+					IF @condition_pay = 1 BEGIN
+
+						IF @timecard_daytype = 'N' BEGIN
+							SET @shift_allowance = @shift_allowance + @timeallw_normalday
+						END
+						IF @timecard_daytype = 'O' BEGIN
+							SET @shift_allowance = @shift_allowance + @timeallw_offday
+						END
+						IF @timecard_daytype = 'C' BEGIN
+							SET @shift_allowance = @shift_allowance + @timeallw_companyday
+						END
+						IF @timecard_daytype = 'H' BEGIN
+							SET @shift_allowance = @shift_allowance + @timeallw_holidayday
+						END
+						IF @timecard_daytype = 'L' BEGIN
+							SET @shift_allowance = @shift_allowance + @timeallw_leaveday
+						END
+
+						SET @shift_count = @shift_count + 1
+
+					END
+
+					--IF @shift_allowance > 0 BEGIN
+					--	PRINT 'Method : ' + @timeallw_method
+					--	PRINT 'Type : ' + @timeallw_type
+					--	PRINT 'Allowance : ' + CAST(@shift_allowance AS varchar(30))
+					--END
+
+					FETCH NEXT FROM cur_allw INTO @timeallw_no, @timeallw_type, @timeallw_method, @timeallw_time, @timeallw_timein, @timeallw_timeout, @timeallw_normalday, @timeallw_offday, @timeallw_companyday, @timeallw_holidayday, @timeallw_leaveday
+				END 
+			CLOSE cur_allw 
+			DEALLOCATE cur_allw
+
+			IF (EXISTS(SELECT * FROM ATT_TR_WAGEDAY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code)) 	BEGIN
+				UPDATE ATT_TR_WAGEDAY SET ALLOWANCE_AMOUNT = @shift_allowance, MODIFIED_BY = @TaskBy, MODIFIED_DATE = getdate()
+				WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code
+			END
+			ELSE BEGIN
+				INSERT INTO ATT_TR_WAGEDAY (COMPANY_CODE, WORKER_CODE, WAGEDAY_DATE, ALLOWANCE_AMOUNT, CREATED_BY, CREATED_DATE, FLAG, PROJECT_CODE, PROJOB_CODE)
+				VALUES(@company_code, @worker_code, @timecard_date, @shift_allowance, @TaskBy, getdate(), '0', @project_code, @projob_code)
+			END
+
+															
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_before, @timecard_normal, @timecard_break, @timecard_after, @timecard_shift, @timecard_in, @timecard_out, @project_code, @projob_code
+		END 
+	CLOSE cur_day 
+	DEALLOCATE cur_day
+
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALLATE]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALLATE]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALLATE]
+(
+    @CompanyCode varchar (5)
+	, @WorkerCode varchar (30)
+	, @Fromdate datetime
+	, @Todate datetime
+	, @Paydate datetime
+	, @TaskBy varchar (30)
+)
+AS
+BEGIN
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (15) = @WorkerCode
+	DECLARE @from_date datetime = @Fromdate
+	DECLARE @to_date datetime = @Todate
+	DECLARE @pay_date datetime = @Paydate
+
+	-- Get worker detail
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hrs decimal(3, 2)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+	FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+
+	-- Step 2 Loop day 
+	DECLARE @timecard_date datetime
+	DECLARE @timecard_daytype varchar (1) 
+	DECLARE @timecard_late int = 0
+	DECLARE @working_min int 
+
+	-- Clear data old
+	UPDATE ATT_TR_WAGEDAY SET LATE_AMOUNT = 0, LATE_MIN = 0, MODIFIED_BY = @TaskBy, MODIFIED_DATE = getdate()
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND (WAGEDAY_DATE BETWEEN @from_date AND @to_date)
+	--
+
+	DECLARE @project_code varchar (20)
+	DECLARE @projob_code varchar (20)
+
+	DECLARE cur_day CURSOR FOR
+	SELECT TIMECARD_WORKDATE, TIMECARD_DAYTYPE, TIMECARD_LATE_MIN_APP, ISNULL(PROJECT_CODE, ''), ISNULL(PROJOB_CODE, '')
+	FROM ATT_TR_TIMECARD
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+	AND (TIMECARD_WORKDATE BETWEEN @from_date AND @to_date)
+	AND TIMECARD_LATE_MIN_APP > 0 
+
+	OPEN cur_day 
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_late, @project_code, @projob_code
+		WHILE @@FETCH_STATUS = 0 
+		BEGIN 
+
+			--PRINT '==== ' + CAST(@timecard_date AS varchar(30))		
+		
+			--PRINT 'Late (min) : ' + CAST(@timecard_late AS varchar(30))
+
+			-- Get wage
+			DECLARE @wage decimal(12, 2) = 0		
+			SELECT TOP 1 @wage = ISNULL(EMPSALARY_AMOUNT, 0) 
+			FROM EMP_TR_SALARY 
+			WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @timecard_date 
+			ORDER BY EMPSALARY_DATE DESC
+
+			IF @worker_emptype = 'M' BEGIN
+				SET @wage = @wage / 30
+			END
+
+			--PRINT 'Wage/day: ' + CAST(@wage AS varchar(30))
+
+			--PRINT (@wage / @worker_hrs)
+			--PRINT (@timecard_late / CONVERT(decimal(4,2), 60)) 
+
+			DECLARE @allowance decimal(12, 2) = 0	
+
+			SELECT @allowance=ISNULL(SUM(PAYITEM_AMOUNT), 0) 
+			FROM PAY_TR_PAYITEM 
+			INNER JOIN PAY_MT_ITEM ON PAY_TR_PAYITEM.COMPANY_CODE=PAY_MT_ITEM.COMPANY_CODE AND PAY_TR_PAYITEM.ITEM_CODE=PAY_MT_ITEM.ITEM_CODE
+			WHERE PAY_TR_PAYITEM.COMPANY_CODE=@company_code AND PAY_TR_PAYITEM.WORKER_CODE=@worker_code  AND PAY_TR_PAYITEM.PAYITEM_DATE=@pay_date
+			AND PAY_MT_ITEM.ITEM_TYPE = 'IN' --AND PAY_MT_ITEM.ITEM_CALALLW='Y' 
+			
+			PRINT 'Allowance: ' + CAST(@allowance AS varchar(30))
+
+			SET @allowance = @allowance / 30
+
+			PRINT 'Allowance/day: ' + CAST(@allowance AS varchar(30))
+
+			SET @wage = @wage + @allowance
+
+
+		
+			DECLARE @late_amount decimal (8, 2) = (@timecard_late / CONVERT(decimal(4,2), 60)) * (@wage / @worker_hrs)	
+		
+			--PRINT 'Late (amount) : ' + CAST(@late_amount AS varchar(30))
+
+			IF (EXISTS(SELECT * FROM ATT_TR_WAGEDAY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code)) 	BEGIN
+				UPDATE ATT_TR_WAGEDAY SET LATE_AMOUNT = @late_amount, LATE_MIN = @timecard_late, MODIFIED_BY = @TaskBy, MODIFIED_DATE = getdate()
+				WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code
+			END
+			ELSE BEGIN
+				INSERT INTO ATT_TR_WAGEDAY (COMPANY_CODE, WORKER_CODE, WAGEDAY_DATE, LATE_AMOUNT, LATE_MIN, CREATED_BY, CREATED_DATE, FLAG, PROJECT_CODE, PROJOB_CODE)
+				VALUES(@company_code, @worker_code, @timecard_date, @late_amount, @timecard_late, @TaskBy, getdate(), '0', @project_code, @projob_code)
+			END
+															
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_late, @project_code, @projob_code
+		END 
+	CLOSE cur_day 
+	DEALLOCATE cur_day
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALLEAVE]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALLEAVE]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALLEAVE]
+(
+    @CompanyCode varchar (5)
+	, @WorkerCode varchar (30)
+	, @Fromdate datetime
+	, @Todate datetime
+	, @Paydate datetime
+	, @TaskBy varchar (30)
+)
+AS
+BEGIN
+
+	--DECLARE @CompanyCode varchar (5) = 'APT'
+	--DECLARE @WorkerCode varchar (30) = 'DRV0000001'
+	--DECLARE @Fromdate datetime = '01/01/2023'
+	--DECLARE @Todate datetime = '01/31/2023'
+	--DECLARE @Paydate datetime = '01/25/2023'
+	--DECLARE @TaskBy varchar (30) = 'TEST'
+
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (15) = @WorkerCode
+	DECLARE @from_date datetime = @Fromdate
+	DECLARE @to_date datetime = @Todate
+	DECLARE @pay_date datetime = @Paydate
+
+	-- Get worker detail
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hrs decimal(3, 2)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+	FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+
+	-- Step 2 Loop day 
+	DECLARE @timecard_date datetime
+	DECLARE @timecard_daytype varchar (1) 
+	DECLARE @timecard_leave int = 0
+
+
+	DECLARE @working_min int 
+
+	DECLARE @project_code varchar (20)
+	DECLARE @projob_code varchar (20)
+
+	DECLARE cur_day CURSOR FOR
+	SELECT TIMECARD_WORKDATE, TIMECARD_DAYTYPE, TIMECARD_LEAVEDEDUCT_MIN, ISNULL(PROJECT_CODE, ''), ISNULL(PROJOB_CODE, '')
+	FROM ATT_TR_TIMECARD
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+	AND (TIMECARD_WORKDATE BETWEEN @from_date AND @to_date)
+	AND TIMECARD_LEAVEDEDUCT_MIN > 0 
+
+	OPEN cur_day 
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_leave, @project_code, @projob_code
+		WHILE @@FETCH_STATUS = 0 
+		BEGIN 
+
+			PRINT '==== ' + CAST(@timecard_date AS varchar(30))		
+		
+			PRINT 'Leave (min) : ' + CAST(@timecard_leave AS varchar(30))
+
+			-- Get wage
+			DECLARE @wage decimal(12, 2) = 0		
+			SELECT TOP 1 @wage = ISNULL(EMPSALARY_AMOUNT, 0) 
+			FROM EMP_TR_SALARY 
+			WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @timecard_date 
+			ORDER BY EMPSALARY_DATE DESC
+
+			IF @worker_emptype = 'M' BEGIN
+				SET @wage = @wage / 30
+			END
+
+			PRINT 'Wage/day: ' + CAST(@wage AS varchar(30))
+
+			DECLARE @allowance decimal(12, 2) = 0	
+
+			SELECT @allowance=ISNULL(SUM(PAYITEM_AMOUNT), 0) 
+			FROM PAY_TR_PAYITEM 
+			INNER JOIN PAY_MT_ITEM ON PAY_TR_PAYITEM.COMPANY_CODE=PAY_MT_ITEM.COMPANY_CODE AND PAY_TR_PAYITEM.ITEM_CODE=PAY_MT_ITEM.ITEM_CODE
+			WHERE PAY_TR_PAYITEM.COMPANY_CODE=@company_code AND PAY_TR_PAYITEM.WORKER_CODE=@worker_code  AND PAY_TR_PAYITEM.PAYITEM_DATE=@pay_date
+			AND PAY_MT_ITEM.ITEM_TYPE = 'IN' --AND PAY_MT_ITEM.ITEM_CALALLW='Y' 
+			
+			PRINT 'Allowance: ' + CAST(@allowance AS varchar(30))
+
+			SET @allowance = @allowance / 30
+
+			PRINT 'Allowance/day: ' + CAST(@allowance AS varchar(30))
+
+			SET @wage = @wage + @allowance
+
+			--PRINT (@wage / @worker_hrs)
+			--PRINT (@timecard_late / CONVERT(decimal(4,2), 60)) 
+		
+			DECLARE @leave_amount decimal (8, 2) = (@timecard_leave / CONVERT(decimal(4,2), 60)) * (@wage / @worker_hrs)	
+		
+			PRINT 'Leave (amount) : ' + CAST(@leave_amount AS varchar(30))
+
+			IF (EXISTS(SELECT * FROM ATT_TR_WAGEDAY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code)) 	BEGIN
+				UPDATE ATT_TR_WAGEDAY SET LEAVE_AMOUNT = @leave_amount, LEAVE_MIN = @timecard_leave, MODIFIED_BY = @TaskBy, MODIFIED_DATE = getdate()
+				WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code
+			END
+			ELSE BEGIN
+				INSERT INTO ATT_TR_WAGEDAY (COMPANY_CODE, WORKER_CODE, WAGEDAY_DATE, LEAVE_AMOUNT, LEAVE_MIN, CREATED_BY, CREATED_DATE, FLAG, PROJECT_CODE, PROJOB_CODE)
+				VALUES(@company_code, @worker_code, @timecard_date, @leave_amount, @timecard_leave, @TaskBy, getdate(), '0', @project_code, @projob_code)
+			END
+															
+		FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_leave, @project_code, @projob_code
+		END 
+	CLOSE cur_day 
+	DEALLOCATE cur_day
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALOT]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALOT]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALOT]
+(
+    @CompanyCode varchar (5)
+	, @WorkerCode varchar (30)
+	, @Fromdate datetime
+	, @Todate datetime
+	, @Paydate datetime
+	, @TaskBy varchar (30)
+)
+AS
+BEGIN
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (30) = @WorkerCode
+	DECLARE @from_date datetime = @Fromdate
+	DECLARE @to_date datetime = @Todate
+	DECLARE @pay_date datetime = @Paydate
+
+	-- Get worker detail
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hrs decimal(3, 2)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+	FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+					
+
+	-- Step 1 Get policy Overtime
+	DECLARE @policy_ot varchar (20) = ''
+	SELECT TOP 1 @policy_ot = ISNULL(EMPPOLATT_POLICY_CODE, '') 
+	FROM ATT_TR_EMPPOLATT 
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+	AND EMPPOLATT_POLICY_TYPE = 'OT'
+
+	IF @policy_ot <> '' BEGIN
+
+		DECLARE @normal_rate_before decimal(5, 2) = 0
+		DECLARE @normal_rate_normal decimal(5, 2) = 0
+		DECLARE @normal_rate_break decimal(5, 2) = 0
+		DECLARE @normal_rate_after decimal(5, 2) = 0
+
+		DECLARE @offday_rate_before decimal(5, 2) = 0
+		DECLARE @offday_rate_normal decimal(5, 2) = 0
+		DECLARE @offday_rate_break decimal(5, 2) = 0
+		DECLARE @offday_rate_after decimal(5, 2) = 0
+
+		DECLARE @companyday_rate_before decimal(5, 2) = 0
+		DECLARE @companyday_rate_normal decimal(5, 2) = 0
+		DECLARE @companyday_rate_break decimal(5, 2) = 0
+		DECLARE @companyday_rate_after decimal(5, 2) = 0
+
+		DECLARE @holidayday_rate_before decimal(5, 2) = 0
+		DECLARE @holidayday_rate_normal decimal(5, 2) = 0
+		DECLARE @holidayday_rate_break decimal(5, 2) = 0
+		DECLARE @holidayday_rate_after decimal(5, 2) = 0
+
+		SELECT @normal_rate_before = ISNULL(RATEOT_BEFORE, 0), @normal_rate_normal = ISNULL(RATEOT_NORMAL, 0), @normal_rate_break = ISNULL(RATEOT_BREAK, 0), @normal_rate_after = ISNULL(RATEOT_AFTER, 0)
+		FROM ATT_TR_RATEOT WHERE COMPANY_CODE = @company_code AND RATEOT_CODE = @policy_ot AND RATEOT_DAYTYPE = 'N'
+
+		SELECT @offday_rate_before = ISNULL(RATEOT_BEFORE, 0), @offday_rate_normal = ISNULL(RATEOT_NORMAL, 0), @offday_rate_break = ISNULL(RATEOT_BREAK, 0), @offday_rate_after = ISNULL(RATEOT_AFTER, 0)
+		FROM ATT_TR_RATEOT WHERE COMPANY_CODE = @company_code AND RATEOT_CODE = @policy_ot AND RATEOT_DAYTYPE = 'O'
+
+		SELECT @companyday_rate_before = ISNULL(RATEOT_BEFORE, 0), @companyday_rate_normal = ISNULL(RATEOT_NORMAL, 0), @companyday_rate_break = ISNULL(RATEOT_BREAK, 0), @companyday_rate_after = ISNULL(RATEOT_AFTER, 0)
+		FROM ATT_TR_RATEOT WHERE COMPANY_CODE = @company_code AND RATEOT_CODE = @policy_ot AND RATEOT_DAYTYPE = 'C'
+
+		SELECT @holidayday_rate_before = ISNULL(RATEOT_BEFORE, 0), @holidayday_rate_normal = ISNULL(RATEOT_NORMAL, 0), @holidayday_rate_break = ISNULL(RATEOT_BREAK, 0), @holidayday_rate_after = ISNULL(RATEOT_AFTER, 0)
+		FROM ATT_TR_RATEOT WHERE COMPANY_CODE = @company_code AND RATEOT_CODE = @policy_ot AND RATEOT_DAYTYPE = 'H'
+
+		--PRINT '*** Normal ***'
+		--PRINT 'Before : ' + CAST(@normal_rate_before AS varchar(30))
+		--PRINT 'Normal : ' + CAST(@normal_rate_normal AS varchar(30))
+		--PRINT 'Break : ' + CAST(@normal_rate_break AS varchar(30))
+		--PRINT 'After : ' + CAST(@normal_rate_after AS varchar(30))
+		--PRINT ''
+		--PRINT '*** Offday ***'
+		--PRINT 'Before : ' + CAST(@offday_rate_before AS varchar(30))
+		--PRINT 'Normal : ' + CAST(@offday_rate_normal AS varchar(30))
+		--PRINT 'Break : ' + CAST(@offday_rate_break AS varchar(30))
+		--PRINT 'After : ' + CAST(@offday_rate_after AS varchar(30))
+		--PRINT ''
+		--PRINT '*** Holiday ***'
+		--PRINT 'Before : ' + CAST(@holidayday_rate_before AS varchar(30))
+		--PRINT 'Normal : ' + CAST(@holidayday_rate_normal AS varchar(30))
+		--PRINT 'Break : ' + CAST(@holidayday_rate_break AS varchar(30))
+		--PRINT 'After : ' + CAST(@holidayday_rate_after AS varchar(30))
+		--PRINT ''
+		--PRINT '*** Companyday ***'
+		--PRINT 'Before : ' + CAST(@companyday_rate_before AS varchar(30))
+		--PRINT 'Normal : ' + CAST(@companyday_rate_normal AS varchar(30))
+		--PRINT 'Break : ' + CAST(@companyday_rate_break AS varchar(30))
+		--PRINT 'After : ' + CAST(@companyday_rate_after AS varchar(30))
+		--PRINT ''
+
+		-- Step 2 Loop day 
+		DECLARE @timecard_date datetime
+		DECLARE @timecard_daytype varchar (1) 
+		DECLARE @timecard_before int = 0
+		DECLARE @timecard_normal int = 0
+		DECLARE @timecard_break int = 0
+		DECLARE @timecard_after int = 0
+
+		DECLARE @project_code varchar (20)
+		DECLARE @projob_code varchar (20)
+
+		DECLARE cur_day CURSOR FOR
+		SELECT TIMECARD_WORKDATE, TIMECARD_DAYTYPE, TIMECARD_BEFORE_MIN_APP,  TIMECARD_WORK1_MIN_APP + TIMECARD_WORK2_MIN_APP, TIMECARD_BREAK_MIN_APP, TIMECARD_AFTER_MIN_APP, ISNULL(PROJECT_CODE, ''), ISNULL(PROJOB_CODE, '')
+		FROM ATT_TR_TIMECARD
+		WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+		AND TIMECARD_WORKDATE BETWEEN @from_date AND @to_date
+		
+
+		OPEN cur_day 
+			FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_before, @timecard_normal, @timecard_break, @timecard_after, @project_code, @projob_code
+			WHILE @@FETCH_STATUS = 0 
+			BEGIN 
+
+				--PRINT '==== ' + CAST(@timecard_date AS varchar(30))
+				--PRINT 'Daytype : ' + @timecard_daytype
+				--PRINT 'Before (min): ' + CAST(@timecard_before AS varchar(30))
+				--PRINT 'Normal (min): ' + CAST(@timecard_normal AS varchar(30))
+				--PRINT 'Break (min): ' + CAST(@timecard_break AS varchar(30))
+				--PRINT 'After (min): ' + CAST(@timecard_after AS varchar(30))
+
+				-- Get wage
+				DECLARE @wage decimal(12, 2) = 0		
+				SELECT TOP 1 @wage = ISNULL(EMPSALARY_AMOUNT, 0) 
+				FROM EMP_TR_SALARY 
+				WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @timecard_date 
+				ORDER BY EMPSALARY_DATE DESC
+
+				IF @worker_emptype = 'M' BEGIN
+					SET @wage = @wage / 30
+				END
+
+				DECLARE @allowance decimal(12, 2) = 0	
+
+				SELECT @allowance=ISNULL(SUM(PAYITEM_AMOUNT), 0) 
+				FROM PAY_TR_PAYITEM 
+				INNER JOIN PAY_MT_ITEM ON PAY_TR_PAYITEM.COMPANY_CODE=PAY_MT_ITEM.COMPANY_CODE AND PAY_TR_PAYITEM.ITEM_CODE=PAY_MT_ITEM.ITEM_CODE
+				WHERE PAY_TR_PAYITEM.COMPANY_CODE=@company_code AND PAY_TR_PAYITEM.WORKER_CODE=@worker_code  AND PAY_TR_PAYITEM.PAYITEM_DATE=@pay_date
+				AND PAY_MT_ITEM.ITEM_TYPE = 'IN' AND PAY_MT_ITEM.ITEM_CALOT='Y' 
+			
+				--PRINT 'Allowance: ' + CAST(@allowance AS varchar(30))
+
+				SET @allowance = @allowance / 30
+
+				--PRINT 'Allowance/day: ' + CAST(@allowance AS varchar(30))
+
+				SET @wage = @wage + @allowance
+
+				--PRINT 'Wage/day: ' + CAST(@wage AS varchar(30))
+
+				-- Calculate
+				DECLARE @ot_before decimal(12, 2) = 0
+				DECLARE @ot_normal decimal(12, 2) = 0
+				DECLARE @ot_break decimal(12, 2) = 0
+				DECLARE @ot_after decimal(12, 2) = 0
+
+				DECLARE @before_rate decimal(5, 2) = 0
+				DECLARE @normal_rate decimal(5, 2) = 0
+				DECLARE @break_rate decimal(5, 2) = 0
+				DECLARE @after_rate decimal(5, 2) = 0
+
+				IF @timecard_daytype = 'N' BEGIN
+					 SET @before_rate = @normal_rate_before
+					 --SET @normal_rate = @normal_rate_normal
+					 SET @break_rate = @normal_rate_break
+					 SET @after_rate = @normal_rate_after
+				END
+				IF @timecard_daytype = 'O' BEGIN
+					 SET @before_rate = @offday_rate_before
+					 SET @normal_rate = @offday_rate_normal
+					 SET @break_rate = @offday_rate_break
+					 SET @after_rate = @offday_rate_after
+				END
+				IF @timecard_daytype = 'C' BEGIN
+					 SET @before_rate = @companyday_rate_before
+					 SET @normal_rate = @companyday_rate_normal
+					 SET @break_rate = @companyday_rate_break
+					 SET @after_rate = @companyday_rate_after
+				END
+				IF @timecard_daytype = 'H' BEGIN
+					 SET @before_rate = @holidayday_rate_before
+					 SET @normal_rate = @holidayday_rate_normal
+					 SET @break_rate = @holidayday_rate_break
+					 SET @after_rate = @holidayday_rate_after
+				END
+
+				SET @ot_before = @before_rate * (@timecard_before / CONVERT(decimal(4,2), 60)) * (@wage / @worker_hrs)
+				SET @ot_normal = @normal_rate * (@timecard_normal / CONVERT(decimal(4,2), 60)) * (@wage / @worker_hrs)
+				SET @ot_break = @break_rate * (@timecard_break / CONVERT(decimal(4,2), 60)) * (@wage / @worker_hrs)
+				SET @ot_after = @after_rate * (@timecard_after / CONVERT(decimal(4,2), 60)) * (@wage / @worker_hrs)
+
+				--PRINT 'Before (rate): ' + CAST(@before_rate AS varchar(30)) + ' ==> ' + CAST(@ot_before AS varchar(30))
+				--PRINT 'Normal (rate): ' + CAST(@normal_rate AS varchar(30)) + ' ==> ' + CAST(@ot_normal AS varchar(30))
+				--PRINT 'Break (rate): ' + CAST(@break_rate AS varchar(30)) + ' ==> ' + CAST(@ot_break AS varchar(30))
+				--PRINT 'After (rate): ' + CAST(@after_rate AS varchar(30)) + ' ==> ' + CAST(@ot_after AS varchar(30))
+
+				-- Seperate to rate
+				DECLARE @ot_rate1 decimal(12, 2) = 0
+				DECLARE @ot_rate15 decimal(12, 2) = 0
+				DECLARE @ot_rate2 decimal(12, 2) = 0
+				DECLARE @ot_rate3 decimal(12, 2) = 0
+
+				DECLARE @ot_rate1_min int = 0
+				DECLARE @ot_rate15_min int = 0
+				DECLARE @ot_rate2_min int = 0
+				DECLARE @ot_rate3_min int = 0
+
+				SET @ot_rate1 = @ot_rate1 + (SELECT CASE WHEN @before_rate IN (0.5, 1.0) THEN @ot_before ELSE 0 END)
+				SET @ot_rate1 = @ot_rate1 + (SELECT CASE WHEN @normal_rate IN (0.5, 1.0) THEN @ot_normal ELSE 0 END)
+				SET @ot_rate1 = @ot_rate1 + (SELECT CASE WHEN @break_rate IN (0.5, 1.0) THEN @ot_break ELSE 0 END)
+				SET @ot_rate1 = @ot_rate1 + (SELECT CASE WHEN @after_rate IN (0.5, 1.0) THEN @ot_after ELSE 0 END)
+
+				SET @ot_rate15 = @ot_rate15 + (SELECT CASE WHEN @before_rate IN (1.5) THEN @ot_before ELSE 0 END)
+				SET @ot_rate15 = @ot_rate15 + (SELECT CASE WHEN @normal_rate IN (1.5) THEN @ot_normal ELSE 0 END)
+				SET @ot_rate15 = @ot_rate15 + (SELECT CASE WHEN @break_rate IN (1.5) THEN @ot_break ELSE 0 END)
+				SET @ot_rate15 = @ot_rate15 + (SELECT CASE WHEN @after_rate IN (1.5) THEN @ot_after ELSE 0 END)
+
+				SET @ot_rate2 = @ot_rate2 + (SELECT CASE WHEN @before_rate IN (2) THEN @ot_before ELSE 0 END)
+				SET @ot_rate2 = @ot_rate2 + (SELECT CASE WHEN @normal_rate IN (2) THEN @ot_normal ELSE 0 END)
+				SET @ot_rate2 = @ot_rate2 + (SELECT CASE WHEN @break_rate IN (2) THEN @ot_break ELSE 0 END)
+				SET @ot_rate2 = @ot_rate2 + (SELECT CASE WHEN @after_rate IN (2) THEN @ot_after ELSE 0 END)
+
+				SET @ot_rate3 = @ot_rate3 + (SELECT CASE WHEN @before_rate IN (3) THEN @ot_before ELSE 0 END)
+				SET @ot_rate3 = @ot_rate3 + (SELECT CASE WHEN @normal_rate IN (3) THEN @ot_normal ELSE 0 END)
+				SET @ot_rate3 = @ot_rate3 + (SELECT CASE WHEN @break_rate IN (3) THEN @ot_break ELSE 0 END)
+				SET @ot_rate3 = @ot_rate3 + (SELECT CASE WHEN @after_rate IN (3) THEN @ot_after ELSE 0 END)
+				--
+				SET @ot_rate1_min = @ot_rate1_min + (SELECT CASE WHEN @before_rate IN (0.5, 1.0) THEN @timecard_before ELSE 0 END)
+				SET @ot_rate1_min = @ot_rate1_min + (SELECT CASE WHEN @normal_rate IN (0.5, 1.0) THEN @timecard_normal ELSE 0 END)
+				SET @ot_rate1_min = @ot_rate1_min + (SELECT CASE WHEN @break_rate IN (0.5, 1.0) THEN @timecard_break ELSE 0 END)
+				SET @ot_rate1_min = @ot_rate1_min + (SELECT CASE WHEN @after_rate IN (0.5, 1.0) THEN @timecard_after ELSE 0 END)
+
+				SET @ot_rate15_min = @ot_rate15_min + (SELECT CASE WHEN @before_rate IN (1.5) THEN @timecard_before ELSE 0 END)
+				SET @ot_rate15_min = @ot_rate15_min + (SELECT CASE WHEN @normal_rate IN (1.5) THEN @timecard_normal ELSE 0 END)
+				SET @ot_rate15_min = @ot_rate15_min + (SELECT CASE WHEN @break_rate IN (1.5) THEN @timecard_break ELSE 0 END)
+				SET @ot_rate15_min = @ot_rate15_min + (SELECT CASE WHEN @after_rate IN (1.5) THEN @timecard_after ELSE 0 END)
+
+				SET @ot_rate2_min = @ot_rate2_min + (SELECT CASE WHEN @before_rate IN (2) THEN @timecard_before ELSE 0 END)
+				SET @ot_rate2_min = @ot_rate2_min + (SELECT CASE WHEN @normal_rate IN (2) THEN @timecard_normal ELSE 0 END)
+				SET @ot_rate2_min = @ot_rate2_min + (SELECT CASE WHEN @break_rate IN (2) THEN @timecard_break ELSE 0 END)
+				SET @ot_rate2_min = @ot_rate2_min + (SELECT CASE WHEN @after_rate IN (2) THEN @timecard_after ELSE 0 END)
+
+				SET @ot_rate3_min = @ot_rate3_min + (SELECT CASE WHEN @before_rate IN (3) THEN @timecard_before ELSE 0 END)
+				SET @ot_rate3_min = @ot_rate3_min + (SELECT CASE WHEN @normal_rate IN (3) THEN @timecard_normal ELSE 0 END)
+				SET @ot_rate3_min = @ot_rate3_min + (SELECT CASE WHEN @break_rate IN (3) THEN @timecard_break ELSE 0 END)
+				SET @ot_rate3_min = @ot_rate3_min + (SELECT CASE WHEN @after_rate IN (3) THEN @timecard_after ELSE 0 END)
+
+				--PRINT 'OT 1.0 : ' + CAST(@ot_rate1 AS varchar(30))
+				--PRINT 'OT 1.5 : ' + CAST(@ot_rate15 AS varchar(30))
+				--PRINT 'OT 2.0 : ' + CAST(@ot_rate2 AS varchar(30))
+				--PRINT 'OT 3.0 ' + CAST(@ot_rate3 AS varchar(30))
+
+				--SELECT @ot_rate1=Result FROM dbo.HRM_FNT_ROUND_AMOUNT(@company_code, @ot_rate1, 'OT_DAY')
+				--SELECT @ot_rate15=Result FROM dbo.HRM_FNT_ROUND_AMOUNT(@company_code, @ot_rate15, 'OT_DAY')
+				--SELECT @ot_rate2=Result FROM dbo.HRM_FNT_ROUND_AMOUNT(@company_code, @ot_rate2, 'OT_DAY')
+				--SELECT @ot_rate3=Result FROM dbo.HRM_FNT_ROUND_AMOUNT(@company_code, @ot_rate3, 'OT_DAY')
+
+				IF (EXISTS(SELECT * FROM ATT_TR_WAGEDAY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code)) 	BEGIN 
+					UPDATE ATT_TR_WAGEDAY SET WAGEDAY_WAGE = @wage
+					, WAGEDAY_BEFORE_RATE = @before_rate
+					, WAGEDAY_NORMAL_RATE = @normal_rate
+					, WAGEDAY_BREAK_RATE = @break_rate
+					, WAGEDAY_AFTER_RATE = @after_rate
+
+					, WAGEDAY_BEFORE_MIN = @timecard_before
+					, WAGEDAY_NORMAL_MIN = @timecard_normal
+					, WAGEDAY_BREAK_MIN = @timecard_break
+					, WAGEDAY_AFTER_MIN = @timecard_after
+
+					, WAGEDAY_BEFORE_AMOUNT = @ot_before
+					, WAGEDAY_NORMAL_AMOUNT = @ot_normal
+					, WAGEDAY_BREAK_AMOUNT = @ot_break
+					, WAGEDAY_AFTER_AMOUNT = @ot_after
+
+					, OT1_MIN = @ot_rate1_min
+					, OT15_MIN = @ot_rate15_min
+					, OT2_MIN = @ot_rate2_min
+					, OT3_MIN = @ot_rate3_min
+
+					, OT1_AMOUNT = @ot_rate1
+					, OT15_AMOUNT = @ot_rate15
+					, OT2_AMOUNT = @ot_rate2
+					, OT3_AMOUNT = @ot_rate3
+
+					, MODIFIED_BY = @TaskBy
+					, MODIFIED_DATE = getdate()
+
+					WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date AND PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code
+
+				END
+				ELSE BEGIN
+					INSERT INTO ATT_TR_WAGEDAY (COMPANY_CODE, WORKER_CODE, WAGEDAY_DATE
+						, WAGEDAY_WAGE
+						, WAGEDAY_BEFORE_RATE
+						, WAGEDAY_NORMAL_RATE
+						, WAGEDAY_BREAK_RATE
+						, WAGEDAY_AFTER_RATE
+
+						, WAGEDAY_BEFORE_MIN
+						, WAGEDAY_NORMAL_MIN
+						, WAGEDAY_BREAK_MIN
+						, WAGEDAY_AFTER_MIN
+
+						, WAGEDAY_BEFORE_AMOUNT
+						, WAGEDAY_NORMAL_AMOUNT
+						, WAGEDAY_BREAK_AMOUNT
+						, WAGEDAY_AFTER_AMOUNT
+
+						, OT1_MIN
+						, OT15_MIN
+						, OT2_MIN
+						, OT3_MIN
+
+						, OT1_AMOUNT
+						, OT15_AMOUNT
+						, OT2_AMOUNT
+						, OT3_AMOUNT		
+
+						, CREATED_BY
+						, CREATED_DATE
+						, FLAG
+						, PROJECT_CODE, PROJOB_CODE
+					)
+					VALUES(@company_code, @worker_code, @timecard_date
+						, @wage
+						, @before_rate
+						, @normal_rate
+						, @break_rate
+						, @after_rate
+
+						, @timecard_before
+						, @timecard_normal
+						, @timecard_break
+						, @timecard_after
+
+						, @ot_before
+						, @ot_normal
+						, @ot_break
+						, @ot_after
+
+						, @ot_rate1_min
+						, @ot_rate15_min
+						, @ot_rate2_min
+						, @ot_rate3_min
+
+						, @ot_rate1
+						, @ot_rate15
+						, @ot_rate2
+						, @ot_rate3
+
+						, @TaskBy
+						, getdate()
+						, '0'
+						, @project_code, @projob_code
+					)
+
+				END
+
+									
+			FETCH NEXT FROM cur_day INTO @timecard_date, @timecard_daytype, @timecard_before, @timecard_normal, @timecard_break, @timecard_after, @project_code, @projob_code
+			END 
+		CLOSE cur_day 
+		DEALLOCATE cur_day
+		
+	END
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALSALARY_PERDAY]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALSALARY_PERDAY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALSALARY_PERDAY]
+(
+    @CompanyCode varchar (5)
+	, @WorkerCode varchar (30)
+	, @Fromdate datetime
+	, @Todate datetime
+	, @TaskBy varchar (30)
+)
+AS
+BEGIN
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @worker_code varchar (30) = @WorkerCode
+	DECLARE @from_date datetime = @Fromdate
+	DECLARE @to_date datetime = @Todate
+
+	-- Get worker detail
+	DECLARE @worker_emptype varchar (1)
+	DECLARE @worker_hrs decimal(3, 2)
+	DECLARE @worker_hiredate datetime
+	DECLARE @worker_resigndate datetime
+	SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+	FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code					
+
+	-- Step 2 Loop day 
+	DECLARE @timecard_date datetime
+	DECLARE @timecard_daytype varchar (1) 
+	DECLARE @timecard_before int = 0
+	DECLARE @timecard_normal int = 0
+	DECLARE @timecard_break int = 0
+	DECLARE @timecard_after int = 0
+
+	DECLARE @project_code varchar (20)
+	DECLARE @projob_code varchar (20)
+
+
+	DECLARE cur_day CURSOR FOR
+	SELECT PROJECT_CODE, PROJOB_CODE, TIMECARD_WORKDATE, TIMECARD_DAYTYPE, TIMECARD_BEFORE_MIN_APP, TIMECARD_WORK1_MIN_APP + TIMECARD_WORK2_MIN_APP, TIMECARD_BREAK_MIN_APP, TIMECARD_AFTER_MIN_APP
+	FROM ATT_TR_TIMECARD
+	WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code						
+	AND TIMECARD_WORKDATE BETWEEN @from_date AND @to_date
+
+	OPEN cur_day 
+		FETCH NEXT FROM cur_day INTO @project_code, @projob_code, @timecard_date, @timecard_daytype, @timecard_before, @timecard_normal, @timecard_break, @timecard_after
+		WHILE @@FETCH_STATUS = 0 
+		BEGIN 
+
+			PRINT '==== ' + CAST(@timecard_date AS varchar(30))
+			PRINT 'Daytype : ' + @timecard_daytype
+			PRINT 'Project : ' + @project_code
+			PRINT 'Job : ' + @projob_code
+
+			DECLARE @wage decimal(12, 2) = 0
+			DECLARE @wage_type char(1)
+			-- Get wage
+			IF LEN(TRIM(@projob_code)) > 0 BEGIN
+
+				SELECT TOP 1 @wage = PRO_TR_PROJOBCOST.PROJOBCOST_AMOUNT, @wage_type = PRO_MT_PROCOST.PROCOST_TYPE
+				FROM PRO_TR_PROJOBCOST 
+				INNER JOIN PRO_MT_PROJOBVERSION ON PRO_TR_PROJOBCOST.PROJECT_CODE=PRO_MT_PROJOBVERSION.PROJECT_CODE AND PRO_TR_PROJOBCOST.VERSION=PRO_MT_PROJOBVERSION.VERSION
+				INNER JOIN PRO_MT_PROCOST ON PRO_TR_PROJOBCOST.PROJOBCOST_CODE=PRO_MT_PROCOST.PROCOST_CODE
+				WHERE PRO_MT_PROCOST.COMPANY_CODE=@company_code AND PRO_TR_PROJOBCOST.PROJECT_CODE=@project_code AND PROJOB_CODE=@projob_code
+				AND @timecard_date BETWEEN PRO_MT_PROJOBVERSION.FROMDATE AND PRO_MT_PROJOBVERSION.TODATE
+				AND PRO_MT_PROCOST.PROCOST_ITEMCODE LIKE 'SA%'
+
+				IF @wage_type = 'M' BEGIN
+					SET @wage = @wage / 30
+				END
+
+			END
+			ELSE BEGIN
+				SET @wage = 0
+
+				--SELECT TOP 1 @wage = ISNULL(EMPSALARY_AMOUNT, 0) 
+				--FROM HRM_TR_EMPSALARY 
+				--WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND EMPSALARY_DATE <= @timecard_date 
+				--ORDER BY EMPSALARY_DATE DESC
+
+				--IF @worker_emptype = 'M' BEGIN
+				--	SET @wage = @wage / 30
+				--END
+
+				--IF @worker_emptype = 'D' BEGIN
+			
+				--	IF @timecard_daytype = 'A' BEGIN
+				--		SET @wage = 0
+				--	END
+
+				--	IF @timecard_daytype = 'N' OR @timecard_daytype = 'L' BEGIN
+				--		SET @wage = (@wage / @worker_hrs) * (@timecard_normal / 60)
+				--	END
+
+				--END		
+			END
+					
+			PRINT 'Wage/day: ' + CAST(@wage AS varchar(30))
+				
+			IF (EXISTS(SELECT * FROM ATT_TR_WAGEDAY WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PROJECT_CODE = @project_code AND PROJOB_CODE = @projob_code AND WAGEDAY_DATE = @timecard_date)) 	BEGIN 
+				UPDATE ATT_TR_WAGEDAY SET WAGEDAY_WAGE = @wage			
+				, MODIFIED_BY = @TaskBy
+				, MODIFIED_DATE = getdate()
+
+				WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND WAGEDAY_DATE = @timecard_date
+				AND PROJECT_CODE = @project_code AND PROJOB_CODE = @projob_code
+
+			END
+			ELSE BEGIN
+				INSERT INTO ATT_TR_WAGEDAY (COMPANY_CODE, WORKER_CODE, PROJECT_CODE, PROJOB_CODE, WAGEDAY_DATE
+					, WAGEDAY_WAGE				
+					, CREATED_BY
+					, CREATED_DATE
+					, FLAG
+				)
+				VALUES(@company_code, @worker_code, @project_code, @projob_code
+					, @timecard_date
+					, @wage				
+					, @TaskBy
+					, getdate()
+					, '0'
+				)
+
+			END
+
+									
+		FETCH NEXT FROM cur_day INTO @project_code, @projob_code, @timecard_date, @timecard_daytype, @timecard_before, @timecard_normal, @timecard_break, @timecard_after
+		END 
+	CLOSE cur_day 
+	DEALLOCATE cur_day
+END
+GO
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ATT_PRO_CALTIME]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[ATT_PRO_CALTIME]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[ATT_PRO_CALTIME]
+(
+    @CompanyCode varchar (5)
+	, @TaskID varchar (15)	
+)
+AS
+BEGIN 
+
+	DECLARE @company_code varchar (5) = @CompanyCode
+	DECLARE @task_id varchar (30) = @TaskID
+	--********************************************
+	-- STEP 1 get task 
+	--********************************************
+	DECLARE @task_type varchar (10) = ''
+	DECLARE @task_by varchar (20) = ''
+	SELECT @task_type = TASK_TYPE, @task_by=ISNULL(MODIFIED_BY, CREATED_BY) FROM SYS_MT_TASK WHERE COMPANY_CODE = @company_code AND TASK_ID = @task_id
+
+	PRINT @task_type
+
+	--********************************************
+	-- STEP 2 get task detail 
+	--********************************************
+	DECLARE @task_process varchar (200) = ''
+	DECLARE @task_fromdate datetime
+	DECLARE @task_todate datetime
+	DECLARE @task_paydate datetime
+
+	DECLARE @task_start datetime = getdate()
+
+	SELECT @task_process = TASKDETAIL_PROCESS, @task_fromdate = TASKDETAIL_FROMDATE, @task_todate = TASKDETAIL_TODATE, @task_paydate = TASKDETAIL_PAYDATE 
+	FROM SYS_TR_TASKDETAIL WHERE TASK_ID = @task_id
+
+
+	DECLARE @table_process TABLE(process varchar (30)) 
+
+	IF @task_process != '' BEGIN
+		-- Start spilt calculate type
+		WHILE LEN(@task_process) > 0
+		BEGIN
+			DECLARE @temp VARCHAR(20)
+			IF CHARINDEX(',', @task_process) > 0 BEGIN
+				SET  @temp = SUBSTRING(@task_process, 0, CHARINDEX(',', @task_process))
+			END
+			ELSE BEGIN
+				-- last item
+				SET @temp = @task_process
+				SET @task_process = ''
+			END			
+			INSERT INTO @table_process VALUES(@temp)  
+			-- Replace
+			SET @task_process = REPLACE(@task_process, @temp + ',', '')	 
+		END
+		-- End spilt calculate type
+	   	 
+		-- **************************
+		-- Start Loop Calculate type
+		-- **************************	
+		DECLARE @process varchar (20) = ''
+		DECLARE cur_type CURSOR FOR 	
+		SELECT process   
+		FROM @table_process		
+		--
+		OPEN cur_type 
+		FETCH NEXT FROM cur_type INTO @process
+		WHILE @@FETCH_STATUS = 0 
+		BEGIN 
+
+			PRINT 'PROCESS:: ' + @process
+
+			--********************************************
+			-- STEP 3 get task whose 
+			--********************************************
+			DECLARE @worker_code varchar (15)
+			DECLARE cur_whose CURSOR FOR 
+			SELECT WORKER_CODE
+			FROM SYS_TR_TASKWHOSE
+			WHERE TASK_ID = @task_id
+
+			OPEN cur_whose 
+				FETCH NEXT FROM cur_whose INTO @worker_code
+				WHILE @@FETCH_STATUS = 0 
+				BEGIN 
+
+					PRINT '==> ' + @worker_code
+
+					-- Get Item code
+					DECLARE @item_sa varchar (20) = ''
+					DECLARE @item_ot varchar (20) = ''
+					DECLARE @item_aw varchar (20) = ''
+					DECLARE @item_dg varchar (20) = ''
+					DECLARE @item_lv varchar (20) = ''
+					DECLARE @item_ab varchar (20) = ''
+					DECLARE @item_lt varchar (20) = ''
+
+					SELECT @item_sa = ISNULL(EMPATTITEM_SA, '')
+					, @item_ot = ISNULL(EMPATTITEM_OT, '')
+					, @item_aw = ISNULL(EMPATTITEM_AW, '')
+					, @item_dg = ISNULL(EMPATTITEM_DG, '')
+					, @item_lv = ISNULL(EMPATTITEM_LV, '')
+					, @item_ab = ISNULL(EMPATTITEM_AB, '')
+					, @item_lt = ISNULL(EMPATTITEM_LT, '')
+					FROM ATT_TR_EMPATTITEM
+					WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code
+
+					DECLARE @worker_emptype varchar (1)
+					DECLARE @worker_hrs decimal(3, 2)
+					DECLARE @worker_hiredate datetime
+					DECLARE @worker_resigndate datetime
+					SELECT TOP 1 @worker_emptype = ISNULL(WORKER_TYPE, 'M'), @worker_hiredate = WORKER_HIREDATE, @worker_resigndate = ISNULL(WORKER_RESIGNDATE, '01/01/2999'), @worker_hrs = ISNULL(HRS_PERDAY, 8) 
+					FROM EMP_MT_WORKER WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code	
+									
+					IF @process = 'SA' and @item_sa <> '' BEGIN			
+					
+						EXEC dbo.ATT_PRO_CALSALARY_PERDAY @company_code, @worker_code, @task_fromdate, @task_todate, @task_by
+
+
+						DECLARE @salary_amount decimal(12, 2) = 0
+						DECLARE @salary_quantity decimal(5, 2) = 0
+
+						IF @worker_emptype = 'M' BEGIN
+							SELECT @salary_amount = ISNULL(Salary, 0), @salary_quantity = ISNULL(Working, 0) FROM dbo.ATT_FNT_GETSALARY(@company_code, @worker_code, @task_fromdate, @task_todate, @task_paydate)
+							
+						END
+						ELSE BEGIN
+							SELECT @salary_amount = ISNULL(SUM(ISNULL(WAGEDAY_WAGE, 0)), 0)
+							FROM ATT_TR_WAGEDAY
+							WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+							AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate)
+
+							SELECT @salary_amount = ISNULL(COUNT(ISNULL(WAGEDAY_WAGE, 0)), 0)
+							FROM ATT_TR_WAGEDAY
+							WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+							AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate)
+							AND WAGEDAY_WAGE > 0
+						END
+						
+						PRINT 'salary : ' + CAST(@salary_amount AS varchar(30))
+						PRINT 'working : ' + CAST(@salary_quantity AS varchar(30))
+
+						DELETE FROM PAY_TR_PAYITEM 
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PAYITEM_DATE = @task_paydate AND ITEM_CODE = @item_sa
+
+						IF @salary_amount > 0 BEGIN
+							INSERT INTO PAY_TR_PAYITEM (COMPANY_CODE, WORKER_CODE, ITEM_CODE, PAYITEM_DATE, PAYITEM_AMOUNT, PAYITEM_QUANTITY, PAYITEM_PAYTYPE, CREATED_BY, CREATED_DATE, FLAG)
+							VALUES (@company_code, @worker_code, @item_sa, @task_paydate, @salary_amount, @salary_quantity, 'B', @task_by, getdate(), '0')
+						END
+
+					END -- IF @process = 'SA'		
+
+					IF @process = 'OT' and @item_ot <> '' BEGIN
+
+						EXEC dbo.ATT_PRO_CALOT @company_code, @worker_code, @task_fromdate, @task_todate, @task_paydate, @task_by
+
+						DECLARE @overtime_amount decimal (10, 2) = 0
+						DECLARE @overtime_quantity decimal (5, 2) = 0
+						DECLARE @overtime_min int = 0
+
+						SELECT @overtime_amount = ISNULL(SUM(ISNULL(OT1_AMOUNT, 0) + ISNULL(OT15_AMOUNT, 0) + ISNULL(OT2_AMOUNT, 0) + ISNULL(OT3_AMOUNT, 0)), 0) 
+						, @overtime_min = ISNULL(SUM(ISNULL(OT1_MIN, 0) + ISNULL(OT15_MIN, 0) + ISNULL(OT2_MIN, 0) + ISNULL(OT3_MIN, 0)), 0) 
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate)
+
+						SET @overtime_quantity = @overtime_min / 60
+
+						SELECT @overtime_amount=Result FROM dbo.ATT_FNT_ROUND_AMOUNT(@company_code, @overtime_amount, 'OT_SUMMARY')
+
+						DELETE FROM PAY_TR_PAYITEM 
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PAYITEM_DATE = @task_paydate AND ITEM_CODE = @item_ot
+
+						IF @overtime_amount > 0 BEGIN
+							INSERT INTO PAY_TR_PAYITEM (COMPANY_CODE, WORKER_CODE, ITEM_CODE, PAYITEM_DATE, PAYITEM_AMOUNT, PAYITEM_QUANTITY, PAYITEM_PAYTYPE, CREATED_BY, CREATED_DATE, FLAG)
+							VALUES (@company_code, @worker_code, @item_ot, @task_paydate, @overtime_amount, @overtime_quantity, 'B', @task_by, getdate(), '0')
+						END
+
+					END -- IF @process = 'OT'	
+
+					IF @process = 'AW' and @item_aw <> '' BEGIN
+
+						EXEC dbo.ATT_PRO_CALALLOWANCE @company_code, @worker_code, @task_fromdate, @task_todate, @task_by
+
+						DECLARE @allowance_amount decimal (10, 2) = 0
+						DECLARE @allowance_quantity decimal (5, 2) = 0
+
+						SELECT @allowance_amount = ISNULL(SUM(ISNULL(ALLOWANCE_AMOUNT, 0)), 0)
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate) 
+
+						SELECT @allowance_quantity = ISNULL(COUNT(ISNULL(ALLOWANCE_AMOUNT, 0)), 0)
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate) 
+						AND ALLOWANCE_AMOUNT > 0
+
+						SELECT @allowance_amount=Result FROM dbo.ATT_FNT_ROUND_AMOUNT(@company_code, @allowance_amount, 'WAGE_SUMMARY')
+
+						DELETE FROM PAY_TR_PAYITEM 
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PAYITEM_DATE = @task_paydate AND ITEM_CODE = @item_aw
+
+						IF @allowance_amount > 0 BEGIN
+							INSERT INTO PAY_TR_PAYITEM (COMPANY_CODE, WORKER_CODE, ITEM_CODE, PAYITEM_DATE, PAYITEM_AMOUNT, PAYITEM_QUANTITY, PAYITEM_PAYTYPE, CREATED_BY, CREATED_DATE, FLAG)
+							VALUES (@company_code, @worker_code, @item_aw, @task_paydate, @allowance_amount, @allowance_quantity, 'B', @task_by, getdate(), '0')
+						END	
+
+					END -- IF @process = 'AW'
+
+					IF @process = 'LT' and @item_aw <> '' BEGIN
+						EXEC dbo.ATT_PRO_CALLATE @company_code, @worker_code, @task_fromdate, @task_todate, @task_paydate, @task_by
+
+						DECLARE @late_amount decimal (10, 2) = 0
+						DECLARE @late_quantity decimal (5, 2) = 0
+
+						SELECT @late_amount = ISNULL(SUM(ISNULL(LATE_AMOUNT, 0)), 0), @late_quantity = ISNULL(SUM(ISNULL(LATE_MIN, 0)), 0)
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate) 
+
+						SET @late_quantity = @late_quantity / 60
+
+						SELECT @late_amount=Result FROM dbo.ATT_FNT_ROUND_AMOUNT(@company_code, @late_amount, 'LATE')
+
+						DELETE FROM PAY_TR_PAYITEM 
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PAYITEM_DATE = @task_paydate AND ITEM_CODE = @item_lt
+
+						IF @late_amount > 0 BEGIN
+							INSERT INTO PAY_TR_PAYITEM (COMPANY_CODE, WORKER_CODE, ITEM_CODE, PAYITEM_DATE, PAYITEM_AMOUNT, PAYITEM_QUANTITY, PAYITEM_PAYTYPE, CREATED_BY, CREATED_DATE, FLAG)
+							VALUES (@company_code, @worker_code, @item_lt, @task_paydate, @late_amount, @late_quantity, 'B', @task_by, getdate(), '0')
+						END
+					END -- IF @process = 'LT'
+
+					IF @process = 'LV' and @item_lv <> '' BEGIN
+						EXEC dbo.ATT_PRO_CALLEAVE @company_code, @worker_code, @task_fromdate, @task_todate, @task_paydate, @task_by
+
+						DECLARE @leave_amount decimal (10, 2) = 0
+						DECLARE @leave_quantity decimal (5, 2) = 0
+
+						SELECT @leave_amount = ISNULL(SUM(ISNULL(LEAVE_AMOUNT, 0)), 0), @leave_quantity = ISNULL(SUM(ISNULL(LEAVE_MIN, 0)), 0)
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate) 
+
+						SET @leave_quantity = @leave_quantity / 60 / @worker_hrs
+
+						SELECT @leave_amount=Result FROM dbo.ATT_FNT_ROUND_AMOUNT(@company_code, @leave_amount, 'LEAVE')
+
+						DELETE FROM PAY_TR_PAYITEM 
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PAYITEM_DATE = @task_paydate AND ITEM_CODE = @item_lv
+
+						IF @leave_amount > 0 BEGIN
+							INSERT INTO PAY_TR_PAYITEM (COMPANY_CODE, WORKER_CODE, ITEM_CODE, PAYITEM_DATE, PAYITEM_AMOUNT, PAYITEM_QUANTITY, PAYITEM_PAYTYPE, CREATED_BY, CREATED_DATE, FLAG)
+							VALUES (@company_code, @worker_code, @item_lv, @task_paydate, @leave_amount, @leave_quantity, 'B', @task_by, getdate(), '0')
+						END
+					END -- IF @process = 'LV'
+
+					IF @process = 'AB' and @item_ab <> '' BEGIN
+
+						EXEC dbo.ATT_PRO_CALABSENT @company_code, @worker_code, @task_fromdate, @task_todate, @task_by
+
+						DECLARE @absent_amount decimal (10, 2) = 0
+						DECLARE @absent_quantity decimal (5, 2) = 0
+
+						SELECT @absent_amount = ISNULL(SUM(ISNULL(ABSENT_AMOUNT, 0)), 0)
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate) 
+
+						SELECT @absent_quantity = ISNULL(COUNT(ISNULL(ABSENT_AMOUNT, 0)), 0)
+						FROM ATT_TR_WAGEDAY
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code 
+						AND (WAGEDAY_DATE BETWEEN @task_fromdate AND @task_todate) 
+						AND ABSENT_AMOUNT > 0
+
+						SELECT @absent_amount=Result FROM dbo.ATT_FNT_ROUND_AMOUNT(@company_code, @absent_amount, 'ABSENT')
+
+						DELETE FROM PAY_TR_PAYITEM 
+						WHERE COMPANY_CODE = @company_code AND WORKER_CODE = @worker_code AND PAYITEM_DATE = @task_paydate AND ITEM_CODE = @item_ab
+
+						IF @absent_amount > 0 BEGIN
+							INSERT INTO PAY_TR_PAYITEM (COMPANY_CODE, WORKER_CODE, ITEM_CODE, PAYITEM_DATE, PAYITEM_AMOUNT, PAYITEM_QUANTITY, PAYITEM_PAYTYPE, CREATED_BY, CREATED_DATE, FLAG)
+							VALUES (@company_code, @worker_code, @item_ab, @task_paydate, @absent_amount, @absent_quantity, 'B', @task_by, getdate(), '0')
+						END
+
+					END -- IF @process = 'AB'
+
+					-- Next worker
+					FETCH NEXT FROM cur_whose INTO @worker_code
+				END 
+			CLOSE cur_whose 
+			DEALLOCATE cur_whose
+
+
+
+			FETCH NEXT FROM cur_type INTO @process
+		END 
+		CLOSE cur_type 
+		DEALLOCATE cur_type
+	END
+
+
+	-- Update task
+	UPDATE SYS_MT_TASK SET TASK_START = @task_start, TASK_END = getdate(), TASK_STATUS = 'F', TASK_NOTE = 'Success '
+	WHERE COMPANY_CODE = @company_code AND TASK_ID = @task_id
+END
+
+GO
+
+

@@ -40,6 +40,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBSUB_NAME_EN");
 
                 obj_str.Append(", PROJECT_CODE");
+                obj_str.Append(", VERSION");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");    
@@ -63,7 +64,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobsub_name_th = dr["PROJOBSUB_NAME_TH"].ToString();
                     model.projobsub_name_en = dr["PROJOBSUB_NAME_EN"].ToString();
 
-                    model.project_code = dr["PROJECT_CODE"].ToString(); 
+                    model.project_code = dr["PROJECT_CODE"].ToString();
+                    model.version = dr["VERSION"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -80,12 +82,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProjobsub> getDataByFillter(string project)
+        public List<cls_MTProjobsub> getDataByFillter(string project, string version)
         {
             string strCondition = "";
 
             if (!project.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            if (!version.Equals(""))
+                strCondition += " AND VERSION='" + version + "'";
             
             return this.getData(strCondition);
         }
@@ -116,7 +121,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string code)
+        public bool checkDataOld(string version, string project, string code)
         {
             bool blnResult = false;
             try
@@ -127,6 +132,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM PRO_MT_PROJOBSUB");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOBSUB_CODE='" + code + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -143,7 +149,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project)
+        public bool delete(string version, string project)
         {
             bool blnResult = true;
             try
@@ -154,6 +160,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_MT_PROJOBSUB");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -167,7 +174,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string code)
+        public bool delete(string version, string project, string code)
         {
             bool blnResult = true;
             try
@@ -179,6 +186,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM PRO_MT_PROJOBSUB");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOBSUB_CODE='" + code + "'");
+                obj_str.Append(" AND VERSION='" + version + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -199,7 +207,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projobsub_code))
+                if (this.checkDataOld(model.version, model.project_code, model.projobsub_code))
                 {
                     return this.update(model);               
                 }
@@ -214,7 +222,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBSUB_NAME_TH ");
                 obj_str.Append(", PROJOBSUB_NAME_EN ");
 
-                obj_str.Append(", PROJECT_CODE ");     
+                obj_str.Append(", PROJECT_CODE ");
+                obj_str.Append(", VERSION ");  
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -228,6 +237,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBSUB_NAME_EN ");
                                 
                 obj_str.Append(", @PROJECT_CODE ");
+                obj_str.Append(", @VERSION ");  
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -245,7 +255,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBSUB_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBSUB_NAME_TH"].Value = model.projobsub_name_th;
                 obj_cmd.Parameters.Add("@PROJOBSUB_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBSUB_NAME_EN"].Value = model.projobsub_name_en;
 
-                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;                
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@VERSION", SqlDbType.VarChar); obj_cmd.Parameters["@VERSION"].Value = model.version;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;

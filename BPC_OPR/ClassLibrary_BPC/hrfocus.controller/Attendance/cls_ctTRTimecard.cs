@@ -71,6 +71,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(TIMECARD_AFTER_MIN_APP, 0) AS TIMECARD_AFTER_MIN_APP");
                 obj_str.Append(", ISNULL(TIMECARD_LATE_MIN_APP, 0) AS TIMECARD_LATE_MIN_APP");
 
+                obj_str.Append(", ISNULL(TIMECARD_LEAVEPAY_MIN, 0) AS TIMECARD_LEAVEPAY_MIN");
+                obj_str.Append(", ISNULL(TIMECARD_LEAVEDEDUCT_MIN, 0) AS TIMECARD_LEAVEDEDUCT_MIN");
+                obj_str.Append(", ISNULL(TIMECARD_BEFORE_DG, 0) AS TIMECARD_BEFORE_DG");
+                obj_str.Append(", ISNULL(TIMECARD_AFTER_DG, 0) AS TIMECARD_AFTER_DG");
                 obj_str.Append(", ISNULL(TIMECARD_LOCK, 0) AS TIMECARD_LOCK");
 
                 obj_str.Append(", ISNULL(ATT_TR_TIMECARD.MODIFIED_BY, ATT_TR_TIMECARD.CREATED_BY) AS MODIFIED_BY");
@@ -78,7 +82,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(EMP_MT_INITIAL.INITIAL_NAME_TH, '') + ISNULL(WORKER_FNAME_TH, '') + ' ' + ISNULL(WORKER_LNAME_TH, '') AS WORKER_NAME_TH");
                 obj_str.Append(", ISNULL(EMP_MT_INITIAL.INITIAL_NAME_EN, '') + ISNULL(WORKER_FNAME_EN, '') + ' ' + ISNULL(WORKER_LNAME_EN, '') AS WORKER_NAME_EN");
-                
 
                 obj_str.Append(" FROM ATT_TR_TIMECARD");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON ATT_TR_TIMECARD.COMPANY_CODE=EMP_MT_WORKER.COMPANY_CODE AND ATT_TR_TIMECARD.WORKER_CODE=EMP_MT_WORKER.WORKER_CODE");
@@ -134,6 +137,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.timecard_after_min_app = Convert.ToInt32(dr["TIMECARD_AFTER_MIN_APP"]);
                     model.timecard_late_min_app = Convert.ToInt32(dr["TIMECARD_LATE_MIN_APP"]);
 
+
+                    model.timecard_leavepay_min = Convert.ToInt32(dr["TIMECARD_LEAVEPAY_MIN"]);
+                    model.timecard_leavededuct_min = Convert.ToInt32(dr["TIMECARD_LEAVEDEDUCT_MIN"]);
+                    model.timecard_before_dg = Convert.ToBoolean(dr["TIMECARD_BEFORE_DG"]);
+                    model.timecard_after_dg = Convert.ToBoolean(dr["TIMECARD_AFTER_DG"]);
                     model.timecard_lock = Convert.ToBoolean(dr["TIMECARD_LOCK"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
@@ -360,7 +368,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         obj_cmd.Parameters["@WORKER_CODE"].Value = worker;
 
                         obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code == null ? "" : model.project_code;
-                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.projob_code == null ? "" : model.projob_code;
+                        obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code == null ? "" : model.projob_code;
 
                         obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                         obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;

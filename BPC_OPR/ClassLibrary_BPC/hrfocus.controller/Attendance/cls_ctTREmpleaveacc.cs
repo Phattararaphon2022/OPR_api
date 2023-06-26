@@ -170,7 +170,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string emp)
+        public bool delete(string com, string emp,string year)
         {
             bool blnResult = true;
             try
@@ -182,6 +182,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" DELETE FROM ATT_TR_EMPLEAVEACC");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
+                obj_str.Append(" AND YEAR_CODE='" + year + "' ");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
             }
