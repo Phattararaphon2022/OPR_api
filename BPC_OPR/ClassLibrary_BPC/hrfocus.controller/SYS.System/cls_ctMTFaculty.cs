@@ -234,8 +234,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("UPDATE SYS_MT_FACULTYSET ");
-                obj_str.Append(" FACULTY_NAME_TH=@FACULTY_NAME_TH ");
+                obj_str.Append("UPDATE SYS_MT_FACULTY SET ");
+                obj_str.Append("  FACULTY_NAME_TH=@FACULTY_NAME_TH ");
                 obj_str.Append(", FACULTY_NAME_EN=@FACULTY_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");

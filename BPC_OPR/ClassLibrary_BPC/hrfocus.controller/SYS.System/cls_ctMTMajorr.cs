@@ -237,7 +237,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_MAJORR SET ");
                 obj_str.Append(" MAJOR_NAME_TH=@MAJOR_NAME_TH ");
-                obj_str.Append(", PMAJOR_NAME_EN=@MAJOR_NAME_EN ");               
+                obj_str.Append(", MAJOR_NAME_EN=@MAJOR_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(" WHERE MAJOR_ID=@MAJOR_ID ");            

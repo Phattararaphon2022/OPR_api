@@ -626,5 +626,38 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public int doGetNextRunningID(string com, string prefix)
+        {
+            int intResult = 1;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT TOP 1 WORKER_CODE");
+                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+                obj_str.Append(" AND WORKER_CODE LIKE '" + prefix + "%'");
+                obj_str.Append(" ORDER BY WORKER_CODE DESC");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    string strID = dt.Rows[0][0].ToString();
+
+                    strID = strID.Replace(prefix, "");
+
+                    intResult = Convert.ToInt32(strID) + 1;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Worker.doGetNextRunningID)" + ex.ToString();
+            }
+
+            return intResult;
+        }
     }
 }

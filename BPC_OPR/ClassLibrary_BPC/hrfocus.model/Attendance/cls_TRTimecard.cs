@@ -79,9 +79,11 @@ namespace ClassLibrary_BPC.hrfocus.model
         public bool timecard_ch9_scan { get; set; }
         public bool timecard_ch10_scan { get; set; }
 
-        public bool timecard_lock { get; set; }
-
+        public int timecard_leavepay_min{ get; set; }
         public int timecard_leavededuct_min { get; set; }
+        public bool timecard_before_dg { get; set; }
+        public bool timecard_after_dg { get; set; }
+        public bool timecard_lock { get; set; }
 
         //-- Show only
         public string worker_name_th { get; set; }

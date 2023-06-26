@@ -1617,6 +1617,127 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        public string getNewCode(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "CBR001.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPolcode objPol = new cls_ctMTPolcode();
+                List<cls_MTPolcode> listPol = objPol.getDataByFillter(req.com, "", req.type);
+                JArray array = new JArray();
+
+                if (listPol.Count > 0)
+                {
+                    string strID = "";
+                    cls_MTPolcode polcode = listPol[0];
+
+                    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
+                    foreach (cls_TRPolcode model in listTRPolcode)
+                    {
+
+                        switch (model.codestructure_code)
+                        {
+
+                            case "1CHA":
+                                strID += model.polcode_text.Substring(0, model.polcode_lenght);
+                                break;
+
+                            case "2COM":
+                                strID += req.com.Substring(0, model.polcode_lenght);    
+                                break;
+
+                            case "3BRA":
+                                break;
+
+                            case "4EMT":
+                                strID += req.emptype;
+                                break;
+
+                            case "5YEA":
+                                DateTime dateNowY = DateTime.Now;
+                                string formatY = "";
+                                for (int i = 0; i < model.polcode_lenght; i++)
+                                {
+                                    formatY += "y";
+                                }
+                                strID += dateNowY.ToString(formatY);
+                                break;
+
+                            case "6MON":
+                                DateTime dateNowM = DateTime.Now;
+                                string formatM = "";
+                                for (int i = 0; i < model.polcode_lenght; i++)
+                                {
+                                    formatM += "M";
+                                }
+                                strID += dateNowM.ToString(formatM);
+                                break;
+
+                            case "MAUT":
+                                cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                                int intRunningID = objWorker.doGetNextRunningID(req.com, strID);
+                                strID += intRunningID.ToString().PadLeft(model.polcode_lenght, '0');
+                                break;
+
+                        }
+
+
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = "";
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                objPol.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
         #endregion
 
         #region MTReason
@@ -6525,6 +6646,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        ///
         public string doManageMTCombank(InputComTransaction input)
         {
             JObject output = new JObject();
@@ -6632,7 +6754,7 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
-
+       //
         public string doDeleteMTCombank(InputMTCombank input)
         {
             JObject output = new JObject();
@@ -6641,7 +6763,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBK001.3";
+            log.apilog_code = "EMP011.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6713,6 +6835,88 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
+
+
+        //public string doDeleteMTCombank(InputMTCombank input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "CBK001.3";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTCombank controller = new cls_ctMTCombank();
+
+        //        if (controller.checkDataOld(input.company_code, input.combank_bankcode))
+        //        {
+        //            bool blnResult = controller.delete(input.company_code);
+
+        //            if (blnResult)
+        //            {
+        //                output["success"] = true;
+        //                output["message"] = "Remove data successfully";
+
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Remove data not successfully";
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = controller.getMessage();
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            string message = "Not Found Project code : " + input.combank_id;
+        //            output["success"] = false;
+        //            output["message"] = message;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = message;
+        //        }
+
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
 
         public async Task<string> doUploadCombank(string token, string by, string fileName, Stream stream)
         {
