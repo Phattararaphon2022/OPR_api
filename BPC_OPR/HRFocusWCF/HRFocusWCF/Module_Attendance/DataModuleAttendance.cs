@@ -730,4 +730,36 @@ namespace BPC_OPR
 
     }
     #endregion
+
+
+    #region InputSetPolicyAttItem
+    [DataContract]
+    public class InputSetPolicyAttItem
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string item_sa { get; set; }
+        [DataMember]
+        public string item_ot { get; set; }
+        [DataMember]
+        public string item_aw { get; set; }
+        [DataMember]
+        public string item_dg { get; set; }
+        [DataMember]
+        public string item_lv { get; set; }
+        [DataMember]
+        public string item_ab { get; set; }
+        [DataMember]
+        public string item_lt { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+
+    }
+
+    #endregion
 }

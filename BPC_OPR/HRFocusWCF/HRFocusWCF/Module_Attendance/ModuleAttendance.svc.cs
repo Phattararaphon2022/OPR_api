@@ -26,6 +26,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Configuration;
 using System.Web.Script.Serialization;
 using System.Runtime.Serialization.Json;
+using ClassLibrary_BPC.hrfocus.controller.Attendance;
+using ClassLibrary_BPC.hrfocus.model.Attendance;
 
 namespace BPC_OPR
 {
@@ -4891,5 +4893,297 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+        #region Batch policy allowance item
+        public string getPolicyAttendanceItem(InputSetPolicyAttItem input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT903.1";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTREmpattitem objPol = new cls_ctTREmpattitem();
+                List<cls_TREmpattitem> listPol = objPol.getDataByFillter(input.company_code, "");
+
+                JArray array = new JArray();
+
+                if (listPol.Count > 0)
+                {
+
+                    int index = 1;
+
+                    foreach (cls_TREmpattitem model in listPol)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("item_sa", model.empattitem_sa);
+                        json.Add("item_ot", model.empattitem_ot);
+                        json.Add("item_aw", model.empattitem_aw);
+                        json.Add("item_dg", model.empattitem_dg);
+                        json.Add("item_lv", model.empattitem_lv);
+                        json.Add("item_ab", model.empattitem_ab);
+                        json.Add("item_lt", model.empattitem_lt);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+        public string doSetPolicyAttendanceItem(InputSetPolicyAttItem input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT903.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                string company_code = input.company_code;
+                string item_sa = input.item_sa;
+                string item_ot = input.item_ot;
+                string item_aw = input.item_aw;
+                string item_dg = input.item_dg;
+                string item_lv = input.item_lv;
+                string item_ab = input.item_ab;
+                string item_lt = input.item_lt;
+
+                
+                string modified_by = input.modified_by;
+
+              
+                System.Text.StringBuilder obj_fail = new System.Text.StringBuilder();
+                List<cls_TREmpattitem> listPol = new List<cls_TREmpattitem>();
+
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    
+                    cls_TREmpattitem model = new cls_TREmpattitem();
+                    model.empattitem_sa = item_sa;
+                    model.empattitem_ot = item_ot;
+                    model.empattitem_aw = item_aw;
+                    model.empattitem_dg = item_dg;
+                    model.empattitem_lv = item_lv;
+                    model.empattitem_ab = item_ab;
+                    model.empattitem_lt = item_lt;
+
+                    model.company_code = company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.modified_by = modified_by;
+
+                    listPol.Add(model);
+                }
+
+                bool blnResult = false;
+                if (listPol.Count > 0)
+                {
+                    cls_ctTREmpattitem objPol = new cls_ctTREmpattitem();
+                    //blnResult = objPol.insert(listPol);
+
+                    foreach (cls_TREmpattitem model in listPol)
+                    {
+                        if (!objPol.insert(model))
+                            obj_fail.Append(model.worker_code);
+                    }
+
+                    if (obj_fail.Length == 0)
+                    {
+                        blnResult = true;
+                    }
+
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "";
+                       
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = objPol.getMessage();
+                    }
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTREmppolattItem(InputSetPolicyAttItem input)
+        {
+            JObject output = new JObject();
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT903.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTREmpattitem objPol = new cls_ctTREmpattitem();               
+
+                if (objPol.checkDataOld(input.company_code, input.worker_code))
+                {
+                    bool blnResult = objPol.delete(input.company_code, input.worker_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = objPol.getMessage();
+                    }
+                }
+                else
+                {
+                    string message = "Not Found : " + input.worker_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+       
     }
 }
