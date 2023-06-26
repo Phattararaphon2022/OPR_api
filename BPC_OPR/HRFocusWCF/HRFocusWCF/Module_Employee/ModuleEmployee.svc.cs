@@ -11323,6 +11323,160 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        //Set Assessment
+        public string getBatchTrainingList(InputSetAssessment input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAssessment objPolItem = new cls_ctTRAssessment();
+                List<cls_TRAssessment> listPolItem = objPolItem.getDataBatch(input.company_code, input.empassessment_location, Convert.ToDateTime(input.empassessment_fromdate));
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRAssessment model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("empassessment_id", model.empassessment_id);
+                        json.Add("empassessment_location", model.empassessment_location);
+                        json.Add("empassessment_topic", model.empassessment_topic);
+                        json.Add("empassessment_fromdate", model.empassessment_fromdate);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doSetBatchAssessment(InputSetAssessment input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.6";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAssessment objPo = new cls_ctTRAssessment();
+                List<cls_TRAssessment> listPo = new List<cls_TRAssessment>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRAssessment model = new cls_TRAssessment();
+                    model.empassessment_id = Convert.ToInt32(input.empassessment_id);
+                    model.empassessment_location = input.empassessment_location;
+                    model.empassessment_topic = input.empassessment_topic;
+                    model.empassessment_fromdate = Convert.ToDateTime(input.empassessment_fromdate);
+                    model.empassessment_todate = Convert.ToDateTime(input.empassessment_todate);
+                    model.empassessment_count = Convert.ToDouble(input.empassessment_count);
+                    model.empassessment_result = input.empassessment_result;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
         #endregion
 
 

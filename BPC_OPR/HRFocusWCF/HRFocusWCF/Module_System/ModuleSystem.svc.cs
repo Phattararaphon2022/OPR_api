@@ -1651,7 +1651,7 @@ namespace BPC_OPR
                     cls_MTPolcode polcode = listPol[0];
 
                     cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter("");
                     foreach (cls_TRPolcode model in listTRPolcode)
                     {
 
