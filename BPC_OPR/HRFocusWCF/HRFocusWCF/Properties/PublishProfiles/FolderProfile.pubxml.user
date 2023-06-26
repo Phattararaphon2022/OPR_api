@@ -10,10 +10,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/BPC_OPR.dll">
-      <publishTime>06/26/2023 10:49:39</publishTime>
+      <publishTime>06/26/2023 12:13:04</publishTime>
     </File>
     <File Include="bin/ClassLibrary_BPC.dll">
-      <publishTime>06/26/2023 10:49:34</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/ClassLibrary_BPC.pdb">
       <publishTime>05/02/2021 17:33:27</publishTime>
@@ -67,7 +67,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/13/2023 18:34:18</publishTime>
     </File>
     <File Include="Initial.xml">
-      <publishTime>06/26/2023 10:48:21</publishTime>
+      <publishTime>06/26/2023 12:02:25</publishTime>
     </File>
     <File Include="Module_Attendance/ModuleAttendance.svc">
       <publishTime>03/13/2023 18:37:09</publishTime>
@@ -85,7 +85,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2023 18:29:29</publishTime>
     </File>
     <File Include="Module_SelfServices/ModuleSelfServices.svc">
-      <publishTime>04/03/2023 10:08:08</publishTime>
+      <publishTime>03/04/2023 10:08:08</publishTime>
     </File>
     <File Include="Module_System/ModuleSystem.svc">
       <publishTime>03/13/2023 18:34:18</publishTime>
