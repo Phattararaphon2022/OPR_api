@@ -155,6 +155,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTLocation.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajor.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajorr.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolround.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTProvince.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTQualification.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTReduce.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTLocation.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajor.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajorr.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTPolround.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTProvince.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTQualification.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTReduce.cs" />

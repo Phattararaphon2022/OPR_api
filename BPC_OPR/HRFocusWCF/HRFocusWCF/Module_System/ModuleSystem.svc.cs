@@ -10087,6 +10087,336 @@ namespace BPC_OPR
 
         #endregion
 
+        #region Polround
+        public string getMTPolround(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "POLR001.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPolround contPolround = new cls_ctMTPolround();
+                List<cls_MTPolround> list = contPolround.getDataByFillter(req.company_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTPolround model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("polround_pf", model.polround_pf);
+                        json.Add("polround_sso", model.polround_sso);
+                        json.Add("polround_tax", model.polround_tax);
+                        json.Add("polround_wage_day", model.polround_wage_day);
+                        json.Add("polround_wage_summary", model.polround_wage_summary);
+                        json.Add("polround_ot_day", model.polround_ot_day);
+                        json.Add("polround_ot_summary", model.polround_ot_summary);
+                        json.Add("polround_absent", model.polround_absent);
+                        json.Add("polround_late", model.polround_late);
+                        json.Add("polround_leave", model.polround_leave);
+                        json.Add("polround_netpay", model.polround_netpay);
+                        json.Add("polround_timelate", model.polround_timelate);
+                        json.Add("polround_timeleave", model.polround_timeleave);
+                        json.Add("polround_timeot", model.polround_timeot);
+                        json.Add("polround_timeworking", model.polround_timeworking);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                contPolround.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTPolround(InputMTPolround input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "POLR001.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPolround controller = new cls_ctMTPolround();
+                cls_MTPolround model = new cls_MTPolround();
+
+                model.company_code = input.company_code;
+                model.polround_pf = input.polround_pf;
+                model.polround_sso = input.polround_sso;
+                model.polround_tax = input.polround_tax;
+                model.polround_wage_day = input.polround_wage_day;
+                model.polround_wage_summary = input.polround_wage_summary;
+                model.polround_ot_day = input.polround_ot_day;
+                model.polround_ot_summary = input.polround_ot_summary;
+                model.polround_absent = input.polround_absent;
+                model.polround_late = input.polround_late;
+                model.polround_leave = input.polround_leave;
+                model.polround_netpay = input.polround_netpay;
+                model.polround_timelate = input.polround_timelate;
+                model.polround_timeleave = input.polround_timeleave;
+                model.polround_timeot = input.polround_timeot;
+                model.polround_timeworking = input.polround_timeworking;
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
+
+                bool strID = controller.insert(model);
+
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        public string doDeleteMTPolround(InputMTPolround input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "POLR001.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPolround controller = new cls_ctMTPolround();
+
+                if (controller.checkDataOld(input.company_code))
+                {
+                    bool blnResult = controller.delete(input.company_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.company_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        //public async Task<string> doUploadMTMajor(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "MAJ001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        bool upload = await this.doUploadFile(fileName, stream);
+
+        //        if (upload)
+        //        {
+        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
+        //            string tmp = srv_import.doImportExcel("Major", fileName, "TEST");
+
+        //            output["success"] = true;
+        //            output["message"] = tmp;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        #endregion
+
+
         #region MTRequest
         public string getRequestList(BasicRequest req)
         {

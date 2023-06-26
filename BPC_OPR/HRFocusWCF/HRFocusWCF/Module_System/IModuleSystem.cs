@@ -607,5 +607,21 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadqualification?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTQualification(string token, string by, string fileName, Stream stream);
         #endregion
+
+        #region MTpolround
+        [OperationContract(Name = "polround_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPolround(BasicRequest req);
+
+        [OperationContract(Name = "polround")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPolround(InputMTPolround input);
+
+        [OperationContract(Name = "polround_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPolround(InputMTPolround input);
+
+
+        #endregion
     }
 }
