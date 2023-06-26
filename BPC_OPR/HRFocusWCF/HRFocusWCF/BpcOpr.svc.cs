@@ -318,6 +318,10 @@ namespace BPC_OPR
         public string item_type { get; set; }
         [DataMember]
         public string item { get; set; }
+        [DataMember]
+        public string type { get; set; }
+        [DataMember]
+        public string emptype { get; set; }
         
     }
 

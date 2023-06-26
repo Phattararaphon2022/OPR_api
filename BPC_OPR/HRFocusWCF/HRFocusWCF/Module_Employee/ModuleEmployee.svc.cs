@@ -449,7 +449,237 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        public string getWorkerFillterList(FillterSearch req)
+        {
+            JObject output = new JObject();
 
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP008.5";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTWorker controller = new cls_ctMTWorker();
+                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTWorker model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_id", model.worker_id);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_card", model.worker_card);
+                        json.Add("worker_initial", model.worker_initial);
+
+                        json.Add("worker_fname_th", model.worker_fname_th);
+                        json.Add("worker_lname_th", model.worker_lname_th);
+                        json.Add("worker_fname_en", model.worker_fname_en);
+                        json.Add("worker_lname_en", model.worker_lname_en);
+
+                        json.Add("worker_type", model.worker_type);
+                        json.Add("worker_gender", model.worker_gender);
+                        json.Add("worker_birthdate", model.worker_birthdate);
+                        json.Add("worker_hiredate", model.worker_hiredate);
+                        json.Add("worker_status", model.worker_status);
+                        json.Add("religion_code", model.religion_code);
+                        json.Add("blood_code", model.blood_code);
+                        json.Add("worker_height", model.worker_height);
+                        json.Add("worker_weight", model.worker_weight);
+
+                        json.Add("worker_resigndate", model.worker_resigndate);
+                        json.Add("worker_resignstatus", model.worker_resignstatus);
+                        json.Add("worker_resignreason", model.worker_resignreason);
+
+                        json.Add("worker_probationdate", model.worker_probationdate);
+                        json.Add("worker_probationenddate", model.worker_probationenddate);
+                        json.Add("worker_probationday", model.worker_probationday);
+
+                        json.Add("worker_taxmethod", model.worker_taxmethod);
+
+                        json.Add("hrs_perday", model.hrs_perday);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("self_admin", model.self_admin);
+
+                        json.Add("flag", model.flag);
+
+                        json.Add("initial_name_th", model.initial_name_th);
+                        json.Add("initial_name_en", model.initial_name_en);
+
+                        json.Add("position_name_th", model.position_name_th);
+                        json.Add("position_name_en", model.position_name_en);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        #endregion
+
+        #region Image worker
+        public string doUploadWorkerImages(string ref_to, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.4";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+                
+                cls_ctTREmpimages ct_empimages = new cls_ctTREmpimages();
+
+                string[] temp = ref_to.Split('.');
+
+                MultipartParser parser = new MultipartParser(stream);
+
+                if (parser.Success)
+                {
+
+                    cls_TREmpimages empimages = new cls_TREmpimages();
+                    empimages.company_code = temp[0];
+                    empimages.worker_code = temp[1];
+                    empimages.empimages_images = parser.FileContents;
+                    empimages.modified_by = temp[2];
+
+                    empimages.empimages_no = 1;
+
+                    ct_empimages.insert(empimages);
+
+                    output["result"] = "1";
+                    output["result_text"] = "0";
+
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public bool IsValidImage(byte[] bytes)
+        {
+
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(bytes))
+                    Image.FromStream(ms);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string doGetWorkerImages(FillterWorker req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP030.2";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+                cls_ctTREmpimages ct_empimages = new cls_ctTREmpimages();
+                List<cls_TREmpimages> list_empimages = ct_empimages.getDataByFillter(req.company_code, req.worker_code);
+
+                if (list_empimages.Count > 0)
+                {
+                    cls_TREmpimages md_image = list_empimages[0];
+
+                    bool bln = this.IsValidImage(md_image.empimages_images);
+
+                    output["result"] = "1";
+                    output["result_text"] = "";
+                    output["data"] = "data:image/png;base64," + System.Convert.ToBase64String(md_image.empimages_images);
+                }
+                else
+                {
+                    output["result"] = "2";
+                    output["result_text"] = "Data not found";
+                    output["data"] = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
         #endregion
 
         #region Dep(EMP002)
@@ -2316,7 +2546,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTREmplocation controller = new cls_ctTREmplocation();
-                List<cls_TREmplocation> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TREmplocation> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5021,7 +5251,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRDep controller = new cls_ctTRDep();
-                List<cls_TRDep> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRDep> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5366,7 +5596,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPosition controller = new cls_ctTRPosition();
-                List<cls_TRPosition> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRPosition> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5704,7 +5934,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRGroup controller = new cls_ctTRGroup();
-                List<cls_TRGroup> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRGroup> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -6379,7 +6609,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRTraining controller = new cls_ctTRTraining();
-                List<cls_TRTraining> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRTraining> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -7399,7 +7629,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRSalary controller = new cls_ctTRSalary();
-                List<cls_TRSalary> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRSalary> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -7738,7 +7968,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRProvident controller = new cls_ctTRProvident();
-                List<cls_TRProvident> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRProvident> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -8075,7 +8305,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRBenefit controller = new cls_ctTRBenefit();
-                List<cls_TRBenefit> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRBenefit> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -9855,6 +10085,79 @@ namespace BPC_OPR
         #region Set batch
 
         //Set Position
+        public string getBatchPositionList(InputSetPosition input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB01";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRPosition objPolItem = new cls_ctTRPosition();
+                List<cls_TRPosition> listPolItem = objPolItem.getDataBatch(input.company_code,input.empposition_position,Convert.ToDateTime(input.empposition_date));
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRPosition model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empposition_id", model.empposition_id);
+                        json.Add("empposition_date", model.empposition_date);
+                        json.Add("empposition_position", model.empposition_position);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         public string doSetBatchPosition(InputSetPosition input)
         {
             JObject output = new JObject();
@@ -9931,8 +10234,250 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        //Set Dep
+        public string getBatchDepList(InputSetDep input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB02";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRDep objPolItem = new cls_ctTRDep();
+                List<cls_TRDep> listPolItem = objPolItem.getDataBatch(input.company_code, input.empdep_level01, Convert.ToDateTime(input.empdep_date));
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRDep model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empdep_id", model.empdep_id);
+                        json.Add("empdep_date", model.empdep_date);
+                        json.Add("empdep_level01", model.empdep_level01);
+                        json.Add("empdep_level02", model.empdep_level02);
+                        json.Add("empdep_level03", model.empdep_level03);
+                        json.Add("empdep_level04", model.empdep_level04);
+                        json.Add("empdep_level05", model.empdep_level05);
+                        json.Add("empdep_level06", model.empdep_level06);
+                        json.Add("empdep_level07", model.empdep_level07);
+                        json.Add("empdep_level08", model.empdep_level08);
+                        json.Add("empdep_level09", model.empdep_level09);
+                        json.Add("empdep_level10", model.empdep_level10);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doSetBatchDep(InputSetDep input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRDep objPo = new cls_ctTRDep();
+                List<cls_TRDep> listPo = new List<cls_TRDep>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRDep model = new cls_TRDep();
+                    model.empdep_level01 = input.empdep_level01;
+                    model.empdep_level02 = input.empdep_level02;
+                    model.empdep_level03 = input.empdep_level03;
+                    model.empdep_level04 = input.empdep_level04;
+                    model.empdep_level05 = input.empdep_level05;
+                    model.empdep_level06 = input.empdep_level06;
+                    model.empdep_level07 = input.empdep_level07;
+                    model.empdep_level08 = input.empdep_level08;
+                    model.empdep_level09 = input.empdep_level09;
+                    model.empdep_level10 = input.empdep_level10;
+                    model.empdep_reason = input.empdep_reason;
+                    model.empdep_date = Convert.ToDateTime(input.empdep_date);
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
 
         //Set Group
+        public string getBatchGroupList(InputSetGroup input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRGroup objPolItem = new cls_ctTRGroup();
+                List<cls_TRGroup> listPolItem = objPolItem.getDataBatch(input.company_code,input.empgroup_code,Convert.ToDateTime(input.empgroup_date));
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRGroup model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empgroup_id", model.empgroup_id);
+                        json.Add("empgroup_code", model.empgroup_code);
+                        json.Add("empgroup_date", model.empgroup_date);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+
         public string doSetBatchGroup(InputSetGroup input)
         {
             JObject output = new JObject();
@@ -10009,6 +10554,77 @@ namespace BPC_OPR
         }
 
         //Set Location
+        public string getBatchLocationList(InputSetLocation input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTREmplocation objPolItem = new cls_ctTREmplocation();
+                List<cls_TREmplocation> listPolItem = objPolItem.getDataBatch(input.company_code, input.location_code , Convert.ToDateTime(input.emplocation_startdate));
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TREmplocation model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("location_code", model.location_code);
+                        json.Add("emplocation_startdate", model.emplocation_startdate);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         public string doSetBatchLocation(InputSetLocation input)
         {
             JObject output = new JObject();
@@ -10086,6 +10702,79 @@ namespace BPC_OPR
         }
 
         //Set Salary
+        public string getBatchSalaryList(InputSetSalary input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRSalary objPolItem = new cls_ctTRSalary();
+                List<cls_TRSalary> listPolItem = objPolItem.getDataBatch(input.company_code, Convert.ToDateTime(input.empsalary_date), input.empsalary_amount);
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRSalary model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("empsalary_id", model.empsalary_id);
+                        json.Add("empsalary_amount", model.empsalary_amount);
+                        json.Add("empsalary_date", model.empsalary_date);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         public string doSetBatchSalary(InputSetSalary input)
         {
             JObject output = new JObject();
@@ -10164,6 +10853,78 @@ namespace BPC_OPR
         }
 
         //Set Provident
+        public string getBatchProvidentList(InputSetProvident input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRProvident objPolItem = new cls_ctTRProvident();
+                List<cls_TRProvident> listPolItem = objPolItem.getDataBatch(input.company_code,input.provident_code,input.empprovident_card);
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProvident model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("provident_code", model.provident_code);
+                        json.Add("empprovident_card", model.empprovident_card);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         public string doSetBatchProvident(InputSetProvident input)
         {
             JObject output = new JObject();
@@ -10242,6 +11003,87 @@ namespace BPC_OPR
         }
 
         //Set Benefits
+        public string getBatchBenefitsList(InputSetBenefits input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRBenefit objPolItem = new cls_ctTRBenefit();
+                List<cls_TRBenefit> listPolItem = objPolItem.getDataBatch(input.company_code,input.empbenefit_amount ,input.item_code);
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRBenefit model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("empbenefit_id", model.empbenefit_id);
+                        json.Add("item_code", model.item_code);
+                        json.Add("empbenefit_amount", model.empbenefit_amount);
+                        json.Add("empbenefit_startdate", model.empbenefit_startdate);
+                        json.Add("empbenefit_enddate", model.empbenefit_enddate);
+                        json.Add("empbenefit_reason", model.empbenefit_reason);
+                        json.Add("empbenefit_note", model.empbenefit_note);
+
+                        json.Add("empbenefit_paytype", model.empbenefit_paytype);
+                        json.Add("empbenefit_break", model.empbenefit_break);
+                        json.Add("empbenefit_breakreason", model.empbenefit_breakreason);
+
+                        json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
+                        json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         public string doSetBatchBenefits(InputSetBenefits input)
         {
             JObject output = new JObject();
@@ -10286,6 +11128,162 @@ namespace BPC_OPR
                     model.empbenefit_breakreason = input.empbenefit_breakreason;
                     model.empbenefit_conditionpay = input.empbenefit_conditionpay;
                     model.empbenefit_payfirst = input.empbenefit_payfirst;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Training
+        public string getBatchTrainingList(InputSetTraining input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMPSB03";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTraining objPolItem = new cls_ctTRTraining();
+                List<cls_TRTraining> listPolItem = objPolItem.getDataBatch(input.company_code, input.course_code);
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTraining model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("emptraining_no", model.emptraining_no);
+                        json.Add("institute_code", model.institute_code);
+                        json.Add("course_code", model.course_code);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doSetBatchTraining(InputSetTraining input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP099.6";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRTraining objPo = new cls_ctTRTraining();
+                List<cls_TRTraining> listPo = new List<cls_TRTraining>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRTraining model = new cls_TRTraining();
+                    model.emptraining_start = Convert.ToDateTime(input.emptraining_start);
+                    model.emptraining_finish = Convert.ToDateTime(input.emptraining_finish);
+                    model.emptraining_status = input.emptraining_status;
+                    model.emptraining_hours = input.emptraining_hours;
+                    model.emptraining_cost = input.emptraining_cost;
+                    model.emptraining_note = input.emptraining_note;
+                    model.institute_code = input.institute_code;
+                    model.institute_other = input.institute_other;
+                    model.course_code = input.course_code;
+                    model.course_other = input.course_other;
                     model.company_code = input.company_code;
                     model.worker_code = modelWorker.worker_code;
                     model.created_by = input.modified_by;

@@ -34,5 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string worker_lname_th { get; set; }
         public string worker_fname_en { get; set; }
         public string worker_lname_en { get; set; }
+        public string worker_detail_th { get; set; }
+        public string worker_detail_en { get; set; }
     }
 }

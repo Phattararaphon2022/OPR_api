@@ -95,7 +95,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRTraining> getDataByFillter(string com, string emp)
+        public List<cls_TRTraining> getDataByFillter(string com, string emp ,string code)
         {
             string strCondition = "";
 
@@ -104,6 +104,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!emp.Equals(""))
                 strCondition += " AND WORKER_CODE='" + emp + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND COURSE_CODE='" + code + "'";
 
             return this.getData(strCondition);
         }
@@ -338,6 +341,203 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 Message = "EMPTRN006:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
+        public List<cls_TRTraining> getDataBatch(string com, string code)
+        {
+            List<cls_TRTraining> list_model = new List<cls_TRTraining>();
+            cls_TRTraining model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append("EMP_TR_TRAINING.COMPANY_CODE");
+                obj_str.Append(", EMP_TR_TRAINING.WORKER_CODE");
+                obj_str.Append(", EMP_TR_TRAINING.EMPTRAINING_NO");
+                obj_str.Append(", ISNULL(EMP_TR_TRAINING.INSTITUTE_CODE, '') AS INSTITUTE_CODE");
+                obj_str.Append(", ISNULL(EMP_TR_TRAINING.COURSE_CODE, '') AS COURSE_CODE");
+
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
+
+                obj_str.Append(", ISNULL(EMP_TR_TRAINING.MODIFIED_BY, EMP_TR_TRAINING.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(EMP_TR_TRAINING.MODIFIED_DATE, EMP_TR_TRAINING.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(" FROM EMP_TR_TRAINING");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=EMP_TR_TRAINING.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=EMP_TR_TRAINING.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
+                obj_str.Append(" WHERE 1=1");
+                obj_str.Append(" AND EMP_TR_TRAINING.COMPANY_CODE='" + com + "' ");
+
+                if (!code.Equals(""))
+                    obj_str.Append(" AND EMP_TR_TRAINING.COURSE_CODE='" + code + "' ");
+
+                obj_str.Append(" ORDER BY EMP_TR_TRAINING.WORKER_CODE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTraining();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.emptraining_no = Convert.ToInt32(dr["EMPTRAINING_NO"]);
+                    model.institute_code = Convert.ToString(dr["INSTITUTE_CODE"]);
+                    model.course_code = Convert.ToString(dr["COURSE_CODE"]);
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPTRN007:" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+        public bool insertlist(List<cls_TRTraining> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO EMP_TR_TRAINING");
+                obj_str.Append(" (");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
+                obj_str.Append(", EMPTRAINING_NO ");
+                obj_str.Append(", INSTITUTE_CODE ");
+                obj_str.Append(", COURSE_CODE ");
+                obj_str.Append(", INSTITUTE_OTHER ");
+                obj_str.Append(", COURSE_OTHER ");
+                obj_str.Append(", EMPTRAINING_START ");
+                obj_str.Append(", EMPTRAINING_FINISH ");
+                obj_str.Append(", EMPTRAINING_STATUS ");
+                obj_str.Append(", EMPTRAINING_HOURS ");
+                obj_str.Append(", EMPTRAINING_COST ");
+                obj_str.Append(", EMPTRAINING_NOTE ");
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
+                obj_str.Append(", FLAG ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
+                obj_str.Append(", @EMPTRAINING_NO ");
+                obj_str.Append(", @INSTITUTE_CODE ");
+                obj_str.Append(", @COURSE_CODE ");
+                obj_str.Append(", @INSTITUTE_OTHER ");
+                obj_str.Append(", @COURSE_OTHER ");
+                obj_str.Append(", @EMPTRAINING_START ");
+                obj_str.Append(", @EMPTRAINING_FINISH ");
+                obj_str.Append(", @EMPTRAINING_STATUS ");
+                obj_str.Append(", @EMPTRAINING_HOURS ");
+                obj_str.Append(", @EMPTRAINING_COST ");
+                obj_str.Append(", @EMPTRAINING_NOTE ");
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
+                obj_str.Append(", '1' ");
+                obj_str.Append(" )");
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                string strWorkerID = "";
+                foreach (cls_TRTraining model in list_model)
+                {
+                    strWorkerID += "'" + model.worker_code + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM EMP_TR_TRAINING");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+                obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
+                obj_str2.Append(" AND EMPTRAINING_NO='" + this.getNextID() + "'");
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); 
+
+                    obj_cmd.Parameters.Add("@EMPTRAINING_NO", SqlDbType.Int); 
+                    obj_cmd.Parameters.Add("@INSTITUTE_CODE", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@COURSE_CODE", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@INSTITUTE_OTHER", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@COURSE_OTHER", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_START", SqlDbType.DateTime); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_FINISH", SqlDbType.DateTime); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_STATUS", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_HOURS", SqlDbType.Decimal); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_COST", SqlDbType.Decimal); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_NOTE", SqlDbType.VarChar); 
+
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+
+                    foreach (cls_TRTraining model in list_model)
+                    {
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                        obj_cmd.Parameters["@EMPTRAINING_NO"].Value = this.getNextID();
+                        obj_cmd.Parameters["@INSTITUTE_CODE"].Value = model.institute_code;
+                        obj_cmd.Parameters["@COURSE_CODE"].Value = model.course_code;
+                        obj_cmd.Parameters["@INSTITUTE_OTHER"].Value = model.institute_other;
+                        obj_cmd.Parameters["@COURSE_OTHER"].Value = model.course_other;
+                        obj_cmd.Parameters["@EMPTRAINING_START"].Value = model.emptraining_start;
+                        obj_cmd.Parameters["@EMPTRAINING_FINISH"].Value = model.emptraining_finish;
+                        obj_cmd.Parameters["@EMPTRAINING_STATUS"].Value = model.emptraining_status;
+                        obj_cmd.Parameters["@EMPTRAINING_HOURS"].Value = model.emptraining_hours;
+                        obj_cmd.Parameters["@EMPTRAINING_COST"].Value = model.emptraining_cost;
+                        obj_cmd.Parameters["@EMPTRAINING_NOTE"].Value = model.emptraining_note;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+
+                        obj_cmd.ExecuteNonQuery();
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                        obj_conn.doRollback();
+                    obj_conn.doClose();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                    obj_conn.doClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPTRN099:" + ex.ToString();
             }
 
             return blnResult;

@@ -176,6 +176,47 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+
+        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype,string searchemp , string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill)
+        {
+            string strCondition = "";
+
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
+
+            if (!emptype.Equals(""))
+                strCondition += " AND WORKER_TYPE='" + emptype + "'";
+
+            if (!worker_code.Equals(""))
+                strCondition += " AND WORKER_CODE='" + worker_code + "'";
+            if (!searchemp.Equals(""))
+            {
+                strCondition += "AND (WORKER_CODE like'" + searchemp + "%' or WORKER_FNAME_TH like '" + searchemp + "%' or WORKER_LNAME_TH like '" + searchemp + "%' or WORKER_FNAME_EN like '" + searchemp + "%' or WORKER_LNAME_EN like '" + searchemp + "%')";
+            }
+            if (!level_code.Equals("") && !dep_code.Equals(""))
+            {
+                strCondition += " AND WORKER_CODE IN (SELECT WORKER_CODE FROM EMP_TR_DEP WHERE COMPANY_CODE='" + com + "' AND EMPDEP_LEVEL" + level_code + "='" + dep_code + "')";
+            }
+
+            if (!position_code.Equals(""))
+            {
+                strCondition += " AND WORKER_CODE IN (SELECT DISTINCT WORKER_CODE FROM EMP_TR_POSITION WHERE COMPANY_CODE='" + com + "' AND EMPPOSITION_POSITION='" + position_code + "' )";
+            }
+
+            if (!location_code.Equals(""))
+            {
+                strCondition += " AND WORKER_CODE IN (SELECT DISTINCT WORKER_CODE FROM EMP_TR_LOCATION WHERE COMPANY_CODE='" + com + "' AND LOCATION_CODE='" + location_code + "' )";
+            }
+
+
+            if (!include_resign)
+            {
+                strCondition += " AND (WORKER_RESIGNSTATUS='0' OR WORKER_RESIGNSTATUS IS NULL) ";
+            }
+
+            return this.getData(strCondition);
+        }
         public int getNextID()
         {
             int intResult = 1;
@@ -584,6 +625,39 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
 
             return blnResult;
+        }
+
+        public int doGetNextRunningID(string com, string prefix)
+        {
+            int intResult = 1;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT TOP 1 WORKER_CODE");
+                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+                obj_str.Append(" AND WORKER_CODE LIKE '" + prefix + "%'");
+                obj_str.Append(" ORDER BY WORKER_CODE DESC");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    string strID = dt.Rows[0][0].ToString();
+
+                    strID = strID.Replace(prefix, "");
+
+                    intResult = Convert.ToInt32(strID) + 1;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Worker.doGetNextRunningID)" + ex.ToString();
+            }
+
+            return intResult;
         }
     }
 }
