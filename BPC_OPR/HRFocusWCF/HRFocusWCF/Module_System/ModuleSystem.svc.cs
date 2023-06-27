@@ -3201,7 +3201,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "YEA001";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
