@@ -2494,7 +2494,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "PAY011.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -2591,7 +2591,7 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAY008.2";
+            log.apilog_code = "PAY011.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
             {
@@ -2681,7 +2681,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "PAY011.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
