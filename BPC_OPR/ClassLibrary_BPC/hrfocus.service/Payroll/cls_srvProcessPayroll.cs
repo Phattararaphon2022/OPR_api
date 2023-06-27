@@ -4,6 +4,7 @@ using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.model.Payroll;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -328,32 +329,47 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                      try
                      {
                          //-- Step 1 create file
-                         string filename = "TRN_SSO_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
+                         string filename = "TRN_SSO_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "xls";
                          string filepath = Path.Combine
                         (ClassLibrary_BPC.Config.PathFileExport, filename);
+
+
 
                          // Check if file already exists. If yes, delete it.     
                          if (File.Exists(filepath))
                          {
                              File.Delete(filepath);
                          }
+                         DataSet ds = new DataSet();
+                         string str = tmpData.Replace("\r\n", "]");
+                         string[] data = str.Split(']');
+                         DataTable dataTable = ds.Tables.Add();
+                         dataTable.Columns.AddRange(new DataColumn[12] { new DataColumn("ลำดับที่"), new DataColumn("เดือน / ปี"), new DataColumn("เลขประจำตัวประชาชน"), new DataColumn("ชื่อ-นามสกุล"), new DataColumn("กยศ."), new DataColumn("กรอ."), new DataColumn("จำนวนเงิน"), new DataColumn("ยอดยืนยันนำส่ง"), new DataColumn("วันที่หักเงินเดือน"), new DataColumn("ไม่ได้นำส่งเงิน"), new DataColumn("รหัสสาเหตุ"), new DataColumn("ไฟล์แนบ") });
+                         foreach (var i in data)
+                         {
+                             if (i.Equals(""))
+                                 continue;
+                             string[] array = i.Split('|');
+                             dataTable.Rows.Add(array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9], array[10], array[11]);
+                         }
+                         ExcelLibrary.DataSetHelper.CreateWorkbook(filepath, ds);
 
                          // Create a new file     
-                         using (FileStream fs = File.Create(filepath))
-                         {
-                             // Add some text to file    
-                             Byte[] title = new UTF8Encoding(true).GetBytes(tmpData);
-                             fs.Write(title, 0, title.Length);
-                         }
+                         //using (FileStream fs = File.Create(filepath))
+                         //{
+                         //    // Add some text to file    
+                         //    Byte[] Table = new UTF8Encoding(true).GetBytes(tmpData);
+                         //    fs.Write(Table, 0, Table.Length);
 
 
+                         //}
 
                          strResult = filename;
 
                      }
-                     catch
+                     catch (Exception ex)
                      {
-                         strResult = "";
+                         strResult = ex.ToString();
                      }
 
                  }
@@ -873,61 +889,61 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
 
         //            try
-        //            {
-        //                //-- Step 1 create file
-        //                string filename = "TRN_SSF_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "xls";
-        //                string filepath = Path.Combine
-        //               (ClassLibrary_BPC.Config.PathFileExport, filename);
+            //        {
+            //            //-- Step 1 create file
+            //            string filename = "TRN_SSF_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "xls";
+            //            string filepath = Path.Combine
+            //           (ClassLibrary_BPC.Config.PathFileExport, filename);
 
 
 
-        //                // Check if file already exists. If yes, delete it.     
-        //                if (File.Exists(filepath))
-        //                {
-        //                    File.Delete(filepath);
-        //                }
-        //                DataSet ds = new DataSet();
-        //                string str = tmpData.Replace("\r\n", "]");
-        //                string[] data = str.Split(']');
-        //                DataTable dataTable = ds.Tables.Add();
-        //                dataTable.Columns.AddRange(new DataColumn[12] { new DataColumn("ลำดับที่"), new DataColumn("เดือน / ปี"), new DataColumn("เลขประจำตัวประชาชน"), new DataColumn("ชื่อ-นามสกุล"), new DataColumn("กยศ."), new DataColumn("กรอ."), new DataColumn("จำนวนเงิน"), new DataColumn("ยอดยืนยันนำส่ง"), new DataColumn("วันที่หักเงินเดือน"), new DataColumn("ไม่ได้นำส่งเงิน"), new DataColumn("รหัสสาเหตุ"), new DataColumn("ไฟล์แนบ") });
-        //                foreach (var i in data)
-        //                {
-        //                    if (i.Equals(""))
-        //                        continue;
-        //                    string[] array = i.Split('|');
-        //                    dataTable.Rows.Add(array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9], array[10], array[11]);
-        //                }
-        //                ExcelLibrary.DataSetHelper.CreateWorkbook(filepath, ds);
+            //            // Check if file already exists. If yes, delete it.     
+            //            if (File.Exists(filepath))
+            //            {
+            //                File.Delete(filepath);
+            //            }
+            //            DataSet ds = new DataSet();
+            //            string str = tmpData.Replace("\r\n", "]");
+            //            string[] data = str.Split(']');
+            //            DataTable dataTable = ds.Tables.Add();
+            //            dataTable.Columns.AddRange(new DataColumn[12] { new DataColumn("ลำดับที่"), new DataColumn("เดือน / ปี"), new DataColumn("เลขประจำตัวประชาชน"), new DataColumn("ชื่อ-นามสกุล"), new DataColumn("กยศ."), new DataColumn("กรอ."), new DataColumn("จำนวนเงิน"), new DataColumn("ยอดยืนยันนำส่ง"), new DataColumn("วันที่หักเงินเดือน"), new DataColumn("ไม่ได้นำส่งเงิน"), new DataColumn("รหัสสาเหตุ"), new DataColumn("ไฟล์แนบ") });
+            //            foreach (var i in data)
+            //            {
+            //                if (i.Equals(""))
+            //                    continue;
+            //                string[] array = i.Split('|');
+            //                dataTable.Rows.Add(array[0], array[1], array[2], array[3], array[4], array[5], array[6], array[7], array[8], array[9], array[10], array[11]);
+            //            }
+            //            ExcelLibrary.DataSetHelper.CreateWorkbook(filepath, ds);
 
-        //                // Create a new file     
-        //                //using (FileStream fs = File.Create(filepath))
-        //                //{
-        //                //    // Add some text to file    
-        //                //    Byte[] Table = new UTF8Encoding(true).GetBytes(tmpData);
-        //                //    fs.Write(Table, 0, Table.Length);
-
-
-        //                //}
-
-        //                strResult = filename;
-
-        //            }
-        //        catch (Exception ex)
-        //        {
-        //            strResult = ex.ToString();
-        //        }
-
-        //        }
+            //            // Create a new file     
+            //            //using (FileStream fs = File.Create(filepath))
+            //            //{
+            //            //    // Add some text to file    
+            //            //    Byte[] Table = new UTF8Encoding(true).GetBytes(tmpData);
+            //            //    fs.Write(Table, 0, Table.Length);
 
 
-        //        task.task_end = DateTime.Now;
-        //        task.task_status = "F";
-        //        task.task_note = strResult;
-        //        objMTTask.updateStatus(task);
+            //            //}
 
-        //    }
-        //    else
+            //            strResult = filename;
+
+            //        }
+            //    catch (Exception ex)
+            //    {
+            //        strResult = ex.ToString();
+            //    }
+
+            //    }
+
+
+            //    task.task_end = DateTime.Now;
+            //    task.task_status = "F";
+            //    task.task_note = strResult;
+            //    objMTTask.updateStatus(task);
+
+            //}
+            //else
         //    {
 
         //    }

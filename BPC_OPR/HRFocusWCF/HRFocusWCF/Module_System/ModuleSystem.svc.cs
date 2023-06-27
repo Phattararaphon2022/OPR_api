@@ -80,7 +80,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.1";
+            log.apilog_code = "SYS004.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -163,7 +163,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.2";
+            log.apilog_code = "SYS004.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -239,7 +239,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.3";
+            log.apilog_code = "SYS004.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -316,7 +316,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.4";
+            log.apilog_code = "SYS004.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -709,7 +709,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CODE001.1";
+            log.apilog_code = "SYS020.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -791,7 +791,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CODE001.2";
+            log.apilog_code = "SYS020.2";
             //log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -867,7 +867,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CODE001.3";
+            log.apilog_code = "SYS020.3";
             //log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -944,7 +944,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CODE001.4";
+            log.apilog_code = "SYS020.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1309,7 +1309,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.1";
+            log.apilog_code = "SYS002.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -1401,7 +1401,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.2";
+            log.apilog_code = "SYS002.2";
             //log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1482,7 +1482,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.3";
+            log.apilog_code = "SYS002.3";
             //log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1559,7 +1559,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.4";
+            log.apilog_code = "SYS002.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1622,7 +1622,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.1";
+            log.apilog_code = "SYS002.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -1745,7 +1745,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "SYS001.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1814,7 +1814,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "SYS001.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1883,7 +1883,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "SYS001.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1947,7 +1947,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "SYS001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2014,7 +2014,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CRD001.1";
+            log.apilog_code = "SYS005.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -2101,7 +2101,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CRD001.2";
+            log.apilog_code = "SYS005.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2178,7 +2178,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CRD001.3";
+            log.apilog_code = "SYS005.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2255,7 +2255,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RES001.4";
+            log.apilog_code = "SYS005.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2320,7 +2320,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FML001.1";
+            log.apilog_code = "SYS006.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -2405,7 +2405,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FML001.2";
+            log.apilog_code = "SYS006.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2482,7 +2482,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FML001.3";
+            log.apilog_code = "SYS006.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2559,7 +2559,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FML001.4";
+            log.apilog_code = "SYS006.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2624,7 +2624,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "LVL001.1";
+            log.apilog_code = "SYS003.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -2711,7 +2711,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "LVL001.2";
+            log.apilog_code = "SYS003.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2790,7 +2790,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "LVL001.3";
+            log.apilog_code = "SYS003.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2867,7 +2867,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "LVL001.4";
+            log.apilog_code = "SYS003.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2933,7 +2933,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "SYS014.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -3004,7 +3004,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "SYS014.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -3073,7 +3073,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "SYS014.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3136,7 +3136,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "SYS014.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -3201,7 +3201,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "YEA001";
+            log.apilog_code = "SYS015.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -3275,7 +3275,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "SYS015.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -3348,7 +3348,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "SYS015.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3411,7 +3411,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "SYS015.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -3476,7 +3476,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ROUNS001.1";
+            log.apilog_code = "SYS016.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -3554,7 +3554,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ROUNS001.1";
+            log.apilog_code = "SYS016.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -3629,7 +3629,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ROUNS001.3";
+            log.apilog_code = "SYS016.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3692,7 +3692,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ROUNS001.4";
+            log.apilog_code = "SYS016.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -3758,7 +3758,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RED001.1";
+            log.apilog_code = "SYS008.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -3849,7 +3849,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RED001.2";
+            log.apilog_code = "SYS008.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3932,7 +3932,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RED001.3";
+            log.apilog_code = "SYS008.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4009,7 +4009,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RED001.4";
+            log.apilog_code = "SYS008.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4077,7 +4077,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ENT001.1";
+            log.apilog_code = "SYS011.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -4160,7 +4160,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ENT001.2";
+            log.apilog_code = "SYS011.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4236,7 +4236,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ENT001.3";
+            log.apilog_code = "SYS011.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4313,7 +4313,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ENT001.4";
+            log.apilog_code = "SYS011.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4378,7 +4378,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RLG001.1";
+            log.apilog_code = "SYS010.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -4461,7 +4461,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RLG001.2";
+            log.apilog_code = "SYS010.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4537,7 +4537,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RLG001.3";
+            log.apilog_code = "SYS010.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4614,7 +4614,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "RLG001.4";
+            log.apilog_code = "SYS010.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4681,7 +4681,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "BLD001.1";
+            log.apilog_code = "SYS012.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -4764,7 +4764,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "BLD001.2";
+            log.apilog_code = "SYS012.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4840,7 +4840,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "BLD001.3";
+            log.apilog_code = "SYS012.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4917,7 +4917,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "BLD001.4";
+            log.apilog_code = "SYS012.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4983,7 +4983,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "HPT001.1";
+            log.apilog_code = "SYS013.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -5066,7 +5066,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "HPT001.2";
+            log.apilog_code = "SYS013.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5142,7 +5142,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "HPT001.3";
+            log.apilog_code = "SYS013.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5219,7 +5219,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "HPT001.4";
+            log.apilog_code = "SYS013.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5284,7 +5284,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PRV001.1";
+            log.apilog_code = "SYS009.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -5367,7 +5367,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PRV001.2";
+            log.apilog_code = "SYS009.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5443,7 +5443,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PRV001.3";
+            log.apilog_code = "SYS009.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5520,7 +5520,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PRV001.4";
+            log.apilog_code = "SYS009.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5586,7 +5586,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.1";
+            log.apilog_code = "SYS019.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -5677,7 +5677,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.2";
+            log.apilog_code = "SYS019.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5757,7 +5757,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.3";
+            log.apilog_code = "SYS019.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5834,7 +5834,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBR001.4";
+            log.apilog_code = "SYS019.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5900,7 +5900,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CPN001.1";
+            log.apilog_code = "SYS018.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -6009,7 +6009,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CPN001.2";
+            log.apilog_code = "SYS018.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6107,7 +6107,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CPN001.3";
+            log.apilog_code = "SYS018.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6184,7 +6184,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CPN001.4";
+            log.apilog_code = "SYS018.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -6565,7 +6565,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBK001.1";
+            log.apilog_code = "SYS031.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -6656,7 +6656,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBK001.2";
+            log.apilog_code = "SYS031.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6837,93 +6837,14 @@ namespace BPC_OPR
         }
 
 
-        //public string doDeleteMTCombank(InputMTCombank input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.3";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank controller = new cls_ctMTCombank();
-
-        //        if (controller.checkDataOld(input.company_code, input.combank_bankcode))
-        //        {
-        //            bool blnResult = controller.delete(input.company_code);
-
-        //            if (blnResult)
-        //            {
-        //                output["success"] = true;
-        //                output["message"] = "Remove data successfully";
-
-        //                log.apilog_status = "200";
-        //                log.apilog_message = "";
-        //            }
-        //            else
-        //            {
-        //                output["success"] = false;
-        //                output["message"] = "Remove data not successfully";
-
-        //                log.apilog_status = "500";
-        //                log.apilog_message = controller.getMessage();
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            string message = "Not Found Project code : " + input.combank_id;
-        //            output["success"] = false;
-        //            output["message"] = message;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = message;
-        //        }
-
-        //        controller.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Remove data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-
-        //}
+       
 
         public async Task<string> doUploadCombank(string token, string by, string fileName, Stream stream)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CBK001.4";
+            log.apilog_code = "SYS031.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -6983,348 +6904,6 @@ namespace BPC_OPR
         #endregion
 
 
-        //#region comBank
-        //public string getCombankList(FillterCompany req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.1";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank controller = new cls_ctMTCombank();
-        //        List<cls_MTCombank> list = controller.getDataByFillter(req.company_code);
-        //        JArray array = new JArray();
-
-        //        if (list.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_MTCombank model in list)
-        //            {
-        //                JObject json = new JObject();
-        //                json.Add("company_code", model.combank_bankaccount);
-
-        //                json.Add("combank_id", model.combank_id);
-        //                json.Add("combank_bankcode", model.combank_bankcode);
-        //                json.Add("combank_bankaccount", model.combank_bankaccount);
-
-        //                json.Add("modified_by", model.modified_by);
-        //                json.Add("modified_date", model.modified_date);
-        //                json.Add("flag", model.flag);
-
-        //                json.Add("change", false);
-
-        //                json.Add("index", index);
-
-        //                index++;
-
-        //                array.Add(json);
-        //            }
-
-        //            output["success"] = true;
-        //            output["message"] = "";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Data not Found";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = "Data not Found";
-        //        }
-
-        //        controller.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-
-        //public string doManageMTCombank(InputComTransaction input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.2";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank controller = new cls_ctMTCombank();
-
-        //        JObject jsonObject = new JObject();
-        //        var jsonArray = JsonConvert.DeserializeObject<List<cls_MTCombank>>(input.transaction_data);
-
-        //        int success = 0;
-        //        int error = 0;
-        //        StringBuilder obj_error = new StringBuilder();
-
-        //        bool clear = controller.delete(input.company_code);
-
-        //        if (clear)
-        //        {
-        //            foreach (cls_MTCombank model in jsonArray)
-        //            {
-
-        //                model.modified_by = input.modified_by;
-
-        //                bool blnResult = controller.insert(model);
-
-        //                if (blnResult)
-        //                    success++;
-        //                else
-        //                {
-        //                    var json = new JavaScriptSerializer().Serialize(model);
-        //                    var tmp2 = JToken.Parse(json);
-        //                    obj_error.Append(tmp2);
-        //                }
-
-        //            }
-        //        }
-        //        else
-        //        {
-        //            error = 1;
-        //        }
-
-
-        //        if (error == 0)
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            //output["record_id"] = strID;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            output["error"] = obj_error.ToString();
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = controller.getMessage();
-        //        }
-
-
-        //        controller.dispose();
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-        //}
-
-        //public string doDeleteMTCombank(InputMTCombank input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.3";
-        //    log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTCombank controller = new cls_ctMTCombank();
-
-        //        if (controller.checkDataOld(input.company_code, input.worker_code))
-        //        {
-        //            bool blnResult = controller.delete(input.company_code);
-
-        //            if (blnResult)
-        //            {
-        //                output["success"] = true;
-        //                output["message"] = "Remove data successfully";
-
-        //                log.apilog_status = "200";
-        //                log.apilog_message = "";
-        //            }
-        //            else
-        //            {
-        //                output["success"] = false;
-        //                output["message"] = "Remove data not successfully";
-
-        //                log.apilog_status = "500";
-        //                log.apilog_message = controller.getMessage();
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            string message = "Not Found Project code : " + input.combank_id;
-        //            output["success"] = false;
-        //            output["message"] = message;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = message;
-        //        }
-
-        //        controller.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Remove data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-
-        //public async Task<string> doUploadCombank(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CBK001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
-        //            string tmp = srv_import.doImportExcel("COMBANK", fileName, "TEST");
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //#endregion
 
         #region MTcomcard
         public string getComcardList (FillterCompany req)
@@ -7333,7 +6912,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CDD001.1";
+            log.apilog_code = "SYS030.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -7426,7 +7005,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CDD001.2";
+            log.apilog_code = "SYS030.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7531,7 +7110,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CDD001.3";
+            log.apilog_code = "SYS030.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7608,7 +7187,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CDD001.4";
+            log.apilog_code = "SYS030.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -7674,9 +7253,10 @@ namespace BPC_OPR
         public string getComAddressList(FillterCompany req)
         {
             JObject output = new JObject();
+            
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CCAD001.1";
+            log.apilog_code = "SYS022.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -7785,7 +7365,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CCAD001.2";
+            log.apilog_code = "SYS022.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7891,7 +7471,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CCAD001.3";
+            log.apilog_code = "SYS022.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7968,7 +7548,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "CCAD001.4";
+            log.apilog_code = "SYS022.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -8389,9 +7969,10 @@ namespace BPC_OPR
         public string getCourseList(BasicRequest req)
         {
             JObject output = new JObject();
+            
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "COURSE001.1";
+            log.apilog_code = "SYS021.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -8474,7 +8055,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "COURSE001.2";
+            log.apilog_code = "SYS021.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8550,7 +8131,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "COURSE001.3";
+            log.apilog_code = "SYS021.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8627,7 +8208,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "COURSE001.4";
+            log.apilog_code = "SYS021.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -8695,9 +8276,10 @@ namespace BPC_OPR
         public string getInstituteList(BasicRequest req)
         {
             JObject output = new JObject();
+            
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "INS001.1";
+            log.apilog_code = "SYS022.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -8780,7 +8362,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "INS001.2";
+            log.apilog_code = "SYS022.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8856,7 +8438,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "INS001.3";
+            log.apilog_code = "SYS022.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8933,7 +8515,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "INS001.4";
+            log.apilog_code = "SYS022.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -8998,9 +8580,10 @@ namespace BPC_OPR
         public string getFacultyList(BasicRequest req)
         {
             JObject output = new JObject();
+            
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FAC001.1";
+            log.apilog_code = "SYS023.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -9083,7 +8666,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FAC001.2";
+            log.apilog_code = "SYS023.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9159,7 +8742,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FAC001.3";
+            log.apilog_code = "SYS023.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9236,7 +8819,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "FAC001.4";
+            log.apilog_code = "SYS023.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -9305,7 +8888,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "MAJ001.1";
+            log.apilog_code = "SYS024.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -9388,7 +8971,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "MAJ001.2";
+            log.apilog_code = "SYS024.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9464,7 +9047,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "MAJ001.3";
+            log.apilog_code = "SYS024.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9541,7 +9124,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "MAJ001.4";
+            log.apilog_code = "SYS024.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -10211,7 +9794,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "QUA001.1";
+            log.apilog_code = "SYS025.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -10294,7 +9877,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "QUA001.2";
+            log.apilog_code = "SYS025.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10370,7 +9953,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "QUA001.3";
+            log.apilog_code = "SYS025.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10447,7 +10030,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "QUA001.4";
+            log.apilog_code = "SYS025.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -10513,7 +10096,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ADD001.1";
+            log.apilog_code = "SYS007.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -10596,7 +10179,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ADD001.2";
+            log.apilog_code = "SYS007.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10672,7 +10255,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ADD001.3";
+            log.apilog_code = "SYS007.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10749,7 +10332,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ADD001.4";
+            log.apilog_code = "SYS007.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -10816,7 +10399,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "POLR001.1";
+            log.apilog_code = "SYS017.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -10913,7 +10496,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "POLR001.2";
+            log.apilog_code = "SYS017.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -11002,7 +10585,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "POLR001.3";
+            log.apilog_code = "SYS017.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -11074,68 +10657,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        //public async Task<string> doUploadMTMajor(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "MAJ001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
-        //            string tmp = srv_import.doImportExcel("Major", fileName, "TEST");
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
+       
 
         #endregion
 

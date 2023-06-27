@@ -612,6 +612,7 @@ namespace BPC_OPR
         Task<string> doUploadMTQualification(string token, string by, string fileName, Stream stream);
         #endregion
 
+
         #region MTpolround
         [OperationContract(Name = "polround_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -660,8 +661,12 @@ namespace BPC_OPR
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadUniform?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+
+
+
         Task<string> doUploadUniform(string token, string by, string fileName, Stream stream);  
         #endregion
+
 
     }
 }

@@ -81,7 +81,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYT001.1";
+            log.apilog_code = "PAY002.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -166,7 +166,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYT001.2";
+            log.apilog_code = "PAY002.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -247,7 +247,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYT001.3";
+            log.apilog_code = "PAY002.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -324,7 +324,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYT001.4";
+            log.apilog_code = "PAY002.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -390,7 +390,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYI001.1";
+            log.apilog_code = "PAY003.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -487,7 +487,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYI001.2";
+            log.apilog_code = "PAY003.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -578,7 +578,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYI001.3";
+            log.apilog_code = "PAY003.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -655,7 +655,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYI001.4";
+            log.apilog_code = "PAY003.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -721,7 +721,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.1";
+            log.apilog_code = "PAY004.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
             try
@@ -824,7 +824,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.2";
+            log.apilog_code = "PAY004.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -906,7 +906,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.3";
+            log.apilog_code = "PAY004.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -971,7 +971,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.4";
+            log.apilog_code = "PAY004.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1036,7 +1036,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.1";
+            log.apilog_code = "PAY005.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
             try
@@ -1138,7 +1138,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.2";
+            log.apilog_code = "PAY005.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1221,7 +1221,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.3";
+            log.apilog_code = "PAY005.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1286,7 +1286,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYB001.4";
+            log.apilog_code = "PAY005.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1351,11 +1351,12 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYPE001.1";
+            log.apilog_code = "PAY001.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
             {
+  
 
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
@@ -1428,7 +1429,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYPE001.2";
+            log.apilog_code = "PAY001.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1508,7 +1509,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYPE001.3";
+            log.apilog_code = "PAY001.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1571,7 +1572,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYPE001.4";
+            log.apilog_code = "PAY001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1637,7 +1638,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRB007.1";
+            log.apilog_code = "PAY007.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1708,7 +1709,7 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRB007.2";
+            log.apilog_code = "PAY007.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
             {
@@ -1798,7 +1799,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRB007.3";
+            log.apilog_code = "PAY007.3";
             log.apilog_by = input.worker_code;
             log.apilog_data = tmp.ToString();
 
@@ -1862,7 +1863,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRB007.4";
+            log.apilog_code = "PAY007.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1927,7 +1928,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSTRP007.1";
+            log.apilog_code = "PAY006.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -1998,7 +1999,7 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSTRP007.2";
+            log.apilog_code = "PAY006.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
             {
@@ -2084,7 +2085,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSTRP007.3";
+            log.apilog_code = "PAY006.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -2144,7 +2145,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYSTRP007.4";
+            log.apilog_code = "PAY006.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2209,7 +2210,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRPI007.1";
+            log.apilog_code = "PAY008.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -2280,7 +2281,7 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRPI007.2";
+            log.apilog_code = "PAY008.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
             {
@@ -2366,7 +2367,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRPI007.3";
+            log.apilog_code = "PAY008.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -2426,7 +2427,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRPI007.4";
+            log.apilog_code = "PAY008.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2493,7 +2494,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "PAY011.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -2590,7 +2591,7 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAYTRPI007.2";
+            log.apilog_code = "PAY011.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
             {
@@ -2680,7 +2681,7 @@ namespace BPC_OPR
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "PAY011.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -2752,81 +2753,7 @@ namespace BPC_OPR
 
         }
 
-        //public string doManageTRPayitem(InputTRPayitem input)
-        //{
-        //    JObject output = new JObject();
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "TRIT001.1";
-        //    log.apilog_by = input.username;
-        //    log.apilog_data = "all";
-        //    try
-        //    {
-
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctTRPayitem objPayitem = new cls_ctTRPayitem();
-        //        cls_TRPayitem model = new cls_TRPayitem();
-
-        //        model.company_code = input.company_code;
-        //        model.worker_code = input.worker_code;
-        //        model.item_code = input.item_code;
-        //        model.payitem_date = Convert.ToDateTime(input.payitem_date);
-        //        model.payitem_amount = input.payitem_amount;
-        //        model.payitem_quantity = input.payitem_quantity;
-        //        model.payitem_paytype = input.payitem_paytype;
-        //        model.payitem_note = input.payitem_note;
- 
-        //        model.modified_by = input.modified_by;
-        //        model.flag = input.flag;
-
-        //        //string strID = objPayitem.insert(model);
-        //        bool blnResult = objPayitem.insert(model);
-        //        if (!blnResult.Equals(""))
-        //        {
-        //            //cls_ctTRShiftbreak objbreak = new cls_ctTRShiftbreak();
-        //            //cls_ctTRShiftallowance allowance = new cls_ctTRShiftallowance();
-        //            //bool breaks = objbreak.insert(input.company_code, input.shift_code, input.shift_break);
-        //            //bool allowances = allowance.insert(input.company_code, input.shift_code, input.shift_allowance);
-
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            output["record_id"] = blnResult;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = objPayitem.getMessage();
-        //        }
-
-        //        objPayitem.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-
-        //    }
-
-        //    return output.ToString(Formatting.None);
-
-        //}
+       
 
        
  
@@ -2836,9 +2763,10 @@ namespace BPC_OPR
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
+            
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "TRIT001.4";
+            log.apilog_code = "PAY011.4";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -2898,7 +2826,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "TRIT001.5";
+            log.apilog_code = "PAY011.5";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
