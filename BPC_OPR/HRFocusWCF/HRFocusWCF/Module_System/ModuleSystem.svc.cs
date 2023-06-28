@@ -2198,7 +2198,7 @@ namespace BPC_OPR
 
                 cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
 
-                if (objCardtype.checkDataOld(input.cardtype_id))
+                if (objCardtype.checkDataOld(input.cardtype_code))
                 {
                     bool blnResult = objCardtype.delete(input.cardtype_code);
 
@@ -2502,7 +2502,7 @@ namespace BPC_OPR
 
                 cls_ctMTFamily objFamily = new cls_ctMTFamily();
 
-                if (objFamily.checkDataOld(input.family_id))
+                if (objFamily.checkDataOld(input.family_code))
                 {
                     bool blnResult = objFamily.delete(input.family_code);
 

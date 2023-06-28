@@ -119,9 +119,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT FAMILY_ID");
+                obj_str.Append("SELECT FAMILY_CODE");
                 obj_str.Append(" FROM SYS_MT_FAMILY");
-                obj_str.Append(" WHERE FAMILY_ID='" + code + "'");
+                obj_str.Append(" WHERE FAMILY_CODE='" + code + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -250,20 +250,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_FAMILY SET ");
-                obj_str.Append(" FAMILY_NAME_TH=@FAMILY_NAME_TH ");
-                obj_str.Append(", FAMILY_NAME_EN=@FAMILY_NAME_EN ");               
+                obj_str.Append(" FAMILY_CODE=@FAMILY_CODE ");
+                obj_str.Append(", FAMILY_NAME_TH=@FAMILY_NAME_TH ");
+                obj_str.Append(", FAMILY_NAME_EN=@FAMILY_NAME_EN ");
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE FAMILY_ID=@FAMILY_ID ");            
+                obj_str.Append(", FLAG=@FLAG ");
+
+                obj_str.Append(" WHERE FAMILY_ID=@FAMILY_ID ");   
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
+                obj_cmd.Parameters.Add("@FAMILY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_CODE"].Value = model.family_code;
                 obj_cmd.Parameters.Add("@FAMILY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_TH"].Value = model.family_name_th;
                 obj_cmd.Parameters.Add("@FAMILY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_EN"].Value = model.family_name_en;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
                 obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = model.family_id;
 

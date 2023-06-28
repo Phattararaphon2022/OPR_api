@@ -235,7 +235,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_FACULTY SET ");
-                obj_str.Append("  FACULTY_NAME_TH=@FACULTY_NAME_TH ");
+                obj_str.Append("  FACULTY_CODE=@FACULTY_CODE ");
+
+                obj_str.Append(",  FACULTY_NAME_TH=@FACULTY_NAME_TH ");
                 obj_str.Append(", FACULTY_NAME_EN=@FACULTY_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -246,6 +248,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                obj_cmd.Parameters.Add("@FACULTY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_CODE"].Value = model.faculty_code;
 
                 obj_cmd.Parameters.Add("@FACULTY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_NAME_TH"].Value = model.faculty_name_th;
                 obj_cmd.Parameters.Add("@FACULTY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_NAME_EN"].Value = model.faculty_name_en;        

@@ -7418,13 +7418,13 @@ namespace BPC_OPR
                     //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
                     //    srvPay.doCalculateBonus(input.company_code, intTaskID.ToString());
                     //}
-                    //else if (input.task_type.Trim().Equals("TRN_BANK"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    string link = srvPay.doExportBank(input.company_code, intTaskID.ToString());
+                    else if (input.task_type.Trim().Equals("TRN_BANK"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        string link = srvPay.doExportBank(input.company_code, intTaskID.ToString());
 
-                    //    output["result_link"] = link;
-                    //}
+                        output["result_link"] = link;
+                    }
                     else if (input.task_type.Trim().Equals("TRN_SSO"))
                     {
                         cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();

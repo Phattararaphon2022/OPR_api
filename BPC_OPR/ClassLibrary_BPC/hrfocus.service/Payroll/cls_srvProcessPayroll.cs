@@ -105,9 +105,9 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  //List<cls_TREmpcard> list_empcard = objEmpcard.getDataTaxMultipleEmp(com, strEmp);
 
                  //-- Step 7 Get Company card
-                 cls_ctMTComcard objComcard = new cls_ctMTComcard();
-                 List<cls_MTComcard> list_comcard = objComcard.getDataByFillter(com, "NTID", "", "", "");
-                 cls_MTComcard comcard = list_comcard[0];
+                 //cls_ctMTComcard objComcard = new cls_ctMTComcard();
+                 //List<cls_MTComcard> list_comcard = objComcard.getDataByFillter(com, "NTID", "", "", "");
+                 //cls_MTComcard comcard = list_comcard[0];
 
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
                  List<cls_MTProvince> list_province = objProvince.getDataByFillter("");
@@ -275,10 +275,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
 
                              //2.เลขที่บัตรประชาชน
-                             if (comcard.comcard_code.Length == 13)
-                                 bkData += comcard.comcard_code + "|";
-                             else
-                                 bkData += "0000000000000|";
+                             //if (comcard.comcard_code.Length == 13)
+                             //    bkData += comcard.comcard_code + "|";
+                             //else
+                             //    bkData += "0000000000000|";
 
 
                              //3.คำนำหน้าชื่อ
@@ -364,7 +364,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                          //}
 
-                         strResult = filename;
+                         strResult = filepath;
 
                      }
                      catch (Exception ex)
@@ -392,227 +392,228 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
      //TRN_BANK เริ่ม
          public string doExportBank(string com, string taskid)
-      {
-          string strResult = "";
+         {
+             string strResult = "";
 
-          cls_ctMTTask objMTTask = new cls_ctMTTask();
-          List<cls_MTTask> listMTTask = objMTTask.getDataByFillter(com, taskid, "TRN_BANK", "");
-          List<string> listError = new List<string>();
+             cls_ctMTTask objMTTask = new cls_ctMTTask();
+             List<cls_MTTask> listMTTask = objMTTask.getDataByFillter(com, taskid, "TRN_BANK", "");
+             List<string> listError = new List<string>();
 
-          if (listMTTask.Count > 0)
-          {
-              cls_MTTask task = listMTTask[0];
+             if (listMTTask.Count > 0)
+             {
+                 cls_MTTask task = listMTTask[0];
 
-              task.task_start = DateTime.Now;
+                 task.task_start = DateTime.Now;
 
-              cls_ctMTTask objTaskDetail = new cls_ctMTTask();
-              cls_TRTaskdetail task_detail = objTaskDetail.getTaskDetail(task.task_id.ToString());
+                 cls_ctMTTask objTaskDetail = new cls_ctMTTask();
+                 cls_TRTaskdetail task_detail = objTaskDetail.getTaskDetail(task.task_id.ToString());
 
-              cls_ctMTTask objTaskWhose = new cls_ctMTTask();
-              List<cls_TRTaskwhose> listWhose = objTaskWhose.getTaskWhose(task.task_id.ToString());
+                 cls_ctMTTask objTaskWhose = new cls_ctMTTask();
+                 List<cls_TRTaskwhose> listWhose = objTaskWhose.getTaskWhose(task.task_id.ToString());
 
-              DateTime dateEff = task_detail.taskdetail_fromdate;
-              DateTime datePay = task_detail.taskdetail_paydate;
+                 DateTime dateEff = task_detail.taskdetail_fromdate;
+                 DateTime datePay = task_detail.taskdetail_paydate;
 
-              StringBuilder objStr = new StringBuilder();
-              foreach (cls_TRTaskwhose whose in listWhose)
-              {
-                  objStr.Append("'" + whose.worker_code + "',");
-              }
+                 StringBuilder objStr = new StringBuilder();
+                 foreach (cls_TRTaskwhose whose in listWhose)
+                 {
+                     objStr.Append("'" + whose.worker_code + "',");
+                 }
 
-              string strEmp = objStr.ToString().Substring(0, objStr.ToString().Length - 1);
-
-
-
-              //-- Get worker
-              cls_ctMTWorker objWorker = new cls_ctMTWorker();
-              List<cls_MTWorker> list_worker = objWorker.getDataMultipleEmp(com, strEmp);
-
-              //-- Step 2 Get Paytran
-              cls_ctTRPaytran objPay = new cls_ctTRPaytran();
-              List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com, datePay, datePay, strEmp);
+                 string strEmp = objStr.ToString().Substring(0, objStr.ToString().Length - 1);
 
 
 
-              //-- Step 3 Get Company acc
-              cls_ctMTCombank objCombank = new cls_ctMTCombank();
-              List<cls_MTCombank> list_combank = objCombank.getDataByFillter(com);
-              cls_MTCombank combank = list_combank[0];
+                 //-- Get worker
+                 cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                 List<cls_MTWorker> list_worker = objWorker.getDataMultipleEmp(com, strEmp);
 
-              //-- Step 4 Get Company detail
-              cls_ctMTCompany objCom = new cls_ctMTCompany();
-              List<cls_MTCompany> list_com = objCom.getDataByFillter("", com);
-              cls_MTCompany comdetail = list_com[0];
+                 //-- Step 2 Get Paytran
+                 cls_ctTRPaytran objPay = new cls_ctTRPaytran();
+                 List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com, datePay, datePay, strEmp);
 
 
 
-              //-- Step 5 Get Emp acc
-              //cls_ctTREmpbank objEmpbank = new cls_ctTREmpbank();
-              //List<cls_TREmpbank> list_empbank = objEmpbank.getDataMultipleEmp(com, strEmp);
+                 //-- Step 3 Get Company acc
+                 cls_ctMTCombank objCombank = new cls_ctMTCombank();
+                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter(com);
+                 cls_MTCombank combank = list_combank[0];
 
-              //-- Step 6 Get pay bank
-              //cls_ctTRPaybank objPaybank = new cls_ctTRPaybank();
-              //List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(com, strEmp);
-              //cls_TRPaybank paybank = list_paybank[0];
-
-
-              string tmpData = "";
+                 //-- Step 4 Get Company detail
+                 cls_ctMTCompany objCom = new cls_ctMTCompany();
+                 List<cls_MTCompany> list_com = objCom.getDataByFillter("", com);
+                 cls_MTCompany comdetail = list_com[0];
 
 
 
-              if (list_paytran.Count > 0)
-              {
-                  //-- Head
+                 //-- Step 5 Get Emp acc
+                 cls_ctTRBank objEmpbank = new cls_ctTRBank();
+                 List<cls_TRBank> list_empbank = objEmpbank.getDataMultipleEmp(com, strEmp);
 
-                  if (comdetail.company_name_en.Length > 25)
-                      comdetail.company_name_en = comdetail.company_name_en.Remove(25, comdetail.company_name_en.Length - 25);
-                  if (comdetail.company_name_en.Length < 25)
-                      comdetail.company_name_en = comdetail.company_name_en.PadRight(25, ' ');
-                  tmpData = combank.combank_bankcode + "|" + comdetail.company_name_en + "|";
-                  //tmpData = tmpData.PadRight(128, '0') + '\r' + '\n';
+                 //-- Step 6 Get pay bank
+                 //cls_ctTRPaybank objPaybank = new cls_ctTRPaybank();
+                 //List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(com, strEmp);
+                 //cls_TRPaybank paybank = list_paybank[0];
 
 
+                 string tmpData = "";
 
 
-                  double douTotal = 0;
 
-                  int index = 0;
+                 if (list_paytran.Count > 0)
+                 {
+                     //-- Head
 
-                  string sequence;
-                  string amount;
-                  string bkData;
-
-                  foreach (cls_TRPaytran paytran in list_paytran)
-                  {
-                      string empacc = "";
-                      string empname = "";
-
-
-                      foreach (cls_MTWorker worker in list_worker)
-                      {
-                          if (paytran.worker_code.Equals(worker.worker_code))
-                          {
-                              empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + "|" + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + "|";
-
-                              break;
-                          }
-                      }
+                     if (comdetail.company_name_en.Length > 25)
+                         comdetail.company_name_en = comdetail.company_name_en.Remove(25, comdetail.company_name_en.Length - 25);
+                     if (comdetail.company_name_en.Length < 25)
+                         comdetail.company_name_en = comdetail.company_name_en.PadRight(25, ' ');
+                     tmpData = combank.combank_bankcode + "|" + comdetail.company_name_en + "|";
+                     //tmpData = tmpData.PadRight(128, '0') + '\r' + '\n';
 
 
-                      //foreach (cls_TREmpbank worker in list_empbank)
-                      //{
-                      //    if (paytran.worker_code.Equals(worker.worker_code))
-                      //    {
-                      //        empacc = worker.empbank_bankaccount.Replace("-", "");
-                      //        break;
-                      //    }
-                      //}
-
-                      //foreach (cls_TREmpbank worker in list_empbank)
-                      //{
-                      //    if (paytran.worker_code.Equals(worker.worker_code))
-                      //    {
-                      //        empacc = worker.empbank_bankaccount.Replace("-", "");
-                      //        break;
-                      //    }
-                      //}
-
-                      //foreach (cls_TRPaybank paybanks in list_paybank)
-                      //{
-                      //    if (paytran.worker_code.Equals(paybanks.worker_code))
-                      //    {
-                      //        empacc = paybanks.paybank_bankcode.Replace("-", "");
-                      //        break;
-                      //    }
-                      //}
-
-                      if (empname.Equals("") || empacc.Equals(""))
-                          continue;
-
-                      sequence = Convert.ToString(index + 2).ToString().PadLeft(6, '0');
-
-                      decimal temp = (decimal)paytran.paytran_netpay_b;
-
-                      amount = temp.ToString("#.#0").Trim().Replace(".", "").PadLeft(10, '0');
-                      //bkData = "D" + sequence + "002" + empacc + "C" + amount + "029";
-                      bkData = " " + "D" + "|" + combank.combank_bankaccount + "|" + "C" + "|";
-                      bkData = bkData.PadRight('0');
-
-                      //bkData = "|" + amount + "|";
-                      //bkData = "D" + "|r" + paybank.paybank_bankaccount + "r|" + "d|" + paybank.paybank_bankamount+ "d|"  ;
-                      //bkData = " " + combank.combank_bankaccount + " " + "|";
-                      bkData = bkData.PadRight('0') + "|";
-
-                      if (empname.Length > 35)
-                          empname = empname.Substring(0, 35);
-
-                      bkData = bkData + empname.ToUpper();
-
-                      tmpData += bkData.PadRight(128, ' ') + '\r' + '\n';
-
-                      douTotal += paytran.paytran_netpay_b;
-
-                      index++;
-                  }
-                  //int record = list_paybank.Count;
-                  //-- Total
-                  //sequence = Convert.ToString(record + 2).ToString().PadLeft(6, '0') + "|";
-                  //bkData = "T" + "|" + sequence + "|" + "002" + "|" + combank.combank_bankaccount;
-                  //bkData = bkData.PadRight(40, '0') + "|";
-                  //sequence = Convert.ToString(index + 2).ToString().PadLeft(6, '0');
-                  //bkData = "T" + "|" + paybank.paybank_bankamount + "|" + paybank.paybank_bankaccount + "|";
-                  //bkData = bkData + record.ToString().PadLeft('0') + "|" + combank.combank_id + "|";
-                  //tmpData += bkData.PadRight('0') + "1" + "|";
-
-                  //amount = douTotal.ToString("#.#0").Replace(".", "").PadLeft(13, '0');
-                  //bkData = bkData + record.ToString().PadLeft('0') + "|";
-
-                  try
-                  {
-                      //-- Step 1 create file
-                      string filename = "TRN_BANK_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
-                      string filepath = Path.Combine
-                     (ClassLibrary_BPC.Config.PathFileExport, filename);
-
-                      // Check if file already exists. If yes, delete it.     
-                      if (File.Exists(filepath))
-                      {
-                          File.Delete(filepath);
-                      }
-
-                      // Create a new file     
-                      using (FileStream fs = File.Create(filepath))
-                      {
-                          // Add some text to file    
-                          Byte[] title = new UTF8Encoding(true).GetBytes(tmpData);
-                          fs.Write(title, 0, title.Length);
-                      }
-
-                      strResult = filename;
-
-                  }
-                  catch
-                  {
-                      strResult = "";
-                  }
-
-              }
 
 
-              task.task_end = DateTime.Now;
-              task.task_status = "F";
-              task.task_note = strResult;
-              objMTTask.updateStatus(task);
+                     double douTotal = 0;
 
-          }
-          else
-          {
+                     int index = 0;
 
-          }
+                     string sequence;
+                     string amount;
+                     string bkData;
 
-          return strResult;
-      }
-        ////TRN_BANK
+                     foreach (cls_TRPaytran paytran in list_paytran)
+                     {
+                         string empacc = "";
+                         string empname = "";
+
+
+                         foreach (cls_MTWorker worker in list_worker)
+                         {
+                             if (paytran.worker_code.Equals(worker.worker_code))
+                             {
+                                 empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + "|" + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + "|";
+
+                                 break;
+                             }
+                         }
+
+
+                         foreach (cls_TRBank worker in list_empbank)
+                         {
+                             if (paytran.worker_code.Equals(worker.worker_code))
+                             {
+                                 empacc = worker.bank_account.Replace("-", "");
+                                 break;
+                             }
+                         }
+
+                         foreach (cls_TRBank worker in list_empbank)
+                         {
+                             if (paytran.worker_code.Equals(worker.worker_code))
+                             {
+                                 empacc = worker.bank_account.Replace("-", "");
+                                 break;
+                             }
+                         }
+
+                         //foreach (cls_TRPaybank paybanks in list_paybank)
+                         //{
+                         //    if (paytran.worker_code.Equals(paybanks.worker_code))
+                         //    {
+                         //        empacc = paybanks.paybank_bankcode.Replace("-", "");
+                         //        break;
+                         //    }
+                         //}
+
+                         if (empname.Equals("") || empacc.Equals(""))
+                             continue;
+
+                         sequence = Convert.ToString(index + 2).ToString().PadLeft(6, '0');
+
+                         decimal temp = (decimal)paytran.paytran_netpay_b;
+
+                         amount = temp.ToString("#.#0").Trim().Replace(".", "").PadLeft(10, '0');
+                         //bkData = "D" + sequence + "002" + empacc + "C" + amount + "029";
+                         bkData = " " + "D" + "|" + combank.combank_bankaccount + "|" + "C" + "|";
+                         bkData = bkData.PadRight('0');
+
+                         //bkData = "|" + amount + "|";
+                         //bkData = "D" + "|r" + paybank.paybank_bankaccount + "r|" + "d|" + paybank.paybank_bankamount+ "d|"  ;
+                         //bkData = " " + combank.combank_bankaccount + " " + "|";
+                         bkData = bkData.PadRight('0') + "|";
+
+                         if (empname.Length > 35)
+                             empname = empname.Substring(0, 35);
+
+                         bkData = bkData + empname.ToUpper();
+
+                         tmpData += bkData.PadRight(128, ' ') + '\r' + '\n';
+
+                         douTotal += paytran.paytran_netpay_b;
+
+                         index++;
+                     }
+                     //int record = list_paybank.Count;
+                     //-- Total
+                     //sequence = Convert.ToString(record + 2).ToString().PadLeft(6, '0') + "|";
+                     //bkData = "T" + "|" + sequence + "|" + "002" + "|" + combank.combank_bankaccount;
+                     //bkData = bkData.PadRight(40, '0') + "|";
+                     //sequence = Convert.ToString(index + 2).ToString().PadLeft(6, '0');
+                     //bkData = "T" + "|" + paybank.paybank_bankamount + "|" + paybank.paybank_bankaccount + "|";
+                     //bkData = bkData + record.ToString().PadLeft('0') + "|" + combank.combank_id + "|";
+                     //tmpData += bkData.PadRight('0') + "1" + "|";
+
+                     //amount = douTotal.ToString("#.#0").Replace(".", "").PadLeft(13, '0');
+                     //bkData = bkData + record.ToString().PadLeft('0') + "|";
+
+                     try
+                     {
+                         //-- Step 1 create file
+                         string filename = "TRN_BANK_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
+                         string filepath = Path.Combine
+                        (ClassLibrary_BPC.Config.PathFileExport, filename);
+
+                         // Check if file already exists. If yes, delete it.     
+                         if (File.Exists(filepath))
+                         {
+                             File.Delete(filepath);
+                         }
+
+                         // Create a new file     
+                         using (FileStream fs = File.Create(filepath))
+                         {
+                             // Add some text to file    
+                             Byte[] title = new UTF8Encoding(true).GetBytes(tmpData);
+                             fs.Write(title, 0, title.Length);
+                         }
+
+                         strResult = filename;
+
+                     }
+                     catch
+                     {
+                         strResult = "";
+                     }
+
+                 }
+
+
+                 task.task_end = DateTime.Now;
+                 task.task_status = "F";
+                 task.task_note = strResult;
+                 objMTTask.updateStatus(task);
+
+             }
+             else
+             {
+
+             }
+
+             return strResult;
+         }
+         //TRN_BANK
+
         // public string doExportSSF(string com, string taskid)
         //{
         //    string strResult = "";
