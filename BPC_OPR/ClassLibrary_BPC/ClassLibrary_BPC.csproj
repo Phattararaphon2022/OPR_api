@@ -41,7 +41,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Bin\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\HRFocusWCF\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -74,10 +74,12 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqimage.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRRound.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TREmpattitem.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />

@@ -5906,18 +5906,18 @@ namespace BPC_OPR
 
             try
             {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                //{
+                //    output["success"] = false;
+                //    output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                //    log.apilog_status = "500";
+                //    log.apilog_message = BpcOpr.MessageNotAuthen;
+                //    objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                //    return output.ToString(Formatting.None);
+                //}
 
                 cls_ctMTCompany controller = new cls_ctMTCompany();
                 List<cls_MTCompany> list = controller.getDataByFillter(req.company_id,req.company_code);
@@ -9601,13 +9601,13 @@ namespace BPC_OPR
 
         #endregion
 
-        #region MTSupply
+        #region MTSupply(SUP001)
         public string getSupplyList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.1";
+            log.apilog_code = "SUP001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -9690,7 +9690,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.2";
+            log.apilog_code = "SUP001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9766,7 +9766,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.3";
+            log.apilog_code = "SUP001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9843,7 +9843,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.4";
+            log.apilog_code = "SUP001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -9902,13 +9902,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region MTUniform
+        #region MTUniform(UNI001)
         public string getUniformList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.1";
+            log.apilog_code = "UNI001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -9991,7 +9991,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.2";
+            log.apilog_code = "UNI001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10067,7 +10067,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.3";
+            log.apilog_code = "UNI001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10144,7 +10144,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.4";
+            log.apilog_code = "UNI001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 

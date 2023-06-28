@@ -105,7 +105,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!worker_code.Equals(""))
                 strCondition += " AND SELF_MT_REQDOC.WORKER_CODE='" + worker_code + "'";
 
-            if (!status.Equals(0))
+            if (!status.Equals(1))
                 strCondition += " AND SELF_MT_REQDOC.STATUS='" + status + "'";
 
             return this.getData(strCondition);
@@ -174,7 +174,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT MAX(WORKER_CODE) ");
+                obj_str.Append("SELECT MAX(REQDOC_ID) ");
                 obj_str.Append(" FROM SELF_MT_REQDOC");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());

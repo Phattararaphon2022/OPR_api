@@ -72,7 +72,7 @@ namespace BPC_OPR
 
 
 
-         #region Recruit Worker
+         #region Recruit Worker (REQ001)
          public string getReqWorkerList(FillterApplywork req)
          {
              JObject output = new JObject();
@@ -410,13 +410,121 @@ namespace BPC_OPR
 
          #endregion
 
-         #region Address
+         #region req image (REQ002)
+         public string doUploadReqImages(string ref_to, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ002.1";
+             log.apilog_by = "";
+             log.apilog_data = "Stream";
+
+             try
+             {
+
+                 cls_ctTRReqimage ct_empimages = new cls_ctTRReqimage();
+
+                 string[] temp = ref_to.Split('.');
+
+                 MultipartParser parser = new MultipartParser(stream);
+
+                 if (parser.Success)
+                 {
+
+                     cls_TREmpimages empimages = new cls_TREmpimages();
+                     empimages.company_code = temp[0];
+                     empimages.worker_code = temp[1];
+                     empimages.empimages_images = parser.FileContents;
+                     empimages.modified_by = temp[2];
+
+                     empimages.empimages_no = 1;
+
+                     ct_empimages.insert(empimages);
+
+                     output["result"] = "1";
+                     output["result_text"] = "0";
+
+                 }
+                 else
+                 {
+                     output["result"] = "0";
+                     output["result_text"] = "0";
+                 }
+             }
+             catch (Exception ex)
+             {
+                 output["result"] = "0";
+                 output["result_text"] = ex.ToString();
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public bool IsValidImage(byte[] bytes)
+         {
+
+             try
+             {
+                 using (MemoryStream ms = new MemoryStream(bytes))
+                     Image.FromStream(ms);
+             }
+             catch (ArgumentException)
+             {
+                 return false;
+             }
+             return true;
+         }
+
+         public string doGetReqImages(FillterApplywork req)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ002.2";
+             log.apilog_by = "";
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 cls_ctTRReqimage ct_empimages = new cls_ctTRReqimage();
+                 List<cls_TREmpimages> list_empimages = ct_empimages.getDataByFillter(req.company_code, req.worker_code);
+
+                 if (list_empimages.Count > 0)
+                 {
+                     cls_TREmpimages md_image = list_empimages[0];
+
+                     bool bln = this.IsValidImage(md_image.empimages_images);
+
+                     output["result"] = "1";
+                     output["result_text"] = "";
+                     output["data"] = "data:image/png;base64," + System.Convert.ToBase64String(md_image.empimages_images);
+                 }
+                 else
+                 {
+                     output["result"] = "2";
+                     output["result_text"] = "Data not found";
+                     output["data"] = "";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["result"] = "0";
+                 output["result_text"] = ex.ToString();
+             }
+
+             return output.ToString(Formatting.None);
+         }
+         #endregion
+
+         #region Address (REQ003)
          public string getTRApplyAddressList(FillterApplywork input)
          {
              JObject output = new JObject();
            
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQADD001.1";
+             log.apilog_code = "REQ003.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -512,7 +620,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQADD001.2";
+             log.apilog_code = "REQ003.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -618,7 +726,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQADD001.3";
+             log.apilog_code = "REQ003.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -696,7 +804,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQADD001.4";
+             log.apilog_code = "REQ003.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -755,13 +863,13 @@ namespace BPC_OPR
          }
          #endregion
 
-         #region Card
+         #region Card (REQ004)
          public string getTRApplyCardList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRD001.1";
+             log.apilog_code = "REQ004.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -850,7 +958,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRD001.2";
+             log.apilog_code = "REQ004.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -956,7 +1064,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRD001.3";
+             log.apilog_code = "REQ004.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -1034,7 +1142,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRD001.4";
+             log.apilog_code = "REQ004.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -1094,13 +1202,13 @@ namespace BPC_OPR
 
          #endregion
 
-         #region Foreigner
+         #region Foreigner(REQ005)
          public string getTRForeignerList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQFGR001.1";
+             log.apilog_code = "REQ005.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -1199,7 +1307,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQFGR001.2";
+             log.apilog_code = "REQ005.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -1291,7 +1399,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQFGR001.3";
+             log.apilog_code = "REQ005.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -1369,7 +1477,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQFGR001.4";
+             log.apilog_code = "REQ005.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -1428,13 +1536,13 @@ namespace BPC_OPR
          }
          #endregion
 
-         #region Education
+         #region Education(REQ006)
          public string getTRreqEducationList(FillterApplywork input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "REQED001.1";
+            log.apilog_code = "REQ006.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -1525,7 +1633,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "REQED001.2";
+            log.apilog_code = "REQ006.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1631,7 +1739,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "REQED001.3";
+            log.apilog_code = "REQ006.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1709,7 +1817,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "REQED001.4";
+            log.apilog_code = "REQ006.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1768,13 +1876,13 @@ namespace BPC_OPR
         }
         #endregion
 
-         #region Assessment
+         #region Assessment(REQ008)
          public string getTRAssessmentList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQAS001.1";
+             log.apilog_code = "REQ008.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -1864,7 +1972,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQAS001.2";
+             log.apilog_code = "REQ008.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -1970,7 +2078,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQAS001.3";
+             log.apilog_code = "REQ008.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -2048,7 +2156,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQAS001.4";
+             log.apilog_code = "REQ008.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -2107,13 +2215,13 @@ namespace BPC_OPR
          }
          #endregion
 
-         #region TR_Criminal
+         #region TR_Criminal(REQ009)
          public string getTRCriminalList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRM01.1";
+             log.apilog_code = "REQ009.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -2202,7 +2310,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRM01.2";
+             log.apilog_code = "REQ009.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -2308,7 +2416,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRM01.3";
+             log.apilog_code = "REQ009.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -2386,7 +2494,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQCRM01.4";
+             log.apilog_code = "REQ009.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -2445,13 +2553,13 @@ namespace BPC_OPR
          }
          #endregion
 
-         #region Training
+         #region Training(REQ007)
          public string getTRreqTrainingList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.1";
+             log.apilog_code = "REQ007.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -2545,7 +2653,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.2";
+             log.apilog_code = "REQ007.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -2651,7 +2759,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.3";
+             log.apilog_code = "REQ007.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -2729,7 +2837,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.4";
+             log.apilog_code = "REQ007.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -2788,13 +2896,13 @@ namespace BPC_OPR
          }
          #endregion
 
-         #region Suggest
+         #region Suggest(REQ010)
          public string getTReqsuggestList(FillterApplywork input)
          {
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.1";
+             log.apilog_code = "REQ010.1";
              log.apilog_by = input.username;
              log.apilog_data = "all";
 
@@ -2881,7 +2989,7 @@ namespace BPC_OPR
 
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.2";
+             log.apilog_code = "REQ010.2";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -2987,7 +3095,7 @@ namespace BPC_OPR
              var tmp = JToken.Parse(json_data);
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.3";
+             log.apilog_code = "REQ010.3";
              log.apilog_by = input.modified_by;
              log.apilog_data = tmp.ToString();
 
@@ -3065,7 +3173,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "REQQ001.4";
+             log.apilog_code = "REQ010.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 

@@ -301,6 +301,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     }
                     if (job_type.Equals("REQ"))
                     {
+                        json.Add("company_code", dr["COMPANY_CODE"].ToString());
+                        json.Add("worker_code", dr["WORKER_CODE"].ToString());
+                        json.Add("worker_detail_th", dr["WORKER_DETAIL_TH"].ToString());
+                        json.Add("worker_detail_en", dr["WORKER_DETAIL_EN"].ToString());
+                        json.Add("reqdoc_id", Convert.ToInt32(dr["REQDOC_ID"]));
+                        json.Add("reqdoc_doc", dr["REQDOC_DOC"].ToString());
+                        json.Add("reqdoc_date", Convert.ToDateTime(dr["REQDOC_DATE"]));
+                        json.Add("reqdoc_note", dr["REQDOC_NOTE"].ToString());
+
                         json.Add("status", Convert.ToInt32(dr["STATUS"]));
                         json.Add("status_job", dr["STATUS_JOB"].ToString());
                         json.Add("jobtable_id", dr["JOBTABLE_ID"].ToString());

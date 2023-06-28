@@ -276,6 +276,21 @@ namespace BPC_OPR
         string doUploadTimeInput(string fileName, Stream stream);
         #endregion
 
+        #region Set Batch Attendance Item
+        [OperationContract(Name = "polattpay_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getPolicyAttendanceItem(InputSetPolicyAttItem input);
+
+        [OperationContract(Name = "polattpays")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetPolicyAttendanceItem(InputSetPolicyAttItem input);
+
+        [OperationContract(Name = "polattpay_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTREmppolattItem(InputSetPolicyAttItem input);
+        #endregion
+
+        
     }
 
 }

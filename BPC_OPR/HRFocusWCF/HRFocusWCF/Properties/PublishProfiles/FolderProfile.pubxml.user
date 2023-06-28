@@ -9,8 +9,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_PublishTargetUrl>D:\Work\BPC\Onweb publish\HRFocus_API</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="bin/BPC_OPR.dll">
+      <publishTime>06/26/2023 12:13:04</publishTime>
+    </File>
     <File Include="bin/ClassLibrary_BPC.dll">
-      <publishTime>10/11/2022 14:33:48</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/ClassLibrary_BPC.pdb">
       <publishTime>05/02/2021 17:33:27</publishTime>
@@ -28,40 +31,67 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/11/2022 13:50:50</publishTime>
     </File>
     <File Include="bin/jose-jwt.dll">
-      <publishTime>06/17/2022 04:36:51</publishTime>
+      <publishTime>03/13/2023 18:34:19</publishTime>
     </File>
     <File Include="bin/Microsoft.IdentityModel.Abstractions.dll">
-      <publishTime>06/16/2022 13:12:05</publishTime>
+      <publishTime>03/13/2023 18:34:19</publishTime>
     </File>
     <File Include="bin/Microsoft.IdentityModel.JsonWebTokens.dll">
-      <publishTime>06/16/2022 13:12:06</publishTime>
+      <publishTime>03/13/2023 18:34:19</publishTime>
     </File>
     <File Include="bin/Microsoft.IdentityModel.Logging.dll">
-      <publishTime>06/16/2022 13:12:05</publishTime>
+      <publishTime>03/13/2023 18:34:19</publishTime>
     </File>
     <File Include="bin/Microsoft.IdentityModel.Tokens.dll">
-      <publishTime>06/16/2022 13:12:06</publishTime>
+      <publishTime>03/13/2023 18:34:19</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>11/09/2019 00:56:58</publishTime>
+      <publishTime>05/08/2023 09:23:08</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.pdb">
       <publishTime>11/09/2019 00:51:56</publishTime>
     </File>
     <File Include="bin/System.IdentityModel.Tokens.Jwt.dll">
-      <publishTime>06/16/2022 13:12:06</publishTime>
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="BpcOpr.svc">
+      <publishTime>03/13/2023 18:34:18</publishTime>
     </File>
     <File Include="ClassDiagram1.cd">
-      <publishTime>06/14/2022 14:51:08</publishTime>
+      <publishTime>03/13/2023 18:34:18</publishTime>
+    </File>
+    <File Include="ClassDiagram3.cd">
+      <publishTime>03/21/2023 18:29:29</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>06/14/2022 14:49:57</publishTime>
+      <publishTime>03/13/2023 18:34:18</publishTime>
     </File>
     <File Include="Initial.xml">
-      <publishTime>07/15/2022 16:34:30</publishTime>
+      <publishTime>06/26/2023 12:02:25</publishTime>
+    </File>
+    <File Include="Module_Attendance/ModuleAttendance.svc">
+      <publishTime>03/13/2023 18:37:09</publishTime>
+    </File>
+    <File Include="Module_Employee/ModuleEmployee.svc">
+      <publishTime>03/14/2023 10:18:16</publishTime>
+    </File>
+    <File Include="Module_Payroll/ModulePayroll.svc">
+      <publishTime>05/08/2023 09:23:08</publishTime>
+    </File>
+    <File Include="Module_Project/ModuleProject.svc">
+      <publishTime>03/14/2023 10:18:16</publishTime>
+    </File>
+    <File Include="Module_Recruitment/ModuleRecruitment.svc">
+      <publishTime>03/21/2023 18:29:29</publishTime>
+    </File>
+    <File Include="Module_SelfServices/ModuleSelfServices.svc">
+      <publishTime>03/04/2023 10:08:08</publishTime>
+    </File>
+    <File Include="Module_System/ModuleSystem.svc">
+      <publishTime>03/13/2023 18:34:18</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>06/17/2022 04:36:51</publishTime>
+      <publishTime>05/08/2023 09:23:08</publishTime>
     </File>
     <File Include="ServiceAtt.svc">
       <publishTime>05/01/2021 22:32:20</publishTime>
@@ -70,7 +100,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/14/2022 14:54:07</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/27/2022 23:05:29</publishTime>
+      <publishTime>05/08/2023 11:45:56</publishTime>
     </File>
   </ItemGroup>
 </Project>
