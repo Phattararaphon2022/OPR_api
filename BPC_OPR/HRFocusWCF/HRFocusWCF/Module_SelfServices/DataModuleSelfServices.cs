@@ -706,7 +706,7 @@ namespace BPC_OPR
         [DataMember]
         public string lang { get; set; }
         [DataMember]
-        public string status { get; set; }
+        public int status { get; set; }
         [DataMember]
         public string fromdate { get; set; }
         [DataMember]
