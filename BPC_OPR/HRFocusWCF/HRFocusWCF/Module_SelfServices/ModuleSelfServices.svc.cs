@@ -5369,7 +5369,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ApproveJob controller = new cls_ApproveJob();
-                JArray list = controller.ApproveJob_get(input.company_code, input.job_type, input.username);
+                JArray list = controller.ApproveJob_get(input.company_code, input.job_type, input.username,input.status,input.fromdate,input.todate);
 
                 output["result"] = "1";
                 output["result_text"] = "1";

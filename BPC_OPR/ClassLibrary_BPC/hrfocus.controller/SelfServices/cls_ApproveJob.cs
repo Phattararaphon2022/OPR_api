@@ -59,16 +59,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 return arrayTRReqdoc;
             }
         }
-        public JArray ApproveJob_get(string com, string job_type, string username)
+        public JArray ApproveJob_get(string com, string job_type, string username,string status,string fromdate,string todate)
         {
             JArray result = new JArray();
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+                obj_str.Append("DECLARE @count INT ");
                 obj_str.Append("EXEC [dbo].[SELF_MT_APPROVEGETDOC] ");
                 obj_str.Append("@CompID = '"+com+"'");
                 obj_str.Append(", @JobType = '"+job_type+"'");
                 obj_str.Append(", @Username = '" + username + "'");
+                obj_str.Append(", @Status = '" + status + "'");
+                obj_str.Append(", @fromDate = '" + fromdate + "'");
+                obj_str.Append(", @toDate = '" + todate + "'");
+                obj_str.Append(", @doc_count = @count OUTPUT");
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
                 int index = 1;
                 foreach (DataRow dr in dt.Rows)
@@ -382,7 +387,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         result.Add(json);
                     }
                 }
-
+                JObject jsonCount = new JObject();
+                System.Text.StringBuilder obj_str1 = new System.Text.StringBuilder();
+                obj_str1.Append("DECLARE @count INT ");
+                obj_str1.Append("EXEC [dbo].[SELF_MT_APPROVEGETDOC] ");
+                obj_str1.Append("@CompID = '" + com + "'");
+                obj_str1.Append(", @JobType = '" + job_type + "'");
+                obj_str1.Append(", @Username = '" + username + "'");
+                obj_str1.Append(", @Status = '" + status + "'");
+                obj_str1.Append(", @fromDate = '" + fromdate + "'");
+                obj_str1.Append(", @toDate = '" + todate + "'");
+                obj_str1.Append(", @doc_count = @count OUTPUT");
+                DataTable dt1 = Obj_conn.doGetTable(obj_str.ToString());
+                jsonCount.Add("docapprove_all", dt1.Rows.ToString());
+                jsonCount.Add("docapprove_approve", 2);
+                jsonCount.Add("docapprove_reject", 1);
+                jsonCount.Add("docapprove_wait", 0);
             }
             catch { }
 
