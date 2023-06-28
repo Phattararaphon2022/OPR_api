@@ -10,13 +10,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/BPC_OPR.dll">
-      <publishTime>06/26/2023 17:37:57</publishTime>
+      <publishTime>06/27/2023 16:09:41</publishTime>
     </File>
     <File Include="bin/ClassLibrary_BPC.dll">
-      <publishTime>06/26/2023 17:37:54</publishTime>
+      <publishTime>06/27/2023 16:09:35</publishTime>
     </File>
     <File Include="bin/ClassLibrary_BPC.pdb">
       <publishTime>05/02/2021 17:33:27</publishTime>
+    </File>
+    <File Include="bin/ExcelLibrary.dll">
+      <publishTime>12/08/2022 14:19:34</publishTime>
     </File>
     <File Include="bin/Google.Authenticator.dll">
       <publishTime>04/14/2016 11:49:30</publishTime>
@@ -67,7 +70,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/13/2023 18:34:18</publishTime>
     </File>
     <File Include="Initial.xml">
-      <publishTime>06/26/2023 17:20:06</publishTime>
+      <publishTime>06/27/2023 16:04:08</publishTime>
     </File>
     <File Include="Module_Attendance/ModuleAttendance.svc">
       <publishTime>03/13/2023 18:37:09</publishTime>
@@ -85,7 +88,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2023 18:29:29</publishTime>
     </File>
     <File Include="Module_SelfServices/ModuleSelfServices.svc">
-      <publishTime>04/03/2023 10:08:08</publishTime>
+      <publishTime>03/04/2023 10:08:08</publishTime>
     </File>
     <File Include="Module_System/ModuleSystem.svc">
       <publishTime>03/13/2023 18:34:18</publishTime>
