@@ -110,7 +110,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string id)
         {
             bool blnResult = false;
             try
@@ -120,6 +120,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT BANK_CODE");
                 obj_str.Append(" FROM SYS_MT_BANK");
                 obj_str.Append(" WHERE BANK_CODE='" + code + "'");
+                obj_str.Append(" AND BANK_ID='" + id + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -167,7 +168,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.bank_code))
+                if (this.checkDataOld(model.bank_code, model.bank_id.ToString()))
                 {
                     if (this.update(model))
                         return model.bank_id.ToString();
@@ -234,11 +235,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_BANK SET ");
+
+
                 obj_str.Append(" BANK_NAME_TH=@BANK_NAME_TH ");
                 obj_str.Append(", BANK_NAME_EN=@BANK_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE BANK_ID=@BANK_ID ");            
+                obj_str.Append(" WHERE BANK_CODE=@BANK_CODE ");
+                //obj_str.Append(" AND BANK_CODE=@BANK_CODE ");
+
+
 
                 obj_conn.doConnect();
 
@@ -248,8 +254,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@BANK_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_NAME_EN"].Value = model.bank_name_en;        
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                //obj_cmd.Parameters.Add("@BANK_ID", SqlDbType.Int); obj_cmd.Parameters["@BANK_ID"].Value = model.bank_id;
+                obj_cmd.Parameters.Add("@BANK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_CODE"].Value = model.bank_code;
 
-                obj_cmd.Parameters.Add("@BANK_ID", SqlDbType.Int); obj_cmd.Parameters["@BANK_ID"].Value = model.bank_id;
 
                 obj_cmd.ExecuteNonQuery();
 

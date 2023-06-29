@@ -113,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string id)
         {
             bool blnResult = false;
             try
@@ -123,6 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ADDRESSTYPE_CODE");
                 obj_str.Append(" FROM SYS_MT_ADDRESSTYPE");
                 obj_str.Append(" WHERE ADDRESSTYPE_CODE='" + code + "'");
+                obj_str.Append(" WHERE ADDRESSTYPE_ID='" + id + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -170,7 +171,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.addresstype_code))
+                if (this.checkDataOld(model.addresstype_code, model.addresstype_id.ToString()))
                 {
                     if (this.update(model))
                         return model.addresstype_id.ToString();
@@ -237,25 +238,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_ADDRESSTYPE SET ");
-                obj_str.Append(" ADDRESSTYPE_CODE=@ADDRESSTYPE_CODE ");
-                obj_str.Append(", ADDRESSTYPE_NAME_TH=@ADDRESSTYPE_NAME_TH ");
+                //obj_str.Append(" ADDRESSTYPE_CODE=@ADDRESSTYPE_CODE ");
+                obj_str.Append("  ADDRESSTYPE_NAME_TH=@ADDRESSTYPE_NAME_TH ");
                 obj_str.Append(", ADDRESSTYPE_NAME_EN=@ADDRESSTYPE_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE ADDRESSTYPE_ID=@ADDRESSTYPE_ID ");            
+                obj_str.Append(" WHERE ADDRESSTYPE_CODE=@ADDRESSTYPE_CODE ");            
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@ADDRESSTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESSTYPE_CODE"].Value = model.addresstype_code;
 
                 obj_cmd.Parameters.Add("@ADDRESSTYPE_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESSTYPE_NAME_TH"].Value = model.addresstype_name_th;
                 obj_cmd.Parameters.Add("@ADDRESSTYPE_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESSTYPE_NAME_EN"].Value = model.addresstype_name_en;        
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
-                obj_cmd.Parameters.Add("@ADDRESSTYPE_ID", SqlDbType.Int); obj_cmd.Parameters["@ADDRESSTYPE_ID"].Value = model.addresstype_id;
+                //obj_cmd.Parameters.Add("@ADDRESSTYPE_ID", SqlDbType.Int); obj_cmd.Parameters["@ADDRESSTYPE_ID"].Value = model.addresstype_id;
+                obj_cmd.Parameters.Add("@ADDRESSTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESSTYPE_CODE"].Value = model.addresstype_code;
 
                 obj_cmd.ExecuteNonQuery();
 

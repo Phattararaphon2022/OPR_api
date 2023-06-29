@@ -259,7 +259,7 @@ namespace BPC_OPR
 
                 cls_ctMTBank controller = new cls_ctMTBank();
 
-                if (controller.checkDataOld(input.bank_code))
+                if (controller.checkDataOld(input.bank_code, input.bank_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.bank_code);
 
@@ -770,7 +770,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -833,7 +833,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = objCodestructure.getMessage();
@@ -845,7 +845,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -2198,7 +2198,7 @@ namespace BPC_OPR
 
                 cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
 
-                if (objCardtype.checkDataOld(input.cardtype_code))
+                if (objCardtype.checkDataOld(input.cardtype_code, input.cardtype_id.ToString()))
                 {
                     bool blnResult = objCardtype.delete(input.cardtype_code);
 
@@ -2384,7 +2384,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -2448,7 +2448,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = objFamily.getMessage();
@@ -2460,7 +2460,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -2502,7 +2502,7 @@ namespace BPC_OPR
 
                 cls_ctMTFamily objFamily = new cls_ctMTFamily();
 
-                if (objFamily.checkDataOld(input.family_code))
+                if (objFamily.checkDataOld(input.family_code, input.family_id.ToString()))
                 {
                     bool blnResult = objFamily.delete(input.family_code);
 
@@ -2690,7 +2690,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -2756,7 +2756,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = objMTLevel.getMessage();
@@ -2768,7 +2768,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -2810,7 +2810,7 @@ namespace BPC_OPR
 
                 cls_ctMTLevel objLevel = new cls_ctMTLevel();
 
-                if (objLevel.checkDataOld(input.level_code))
+                if (objLevel.checkDataOld(input.level_code, input.level_id.ToString()))
                 {
                     bool blnResult = objLevel.delete(input.level_code);
 
@@ -3952,7 +3952,7 @@ namespace BPC_OPR
 
                 cls_ctMTReduce objReduce = new cls_ctMTReduce();
 
-                if (objReduce.checkDataOld(input.reduce_code))
+                if (objReduce.checkDataOld(input.reduce_code, input.reduce_id.ToString()))
                 {
                     bool blnResult = objReduce.delete(input.reduce_code);
 
@@ -4139,7 +4139,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -4202,7 +4202,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -4214,7 +4214,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -4256,7 +4256,7 @@ namespace BPC_OPR
 
                 cls_ctMTEthnicity controller = new cls_ctMTEthnicity();
 
-                if (controller.checkDataOld(input.ethnicity_code))
+                if (controller.checkDataOld(input.ethnicity_code, input.ethnicity_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.ethnicity_code);
 
@@ -4557,7 +4557,7 @@ namespace BPC_OPR
 
                 cls_ctMTReligion controller = new cls_ctMTReligion();
 
-                if (controller.checkDataOld(input.religion_code))
+                if (controller.checkDataOld(input.religion_code, input.religion_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.religion_code);
 
@@ -4860,7 +4860,7 @@ namespace BPC_OPR
 
                 cls_ctMTBloodtype controller = new cls_ctMTBloodtype();
 
-                if (controller.checkDataOld(input.bloodtype_code))
+                if (controller.checkDataOld(input.bloodtype_code, input.bloodtype_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.bloodtype_code);
 
@@ -5162,7 +5162,7 @@ namespace BPC_OPR
 
                 cls_ctMTHospital controller = new cls_ctMTHospital();
 
-                if (controller.checkDataOld(input.hospital_code))
+                if (controller.checkDataOld(input.hospital_code, input.hospital_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.hospital_code);
 
@@ -5346,7 +5346,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -5409,7 +5409,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -5463,7 +5463,7 @@ namespace BPC_OPR
 
                 cls_ctMTProvince controller = new cls_ctMTProvince();
 
-                if (controller.checkDataOld(input.province_code))
+                if (controller.checkDataOld(input.province_code, input.province_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.province_code);
 
@@ -8151,7 +8151,7 @@ namespace BPC_OPR
 
                 cls_ctMTCcourse controller = new cls_ctMTCcourse();
 
-                if (controller.checkDataOld(input.course_code))
+                if (controller.checkDataOld(input.course_code, input.course_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.course_code);
 
@@ -8458,7 +8458,7 @@ namespace BPC_OPR
 
                 cls_ctMTInstitute controller = new cls_ctMTInstitute();
 
-                if (controller.checkDataOld(input.institute_code))
+                if (controller.checkDataOld(input.institute_code, input.institute_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.institute_code);
 
@@ -8762,7 +8762,7 @@ namespace BPC_OPR
 
                 cls_ctMTFaculty controller = new cls_ctMTFaculty();
 
-                if (controller.checkDataOld(input.faculty_code))
+                if (controller.checkDataOld(input.faculty_code, input.faculty_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.faculty_code);
 
@@ -9067,7 +9067,7 @@ namespace BPC_OPR
 
                 cls_ctMTMajorr controller = new cls_ctMTMajorr();
 
-                if (controller.checkDataOld(input.major_code))
+                if (controller.checkDataOld(input.major_code , input.major_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.major_code);
 
@@ -9973,7 +9973,7 @@ namespace BPC_OPR
 
                 cls_ctMTQualification controller = new cls_ctMTQualification();
 
-                if (controller.checkDataOld(input.qualification_code))
+                if (controller.checkDataOld(input.qualification_code, input.qualification_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.qualification_code);
 
@@ -10275,7 +10275,7 @@ namespace BPC_OPR
 
                 cls_ctMTAddresstype controller = new cls_ctMTAddresstype();
 
-                if (controller.checkDataOld(input.addresstype_code))
+                if (controller.checkDataOld(input.addresstype_code, input.addresstype_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.addresstype_code);
 

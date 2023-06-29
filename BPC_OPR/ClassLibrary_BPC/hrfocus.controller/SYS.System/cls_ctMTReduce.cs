@@ -123,7 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string id)
         {
             bool blnResult = false;
             try
@@ -134,7 +134,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM SYS_MT_REDUCE");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND REDUCE_CODE='" + code + "'");
-      
+                obj_str.Append(" AND REDUCE_ID='" + id + "'");
+
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 if (dt.Rows.Count > 0)
@@ -184,7 +185,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.reduce_code))
+                if (this.checkDataOld(model.reduce_code, model.reduce_id.ToString()))
                 {
                     if (this.update(model))
                         return model.reduce_id.ToString();
@@ -265,8 +266,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_REDUCE SET ");
-                obj_str.Append(" REDUCE_CODE=@REDUCE_CODE ");
-                obj_str.Append(", REDUCE_NAME_TH=@REDUCE_NAME_TH ");
+                //obj_str.Append(" REDUCE_CODE=@REDUCE_CODE ");
+                obj_str.Append("  REDUCE_NAME_TH=@REDUCE_NAME_TH ");
                 obj_str.Append(", REDUCE_NAME_EN=@REDUCE_NAME_EN ");
 
                 obj_str.Append(", REDUCE_AMOUNT=@REDUCE_AMOUNT ");
@@ -277,13 +278,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
 
-                obj_str.Append(" WHERE REDUCE_ID=@REDUCE_ID ");
+                obj_str.Append(" WHERE REDUCE_CODE=@REDUCE_CODE ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@REDUCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REDUCE_CODE"].Value = model.reduce_code;
                 obj_cmd.Parameters.Add("@REDUCE_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@REDUCE_NAME_TH"].Value = model.reduce_name_th;
                 obj_cmd.Parameters.Add("@REDUCE_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@REDUCE_NAME_EN"].Value = model.reduce_name_en;
 
@@ -295,7 +295,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@REDUCE_ID", SqlDbType.Int); obj_cmd.Parameters["@REDUCE_ID"].Value = model.reduce_id;
+                //obj_cmd.Parameters.Add("@REDUCE_ID", SqlDbType.Int); obj_cmd.Parameters["@REDUCE_ID"].Value = model.reduce_id;
+                obj_cmd.Parameters.Add("@REDUCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REDUCE_CODE"].Value = model.reduce_code;
 
                 obj_cmd.ExecuteNonQuery();
 

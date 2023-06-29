@@ -111,7 +111,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string id)
         {
             bool blnResult = false;
             try
@@ -121,7 +121,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT FACULTY_CODE");
                 obj_str.Append(" FROM SYS_MT_FACULTY");
                 obj_str.Append(" WHERE FACULTY_CODE='" + code + "'");
-      
+                obj_str.Append(" AND FACULTY_ID='" + id + "'");
+
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 if (dt.Rows.Count > 0)
@@ -168,7 +169,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.faculty_code))
+                if (this.checkDataOld(model.faculty_code, model.faculty_id.ToString()))
                 {
                     if (this.update(model))
                         return model.faculty_id.ToString();
@@ -235,27 +236,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_FACULTY SET ");
-                obj_str.Append("  FACULTY_CODE=@FACULTY_CODE ");
+                //obj_str.Append("  FACULTY_CODE=@FACULTY_CODE ");
 
-                obj_str.Append(",  FACULTY_NAME_TH=@FACULTY_NAME_TH ");
+                obj_str.Append(" FACULTY_NAME_TH=@FACULTY_NAME_TH ");
                 obj_str.Append(", FACULTY_NAME_EN=@FACULTY_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE FACULTY_ID=@FACULTY_ID ");            
+                obj_str.Append(" WHERE FACULTY_CODE=@FACULTY_CODE ");            
 
 
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
-                obj_cmd.Parameters.Add("@FACULTY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_CODE"].Value = model.faculty_code;
+                //obj_cmd.Parameters.Add("@FACULTY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_CODE"].Value = model.faculty_code;
 
                 obj_cmd.Parameters.Add("@FACULTY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_NAME_TH"].Value = model.faculty_name_th;
                 obj_cmd.Parameters.Add("@FACULTY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_NAME_EN"].Value = model.faculty_name_en;        
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@FACULTY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FACULTY_CODE"].Value = model.faculty_code;
 
-                obj_cmd.Parameters.Add("@FACULTY_ID", SqlDbType.Int); obj_cmd.Parameters["@FACULTY_ID"].Value = model.faculty_id;
+                //obj_cmd.Parameters.Add("@FACULTY_ID", SqlDbType.Int); obj_cmd.Parameters["@FACULTY_ID"].Value = model.faculty_id;
 
                 obj_cmd.ExecuteNonQuery();
 

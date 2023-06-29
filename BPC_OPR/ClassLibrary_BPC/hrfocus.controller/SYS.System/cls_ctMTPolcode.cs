@@ -115,7 +115,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string type)
+        public bool checkDataOld(string com, string type, string id)
         {
             bool blnResult = false;
             try
@@ -127,7 +127,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND POLCODE_TYPE='" + type + "'");
-      
+                obj_str.Append(" AND POLCODE_ID='" + id + "'");
+
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 if (dt.Rows.Count > 0)
@@ -174,7 +175,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.polcode_type))
+                if (this.checkDataOld(model.company_code, model.polcode_type, model.polcode_id.ToString()))
                 {
                     bool blnResult = this.update(model);
 
