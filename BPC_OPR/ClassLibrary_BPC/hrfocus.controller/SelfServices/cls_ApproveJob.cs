@@ -424,8 +424,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         result.Add(json);
                     }
                 }
-
-                this.SendEmail(this.getDetailSendMail(com, "21", job_type, true, "EN"));
             }
             catch { }
 
@@ -451,6 +449,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     string tmp = dt.Rows[0][0].ToString();
                     Status = false;
+                    string ToSendMail = "";
+                    string DetailMail = "";
                     switch (tmp)
                     {
                         case "101":
@@ -478,6 +478,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                                 result = "Must have permission from the previous level first.";
                             break;
                         case "111":
+                            DetailMail = this.getDetailSendMail(com, jobtable_Id, job_type, true, lang, ref ToSendMail);
+                            if (!DetailMail.Equals(""))
+                            {
+                                this.SendEmail(DetailMail,ToSendMail,com);
+                            }
                             if (lang.Equals("TH"))
                                 result = "อนุมัติเอกสารเรียบร้อยแล้วค่ะ";
                             else
@@ -485,6 +490,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                             Status = true;
                             break;
                         case "222":
+                            DetailMail = this.getDetailSendMail(com, jobtable_Id, job_type, true, lang, ref ToSendMail);
+                            if (!DetailMail.Equals(""))
+                            {
+                                this.SendEmail(DetailMail,ToSendMail,com);
+                            }
                             if (lang.Equals("TH"))
                                 result = "อนุมัติเอกสารเรียบร้อยแล้วค่ะ";
                             else
@@ -510,24 +520,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return result;
         }
-        public  void SendEmail(string Body)
+        public  void SendEmail(string Body,string ToMail,string com)
         {
-            MailMessage message = new MailMessage();
-            message.From = new MailAddress("opr.test@outlook.com");
-            message.To.Add("phattaraphon.p@bhatarapro.com");
-            message.IsBodyHtml = true;
-            message.Body = Body;
+            cls_ctMTMailconfig controller = new cls_ctMTMailconfig();
+            List<cls_MTMailconfig> mailconfig = controller.getDataByFillter(com, 0);
+            if (mailconfig.Count > 0)
+            {
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(mailconfig[0].mail_login, mailconfig[0].mail_fromname);
+                message.To.Add(ToMail);
+                message.IsBodyHtml = true;
+                message.Body = Body;
+                message.Subject = "Self Services";
 
-            SmtpClient smtpClient = new SmtpClient();
-            smtpClient.UseDefaultCredentials = true;
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.UseDefaultCredentials = true;
 
-            smtpClient.Host = "smtp.office365.com";
-            smtpClient.Port = Convert.ToInt32("587");
-            smtpClient.EnableSsl = true;
-            smtpClient.Credentials = new System.Net.NetworkCredential("opr.test@outlook.com", "OPR@2023");
-            smtpClient.Send(message);
+                smtpClient.Host = mailconfig[0].mail_server;
+                smtpClient.Port = Convert.ToInt32(mailconfig[0].mail_serverport);
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = new System.Net.NetworkCredential(mailconfig[0].mail_login, mailconfig[0].mail_password);
+                smtpClient.Send(message);
+            }
         }
-        private string getDetailSendMail(string com, string job_id, string job_type, bool Approve, string _language)
+        private string getDetailSendMail(string com, string job_id, string job_type, bool Approve, string _language,ref string ToSendMail)
         {
             string strResult = string.Empty;
             try
@@ -535,32 +551,51 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 string strHTML = string.Empty;
                 string strSubject = string.Empty;
                 string JobType = "-";
-                string strDescription = "-";
+                string strDescription = "";
                 string Doc = "-";
+                cls_ctMTJobtable controller1 = new cls_ctMTJobtable();
+                List<cls_MTJobtable> listjob = controller1.getDataByFillter(com, Convert.ToInt32(job_id), "", job_type, "", "", "", "");
+                if (listjob[0].status_job.Equals("W"))
+                {
+                    return "";
+                }
+                if (listjob[0].status_job.Equals("F"))
+                {
+                    Approve = true;
+                }
+                else
+                {
+                    Approve = false;
+                }
                 if (job_type.Equals("LEA"))
                 {
-                    cls_ctMTJobtable controller1 = new cls_ctMTJobtable();
                     cls_ctTRTimeleave controller2 = new cls_ctTRTimeleave();
-                    List<cls_MTJobtable> listjob =  controller1.getDataByFillter(com,Convert.ToInt32(job_id),"",job_type,"","","","");
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
                     List<cls_TRTimeleave> listdoc = controller2.getDataByFillter(Convert.ToInt32(listjob[0].job_id), 1, com, "", "", "");
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
                     if (listdoc.Count > 0)
                     {
                         Doc = listdoc[0].timeleave_doc;
                         if (_language == "EN")
                         {
-                            strDescription += "(" + listdoc[0].worker_code + ") " + listdoc[0].worker_detail_en;
-                            strDescription += "<br />";
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += "<br />&nbsp;";
                             strDescription += "Date From : " + Convert.ToDateTime(listdoc[0].timeleave_fromdate).ToString("yyyy/MM/dd") + " To " + Convert.ToDateTime(listdoc[0].timeleave_todate).ToString("yyyy/MM/dd");
-                            strDescription += "<br />";
+                            strDescription += "<br />&nbsp;";
                             strDescription += "Reason : " + listdoc[0].reason_en;
                             JobType = "Leave";
                         }
                         else
                         {
-                            strDescription += "(" + listdoc[0].worker_code + ") " + listdoc[0].worker_detail_th;
-                            strDescription += "<br />";
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += "<br />&nbsp;";
                             strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].timeleave_fromdate).ToString("dd/MM/yyyy") + " ถึงวันที่ " + Convert.ToDateTime(listdoc[0].timeleave_todate).ToString("dd/MM/yyyy");
-                            strDescription += "<br />";
+                            strDescription += "<br />&nbsp;";
                             strDescription += "เหตุผล : " + listdoc[0].reason_th;
                             JobType = "ลา";
                         }
@@ -570,16 +605,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (Approve)
                 {
                     if (_language == "EN")
-                        strSubject = "Your " + JobType + " request was approved. <br /> DocRef:" + Doc;
+                        strSubject = "Your " + JobType + " request was approved. DocRef: " + Doc;
                     else
-                        strSubject = "ระบบได้ทำการอนุมัติเอกสาร เลขที่เอกสาร:" + Doc + " (" + JobType + ")";
+                        strSubject = "ระบบได้ทำการอนุมัติเอกสาร เลขที่เอกสาร: " + Doc + " (" + JobType + ")";
                 }
                 else
                 {
                     if (_language == "EN")
-                        strSubject = "Your " + JobType + " request was (not) approved. <br /> DocRef:" + Doc;
+                        strSubject = "Your " + JobType + " request was (not) approved. DocRef: " + Doc;
                     else
-                        strSubject = "เอกสารของท่านไม่ผ่านการอนุมัติ เลขที่เอกสาร:" + Doc + " (" + JobType + ")";
+                        strSubject = "เอกสารของท่านไม่ผ่านการอนุมัติ เลขที่เอกสาร: " + Doc + " (" + JobType + ")";
+                }
+                if (strDescription.Equals(""))
+                {
+                    strDescription = "-";
                 }
                 #region HTML
                 strHTML = " <html xmlns=\"http://www.w3.org/1999/xhtml\">";
@@ -609,7 +648,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strHTML += "             <tr>";
                 strHTML += "                 <td align=\"center\" bgcolor=\"#3399FF\" class=\"styleHeader\" colspan=\"2\" ";
                 strHTML += "                     style=\"font-weight: bold\">";
-                strHTML += "                     HRFocus On-Web Notification</td>";
+                strHTML += "                     OPR Notification</td>";
                 strHTML += "             </tr>";
                 //--
                 strHTML += "             <tr>";

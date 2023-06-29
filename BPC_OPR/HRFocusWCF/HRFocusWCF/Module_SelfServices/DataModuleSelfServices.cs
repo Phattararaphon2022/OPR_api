@@ -723,4 +723,37 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputMTMailconfig
+    [DataContract]
+    public class InputMTMailconfig
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int mail_id { get; set; }
+        [DataMember]
+        public string mail_server { get; set; }
+        [DataMember]
+        public string mail_serverport { get; set; }
+        [DataMember]
+        public string mail_login { get; set; }
+        [DataMember]
+        public string mail_password { get; set; }
+        [DataMember]
+        public string mail_fromname { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+
+    }
+    #endregion
+
 }

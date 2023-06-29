@@ -85,6 +85,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTMailconfig.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdoc.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdocument.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTTopic.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="hrfocus.model\Payroll\cls_TRTaxrate.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTJobtable.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTMailconfig.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdoc.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdocument.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTTopic.cs" />

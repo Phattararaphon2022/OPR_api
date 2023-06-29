@@ -100,7 +100,55 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+        public List<cls_MTAccount> getDatabyworker(string com,string worker)
+        {
+            List<cls_MTAccount> list_model = new List<cls_MTAccount>();
+            cls_MTAccount model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
+                obj_str.Append("SELECT ");
+                obj_str.Append(" SELF_MT_ACCOUNT.*");
+                obj_str.Append(" FROM SELF_TR_ACCOUNT");
+                obj_str.Append(" JOIN SELF_MT_ACCOUNT ON SELF_MT_ACCOUNT.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" AND SELF_MT_ACCOUNT.ACCOUNT_USER = SELF_TR_ACCOUNT.ACCOUNT_USER");
+                obj_str.Append(" WHERE SELF_TR_ACCOUNT.ACCOUNT_TYPE = 'Emp'");
+                obj_str.Append(" AND SELF_MT_ACCOUNT.ACCOUNT_EMAIL_ALERT = 1");
+                obj_str.Append(" AND SELF_TR_ACCOUNT.WORKER_CODE = '"+worker+"'");
+                obj_str.Append(" AND SELF_TR_ACCOUNT.COMPANY_CODE = '"+com+"'");
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_MTAccount();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.account_user = dr["ACCOUNT_USER"].ToString();
+                    //model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
+
+                    model.account_type = dr["ACCOUNT_TYPE"].ToString();
+                    model.account_level = Convert.ToInt32(dr["ACCOUNT_LEVEL"].ToString());
+                    model.account_email = dr["ACCOUNT_EMAIL"].ToString();
+                    model.account_email_alert = Convert.ToBoolean(dr["ACCOUNT_EMAIL_ALERT"].ToString());
+                    model.account_line = dr["ACCOUNT_LINE"].ToString();
+                    model.account_line_alert = Convert.ToBoolean(dr["ACCOUNT_LINE_ALERT"].ToString());
+                    model.flag = Convert.ToBoolean(dr["FLAG"].ToString());
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Account.getData)" + ex.ToString();
+            }
+
+            return list_model;
+        }
         public bool checkDataOld(string com, string user, string type)
         {
             bool blnResult = false;
