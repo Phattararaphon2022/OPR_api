@@ -59,7 +59,43 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 return arrayTRReqdoc;
             }
         }
-        public JArray ApproveJob_get(string com, string job_type, string username,string status,string fromdate,string todate)
+
+        public int getCountDoc(string com, string job_type, string username, string status, string fromdate, string todate)
+        {
+            int totalDoc = 0;
+            SqlCommand cmd = new SqlCommand();
+            Obj_conn.doConnect();
+            cmd.Connection = Obj_conn.getConnection();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "[dbo].[SELF_MT_APPROVEGETDOC]";
+            //Passing the parameters
+            cmd.Parameters.AddWithValue("@CompID", com);
+            cmd.Parameters.AddWithValue("@JobType", job_type);
+            cmd.Parameters.AddWithValue("@Username", username);
+            cmd.Parameters.AddWithValue("@Status", status);
+            cmd.Parameters.AddWithValue("@fromDate", fromdate);
+            cmd.Parameters.AddWithValue("@toDate", todate);
+            /*The output parameters*/
+            cmd.Parameters.Add("@doc_count", SqlDbType.Int);
+            cmd.Parameters["@doc_count"].Direction = ParameterDirection.Output;
+            /*End*/
+            try
+            {
+
+                int i = cmd.ExecuteNonQuery();
+                totalDoc = Convert.ToInt32(cmd.Parameters["@doc_count"].Value);
+            }
+            catch (Exception ex)
+            {
+                this.Message = ex.ToString();
+            }
+            finally
+            {
+                Obj_conn.doClose();
+            }
+            return totalDoc;
+        }
+        public JArray ApproveJob_get(string com, string job_type, string username,int status,string fromdate,string todate)
         {
             JArray result = new JArray();
             try
@@ -386,23 +422,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                         result.Add(json);
                     }
-                }
-                JObject jsonCount = new JObject();
-                System.Text.StringBuilder obj_str1 = new System.Text.StringBuilder();
-                obj_str1.Append("DECLARE @count INT ");
-                obj_str1.Append("EXEC [dbo].[SELF_MT_APPROVEGETDOC] ");
-                obj_str1.Append("@CompID = '" + com + "'");
-                obj_str1.Append(", @JobType = '" + job_type + "'");
-                obj_str1.Append(", @Username = '" + username + "'");
-                obj_str1.Append(", @Status = '" + status + "'");
-                obj_str1.Append(", @fromDate = '" + fromdate + "'");
-                obj_str1.Append(", @toDate = '" + todate + "'");
-                obj_str1.Append(", @doc_count = @count OUTPUT");
-                DataTable dt1 = Obj_conn.doGetTable(obj_str.ToString());
-                jsonCount.Add("docapprove_all", dt1.Rows.ToString());
-                jsonCount.Add("docapprove_approve", 2);
-                jsonCount.Add("docapprove_reject", 1);
-                jsonCount.Add("docapprove_wait", 0);
+                }              
             }
             catch { }
 

@@ -5369,11 +5369,18 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ApproveJob controller = new cls_ApproveJob();
+                JArray countdoc = new JArray();
                 JArray list = controller.ApproveJob_get(input.company_code, input.job_type, input.username,input.status,input.fromdate,input.todate);
-
+                JObject jsonCount = new JObject();
+                jsonCount.Add("docapprove_wait", controller.getCountDoc(input.company_code, input.job_type, input.username, "0", DateTime.Now.Year.ToString() + "-01-01", DateTime.Now.Year.ToString() + "-12-31"));
+                jsonCount.Add("docapprove_all", controller.getCountDoc(input.company_code, input.job_type, input.username, "1", DateTime.Now.Year.ToString() + "-01-01", DateTime.Now.Year.ToString() + "-12-31"));
+                jsonCount.Add("docapprove_approve", controller.getCountDoc(input.company_code, input.job_type, input.username, "3", DateTime.Now.Year.ToString() + "-01-01", DateTime.Now.Year.ToString() + "-12-31"));
+                jsonCount.Add("docapprove_reject", controller.getCountDoc(input.company_code, input.job_type, input.username, "4", DateTime.Now.Year.ToString() + "-01-01", DateTime.Now.Year.ToString() + "-12-31"));
+                countdoc.Add(jsonCount);
                 output["result"] = "1";
                 output["result_text"] = "1";
                 output["data"] = list;
+                output["total"] = countdoc;
             }
             catch (Exception ex)
             {
