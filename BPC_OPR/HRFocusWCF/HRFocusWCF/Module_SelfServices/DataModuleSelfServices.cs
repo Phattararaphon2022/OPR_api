@@ -705,6 +705,12 @@ namespace BPC_OPR
         public List<string> job_id { get; set; }
         [DataMember]
         public string lang { get; set; }
+        [DataMember]
+        public string status { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
 
     }
 
