@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using System.Net.Mail;
 namespace ClassLibrary_BPC.hrfocus.controller
 {
     public class cls_ApproveJob
@@ -422,7 +423,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                         result.Add(json);
                     }
-                }              
+                }
+
+                this.SendEmail(this.getDetailSendMail(com, "21", job_type, true, "EN"));
             }
             catch { }
 
@@ -507,8 +510,173 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return result;
         }
+        public  void SendEmail(string Body)
+        {
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress("opr.test@outlook.com");
+            message.To.Add("phattaraphon.p@bhatarapro.com");
+            message.IsBodyHtml = true;
+            message.Body = Body;
 
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.UseDefaultCredentials = true;
+
+            smtpClient.Host = "smtp.office365.com";
+            smtpClient.Port = Convert.ToInt32("587");
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = new System.Net.NetworkCredential("opr.test@outlook.com", "OPR@2023");
+            smtpClient.Send(message);
+        }
+        private string getDetailSendMail(string com, string job_id, string job_type, bool Approve, string _language)
+        {
+            string strResult = string.Empty;
+            try
+            {
+                string strHTML = string.Empty;
+                string strSubject = string.Empty;
+                string JobType = "-";
+                string strDescription = "-";
+                string Doc = "-";
+                if (job_type.Equals("LEA"))
+                {
+                    cls_ctMTJobtable controller1 = new cls_ctMTJobtable();
+                    cls_ctTRTimeleave controller2 = new cls_ctTRTimeleave();
+                    List<cls_MTJobtable> listjob =  controller1.getDataByFillter(com,Convert.ToInt32(job_id),"",job_type,"","","","");
+                    List<cls_TRTimeleave> listdoc = controller2.getDataByFillter(Convert.ToInt32(listjob[0].job_id), 1, com, "", "", "");
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].timeleave_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += "(" + listdoc[0].worker_code + ") " + listdoc[0].worker_detail_en;
+                            strDescription += "<br />";
+                            strDescription += "Date From : " + Convert.ToDateTime(listdoc[0].timeleave_fromdate).ToString("yyyy/MM/dd") + " To " + Convert.ToDateTime(listdoc[0].timeleave_todate).ToString("yyyy/MM/dd");
+                            strDescription += "<br />";
+                            strDescription += "Reason : " + listdoc[0].reason_en;
+                            JobType = "Leave";
+                        }
+                        else
+                        {
+                            strDescription += "(" + listdoc[0].worker_code + ") " + listdoc[0].worker_detail_th;
+                            strDescription += "<br />";
+                            strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].timeleave_fromdate).ToString("dd/MM/yyyy") + " ถึงวันที่ " + Convert.ToDateTime(listdoc[0].timeleave_todate).ToString("dd/MM/yyyy");
+                            strDescription += "<br />";
+                            strDescription += "เหตุผล : " + listdoc[0].reason_th;
+                            JobType = "ลา";
+                        }
+                    }
+                }
+
+                if (Approve)
+                {
+                    if (_language == "EN")
+                        strSubject = "Your " + JobType + " request was approved. <br /> DocRef:" + Doc;
+                    else
+                        strSubject = "ระบบได้ทำการอนุมัติเอกสาร เลขที่เอกสาร:" + Doc + " (" + JobType + ")";
+                }
+                else
+                {
+                    if (_language == "EN")
+                        strSubject = "Your " + JobType + " request was (not) approved. <br /> DocRef:" + Doc;
+                    else
+                        strSubject = "เอกสารของท่านไม่ผ่านการอนุมัติ เลขที่เอกสาร:" + Doc + " (" + JobType + ")";
+                }
+                #region HTML
+                strHTML = " <html xmlns=\"http://www.w3.org/1999/xhtml\">";
+                strHTML += " <head runat=\"server\">";
+                strHTML += "     <title>Untitled Page</title>";
+                strHTML += "     <style type=\"text/css\">";
+                strHTML += "         .style1";
+                strHTML += "         {";
+                strHTML += "             width: 150px;font-size:14px;font-weight:bold;padding:3px;";
+                strHTML += "         }";
+                strHTML += "         .style2";
+                strHTML += "         {";
+                strHTML += "             font-size:14px;padding:3px;";
+                strHTML += "         }";
+                strHTML += "         .styleHeader";
+                strHTML += "         {";
+                strHTML += "             height: 25px;font-size:17px;padding:3px;";
+                strHTML += "         }";
+                strHTML += "     </style>";
+                strHTML += " </head>";
+                strHTML += " <body>";
+                strHTML += "     <form id=\"form1\" runat=\"server\">";
+                strHTML += "     <div>";
+                strHTML += "     ";
+                strHTML += "         <table cellpadding=\"0\" cellspacing=\"1\" ";
+                strHTML += "             style=\"width: 80%; font-family: Tahoma, Geneva, sans-serif; font-size: 16px;\">";
+                strHTML += "             <tr>";
+                strHTML += "                 <td align=\"center\" bgcolor=\"#3399FF\" class=\"styleHeader\" colspan=\"2\" ";
+                strHTML += "                     style=\"font-weight: bold\">";
+                strHTML += "                     HRFocus On-Web Notification</td>";
+                strHTML += "             </tr>";
+                //--
+                strHTML += "             <tr>";
+                strHTML += "                 <td align=\"right\" bgcolor=\"#99FF99\" class=\"style1\">";
+
+                if (_language == "EN")
+                    strHTML += "                     Subject :</td>";
+                else
+                    strHTML += "                     เรื่อง :</td>";
+
+                strHTML += "                 <td bgcolor=\"#FFFF99\" class=\"style2\" >";
+                strHTML += "                     &nbsp;" + strSubject + "</td>";
+                strHTML += "             </tr>";
+                //--
+                strHTML += "             <tr>";
+                strHTML += "                 <td align=\"right\" bgcolor=\"#99FF99\" class=\"style1\">";
+
+                if (_language == "EN")
+                    strHTML += "                     Description :</td>";
+                else
+                    strHTML += "                     รายละเอียด :</td>";
+
+                strHTML += "                 <td bgcolor=\"#FFFF99\" class=\"style2\" >";
+                strHTML += "                     &nbsp;" + strDescription + "</td>";
+                strHTML += "             </tr>";
+                //--
+
+                string strRemark = "-";
+
+                strHTML += "             <tr>";
+                strHTML += "                 <td align=\"right\" bgcolor=\"#99FF99\" class=\"style1\">";
+
+                if (_language == "EN")
+                    strHTML += "                     Remark :</td>";
+                else
+                    strHTML += "                     หมายเหตุ :</td>";
+
+                strHTML += "                 <td bgcolor=\"#FFFF99\" class=\"style2\" >";
+                strHTML += "                     &nbsp;" + strRemark + "</td>";
+                strHTML += "             </tr>";
+                //--
+
+                strHTML += "             <tr bgcolor=\"#CCCCCC\">";
+                strHTML += "                 <td class=\"style1\">";
+                strHTML += "                     &nbsp;</td>";
+                strHTML += "                 <td>";
+                strHTML += "                     &nbsp;</td>";
+                strHTML += "             </tr>";
+
+
+                strHTML += "         </table>";
+                strHTML += "     ";
+                strHTML += "     </div>";
+                strHTML += "     </form>";
+                strHTML += " </body>";
+                strHTML += " </html>";
+
+                #endregion
+
+                strResult = strHTML;
+
+            }
+            catch { }
+            return strResult;
+        }
     }
+
 
 
 }
