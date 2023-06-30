@@ -876,7 +876,7 @@ namespace BPC_OPR
 
                 cls_ctMTDep controller = new cls_ctMTDep();
 
-                if (controller.checkDataOld(input.dep_code))
+                if (controller.checkDataOld(input.dep_id, input.dep_code))
                 {
                     bool blnResult = controller.delete(input.dep_code);
 
@@ -1185,7 +1185,7 @@ namespace BPC_OPR
 
                 cls_ctMTPosition controller = new cls_ctMTPosition();
 
-                if (controller.checkDataOld(input.position_code))
+                if (controller.checkDataOld(input.position_id,input.position_code))
                 {
                     bool blnResult = controller.delete(input.position_code);
 
@@ -1491,7 +1491,7 @@ namespace BPC_OPR
 
                 cls_ctMTGroup controller = new cls_ctMTGroup();
 
-                if (controller.checkDataOld(input.group_code))
+                if (controller.checkDataOld(input.group_id,input.group_code))
                 {
                     bool blnResult = controller.delete(input.group_code);
 
@@ -1795,7 +1795,7 @@ namespace BPC_OPR
 
                 cls_ctMTInitial controller = new cls_ctMTInitial();
 
-                if (controller.checkDataOld(input.initial_code))
+                if (controller.checkDataOld(input.initial_id,input.initial_code))
                 {
                     bool blnResult = controller.delete(input.initial_code);
 
@@ -2099,7 +2099,7 @@ namespace BPC_OPR
 
                 cls_ctMTType controller = new cls_ctMTType();
 
-                if (controller.checkDataOld(input.type_code))
+                if (controller.checkDataOld(input.type_id, input.type_code))
                 {
                     bool blnResult = controller.delete(input.type_code);
 
@@ -2403,7 +2403,7 @@ namespace BPC_OPR
 
                 cls_ctMTStatus controller = new cls_ctMTStatus();
 
-                if (controller.checkDataOld(input.status_code))
+                if (controller.checkDataOld(input.status_id, input.status_code))
                 {
                     bool blnResult = controller.delete(input.status_code);
 

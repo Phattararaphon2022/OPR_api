@@ -128,6 +128,10 @@ namespace BPC_OPR
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
+
+                         json.Add("initial_name_th", model.initial_name_th);
+                         json.Add("initial_name_en", model.initial_name_en);
+
                          json.Add("flag", model.flag);
 
                          json.Add("index", index);
