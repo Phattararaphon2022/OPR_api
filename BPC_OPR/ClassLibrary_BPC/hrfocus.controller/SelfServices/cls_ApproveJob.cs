@@ -601,7 +601,210 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         }
                     }
                 }
-
+                if (job_type.Equals("SHT"))
+                {
+                    cls_ctTRTimeshift controller2 = new cls_ctTRTimeshift();
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
+                    List<cls_TRTimeshift> listdoc = controller2.getDataByFillter(Convert.ToInt32(listjob[0].job_id), 1, com, "", new DateTime(DateTime.Now.Year, 01, 01), new DateTime(DateTime.Now.Year, 12, 31));
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].timeshift_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "Date : " + Convert.ToDateTime(listdoc[0].timeshift_workdate).ToString("yyyy/MM/dd") + " From Shift : " + listdoc[0].shift_old_en + " To Shift : " + listdoc[0].shift_new_en;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "Reason : " + listdoc[0].reason_detail_en;
+                            JobType = "Shift";
+                        }
+                        else
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].timeshift_workdate).ToString("dd/MM/yyyy") + " จากกะงาน : " + listdoc[0].shift_old_th + " เป็นกะงาน : " + listdoc[0].shift_new_th;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "เหตุผล : " + listdoc[0].reason_detail_th;
+                            JobType = "เปลี่ยนกะ";
+                        }
+                    }
+                }
+                if (job_type.Equals("OT"))
+                {
+                    cls_ctTRTimeot controller2 = new cls_ctTRTimeot();
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
+                    List<cls_TRTimeot> listdoc = controller2.getDataByFillter(Convert.ToInt32(listjob[0].job_id), 1, com, "", new DateTime(DateTime.Now.Year, 01, 01), new DateTime(DateTime.Now.Year, 12, 31));
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].timeot_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Date : " + Convert.ToDateTime(listdoc[0].timeot_workdate).ToString("yyyy/MM/dd");
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Reason : " + listdoc[0].reason_name_en;
+                            JobType = "OT";
+                        }
+                        else
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].timeot_workdate).ToString("dd/MM/yyyy");
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "เหตุผล : " + listdoc[0].reason_name_th;
+                            JobType = "OT";
+                        }
+                    }
+                }
+                if (job_type.Equals("DAT"))
+                {
+                    cls_ctTRTimedaytype controller2 = new cls_ctTRTimedaytype();
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
+                    List<cls_TRTimedaytype> listdoc = controller2.getDataByFillter(com,Convert.ToInt32(listjob[0].job_id),"","","",1);
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].timedaytype_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "Date : " + Convert.ToDateTime(listdoc[0].timedaytype_workdate).ToString("yyyy/MM/dd") + " From Daytype : " + listdoc[0].timedaytype_old + " To Daytype : " + listdoc[0].timedaytype_new;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "Reason " + listdoc[0].reason_name_en;
+                            JobType = "DayType";
+                        }
+                        else
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "วันที่ :" + Convert.ToDateTime(listdoc[0].timedaytype_workdate).ToString("dd/MM/yyyy") + " จากประเภทวัน : " + listdoc[0].timedaytype_old + " เป็นประเภทวัน : " + listdoc[0].timedaytype_new;
+                            strDescription += " <br />&nbsp;";
+                            strDescription += "เหตุผล : " + listdoc[0].reason_name_th;
+                            JobType = "เปลี่ยนประเภทวัน";
+                        }
+                    }
+                }
+                if (job_type.Equals("ONS"))
+                {
+                    cls_ctTRTimeonsite controller2 = new cls_ctTRTimeonsite();
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
+                    List<cls_TRTimeonsite> listdoc = controller2.getDataByFillter(com, Convert.ToInt32(listjob[0].job_id),"", "", "", "", 1);
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].timeonsite_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Date : " + Convert.ToDateTime(listdoc[0].timeonsite_workdate).ToString("yyyy/MM/dd") + " Time in : " + listdoc[0].timeonsite_in + " Time out : " + listdoc[0].timeonsite_out;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Reason : " + listdoc[0].reason_name_en;
+                            JobType = "Punchcard";
+                        }
+                        else
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].timeonsite_workdate).ToString("dd/MM/yyyy") + " เวลาเข้า : " + listdoc[0].timeonsite_in + " เวลาออก : " + listdoc[0].timeonsite_out;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "เหตุผล : " + listdoc[0].reason_name_th;
+                            JobType = "ลงเวลา";
+                        }
+                    }
+                } 
+                if (job_type.Equals("CI"))
+                {
+                    cls_ctTRTimecheckin controller2 = new cls_ctTRTimecheckin();
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
+                    List<cls_TRTimecheckin> listdoc = controller2.getDataByFillter(com, Convert.ToInt32(listjob[0].job_id),"","","","", "", "", 1);
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].timecheckin_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Date : " + Convert.ToDateTime(listdoc[0].timecheckin_workdate).ToString("yyyy/MM/dd") + " Time : " + listdoc[0].timecheckin_time + " Type : " + listdoc[0].timecheckin_type == "I"?"IN":"OUT";
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Location : " + listdoc[0].location_name_en;
+                            JobType = "Check IN/OUT";
+                        }
+                        else
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].timecheckin_workdate).ToString("dd/MM/yyyy") + " เวลา : " + listdoc[0].timecheckin_time + " ประเภท : " + listdoc[0].timecheckin_type == "I" ? "เข้า" : "ออก";
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "สถานที่ : " + listdoc[0].location_name_en;
+                            JobType = "เช็คอิน/เช็คเอาท์";
+                        }
+                    }
+                }
+                if (job_type.Equals("REQ"))
+                {
+                    cls_ctMTReqdoc controller2 = new cls_ctMTReqdoc();
+                    cls_ctMTAccount controller3 = new cls_ctMTAccount();
+                    List<cls_MTReqdoc> listdoc = controller2.getDataByFillter(com, Convert.ToInt32(listjob[0].job_id),"","", "", 1);
+                    List<cls_MTAccount> listaccount = controller3.getDatabyworker(com, listdoc[0].worker_code);
+                    ToSendMail = listaccount[0].account_email;
+                    if (listaccount.Count.Equals(0))
+                    {
+                        return "";
+                    }
+                    if (listdoc.Count > 0)
+                    {
+                        Doc = listdoc[0].reqdoc_doc;
+                        if (_language == "EN")
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_en;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Date : " + Convert.ToDateTime(listdoc[0].reqdoc_date).ToString("yyyy/MM/dd");
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "Note : " + listdoc[0].reqdoc_note;
+                            JobType = "ReqDoc";
+                        }
+                        else
+                        {
+                            strDescription += listdoc[0].worker_code + " " + listdoc[0].worker_detail_th;
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "วันที่ : " + Convert.ToDateTime(listdoc[0].reqdoc_date).ToString("dd/MM/yyyy");
+                            strDescription += "<br />&nbsp;";
+                            strDescription += "รายละเอียด : " + listdoc[0].reqdoc_note;
+                            JobType = "ขอแก้ไขข้อมูล";
+                        }
+                    }
+                }
                 if (Approve)
                 {
                     if (_language == "EN")
