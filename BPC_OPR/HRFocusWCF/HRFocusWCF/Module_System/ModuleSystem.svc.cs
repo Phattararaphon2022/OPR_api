@@ -6763,7 +6763,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP011.3";
+            log.apilog_code = "SYS031.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10660,6 +10660,391 @@ namespace BPC_OPR
        
 
         #endregion
+        #region Image 
+        public string doUploadImageslogo(string ref_to, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP002.1";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+
+                cls_ctTRComimages ct_imageslogo = new cls_ctTRComimages();
+
+                string[] temp = ref_to.Split('.');
+
+                MultipartParser parser = new MultipartParser(stream);
+
+                if (parser.Success)
+                {
+
+                    cls_TRComimages empimages = new cls_TRComimages();
+                    empimages.company_code = temp[0];
+
+                    empimages.comimages_imageslogo = parser.FileContents;
+                    empimages.modified_by = temp[1];
+
+                    empimages.comimages_id = 1;
+
+                    ct_imageslogo.insert(empimages);
+
+                    output["result"] = "1";
+                    output["result_text"] = "0";
+
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public bool IsValidImagemaps(byte[] bytes)
+        {
+
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(bytes))
+                    Image.FromStream(ms);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string doGetImageslogo(FillterCompany req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP002.2";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+                cls_ctTRComimages ct_imageslogo = new cls_ctTRComimages();
+                List<cls_TRComimages> list_imageslogo = ct_imageslogo.getDataByFillter(req.company_code);
+
+                if (list_imageslogo.Count > 0)
+                {
+                    cls_TRComimages md_image = list_imageslogo[0];
+
+                    bool bln = this.IsValidImage(md_image.comimages_imageslogo);
+
+                    output["result"] = "1";
+                    output["result_text"] = "";
+                    output["data"] = "data:image/png;base64," + System.Convert.ToBase64String(md_image.comimages_imageslogo);
+                }
+                else
+                {
+                    output["result"] = "2";
+                    output["result_text"] = "Data not found";
+                    output["data"] = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+
+        ///
+        /// 
+        #region Imagemaps 
+        public string doUploadImagesmaps(string ref_to, Stream streams)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP002.1";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+
+                cls_ctTRComimagesMaps ct_imagesmaps = new cls_ctTRComimagesMaps();
+
+                string[] temp = ref_to.Split('.');
+
+                MultipartParser parsermaps = new MultipartParser(streams);
+
+                if (parsermaps.Success)
+                {
+
+                    cls_TRComimagesMaps imagesmaps = new cls_TRComimagesMaps();
+                    imagesmaps.company_code = temp[0];
+
+                    imagesmaps.comimages_imagesmaps = parsermaps.FileContents;
+                    imagesmaps.modified_by = temp[1];
+
+                    imagesmaps.comimages_id = 2;
+
+                    ct_imagesmaps.insert(imagesmaps);
+
+                    output["result"] = "1";
+                    output["result_text"] = "0";
+
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public bool IsValidImage(byte[] bytes)
+        {
+
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(bytes))
+                    Image.FromStream(ms);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string doGetImagesmaps(FillterCompany req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP002.2";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+                cls_ctTRComimagesMaps ct_imagesmaps = new cls_ctTRComimagesMaps();
+                List<cls_TRComimagesMaps> list_imagesmaps = ct_imagesmaps.getDataByFillter(req.company_code);
+
+                if (list_imagesmaps.Count > 0)
+                {
+                    cls_TRComimagesMaps md_image = list_imagesmaps[0];
+
+                    bool bln = this.IsValidImagemaps(md_image.comimages_imagesmaps);
+
+                    output["result"] = "1";
+                    output["result_text"] = "";
+                    output["data_maps"] = "data_maps:image/png;base64," + System.Convert.ToBase64String(md_image.comimages_imagesmaps);
+                }
+                else
+                {
+                    output["result"] = "2";
+                    output["result_text"] = "Data not found";
+                    output["data_maps"] = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+        ///
+
+        //#region ComImage
+        //#region test
+        //////public string doUploadComImages(string ref_to, Stream streamlogo, Stream streammaps)
+        //////{
+        //////    JObject output = new JObject();
+
+        //////    cls_SYSApilog log = new cls_SYSApilog();
+        //////    log.apilog_code = "SYS026.1";
+        //////    log.apilog_by = "";
+        //////    log.apilog_data = "Stream";
+
+        //////    try
+        //////    {
+        //////        cls_ctTRComimages ct_empimages = new cls_ctTRComimages();
+
+        //////        string[] temp = ref_to.Split('.');
+
+        //////        MultipartParser parserlogo = new MultipartParser(streamlogo);
+        //////        MultipartParser parsermaps = new MultipartParser(streammaps);
+
+        //////        if (parserlogo.Success && parsermaps.Success)
+        //////        {
+        //////            cls_TRComimages comimages = new cls_TRComimages();
+        //////            comimages.company_code = temp[0];
+        //////            comimages.comimages_imageslogo = parserlogo.FileContents;
+        //////            comimages.comimages_imagesmaps = parsermaps.FileContents;
+
+        //////            comimages.modified_by = temp[1];
+        //////            comimages.comimages_id = 1;
+
+        //////            ct_empimages.insert(comimages);
+
+        //////            output["result"] = "1";
+        //////            output["result_text"] = "0";
+        //////        }
+        //////        else
+        //////        {
+        //////            output["result"] = "0";
+        //////            output["result_text"] = "0";
+        //////        }
+        //////    }
+        //////    catch (Exception ex)
+        //////    {
+        //////        output["result"] = "0";
+        //////        output["result_text"] = ex.ToString();
+        //////    }
+
+        //////    return output.ToString(Formatting.None);
+        //////}
+
+        //#endregion
+        //public string doUploadComImages(string ref_to, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS026.1";
+        //    log.apilog_by = "";
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        cls_ctTRComimages ct_empimages = new cls_ctTRComimages();
+
+        //        string[] temp = ref_to.Split('.');
+
+        //        MultipartParser parser = new MultipartParser(stream);
+
+        //        if (parser.Success)
+        //        {
+        //            cls_TRComimages comimages = new cls_TRComimages();
+        //            comimages.company_code = temp[0];
+
+        //            comimages.comimages_imageslogo = parser.FileContents;
+
+        //            comimages.modified_by = temp[1];
+        //            comimages.comimages_id = 1;
+
+        //            ct_empimages.insert(comimages);
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "0";
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "0";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //public bool IsValidImage(byte[] bytes)
+        //{
+        //    try
+        //    {
+        //        using (MemoryStream ms = new MemoryStream(bytes))
+        //        {
+        //            Image.FromStream(ms);
+        //        }
+        //    }
+        //    catch (ArgumentException)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
+
+        //public string doGetComImages(FillterCompany req)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS026.2";
+        //    log.apilog_by = "";
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        cls_ctTRComimages ct_comimages = new cls_ctTRComimages();
+        //        List<cls_TRComimages> list_comimages = ct_comimages.getDataByFillter(req.company_code);
+
+        //        if (list_comimages.Count > 0)
+        //        {
+        //            cls_TRComimages md_image = list_comimages[0];
+
+        //            bool isValidLogo = IsValidImage(md_image.comimages_imageslogo);
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "";
+
+        //            if (isValidLogo)
+        //                output["data_logo"] = "data:image/png;base64," + Convert.ToBase64String(md_image.comimages_imageslogo);
+        //            else
+        //                output["data_logo"] = "";
+
+                    
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "2";
+        //            output["result_text"] = "Data not found";
+        //            output["data_logo"] = "";
+        //            output["data_maps"] = "";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+        //        output["data_logo"] = "";
+        //        output["data_maps"] = "";
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //#endregion
 
 
         #region MTRequest

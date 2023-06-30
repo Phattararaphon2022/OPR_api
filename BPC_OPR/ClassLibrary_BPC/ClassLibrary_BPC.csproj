@@ -145,6 +145,7 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplytraining.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqAssessment.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqCriminal.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\ApiController.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDep.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTGroup.cs" />
@@ -190,6 +191,8 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTSupply.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTUniform.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctSYSCodestructure.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctTRComimages.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctTRComimagesMaps.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
@@ -365,6 +368,8 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTCodestructure.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTPolcode.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_SYSCodestructure.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_TRComimages.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_TRComimagesMaps.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_TRPolcode.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />

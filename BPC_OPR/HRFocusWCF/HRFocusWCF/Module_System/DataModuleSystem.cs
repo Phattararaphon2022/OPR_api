@@ -157,6 +157,8 @@ namespace BPC_OPR
         public string polcode_type { get; set; }
         [DataMember]
         public string combank_bankaccount { get; set; }
+        [DataMember]
+        public string comimages_id { get; set; }
     }
 
     [DataContract]

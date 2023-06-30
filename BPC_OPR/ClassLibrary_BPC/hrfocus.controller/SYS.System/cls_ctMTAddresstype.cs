@@ -123,7 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ADDRESSTYPE_CODE");
                 obj_str.Append(" FROM SYS_MT_ADDRESSTYPE");
                 obj_str.Append(" WHERE ADDRESSTYPE_CODE='" + code + "'");
-                obj_str.Append(" WHERE ADDRESSTYPE_ID='" + id + "'");
+                obj_str.Append(" AND ADDRESSTYPE_ID='" + id + "'");
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
