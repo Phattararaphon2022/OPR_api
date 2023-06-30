@@ -666,7 +666,37 @@ namespace BPC_OPR
 
         Task<string> doUploadUniform(string token, string by, string fileName, Stream stream);  
         #endregion
+        #region image/ 
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadImageslogo?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadImageslogo(string ref_to, Stream stream);
 
+        [OperationContract(Name = "doGetImageslogo")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetImageslogo(FillterCompany req);
+        #endregion
+
+        #region imagemaps
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadImagesmaps?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadImagesmaps(string ref_to, Stream stream);
+
+        [OperationContract(Name = "doGetImagesmaps")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetImagesmaps(FillterCompany req);
+        #endregion
+
+        //#region image
+        
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadComImages?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        //string doUploadComImages(string ref_to, Stream stream);
+        ////string doUploadComImages(string ref_to, Stream streamlogo, Stream streammaps);
+
+        //[OperationContract(Name = "doGetComImages")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doGetComImages(FillterCompany req);
+        //#endregion
 
     }
 }
