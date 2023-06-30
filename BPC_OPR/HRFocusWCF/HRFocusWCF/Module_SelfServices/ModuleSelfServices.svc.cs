@@ -4475,7 +4475,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTAccount objMTAccount = new cls_ctMTAccount();
-                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type);
+                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type,input.account_id);
 
                 JArray array = new JArray();
 
@@ -4488,6 +4488,7 @@ namespace BPC_OPR
                         JObject json = new JObject();
 
                         json.Add("company_code", model.company_code);
+                        json.Add("account_id", model.account_id);
                         json.Add("account_user", model.account_user);
                         //json.Add("account_pwd", model.account_pwd);
                         json.Add("account_pwd", "");
@@ -4658,6 +4659,7 @@ namespace BPC_OPR
                 cls_MTAccount model = new cls_MTAccount();
                 Authen objAuthen = new Authen();
                 model.company_code = input.company_code;
+                model.account_id = input.account_id;
                 model.account_user = input.account_user;
                 //model.account_pwd = objAuthen.Encrypt(input.account_pwd);
                 model.account_pwd = input.account_pwd;
@@ -4771,7 +4773,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTAccount controller = new cls_ctMTAccount();
-                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type);
+                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type,input.account_id);
                 if (blnResult)
                 {
                     try

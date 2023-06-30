@@ -240,7 +240,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 Message = "ERROR::(Round.insert)" + ex.ToString();
-                blnResult = "ERROR::(Round.insert)" + ex.ToString();
+                blnResult = "";
             }
 
             return blnResult;

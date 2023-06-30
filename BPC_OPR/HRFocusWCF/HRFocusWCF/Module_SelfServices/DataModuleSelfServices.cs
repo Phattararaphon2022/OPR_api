@@ -600,6 +600,9 @@ namespace BPC_OPR
 
         [DataMember]
         public string company_code { get; set; }
+
+        [DataMember]
+        public int account_id { get; set; }
         [DataMember]
         public string account_user { get; set; }
         [DataMember]

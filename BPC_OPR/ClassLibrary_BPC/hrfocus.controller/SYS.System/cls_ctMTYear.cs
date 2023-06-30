@@ -255,7 +255,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                blnResult = "ERROR::(Year.insert)" + ex.ToString();
+                blnResult = "";
                 Message = "ERROR::(Year.insert)" + ex.ToString();
             }
 
