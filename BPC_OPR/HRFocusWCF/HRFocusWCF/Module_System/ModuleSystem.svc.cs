@@ -3495,7 +3495,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTRounds objRounds = new cls_ctMTRounds();
-                List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group,"", input.rounds_code);
+                List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group, input.rounds_id.ToString(), input.rounds_code);
 
                 //List<cls_MTRounds> listRounds = objRounds.getDataByFillter("","","");
 
