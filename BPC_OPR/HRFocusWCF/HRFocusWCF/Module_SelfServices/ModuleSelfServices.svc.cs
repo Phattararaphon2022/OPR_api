@@ -4475,7 +4475,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTAccount objMTAccount = new cls_ctMTAccount();
-                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type);
+                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type,input.account_id);
 
                 JArray array = new JArray();
 
@@ -4488,6 +4488,7 @@ namespace BPC_OPR
                         JObject json = new JObject();
 
                         json.Add("company_code", model.company_code);
+                        json.Add("account_id", model.account_id);
                         json.Add("account_user", model.account_user);
                         //json.Add("account_pwd", model.account_pwd);
                         json.Add("account_pwd", "");
@@ -4658,6 +4659,7 @@ namespace BPC_OPR
                 cls_MTAccount model = new cls_MTAccount();
                 Authen objAuthen = new Authen();
                 model.company_code = input.company_code;
+                model.account_id = input.account_id;
                 model.account_user = input.account_user;
                 //model.account_pwd = objAuthen.Encrypt(input.account_pwd);
                 model.account_pwd = input.account_pwd;
@@ -4771,7 +4773,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTAccount controller = new cls_ctMTAccount();
-                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type);
+                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type,input.account_id);
                 if (blnResult)
                 {
                     try
@@ -5343,7 +5345,6 @@ namespace BPC_OPR
         }
         #endregion
 
-
         public string Approvegetdoc(InputApprovedoc input)
         {
             var json_data = new JavaScriptSerializer().Serialize(input);
@@ -5467,5 +5468,233 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+        #region MTMailconfig
+        public string getMTMailconfigList(InputMTMailconfig input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF019.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTMailconfig controller = new cls_ctMTMailconfig();
+                List<cls_MTMailconfig> list = controller.getDataByFillter(input.company_code, input.mail_id);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTMailconfig model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("mail_id", model.mail_id);
+                        json.Add("mail_server", model.mail_server);
+                        json.Add("mail_serverport", model.mail_serverport);
+                        json.Add("mail_login", model.mail_login);
+                        json.Add("mail_password", model.mail_password);
+                        json.Add("mail_fromname", model.mail_fromname);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+         
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTMailconfig(InputMTMailconfig input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF019.2";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTMailconfig controller = new cls_ctMTMailconfig();
+                cls_MTMailconfig model = new cls_MTMailconfig();
+                model.company_code = input.company_code;
+                model.mail_id = input.mail_id;
+                model.mail_server = input.mail_server;
+                model.mail_serverport = input.mail_serverport;
+                model.mail_login = input.mail_login;
+                model.mail_password = input.mail_password;
+                model.mail_fromname = input.mail_fromname;
+
+                model.modified_by = input.username;
+                string strID = controller.insert(model);
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTMailconfig(InputMTMailconfig input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF019.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTMailconfig controller = new cls_ctMTMailconfig();
+                bool blnResult = controller.delete(input.company_code,input.mail_id);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
     }
 }

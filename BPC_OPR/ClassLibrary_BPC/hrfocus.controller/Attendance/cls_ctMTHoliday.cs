@@ -186,7 +186,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.year_code, model.holiday_date))
                 {
-                    return this.update(model);
+                    if (model.holiday_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();

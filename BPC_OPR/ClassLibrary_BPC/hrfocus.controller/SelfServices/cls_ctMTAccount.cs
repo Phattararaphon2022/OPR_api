@@ -34,6 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append(" COMPANY_CODE");
+                obj_str.Append(", ACCOUNT_ID");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_PWD");
                 obj_str.Append(", ACCOUNT_TYPE");
@@ -62,6 +63,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_MTAccount();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
 
@@ -88,7 +90,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTAccount> getDataByFillter(string com,string user, string type)
+        public List<cls_MTAccount> getDataByFillter(string com,string user, string type,int id)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -97,10 +99,61 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND ACCOUNT_USER='" + user + "'";
             if (!type.Equals(""))
                 strCondition += " AND ACCOUNT_TYPE='" + type + "'";
+            if (!id.Equals(0))
+                strCondition += " AND ACCOUNT_ID='" + id + "'";
 
             return this.getData(strCondition);
         }
+        public List<cls_MTAccount> getDatabyworker(string com,string worker)
+        {
+            List<cls_MTAccount> list_model = new List<cls_MTAccount>();
+            cls_MTAccount model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
+                obj_str.Append("SELECT ");
+                obj_str.Append(" SELF_MT_ACCOUNT.*");
+                obj_str.Append(" FROM SELF_TR_ACCOUNT");
+                obj_str.Append(" JOIN SELF_MT_ACCOUNT ON SELF_MT_ACCOUNT.COMPANY_CODE = SELF_TR_ACCOUNT.COMPANY_CODE");
+                obj_str.Append(" AND SELF_MT_ACCOUNT.ACCOUNT_USER = SELF_TR_ACCOUNT.ACCOUNT_USER");
+                obj_str.Append(" WHERE SELF_TR_ACCOUNT.ACCOUNT_TYPE = 'Emp'");
+                obj_str.Append(" AND SELF_MT_ACCOUNT.ACCOUNT_EMAIL_ALERT = 1");
+                obj_str.Append(" AND SELF_TR_ACCOUNT.WORKER_CODE = '"+worker+"'");
+                obj_str.Append(" AND SELF_TR_ACCOUNT.COMPANY_CODE = '"+com+"'");
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_MTAccount();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
+                    model.account_user = dr["ACCOUNT_USER"].ToString();
+                    //model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
+
+                    model.account_type = dr["ACCOUNT_TYPE"].ToString();
+                    model.account_level = Convert.ToInt32(dr["ACCOUNT_LEVEL"].ToString());
+                    model.account_email = dr["ACCOUNT_EMAIL"].ToString();
+                    model.account_email_alert = Convert.ToBoolean(dr["ACCOUNT_EMAIL_ALERT"].ToString());
+                    model.account_line = dr["ACCOUNT_LINE"].ToString();
+                    model.account_line_alert = Convert.ToBoolean(dr["ACCOUNT_LINE_ALERT"].ToString());
+                    model.flag = Convert.ToBoolean(dr["FLAG"].ToString());
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Account.getData)" + ex.ToString();
+            }
+
+            return list_model;
+        }
         public bool checkDataOld(string com, string user, string type)
         {
             bool blnResult = false;
@@ -128,7 +181,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public bool delete(string com, string user, string type)
+        public bool delete(string com, string user, string type,int id)
         {
             bool blnResult = true;
             try
@@ -141,6 +194,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND ACCOUNT_USER='" + user + "'");
                 obj_str.Append(" AND ACCOUNT_TYPE='" + type + "'");
+                obj_str.Append(" AND ACCOUNT_ID='" + id + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -153,7 +207,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+        public int getNextID()
+        {
+            int intResult = 1;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
+                obj_str.Append("SELECT MAX(ACCOUNT_ID) ");
+                obj_str.Append(" FROM SELF_MT_ACCOUNT");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    intResult = Convert.ToInt32(dt.Rows[0][0]) + 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Account.getNextID)" + ex.ToString();
+            }
+
+            return intResult;
+        }
         public string insert(cls_MTAccount model)
         {
             string blnResult = "";
@@ -162,13 +239,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.account_user, model.account_type))
                 {
-                    return this.update(model);
+                    if (model.account_id.Equals(0))
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+                int id = this.getNextID();
                 obj_str.Append("INSERT INTO SELF_MT_ACCOUNT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", ACCOUNT_ID ");
                 obj_str.Append(", ACCOUNT_USER ");
                 obj_str.Append(", ACCOUNT_PWD ");
                 obj_str.Append(", ACCOUNT_TYPE ");
@@ -185,6 +271,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @ACCOUNT_ID ");
                 obj_str.Append(", @ACCOUNT_USER ");
                 obj_str.Append(", @ACCOUNT_PWD ");
                 obj_str.Append(", @ACCOUNT_TYPE ");
@@ -204,6 +291,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@ACCOUNT_ID", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_ID"].Value = model.account_id;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
                 obj_cmd.Parameters.Add("@ACCOUNT_PWD", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_PWD"].Value = this.Encrypt(model.account_pwd);
                 obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
@@ -258,12 +346,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND ACCOUNT_USER=@ACCOUNT_USER ");
                 obj_str.Append(" AND ACCOUNT_TYPE=@ACCOUNT_TYPE ");
+                obj_str.Append(" AND ACCOUNT_ID=@ACCOUNT_ID ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@ACCOUNT_ID", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_ID"].Value = model.account_id;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
                 if (!model.account_pwd.Equals(""))
                 {
