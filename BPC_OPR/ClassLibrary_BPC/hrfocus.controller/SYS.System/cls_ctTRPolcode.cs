@@ -94,23 +94,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld( string polid, string struccode)
+        public bool checkDataOld( string id, string struccode)
         {
             bool blnResult = false;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
+                //obj_str.Append("SELECT CODESTRUCTURE_CODE");
+                //obj_str.Append(" FROM SYS_TR_POLCODE");
+                //obj_str.Append(" WHERE 1=1 ");
+                //obj_str.Append(" AND CODESTRUCTURE_CODE='" + struccode + "'");
+
                 obj_str.Append("SELECT CODESTRUCTURE_CODE");
                 obj_str.Append(" FROM SYS_TR_POLCODE");
                 obj_str.Append(" WHERE 1=1 ");
+                obj_str.Append(" AND POLCODE_ID='" + id + "'");
                 obj_str.Append(" AND CODESTRUCTURE_CODE='" + struccode + "'");
-
-                //obj_str.Append("SELECT POLCODE_ID");
-                //obj_str.Append(" FROM SYS_TR_POLCODE");
-                //obj_str.Append(" WHERE 1=1 ");
-                //obj_str.Append(" AND POLCODE_ID='" + polid + "'");
-                //obj_str.Append(" AND CODESTRUCTURE_CODE='" + struccode + "'");
 
 
 
@@ -190,12 +190,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string blnResult = "";
             try
             {
-
                 //-- Check data old
-                if (this.checkDataOld(model.codestructure_code, model.codestructure_code))
+                if (this.checkDataOld(model.polcode_id.ToString(), model.codestructure_code))
                 {
-                    return this.update(model);
+                    if (this.update(model))
+                        return model.polcode_id.ToString();
+                    else
+                        return "";
                 }
+
+
+             
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -254,9 +259,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public string update(cls_TRPolcode model)
+        public bool update(cls_TRPolcode model)
         {
-            string blnResult = "";
+            bool blnResult = false;
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -277,12 +282,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //obj_str.Append(", FLAG=@FLAG ");
 
                 obj_str.Append(" WHERE CODESTRUCTURE_CODE=@CODESTRUCTURE_CODE ");
+                //obj_str.Append(" AND POLCODE_ID=@POLCODE_ID ");
+
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@CODESTRUCTURE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@CODESTRUCTURE_CODE"].Value = model.codestructure_code;
+                //obj_cmd.Parameters.Add("@CODESTRUCTURE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@CODESTRUCTURE_CODE"].Value = model.codestructure_code;
                 obj_cmd.Parameters.Add("@POLCODE_LENGHT", SqlDbType.VarChar); obj_cmd.Parameters["@POLCODE_LENGHT"].Value = model.polcode_lenght;
 
                 obj_cmd.Parameters.Add("@POLCODE_TEXT", SqlDbType.VarChar); obj_cmd.Parameters["@POLCODE_TEXT"].Value = model.polcode_text;
@@ -298,8 +305,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-
-                blnResult = model.polcode_id.ToString();
+                blnResult = true;
+                //blnResult = model.polcode_id.ToString();
             }
             catch (Exception ex)
             {
@@ -309,10 +316,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public void insert(List<cls_TRPolcode> list_model)
-        {
-            throw new NotImplementedException();
-        }
+      
+        
         }
 }
 

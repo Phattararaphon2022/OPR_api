@@ -31,6 +31,8 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTCodestructure
     {
+
+   
         [DataMember]
         public string codestructure_code { get; set; }
         [DataMember]
@@ -118,7 +120,7 @@ namespace BPC_OPR
         [DataMember]
         public string combranch_id { get; set; }
         [DataMember]
-        public string comaddress_type { get; set; }
+        public string comaddres_type { get; set; }
         [DataMember]
         public string card_type { get; set; }
         [DataMember]
@@ -159,6 +161,8 @@ namespace BPC_OPR
         public string combank_bankaccount { get; set; }
         [DataMember]
         public string comimages_id { get; set; }
+        [DataMember]
+        public string comimagesmaps_id { get; set; }
     }
 
     [DataContract]
@@ -328,12 +332,13 @@ namespace BPC_OPR
     [DataContract]
     public class InputComTransaction
     {   
+
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
         public string combranch_code { get; set; }
         [DataMember]
-        public string comaddress_type { get; set; }
+        public string comaddres_type { get; set; }
         [DataMember]
         public string worker_code { get; set; }
         [DataMember]
@@ -355,7 +360,7 @@ namespace BPC_OPR
          [DataMember]
          public string comlocation_code { get; set; }
          [DataMember]
-         public int combank_id { get; set; }
+         public string combank_id { get; set; }
     }
 
 
@@ -368,52 +373,51 @@ namespace BPC_OPR
         [DataMember]
         public string combranch_code { get; set; }
         [DataMember]
-        public string comaddress_type { get; set; }
+        public string comaddres_type { get; set; }
 
         [DataMember]
-        public string comaddressth_no { get; set; }
+        public string comaddres_noth { get; set; }
         [DataMember]
-        public string comaddressth_moo { get; set; }
+        public string comaddres_mooth { get; set; }
         [DataMember]
-        public string comaddressth_soi { get; set; }
+        public string comaddres_soith { get; set; }
         [DataMember]
-        public string comaddressth_road { get; set; }
+        public string comaddres_roadth { get; set; }
         [DataMember]
-        public string comaddressth_tambon { get; set; }
+        public string comaddres_tambonth { get; set; }
         [DataMember]
-        public string comaddressth_amphur { get; set; }
+        public string comaddres_amphurth { get; set; }
         [DataMember]
-        public string comaddress_zipcode { get; set; }
-        [DataMember]
-        public string provinceth_code { get; set; }
+        public string comaddres_zipcode { get; set; }
+        
 
 
 
         [DataMember]
-        public string comaddressen_no { get; set; }
+        public string comaddres_noen { get; set; }
         [DataMember]
-        public string comaddressen_moo { get; set; }
+        public string comaddres_mooen { get; set; }
         [DataMember]
-        public string comaddressen_soi { get; set; }
+        public string comaddres_soien { get; set; }
         [DataMember]
-        public string comaddressen_road { get; set; }
+        public string comaddres_roaden { get; set; }
         [DataMember]
-        public string comaddressen_tambon { get; set; }
+        public string comaddres_tambonen { get; set; }
         [DataMember]
-        public string comaddressen_amphur { get; set; }
+        public string comaddres_amphuren { get; set; }
         
         [DataMember]
-        public string provinceen_code { get; set; }
+        public string province_code { get; set; }
 
 
         [DataMember]
-        public string comaddress_tel { get; set; }
+        public string comaddres_tel { get; set; }
         [DataMember]
-        public string comaddress_email { get; set; }
+        public string comaddres_email { get; set; }
         [DataMember]
-        public string comaddress_line { get; set; }
+        public string comaddres_line { get; set; }
         [DataMember]
-        public string comaddress_facebook { get; set; }
+        public string comaddres_facebook { get; set; }
         
         [DataMember]
         public string modified_by { get; set; }

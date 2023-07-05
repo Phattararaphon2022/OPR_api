@@ -18,7 +18,15 @@ namespace BPC_OPR
         //[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
         //string doTest();
 
+        //#region imagemaps
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadImagesmapstest?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        //string doUploadImagesmapstest(string ref_to, Stream stream);
 
+        //[OperationContract(Name = "doGetImagesmapstest")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doGetImagesmapstest(FillterComimgemaps req);
+        //#endregion
 
         #region TRTaxrate
         [OperationContract(Name = "TRTaxrate_list")]
