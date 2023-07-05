@@ -291,7 +291,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@ACCOUNT_ID", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_ID"].Value = model.account_id;
+                obj_cmd.Parameters.Add("@ACCOUNT_ID", SqlDbType.Int); obj_cmd.Parameters["@ACCOUNT_ID"].Value = id;
                 obj_cmd.Parameters.Add("@ACCOUNT_USER", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_USER"].Value = model.account_user;
                 obj_cmd.Parameters.Add("@ACCOUNT_PWD", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_PWD"].Value = this.Encrypt(model.account_pwd);
                 obj_cmd.Parameters.Add("@ACCOUNT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_TYPE"].Value = model.account_type;
