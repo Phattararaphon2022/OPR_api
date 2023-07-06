@@ -13,8 +13,8 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string company_code { get; set; }
  
-        public int comimages_id { get; set; }
-        public byte[] comimages_imagesmaps { get; set; }
+        public int comimagesmaps_id { get; set; }
+        public byte[] comimagesmaps_imagesmaps { get; set; }
 
         public string created_by { get;set; }
         public DateTime created_date { get; set; }  

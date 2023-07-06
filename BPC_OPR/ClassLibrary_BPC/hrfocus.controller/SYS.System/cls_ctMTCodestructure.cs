@@ -237,6 +237,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@CODESTRUCTURE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@CODESTRUCTURE_CODE"].Value = model.codestructure_code;
 
+
+
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();

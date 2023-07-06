@@ -1422,8 +1422,8 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
                 cls_TRPolcode model = new cls_TRPolcode();
-
-                model.polcode_id = input.polcode_id;
+                model.polcode_id = Convert.ToInt32(input.polcode_id);
+                //model.polcode_id = input.polcode_id;
                 model.codestructure_code = input.codestructure_code;
 
                 model.polcode_lenght = input.polcode_lenght;
@@ -1502,7 +1502,7 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
 
-                if (controller.checkDataOld(input.codestructure_code, input.codestructure_code))
+                if (controller.checkDataOld(input.polcode_id.ToString(), input.codestructure_code))
                 {
                     bool blnResult = controller.delete(input.polcode_id.ToString());
 
@@ -1835,7 +1835,7 @@ namespace BPC_OPR
                 cls_ctMTReason objReason = new cls_ctMTReason();
                 cls_MTReason model = new cls_MTReason();
 
-                model.reason_id = input.reason_id.Equals("") ? 0 : Convert.ToInt32(input.reason_id);
+                model.reason_id = input.reason_id.Equals("") ? 0 : Convert.ToInt32(input.reason_id.ToString());
                 model.company_code = input.company_code;
                 model.reason_code = input.reason_code;
                 model.reason_name_th = input.reason_name_th;
@@ -7249,7 +7249,7 @@ namespace BPC_OPR
 
         
 
-        #region MTcomAddress
+        #region MTcomAddres
         public string getComAddressList(FillterCompany req)
         {
             JObject output = new JObject();
@@ -7276,7 +7276,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTComaddress contcomaddress = new cls_ctMTComaddress();
-                List<cls_MTComaddress> list = contcomaddress.getDataByFillter(req.company_code , req.combranch_code, req.comaddress_type);
+                List<cls_MTComaddress> list = contcomaddress.getDataByFillter(req.company_code , req.combranch_code, req.comaddres_type);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -7286,29 +7286,31 @@ namespace BPC_OPR
                     foreach (cls_MTComaddress model in list)
                     {
                         JObject json = new JObject();
-                        json.Add("comaddress_type", model.comaddress_type);
+                        json.Add("comaddres_type", model.comaddres_type);
 
-                        json.Add("comaddressth_no", model.comaddressth_no);
-                        json.Add("comaddressth_moo", model.comaddressth_moo);
-                        json.Add("comaddressth_soi", model.comaddressth_soi);
-                        json.Add("comaddressth_road", model.comaddressth_road);
-                        json.Add("comaddressth_tambon", model.comaddressth_tambon);
-                        json.Add("comaddressth_amphur", model.comaddressth_amphur);
-                        json.Add("provinceth_code", model.provinceth_code);
+                        json.Add("comaddres_noth", model.comaddres_noth);
+                        json.Add("comaddres_mooth", model.comaddres_mooth);
+                        json.Add("comaddres_soith", model.comaddres_soith);
+                        json.Add("comaddres_roadth", model.comaddres_roadth);
+                        json.Add("comaddres_tambonth", model.comaddres_tambonth);
+                        json.Add("comaddres_amphurth", model.comaddres_amphurth);
+                       
 
-                        json.Add("comaddressen_no", model.comaddressen_no);
-                        json.Add("comaddressen_moo", model.comaddressen_moo);
-                        json.Add("comaddressen_soi", model.comaddressen_soi);
-                        json.Add("comaddressen_road", model.comaddressen_road);
-                        json.Add("comaddressen_tambon", model.comaddressen_tambon);
-                        json.Add("comaddressen_amphur", model.comaddressen_amphur);
-                        json.Add("provinceen_code", model.provinceen_code);
-                        json.Add("comaddress_zipcode", model.comaddress_zipcode);
 
-                        json.Add("comaddress_tel", model.comaddress_tel);
-                        json.Add("comaddress_email", model.comaddress_email);
-                        json.Add("comaddress_line", model.comaddress_line);
-                        json.Add("comaddress_facebook", model.comaddress_facebook);
+                        json.Add("comaddres_noen", model.comaddres_noen);
+                        json.Add("comaddres_mooen", model.comaddres_mooen);
+                        json.Add("comaddres_soien", model.comaddres_soien);
+                        json.Add("comaddres_roaden", model.comaddres_roaden);
+                        json.Add("comaddres_tambonen", model.comaddres_tambonen);
+                        json.Add("comaddres_amphuren", model.comaddres_amphuren);
+
+                        json.Add("province_code", model.province_code);
+                        json.Add("comaddres_zipcode", model.comaddres_zipcode);
+
+                        json.Add("comaddres_tel", model.comaddres_tel);
+                        json.Add("comaddres_email", model.comaddres_email);
+                        json.Add("comaddres_line", model.comaddres_line);
+                        json.Add("comaddres_facebook", model.comaddres_facebook);
 
                         json.Add("company_code", model.company_code);
                         json.Add("combranch_code", model.combranch_code);
@@ -7394,7 +7396,7 @@ namespace BPC_OPR
                 StringBuilder obj_error = new StringBuilder();
 
                 //bool clear = controller.delete(input.company_code, input.worker_code);
-                bool clear = controller.delete(input.company_code, input.combranch_code, input.comaddress_type);
+                bool clear = controller.delete(input.company_code, input.combranch_code, input.comaddres_type);
 
                 if (clear)
                 {
@@ -7491,9 +7493,9 @@ namespace BPC_OPR
 
                 cls_ctMTComaddress controller = new cls_ctMTComaddress();
 
-                if (controller.checkDataOld(input.company_code, input.combranch_code, input.comaddress_type))
+                if (controller.checkDataOld(input.company_code, input.combranch_code, input.comaddres_type))
                 {
-                    bool blnResult = controller.delete(input.company_code, input.combranch_code, input.comaddress_type);
+                    bool blnResult = controller.delete(input.company_code, input.combranch_code, input.comaddres_type);
 
                     if (blnResult)
                     {
@@ -7515,7 +7517,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-                    string message = "Not Found Project code : " + input.comaddress_type;
+                    string message = "Not Found Project code : " + input.comaddres_type;
                     output["success"] = false;
                     output["message"] = message;
 
@@ -7572,7 +7574,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("COMADDRESS", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COMADDRES", fileName, "TEST");
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -7634,7 +7636,7 @@ namespace BPC_OPR
                 }
                 
                 cls_ctMTComaddlocation contcomaddlocation = new cls_ctMTComaddlocation();
-                List<cls_MTComaddlocation> list = contcomaddlocation.getDataByFillter(req.company_code, req.comlocation_code, req.comaddress_type);
+                List<cls_MTComaddlocation> list = contcomaddlocation.getDataByFillter(req.company_code, req.comlocation_code, req.comaddres_type);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -7751,7 +7753,7 @@ namespace BPC_OPR
                 StringBuilder obj_error = new StringBuilder();
 
                 //bool clear = controller.delete(input.company_code, input.worker_code);
-                bool clear = controller.delete(input.company_code, input.comlocation_code, input.comaddress_type);
+                bool clear = controller.delete(input.company_code, input.comlocation_code, input.comaddres_type);
 
                 if (clear)
                 {
@@ -10666,7 +10668,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.1";
+            log.apilog_code = "SYS026.1";
             log.apilog_by = "";
             log.apilog_data = "Stream";
 
@@ -10711,7 +10713,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        public bool IsValidImagemaps(byte[] bytes)
+        public bool IsValidImagelogo(byte[] bytes)
         {
 
             try
@@ -10731,24 +10733,33 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.2";
+            log.apilog_code = "SYS027.2";
             log.apilog_by = "";
             log.apilog_data = "Stream";
 
             try
             {
-                cls_ctTRComimages ct_imageslogo = new cls_ctTRComimages();
-                List<cls_TRComimages> list_imageslogo = ct_imageslogo.getDataByFillter(req.company_code);
+                cls_ctTRComimages ct_comimageslogo = new cls_ctTRComimages();
+                List<cls_TRComimages> list_comimageslogo = ct_comimageslogo.getDataByFillter(req.company_code);
 
-                if (list_imageslogo.Count > 0)
+                if (list_comimageslogo != null && list_comimageslogo.Count > 0)
                 {
-                    cls_TRComimages md_image = list_imageslogo[0];
+                    cls_TRComimages md_imagelogo = list_comimageslogo[0];
 
-                    bool bln = this.IsValidImage(md_image.comimages_imageslogo);
+                    if (md_imagelogo != null && md_imagelogo.comimages_imageslogo != null)
+                    {
+                        bool bln = this.IsValidImagelogo(md_imagelogo.comimages_imageslogo);
 
-                    output["result"] = "1";
-                    output["result_text"] = "";
-                    output["data"] = "data:image/png;base64," + System.Convert.ToBase64String(md_image.comimages_imageslogo);
+                        output["result"] = "1";
+                        output["result_text"] = "";
+                        output["data"] = "data:image/png;base64," + System.Convert.ToBase64String(md_imagelogo.comimages_imageslogo);
+                    }
+                    else
+                    {
+                        output["result"] = "2";
+                        output["result_text"] = "Data not found";
+                        output["data"] = "";
+                    }
                 }
                 else
                 {
@@ -10756,7 +10767,6 @@ namespace BPC_OPR
                     output["result_text"] = "Data not found";
                     output["data"] = "";
                 }
-
             }
             catch (Exception ex)
             {
@@ -10766,18 +10776,19 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
         #endregion
 
 
         ///
         /// 
         #region Imagemaps 
-        public string doUploadImagesmaps(string ref_to, Stream streams)
+        public string doUploadImagesmaps(string ref_to, Stream stream)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.1";
+            log.apilog_code = "SYS028.1";
             log.apilog_by = "";
             log.apilog_data = "Stream";
 
@@ -10788,7 +10799,7 @@ namespace BPC_OPR
 
                 string[] temp = ref_to.Split('.');
 
-                MultipartParser parsermaps = new MultipartParser(streams);
+                MultipartParser parsermaps = new MultipartParser(stream);
 
                 if (parsermaps.Success)
                 {
@@ -10796,10 +10807,10 @@ namespace BPC_OPR
                     cls_TRComimagesMaps imagesmaps = new cls_TRComimagesMaps();
                     imagesmaps.company_code = temp[0];
 
-                    imagesmaps.comimages_imagesmaps = parsermaps.FileContents;
+                    imagesmaps.comimagesmaps_imagesmaps = parsermaps.FileContents;
                     imagesmaps.modified_by = temp[1];
 
-                    imagesmaps.comimages_id = 2;
+                    imagesmaps.comimagesmaps_id = 1;
 
                     ct_imagesmaps.insert(imagesmaps);
 
@@ -10822,7 +10833,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        public bool IsValidImage(byte[] bytes)
+        public bool IsValidImagemaps(byte[] bytes)
         {
 
             try
@@ -10842,7 +10853,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.2";
+            log.apilog_code = "SYS028.2";
             log.apilog_by = "";
             log.apilog_data = "Stream";
 
@@ -10855,19 +10866,27 @@ namespace BPC_OPR
                 {
                     cls_TRComimagesMaps md_image = list_imagesmaps[0];
 
-                    bool bln = this.IsValidImagemaps(md_image.comimages_imagesmaps);
+                    if (md_image != null && md_image.comimagesmaps_imagesmaps != null)
+                    {
+                        bool bln = IsValidImagemaps(md_image.comimagesmaps_imagesmaps);
 
-                    output["result"] = "1";
-                    output["result_text"] = "";
-                    output["data_maps"] = "data_maps:image/png;base64," + System.Convert.ToBase64String(md_image.comimages_imagesmaps);
+                        output["result"] = "1";
+                        output["result_text"] = "";
+                        output["data"] = "data:image/png;base64," + Convert.ToBase64String(md_image.comimagesmaps_imagesmaps);
+                    }
+                    else
+                    {
+                        output["result"] = "2";
+                        output["result_text"] = "Data not found";
+                        output["data"] = "";
+                    }
                 }
                 else
                 {
                     output["result"] = "2";
                     output["result_text"] = "Data not found";
-                    output["data_maps"] = "";
+                    output["data"] = "";
                 }
-
             }
             catch (Exception ex)
             {
@@ -10877,6 +10896,8 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+
         #endregion
         ///
 
