@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExcelLibrary">
-      <HintPath>C:\Users\phattaraphon.p\Downloads\ExcelLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\ExcelLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Microsoft.Office.Core">
       <HintPath>..\HR-KIOSK\bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
