@@ -69,6 +69,17 @@ namespace BPC_OPR
 
         [DataMember]
         public string worker_taxmethod { get; set; }
+        [DataMember]
+        public string worker_tel { get; set; }
+        [DataMember]
+        public string worker_email { get; set; }
+        [DataMember]
+        public string worker_line { get; set; }
+        [DataMember]
+        public string worker_facebook { get; set; }
+        [DataMember]
+        public string worker_military { get; set; }
+
 
         //-- Transaction
         [DataMember]
@@ -132,6 +143,8 @@ namespace BPC_OPR
         public string dep_parent { get; set; }
         [DataMember]
         public string dep_level { get; set; }
+        [DataMember]
+        public string parent_level { get; set; }
         [DataMember]
         public string company_code { get; set; }
         [DataMember]

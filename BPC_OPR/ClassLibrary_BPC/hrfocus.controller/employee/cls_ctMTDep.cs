@@ -40,6 +40,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", DEP_NAME_EN");
                 obj_str.Append(", DEP_PARENT");
                 obj_str.Append(", DEP_LEVEL");
+                obj_str.Append(", PARENT_LEVEL");
                 obj_str.Append(", COMPANY_CODE");
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -64,6 +65,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.dep_name_en = dr["DEP_NAME_EN"].ToString();
                     model.dep_parent = dr["DEP_PARENT"].ToString();
                     model.dep_level = dr["DEP_LEVEL"].ToString();
+                    model.parent_level = dr["PARENT_LEVEL"].ToString();
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -196,6 +198,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", DEP_NAME_EN ");
                 obj_str.Append(", DEP_PARENT ");
                 obj_str.Append(", DEP_LEVEL ");
+                obj_str.Append(", PARENT_LEVEL ");
                 obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -209,6 +212,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @DEP_NAME_EN ");
                 obj_str.Append(", @DEP_PARENT ");
                 obj_str.Append(", @DEP_LEVEL  ");
+                obj_str.Append(", @PARENT_LEVEL ");
                 obj_str.Append(", @COMPANY_CODE ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -227,6 +231,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@DEP_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_NAME_EN"].Value = model.dep_name_en;
                 obj_cmd.Parameters.Add("@DEP_PARENT", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_PARENT"].Value = model.dep_parent;
                 obj_cmd.Parameters.Add("@DEP_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_LEVEL"].Value = model.dep_level;
+                obj_cmd.Parameters.Add("@PARENT_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@PARENT_LEVEL"].Value = model.parent_level;
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -257,6 +262,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", DEP_NAME_EN=@DEP_NAME_EN ");
                 obj_str.Append(", DEP_PARENT=@DEP_PARENT ");
                 obj_str.Append(", DEP_LEVEL=@DEP_LEVEL ");
+                obj_str.Append(", PARENT_LEVEL=@PARENT_LEVEL ");
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(" WHERE DEP_ID=@DEP_ID ");
@@ -269,6 +275,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@DEP_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_NAME_EN"].Value = model.dep_name_en;
                 obj_cmd.Parameters.Add("@DEP_PARENT", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_PARENT"].Value = model.dep_parent;
                 obj_cmd.Parameters.Add("@DEP_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_LEVEL"].Value = model.dep_level;
+                obj_cmd.Parameters.Add("@PARENT_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@PARENT_LEVEL"].Value = model.parent_level;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
