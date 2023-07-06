@@ -600,6 +600,9 @@ namespace BPC_OPR
 
         [DataMember]
         public string company_code { get; set; }
+
+        [DataMember]
+        public int account_id { get; set; }
         [DataMember]
         public string account_user { get; set; }
         [DataMember]
@@ -705,6 +708,12 @@ namespace BPC_OPR
         public List<string> job_id { get; set; }
         [DataMember]
         public string lang { get; set; }
+        [DataMember]
+        public int status { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
 
     }
 
@@ -713,6 +722,39 @@ namespace BPC_OPR
         public string job_id { get; set; }
         public string worker_code { get; set; }
         public string workdate { get; set; }
+
+    }
+    #endregion
+
+    #region InputMTMailconfig
+    [DataContract]
+    public class InputMTMailconfig
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int mail_id { get; set; }
+        [DataMember]
+        public string mail_server { get; set; }
+        [DataMember]
+        public string mail_serverport { get; set; }
+        [DataMember]
+        public string mail_login { get; set; }
+        [DataMember]
+        public string mail_password { get; set; }
+        [DataMember]
+        public string mail_fromname { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
 
     }
     #endregion

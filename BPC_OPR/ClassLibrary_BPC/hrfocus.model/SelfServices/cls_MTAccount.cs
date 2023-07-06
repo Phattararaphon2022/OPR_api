@@ -5,6 +5,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     {
         public cls_MTAccount() { }
         public string company_code { get; set; }
+        public int account_id { get; set; }
         public string account_user { get; set; }
         public string account_pwd { get; set; }
         public string account_type { get; set; }

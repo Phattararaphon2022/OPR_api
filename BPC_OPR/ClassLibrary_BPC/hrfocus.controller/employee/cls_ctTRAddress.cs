@@ -106,7 +106,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
-                strCondition += " AND WORKER_CODE='" + emp + "'";
+                strCondition += " AND WORKER_CODE=" + emp + "";
 
             return this.getData(strCondition);
         }

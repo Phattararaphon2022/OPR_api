@@ -266,8 +266,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("UPDATE SYS_TR_POLCODE SET ");
 
-                obj_str.Append(" CODESTRUCTURE_CODE=@CODESTRUCTURE_CODE ");
-                obj_str.Append(", POLCODE_LENGHT=@POLCODE_LENGHT ");
+                //obj_str.Append(" CODESTRUCTURE_CODE=@CODESTRUCTURE_CODE ");
+                obj_str.Append("  POLCODE_LENGHT=@POLCODE_LENGHT ");
 
                 obj_str.Append(", POLCODE_TEXT=@POLCODE_TEXT ");
                 obj_str.Append(", POLCODE_ORDER=@POLCODE_ORDER ");
@@ -276,7 +276,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 //obj_str.Append(", FLAG=@FLAG ");
 
-                obj_str.Append(" WHERE POLCODE_ID=@POLCODE_ID ");
+                obj_str.Append(" WHERE CODESTRUCTURE_CODE=@CODESTRUCTURE_CODE ");
 
                 obj_conn.doConnect();
 
@@ -291,8 +291,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 //obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 //obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+                obj_cmd.Parameters.Add("@CODESTRUCTURE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@CODESTRUCTURE_CODE"].Value = model.codestructure_code;
 
-                obj_cmd.Parameters.Add("@POLCODE_ID", SqlDbType.Int); obj_cmd.Parameters["@POLCODE_ID"].Value = model.polcode_id;
+                //obj_cmd.Parameters.Add("@POLCODE_ID", SqlDbType.Int); obj_cmd.Parameters["@POLCODE_ID"].Value = model.polcode_id;
 
                 obj_cmd.ExecuteNonQuery();
 

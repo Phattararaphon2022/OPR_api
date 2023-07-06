@@ -112,7 +112,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string id)
         {
             bool blnResult = false;
             try
@@ -122,7 +122,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROVINCE_CODE");
                 obj_str.Append(" FROM SYS_MT_PROVINCE");
                 obj_str.Append(" WHERE PROVINCE_CODE='" + code + "'");
-      
+                obj_str.Append(" AND PROVINCE_ID='" + id + "'");
+
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 if (dt.Rows.Count > 0)
@@ -169,7 +170,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.province_code))
+                if (this.checkDataOld(model.province_code, model.province_id.ToString()))
                 {
                     if (this.update(model))
                         return model.province_id.ToString();
@@ -236,11 +237,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_PROVINCE SET ");
-                obj_str.Append(" PROVINCE_NAME_TH=@PROVINCE_NAME_TH ");
+
+                //obj_str.Append(" PROVINCE_CODE=@PROVINCE_CODE ");
+                obj_str.Append("  PROVINCE_NAME_TH=@PROVINCE_NAME_TH ");
                 obj_str.Append(", PROVINCE_NAME_EN=@PROVINCE_NAME_EN ");               
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE PROVINCE_ID=@PROVINCE_ID ");            
+                obj_str.Append(" WHERE PROVINCE_CODE=@PROVINCE_CODE ");            
 
                 obj_conn.doConnect();
 
@@ -251,7 +254,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
-                obj_cmd.Parameters.Add("@PROVINCE_ID", SqlDbType.Int); obj_cmd.Parameters["@PROVINCE_ID"].Value = model.province_id;
+                //obj_cmd.Parameters.Add("@PROVINCE_ID", SqlDbType.Int); obj_cmd.Parameters["@PROVINCE_ID"].Value = model.province_id;
+                obj_cmd.Parameters.Add("@PROVINCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCE_CODE"].Value = model.province_code;
 
                 obj_cmd.ExecuteNonQuery();
 

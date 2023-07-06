@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelLibrary">
+      <HintPath>..\..\..\..\ExcelLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.Microsoft.Office.Core">
       <HintPath>..\HR-KIOSK\bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -83,6 +86,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTMailconfig.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdoc.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdocument.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTTopic.cs" />
@@ -143,6 +147,7 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplytraining.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqAssessment.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqCriminal.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\ApiController.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDep.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTGroup.cs" />
@@ -173,6 +178,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTLocation.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajor.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajorr.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolround.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTProvince.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTQualification.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTReduce.cs" />
@@ -187,6 +193,8 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTSupply.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTUniform.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctSYSCodestructure.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctTRComimages.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctTRComimagesMaps.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
@@ -222,6 +230,7 @@
     <Compile Include="hrfocus.model\Payroll\cls_TRTaxrate.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTJobtable.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTMailconfig.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdoc.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdocument.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTTopic.cs" />
@@ -347,6 +356,7 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTLocation.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajor.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajorr.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTPolround.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTProvince.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTQualification.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTReduce.cs" />
@@ -361,6 +371,8 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTCodestructure.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTPolcode.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_SYSCodestructure.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_TRComimages.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_TRComimagesMaps.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_TRPolcode.cs" />
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
@@ -415,7 +427,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmExportData.resx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
