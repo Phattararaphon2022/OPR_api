@@ -104,7 +104,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string id)
         {
             bool blnResult = false;
             try
@@ -115,6 +115,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM SYS_MT_COMBRANCH");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMBRANCH_CODE='" + code + "'");
+                obj_str.Append(" AND COMBRANCH_ID ='" + id + "'");
+                
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -185,7 +187,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.combranch_code))
+                if (this.checkDataOld(model.combranch_code,model.combranch_id.ToString()))
                 {
                     return this.update(model);
                 }
@@ -239,6 +241,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
+                blnResult = "";
                 Message = "ERROR::(COMBRANCH.insert)" + ex.ToString();
             }
 
@@ -257,8 +260,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("UPDATE SYS_MT_COMBRANCH SET ");
 
-                obj_str.Append(" COMBRANCH_CODE=@COMBRANCH_CODE ");
-                obj_str.Append(", SSO_BRANCH_NO=@SSO_BRANCH_NO ");
+                //obj_str.Append(" COMBRANCH_CODE=@COMBRANCH_CODE ");
+                obj_str.Append(" SSO_BRANCH_NO=@SSO_BRANCH_NO ");
 
                 obj_str.Append(", COMBRANCH_NAME_TH=@COMBRANCH_NAME_TH ");
                 obj_str.Append(", COMBRANCH_NAME_EN=@COMBRANCH_NAME_EN ");
@@ -267,12 +270,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
 
-                obj_str.Append(" WHERE COMBRANCH_ID=@COMBRANCH_ID ");
+                //obj_str.Append(" WHERE COMBRANCH_ID=@COMBRANCH_ID ");
+                obj_str.Append(" WHERE COMBRANCH_CODE=@COMBRANCH_CODE ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
-                obj_cmd.Parameters.Add("@COMBRANCH_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBRANCH_CODE"].Value = model.combranch_code;
                 obj_cmd.Parameters.Add("@SSO_BRANCH_NO", SqlDbType.VarChar); obj_cmd.Parameters["@SSO_BRANCH_NO"].Value = model.sso_combranch_no;
 
                 obj_cmd.Parameters.Add("@COMBRANCH_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@COMBRANCH_NAME_TH"].Value = model.combranch_name_th;
@@ -282,7 +285,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@COMBRANCH_ID", SqlDbType.Int); obj_cmd.Parameters["@COMBRANCH_ID"].Value = model.combranch_id;
+                //obj_cmd.Parameters.Add("@COMBRANCH_ID", SqlDbType.Int); obj_cmd.Parameters["@COMBRANCH_ID"].Value = model.combranch_id;
+                obj_cmd.Parameters.Add("@COMBRANCH_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBRANCH_CODE"].Value = model.combranch_code;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -292,7 +296,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
+                //Message = "ERROR::(COMBRANCH.update)" + ex.ToString();
                 Message = "ERROR::(COMBRANCH.update)" + ex.ToString();
+                blnResult = "ERROR::(COMBRANCH.update)" + ex.ToString();
             }
 
             return blnResult;
