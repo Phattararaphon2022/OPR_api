@@ -108,7 +108,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string id,string code)
         {
             bool blnResult = false;
             try
@@ -117,7 +117,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT INITIAL_CODE");
                 obj_str.Append(" FROM EMP_MT_INITIAL");
-                obj_str.Append(" WHERE INITIAL_CODE='" + code + "'");
+                obj_str.Append(" WHERE INITIAL_ID='" + id + "'");
+                obj_str.Append(" AND INITIAL_CODE='" + code + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -165,7 +166,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.initial_code))
+                if (this.checkDataOld(model.initial_id.ToString(),model.initial_code))
                 {
                     if (this.update(model))
                         return model.initial_id.ToString();

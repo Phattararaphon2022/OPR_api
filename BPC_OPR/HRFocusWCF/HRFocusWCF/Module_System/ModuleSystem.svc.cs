@@ -1651,7 +1651,7 @@ namespace BPC_OPR
                     cls_MTPolcode polcode = listPol[0];
 
                     cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter("");
                     foreach (cls_TRPolcode model in listTRPolcode)
                     {
 
@@ -9186,13 +9186,13 @@ namespace BPC_OPR
 
         #endregion
 
-        #region MTSupply
+        #region MTSupply(SUP001)
         public string getSupplyList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.1";
+            log.apilog_code = "SUP001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -9275,7 +9275,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.2";
+            log.apilog_code = "SUP001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9351,7 +9351,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.3";
+            log.apilog_code = "SUP001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9428,7 +9428,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.4";
+            log.apilog_code = "SUP001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -9487,13 +9487,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region MTUniform
+        #region MTUniform(UNI001)
         public string getUniformList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.1";
+            log.apilog_code = "UNI001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -9576,7 +9576,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.2";
+            log.apilog_code = "UNI001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9652,7 +9652,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.3";
+            log.apilog_code = "UNI001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9729,7 +9729,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "SYS001.4";
+            log.apilog_code = "UNI001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 

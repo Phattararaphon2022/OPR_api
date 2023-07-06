@@ -70,13 +70,13 @@ namespace BPC_OPR
 
         }
 
-        #region Worker(EMP008)
+        #region Worker(EMP001)
         public string getWorkerList(FillterWorker req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP008.1";
+            log.apilog_code = "EMP001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -202,7 +202,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP008.2";
+            log.apilog_code = "EMP001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -315,7 +315,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP008.3";
+            log.apilog_code = "EMP001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -392,7 +392,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP008.4";
+            log.apilog_code = "EMP001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -454,7 +454,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP008.5";
+            log.apilog_code = "EMP001.5";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -574,13 +574,13 @@ namespace BPC_OPR
 
         #endregion
 
-        #region Image worker
+        #region Image worker(EMP002)
         public string doUploadWorkerImages(string ref_to, Stream stream)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.4";
+            log.apilog_code = "EMP002.1";
             log.apilog_by = "";
             log.apilog_data = "Stream";
 
@@ -645,7 +645,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.2";
+            log.apilog_code = "EMP002.2";
             log.apilog_by = "";
             log.apilog_data = "Stream";
 
@@ -682,14 +682,14 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Dep(EMP002)
+        #region Dep(DEP001)
 
         public string getDepList(FillterWorker req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.1";
+            log.apilog_code = "DEP001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -776,7 +776,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.2";
+            log.apilog_code = "DEP001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -856,7 +856,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.3";
+            log.apilog_code = "DEP001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -876,7 +876,7 @@ namespace BPC_OPR
 
                 cls_ctMTDep controller = new cls_ctMTDep();
 
-                if (controller.checkDataOld(input.dep_code))
+                if (controller.checkDataOld(input.dep_id, input.dep_code))
                 {
                     bool blnResult = controller.delete(input.dep_code);
 
@@ -934,7 +934,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP002.4";
+            log.apilog_code = "DEP001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -994,13 +994,13 @@ namespace BPC_OPR
 
         #endregion
 
-        #region Position(EMP003)
+        #region Position(PST001)
         public string getPositionList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP003.1";
+            log.apilog_code = "PST001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -1086,7 +1086,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP003.2";
+            log.apilog_code = "PST001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1165,7 +1165,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP003.3";
+            log.apilog_code = "PST001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1185,7 +1185,7 @@ namespace BPC_OPR
 
                 cls_ctMTPosition controller = new cls_ctMTPosition();
 
-                if (controller.checkDataOld(input.position_code))
+                if (controller.checkDataOld(input.position_id,input.position_code))
                 {
                     bool blnResult = controller.delete(input.position_code);
 
@@ -1243,7 +1243,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP003.4";
+            log.apilog_code = "PST001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1302,13 +1302,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Group(EMP004)
+        #region Group(GRP001)
         public string getGroupList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP004.1";
+            log.apilog_code = "GRP001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -1393,7 +1393,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP004.2";
+            log.apilog_code = "GRP001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1471,7 +1471,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP004.3";
+            log.apilog_code = "GRP001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1491,7 +1491,7 @@ namespace BPC_OPR
 
                 cls_ctMTGroup controller = new cls_ctMTGroup();
 
-                if (controller.checkDataOld(input.group_code))
+                if (controller.checkDataOld(input.group_id,input.group_code))
                 {
                     bool blnResult = controller.delete(input.group_code);
 
@@ -1549,7 +1549,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP004.4";
+            log.apilog_code = "GRP001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1608,13 +1608,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Initial(EMP005)
+        #region Initial(INI001)
         public string getInitialList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP005.1";
+            log.apilog_code = "INI001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -1698,7 +1698,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP005.2";
+            log.apilog_code = "INI001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1775,7 +1775,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP005.3";
+            log.apilog_code = "INI001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -1795,7 +1795,7 @@ namespace BPC_OPR
 
                 cls_ctMTInitial controller = new cls_ctMTInitial();
 
-                if (controller.checkDataOld(input.initial_code))
+                if (controller.checkDataOld(input.initial_id,input.initial_code))
                 {
                     bool blnResult = controller.delete(input.initial_code);
 
@@ -1853,7 +1853,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP005.4";
+            log.apilog_code = "INI001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -1912,13 +1912,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Type(EMP006)
+        #region Type(TYP001)
         public string getTypeList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP006.1";
+            log.apilog_code = "TYP001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -2002,7 +2002,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP006.2";
+            log.apilog_code = "TYP001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2079,7 +2079,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP006.3";
+            log.apilog_code = "TYP001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2099,7 +2099,7 @@ namespace BPC_OPR
 
                 cls_ctMTType controller = new cls_ctMTType();
 
-                if (controller.checkDataOld(input.type_code))
+                if (controller.checkDataOld(input.type_id, input.type_code))
                 {
                     bool blnResult = controller.delete(input.type_code);
 
@@ -2157,7 +2157,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP006.4";
+            log.apilog_code = "TYP001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2216,13 +2216,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Status(EMP007)
+        #region Status(STT001)
         public string getStatusList(BasicRequest req)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP007.1";
+            log.apilog_code = "STT001.1";
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -2306,7 +2306,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP007.2";
+            log.apilog_code = "STT001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2383,7 +2383,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP007.3";
+            log.apilog_code = "STT001.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2403,7 +2403,7 @@ namespace BPC_OPR
 
                 cls_ctMTStatus controller = new cls_ctMTStatus();
 
-                if (controller.checkDataOld(input.status_code))
+                if (controller.checkDataOld(input.status_id, input.status_code))
                 {
                     bool blnResult = controller.delete(input.status_code);
 
@@ -2461,7 +2461,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP007.4";
+            log.apilog_code = "STT001.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2520,13 +2520,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Location(EMP027)
+        #region TR_Location(EMP019)
         public string getTREmpLocationList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.1";
+            log.apilog_code = "EMP019.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -2614,7 +2614,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.2";
+            log.apilog_code = "EMP019.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2720,7 +2720,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.3";
+            log.apilog_code = "EMP019.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -2798,7 +2798,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP027.4";
+            log.apilog_code = "EMP019.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -2857,13 +2857,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Branch(EMP028)
+        #region TR_Branch(EMP021)
         public string getTREmpBranchList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP028.1";
+            log.apilog_code = "EMP021.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -2951,7 +2951,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP028.2";
+            log.apilog_code = "EMP021.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3057,7 +3057,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP028.3";
+            log.apilog_code = "EMP021.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3135,7 +3135,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP028.4";
+            log.apilog_code = "EMP021.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -3194,13 +3194,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Address(EMP009)
+        #region TR_Address(EMP003)
         public string getTRAddressList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP009.1";
+            log.apilog_code = "EMP003.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -3296,7 +3296,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP009.2";
+            log.apilog_code = "EMP003.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3402,7 +3402,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP009.3";
+            log.apilog_code = "EMP003.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3480,7 +3480,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP009.4";
+            log.apilog_code = "EMP003.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -3539,13 +3539,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Card(EMP010)
+        #region TR_Card(EMP004)
         public string getTRCardList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP010.1";
+            log.apilog_code = "EMP004.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -3634,7 +3634,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP010.2";
+            log.apilog_code = "EMP004.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3740,7 +3740,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP010.3";
+            log.apilog_code = "EMP004.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -3818,7 +3818,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP010.4";
+            log.apilog_code = "EMP004.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -3878,13 +3878,13 @@ namespace BPC_OPR
 
         #endregion
 
-        #region TR_Bank(EMP011)
+        #region TR_Bank(EMP005)
         public string getTRBankList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP010.1";
+            log.apilog_code = "EMP005.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -3974,7 +3974,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP011.2";
+            log.apilog_code = "EMP005.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4081,7 +4081,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP011.3";
+            log.apilog_code = "EMP005.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4159,7 +4159,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP011.4";
+            log.apilog_code = "EMP005.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4218,13 +4218,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Family(EMP012)
+        #region TR_Family(EMP006)
         public string getTRFamilyList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP012.1";
+            log.apilog_code = "EMP006.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -4314,7 +4314,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP012.2";
+            log.apilog_code = "EMP006.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4420,7 +4420,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP012.3";
+            log.apilog_code = "EMP006.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4498,7 +4498,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP012.4";
+            log.apilog_code = "EMP006.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4557,13 +4557,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Hospital(EMP013)
+        #region TR_Hospital(EMP007)
         public string getTRHospitalList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP013.1";
+            log.apilog_code = "EMP007.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -4648,7 +4648,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP013.2";
+            log.apilog_code = "EMP007.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4754,7 +4754,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP013.3";
+            log.apilog_code = "EMP007.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -4832,7 +4832,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP013.4";
+            log.apilog_code = "EMP007.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -4891,13 +4891,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Foreigner(EMP014)
+        #region TR_Foreigner(EMP008)
         public string getTRForeignerList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP014.1";
+            log.apilog_code = "EMP008.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -4996,7 +4996,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP014.2";
+            log.apilog_code = "EMP008.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5088,7 +5088,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP013.3";
+            log.apilog_code = "EMP008.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5166,7 +5166,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP013.4";
+            log.apilog_code = "EMP008.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5225,13 +5225,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_DEP(EMP015)
+        #region TR_DEP(EMP009)
         public string getTRDepList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP015.1";
+            log.apilog_code = "EMP009.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -5327,7 +5327,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP015.2";
+            log.apilog_code = "EMP009.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5433,7 +5433,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP015.3";
+            log.apilog_code = "EMP009.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5511,7 +5511,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP015.4";
+            log.apilog_code = "EMP009.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5570,13 +5570,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Position(EMP016)
+        #region TR_Position(EMP010)
         public string getTRPositionList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP016.1";
+            log.apilog_code = "EMP010.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -5665,7 +5665,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP016.2";
+            log.apilog_code = "EMP010.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5771,7 +5771,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP016.3";
+            log.apilog_code = "EMP010.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -5849,7 +5849,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP016.4";
+            log.apilog_code = "EMP010.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -5908,13 +5908,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Group(EMP029)
+        #region TR_Group(EMP020)
         public string getTRGroupList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP029.1";
+            log.apilog_code = "EMP020.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -6000,7 +6000,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP029.2";
+            log.apilog_code = "EMP020.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6106,7 +6106,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP029.3";
+            log.apilog_code = "EMP020.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6184,7 +6184,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP029.4";
+            log.apilog_code = "EMP020.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -6243,13 +6243,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Education(EMP017)
+        #region TR_Education(EMP011)
         public string getTREducationList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP017.1";
+            log.apilog_code = "EMP011.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -6340,7 +6340,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP017.2";
+            log.apilog_code = "EMP011.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6446,7 +6446,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP017.3";
+            log.apilog_code = "EMP011.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6524,7 +6524,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP017.4";
+            log.apilog_code = "EMP011.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -6583,13 +6583,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Training(EMP018)
+        #region TR_Training(EMP012)
         public string getTRTrainingList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.1";
+            log.apilog_code = "EMP012.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -6683,7 +6683,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.2";
+            log.apilog_code = "EMP012.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6789,7 +6789,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.3";
+            log.apilog_code = "EMP012.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -6867,7 +6867,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.4";
+            log.apilog_code = "EMP012.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -6926,13 +6926,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Assessment(EMP019)
+        #region TR_Assessment(EMP013)
         public string getTRAssessmentList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.1";
+            log.apilog_code = "EMP013.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -7022,7 +7022,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.2";
+            log.apilog_code = "EMP013.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7128,7 +7128,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.3";
+            log.apilog_code = "EMP013.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7206,7 +7206,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.4";
+            log.apilog_code = "EMP013.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -7265,13 +7265,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Criminal(EMP020)
+        #region TR_Criminal(EMP014)
         public string getTRCriminalList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.1";
+            log.apilog_code = "EMP014.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -7360,7 +7360,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.2";
+            log.apilog_code = "EMP014.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7466,7 +7466,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.3";
+            log.apilog_code = "EMP014.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7544,7 +7544,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP018.4";
+            log.apilog_code = "EMP014.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -7603,13 +7603,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Salary(EMP021)
+        #region TR_Salary(EMP015)
         public string getTRSalaryList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP021.1";
+            log.apilog_code = "EMP015.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -7699,7 +7699,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP021.2";
+            log.apilog_code = "EMP015.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7805,7 +7805,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP021.3";
+            log.apilog_code = "EMP015.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -7883,7 +7883,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP021.4";
+            log.apilog_code = "EMP015.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -7942,13 +7942,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Provident(EMP022)
+        #region TR_Provident(EMP016)
         public string getTRProvidentList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP022.1";
+            log.apilog_code = "EMP016.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -8036,7 +8036,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP022.2";
+            log.apilog_code = "EMP016.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8142,7 +8142,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP022.3";
+            log.apilog_code = "EMP016.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8220,7 +8220,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP022.4";
+            log.apilog_code = "EMP016.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -8279,13 +8279,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Benefit(EMP023)
+        #region TR_Benefit(EMP017)
         public string getTRBenefitList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP023.1";
+            log.apilog_code = "EMP017.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -8383,7 +8383,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP023.2";
+            log.apilog_code = "EMP017.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8489,7 +8489,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP023.3";
+            log.apilog_code = "EMP017.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8567,7 +8567,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP023.4";
+            log.apilog_code = "EMP017.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -8626,13 +8626,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Reduce(EMP024)
+        #region TR_Reduce(EMP018)
         public string getTRReduceList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP024.1";
+            log.apilog_code = "EMP018.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -8719,7 +8719,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP024.2";
+            log.apilog_code = "EMP018.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8825,7 +8825,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP024.3";
+            log.apilog_code = "EMP018.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -8903,7 +8903,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP023.4";
+            log.apilog_code = "EMP018.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -8962,7 +8962,7 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Accumalate(EMP25)
+        #region TR_Accumalate()
         public string getTRAccumalateList(FillterWorker input)
         {
             JObject output = new JObject();
@@ -9069,13 +9069,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Supply(EMP029)
+        #region TR_Supply(EMP022)
         public string getTRSupplyList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP029.1";
+            log.apilog_code = "EMP022.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -9165,7 +9165,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP029.2";
+            log.apilog_code = "EMP022.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9271,7 +9271,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP016.3";
+            log.apilog_code = "EMP022.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9349,7 +9349,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP016.4";
+            log.apilog_code = "EMP022.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -9408,13 +9408,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Uniform(EMP030)
+        #region TR_Uniform(EMP023)
         public string getTRUniformList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.1";
+            log.apilog_code = "EMP023.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -9503,7 +9503,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.2";
+            log.apilog_code = "EMP023.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9609,7 +9609,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.3";
+            log.apilog_code = "EMP023.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9687,7 +9687,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.4";
+            log.apilog_code = "EMP023.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -9746,13 +9746,13 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TR_Suggest(EMP031)
+        #region TR_Suggest(EMP024)
         public string getTRSuggestList(FillterWorker input)
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP031.1";
+            log.apilog_code = "EMP024.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
 
@@ -9839,7 +9839,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP031.2";
+            log.apilog_code = "EMP024.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -9945,7 +9945,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP030.3";
+            log.apilog_code = "EMP024.3";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10023,7 +10023,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP031.4";
+            log.apilog_code = "EMP024.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
 
@@ -10084,12 +10084,12 @@ namespace BPC_OPR
 
         #region Set batch
 
-        //Set Position
+        //Set Position (EMBT001)
         public string getBatchPositionList(InputSetPosition input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB01";
+            log.apilog_code = "EMBT001.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -10167,7 +10167,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.1";
+            log.apilog_code = "EMBT001.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10234,12 +10234,12 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //Set Dep
+        //Set Dep (EMBT002)
         public string getBatchDepList(InputSetDep input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB02";
+            log.apilog_code = "EMBT002.2";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -10326,7 +10326,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.2";
+            log.apilog_code = "EMBT002.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10403,12 +10403,12 @@ namespace BPC_OPR
         }
 
 
-        //Set Group
+        //Set Group (EMBT008)
         public string getBatchGroupList(InputSetGroup input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB03";
+            log.apilog_code = "EMBT008.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -10487,7 +10487,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.2";
+            log.apilog_code = "EMBT008.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10553,12 +10553,12 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //Set Location
+        //Set Location (EMBT009)
         public string getBatchLocationList(InputSetLocation input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB03";
+            log.apilog_code = "EMBT009.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -10634,7 +10634,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.2";
+            log.apilog_code = "EMBT009.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10701,12 +10701,12 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //Set Salary
+        //Set Salary (EMBT005)
         public string getBatchSalaryList(InputSetSalary input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB03";
+            log.apilog_code = "EMBT005.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -10784,7 +10784,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.4";
+            log.apilog_code = "EMBT005.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -10852,12 +10852,12 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //Set Provident
+        //Set Provident (EMBT007)
         public string getBatchProvidentList(InputSetProvident input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB03";
+            log.apilog_code = "EMBT007.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -10934,7 +10934,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.5";
+            log.apilog_code = "EMBT007.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -11002,12 +11002,12 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //Set Benefits
+        //Set Benefits (EMBT006)
         public string getBatchBenefitsList(InputSetBenefits input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB03";
+            log.apilog_code = "EMBT006.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -11093,7 +11093,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.5";
+            log.apilog_code = "EMBT006.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -11167,12 +11167,12 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //Set Training
+        //Set Training (EMBT004)
         public string getBatchTrainingList(InputSetTraining input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMPSB03";
+            log.apilog_code = "EMBT004.1";
             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
@@ -11250,7 +11250,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "EMP099.6";
+            log.apilog_code = "EMBT004.2";
             log.apilog_by = input.modified_by;
             log.apilog_data = tmp.ToString();
 
@@ -11284,6 +11284,160 @@ namespace BPC_OPR
                     model.institute_other = input.institute_other;
                     model.course_code = input.course_code;
                     model.course_other = input.course_other;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.created_by = input.modified_by;
+
+                    listPo.Add(model);
+                }
+                if (listPo.Count > 0)
+                {
+                    strID = objPo.insertlist(listPo);
+                }
+                if (strID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPo.getMessage();
+                }
+                objPo.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        //Set Assessment (EMBT003)
+        public string getBatchTrainingList(InputSetAssessment input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT003.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAssessment objPolItem = new cls_ctTRAssessment();
+                List<cls_TRAssessment> listPolItem = objPolItem.getDataBatch(input.company_code, input.empassessment_location, Convert.ToDateTime(input.empassessment_fromdate));
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRAssessment model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("empassessment_id", model.empassessment_id);
+                        json.Add("empassessment_location", model.empassessment_location);
+                        json.Add("empassessment_topic", model.empassessment_topic);
+                        json.Add("empassessment_fromdate", model.empassessment_fromdate);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("modified_by", model.created_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doSetBatchAssessment(InputSetAssessment input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT003.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAssessment objPo = new cls_ctTRAssessment();
+                List<cls_TRAssessment> listPo = new List<cls_TRAssessment>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRAssessment model = new cls_TRAssessment();
+                    model.empassessment_id = Convert.ToInt32(input.empassessment_id);
+                    model.empassessment_location = input.empassessment_location;
+                    model.empassessment_topic = input.empassessment_topic;
+                    model.empassessment_fromdate = Convert.ToDateTime(input.empassessment_fromdate);
+                    model.empassessment_todate = Convert.ToDateTime(input.empassessment_todate);
+                    model.empassessment_count = Convert.ToDouble(input.empassessment_count);
+                    model.empassessment_result = input.empassessment_result;
                     model.company_code = input.company_code;
                     model.worker_code = modelWorker.worker_code;
                     model.created_by = input.modified_by;

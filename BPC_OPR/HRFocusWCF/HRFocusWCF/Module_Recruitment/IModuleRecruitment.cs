@@ -47,6 +47,15 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqworker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream);
+
+        //image
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqImages?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadReqImages(string ref_to, Stream stream);
+
+        [OperationContract(Name = "reqimages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetReqImages(FillterApplywork req);
         #endregion
 
         #region TR_Address

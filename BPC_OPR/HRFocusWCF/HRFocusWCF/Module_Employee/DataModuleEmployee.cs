@@ -1121,6 +1121,39 @@ namespace BPC_OPR
     }
 
     [DataContract]
+    public class InputSetAssessment
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int empassessment_id { get; set; }
+        [DataMember]
+        public string empassessment_location { get; set; }
+        [DataMember]
+        public string empassessment_topic { get; set; }
+        [DataMember]
+        public string empassessment_fromdate { get; set; }
+        [DataMember]
+        public string empassessment_todate { get; set; }
+        [DataMember]
+        public double empassessment_count { get; set; }
+        [DataMember]
+        public string empassessment_result { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
     public class InputTREmpSuggest
     {
         [DataMember]

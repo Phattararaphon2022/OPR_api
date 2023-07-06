@@ -632,6 +632,15 @@ namespace BPC_OPR
         [OperationContract(Name = "setbatchtraining")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doSetBatchTraining(InputSetTraining input);
+
+        //set assessment
+        [OperationContract(Name = "batchassessmentlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchTrainingList(InputSetAssessment input);
+
+        [OperationContract(Name = "setbatchassessment")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchAssessment(InputSetAssessment input);
         #endregion
 
         #endregion
