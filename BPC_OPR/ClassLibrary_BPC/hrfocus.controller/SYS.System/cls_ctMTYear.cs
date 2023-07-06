@@ -284,7 +284,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
-                obj_str.Append(" WHERE YEAR_CODE=@YEAR_CODE ");
+                obj_str.Append(" WHERE YEAR_ID=@YEAR_ID ");
+                obj_str.Append(" AND YEAR_CODE=@YEAR_CODE ");
+
 
                 obj_conn.doConnect();
 
@@ -299,7 +301,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
-                //obj_cmd.Parameters.Add("@YEAR_ID", SqlDbType.Int); obj_cmd.Parameters["@YEAR_ID"].Value = Convert.ToInt32(model.year_id);
+                obj_cmd.Parameters.Add("@YEAR_ID", SqlDbType.Int); obj_cmd.Parameters["@YEAR_ID"].Value = Convert.ToInt32(model.year_id);
                 obj_cmd.Parameters.Add("@YEAR_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_CODE"].Value = model.year_code;
 
                 obj_cmd.ExecuteNonQuery();

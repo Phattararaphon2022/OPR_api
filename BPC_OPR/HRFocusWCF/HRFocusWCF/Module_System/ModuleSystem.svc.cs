@@ -205,7 +205,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -1422,8 +1422,8 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
                 cls_TRPolcode model = new cls_TRPolcode();
-                model.polcode_id = Convert.ToInt32(input.polcode_id);
-                //model.polcode_id = input.polcode_id;
+                //model.polcode_id = Convert.ToInt32(input.polcode_id);
+                model.polcode_id = input.polcode_id;
                 model.codestructure_code = input.codestructure_code;
 
                 model.polcode_lenght = input.polcode_lenght;
@@ -1502,7 +1502,7 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
 
-                if (controller.checkDataOld(input.polcode_id.ToString(), input.codestructure_code))
+                if (controller.checkDataOld(input.codestructure_code )  )
                 {
                     bool blnResult = controller.delete(input.polcode_id.ToString());
 
@@ -1526,7 +1526,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-                    string message = "Not Found Project code : " + input.codestructure_code;
+                    string message = "Not Found Project code : " + input.polcode_id;
                     output["success"] = false;
                     output["message"] = message;
 
@@ -1856,7 +1856,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code ";
 
                     log.apilog_status = "500";
                     log.apilog_message = objReason.getMessage();
@@ -2144,7 +2144,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = objCardtype.getMessage();
@@ -2156,7 +2156,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -2448,7 +2448,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Code Format is incorrect";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = objFamily.getMessage();
@@ -2756,7 +2756,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Code Format is incorrect";
+                    output["message"] = "Duplicate Code ";
 
                     log.apilog_status = "500";
                     log.apilog_message = objMTLevel.getMessage();
@@ -3047,7 +3047,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = objLocation.getMessage();
@@ -3495,7 +3495,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTRounds objRounds = new cls_ctMTRounds();
-                List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group, input.rounds_id.ToString(), input.rounds_code);
+                List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group,"", input.rounds_code);
 
                 //List<cls_MTRounds> listRounds = objRounds.getDataByFillter("","","");
 
@@ -3898,7 +3898,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = objMTReduce.getMessage();
@@ -3910,7 +3910,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -4202,7 +4202,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Code Format is incorrect";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -4503,7 +4503,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -4515,7 +4515,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -4806,7 +4806,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -4818,7 +4818,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -5108,7 +5108,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -5120,7 +5120,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -5409,7 +5409,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Code Format is incorrect";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -5421,7 +5421,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -5723,7 +5723,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -5777,7 +5777,7 @@ namespace BPC_OPR
 
                 cls_ctMTCombranch controller = new cls_ctMTCombranch();
 
-                if (controller.checkDataOld(input.combranch_code))
+                if (controller.checkDataOld(input.combranch_code,input.combranch_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.combranch_id.ToString());
 
@@ -6073,7 +6073,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";///errorแจ้งเตือน
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -8099,7 +8099,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -8111,7 +8111,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C) Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -8406,7 +8406,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code ";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -8418,7 +8418,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C) Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -8710,7 +8710,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code ";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -8722,7 +8722,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -9015,7 +9015,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code ";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -9027,7 +9027,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -9921,7 +9921,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code ";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -9933,7 +9933,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -10223,7 +10223,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Duplicate Code";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -10235,7 +10235,7 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "(C)Code Format is incorrect";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();

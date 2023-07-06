@@ -157,13 +157,14 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTLevel objReason = new cls_ctMTLevel();
                                 cls_MTLevel model = new cls_MTLevel();
+                                model.level_id = dr["level_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["level_id"].ToString());
 
-                                model.level_id = Convert.ToInt32(dr["LEVEL_ID"]);
-                                model.level_code = dr["LEVEL_CODE"].ToString();
-                                model.level_name_th = dr["LEVEL_NAME_TH"].ToString();
-                                model.level_name_en = dr["LEVEL_NAME_EN"].ToString();
-                                model.company_code = dr["COMPANY_CODE"].ToString();
-                                model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                                //model.level_id = Convert.ToInt32(dr["level_id"]);
+                                model.level_code = dr["level_code"].ToString();
+                                model.level_name_th = dr["level_name_th"].ToString();
+                                model.level_name_en = dr["level_name_en"].ToString();
+                                model.company_code = dr["company_code"].ToString();
+                                //model.modified_date = Convert.ToDateTime(dr["modified_date"]);
                                 model.modified_by = by;
                                 string strID = objReason.insert(model);
 
@@ -208,12 +209,14 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 cls_MTFamily model = new cls_MTFamily();
                                 model = new cls_MTFamily();
 
-                                model.family_id = Convert.ToInt32(dr["FAMILY_ID"]);
-                                model.family_code = dr["FAMILY_CODE"].ToString();
-                                model.family_name_th = dr["FAMILY_NAME_TH"].ToString();
-                                model.family_name_en = dr["FAMILY_NAME_EN"].ToString();
+                                model.family_id = dr["family_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["family_id"].ToString());
 
-                                model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);   
+                                //model.family_id = Convert.ToInt32(dr["family_id"]);
+                                model.family_code = dr["family_code"].ToString();
+                                model.family_name_th = dr["family_name_th"].ToString();
+                                model.family_name_en = dr["family_name_en"].ToString();
+
+                                //model.modified_date = Convert.ToDateTime(dr["modified_date"]);   
 
                              
                                 model.modified_by = by;
@@ -258,10 +261,12 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTAddresstype objReason = new cls_ctMTAddresstype();
                                 cls_MTAddresstype model = new cls_MTAddresstype();
-                                model.addresstype_id = Convert.ToInt32(dr["ADDRESSTYPE_ID"]);
-                                model.addresstype_code = dr["ADDRESSTYPE_CODE"].ToString();
-                                model.addresstype_name_th = dr["ADDRESSTYPE_NAME_TH"].ToString();
-                                model.addresstype_name_en = dr["ADDRESSTYPE_NAME_EN"].ToString();
+                                model.addresstype_id = dr["addresstype_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["addresstype_id"].ToString());
+
+                                //model.addresstype_id = Convert.ToInt32(dr["addresstype_id"]);
+                                model.addresstype_code = dr["addresstype_code"].ToString();
+                                model.addresstype_name_th = dr["addresstype_name_th"].ToString();
+                                model.addresstype_name_en = dr["addresstype_name_en"].ToString();
 
                                
                                 model.modified_by = by;
@@ -978,7 +983,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 #region //cartype
                 switch (type)
                 {
-                    case "CARTYPE":
+                    case "CARDTYPE":
 
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
