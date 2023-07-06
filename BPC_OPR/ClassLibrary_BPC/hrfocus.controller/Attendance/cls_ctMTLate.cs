@@ -188,7 +188,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     if (model.late_id.Equals(0))
                     {
-                        return "";
+                        return "D";
                     }
                     else
                     {

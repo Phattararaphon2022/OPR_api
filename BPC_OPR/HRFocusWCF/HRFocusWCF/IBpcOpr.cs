@@ -23,6 +23,11 @@ namespace BPC_OPR
         [OperationContract(Name = "doAuthen")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doAuthen(RequestData input);
+
+
+        [OperationContract(Name = "doCheckToken")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string checkToken(RequestData input);
         
         
         

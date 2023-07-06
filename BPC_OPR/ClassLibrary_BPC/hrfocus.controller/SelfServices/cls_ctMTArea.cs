@@ -189,7 +189,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     if (model.area_id.Equals(0))
                     {
-                        return "";
+                        return "D";
                     }
                     else
                     {
