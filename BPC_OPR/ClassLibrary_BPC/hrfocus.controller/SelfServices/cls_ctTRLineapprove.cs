@@ -153,7 +153,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.workflow_type,model.position_level))
                 {
-                    return "";
+                    return "D";
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
