@@ -51,12 +51,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_HEIGHT");
                 obj_str.Append(", WORKER_WEIGHT");
 
-               
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
+                obj_str.Append(", ISNULL(REQ_MT_WORKER.MODIFIED_BY, REQ_MT_WORKER.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(REQ_MT_WORKER.MODIFIED_DATE, REQ_MT_WORKER.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(", ISNULL(INITIAL_NAME_TH, '') AS INITIAL_NAME_TH");
+                obj_str.Append(", ISNULL(INITIAL_NAME_EN, '') AS INITIAL_NAME_EN");
 
                 obj_str.Append(" FROM REQ_MT_WORKER");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON REQ_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE");
 
                 obj_str.Append(" WHERE 1=1");
 
@@ -93,6 +96,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    model.initial_name_th = dr["INITIAL_NAME_TH"].ToString();
+                    model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
 
 
                     list_model.Add(model);
