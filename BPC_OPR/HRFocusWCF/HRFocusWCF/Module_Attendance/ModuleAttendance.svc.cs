@@ -236,6 +236,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objPlanholiday.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     cls_ctTRHoliday objHoliday = new cls_ctTRHoliday();
@@ -651,6 +661,16 @@ namespace BPC_OPR
                 model.flag = input.flag;
 
                 string strID = objShift.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     cls_ctTRShiftbreak objbreak = new cls_ctTRShiftbreak();
@@ -758,7 +778,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -992,6 +1012,17 @@ namespace BPC_OPR
                 model.flag = model.flag;
 
                 string strID = objPlanshift.insert(model);
+
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     cls_ctTRPlanschedule objPlanschedule = new cls_ctTRPlanschedule();
@@ -1102,7 +1133,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -1355,6 +1386,16 @@ namespace BPC_OPR
                 model.flag = input.flag;
 
                 string strID = objLeave.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -1469,7 +1510,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -1772,7 +1813,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -1930,6 +1971,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objPlan.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -2043,7 +2094,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -2269,6 +2320,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objRate.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -2382,7 +2443,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -2642,6 +2703,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
                 string strID = objDiligence.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -2755,7 +2826,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -2975,6 +3046,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objLate.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -3088,7 +3169,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -3323,6 +3404,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objPlantimeallw.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -3433,7 +3524,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
@@ -3821,7 +3912,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            
+
 
             return output.ToString(Formatting.None);
 
