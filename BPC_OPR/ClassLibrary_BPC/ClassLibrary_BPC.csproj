@@ -87,6 +87,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTMailconfig.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTPdpafile.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdoc.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdocument.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTTopic.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccountpos.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRLineapprove.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRPdpa.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRReqdocatt.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRReqempinfo.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimecheckin.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="hrfocus.model\SelfServices\cls_MTArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTJobtable.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTMailconfig.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTPdpafile.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdoc.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdocument.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTTopic.cs" />
@@ -291,6 +294,7 @@
     <Compile Include="hrfocus.model\SelfServices\cls_TRAccountpos.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRLineapprove.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRPdpa.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRReqdocatt.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRReqempinfo.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimecheckin.cs" />
