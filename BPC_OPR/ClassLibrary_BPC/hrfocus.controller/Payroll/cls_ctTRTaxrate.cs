@@ -176,16 +176,28 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return blnResult;
         }
 
-        public bool insert(cls_TRTaxrate model)
+        public string insert(cls_TRTaxrate model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.taxrate_from, model.taxrate_to))
                 {
-                    return this.update(model);
+                    if (model.taxrate_id.Equals(0))
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
+
+                //if (this.checkDataOld(model.company_code, model.taxrate_from, model.taxrate_to))
+                //{
+                //    return this.update(model);
+                //}
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -229,21 +241,22 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = true;
+                blnResult = model.taxrate_id.ToString();
 
                 //blnResult = id.ToString();
             }
             catch (Exception ex)
             {
+                blnResult ="";
                 Message = "ERROR::(TAXRATE.insert)" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public bool update(cls_TRTaxrate model)
+        public string update(cls_TRTaxrate model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -262,7 +275,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", FLAG=@FLAG ");
 
 
-                obj_str.Append(" WHERE TAXRATE_ID=@TAXRATE_ID ");
+
+                //obj_str.Append(" WHERE TAXRATE_ID=@TAXRATE_ID ");
 
 
                 obj_conn.doConnect();
@@ -276,13 +290,13 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@TAXRATE_ID", SqlDbType.Int); obj_cmd.Parameters["@TAXRATE_ID"].Value = model.taxrate_id;
+                //obj_cmd.Parameters.Add("@TAXRATE_ID", SqlDbType.Int); obj_cmd.Parameters["@TAXRATE_ID"].Value = model.taxrate_id;
 
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
 
-                blnResult = true;
+                blnResult = model.taxrate_id.ToString();
 
 
                 //blnResult = model.taxrate_id.ToString();

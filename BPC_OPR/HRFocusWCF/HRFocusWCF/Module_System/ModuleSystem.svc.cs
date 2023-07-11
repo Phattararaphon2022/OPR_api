@@ -340,7 +340,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("BANK", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("BANK", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -968,7 +968,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("codestructure", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("codestructure", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -1583,7 +1583,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("TRPolcode", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("TRPolcode", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2279,7 +2279,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("CARDTYPE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("CARDTYPE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2583,7 +2583,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("FAMILY", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("FAMILY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2891,7 +2891,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("LEVEL", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("LEVEL", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4033,7 +4033,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("REDUCE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("REDUCE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4337,7 +4337,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("ETHNICITY", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("ETHNICITY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4638,7 +4638,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("RELIGION", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("RELIGION", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4941,7 +4941,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("BLOODTYPE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("BLOODTYPE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5243,7 +5243,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("HOSPITAL", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("HOSPITAL", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5544,7 +5544,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("PROVINCE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("PROVINCE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5858,7 +5858,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Combranch", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Combranch", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -6207,8 +6207,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvSystemImport srv_import = new cls_srvSystemImport(); 
-                    string tmp = srv_import.doImportExcel("COMPANY", fileName, "TEST");
+                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
+                    string tmp = srv_import.doImportExcel("COMPANY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -6522,7 +6522,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Comlocation", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Comlocation", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -6868,7 +6868,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("COMBANK", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COMBANK", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -7211,7 +7211,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Comcard", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Comcard", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -7574,7 +7574,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("COMADDRES", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COMADDRES", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -7931,7 +7931,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Comaddlocation", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Comaddlocation", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8234,7 +8234,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Course", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COURSE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8541,7 +8541,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Institute", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Institute", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8845,7 +8845,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("faculty", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("FACULTY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9150,7 +9150,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Major", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Major", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9452,7 +9452,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("SUPPLY", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("SUPPLY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9753,7 +9753,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("UNIFORM", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("UNIFORM", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -10056,7 +10056,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Qualification", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Qualification", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -10358,7 +10358,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("ADDRESSTYPE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("ADDRESSTYPE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -11357,7 +11357,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("request", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("request", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;

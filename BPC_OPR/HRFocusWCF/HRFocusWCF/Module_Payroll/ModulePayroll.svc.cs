@@ -199,7 +199,7 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
-                bool strID = controller.insert(model);
+                string strID = controller.insert(model);
 
                 if (!strID.Equals(""))
                 {
@@ -530,7 +530,7 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
-                bool strID = controller.insert(model);
+                string strID = controller.insert(model);
 
                 if (!strID.Equals(""))
                 {
@@ -598,7 +598,7 @@ namespace BPC_OPR
 
                 cls_ctMTItem controller = new cls_ctMTItem();
 
-                if (controller.checkDataOld(input.company_code, input.item_code))
+                if (controller.checkDataOld(input.company_code, input.item_code ))
                 {
                     bool blnResult = controller.delete(input.item_id.ToString());
 
@@ -1169,7 +1169,7 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
-                bool strID = objMTBonus.insert(model);
+                string strID = objMTBonus.insert(model);
                 if (!strID.Equals(""))
                 {
                     try

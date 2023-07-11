@@ -140,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return intResult;
         }
 
-        public bool checkDataOld(string com, string code)
+        public bool checkDataOld(string com, string code )
         {
             bool blnResult = false;
             try
@@ -152,6 +152,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND ITEM_CODE='" + code + "'");
+                
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -193,18 +194,18 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return blnResult;
         }
 
-        public bool insert(cls_MTItem model)
+        public string insert(cls_MTItem model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.item_code))
+                if (this.checkDataOld(model.company_code, model.item_code ))
                 {
-                    if (model.item_id.Equals(1))
+                    if (model.item_id.Equals(0))
                     {
-                        return false;
+                        return "";
                     }
                     else
                     {
@@ -303,7 +304,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.ExecuteNonQuery();
                                 
                 obj_conn.doClose();
-                blnResult = true;
+                //blnResult = true;
+                blnResult = model.item_id.ToString();
  
             }
             catch (Exception ex)
@@ -311,14 +313,14 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 Message = "PAYI005:" + ex.ToString();
              }
 
-      
+
             return blnResult;
 
         }
 
-        public bool update(cls_MTItem model)
+        public string update(cls_MTItem model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -343,7 +345,17 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
 
-                obj_str.Append(" WHERE ITEM_CODE=@ITEM_CODE ");
+                //obj_str.Append(" WHERE ITEM_CODE=@ITEM_CODE ");
+                obj_str.Append(" WHERE 1=1 ");
+                if (!model.item_id.Equals(0))
+                {
+                    obj_str.Append(" AND ITEM_ID=@ITEM_ID ");
+                }
+                else
+                {
+                    obj_str.Append(" AND ITEM_CODE='" + model.item_code + "'");
+
+                }
  
                 obj_conn.doConnect();
 
@@ -365,14 +377,15 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+                obj_cmd.Parameters.Add("@ITEM_ID", SqlDbType.Int); obj_cmd.Parameters["@ITEM_ID"].Value = model.item_id;
 
                 obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
 
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-
-                blnResult = true;
+                blnResult = model.item_id.ToString();
+                //blnResult = true;
             }
             catch (Exception ex)
             {
