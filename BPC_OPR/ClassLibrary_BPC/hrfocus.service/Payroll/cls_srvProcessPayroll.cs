@@ -5,10 +5,9 @@ using ClassLibrary_BPC.hrfocus.model.Payroll;
 using System;
 using System.Collections.Generic;
 using System.Data;
-<<<<<<< HEAD
+
 using System.Data.SqlClient;
-=======
->>>>>>> 97357f36101ca1fad019a9ebfd095a0bc4f7275a
+
 using System.Globalization;
 using System.IO;
 using System.Linq;
