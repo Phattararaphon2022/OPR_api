@@ -7393,12 +7393,17 @@ namespace BPC_OPR
                     log.apilog_status = "200";
                     log.apilog_message = "";
 
-                    //if (input.task_type.Trim().Equals("CAL_TAX"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    srvPay.doCalculateTax(input.company_code, intTaskID.ToString());
-                    //}
-                    if (input.task_type.Trim().Equals("SUM_TIME"))
+                    if (input.task_type.Trim().Equals("CAL_TAX"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        srvPay.doCalculateTax(input.company_code, intTaskID.ToString());
+                    }
+                    else if (input.task_type.Trim().Equals("CAL_INDE"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        srvPay.doCalculateIncomeDeduct(input.company_code, intTaskID.ToString());
+                    }
+                    else if (input.task_type.Trim().Equals("SUM_TIME"))
                     {
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
                         srvTime.doSummarizeTime(input.company_code, intTaskID.ToString());
