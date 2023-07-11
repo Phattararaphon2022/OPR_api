@@ -1358,18 +1358,18 @@ namespace BPC_OPR
             {
   
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                //{
+                //    output["success"] = false;
+                //    output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                //    log.apilog_status = "500";
+                //    log.apilog_message = BpcOpr.MessageNotAuthen;
+                //    objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                //    return output.ToString(Formatting.None);
+                //}
                 cls_ctMTPeriods controler = new cls_ctMTPeriods();
                 List<cls_MTPeriods> listPeriod = controler.getDataByFillter(input.period_id, input.company_code, input.period_type, input.year_code, input.emptype_code);
 
