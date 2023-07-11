@@ -612,6 +612,22 @@ namespace BPC_OPR
         Task<string> doUploadMTQualification(string token, string by, string fileName, Stream stream);
         #endregion
 
+
+        #region MTpolround
+        [OperationContract(Name = "polround_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPolround(BasicRequest req);
+
+        [OperationContract(Name = "polround")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPolround(InputMTPolround input);
+
+        [OperationContract(Name = "polround_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPolround(InputMTPolround input);
+
+        #endregion
+
         #region Supply
         [OperationContract(Name = "supply_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -645,7 +661,42 @@ namespace BPC_OPR
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadUniform?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadUniform(string token, string by, string fileName, Stream stream);
+
+
+
+        Task<string> doUploadUniform(string token, string by, string fileName, Stream stream);  
         #endregion
+        #region image/ 
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadImageslogo?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadImageslogo(string ref_to, Stream stream);
+
+        [OperationContract(Name = "doGetImageslogo")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetImageslogo(FillterCompany req);
+        #endregion
+
+        #region imagemaps
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadImagesmaps?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadImagesmaps(string ref_to, Stream stream);
+
+        [OperationContract(Name = "doGetImagesmaps")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetImagesmaps(FillterCompany req);
+        #endregion
+
+        //#region image
+        
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadComImages?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        //string doUploadComImages(string ref_to, Stream stream);
+        ////string doUploadComImages(string ref_to, Stream streamlogo, Stream streammaps);
+
+        //[OperationContract(Name = "doGetComImages")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doGetComImages(FillterCompany req);
+        //#endregion
+
     }
 }

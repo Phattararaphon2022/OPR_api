@@ -194,7 +194,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.year_code, model.year_id))
+                if (this.checkDataOld(model.company_code, model.year_code, model.year_id.ToString()))
                 {
                     return this.update(model);
                 }
@@ -255,7 +255,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                blnResult = "ERROR::(Year.insert)" + ex.ToString();
+                blnResult = "";
                 Message = "ERROR::(Year.insert)" + ex.ToString();
             }
 
@@ -273,8 +273,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("UPDATE SYS_MT_YEAR SET ");
 
-                obj_str.Append(" YEAR_CODE=@YEAR_CODE ");
-                obj_str.Append(", YEAR_NAME_TH=@YEAR_NAME_TH ");
+                //obj_str.Append(" YEAR_CODE=@YEAR_CODE ");
+                obj_str.Append(" YEAR_NAME_TH=@YEAR_NAME_TH ");
                 obj_str.Append(", YEAR_NAME_EN=@YEAR_NAME_EN ");
 
                 obj_str.Append(", YEAR_FROMDATE=@YEAR_FROMDATE ");
@@ -285,12 +285,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
                 obj_str.Append(" WHERE YEAR_ID=@YEAR_ID ");
+                obj_str.Append(" AND YEAR_CODE=@YEAR_CODE ");
+
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@YEAR_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_CODE"].Value = model.year_code;
                 obj_cmd.Parameters.Add("@YEAR_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_NAME_TH"].Value = model.year_name_th;
                 obj_cmd.Parameters.Add("@YEAR_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_NAME_EN"].Value = model.year_name_en;
                 obj_cmd.Parameters.Add("@YEAR_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@YEAR_FROMDATE"].Value = model.year_fromdate;
@@ -301,6 +302,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
                 obj_cmd.Parameters.Add("@YEAR_ID", SqlDbType.Int); obj_cmd.Parameters["@YEAR_ID"].Value = Convert.ToInt32(model.year_id);
+                obj_cmd.Parameters.Add("@YEAR_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@YEAR_CODE"].Value = model.year_code;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -312,6 +314,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 blnResult = "ERROR::(Year.update)" + ex.ToString();
                 Message = "ERROR::(Year.update)" + ex.ToString();
+
             }
 
             return blnResult;

@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HRFocus>
+<<<<<<< HEAD
   <ServerName>.\SQL2019</ServerName>
   <DBName>OPR_2</DBName>
+=======
+  <ServerName>161.82.218.95</ServerName>
+  <DBName>OPR</DBName>
+>>>>>>> 97357f36101ca1fad019a9ebfd095a0bc4f7275a
   <DBLoginID>sa</DBLoginID>
   <DBPassword>2019</DBPassword>
   <Language>T</Language>

@@ -85,6 +85,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+        public List<cls_MTCombank> getDataMultipleEmp(string com, string worker)
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND WORKER_CODE IN (" + worker + ") ";
+
+            return this.getData(strCondition);
+        }
         public int getNextID()
         {
             int intResult = 1;
@@ -92,10 +99,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-            
 
-                obj_str.Append("SELECT MAX(COMBANK_ID) ");
+                obj_str.Append("SELECT ISNULL(COMBANK_ID, 1) ");
                 obj_str.Append(" FROM SYS_MT_COMBANKk");
+                obj_str.Append(" ORDER BY COMBANK_ID DESC ");
+
+                //obj_str.Append("SELECT MAX(COMBANK_ID) ");
+                //obj_str.Append(" FROM SYS_MT_COMBANKk");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -141,7 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string id)
+        public bool delete(string com)
         {
             bool blnResult = true;
             try
@@ -151,7 +161,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append(" DELETE FROM SYS_MT_COMBANkK");
-                obj_str.Append(" WHERE COMBANK_ID='" + id + "'");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 

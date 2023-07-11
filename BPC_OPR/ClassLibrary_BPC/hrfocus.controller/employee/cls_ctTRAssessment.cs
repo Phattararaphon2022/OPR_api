@@ -311,5 +311,193 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public List<cls_TRAssessment> getDataBatch(string com, string code, DateTime date)
+        {
+            List<cls_TRAssessment> list_model = new List<cls_TRAssessment>();
+            cls_TRAssessment model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append("EMP_TR_ASSESSMENT.COMPANY_CODE");
+                obj_str.Append(", EMP_TR_ASSESSMENT.WORKER_CODE");
+                obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_ID");
+                obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_LOCATION");
+                obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_TOPIC");
+                obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_FROMDATE");
+
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
+
+                obj_str.Append(", ISNULL(EMP_TR_ASSESSMENT.MODIFIED_BY, EMP_TR_ASSESSMENT.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(EMP_TR_ASSESSMENT.MODIFIED_DATE, EMP_TR_ASSESSMENT.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(" FROM EMP_TR_ASSESSMENT");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=EMP_TR_ASSESSMENT.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=EMP_TR_ASSESSMENT.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
+                obj_str.Append(" WHERE 1=1");
+                obj_str.Append(" AND EMP_TR_ASSESSMENT.COMPANY_CODE='" + com + "' ");
+
+                if (!code.Equals(""))
+                    obj_str.Append(" AND EMP_TR_ASSESSMENT.EMPASSESSMENT_LOCATION='" + code + "' ");
+                if (!date.Equals(""))
+                    obj_str.Append(" AND EMP_TR_ASSESSMENT.EMPASSESSMENT_FROMDATE='" + date.ToString("yyyy-MM-ddTHH:mm:ss") + "' ");
+
+                obj_str.Append(" ORDER BY EMP_TR_ASSESSMENT.COMPANY_CODE, EMP_TR_ASSESSMENT.WORKER_CODE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRAssessment();
+
+
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+
+                    model.empassessment_id = Convert.ToInt32(dr["EMPASSESSMENT_ID"]);
+                    model.empassessment_location = dr["EMPASSESSMENT_LOCATION"].ToString();
+                    model.empassessment_topic = dr["EMPASSESSMENT_TOPIC"].ToString();
+                    model.empassessment_fromdate = Convert.ToDateTime(dr["EMPASSESSMENT_FROMDATE"]);
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPASM007:" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+        public bool insertlist(List<cls_TRAssessment> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO EMP_TR_ASSESSMENT");
+                obj_str.Append(" (");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
+
+                obj_str.Append(", EMPASSESSMENT_ID ");
+                obj_str.Append(", EMPASSESSMENT_LOCATION ");
+                obj_str.Append(", EMPASSESSMENT_TOPIC ");
+                obj_str.Append(", EMPASSESSMENT_FROMDATE ");
+                obj_str.Append(", EMPASSESSMENT_TODATE ");
+                obj_str.Append(", EMPASSESSMENT_COUNT ");
+                obj_str.Append(", EMPASSESSMENT_RESULT ");
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
+                obj_str.Append(", FLAG ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
+                obj_str.Append(", @EMPASSESSMENT_ID ");
+                obj_str.Append(", @EMPASSESSMENT_LOCATION ");
+                obj_str.Append(", @EMPASSESSMENT_TOPIC ");
+                obj_str.Append(", @EMPASSESSMENT_FROMDATE ");
+                obj_str.Append(", @EMPASSESSMENT_TODATE ");
+                obj_str.Append(", @EMPASSESSMENT_COUNT ");
+                obj_str.Append(", @EMPASSESSMENT_RESULT ");
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
+                obj_str.Append(", '1' ");
+                obj_str.Append(" )");
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                string strWorkerID = "";
+                foreach (cls_TRAssessment model in list_model)
+                {
+                    strWorkerID += "'" + model.worker_code + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM EMP_TR_ASSESSMENT");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+                obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
+                obj_str2.Append(" AND EMPASSESSMENT_LOCATION ='" + list_model[0].empassessment_location + "'");
+                obj_str2.Append(" AND EMPASSESSMENT_FROMDATE ='" + list_model[0].empassessment_fromdate.ToString("yyyy-MM-ddTHH:mm:ss") + "'");
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); 
+
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_ID", SqlDbType.Int); 
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_LOCATION", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_TOPIC", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_FROMDATE", SqlDbType.DateTime); 
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_TODATE", SqlDbType.DateTime); 
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_COUNT", SqlDbType.Decimal); 
+                    obj_cmd.Parameters.Add("@EMPASSESSMENT_RESULT", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+
+                    foreach (cls_TRAssessment model in list_model)
+                    {
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                        obj_cmd.Parameters["@EMPASSESSMENT_ID"].Value = this.getNextID();
+                        obj_cmd.Parameters["@EMPASSESSMENT_LOCATION"].Value = model.empassessment_location;
+                        obj_cmd.Parameters["@EMPASSESSMENT_TOPIC"].Value = model.empassessment_topic;
+                        obj_cmd.Parameters["@EMPASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
+                        obj_cmd.Parameters["@EMPASSESSMENT_TODATE"].Value = model.empassessment_todate;
+                        obj_cmd.Parameters["@EMPASSESSMENT_COUNT"].Value = model.empassessment_count;
+                        obj_cmd.Parameters["@EMPASSESSMENT_RESULT"].Value = model.empassessment_result;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+
+                        obj_cmd.ExecuteNonQuery();
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                        obj_conn.doRollback();
+                    obj_conn.doClose();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                    obj_conn.doClose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "EMPASM008:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
     }
 }

@@ -69,6 +69,17 @@ namespace BPC_OPR
 
         [DataMember]
         public string worker_taxmethod { get; set; }
+        [DataMember]
+        public string worker_tel { get; set; }
+        [DataMember]
+        public string worker_email { get; set; }
+        [DataMember]
+        public string worker_line { get; set; }
+        [DataMember]
+        public string worker_facebook { get; set; }
+        [DataMember]
+        public string worker_military { get; set; }
+
 
         //-- Transaction
         [DataMember]
@@ -132,6 +143,8 @@ namespace BPC_OPR
         public string dep_parent { get; set; }
         [DataMember]
         public string dep_level { get; set; }
+        [DataMember]
+        public string parent_level { get; set; }
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
@@ -1112,6 +1125,39 @@ namespace BPC_OPR
         public string course_code { get; set; }
         [DataMember]
         public string course_other { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputSetAssessment
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int empassessment_id { get; set; }
+        [DataMember]
+        public string empassessment_location { get; set; }
+        [DataMember]
+        public string empassessment_topic { get; set; }
+        [DataMember]
+        public string empassessment_fromdate { get; set; }
+        [DataMember]
+        public string empassessment_todate { get; set; }
+        [DataMember]
+        public double empassessment_count { get; set; }
+        [DataMember]
+        public string empassessment_result { get; set; }
         [DataMember]
         public List<cls_MTWorker> emp_data { get; set; }
         [DataMember]

@@ -98,7 +98,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string group, string code, string com)
+        public bool checkDataOld(string group, string code, string com, string id)
         {
             bool blnResult = false;
             try
@@ -111,6 +111,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND REASON_GROUP='" + group + "'");
                 obj_str.Append(" AND REASON_CODE='" + code + "'");
+                obj_str.Append(" AND REASON_ID='" + id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -184,7 +185,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.reason_group, model.reason_code, model.company_code))
+                if (this.checkDataOld(model.reason_group, model.reason_code, model.company_code, model.reason_id.ToString()))
                 {
                     return this.update(model);
                 }
@@ -239,7 +240,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 Message = "ERROR::(Round.insert)" + ex.ToString();
-                blnResult = "ERROR::(Round.insert)" + ex.ToString();
+                blnResult = "";
             }
 
             return blnResult;
@@ -257,7 +258,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE SYS_MT_REASON SET ");
 
                 obj_str.Append(" COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(", REASON_CODE=@REASON_CODE ");
+                //obj_str.Append(", REASON_CODE=@REASON_CODE ");
                 obj_str.Append(", REASON_NAME_TH=@REASON_NAME_TH ");
                 obj_str.Append(", REASON_NAME_EN=@REASON_NAME_EN ");
                 obj_str.Append(", REASON_GROUP=@REASON_GROUP ");
@@ -266,13 +267,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", FLAG=@FLAG ");
 
                 obj_str.Append(" WHERE REASON_ID=@REASON_ID ");
-                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+                obj_str.Append(" AND REASON_CODE=@REASON_CODE ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
                 obj_cmd.Parameters.Add("@REASON_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_NAME_TH"].Value = model.reason_name_th;
                 obj_cmd.Parameters.Add("@REASON_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_NAME_EN"].Value = model.reason_name_en;
                 obj_cmd.Parameters.Add("@REASON_GROUP", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_GROUP"].Value = model.reason_group;
@@ -281,6 +281,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
                 obj_cmd.Parameters.Add("@REASON_ID", SqlDbType.Int); obj_cmd.Parameters["@REASON_ID"].Value = model.reason_id;
+                obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
 
                 obj_cmd.ExecuteNonQuery();
 

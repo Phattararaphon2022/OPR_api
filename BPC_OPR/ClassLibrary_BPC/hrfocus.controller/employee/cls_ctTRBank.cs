@@ -98,7 +98,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+        public List<cls_TRBank> getDataMultipleEmp(string com, string worker)
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND WORKER_CODE IN (" + worker + ") ";
 
+            return this.getData(strCondition);
+        }
         public int getNextID()
         {
             int intResult = 1;

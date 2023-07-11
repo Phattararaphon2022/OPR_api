@@ -31,7 +31,7 @@ using ClassLibrary_BPC.hrfocus.model.Attendance;
 
 namespace BPC_OPR
 {
-    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]  
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class ModuleAttendance : IModuleAttendance
     {
         BpcOpr objBpcOpr = new BpcOpr();
@@ -89,299 +89,16 @@ namespace BPC_OPR
                 return date.ToString("dd/MM/yyyy HH:mm:ss");
         }
 
-        #region MTPeriod
-        //public string getMTPeriodList(InputMTPeriod input)
-        //{
-        //    JObject output = new JObject();
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "ATT001.1";
-        //    log.apilog_by = input.username;
-        //    log.apilog_data = "all";
-        //    try
-        //    {
-
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-        //        cls_ctMTPeriod controler = new cls_ctMTPeriod();
-        //        List<cls_MTPeriod> listPeriod = controler.getDataByFillter(input.period_id,input.company_code,input.period_type,input.year_code,input.emptype_code);
-
-        //        JArray array = new JArray();
-
-        //        if (listPeriod.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_MTPeriod model in listPeriod)
-        //            {
-        //                JObject json = new JObject();
-        //                json.Add("company_code", model.company_code);
-        //                json.Add("period_id", model.period_id);
-        //                json.Add("period_type", model.period_type);
-        //                json.Add("emptype_code", model.emptype_code);
-        //                json.Add("year_code", model.year_code);
-        //                json.Add("period_no", model.period_no);
-
-        //                json.Add("period_name_th", model.period_name_th);
-        //                json.Add("period_name_en", model.period_name_en);
-
-        //                json.Add("period_from", model.period_from);
-        //                json.Add("period_to", model.period_to);
-        //                json.Add("period_payment", model.period_payment);
-        //                json.Add("period_dayonperiod", model.period_dayonperiod);
-
-        //                json.Add("modified_by", model.modified_by);
-        //                json.Add("modified_date", model.modified_date);
-        //                json.Add("flag", model.flag);
-
-        //                json.Add("index", index);
-
-        //                index++;
-
-        //                array.Add(json);
-        //            }
-
-        //            output["result"] = "1";
-        //            output["result_text"] = "1";
-        //            output["data"] = array;
-        //        }
-        //        else
-        //        {
-        //            output["result"] = "0";
-        //            output["result_text"] = "Data not Found";
-        //            output["data"] = array;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return e.ToString();
-        //    }
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doManageMTPeriod(InputMTPeriod input)
-        //{
-        //    JObject output = new JObject();
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "ATT001.1";
-        //    log.apilog_by = input.username;
-        //    log.apilog_data = "all";
-        //    try
-        //    {
-
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-        //        cls_ctMTPeriod controler = new cls_ctMTPeriod();
-        //        cls_MTPeriod model = new cls_MTPeriod();
-
-        //        model.company_code = input.company_code;
-
-
-        //        model.period_id = input.period_id.Equals("") ? 0 : Convert.ToInt32(input.period_id);
-        //        model.period_type = input.period_type;
-        //        model.emptype_code = input.emptype_code;
-        //        model.year_code = input.year_code;
-        //        model.period_no = input.period_no;
-
-        //        model.period_name_th = input.period_name_th;
-        //        model.period_name_en = input.period_name_en;
-
-        //        model.period_from = Convert.ToDateTime(input.period_from);
-        //        model.period_to = Convert.ToDateTime(input.period_to);
-        //        model.period_payment = Convert.ToDateTime(input.period_payment);
-
-        //        model.period_dayonperiod = input.period_dayonperiod;
-
-        //        model.modified_by = input.modified_by;
-        //        model.flag = input.flag;
-        //        string strID = controler.insert(model);
-        //        if (!strID.Equals(""))
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            output["record_id"] = strID;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = controler.getMessage();
-        //        }
-
-        //        controler.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-
-        //    }
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public string doDeleteMTPeriod(InputMTPeriod input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "ATT001.3";
-        //    log.apilog_by = input.username;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTPeriod controller = new cls_ctMTPeriod();
-
-        //        bool blnResult = controller.delete(input.company_code,input.period_id);
-
-        //        if (blnResult)
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Remove data successfully";
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Remove data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = controller.getMessage();
-        //        }
-        //        controller.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Remove data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public async Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "ATT001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-        //            string tmp = srv_import.doImportExcel("PERIOD", fileName, by);
-
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        #endregion
-
         #region MTPlanholiday
         public string getMTPlanholidayList(InputMTPlanholiday input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT001.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
             try
             {
 
@@ -398,7 +115,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTPlanholiday objPlanholiday = new cls_ctMTPlanholiday();
-                List<cls_MTPlanholiday> listPlanholiday = objPlanholiday.getDataByFillter(input.company_code,input.planholiday_id,input.planholiday_code,input.year_code);
+                List<cls_MTPlanholiday> listPlanholiday = objPlanholiday.getDataByFillter(input.company_code, input.planholiday_id, input.planholiday_code, input.year_code);
 
                 JArray array = new JArray();
 
@@ -421,20 +138,20 @@ namespace BPC_OPR
                         if (listHoliday.Count > 0)
                         {
                             int indexholiday = 1;
-                          foreach (cls_TRHoliday modelholiday in listHoliday)
-                          {
-                              JObject jsonholiday = new JObject();
-                              jsonholiday.Add("company_code", modelholiday.company_code);
-                              jsonholiday.Add("holiday_date", modelholiday.holiday_date);
-                              jsonholiday.Add("holiday_name_th", modelholiday.holiday_name_th);
-                              jsonholiday.Add("holiday_name_en", modelholiday.holiday_name_en);
-                              jsonholiday.Add("planholiday_code", modelholiday.planholiday_code);
-                              jsonholiday.Add("holiday_daytype", modelholiday.holiday_daytype);
-                              jsonholiday.Add("holiday_payper", modelholiday.holiday_payper);
-                              jsonholiday.Add("index", indexholiday);
-                              indexholiday++;
-                              holidayarray.Add(jsonholiday);
-                          }
+                            foreach (cls_TRHoliday modelholiday in listHoliday)
+                            {
+                                JObject jsonholiday = new JObject();
+                                jsonholiday.Add("company_code", modelholiday.company_code);
+                                jsonholiday.Add("holiday_date", modelholiday.holiday_date);
+                                jsonholiday.Add("holiday_name_th", modelholiday.holiday_name_th);
+                                jsonholiday.Add("holiday_name_en", modelholiday.holiday_name_en);
+                                jsonholiday.Add("planholiday_code", modelholiday.planholiday_code);
+                                jsonholiday.Add("holiday_daytype", modelholiday.holiday_daytype);
+                                jsonholiday.Add("holiday_payper", modelholiday.holiday_payper);
+                                jsonholiday.Add("index", indexholiday);
+                                indexholiday++;
+                                holidayarray.Add(jsonholiday);
+                            }
                             json.Add("holiday_list", holidayarray);
                         }
                         else
@@ -452,27 +169,47 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
             }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
             return output.ToString(Formatting.None);
         }
         public string doManageMTPlanholiday(InputMTPlanholiday input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT001.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -499,10 +236,20 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objPlanholiday.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     cls_ctTRHoliday objHoliday = new cls_ctTRHoliday();
-                    bool trholiday = objHoliday.insert(input.company_code,input.planholiday_code,input.holiday_list);
+                    bool trholiday = objHoliday.insert(input.company_code, input.planholiday_code, input.holiday_list);
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -526,6 +273,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -533,11 +287,9 @@ namespace BPC_OPR
         }
         public string doDeleteMTPlanholiday(InputMTPlanholiday input)
         {
-            JObject output = new JObject();
-
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-
+            JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT001.3";
             log.apilog_by = input.username;
@@ -559,12 +311,12 @@ namespace BPC_OPR
 
                 cls_ctMTPlanholiday controller = new cls_ctMTPlanholiday();
 
-                bool blnResult = controller.delete(input.planholiday_id,input.company_code);
+                bool blnResult = controller.delete(input.planholiday_id, input.company_code);
 
                 if (blnResult)
                 {
                     cls_ctTRHoliday objHoliday = new cls_ctTRHoliday();
-                    bool trholiday = objHoliday.delete(input.company_code, input.planholiday_code,input.year_code);
+                    bool trholiday = objHoliday.delete(input.company_code, input.planholiday_code, input.year_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -594,8 +346,6 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
-
             return output.ToString(Formatting.None);
 
         }
@@ -606,7 +356,7 @@ namespace BPC_OPR
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT001.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName;
 
             try
             {
@@ -667,11 +417,15 @@ namespace BPC_OPR
         #region MTShift
         public string getMTShiftList(InputMTShift input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT002.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -688,7 +442,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTShift objShift = new cls_ctMTShift();
-                List<cls_MTShift> listShift = objShift.getDataByFillter(input.company_code,input.shift_id, input.shift_code);
+                List<cls_MTShift> listShift = objShift.getDataByFillter(input.company_code, input.shift_id, input.shift_code);
 
                 JArray array = new JArray();
 
@@ -810,27 +564,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTShift(InputMTShift input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT002.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -888,11 +661,21 @@ namespace BPC_OPR
                 model.flag = input.flag;
 
                 string strID = objShift.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     cls_ctTRShiftbreak objbreak = new cls_ctTRShiftbreak();
                     cls_ctTRShiftallowance allowance = new cls_ctTRShiftallowance();
-                    bool breaks = objbreak.insert(input.company_code,input.shift_code,input.shift_break);
+                    bool breaks = objbreak.insert(input.company_code, input.shift_code, input.shift_break);
                     bool allowances = allowance.insert(input.company_code, input.shift_code, input.shift_allowance);
 
                     output["success"] = true;
@@ -918,6 +701,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -931,7 +721,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT002.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -988,7 +778,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -998,9 +788,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT002.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -1061,11 +851,15 @@ namespace BPC_OPR
         #region MTPlanshift
         public string getMTPlanshiftList(InputMTPlanshift input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT003.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1150,27 +944,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTPlanshift(InputMTPlanshift input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT003.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1199,6 +1012,17 @@ namespace BPC_OPR
                 model.flag = model.flag;
 
                 string strID = objPlanshift.insert(model);
+
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     cls_ctTRPlanschedule objPlanschedule = new cls_ctTRPlanschedule();
@@ -1234,6 +1058,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -1247,7 +1078,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT003.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1267,7 +1098,7 @@ namespace BPC_OPR
 
                 cls_ctMTPlanshift controller = new cls_ctMTPlanshift();
 
-                bool blnResult = controller.delete(input.planshift_id,input.company_code);
+                bool blnResult = controller.delete(input.planshift_id, input.company_code);
 
                 if (blnResult)
                 {
@@ -1302,7 +1133,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -1312,9 +1143,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT003.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -1375,11 +1206,15 @@ namespace BPC_OPR
         #region MTLeave
         public string getMTLeaveList(InputMTLeave input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT008.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1396,7 +1231,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTLeave objLeave = new cls_ctMTLeave();
-                List<cls_MTLeave> listLeave = objLeave.getDataByFillter(input.company_code,input.leave_id, input.leave_code);
+                List<cls_MTLeave> listLeave = objLeave.getDataByFillter(input.company_code, input.leave_id, input.leave_code);
 
                 JArray array = new JArray();
 
@@ -1464,27 +1299,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTLeave(InputMTLeave input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT008.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1532,13 +1386,24 @@ namespace BPC_OPR
                 model.flag = input.flag;
 
                 string strID = objLeave.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
                     {
                         cls_ctTRLeaveWorkage objTRWorkage = new cls_ctTRLeaveWorkage();
                         objTRWorkage.delete(input.company_code, input.leave_code);
-                        if (input.leave_workage.Count > 0){
+                        if (input.leave_workage.Count > 0)
+                        {
                             objTRWorkage.insert(input.leave_workage);
                         }
 
@@ -1570,6 +1435,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -1583,7 +1455,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT008.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1603,12 +1475,12 @@ namespace BPC_OPR
 
                 cls_ctMTLeave controller = new cls_ctMTLeave();
 
-                bool blnResult = controller.delete(input.leave_id,input.company_code); 
+                bool blnResult = controller.delete(input.leave_id, input.company_code);
 
                 if (blnResult)
                 {
                     cls_ctTRLeaveWorkage objTRWorkage = new cls_ctTRLeaveWorkage();
-                    objTRWorkage.delete(input.company_code,input.leave_code);
+                    objTRWorkage.delete(input.company_code, input.leave_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1638,7 +1510,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -1648,9 +1520,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT008.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -1708,14 +1580,18 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TReave
+        #region TRLeave
         public string getTReaveList(InputTRLeave input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT010.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1758,7 +1634,7 @@ namespace BPC_OPR
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
-               
+
                         json.Add("index", index);
 
                         index++;
@@ -1769,27 +1645,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageTReave(InputTRLeave input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT010.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1845,6 +1740,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -1858,7 +1760,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT010.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -1878,7 +1780,7 @@ namespace BPC_OPR
 
                 cls_ctTREmpleaveacc controller = new cls_ctTREmpleaveacc();
 
-                bool blnResult = controller.delete(input.company_code,input.worker_code,input.year_code);
+                bool blnResult = controller.delete(input.company_code, input.worker_code, input.year_code);
 
                 if (blnResult)
                 {
@@ -1911,7 +1813,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -1921,11 +1823,15 @@ namespace BPC_OPR
         #region MTPlanleave
         public string getMTPlanleaveList(InputMTPlanleave input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT009.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -1999,27 +1905,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTPlanleave(InputMTPlanleave input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT009.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2046,14 +1971,26 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objPlan.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
-                    try{
-                       cls_ctTRPlanleave objTRPlan = new cls_ctTRPlanleave();
-                       objTRPlan.delete(input.company_code,input.planleave_code);
-                       if (input.leavelists.Count > 0) {
-                           objTRPlan.insert(input.leavelists);
-                       }
+                    try
+                    {
+                        cls_ctTRPlanleave objTRPlan = new cls_ctTRPlanleave();
+                        objTRPlan.delete(input.company_code, input.planleave_code);
+                        if (input.leavelists.Count > 0)
+                        {
+                            objTRPlan.insert(input.leavelists);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -2082,6 +2019,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -2095,7 +2039,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT009.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -2115,7 +2059,7 @@ namespace BPC_OPR
 
                 cls_ctMTPlanleave controller = new cls_ctMTPlanleave();
 
-                bool blnResult = controller.delete(input.planleave_id,input.company_code);
+                bool blnResult = controller.delete(input.planleave_id, input.company_code);
 
                 if (blnResult)
                 {
@@ -2150,7 +2094,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -2160,9 +2104,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT009.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -2223,11 +2167,15 @@ namespace BPC_OPR
         #region MTRateot
         public string getMTRateotList(InputMTRateot input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT004.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2256,45 +2204,45 @@ namespace BPC_OPR
                     {
                         JObject json = new JObject();
 
-                    json.Add("company_code", model.company_code);
-                    json.Add("rateot_id", model.rateot_id);
-                    json.Add("rateot_code", model.rateot_code);
-                    json.Add("rateot_name_th", model.rateot_name_th);
-                    json.Add("rateot_name_en", model.rateot_name_en);
-                    json.Add("modified_by", model.modified_by);
-                    json.Add("modified_date", model.modified_date);
-                    cls_ctTRRateot objTRRate = new cls_ctTRRateot();
-                    List<cls_TRRateot> listTRRate = objTRRate.getDataByFillter(model.company_code, model.rateot_code);
-                    JArray arrayTRRate = new JArray();
-                    if (listTRRate.Count > 0)
-                    {
-                        int indexTRRate = 1;
-
-                        foreach (cls_TRRateot modelTRRate in listTRRate)
+                        json.Add("company_code", model.company_code);
+                        json.Add("rateot_id", model.rateot_id);
+                        json.Add("rateot_code", model.rateot_code);
+                        json.Add("rateot_name_th", model.rateot_name_th);
+                        json.Add("rateot_name_en", model.rateot_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        cls_ctTRRateot objTRRate = new cls_ctTRRateot();
+                        List<cls_TRRateot> listTRRate = objTRRate.getDataByFillter(model.company_code, model.rateot_code);
+                        JArray arrayTRRate = new JArray();
+                        if (listTRRate.Count > 0)
                         {
-                            JObject jsonTRRate = new JObject();
-                            jsonTRRate.Add("company_code", modelTRRate.company_code);
-                            jsonTRRate.Add("rateot_daytype", modelTRRate.rateot_daytype);
-                            jsonTRRate.Add("rateot_code", modelTRRate.rateot_code);
-                            jsonTRRate.Add("rateot_before", modelTRRate.rateot_before);
-                            jsonTRRate.Add("rateot_normal", modelTRRate.rateot_normal);
-                            jsonTRRate.Add("rateot_break", modelTRRate.rateot_break);
-                            jsonTRRate.Add("rateot_after", modelTRRate.rateot_after);
+                            int indexTRRate = 1;
 
-                            jsonTRRate.Add("index", indexTRRate);
+                            foreach (cls_TRRateot modelTRRate in listTRRate)
+                            {
+                                JObject jsonTRRate = new JObject();
+                                jsonTRRate.Add("company_code", modelTRRate.company_code);
+                                jsonTRRate.Add("rateot_daytype", modelTRRate.rateot_daytype);
+                                jsonTRRate.Add("rateot_code", modelTRRate.rateot_code);
+                                jsonTRRate.Add("rateot_before", modelTRRate.rateot_before);
+                                jsonTRRate.Add("rateot_normal", modelTRRate.rateot_normal);
+                                jsonTRRate.Add("rateot_break", modelTRRate.rateot_break);
+                                jsonTRRate.Add("rateot_after", modelTRRate.rateot_after);
+
+                                jsonTRRate.Add("index", indexTRRate);
 
 
-                            indexTRRate++;
+                                indexTRRate++;
 
-                            arrayTRRate.Add(jsonTRRate);
+                                arrayTRRate.Add(jsonTRRate);
+                            }
+                            json.Add("rateot_data", arrayTRRate);
                         }
-                        json.Add("rateot_data", arrayTRRate);
-                    }
-                    else
-                    {
-                        json.Add("rateot_data", arrayTRRate);
-                    }
-                    json.Add("flag", model.flag);
+                        else
+                        {
+                            json.Add("rateot_data", arrayTRRate);
+                        }
+                        json.Add("flag", model.flag);
 
                         json.Add("index", index);
 
@@ -2306,27 +2254,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTRateot(InputMTRateot input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT004.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2353,6 +2320,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objRate.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -2391,6 +2368,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -2404,7 +2388,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT004.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -2459,7 +2443,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -2469,9 +2453,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT004.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -2532,11 +2516,15 @@ namespace BPC_OPR
         #region MTDiligence
         public string getMTDiligenceList(InputMTDiligence input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT005.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2629,27 +2617,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTDiligence(InputMTDiligence input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT005.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2696,6 +2703,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
                 string strID = objDiligence.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -2734,6 +2751,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -2747,7 +2771,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT005.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -2767,7 +2791,7 @@ namespace BPC_OPR
 
                 cls_ctMTDiligence controller = new cls_ctMTDiligence();
 
-                bool blnResult = controller.delete(input.diligence_id,input.company_code);
+                bool blnResult = controller.delete(input.diligence_id, input.company_code);
 
                 if (blnResult)
                 {
@@ -2802,7 +2826,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -2812,9 +2836,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT005.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -2875,11 +2899,15 @@ namespace BPC_OPR
         #region MTLate
         public string getMTLateList(InputMTLate input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT007.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2953,27 +2981,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTLate(InputMTLate input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT007.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -2999,6 +3046,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objLate.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
@@ -3037,6 +3094,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -3050,7 +3114,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT007.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3105,7 +3169,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -3115,9 +3179,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT007.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -3178,11 +3242,15 @@ namespace BPC_OPR
         #region MTPlantimeallw
         public string getMTPlantimeallwList(InputMTPlantimeallw input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT006.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -3246,7 +3314,7 @@ namespace BPC_OPR
                                 jsonTR.Add("timeallw_companyday", modelTR.timeallw_companyday);
                                 jsonTR.Add("timeallw_holiday", modelTR.timeallw_holiday);
                                 jsonTR.Add("timeallw_leaveday", modelTR.timeallw_leaveday);
-                   
+
                                 jsonTR.Add("index", indexTR);
                                 indexTR++;
 
@@ -3269,27 +3337,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doManageMTPlantimeallw(InputMTPlantimeallw input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT006.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -3317,12 +3404,22 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
                 string strID = objPlantimeallw.insert(model);
+                if (strID.Equals("D"))
+                {
+                    output["success"] = false;
+                    output["message"] = "Duplicate Code";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Duplicate Code";
+                    objBpcOpr.doRecordLog(log);
+                    return output.ToString(Formatting.None);
+                }
                 if (!strID.Equals(""))
                 {
                     try
                     {
-                        cls_ctTRTimeallw objTimeallw = new cls_ctTRTimeallw(); 
-                        bool  blnResult = objTimeallw.insert(input.company_code, input.plantimeallw_code, input.timeallw_data);
+                        cls_ctTRTimeallw objTimeallw = new cls_ctTRTimeallw();
+                        bool blnResult = objTimeallw.insert(input.company_code, input.plantimeallw_code, input.timeallw_data);
 
                     }
                     catch (Exception ex)
@@ -3352,6 +3449,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -3365,7 +3469,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT006.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3385,7 +3489,7 @@ namespace BPC_OPR
 
                 cls_ctMTPlantimeallw controller = new cls_ctMTPlantimeallw();
 
-                bool blnResult = controller.delete(input.plantimeallw_id,input.company_code);
+                bool blnResult = controller.delete(input.plantimeallw_id, input.company_code);
 
                 if (blnResult)
                 {
@@ -3420,7 +3524,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -3430,9 +3534,9 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.4";
+            log.apilog_code = "ATT006.4";
             log.apilog_by = by;
-            log.apilog_data = "Stream";
+            log.apilog_data = "Stream : " + fileName; ;
 
             try
             {
@@ -3493,11 +3597,15 @@ namespace BPC_OPR
         #region Batch policy
         public string getPolicyAttendance(InputSetPolicyAtt input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT011.1";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -3519,7 +3627,7 @@ namespace BPC_OPR
                 {
                     worker_code = input.emp_data[0].worker_code;
                 }
-                List<cls_TREmppolatt> listPol = objPol.getDataByFillter(input.company_code, worker_code , input.pol_type);
+                List<cls_TREmppolatt> listPol = objPol.getDataByFillter(input.company_code, worker_code, input.pol_type);
 
                 JArray array = new JArray();
 
@@ -3613,27 +3721,46 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
             return output.ToString(Formatting.None);
         }
         public string doSetPolicyAttendance(InputSetPolicyAtt input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT011.2";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
 
@@ -3712,6 +3839,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -3725,7 +3859,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.3";
+            log.apilog_code = "ATT011.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3745,7 +3879,7 @@ namespace BPC_OPR
 
                 cls_ctTREmppolatt controller = new cls_ctTREmppolatt();
 
-                bool blnResult = controller.delete(input.company_code,input.emp_data[0].worker_code,input.pol_type);
+                bool blnResult = controller.delete(input.company_code, input.emp_data[0].worker_code, input.pol_type);
 
                 if (blnResult)
                 {
@@ -3778,7 +3912,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            output["data"] = tmp;
+
 
             return output.ToString(Formatting.None);
 
@@ -3788,11 +3922,15 @@ namespace BPC_OPR
         #region SetPlanShift
         public string doSetBatchPlanshift(InputBatchPlanshift input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT001.1";
+            log.apilog_code = "ATT012";
             log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_data = tmp.ToString();
+
             try
             {
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
@@ -3901,7 +4039,7 @@ namespace BPC_OPR
                             {
                                 cls_ctTRTimecard ctTimecard = new cls_ctTRTimecard();
 
-                                bool blnRecord = ctTimecard.insert_plantime(input.company_code, "",worker.worker_code, listTimecard[0].timecard_workdate, listTimecard[listTimecard.Count - 1].timecard_workdate, listTimecard);
+                                bool blnRecord = ctTimecard.insert_plantime(input.company_code, "", worker.worker_code, listTimecard[0].timecard_workdate, listTimecard[listTimecard.Count - 1].timecard_workdate, listTimecard);
 
                                 if (blnRecord)
                                 {
@@ -3952,6 +4090,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -3968,7 +4113,7 @@ namespace BPC_OPR
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT901.1";
             log.apilog_by = req.username;
-            log.apilog_data = "all";
+
 
             try
             {
@@ -4546,7 +4691,7 @@ namespace BPC_OPR
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT902.1";
             log.apilog_by = req.username;
-            log.apilog_data = "all";
+
 
             try
             {
@@ -4802,6 +4947,13 @@ namespace BPC_OPR
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
             return output.ToString(Formatting.None);
@@ -4897,11 +5049,14 @@ namespace BPC_OPR
         #region Batch policy allowance item
         public string getPolicyAttendanceItem(InputSetPolicyAttItem input)
         {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT903.1";
             log.apilog_by = input.modified_by;
-            log.apilog_data = "all";
+
 
             try
             {
@@ -4992,7 +5147,7 @@ namespace BPC_OPR
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-            
+
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "ATT903.2";
             log.apilog_by = input.modified_by;
@@ -5022,16 +5177,16 @@ namespace BPC_OPR
                 string item_ab = input.item_ab;
                 string item_lt = input.item_lt;
 
-                
+
                 string modified_by = input.modified_by;
 
-              
+
                 System.Text.StringBuilder obj_fail = new System.Text.StringBuilder();
                 List<cls_TREmpattitem> listPol = new List<cls_TREmpattitem>();
 
                 foreach (cls_MTWorker modelWorker in input.emp_data)
                 {
-                    
+
                     cls_TREmpattitem model = new cls_TREmpattitem();
                     model.empattitem_sa = item_sa;
                     model.empattitem_ot = item_ot;
@@ -5070,7 +5225,7 @@ namespace BPC_OPR
                     {
                         output["success"] = true;
                         output["message"] = "";
-                       
+
                         log.apilog_status = "200";
                         log.apilog_message = "";
                     }
@@ -5132,7 +5287,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctTREmpattitem objPol = new cls_ctTREmpattitem();               
+                cls_ctTREmpattitem objPol = new cls_ctTREmpattitem();
 
                 if (objPol.checkDataOld(input.company_code, input.worker_code))
                 {
@@ -5184,6 +5339,6 @@ namespace BPC_OPR
         }
         #endregion
 
-       
+
     }
 }

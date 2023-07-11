@@ -50,7 +50,7 @@ namespace BPC_OPR
             try
             {
                 cls_ctMTAccount Account = new cls_ctMTAccount();
-                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "");
+                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "",0);
 
                 JArray array = new JArray();
 
@@ -244,7 +244,7 @@ namespace BPC_OPR
                 var pwd = decodedValue.Claims.Single(claim => claim.Type == "pass_qwer");
                 var iat = decodedValue.Claims.Single(claim => claim.Type == "iat");
                 cls_ctMTAccount Account = new cls_ctMTAccount();
-                List<cls_MTAccount> list = Account.getDataByFillter(com.Value, usr.Value, "");
+                List<cls_MTAccount> list = Account.getDataByFillter(com.Value, usr.Value, "",0);
 
                 if (usr.Value.Equals(list[0].account_user) && pwd.Value.Equals(list[0].account_pwd))                
                 {
@@ -275,6 +275,52 @@ namespace BPC_OPR
             return tmp;
         }
         #endregion
+
+        public string checkToken(RequestData req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS004.1";
+            log.apilog_by = req.usname;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !this.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    this.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                output["success"] = true;
+                output["message"] = "Check Token successfully";
+
+                log.apilog_status = "200";
+                log.apilog_message = "Check Token";
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                this.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
 
         public void doRecordLog(cls_SYSApilog log)
         {

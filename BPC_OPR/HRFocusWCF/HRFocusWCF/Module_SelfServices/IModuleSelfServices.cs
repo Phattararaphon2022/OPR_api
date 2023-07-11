@@ -275,6 +275,48 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string Approve(InputApprovedoc input);
         #endregion
+
+        #region MTMailconfig
+        [OperationContract(Name = "mailconfig_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTMailconfigList(InputMTMailconfig input);
+
+        [OperationContract(Name = "mailconfig")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTMailconfig(InputMTMailconfig input);
+
+        [OperationContract(Name = "mailconfig_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTMailconfig(InputMTMailconfig input);
+        #endregion
+
+        #region MTPdpafile
+        [OperationContract(Name = "pdpafile_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPdpafileList(InputMTPdpafile input);
+
+        [OperationContract(Name = "pdpafile")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPdpafile(InputMTPdpafile input);
+
+        [OperationContract(Name = "pdpafile_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPdpafile(InputMTPdpafile input);
+        #endregion
+
+        #region TRPdpa
+        [OperationContract(Name = "pdpa_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPdpaList(InputTRPdpa input);
+
+        [OperationContract(Name = "pdpa")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPdpa(InputTRPdpa input);
+
+        [OperationContract(Name = "pdpa_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPdpa(InputTRPdpa input);
+        #endregion
     }
 
 }

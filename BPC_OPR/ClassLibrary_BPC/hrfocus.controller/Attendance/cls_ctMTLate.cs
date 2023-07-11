@@ -186,7 +186,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.late_code))
                 {
-                    return this.update(model);
+                    if (model.late_id.Equals(0))
+                    {
+                        return "D";
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();

@@ -66,12 +66,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(WORKER_TAXMETHOD, '1') AS WORKER_TAXMETHOD");
 
+                obj_str.Append(", ISNULL(WORKER_TEL, '') AS WORKER_TEL");
+                obj_str.Append(", ISNULL(WORKER_EMAIL, '') AS WORKER_EMAIL");
+                obj_str.Append(", ISNULL(WORKER_LINE, '') AS WORKER_LINE");
+                obj_str.Append(", ISNULL(WORKER_FACEBOOK, '') AS WORKER_FACEBOOK");
+
+                obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");                
+
                 obj_str.Append(", ISNULL(EMP_MT_WORKER.MODIFIED_BY, EMP_MT_WORKER.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(EMP_MT_WORKER.MODIFIED_DATE, EMP_MT_WORKER.CREATED_DATE) AS MODIFIED_DATE");
 
 
                 obj_str.Append(", ISNULL(INITIAL_NAME_TH, '') AS INITIAL_NAME_TH");
                 obj_str.Append(", ISNULL(INITIAL_NAME_EN, '') AS INITIAL_NAME_EN");
+
+                obj_str.Append(", ISNULL((SELECT POSITION_NAME_TH FROM EMP_MT_POSITION WHERE POSITION_CODE = (SELECT TOP 1 EMPPOSITION_POSITION FROM EMP_TR_POSITION where WORKER_CODE = EMP_MT_WORKER.WORKER_CODE  AND EMPPOSITION_DATE<=GETDATE() ORDER BY EMPPOSITION_DATE DESC)),'') AS POSITION_NAME_TH");
+                obj_str.Append(", ISNULL((SELECT POSITION_NAME_EN FROM EMP_MT_POSITION WHERE POSITION_CODE = (SELECT TOP 1 EMPPOSITION_POSITION FROM EMP_TR_POSITION where WORKER_CODE = EMP_MT_WORKER.WORKER_CODE  AND EMPPOSITION_DATE<=GETDATE() ORDER BY EMPPOSITION_DATE DESC)),'') AS POSITION_NAME_EN");
 
                 obj_str.Append(", ISNULL(SELF_ADMIN, 0) AS SELF_ADMIN");
 
@@ -124,11 +134,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.worker_taxmethod = dr["WORKER_TAXMETHOD"].ToString();
 
+                    model.worker_tel = dr["WORKER_TEL"].ToString();
+                    model.worker_email = dr["WORKER_EMAIL"].ToString();
+                    model.worker_line = dr["WORKER_LINE"].ToString();
+                    model.worker_facebook = dr["WORKER_FACEBOOK"].ToString();
+
+                    model.worker_military = dr["WORKER_MILITARY"].ToString();
+
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
                     model.initial_name_th = dr["INITIAL_NAME_TH"].ToString();
                     model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
+
+                    model.position_name_th = dr["POSITION_NAME_TH"].ToString();
+                    model.position_name_en = dr["POSITION_NAME_EN"].ToString();
 
                     model.self_admin = Convert.ToBoolean(dr["SELF_ADMIN"]);
 
@@ -379,6 +399,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_PWD ");
                 obj_str.Append(", SELF_ADMIN ");
 
+                obj_str.Append(", WORKER_TEL ");
+                obj_str.Append(", WORKER_EMAIL ");
+                obj_str.Append(", WORKER_LINE ");
+                obj_str.Append(", WORKER_FACEBOOK ");
+
+                obj_str.Append(", WORKER_MILITARY ");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -426,6 +453,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @WORKER_TAXMETHOD ");
                 obj_str.Append(", @WORKER_PWD ");
                 obj_str.Append(", @SELF_ADMIN ");
+
+                obj_str.Append(", @WORKER_TEL ");
+                obj_str.Append(", @WORKER_EMAIL ");
+                obj_str.Append(", @WORKER_LINE ");
+                obj_str.Append(", @WORKER_FACEBOOK ");
+
+                obj_str.Append(", @WORKER_MILITARY ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -482,6 +516,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@SELF_ADMIN", SqlDbType.Bit); obj_cmd.Parameters["@SELF_ADMIN"].Value = model.self_admin;
 
+                obj_cmd.Parameters.Add("@WORKER_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TEL"].Value = model.worker_tel;
+                obj_cmd.Parameters.Add("@WORKER_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMAIL"].Value = model.worker_email;
+                obj_cmd.Parameters.Add("@WORKER_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_LINE"].Value = model.worker_line;
+                obj_cmd.Parameters.Add("@WORKER_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FACEBOOK"].Value = model.worker_facebook;
+
+                obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -551,6 +591,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", SELF_ADMIN=@SELF_ADMIN ");
 
+                obj_str.Append(", WORKER_TEL=@WORKER_TEL ");
+                obj_str.Append(", WORKER_EMAIL=@WORKER_EMAIL ");
+                obj_str.Append(", WORKER_LINE=@WORKER_LINE ");
+                obj_str.Append(", WORKER_FACEBOOK=@WORKER_FACEBOOK ");
+
+                obj_str.Append(", WORKER_MILITARY=@WORKER_MILITARY ");
+
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
@@ -606,6 +653,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@SELF_ADMIN", SqlDbType.Bit); obj_cmd.Parameters["@SELF_ADMIN"].Value = model.self_admin;
 
+                obj_cmd.Parameters.Add("@WORKER_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TEL"].Value = model.worker_tel;
+                obj_cmd.Parameters.Add("@WORKER_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMAIL"].Value = model.worker_email;
+                obj_cmd.Parameters.Add("@WORKER_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_LINE"].Value = model.worker_line;
+                obj_cmd.Parameters.Add("@WORKER_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FACEBOOK"].Value = model.worker_facebook;
+
+                obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

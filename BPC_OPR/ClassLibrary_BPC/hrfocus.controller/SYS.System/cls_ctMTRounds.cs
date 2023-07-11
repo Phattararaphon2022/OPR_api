@@ -126,7 +126,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             //return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string group, string code)
+        public bool checkDataOld(string group, string code, string id)
         {
             bool blnResult = false;
             try
@@ -138,6 +138,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND ROUNDS_GROUP='" + group + "'");
                 obj_str.Append(" AND ROUNDS_CODE='" + code + "'");
+                obj_str.Append(" AND ROUNDS_ID='" + id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -210,7 +211,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.rounds_group, model.rounds_code))
+                if (this.checkDataOld(model.rounds_group, model.rounds_code, model.rounds_id.ToString()))
                 {
                     return this.update(model);
                 }
@@ -258,7 +259,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@ROUNDS_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUNDS_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@ROUNDS_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUNDS_ID"].Value = id;
 
                 obj_cmd.Parameters.Add("@ROUNDS_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_CODE"].Value = model.rounds_code;
                 obj_cmd.Parameters.Add("@ROUNDS_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_NAME_TH"].Value = model.rounds_name_th;
@@ -280,7 +281,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                blnResult = "ERROR::(ROUNDS.insert)" + ex.ToString();
+                blnResult = "";
                 Message = "ERROR::(ROUNDS.insert)" + ex.ToString();
             }
 

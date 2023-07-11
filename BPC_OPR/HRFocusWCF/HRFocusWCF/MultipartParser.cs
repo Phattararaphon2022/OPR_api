@@ -143,5 +143,10 @@ namespace AntsCode.Util
             get;
             private set;
         }
+        public byte[] FileContentsmaps
+        {
+            get;
+            private set;
+        }
     }
 }
