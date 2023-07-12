@@ -30,7 +30,7 @@ using ClassLibrary_BPC.hrfocus;
 using ClassLibrary_BPC.hrfocus.model.SYS.System;
 using ClassLibrary_BPC.hrfocus.model.Payroll;
 using ClassLibrary_BPC.hrfocus.controller.Payroll;
-
+using ClassLibrary_BPC.hrfocus.service.Payroll;
 namespace BPC_OPR
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ModuleSystem" in code, svc and config file together.
@@ -347,8 +347,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Taxrate", fileName, "TEST");
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("Taxrate", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -431,11 +431,12 @@ namespace BPC_OPR
                         json.Add("item_calpf", model.item_calpf);
                         json.Add("item_calsso", model.item_calsso);
                         json.Add("item_calot", model.item_calot);
+
+                        json.Add("item_allowance", model.item_allowance);
                         json.Add("item_contax", model.item_contax);
                         json.Add("item_section", model.item_section);
                         json.Add("item_rate", model.item_rate);
-                        json.Add("item_account", model.item_account);
-
+ 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -522,11 +523,12 @@ namespace BPC_OPR
                 model.item_calpf = input.item_calpf;
                 model.item_calsso = input.item_calsso;
                 model.item_calot = input.item_calot;
+                model.item_allowance = input.item_allowance;
+                
                 model.item_contax = input.item_contax;
                 model.item_section = input.item_section;
                 model.item_rate = input.item_rate;
-                model.item_account = input.item_account;
-
+ 
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
@@ -678,8 +680,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("MTItemr", fileName, "TEST");
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("MTItem", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -739,16 +741,16 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTProvident objMTBonus = new cls_ctMTProvident();
-                List<cls_MTProvident> listMTBonus = objMTBonus.getDataByFillter(req.company_code, "", "");
+                cls_ctMTProvident objMTProvident = new cls_ctMTProvident();
+                List<cls_MTProvident> listMTProvident = objMTProvident.getDataByFillter(req.company_code, "", "");
 
                 JArray array = new JArray();
 
-                if (listMTBonus.Count > 0)
+                if (listMTProvident.Count > 0)
                 {
                     int index = 1;
 
-                    foreach (cls_MTProvident model in listMTBonus)
+                    foreach (cls_MTProvident model in listMTProvident)
                     {
                         JObject json = new JObject();
 
@@ -766,35 +768,35 @@ namespace BPC_OPR
                         //json.Add("index", index);
                         array.Add(json);
 
-                        cls_ctTRProvidentWorkage objBonusrate = new cls_ctTRProvidentWorkage();
-                        List<cls_TRProvidentWorkage> listTRBonusrate = objBonusrate.getDataByFillter(model.company_code, model.provident_code);
-                        JArray arrayBonusrate = new JArray();
+                        cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
+                        List<cls_TRProvidentWorkage> listTRProvident = objProvidentrate.getDataByFillter(model.company_code, model.provident_code);
+                        JArray arrayProvidentrate = new JArray();
 
-                        if (listTRBonusrate.Count > 0)
+                        if (listTRProvident.Count > 0)
                         {
-                            int indexBonusrate = 1;
+                            int indexProvidentrate = 1;
 
-                            foreach (cls_TRProvidentWorkage modelTRBonusrate in listTRBonusrate)
+                            foreach (cls_TRProvidentWorkage modelTRProvidentrate in listTRProvident)
                             {
-                                JObject jsonBonusrate = new JObject();
+                                JObject jsonProvidentrate = new JObject();
 
-                                jsonBonusrate.Add("leave_code", modelTRBonusrate.provident_code);
-                                jsonBonusrate.Add("workage_from", modelTRBonusrate.workage_from);
-                                jsonBonusrate.Add("workage_to", modelTRBonusrate.workage_to);
-                                jsonBonusrate.Add("rate_emp", modelTRBonusrate.rate_emp);
-                                jsonBonusrate.Add("rate_com", modelTRBonusrate.rate_com);
-                                
+                                jsonProvidentrate.Add("leave_code", modelTRProvidentrate.provident_code);
+                                jsonProvidentrate.Add("workage_from", modelTRProvidentrate.workage_from);
+                                jsonProvidentrate.Add("workage_to", modelTRProvidentrate.workage_to);
+                                jsonProvidentrate.Add("rate_emp", modelTRProvidentrate.rate_emp);
+                                jsonProvidentrate.Add("rate_com", modelTRProvidentrate.rate_com);
 
-                                jsonBonusrate.Add("index", indexBonusrate);
-                                indexBonusrate++;
 
-                                arrayBonusrate.Add(jsonBonusrate);
+                                jsonProvidentrate.Add("index", indexProvidentrate);
+                                indexProvidentrate++;
+
+                                arrayProvidentrate.Add(jsonProvidentrate);
                             }
-                            json.Add("providentWorkage_data", arrayBonusrate);
+                            json.Add("providentWorkage_data", arrayProvidentrate);
                         }
                         else
                         {
-                            json.Add("providentWorkage_data", arrayBonusrate);
+                            json.Add("providentWorkage_data", arrayProvidentrate);
                         }
                         json.Add("index", index);
 
@@ -842,7 +844,7 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTProvident objMTBonus = new cls_ctMTProvident();
+                cls_ctMTProvident objMTProvident = new cls_ctMTProvident();
                 cls_MTProvident model = new cls_MTProvident();
 
                 model.company_code = input.company_code;
@@ -854,16 +856,16 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
-                bool strID = objMTBonus.insert(model);
+                bool strID = objMTProvident.insert(model);
                 if (!strID.Equals(""))
                 {
                     try
                     {
-                        cls_ctTRProvidentWorkage objBonusrate = new cls_ctTRProvidentWorkage();
-                        objBonusrate.delete(input.company_code, input.provident_code);
+                        cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
+                        objProvidentrate.delete(input.company_code, input.provident_code);
                         if (input.providentWorkage_data.Count > 0)
                         {
-                            objBonusrate.insert(input.providentWorkage_data);
+                            objProvidentrate.insert(input.providentWorkage_data);
                         }
                     }
                     catch (Exception ex)
@@ -883,10 +885,10 @@ namespace BPC_OPR
                     output["message"] = "Retrieved data not successfully";
 
                     log.apilog_status = "500";
-                    log.apilog_message = objMTBonus.getMessage();
+                    log.apilog_message = objMTProvident.getMessage();
                 }
 
-                objMTBonus.dispose();
+                objMTProvident.dispose();
             }
             catch (Exception ex)
             {
@@ -930,8 +932,8 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
-                    cls_ctTRProvidentWorkage objBonusrate = new cls_ctTRProvidentWorkage();
-                    objBonusrate.delete(input.company_code, input.provident_code);
+                    cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
+                    objProvidentrate.delete(input.company_code, input.provident_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -994,8 +996,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("Bonus", fileName, by);
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("Provident", fileName, by);
 
 
                     output["success"] = true;
@@ -1309,7 +1311,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("Bonus", fileName, by);
 
 
@@ -1595,7 +1597,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("PERIOD", fileName, by);
 
 
@@ -1886,7 +1888,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("SetBonus", fileName, by);
 
 
@@ -2168,7 +2170,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("SetProvident", fileName, by);
 
 
@@ -2450,7 +2452,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
 
 
@@ -2514,7 +2516,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPayitem objPolItem = new cls_ctTRPayitem();
-                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code,  input.item_code, input.item_code);
+                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, Convert.ToDateTime(input.payitem_date), input.worker_code, input.item_type, input.item_code);
 
                 JArray array = new JArray();
                 if (listPolItem != null)
@@ -2849,7 +2851,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
 
 

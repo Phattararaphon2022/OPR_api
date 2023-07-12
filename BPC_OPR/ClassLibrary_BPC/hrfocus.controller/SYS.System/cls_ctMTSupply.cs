@@ -170,11 +170,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.supply_code))
                 {
-                    if (this.update(model))
-                        return model.supply_id.ToString();
-                    else
+                    if (model.supply_id.Equals(0))
+                    {
                         return "";
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
+
+                //if (this.checkDataOld(model.supply_code))
+                //{
+                //    if (this.update(model))
+                //        return model.supply_id.ToString();
+                //    else
+                //        return "";
+                //}
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -227,20 +239,29 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return strResult;
         }
 
-        public bool update(cls_MTSupply model)
+        public string update(cls_MTSupply model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_SUPPLY SET ");
-                obj_str.Append(" SUPPLY_CODE=@SUPPLY_CODE ");
-                obj_str.Append(", SUPPLY_NAME_TH=@SUPPLY_NAME_TH ");
+                 obj_str.Append(" SUPPLY_NAME_TH=@SUPPLY_NAME_TH ");
                 obj_str.Append(", SUPPLY_NAME_EN=@SUPPLY_NAME_EN ");
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE SUPPLY_ID=@SUPPLY_ID ");
+                 obj_str.Append(" WHERE 1=1 ");
+                if (!model.supply_id.Equals(0))
+                {
+                    obj_str.Append(" AND SUPPLY_ID=@SUPPLY_ID ");
+                }
+                else
+                {
+                    obj_str.Append(" AND SUPPLY_CODE='" + model.supply_code + "'");
+
+                }
+
 
 
 
@@ -248,19 +269,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@SUPPLY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@SUPPLY_CODE"].Value = model.supply_code;
                 obj_cmd.Parameters.Add("@SUPPLY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@SUPPLY_NAME_TH"].Value = model.supply_name_th;
                 obj_cmd.Parameters.Add("@SUPPLY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@SUPPLY_NAME_EN"].Value = model.supply_name_en;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.Parameters.Add("@SUPPLY_ID", SqlDbType.Int); obj_cmd.Parameters["@SUPPLY_ID"].Value = model.supply_id;
+                obj_cmd.Parameters.Add("@SUPPLY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@SUPPLY_CODE"].Value = model.supply_code;
 
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
+                blnResult = model.supply_id.ToString();
 
-                blnResult = true;
+                //blnResult = true;
             }
             catch (Exception ex)
             {

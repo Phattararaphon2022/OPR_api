@@ -48,6 +48,11 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string worker_taxmethod { get; set; }
         public string worker_pwd { get; set; }
         public bool self_admin { get; set; }
+        public string worker_tel { get; set; }
+        public string worker_email { get; set; }
+        public string worker_line { get; set; }
+        public string worker_facebook { get; set; }
+        public string worker_military { get; set; }
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
         public string modified_by { get; set; }

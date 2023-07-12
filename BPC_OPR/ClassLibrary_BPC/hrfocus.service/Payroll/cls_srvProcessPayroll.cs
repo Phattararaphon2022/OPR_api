@@ -5,6 +5,9 @@ using ClassLibrary_BPC.hrfocus.model.Payroll;
 using System;
 using System.Collections.Generic;
 using System.Data;
+
+using System.Data.SqlClient;
+
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -39,10 +42,80 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
              return intResult;
          }
 
+        public string doCalculateTax(string com, string taskid)
+      {
+          string strResult = "";
+
+          cls_ctConnection obj_conn = new cls_ctConnection();
+
+          try
+          {
+             
+              System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+              obj_conn.doConnect();
+
+              obj_str.Append(" EXEC [dbo].[PAY_PRO_JOBTAX] '" + com + "', '" + taskid + "' ");
+
+              SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());              
+              obj_cmd.CommandType = CommandType.Text;
+              
+              int intCountSuccess = obj_cmd.ExecuteNonQuery();
+
+              if (intCountSuccess > 0)
+              {
+                  //obj_conn.doCommit();
+                  strResult = "Success::" + intCountSuccess.ToString();
+              }
+
+          }
+          catch (Exception ex)
+          {
+
+          }
+
+          return strResult;
+      }
+
+        public string doCalculateIncomeDeduct(string com, string taskid)
+        {
+            string strResult = "";
+
+            cls_ctConnection obj_conn = new cls_ctConnection();
+
+            try
+            {
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_conn.doConnect();
+
+                obj_str.Append(" EXEC [dbo].[PAY_PRO_JOBINDE] '" + com + "', '" + taskid + "' ");
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                obj_cmd.CommandType = CommandType.Text;
+
+                int intCountSuccess = obj_cmd.ExecuteNonQuery();
+
+                if (intCountSuccess > 0)
+                {
+                    //obj_conn.doCommit();
+                    strResult = "Success::" + intCountSuccess.ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return strResult;
+        }
 
 
 
-         //SSO test 
+
+         //SSO   
          public string doExportSso(string com,string taskid)
          {
              string strResult = "";

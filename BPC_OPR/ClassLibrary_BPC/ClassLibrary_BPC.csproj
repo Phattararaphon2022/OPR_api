@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExcelLibrary">
-      <HintPath>C:\Users\phattaraphon.p\Downloads\ExcelLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\ExcelLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Microsoft.Office.Core">
       <HintPath>..\HR-KIOSK\bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
@@ -79,6 +79,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
+    <Compile Include="hrfocus.controller\Payroll\date.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTMailconfig.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctMTPdpafile.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdoc.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTReqdocument.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTTopic.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccountpos.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRLineapprove.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRPdpa.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRReqdocatt.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRReqempinfo.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRTimecheckin.cs" />
@@ -231,6 +234,7 @@
     <Compile Include="hrfocus.model\SelfServices\cls_MTArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTJobtable.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTMailconfig.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_MTPdpafile.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdoc.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTReqdocument.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTTopic.cs" />
@@ -291,6 +295,7 @@
     <Compile Include="hrfocus.model\SelfServices\cls_TRAccountpos.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRLineapprove.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRPdpa.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRReqdocatt.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRReqempinfo.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRTimecheckin.cs" />
@@ -411,6 +416,7 @@
     <Compile Include="hrfocus.service\cls_srvProcessTime.cs" />
     <Compile Include="hrfocus.service\cls_srvProjectImport.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
+    <Compile Include="hrfocus.service\Payroll\cls_srvPayrollImport.cs" />
     <Compile Include="hrfocus.service\Recruitment\cls_srvReqImport.cs" />
     <Compile Include="hrfocus.service\Payroll\cls_srvProcessPayroll.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />

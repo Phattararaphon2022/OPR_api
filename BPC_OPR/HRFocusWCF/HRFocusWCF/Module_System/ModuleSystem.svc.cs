@@ -5932,7 +5932,7 @@ namespace BPC_OPR
                         JObject json = new JObject();
                         json.Add("company_id", model.company_id);
                         json.Add("company_code", model.company_code);
-                        json.Add("company_initials", model.company_initials);
+                        //json.Add("company_initials", model.company_initials);
                         json.Add("company_name_th", model.company_name_th);
                         json.Add("company_name_en", model.company_name_en);
 
@@ -6033,7 +6033,7 @@ namespace BPC_OPR
 
                 model.company_id = input.company_id;
                 model.company_code = input.company_code;
-                model.company_initials = input.company_initials;
+                //model.company_initials = input.company_initials;
 
                 model.company_name_th = input.company_name_th;
                 model.company_name_en = input.company_name_en;

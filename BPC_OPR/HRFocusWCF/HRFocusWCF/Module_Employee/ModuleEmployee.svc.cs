@@ -144,6 +144,14 @@ namespace BPC_OPR
 
                         json.Add("self_admin", model.self_admin);
 
+                        json.Add("worker_tel", model.worker_tel);
+                        json.Add("worker_email", model.worker_email);
+                        json.Add("worker_line", model.worker_line);
+                        json.Add("worker_facebook", model.worker_facebook);
+
+                        json.Add("worker_military", model.worker_military);
+
+
                         json.Add("flag", model.flag);
 
                         json.Add("initial_name_th", model.initial_name_th);
@@ -263,6 +271,14 @@ namespace BPC_OPR
                 model.worker_pwd = "";
 
                 model.self_admin = input.self_admin;
+
+                model.worker_tel = input.worker_tel;
+                model.worker_email = input.worker_email;
+                model.worker_line = input.worker_line;
+                model.worker_facebook = input.worker_facebook;
+
+                model.worker_military = input.worker_military;
+
 
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
@@ -725,6 +741,7 @@ namespace BPC_OPR
                         json.Add("dep_name_en", model.dep_name_en);
                         json.Add("dep_parent", model.dep_parent);
                         json.Add("dep_level", model.dep_level);
+                        json.Add("parent_level", model.parent_level);
                         json.Add("company_code", model.company_code);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -804,6 +821,7 @@ namespace BPC_OPR
                 model.dep_name_en = input.dep_name_en;
                 model.dep_parent = input.dep_parent;
                 model.dep_level = input.dep_level;
+                model.parent_level = input.parent_level;
                 model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 

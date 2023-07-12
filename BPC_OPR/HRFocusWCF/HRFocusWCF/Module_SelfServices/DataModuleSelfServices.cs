@@ -759,4 +759,48 @@ namespace BPC_OPR
     }
     #endregion
 
+    #region InputMTPdpafile
+    [DataContract]
+    public class InputMTPdpafile
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int document_id { get; set; }
+        [DataMember]
+        public string document_name { get; set; }
+        [DataMember]
+        public string document_type { get; set; }
+        [DataMember]
+        public string document_path { get; set; }
+        [DataMember]
+        public string created_by { get; set; }
+    }
+    #endregion
+
+    #region InputTRPdpa
+    [DataContract]
+    public class InputTRPdpa
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public bool status { get; set; }
+    }
+    #endregion
+
 }
