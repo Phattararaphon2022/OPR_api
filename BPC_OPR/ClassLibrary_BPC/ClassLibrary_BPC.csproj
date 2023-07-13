@@ -77,10 +77,8 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
-
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
-
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
@@ -123,6 +121,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRWageday.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRTimecard.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccountmodule.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRAccountpos.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctTRLineapprove.cs" />
@@ -293,6 +292,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_TRTimecard.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRAccount.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRAccountdep.cs" />
+    <Compile Include="hrfocus.model\SelfServices\cls_TRAccountmodule.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRAccountpos.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRArea.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_TRLineapprove.cs" />
