@@ -88,7 +88,7 @@ namespace BPC_OPR
         [OperationContract(Name = "MTProvident_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteMTProvident(InputMTProvident input);
-
+         
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProvident?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTProvident(string token, string by, string fileName, Stream stream);

@@ -119,6 +119,25 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
             return this.getData(strCondition);
         }
+
+        public List<cls_MTItem> getDataByFillter(string com, string id, string code, string type)
+        {
+            string strCondition = "";
+
+            strCondition += " AND COMPANY_CODE='" + com + "'";
+
+            if (!id.Equals(""))
+                strCondition += " AND ITEM_ID='" + id + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND ITEM_CODE='" + code + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND ITEM_TYPE='" + type + "'";
+
+            return this.getData(strCondition);
+        }
+
         public int getNextID()
         {
             int intResult = 1;
