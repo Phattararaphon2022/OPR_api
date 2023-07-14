@@ -349,6 +349,9 @@ namespace BPC_OPR
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
+        public string worker_code { get; set; }
+        
+        [DataMember]
         public string item_code { get; set; }
 
         [DataMember]

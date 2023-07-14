@@ -1360,18 +1360,18 @@ namespace BPC_OPR
             {
   
 
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                //{
+                //    output["success"] = false;
+                //    output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                //    log.apilog_status = "500";
+                //    log.apilog_message = BpcOpr.MessageNotAuthen;
+                //    objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                //    return output.ToString(Formatting.None);
+                //}
                 cls_ctMTPeriods controler = new cls_ctMTPeriods();
                 List<cls_MTPeriods> listPeriod = controler.getDataByFillter(input.period_id, input.company_code, input.period_type, input.year_code, input.emptype_code);
 
@@ -2888,6 +2888,141 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region  paybank
+        public string getpaybank(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY002.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRPaybank objPaybank = new cls_ctTRPaybank();
+                List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(req.company_code, req.worker_code);
+                JArray array = new JArray();
+
+                if (list_paybank.Count > 0)
+                {
+                    int index = 1;
+                    foreach (cls_TRPaybank model in list_paybank)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("paybank_code", model.paybank_code);
+                        json.Add("paybank_bankcode", model.paybank_bankcode);
+                        json.Add("paybank_bankaccount", model.paybank_bankaccount);
+                        json.Add("paybank_bankamount", model.paybank_bankamount);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+
+                        json.Add("index", index);
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                objPaybank.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        ///
+        //public string getpaybank(string com)
+        //{
+        //    JObject output = new JObject();
+
+        //    //cls_ctTRPaybank objProvident = new cls_ctTRPaybank();
+        //    //List<cls_TRPaybank> listProvident = objpaybank.getDataByFillter(com, "", "");
+
+        //    cls_ctTRPaybank objPaybank = new cls_ctTRPaybank();
+        //    List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(com, strEmp);
+
+        //    JArray array = new JArray();
+
+        //    if (list_paybank.Count > 0)
+        //    {
+        //        int index = 1;
+
+        //        foreach (cls_TRPaybank model in list_paybank)
+        //        {
+        //            JObject json = new JObject();
+
+        //            json.Add("paybank_code", model.paybank_code);
+        //            json.Add("paybank_bankcode", model.paybank_bankcode);
+        //            json.Add("paybank_bankaccount", model.paybank_bankaccount);
+        //            json.Add("paybank_bankamount", model.paybank_bankamount);
+
+        //            //json.Add("modified_by", model.modified_by);
+
+        //            json.Add("modified_by", model.modified_by);
+        //            json.Add("modified_date", model.modified_date);
+
+        //            json.Add("index", index);
+
+        //            index++;
+
+        //            array.Add(json);
+        //        }
+
+        //        output["result"] = "1";
+        //        output["result_text"] = "1";
+        //        output["data"] = array;
+        //    }
+        //    else
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = "Data not Found";
+        //        output["data"] = array;
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+         #endregion
         
 
     }
