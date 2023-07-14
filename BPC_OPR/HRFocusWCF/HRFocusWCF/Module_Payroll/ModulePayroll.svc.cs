@@ -2514,7 +2514,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPayitem objPolItem = new cls_ctTRPayitem();
-                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code,  input.item_code, input.item_code);
+                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code, input.item_type, input.item_code);
 
                 JArray array = new JArray();
                 if (listPolItem != null)

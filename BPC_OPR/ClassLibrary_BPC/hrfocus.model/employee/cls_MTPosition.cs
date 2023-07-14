@@ -15,6 +15,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string position_name_en { get; set; }
         public string company_code { get; set; }
         public int position_level { get; set; }
+        public bool notused { get; set; }
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
         public string modified_by { get; set; }

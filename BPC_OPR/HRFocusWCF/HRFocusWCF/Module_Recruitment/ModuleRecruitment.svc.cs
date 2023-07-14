@@ -1761,7 +1761,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctTREducation controller = new cls_ctTREducation();
+                cls_ctTRApplyeducation controller = new cls_ctTRApplyeducation();
 
                 if (controller.checkDataOld(input.company_code, input.worker_code))
                 {
@@ -2781,7 +2781,7 @@ namespace BPC_OPR
                      return output.ToString(Formatting.None);
                  }
 
-                 cls_ctTRTraining controller = new cls_ctTRTraining();
+                 cls_ctTRApplytraining controller = new cls_ctTRApplytraining();
 
                  if (controller.checkDataOld(input.company_code, input.worker_code))
                  {
@@ -3117,7 +3117,7 @@ namespace BPC_OPR
                      return output.ToString(Formatting.None);
                  }
 
-                 cls_ctTRSuggest controller = new cls_ctTRSuggest();
+                 cls_ctTRApplySuggest controller = new cls_ctTRApplySuggest();
 
                  if (controller.checkDataOld(input.company_code, input.worker_code))
                  {

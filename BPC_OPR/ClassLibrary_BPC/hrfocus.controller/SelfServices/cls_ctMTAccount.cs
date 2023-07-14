@@ -34,7 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append(" COMPANY_CODE");
-                obj_str.Append(", ACCOUNT_ID");
+                //obj_str.Append(", ACCOUNT_ID");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_PWD");
                 obj_str.Append(", ACCOUNT_TYPE");
@@ -63,7 +63,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_MTAccount();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
+                    //model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
 

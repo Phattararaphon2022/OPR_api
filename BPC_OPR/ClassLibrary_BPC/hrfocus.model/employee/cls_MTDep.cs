@@ -18,6 +18,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string dep_level { get; set; }
         public string parent_level { get; set; }
         public string company_code { get; set; }
+        public Boolean notused { get; set; }
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }
     }

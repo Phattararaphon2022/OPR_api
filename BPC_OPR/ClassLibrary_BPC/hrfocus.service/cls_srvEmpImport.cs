@@ -109,6 +109,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.dep_name_en = dr["dep_name_en"].ToString();
                                 model.dep_parent = dr["dep_parent"].ToString();
                                 model.dep_level = dr["dep_level"].ToString();
+                                model.parent_level = dr["parent_level"].ToString();
                                 model.company_code = dr["company_code"].ToString();
                                 model.modified_by = by;
 
@@ -376,7 +377,11 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.hrs_perday = Convert.ToDouble(dr["hrs_perday"]);
                                 model.worker_taxmethod = "1";
                                 model.self_admin = false;
-
+                                model.worker_tel = dr["worker_tel"].ToString();
+                                model.worker_email = dr["worker_email"].ToString();
+                                model.worker_line = dr["worker_line"].ToString();
+                                model.worker_facebook = dr["worker_facebook"].ToString();
+                                model.worker_military = dr["worker_military"].ToString();
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
@@ -426,10 +431,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.address_amphur = dr["address_amphur"].ToString();
                                 model.province_code = dr["province_code"].ToString();
                                 model.address_zipcode = dr["address_zipcode"].ToString();
-                                model.address_tel = dr["address_tel"].ToString();
-                                model.address_email = dr["address_email"].ToString();
-                                model.address_line = dr["address_line"].ToString();
-                                model.address_facebook = dr["address_facebook"].ToString();
 
                                 model.modified_by = by;
 

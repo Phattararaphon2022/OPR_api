@@ -25,6 +25,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string institute_other { get; set; }
         public string course_code { get; set; }
         public string course_other { get; set; }
+        public string emptraining_count { get; set; }
+
 
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
