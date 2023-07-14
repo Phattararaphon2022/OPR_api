@@ -410,7 +410,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTItem contaddresstype = new cls_ctMTItem();
-                List<cls_MTItem> list = contaddresstype.getDataByFillter(req.company_code, "", req.item_code);
+                List<cls_MTItem> list = contaddresstype.getDataByFillter(req.company_code, "", req.item_code, req.item_type);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -2514,7 +2514,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPayitem objPolItem = new cls_ctTRPayitem();
-                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code,  input.item_code, input.item_code);
+                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code, input.item_code, input.item_code, Convert.ToDateTime(input.payitem_date), Convert.ToDateTime(input.payitem_date));
 
                 JArray array = new JArray();
                 if (listPolItem != null)
