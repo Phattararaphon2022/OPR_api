@@ -2580,9 +2580,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-
-
-
         //test
         public string doManageTRPayitemList(InputTRPayitem input)
         {
@@ -2676,7 +2673,6 @@ namespace BPC_OPR
 
         }
         //test
-     
         public string doManageTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
@@ -2751,11 +2747,7 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
 
-        }
-
-       
-
-       
+        }              
  
         public string doDeleteTRPayitem(InputTRPayitem input)
         {
@@ -2886,7 +2878,145 @@ namespace BPC_OPR
         }
         #endregion
 
-        
+        #region Paytran
+        public string getTRPaytranList(FillterPayroll req)
+        {
+
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY012.1";
+            log.apilog_by = req.username;
+
+
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRPaytran controller = new cls_ctTRPaytran();
+                List<cls_TRPaytran> listResult = controller.getDataByFillter(req.language, req.company,datefrom, dateto, req.worker_code);
+                JArray array = new JArray();
+
+                if (listResult.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRPaytran model in listResult)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("paytran_date", model.paytran_date);
+
+                        json.Add("paytran_ssoemp", model.paytran_ssoemp);
+                        json.Add("paytran_ssocom", model.paytran_ssocom);
+                        json.Add("paytran_ssorateemp", model.paytran_ssorateemp);
+                        json.Add("paytran_ssoratecom", model.paytran_ssoratecom);
+
+                        json.Add("paytran_pfemp", model.paytran_pfemp);
+                        json.Add("paytran_pfcom", model.paytran_pfcom);
+
+                        json.Add("paytran_income_401", model.paytran_income_401);
+                        json.Add("paytran_deduct_401", model.paytran_deduct_401);
+                        json.Add("paytran_tax_401", model.paytran_tax_401);
+
+                        json.Add("paytran_income_4012", model.paytran_income_4012);
+                        json.Add("paytran_deduct_4012", model.paytran_deduct_4012);
+                        json.Add("paytran_tax_4012", model.paytran_tax_4012);
+
+                        json.Add("paytran_income_4013", model.paytran_income_4013);
+                        json.Add("paytran_deduct_4013", model.paytran_deduct_4013);
+                        json.Add("paytran_tax_4013", model.paytran_tax_4013);
+
+                        json.Add("paytran_income_402I", model.paytran_income_402I);
+                        json.Add("paytran_deduct_402I", model.paytran_deduct_402I);
+                        json.Add("paytran_tax_402I", model.paytran_tax_402I);
+
+                        json.Add("paytran_income_402O", model.paytran_income_402O);
+                        json.Add("paytran_deduct_402O", model.paytran_deduct_402O);
+                        json.Add("paytran_tax_402O", model.paytran_tax_402O);
+                        
+                        json.Add("paytran_income_notax", model.paytran_income_notax);
+                        json.Add("paytran_deduct_notax", model.paytran_deduct_notax);
+
+                        json.Add("paytran_income_total", model.paytran_income_total);
+                        json.Add("paytran_deduct_total", model.paytran_deduct_total);
+
+                        json.Add("paytran_netpay_b", model.paytran_netpay_b);
+                        json.Add("paytran_netpay_c", model.paytran_netpay_c);
+                      
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("worker_detail", model.worker_detail);
+
+                        json.Add("paytran_salary", model.paytran_salary);
+                        json.Add("paytran_overtime", model.paytran_overtime);
+                        json.Add("paytran_diligence", model.paytran_diligence);
+
+                        json.Add("paytran_absent", model.paytran_absent);
+                        json.Add("paytran_late", model.paytran_late);
+                        json.Add("paytran_leave", model.paytran_leave);
+                        
+                        json.Add("change", false);
+                        json.Add("index", index);
+
+                        index++;
+                        
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
 
     }
 

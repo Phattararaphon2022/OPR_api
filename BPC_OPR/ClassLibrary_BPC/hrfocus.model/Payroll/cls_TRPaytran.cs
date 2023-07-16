@@ -63,6 +63,12 @@ namespace ClassLibrary_BPC.hrfocus.model.Payroll
         //-- Show only
         public string worker_detail { get; set; }
         public double paytran_salary { get; set; }
+        public double paytran_overtime { get; set; }
+        public double paytran_diligence { get; set; }
+
+        public double paytran_absent { get; set; }
+        public double paytran_late { get; set; }
+        public double paytran_leave { get; set; }
 
     }
 }
