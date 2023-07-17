@@ -2489,7 +2489,6 @@ namespace BPC_OPR
         }
         #endregion
 
-
         #region  PayItem
 
         public string getTRPayitemList(InputTRPayitem input)
@@ -2516,7 +2515,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPayitem objPolItem = new cls_ctTRPayitem();
-                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, Convert.ToDateTime(input.payitem_date), input.worker_code, input.item_type, input.item_code);
+                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code, input.item_code, input.item_code, Convert.ToDateTime(input.payitem_date), Convert.ToDateTime(input.payitem_date));
 
                 JArray array = new JArray();
                 if (listPolItem != null)
@@ -2581,9 +2580,6 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
-
-
-
 
         //test
         public string doManageTRPayitemList(InputTRPayitem input)
@@ -2678,7 +2674,6 @@ namespace BPC_OPR
 
         }
         //test
-
         public string doManageTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
@@ -2754,10 +2749,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-
-
-
-
 
         public string doDeleteTRPayitem(InputTRPayitem input)
         {
@@ -2851,7 +2842,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
                     string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
 
 
@@ -2888,18 +2879,20 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region  paybank
-        public string getpaybank(BasicRequest req)
+        #region Paytran
+        public string getTRPaytranList(FillterPayroll req)
         {
+
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAY002.1";
+            log.apilog_code = "PAY012.1";
             log.apilog_by = req.username;
-            log.apilog_data = "all";
+
 
             try
             {
+
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
@@ -2913,25 +2906,80 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctTRPaybank objPaybank = new cls_ctTRPaybank();
-                List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(req.company_code, req.worker_code);
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRPaytran controller = new cls_ctTRPaytran();
+                List<cls_TRPaytran> listResult = controller.getDataByFillter(req.language, req.company, datefrom, dateto, req.worker_code);
                 JArray array = new JArray();
 
-                if (list_paybank.Count > 0)
+                if (listResult.Count > 0)
                 {
                     int index = 1;
-                    foreach (cls_TRPaybank model in list_paybank)
+
+                    foreach (cls_TRPaytran model in listResult)
                     {
                         JObject json = new JObject();
 
-                        json.Add("paybank_code", model.paybank_code);
-                        json.Add("paybank_bankcode", model.paybank_bankcode);
-                        json.Add("paybank_bankaccount", model.paybank_bankaccount);
-                        json.Add("paybank_bankamount", model.paybank_bankamount);
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("paytran_date", model.paytran_date);
+
+                        json.Add("paytran_ssoemp", model.paytran_ssoemp);
+                        json.Add("paytran_ssocom", model.paytran_ssocom);
+                        json.Add("paytran_ssorateemp", model.paytran_ssorateemp);
+                        json.Add("paytran_ssoratecom", model.paytran_ssoratecom);
+
+                        json.Add("paytran_pfemp", model.paytran_pfemp);
+                        json.Add("paytran_pfcom", model.paytran_pfcom);
+
+                        json.Add("paytran_income_401", model.paytran_income_401);
+                        json.Add("paytran_deduct_401", model.paytran_deduct_401);
+                        json.Add("paytran_tax_401", model.paytran_tax_401);
+
+                        json.Add("paytran_income_4012", model.paytran_income_4012);
+                        json.Add("paytran_deduct_4012", model.paytran_deduct_4012);
+                        json.Add("paytran_tax_4012", model.paytran_tax_4012);
+
+                        json.Add("paytran_income_4013", model.paytran_income_4013);
+                        json.Add("paytran_deduct_4013", model.paytran_deduct_4013);
+                        json.Add("paytran_tax_4013", model.paytran_tax_4013);
+
+                        json.Add("paytran_income_402I", model.paytran_income_402I);
+                        json.Add("paytran_deduct_402I", model.paytran_deduct_402I);
+                        json.Add("paytran_tax_402I", model.paytran_tax_402I);
+
+                        json.Add("paytran_income_402O", model.paytran_income_402O);
+                        json.Add("paytran_deduct_402O", model.paytran_deduct_402O);
+                        json.Add("paytran_tax_402O", model.paytran_tax_402O);
+
+                        json.Add("paytran_income_notax", model.paytran_income_notax);
+                        json.Add("paytran_deduct_notax", model.paytran_deduct_notax);
+
+                        json.Add("paytran_income_total", model.paytran_income_total);
+                        json.Add("paytran_deduct_total", model.paytran_deduct_total);
+
+                        json.Add("paytran_netpay_b", model.paytran_netpay_b);
+                        json.Add("paytran_netpay_c", model.paytran_netpay_c);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
 
+                        json.Add("worker_detail", model.worker_detail);
+
+                        json.Add("paytran_salary", model.paytran_salary);
+                        json.Add("paytran_overtime", model.paytran_overtime);
+                        json.Add("paytran_diligence", model.paytran_diligence);
+
+                        json.Add("paytran_absent", model.paytran_absent);
+                        json.Add("paytran_late", model.paytran_late);
+                        json.Add("paytran_leave", model.paytran_leave);
+
+                        json.Add("change", false);
                         json.Add("index", index);
+
+                        index++;
 
                         array.Add(json);
                     }
@@ -2952,8 +3000,6 @@ namespace BPC_OPR
                     log.apilog_status = "404";
                     log.apilog_message = "Data not Found";
                 }
-
-                objPaybank.dispose();
             }
             catch (Exception ex)
             {
@@ -2968,62 +3014,10 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
+
             return output.ToString(Formatting.None);
         }
-        ///
-        //public string getpaybank(string com)
-        //{
-        //    JObject output = new JObject();
-
-        //    //cls_ctTRPaybank objProvident = new cls_ctTRPaybank();
-        //    //List<cls_TRPaybank> listProvident = objpaybank.getDataByFillter(com, "", "");
-
-        //    cls_ctTRPaybank objPaybank = new cls_ctTRPaybank();
-        //    List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(com, strEmp);
-
-        //    JArray array = new JArray();
-
-        //    if (list_paybank.Count > 0)
-        //    {
-        //        int index = 1;
-
-        //        foreach (cls_TRPaybank model in list_paybank)
-        //        {
-        //            JObject json = new JObject();
-
-        //            json.Add("paybank_code", model.paybank_code);
-        //            json.Add("paybank_bankcode", model.paybank_bankcode);
-        //            json.Add("paybank_bankaccount", model.paybank_bankaccount);
-        //            json.Add("paybank_bankamount", model.paybank_bankamount);
-
-        //            //json.Add("modified_by", model.modified_by);
-
-        //            json.Add("modified_by", model.modified_by);
-        //            json.Add("modified_date", model.modified_date);
-
-        //            json.Add("index", index);
-
-        //            index++;
-
-        //            array.Add(json);
-        //        }
-
-        //        output["result"] = "1";
-        //        output["result_text"] = "1";
-        //        output["data"] = array;
-        //    }
-        //    else
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = "Data not Found";
-        //        output["data"] = array;
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-
         #endregion
-
 
     }
 

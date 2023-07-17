@@ -89,7 +89,6 @@ namespace BPC_OPR
 
     #endregion
 
-
     #region MTProvident
     [DataContract]
     public class InputMTProvident
@@ -280,9 +279,7 @@ namespace BPC_OPR
         public int index { get; set; }
     }
     #endregion
-
-
-
+    
     #region InputMTPeriod
     [DataContract]
     public class InputMTPeriod
@@ -326,8 +323,7 @@ namespace BPC_OPR
 
     }
     #endregion
-
-
+    
     #region TRPayitem
     [DataContract]
     public class InputTRPayitem
@@ -412,6 +408,32 @@ namespace BPC_OPR
         public List<cls_MTWorker> emp_data { get; set; }
     }
 
+    #endregion
+
+    #region FillterPayroll
+    [DataContract]
+    public class FillterPayroll
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+
+    }
     #endregion
 
 

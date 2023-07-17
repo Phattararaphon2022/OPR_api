@@ -87,7 +87,13 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 }
 
                 obj_str.Append(" ,ISNULL((SELECT SUM(PAYITEM_AMOUNT) FROM PAY_TR_PAYITEM WHERE COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE AND PAYITEM_DATE=PAY_TR_PAYTRAN.PAYTRAN_PAYDATE AND ITEM_CODE LIKE 'SA%'), 0) AS SALARY ");
+                obj_str.Append(" ,ISNULL((SELECT SUM(PAYITEM_AMOUNT) FROM PAY_TR_PAYITEM WHERE COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE AND PAYITEM_DATE=PAY_TR_PAYTRAN.PAYTRAN_PAYDATE AND ITEM_CODE LIKE 'OT%'), 0) AS OVERTIME ");
+                obj_str.Append(" ,ISNULL((SELECT SUM(PAYITEM_AMOUNT) FROM PAY_TR_PAYITEM WHERE COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE AND PAYITEM_DATE=PAY_TR_PAYTRAN.PAYTRAN_PAYDATE AND ITEM_CODE LIKE 'DG%'), 0) AS DILIGENCE ");
 
+                obj_str.Append(" ,ISNULL((SELECT SUM(PAYITEM_AMOUNT) FROM PAY_TR_PAYITEM WHERE COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE AND PAYITEM_DATE=PAY_TR_PAYTRAN.PAYTRAN_PAYDATE AND ITEM_CODE LIKE 'AB%'), 0) AS ABSENT ");
+                obj_str.Append(" ,ISNULL((SELECT SUM(PAYITEM_AMOUNT) FROM PAY_TR_PAYITEM WHERE COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE AND PAYITEM_DATE=PAY_TR_PAYTRAN.PAYTRAN_PAYDATE AND ITEM_CODE LIKE 'LT%'), 0) AS LATE ");
+                obj_str.Append(" ,ISNULL((SELECT SUM(PAYITEM_AMOUNT) FROM PAY_TR_PAYITEM WHERE COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE AND PAYITEM_DATE=PAY_TR_PAYTRAN.PAYTRAN_PAYDATE AND ITEM_CODE LIKE 'LV%'), 0) AS LEAVE ");
+                                
                 obj_str.Append(" FROM PAY_TR_PAYTRAN");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=PAY_TR_PAYTRAN.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=PAY_TR_PAYTRAN.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
@@ -146,10 +152,15 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                     model.paytran_netpay_b = Convert.ToDouble(dr["PAYTRAN_NETPAY_B"]);
                     model.paytran_netpay_c = Convert.ToDouble(dr["PAYTRAN_NEYPAY_C"]);
 
-
                     model.worker_detail = Convert.ToString(dr["WORKER_DETAIL"]);
 
                     model.paytran_salary = Convert.ToDouble(dr["SALARY"]);
+                    model.paytran_overtime = Convert.ToDouble(dr["OVERTIME"]);
+                    model.paytran_diligence = Convert.ToDouble(dr["DILIGENCE"]);
+
+                    model.paytran_absent = Convert.ToDouble(dr["ABSENT"]);
+                    model.paytran_late = Convert.ToDouble(dr["LATE"]);
+                    model.paytran_leave = Convert.ToDouble(dr["LEAVE"]);
 
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();

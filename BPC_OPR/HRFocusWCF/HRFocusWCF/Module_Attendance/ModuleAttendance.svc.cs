@@ -5339,6 +5339,140 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region Wageday
+        public string getTRWagedayList(FillterAttendance req)
+        {
+
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT904.1";
+            log.apilog_by = req.username;
+
+
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRWageday controller = new cls_ctTRWageday();
+                List<cls_TRWageday> listResult = controller.getDataByFillter(req.language, req.company, req.project_code, "", datefrom, dateto, req.worker_code);
+                JArray array = new JArray();
+
+                if (listResult.Count > 0)
+                {
+                    int index = 1;
+                    
+                    foreach (cls_TRWageday model in listResult)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);                                               
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("project_code", model.project_code);
+                        json.Add("projob_code", model.projob_code);
+                        json.Add("wageday_date", model.wageday_date);
+                        json.Add("wageday_wage", model.wageday_wage);
+
+                        json.Add("wageday_before_rate", model.wageday_before_rate);
+                        json.Add("wageday_normal_rate", model.wageday_normal_rate);
+                        json.Add("wageday_break_rate", model.wageday_break_rate);
+                        json.Add("wageday_after_rate", model.wageday_after_rate);
+
+                        json.Add("wageday_before_min", model.wageday_before_min);
+                        json.Add("wageday_normal_min", model.wageday_normal_min);
+                        json.Add("wageday_break_min", model.wageday_break_min);
+                        json.Add("wageday_after_min", model.wageday_after_min);
+
+                        json.Add("wageday_before_amount", model.wageday_before_amount);
+                        json.Add("wageday_normal_amount", model.wageday_normal_amount);
+                        json.Add("wageday_break_amount", model.wageday_break_amount);
+                        json.Add("wageday_after_amount", model.wageday_after_amount);
+
+                        json.Add("ot1_min", model.ot1_min);
+                        json.Add("ot15_min", model.ot15_min);
+                        json.Add("ot2_min", model.ot2_min);
+                        json.Add("ot3_min", model.ot3_min);
+
+                        json.Add("ot1_amount", model.ot1_amount);
+                        json.Add("ot15_amount", model.ot15_amount);
+                        json.Add("ot2_amount", model.ot2_amount);
+                        json.Add("ot3_amount", model.ot3_amount);
+                        
+                        json.Add("late_min", model.late_min);
+                        json.Add("late_amount", model.late_amount);
+                        json.Add("leave_min", model.leave_min);
+                        json.Add("leave_amount", model.leave_amount);
+                        json.Add("absent_min", model.absent_min);
+                        json.Add("absent_amount", model.absent_amount);
+
+                        json.Add("allowance_amount", model.allowance_amount);                      
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("worker_detail", model.worker_detail);
+                      
+
+                        json.Add("change", false);
+                        json.Add("index", index);
+                                              
+                        index++;
+
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
 
     }
 }

@@ -65,16 +65,16 @@ namespace BPC_OPR
         Task<string> doUploadMTItemr(string token, string by, string fileName, Stream stream);
         #endregion
 
-        #region paybank
-        //
-        [OperationContract(Name = "paybank")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getpaybank(BasicRequest req);
+        //#region paybank
+        ////
+        //[OperationContract(Name = "paybank")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getpaybank(BasicRequest req);
 
-        //[OperationContract]
-        //[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
-        //string getpaybank(string com);
-        #endregion
+        ////[OperationContract]
+        ////[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        ////string getpaybank(string com);
+        //#endregion
 
         #region MTProvident
         [OperationContract(Name = "MTProvident_list")]
@@ -213,6 +213,10 @@ namespace BPC_OPR
         Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
         #endregion
 
-
+        #region Paytran
+        [OperationContract(Name = "paytran_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaytranList(FillterPayroll req);
+        #endregion
     }
 }
