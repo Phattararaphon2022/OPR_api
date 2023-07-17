@@ -4530,6 +4530,34 @@ namespace BPC_OPR
                         {
                             json.Add("position_data", arrayTRAccountpos);
                         }
+                        cls_ctTRAccountmodule objTRAccountmodule = new cls_ctTRAccountmodule();
+                        List<cls_TRAccountmodule> listTRAccountmodule = objTRAccountmodule.getDataByFillter(model.company_code, model.account_user, model.account_type,"");
+                        JArray arrayTRAccountmodule = new JArray();
+                        if (listTRAccountmodule.Count > 0)
+                        {
+                            int indexTRAccount = 1;
+
+                            foreach (cls_TRAccountmodule modelTRAccount in listTRAccountmodule)
+                            {
+                                JObject jsonTRPlan = new JObject();
+                                jsonTRPlan.Add("company_code", modelTRAccount.company_code);
+                                jsonTRPlan.Add("account_user", modelTRAccount.account_user);
+                                jsonTRPlan.Add("account_type", modelTRAccount.account_type);
+                                jsonTRPlan.Add("module_code", modelTRAccount.module_code);
+
+                                jsonTRPlan.Add("index", indexTRAccount);
+
+
+                                indexTRAccount++;
+
+                                arrayTRAccountmodule.Add(jsonTRPlan);
+                            }
+                            json.Add("module_data", arrayTRAccountmodule);
+                        }
+                        else
+                        {
+                            json.Add("module_data", arrayTRAccountmodule);
+                        }
                         cls_ctTRAccountdep objTRAccountdep = new cls_ctTRAccountdep();
                         List<cls_TRAccountdep> listTRAccountdep = objTRAccountdep.getDataByFillter(model.company_code, model.account_user, model.account_type, "", "");
                         JArray arrayTRAccountdep = new JArray();
@@ -4678,6 +4706,7 @@ namespace BPC_OPR
                     try
                     {
                         cls_ctTRAccountpos objTRAccoutpos = new cls_ctTRAccountpos();
+                        cls_ctTRAccountmodule objTRAccoutmodule = new cls_ctTRAccountmodule();
                         cls_ctTRAccountdep objTRAccoutdep = new cls_ctTRAccountdep();
                         cls_ctTRAccount objTRAccout = new cls_ctTRAccount();
                         //objTRLineapp.delete(input.company_code, input.workflow_type,input.workflow_code,"");
@@ -4704,6 +4733,14 @@ namespace BPC_OPR
                         else
                         {
                             objTRAccout.delete(input.company_code, input.account_user, input.account_type, "");
+                        }
+                        if (input.module_data.Count > 0)
+                        {
+                            objTRAccoutmodule.insert(input.module_data);
+                        }
+                        else
+                        {
+                            objTRAccoutmodule.delete(input.company_code, input.account_user, input.account_type, "");
                         }
 
                     }
@@ -4779,11 +4816,13 @@ namespace BPC_OPR
                     try
                     {
                         cls_ctTRAccountpos objTRpos = new cls_ctTRAccountpos();
+                        cls_ctTRAccountmodule objTRmodule = new cls_ctTRAccountmodule();
                         cls_ctTRAccountdep objTRdep = new cls_ctTRAccountdep();
                         cls_ctTRAccount objTRAcount = new cls_ctTRAccount();
                         objTRpos.delete(input.company_code, input.account_user, input.account_type);
                         objTRdep.delete(input.company_code, input.account_user, input.account_type, "", "");
                         objTRAcount.delete(input.company_code, input.account_user, input.account_type, "");
+                        objTRmodule.delete(input.company_code, input.account_user, input.account_type, "");
                     }
                     catch (Exception ex)
                     {
@@ -5307,6 +5346,222 @@ namespace BPC_OPR
 
                 cls_ctTRAccountdep controller = new cls_ctTRAccountdep();
                 bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type, input.level_code, input.dep_code);
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        #region TRAccountmodule
+        public string getTRAccountmoduleList(InputTRAccountmodule input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF022.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccountmodule objMTAccountmodule = new cls_ctTRAccountmodule();
+                List<cls_TRAccountmodule> list = objMTAccountmodule.getDataByFillter(input.company_code, input.account_user, input.account_type, input.module_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRAccountmodule model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("account_user", model.account_user);
+                        json.Add("account_type", model.account_type);
+                        json.Add("module_code", model.module_code);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRAccountmodule(InputTRAccountmodule input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF022.2";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctTRAccountmodule objTRAccountmodule = new cls_ctTRAccountmodule();
+                cls_TRAccountmodule model = new cls_TRAccountmodule();
+                model.company_code = input.company_code;
+                model.account_user = input.account_user;
+                model.account_type = input.account_type;
+                model.module_code = input.module_code;
+                string strID = objTRAccountmodule.insert(model);
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRAccountmodule.getMessage();
+                }
+
+                objTRAccountmodule.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeTRAccountmodule(InputTRAccountmodule input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF022.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRAccountmodule controller = new cls_ctTRAccountmodule();
+                bool blnResult = controller.delete(input.company_code, input.account_user, input.account_type,"");
                 if (blnResult)
                 {
                     output["success"] = true;
