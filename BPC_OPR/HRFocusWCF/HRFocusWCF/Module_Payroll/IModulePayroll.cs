@@ -204,6 +204,10 @@ namespace BPC_OPR
         Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
         #endregion
 
-
+        #region Paytran
+        [OperationContract(Name = "paytran_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaytranList(FillterPayroll req);
+        #endregion
     }
 }

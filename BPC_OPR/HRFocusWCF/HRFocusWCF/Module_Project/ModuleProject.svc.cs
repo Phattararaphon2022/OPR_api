@@ -5856,6 +5856,7 @@ namespace BPC_OPR
                         json.Add("projobemp_emp", model.projobemp_emp);
                         json.Add("projobemp_fromdate", model.projobemp_fromdate);
                         json.Add("projobemp_todate", model.projobemp_todate);
+                        json.Add("projobemp_type", model.projobemp_type);
                         json.Add("projobemp_status", model.projobemp_status);
                      
                         json.Add("projob_code", model.projob_code);
@@ -5937,6 +5938,7 @@ namespace BPC_OPR
 
                 model.projobemp_fromdate = Convert.ToDateTime(input.projobemp_fromdate);
                 model.projobemp_todate = Convert.ToDateTime(input.projobemp_todate);
+                model.projobemp_type = input.projobemp_type;
                 model.projobemp_status = input.projobemp_status;
                 
                 model.projob_code = input.projob_code;

@@ -290,7 +290,11 @@ namespace BPC_OPR
         string doDeleteTREmppolattItem(InputSetPolicyAttItem input);
         #endregion
 
-        
+        #region Wageday
+        [OperationContract(Name = "wageday_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRWagedayList(FillterAttendance req);
+        #endregion
     }
 
 }

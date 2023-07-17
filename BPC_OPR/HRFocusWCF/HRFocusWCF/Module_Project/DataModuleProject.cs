@@ -431,6 +431,8 @@ namespace BPC_OPR
         [DataMember]
         public string projobemp_todate { get; set; }
         [DataMember]
+        public string projobemp_type { get; set; }
+        [DataMember]
         public string projobemp_status { get; set; }
         [DataMember]
         public string projob_code { get; set; }

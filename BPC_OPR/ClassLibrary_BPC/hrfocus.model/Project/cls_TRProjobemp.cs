@@ -13,7 +13,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         public int projobemp_id { get; set; }
         public string projobemp_emp { get; set; }     
         public DateTime projobemp_fromdate { get; set; }
-        public DateTime projobemp_todate { get; set; }     
+        public DateTime projobemp_todate { get; set; }
+
+        public string projobemp_type { get; set; }
+
         public string projobemp_status { get; set; }
 
         public string projob_code { get; set; }    
