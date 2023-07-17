@@ -118,6 +118,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
             throw new NotImplementedException();
         }
 
+        public List<cls_MTCompany> getDataByFillterd(string com,   string id, string code, string branch)
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+ 
+
+            if (!id.Equals(""))
+                strCondition += " AND COMPANY_ID='" + id + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND COMCARD_CODE='" + code + "'";
+
+            if (!branch.Equals(""))
+                strCondition += " AND COMBRANCH_CODE='" + branch + "'";
+
+            return this.getData(strCondition);
+        }
+
         public List<cls_MTCompany> getDataByFillter(string id, string code)
         {
             string strCondition = "";

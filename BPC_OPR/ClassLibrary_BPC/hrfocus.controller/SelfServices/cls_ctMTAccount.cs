@@ -241,7 +241,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     if (model.account_id.Equals(0))
                     {
-                        return "";
+                        return "D";
                     }
                     else
                     {

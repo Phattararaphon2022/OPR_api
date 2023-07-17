@@ -119,7 +119,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return intResult;
         }
 
-        public bool checkDataOld(string com, string code)
+        public bool checkDataOld(string com, string code, string id)
         {
             bool blnResult = false;
             try
@@ -131,6 +131,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND PROVIDENT_CODE='" + code + "'");
+                obj_str.Append(" AND PROVIDENT_ID='" + id + "'");
+
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -187,14 +189,14 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.provident_code))
+                if (this.checkDataOld(model.company_code, model.provident_code, model.provident_id.ToString()))
                 {
                     return this.update(model);
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-
+                //int id = this.getNextID();
                 obj_str.Append("INSERT INTO PAY_MT_PROVIDENT");
                 obj_str.Append(" (");
                 obj_str.Append("PROVIDENT_ID ");
@@ -223,6 +225,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                model.provident_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@PROVIDENT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROVIDENT_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@PROVIDENT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_CODE"].Value = model.provident_code;
@@ -239,12 +242,13 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
                 obj_conn.doClose();
                 blnResult = true;
-                strResult = model.provident_code.ToString();
+                strResult = model.provident_id.ToString();
             }
             catch (Exception ex)
             {
                 Message = "PAYP005:" + ex.ToString();
                 strResult = "";
+
             }
 
             return blnResult;

@@ -116,6 +116,25 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
             return this.getData(strCondition);
         }
+
+        public List<cls_MTItem> getDataByFillter(string com, string id, string code, string type)
+        {
+            string strCondition = "";
+
+            strCondition += " AND COMPANY_CODE='" + com + "'";
+
+            if (!id.Equals(""))
+                strCondition += " AND ITEM_ID='" + id + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND ITEM_CODE='" + code + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND ITEM_TYPE='" + type + "'";
+
+            return this.getData(strCondition);
+        }
+
         public int getNextID()
         {
             int intResult = 1;
@@ -202,8 +221,21 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 //-- Check data old
                 if (this.checkDataOld(model.company_code, model.item_code))
                 {
-                    return this.update(model);
+                    if (model.item_id.Equals(1))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
+
+                //-- Check data old
+                //if (this.checkDataOld(model.company_code, model.item_code))
+                //{
+                //    return this.update(model);
+                //}
                 //if (this.checkDataOld(model.company_code, model.item_code))
                 //{
                 //    if (this.update(model))
@@ -291,16 +323,14 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                                 
                 obj_conn.doClose();
                 blnResult = true;
-
-                //strResult = model.item_id.ToString();
+ 
             }
             catch (Exception ex)
             {
                 Message = "PAYI005:" + ex.ToString();
-                //strResult = "";
-            }
+             }
 
-            //return strResult;
+      
             return blnResult;
 
         }
@@ -314,8 +344,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE PAY_MT_ITEM SET ");
 
-                obj_str.Append(" ITEM_CODE=@ITEM_CODE ");
-                obj_str.Append(", ITEM_NAME_TH=@ITEM_NAME_TH ");
+                //obj_str.Append(" ITEM_CODE=@ITEM_CODE ");
+                obj_str.Append(" ITEM_NAME_TH=@ITEM_NAME_TH ");
                 obj_str.Append(", ITEM_NAME_EN=@ITEM_NAME_EN ");
                 obj_str.Append(", ITEM_TYPE=@ITEM_TYPE ");
                 obj_str.Append(", ITEM_REGULAR=@ITEM_REGULAR ");
@@ -332,13 +362,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
 
-                obj_str.Append(" WHERE ITEM_ID=@ITEM_ID ");    
-
+                obj_str.Append(" WHERE ITEM_CODE=@ITEM_CODE ");
+ 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
                 obj_cmd.Parameters.Add("@ITEM_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_NAME_TH"].Value = model.item_name_th;
                 obj_cmd.Parameters.Add("@ITEM_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_NAME_EN"].Value = model.item_name_en;
                 obj_cmd.Parameters.Add("@ITEM_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_TYPE"].Value = model.item_type;
@@ -356,7 +385,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@ITEM_ID", SqlDbType.Int); obj_cmd.Parameters["@ITEM_ID"].Value = model.item_id;
+                obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
 
                 obj_cmd.ExecuteNonQuery();
 

@@ -36,8 +36,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", COMIMAGES_ID");
-                obj_str.Append(", COMIMAGES_IMAGESMAPS");
+                obj_str.Append(", COMIMAGESMAPS_ID");
+                obj_str.Append(", COMIMAGESMAPS_IMAGESMAPS");
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -47,7 +47,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE, COMIMAGES_ID");
+                obj_str.Append(" ORDER BY COMPANY_CODE, COMIMAGESMAPS_ID");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -56,13 +56,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_TRComimagesMaps();
 
- 
-                    object binaryDatas = dr["COMIMAGES_IMAGESMAPS"];
+
+                    object binaryDatas = dr["COMIMAGESMAPS_IMAGESMAPS"];
 
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.comimages_id = Convert.ToInt32(dr["COMIMAGES_ID"]);
-                     model.comimages_imagesmaps = (byte[])binaryDatas;
+                    model.comimagesmaps_id = Convert.ToInt32(dr["COMIMAGESMAPS_ID"]);
+                    model.comimagesmaps_imagesmaps = (byte[])binaryDatas;
 
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
@@ -75,10 +75,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //{
                 //    model = new cls_TRComimagesMaps();
 
-                //    byte[] binaryData = (byte[])dr["COMIMAGES_IMAGESMAPS"];
+                //    byte[] binaryData = (byte[])dr["COMIMAGESMAPS_IMAGESMAPS"];
                 //    model.company_code = dr["COMPANY_CODE"].ToString();
-                //    model.comimages_id = Convert.ToInt32(dr["COMIMAGES_ID"]);
-                //    model.comimages_imagesmaps = binaryData;
+                //    model.comimagesmaps_id = Convert.ToInt32(dr["COMIMAGESMAPS_ID"]);
+                //    model.comimagesmaps_imagesmaps = binaryData;
 
                 //    model.modified_by = dr["MODIFIED_BY"].ToString();
                 //    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -103,7 +103,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = " AND COMPANY_CODE='" + com + "'";
 
             //if (!id.Equals(""))
-            //    strCondition += " AND COMIMAGES_ID='" + id + "'";
+            //    strCondition += " AND COMIMAGESMAPS_ID='" + id + "'";
 
 
             return this.getData(strCondition);
@@ -119,7 +119,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT COMPANY_CODE");
                 obj_str.Append(" FROM SYS_TR_COMIMAGESMAPS");
                 obj_str.Append(" WHERE COMPANY_CODE ='" + com + "'");
-                obj_str.Append(" AND COMIMAGES_ID ='" + id + "'");
+                obj_str.Append(" AND COMIMAGESMAPS_ID ='" + id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -146,7 +146,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" DELETE FROM SYS_TR_COMIMAGESMAPS");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
-                obj_str.Append(" AND COMIMAGES_ID='" + id + "'");
+                obj_str.Append(" AND COMIMAGESMAPS_ID='" + id + "'");
                                           
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -185,17 +185,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public int getNextNo(string com )
+        public int getNextID()
         {
             int intResult = 1;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT MAX(COMIMAGES_ID) ");
+                obj_str.Append("SELECT ISNULL(COMIMAGESMAPS_ID, 1) ");
                 obj_str.Append(" FROM SYS_TR_COMIMAGESMAPS");
-                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
-                //obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+                obj_str.Append(" ORDER BY COMIMAGESMAPS_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -206,11 +205,38 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "COMIMAGES005:" + ex.ToString();
+                Message = "COMIM005:" + ex.ToString();
             }
 
             return intResult;
         }
+
+        //public int getNextNo(string com )
+        //{
+        //    int intResult = 1;
+        //    try
+        //    {
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append("SELECT MAX(COMIMAGESMAPS_ID) ");
+        //        obj_str.Append(" FROM SYS_TR_COMIMAGESMAPS");
+        //        obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+        //        //obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+
+        //        DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            intResult = Convert.ToInt32(dt.Rows[0][0]) + 1;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "COMIMAGES005:" + ex.ToString();
+        //    }
+
+        //    return intResult;
+        //}
 
         public bool insert(cls_TRComimagesMaps model)
         {
@@ -218,7 +244,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.comimages_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.comimagesmaps_id.ToString()))
                 {
                     return this.update(model);
                 }
@@ -229,8 +255,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("INSERT INTO SYS_TR_COMIMAGESMAPS");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
-                obj_str.Append(", COMIMAGES_ID ");
-                obj_str.Append(", COMIMAGES_IMAGESMAPS ");
+                obj_str.Append(", COMIMAGESMAPS_ID ");
+                obj_str.Append(", COMIMAGESMAPS_IMAGESMAPS ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -238,8 +264,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
-                obj_str.Append(", @COMIMAGES_ID ");
-                obj_str.Append(", @COMIMAGES_IMAGESMAPS ");
+                obj_str.Append(", @COMIMAGESMAPS_ID ");
+                obj_str.Append(", @COMIMAGESMAPS_IMAGESMAPS ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -248,10 +274,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                model.comimagesmaps_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@COMIMAGES_ID", SqlDbType.VarChar); obj_cmd.Parameters["@COMIMAGES_ID"].Value = model.comimages_id;
-                obj_cmd.Parameters.Add("@COMIMAGES_IMAGESMAPS", SqlDbType.Image); obj_cmd.Parameters["@COMIMAGES_IMAGESMAPS"].Value = model.comimages_imagesmaps;
+                obj_cmd.Parameters.Add("@COMIMAGESMAPS_ID", SqlDbType.Int); obj_cmd.Parameters["@COMIMAGESMAPS_ID"].Value = model.comimagesmaps_id;
+                obj_cmd.Parameters.Add("@COMIMAGESMAPS_IMAGESMAPS", SqlDbType.Image); obj_cmd.Parameters["@COMIMAGESMAPS_IMAGESMAPS"].Value = model.comimagesmaps_imagesmaps;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -281,7 +308,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("UPDATE SYS_TR_COMIMAGESMAPS SET ");
 
-                obj_str.Append(" COMIMAGES_IMAGESMAPS=@COMIMAGES_IMAGESMAPS ");
+                obj_str.Append(" COMIMAGESMAPS_IMAGESMAPS=@COMIMAGESMAPS_IMAGESMAPS ");
 
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
@@ -289,20 +316,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", FLAG=@FLAG ");
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(" AND COMIMAGES_ID=@COMIMAGES_ID ");
+                obj_str.Append(" AND COMIMAGESMAPS_ID=@COMIMAGESMAPS_ID ");
                                
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@COMIMAGES_IMAGESMAPS", SqlDbType.Image); obj_cmd.Parameters["@COMIMAGES_IMAGESMAPS"].Value = model.comimages_imagesmaps;
+                obj_cmd.Parameters.Add("@COMIMAGESMAPS_IMAGESMAPS", SqlDbType.Image); obj_cmd.Parameters["@COMIMAGESMAPS_IMAGESMAPS"].Value = model.comimagesmaps_imagesmaps;
   
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@COMIMAGES_ID", SqlDbType.Int); obj_cmd.Parameters["@COMIMAGES_ID"].Value = model.comimages_id;
+                obj_cmd.Parameters.Add("@COMIMAGESMAPS_ID", SqlDbType.Int); obj_cmd.Parameters["@COMIMAGESMAPS_ID"].Value = model.comimagesmaps_id;
 
                 obj_cmd.ExecuteNonQuery();
 

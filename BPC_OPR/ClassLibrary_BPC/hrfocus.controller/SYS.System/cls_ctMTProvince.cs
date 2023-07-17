@@ -163,7 +163,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public string insert(cls_MTProvince model)
+        public string insert(cls_MTProvince model) 
         {
             string strResult = "";
             try

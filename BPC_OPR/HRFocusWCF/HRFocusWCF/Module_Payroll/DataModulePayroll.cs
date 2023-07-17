@@ -412,6 +412,96 @@ namespace BPC_OPR
 
     #endregion
 
+    #region Paytran
+    [DataContract]
+    public class InputTRPaytran
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+        [DataMember]
+        public string emp { get; set; }
+        [DataMember]
+        public string year { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string paydate { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public DateTime paytran_date { get; set; }
+        [DataMember]
+        public double paytran_ssoemp { get; set; }
+        [DataMember]
+        public double paytran_ssocom { get; set; }
+        [DataMember]
+        public double paytran_ssorateemp { get; set; }
+        [DataMember]
+        public double paytran_ssoratecom { get; set; }
+        [DataMember]
+        public double paytran_pfemp { get; set; }
+        [DataMember]
+        public double paytran_pfcom { get; set; }
+        [DataMember]
+        public double paytran_income_401 { get; set; }
+        [DataMember]
+        public double paytran_deduct_401 { get; set; }
+        [DataMember]
+        public double paytran_tax_401 { get; set; }
+        [DataMember]
+        public double paytran_income_4012 { get; set; }
+        [DataMember]
+        public double paytran_deduct_4012 { get; set; }
+        [DataMember]
+        public double paytran_tax_4012 { get; set; }
+        [DataMember]
+        public double paytran_income_4013 { get; set; }
+        [DataMember]
+        public double paytran_deduct_4013 { get; set; }
+        [DataMember]
+        public double paytran_tax_4013 { get; set; }
+        [DataMember]
+        public double paytran_income_402I { get; set; }
+        [DataMember]
+        public double paytran_deduct_402I { get; set; }
+        [DataMember]
+        public double paytran_tax_402I { get; set; }
+        [DataMember]
+        public double paytran_income_402O { get; set; }
+        [DataMember]
+        public double paytran_deduct_402O { get; set; }
+        [DataMember]
+        public double paytran_tax_402O { get; set; }
+        [DataMember]
+        public double paytran_income_notax { get; set; }
+        [DataMember]
+        public double paytran_deduct_notax { get; set; }
+        [DataMember]
+        public double paytran_income_total { get; set; }
+        [DataMember]
+        public double paytran_deduct_total { get; set; }
+        [DataMember]
+        public double paytran_netpay_b { get; set; }
+        [DataMember]
+        public double paytran_netpay_c { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+#endregion
+
 
 }
 

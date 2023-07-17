@@ -89,7 +89,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "COMIMAGES001:" + ex.ToString();
+                Message = "COMIM001:" + ex.ToString();
             }
 
             return list_model;
@@ -127,7 +127,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "COMIMAGES002:" + ex.ToString();
+                Message = "COMIM002:" + ex.ToString();
             }
 
             return blnResult;
@@ -151,7 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "COMIMAGES003:" + ex.ToString();
+                Message = "COMIM003:" + ex.ToString();
             }
 
             return blnResult;
@@ -176,23 +176,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "COMIMAGES004:" + ex.ToString();
+                Message = "COMIM004:" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public int getNextNo(string com )
+
+        public int getNextID()
         {
             int intResult = 1;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT MAX(COMIMAGES_ID) ");
+                obj_str.Append("SELECT ISNULL(COMIMAGES_ID, 1) ");
                 obj_str.Append(" FROM SYS_TR_COMIMAGESLOGO");
-                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
-                //obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+                obj_str.Append(" ORDER BY COMIMAGES_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -203,11 +203,38 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "COMIMAGES005:" + ex.ToString();
+                Message = "COMIM005:" + ex.ToString();
             }
 
             return intResult;
         }
+
+        //public int getNextNo(string com )
+        //{
+        //    int intResult = 1;
+        //    try
+        //    {
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append("SELECT MAX(COMIMAGES_ID) ");
+        //        obj_str.Append(" FROM SYS_TR_COMIMAGESLOGO");
+        //        obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+        //        //obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+
+        //        DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            intResult = Convert.ToInt32(dt.Rows[0][0]) + 1;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "COMIMAGES005:" + ex.ToString();
+        //    }
+
+        //    return intResult;
+        //}
 
         public bool insert(cls_TRComimages model)
         {
@@ -245,9 +272,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                model.comimages_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@COMIMAGES_ID", SqlDbType.VarChar); obj_cmd.Parameters["@COMIMAGES_ID"].Value = model.comimages_id;
+                obj_cmd.Parameters.Add("@COMIMAGES_ID", SqlDbType.Int); obj_cmd.Parameters["@COMIMAGES_ID"].Value = model.comimages_id;
                 obj_cmd.Parameters.Add("@COMIMAGES_IMAGESLOGO", SqlDbType.Image); obj_cmd.Parameters["@COMIMAGES_IMAGESLOGO"].Value = model.comimages_imageslogo;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
@@ -261,7 +289,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "COMIMAGES006:" + ex.ToString();
+                Message = "COMIM006:" + ex.ToString();
             }
 
             return blnResult;
@@ -309,7 +337,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "COMIMAGES007:" + ex.ToString();
+                Message = "COMIM007:" + ex.ToString();
             }
 
             return blnResult;

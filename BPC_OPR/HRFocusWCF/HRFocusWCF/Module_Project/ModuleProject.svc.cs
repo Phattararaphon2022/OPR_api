@@ -7393,12 +7393,17 @@ namespace BPC_OPR
                     log.apilog_status = "200";
                     log.apilog_message = "";
 
-                    //if (input.task_type.Trim().Equals("CAL_TAX"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    srvPay.doCalculateTax(input.company_code, intTaskID.ToString());
-                    //}
-                    if (input.task_type.Trim().Equals("SUM_TIME"))
+                    if (input.task_type.Trim().Equals("CAL_TAX"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        srvPay.doCalculateTax(input.company_code, intTaskID.ToString());
+                    }
+                    else if (input.task_type.Trim().Equals("CAL_INDE"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        srvPay.doCalculateIncomeDeduct(input.company_code, intTaskID.ToString());
+                    }
+                    else if (input.task_type.Trim().Equals("SUM_TIME"))
                     {
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
                         srvTime.doSummarizeTime(input.company_code, intTaskID.ToString());
@@ -7432,13 +7437,13 @@ namespace BPC_OPR
 
                         output["result_link"] = link;
                     }
-                    //else if (input.task_type.Trim().Equals("TRN_TAX"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    string link = srvPay.doExportTax(input.company_code, intTaskID.ToString());
+                    else if (input.task_type.Trim().Equals("TRN_TAX"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        string link = srvPay.doExportTax(input.company_code, intTaskID.ToString());
 
-                    //    output["result_link"] = link;
-                    //}
+                        output["result_link"] = link;
+                    }
                     //else if (input.task_type.Trim().Equals("TRN_PF"))
                     //{
                     //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();

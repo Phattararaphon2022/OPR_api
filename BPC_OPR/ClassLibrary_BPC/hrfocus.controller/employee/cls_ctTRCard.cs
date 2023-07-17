@@ -96,6 +96,35 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+
+        public List<cls_TRCard> getDataByFillter(string com, string type, string id, string code, string branch)
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND CARD_TYPE='" + type + "'";
+
+            if (!id.Equals(""))
+                strCondition += " AND COMCARD_ID='" + id + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND COMCARD_CODE='" + code + "'";
+
+            if (!branch.Equals(""))
+                strCondition += " AND COMBRANCH_CODE='" + branch + "'";
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRCard> getDataTaxMultipleEmp(string com, string worker)
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND CARD_TYPE = 'NTID'  ";
+            strCondition += " AND WORKER_CODE IN (" + worker + ") ";
+
+            return this.getData(strCondition);
+        }
+
         public int getNextID()
         {
             int intResult = 1;

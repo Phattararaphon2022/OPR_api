@@ -13,30 +13,30 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string company_code { get; set; }
         public string combranch_code { get; set; }
 
-        public string comaddress_type { get; set; }
+        public string comaddres_type { get; set; }
 
-        public string comaddressth_no { get; set; }
-        public string comaddressth_moo { get; set; }
-        public string comaddressth_soi { get; set; }
-        public string comaddressth_road { get; set; }
-        public string comaddressth_tambon { get; set; }
-        public string comaddressth_amphur { get; set; }
-        public string provinceth_code { get; set; }
+        public string comaddres_noth { get; set; }
+        public string comaddres_mooth { get; set; }
+        public string comaddres_soith { get; set; }
+        public string comaddres_roadth { get; set; }
+        public string comaddres_tambonth { get; set; }
+        public string comaddres_amphurth { get; set; }
 
-        public string comaddressen_no { get; set; }
-        public string comaddressen_moo { get; set; }
-        public string comaddressen_soi { get; set; }
-        public string comaddressen_road { get; set; }
-        public string comaddressen_tambon { get; set; }
-        public string comaddressen_amphur { get; set; }
-        public string comaddress_zipcode { get; set; }
-        public string provinceen_code { get; set; }
+        public string comaddres_noen { get; set; }
+        public string comaddres_mooen { get; set; }
+        public string comaddres_soien { get; set; }
+        public string comaddres_roaden { get; set; }
+        public string comaddres_tambonen { get; set; }
+        public string comaddres_amphuren { get; set; }
+        public string comaddres_zipcode { get; set; }
+
+        public string province_code { get; set; }
 
 
-        public string comaddress_tel { get; set; }
-        public string comaddress_email { get; set; }
-        public string comaddress_line { get; set; }
-        public string comaddress_facebook { get; set; }
+        public string comaddres_tel { get; set; }
+        public string comaddres_email { get; set; }
+        public string comaddres_line { get; set; }
+        public string comaddres_facebook { get; set; }
 
         public string created_by { get; set; }
         public DateTime created_date { get; set; }

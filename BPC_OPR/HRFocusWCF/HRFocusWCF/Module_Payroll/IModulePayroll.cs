@@ -18,7 +18,15 @@ namespace BPC_OPR
         //[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
         //string doTest();
 
+        //#region imagemaps
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadImagesmapstest?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        //string doUploadImagesmapstest(string ref_to, Stream stream);
 
+        //[OperationContract(Name = "doGetImagesmapstest")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doGetImagesmapstest(FillterComimgemaps req);
+        //#endregion
 
         #region TRTaxrate
         [OperationContract(Name = "TRTaxrate_list")]
@@ -194,6 +202,24 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRpayitem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region Paytran&Acc
+        [OperationContract(Name = "getpaytran")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaytranList(InputTRPaytran input);
+
+        [OperationContract(Name = "getpaytranacc")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaytranAccList(InputTRPaytran input);
+
+        [OperationContract(Name = "doManageTRPaytran")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPaytran(InputTRPaytran input);
+
+        [OperationContract(Name = "doDeleteTRPaytran")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPaytran(InputTRPaytran input);
         #endregion
 
 
