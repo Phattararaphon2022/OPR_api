@@ -133,27 +133,27 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return this.getData(language, strCondition);
         }
 
-        public List<cls_TRPayitem> getDataByFillter(string language, string com, string emp, string item_type, string item, DateTime fromdate, DateTime todate)
-        {
-            string strCondition = "";
+        //public List<cls_TRPayitem> getDataByFillter(string language, string com, string emp, string item_type, string item, DateTime fromdate, DateTime todate)
+        //{
+        //    string strCondition = "";
 
-            strCondition += " AND PAY_TR_PAYITEM.COMPANY_CODE='" + com + "'";
+        //    strCondition += " AND PAY_TR_PAYITEM.COMPANY_CODE='" + com + "'";
 
-            strCondition += " AND (PAY_TR_PAYITEM.PAYITEM_DATE BETWEEN '" + fromdate.ToString("MM/dd/yyyy") + "' AND '" + todate.ToString("MM/dd/yyyy") + "')";
+        //    strCondition += " AND (PAY_TR_PAYITEM.PAYITEM_DATE BETWEEN '" + fromdate.ToString("MM/dd/yyyy") + "' AND '" + todate.ToString("MM/dd/yyyy") + "')";
 
-            if (!emp.Equals(""))
-                strCondition += " AND PAY_TR_PAYITEM.WORKER_CODE='" + emp + "'";
+        //    if (!emp.Equals(""))
+        //        strCondition += " AND PAY_TR_PAYITEM.WORKER_CODE='" + emp + "'";
 
-            if (!item.Equals(""))
-                strCondition += " AND PAY_TR_PAYITEM.ITEM_CODE='" + item + "'";
+        //    if (!item.Equals(""))
+        //        strCondition += " AND PAY_TR_PAYITEM.ITEM_CODE='" + item + "'";
 
-            if (!item_type.Equals(""))
-            {
-                strCondition += " AND PAY_TR_PAYITEM.ITEM_CODE IN (SELECT ITEM_CODE FROM PAY_MT_ITEM WHERE COMPANY_CODE='" + com + "' AND ITEM_CODE='" + item_type + "')";
-            }
+        //    if (!item_type.Equals(""))
+        //    {
+        //        strCondition += " AND PAY_TR_PAYITEM.ITEM_CODE IN (SELECT ITEM_CODE FROM PAY_MT_ITEM WHERE COMPANY_CODE='" + com + "' AND ITEM_CODE='" + item_type + "')";
+        //    }
 
-            return this.getData(language, strCondition);
-        }
+        //    return this.getData(language, strCondition);
+        //}
 
 
         public int getNextID()

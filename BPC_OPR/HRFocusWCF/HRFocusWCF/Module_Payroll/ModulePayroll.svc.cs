@@ -382,7 +382,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        #endregion   
+        #endregion
 
         #region MTItem
         public string getMTItemList(BasicRequest req)
@@ -410,7 +410,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTItem contaddresstype = new cls_ctMTItem();
-                List<cls_MTItem> list = contaddresstype.getDataByFillter(req.company_code, "", req.item_code, req.item_type);
+                List<cls_MTItem> list = contaddresstype.getDataByFillter(req.company_code, "", req.item_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -436,7 +436,7 @@ namespace BPC_OPR
                         json.Add("item_contax", model.item_contax);
                         json.Add("item_section", model.item_section);
                         json.Add("item_rate", model.item_rate);
- 
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -524,11 +524,11 @@ namespace BPC_OPR
                 model.item_calsso = input.item_calsso;
                 model.item_calot = input.item_calot;
                 model.item_allowance = input.item_allowance;
-                
+
                 model.item_contax = input.item_contax;
                 model.item_section = input.item_section;
                 model.item_rate = input.item_rate;
- 
+
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
@@ -600,7 +600,7 @@ namespace BPC_OPR
 
                 cls_ctMTItem controller = new cls_ctMTItem();
 
-                if (controller.checkDataOld(input.company_code, input.item_code ))
+                if (controller.checkDataOld(input.company_code, input.item_code))
                 {
                     bool blnResult = controller.delete(input.item_id.ToString());
 
@@ -1167,7 +1167,7 @@ namespace BPC_OPR
                 model.bonus_name_th = input.bonus_name_th;
                 model.bonus_name_en = input.bonus_name_en;
                 model.item_code = input.item_code;
-                
+
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
@@ -1358,7 +1358,7 @@ namespace BPC_OPR
             log.apilog_data = "all";
             try
             {
-  
+
 
                 //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
@@ -1633,7 +1633,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-        
+
 
         #region batch set bonus
         public string getBatchBonusList(InputTRList input)
@@ -1659,7 +1659,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRBonus objMTBonus = new cls_ctTRBonus();
-                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("","", input.company_code, input.paypolbonus_code);
+                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("", "", input.company_code, input.paypolbonus_code);
 
                 JArray array = new JArray();
 
@@ -1723,72 +1723,72 @@ namespace BPC_OPR
                 //bool blnResult = true;
                 //string strMessage = "";
 
-               try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                try
                 {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                    var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                    if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                    {
+                        output["success"] = false;
+                        output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                        log.apilog_status = "500";
+                        log.apilog_message = BpcOpr.MessageNotAuthen;
+                        objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                        return output.ToString(Formatting.None);
+                    }
                     cls_ctTRBonus objPol = new cls_ctTRBonus();
                     List<cls_TRBonus> listPol = new List<cls_TRBonus>();
                     bool strID = false;
                     foreach (cls_MTWorker modelWorker in input.emp_data)
-                         {
-                      
-                    cls_TRBonus model = new cls_TRBonus();
+                    {
 
-                    model.paypolbonus_code = input.paypolbonus_code;
-                    model.company_code = input.company_code;
-                    model.worker_code = modelWorker.worker_code;
+                        cls_TRBonus model = new cls_TRBonus();
 
-                    model.flag = input.flag;
-                    model.created_by = input.modified_by;
+                        model.paypolbonus_code = input.paypolbonus_code;
+                        model.company_code = input.company_code;
+                        model.worker_code = modelWorker.worker_code;
 
-                    listPol.Add(model);
+                        model.flag = input.flag;
+                        model.created_by = input.modified_by;
+
+                        listPol.Add(model);
+                    }
+                    if (listPol.Count > 0)
+                    {
+                        strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
+
+
+                    }
+                    if (strID)
+                    {
+
+                        output["success"] = true;
+                        output["message"] = "Retrieved data successfully";
+                        output["record_id"] = strID;
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = objPol.getMessage();
+                    }
+
+                    objPol.dispose();
                 }
-                if (listPol.Count > 0)
+                catch (Exception ex)
                 {
-                    strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
-
-
+                    output["result"] = "0";
+                    output["result_text"] = ex.ToString();
                 }
-                if (strID)
-                {
-                
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = objPol.getMessage();
-                }
-                      
-                objPol.dispose();
-            }
-             catch (Exception ex)
-               {
-                   output["result"] = "0";
-                   output["result_text"] = ex.ToString();
-               }
 
 
-               return output.ToString(Formatting.None);
+                return output.ToString(Formatting.None);
             }
 
         }
@@ -1821,11 +1821,11 @@ namespace BPC_OPR
 
                 cls_ctTRBonus controller = new cls_ctTRBonus();
 
-                bool blnResult = controller.delete(input.company_code, input.worker_code,input.paypolbonus_code);
+                bool blnResult = controller.delete(input.company_code, input.worker_code, input.paypolbonus_code);
 
                 if (blnResult)
                 {
-                   
+
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -2516,7 +2516,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPayitem objPolItem = new cls_ctTRPayitem();
-                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code, input.item_code, input.item_code, Convert.ToDateTime(input.payitem_date), Convert.ToDateTime(input.payitem_date));
+                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, Convert.ToDateTime(input.payitem_date), input.worker_code, input.item_type, input.item_code);
 
                 JArray array = new JArray();
                 if (listPolItem != null)
@@ -2678,7 +2678,7 @@ namespace BPC_OPR
 
         }
         //test
-     
+
         public string doManageTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
@@ -2755,17 +2755,17 @@ namespace BPC_OPR
 
         }
 
-       
 
-       
- 
+
+
+
         public string doDeleteTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-            
+
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PAY011.4";
@@ -3022,8 +3022,8 @@ namespace BPC_OPR
         //    return output.ToString(Formatting.None);
         //}
 
-         #endregion
-        
+        #endregion
+
 
     }
 
