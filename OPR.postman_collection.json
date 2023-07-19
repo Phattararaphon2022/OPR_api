@@ -4882,7 +4882,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"\",\r\n    \"worker_code\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_id\":0,\r\n    \"account_user\":\"Group01\",\r\n    \"account_type\":\"\",\r\n    \"worker_code\":\"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4941,7 +4941,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_pwd\":\"1234\",\r\n    \"account_type\":\"Emp\",\r\n    \"account_level\":1,\r\n    \"account_email\":\"EMP01@gmail.com\",\r\n    \"account_email_alert\":false,\r\n    \"account_line\":\"EMP01_line\",\r\n    \"account_line_alert\":false,\r\n    \"flag\":false,\r\n    \"positonn_data\":[\r\n        // {\r\n        // \"company_code\":\"OPR\",\r\n        // \"account_user\":\"Test\",\r\n        // \"account_type\":\"Emp\",\r\n        // \"position_code\":\"002\"\r\n        // }\r\n    ],\r\n    \"dep_data\":[\r\n        // {\r\n        // \"company_code\":\"OPR\",\r\n        // \"account_user\":\"Test\",\r\n        // \"account_type\":\"Emp\",\r\n        // \"level_code\":\"1\",\r\n        // \"dep_code\":\"L1\"\r\n        // }\r\n    ],\r\n    \"worker_data\":[\r\n        {\r\n        \"company_code\":\"OPR\",\r\n        \"account_user\":\"Test\",\r\n        \"account_type\":\"Emp\",\r\n        \"worker_code\":\"EMP01\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_id\":0,\r\n    \"account_user\":\"Test\",\r\n    \"account_pwd\":\"1234\",\r\n    \"account_type\":\"Emp\",\r\n    \"account_level\":1,\r\n    \"account_email\":\"EMP01@gmail.com\",\r\n    \"account_email_alert\":false,\r\n    \"account_line\":\"EMP01_line\",\r\n    \"account_line_alert\":false,\r\n    \"flag\":false,\r\n    \"positonn_data\":[\r\n        // {\r\n        // \"company_code\":\"OPR\",\r\n        // \"account_user\":\"Test\",\r\n        // \"account_type\":\"Emp\",\r\n        // \"position_code\":\"002\"\r\n        // }\r\n    ],\r\n    \"dep_data\":[\r\n        // {\r\n        // \"company_code\":\"OPR\",\r\n        // \"account_user\":\"Test\",\r\n        // \"account_type\":\"Emp\",\r\n        // \"level_code\":\"1\",\r\n        // \"dep_code\":\"L1\"\r\n        // }\r\n    ],\r\n    \"worker_data\":[\r\n        {\r\n        \"company_code\":\"OPR\",\r\n        \"account_user\":\"Test\",\r\n        \"account_type\":\"Emp\",\r\n        \"worker_code\":\"EMP01\"\r\n        }\r\n    ],\r\n    \"module_data\":[]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4980,7 +4980,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"Emp\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_id\":1,\r\n    \"account_user\":\"Test\",\r\n    \"account_type\":\"Emp\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5019,7 +5019,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"EMP01\",\r\n    \"account_type\":\"Emp\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"worker_code\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_id\":0,\r\n    \"account_user\":\"EMP01\",\r\n    \"account_type\":\"Emp\",\r\n    \"workflow_type\":\"LEA\",\r\n    \"worker_code\":\"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5328,6 +5328,148 @@
 					]
 				},
 				{
+					"name": "Accountmodule",
+					"item": [
+						{
+							"name": "SelfServices/accountmodule_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Admin\",\r\n    \"account_type\":\"ADM\",\r\n    \"module_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/accountmodule_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"accountmodule_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/accountmodule",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Admin\",\r\n    \"account_type\":\"ADM\",\r\n    \"module_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/accountmodule",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"accountmodule"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/accountmodule_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_user\":\"Admin\",\r\n    \"account_type\":\"ADM\",\r\n    \"module_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/accountmodule_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"accountmodule_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Approve Doc",
 					"item": [
 						{
@@ -5347,7 +5489,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Approve01\",\r\n    \"company_code\":\"OPR\",\r\n    \"job_type\":\"LEA\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Approve01\",\r\n    \"company_code\":\"OPR\",\r\n    \"job_type\":\"LEA\",\r\n    \"status\":0,\r\n    \"fromdate\":\"2023-01-01\",\r\n    \"todate\":\"2023-12-31\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5429,6 +5571,432 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Mailconfig",
+					"item": [
+						{
+							"name": "SelfServices/mailconfig_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"mail_id\":0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/mailconfig_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"mailconfig_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/mailconfig",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"mail_id\":0,\r\n    \"mail_server\":\"smtp.office365.com\",\r\n    \"mail_serverport\":\"587\",\r\n    \"mail_login\":\"opr.test@outlook.com\",\r\n    \"mail_password\":\"OPR@2023\",\r\n    \"mail_fromname\":\"OPR\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/mailconfig",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"mailconfig"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/mailconfig_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"mail_id\":0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/mailconfig_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"mailconfig_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PDPA File",
+					"item": [
+						{
+							"name": "SelfServices/pdpafile_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"document_id\":0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/pdpafile_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"pdpafile_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/pdpafile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"document_id\":0,\r\n    \"document_name\":\"LEAVE_DOC20230707135929.pdf\",\r\n    \"document_path\":\"LEAVE_DOC20230707135929.pdf\",\r\n    \"document_type\":\"application/pdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/pdpafile",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"pdpafile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/pdpafile_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"document_id\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/pdpafile_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"pdpafile_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Consent",
+					"item": [
+						{
+							"name": "SelfServices/pdpa_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP02\",\r\n    \"status\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/pdpa_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"pdpa_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/pdpa",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP01\",\r\n    \"status\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/pdpa",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"pdpa"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SelfServices/pdpa_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"worker_code\":\"EMP01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_SelfServices/ModuleSelfServices.svc/SelfServices/pdpa_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_SelfServices",
+										"ModuleSelfServices.svc",
+										"SelfServices",
+										"pdpa_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -5451,7 +6019,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"usname\":\"admin\",\r\n    \"pwd\":\"2022*\"\r\n}",
+					"raw": "{\r\n    \"company_code\":\"OPR\",\r\n    \"usname\":\"Admin\",\r\n    \"pwd\":\"1234\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -5467,6 +6035,46 @@
 						"BpcOpr.svc",
 						"BpcOpr",
 						"doAuthen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BpcOpr/doCheckToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// pm.expect(JSON.parse(pm.response.json()).message).to.be.an(\"message\")\r",
+							"pm.collectionVariables.set(\"token\",JSON.parse(pm.response.json()).message)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usname\":\"Admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/BpcOpr.svc/BpcOpr/doCheckToken",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"BpcOpr.svc",
+						"BpcOpr",
+						"doCheckToken"
 					]
 				}
 			},

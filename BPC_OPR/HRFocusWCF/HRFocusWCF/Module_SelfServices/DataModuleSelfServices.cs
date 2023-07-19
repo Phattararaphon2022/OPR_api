@@ -623,6 +623,8 @@ namespace BPC_OPR
         [DataMember]
         public List<cls_TRAccountpos> positonn_data { get; set; }
         [DataMember]
+        public List<cls_TRAccountmodule> module_data { get; set; }
+        [DataMember]
         public List<cls_TRAccountdep> dep_data { get; set; }
         [DataMember]
         public List<cls_TRAccount> worker_data { get; set; }
@@ -685,6 +687,28 @@ namespace BPC_OPR
         public string level_code { get; set; }
         [DataMember]
         public string dep_code { get; set; }
+    }
+    #endregion
+
+    #region InputTRAccountmodule
+    [DataContract]
+    public class InputTRAccountmodule
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string account_type { get; set; }
+        [DataMember]
+        public string module_code { get; set; }
     }
     #endregion
 

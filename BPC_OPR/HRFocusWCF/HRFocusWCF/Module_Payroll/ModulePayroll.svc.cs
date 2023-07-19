@@ -783,7 +783,7 @@ namespace BPC_OPR
                                 jsonBonusrate.Add("workage_to", modelTRBonusrate.workage_to);
                                 jsonBonusrate.Add("rate_emp", modelTRBonusrate.rate_emp);
                                 jsonBonusrate.Add("rate_com", modelTRBonusrate.rate_com);
-                                
+
 
                                 jsonBonusrate.Add("index", indexBonusrate);
                                 indexBonusrate++;
@@ -1165,7 +1165,7 @@ namespace BPC_OPR
                 model.bonus_name_th = input.bonus_name_th;
                 model.bonus_name_en = input.bonus_name_en;
                 model.item_code = input.item_code;
-                
+
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
@@ -1356,7 +1356,7 @@ namespace BPC_OPR
             log.apilog_data = "all";
             try
             {
-  
+
 
                 //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
@@ -1631,7 +1631,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-        
+
 
         #region batch set bonus
         public string getBatchBonusList(InputTRList input)
@@ -1657,7 +1657,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRBonus objMTBonus = new cls_ctTRBonus();
-                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("","", input.company_code, input.paypolbonus_code);
+                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("", "", input.company_code, input.paypolbonus_code);
 
                 JArray array = new JArray();
 
@@ -1721,72 +1721,72 @@ namespace BPC_OPR
                 //bool blnResult = true;
                 //string strMessage = "";
 
-               try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                try
                 {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                    var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                    if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                    {
+                        output["success"] = false;
+                        output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                        log.apilog_status = "500";
+                        log.apilog_message = BpcOpr.MessageNotAuthen;
+                        objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                        return output.ToString(Formatting.None);
+                    }
                     cls_ctTRBonus objPol = new cls_ctTRBonus();
                     List<cls_TRBonus> listPol = new List<cls_TRBonus>();
                     bool strID = false;
                     foreach (cls_MTWorker modelWorker in input.emp_data)
-                         {
-                      
-                    cls_TRBonus model = new cls_TRBonus();
+                    {
 
-                    model.paypolbonus_code = input.paypolbonus_code;
-                    model.company_code = input.company_code;
-                    model.worker_code = modelWorker.worker_code;
+                        cls_TRBonus model = new cls_TRBonus();
 
-                    model.flag = input.flag;
-                    model.created_by = input.modified_by;
+                        model.paypolbonus_code = input.paypolbonus_code;
+                        model.company_code = input.company_code;
+                        model.worker_code = modelWorker.worker_code;
 
-                    listPol.Add(model);
+                        model.flag = input.flag;
+                        model.created_by = input.modified_by;
+
+                        listPol.Add(model);
+                    }
+                    if (listPol.Count > 0)
+                    {
+                        strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
+
+
+                    }
+                    if (strID)
+                    {
+
+                        output["success"] = true;
+                        output["message"] = "Retrieved data successfully";
+                        output["record_id"] = strID;
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = objPol.getMessage();
+                    }
+
+                    objPol.dispose();
                 }
-                if (listPol.Count > 0)
+                catch (Exception ex)
                 {
-                    strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
-
-
+                    output["result"] = "0";
+                    output["result_text"] = ex.ToString();
                 }
-                if (strID)
-                {
-                
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = objPol.getMessage();
-                }
-                      
-                objPol.dispose();
-            }
-             catch (Exception ex)
-               {
-                   output["result"] = "0";
-                   output["result_text"] = ex.ToString();
-               }
 
 
-               return output.ToString(Formatting.None);
+                return output.ToString(Formatting.None);
             }
 
         }
@@ -1819,11 +1819,11 @@ namespace BPC_OPR
 
                 cls_ctTRBonus controller = new cls_ctTRBonus();
 
-                bool blnResult = controller.delete(input.company_code, input.worker_code,input.paypolbonus_code);
+                bool blnResult = controller.delete(input.company_code, input.worker_code, input.paypolbonus_code);
 
                 if (blnResult)
                 {
-                   
+
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -2514,7 +2514,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPayitem objPolItem = new cls_ctTRPayitem();
-                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code, input.item_code, input.item_code, Convert.ToDateTime(input.payitem_date), Convert.ToDateTime(input.payitem_date));
+                List<cls_TRPayitem> listPolItem = objPolItem.getDataByFillter("", input.company_code, input.worker_code, input.item_type, input.item_code, Convert.ToDateTime(input.payitem_date), Convert.ToDateTime(input.payitem_date));
 
                 JArray array = new JArray();
                 if (listPolItem != null)
@@ -2579,9 +2579,6 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
-
-
-
 
         //test
         public string doManageTRPayitemList(InputTRPayitem input)
@@ -2676,7 +2673,6 @@ namespace BPC_OPR
 
         }
         //test
-     
         public string doManageTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
@@ -2753,17 +2749,13 @@ namespace BPC_OPR
 
         }
 
-       
-
-       
- 
         public string doDeleteTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-            
+
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PAY011.4";
@@ -2888,21 +2880,24 @@ namespace BPC_OPR
 
 
         #region PayTran&Acc
-        public string getTRPaytranList(InputTRPaytran input)
+
+        public string getTRPaytranList(FillterPayroll req)
         {
+
             JObject output = new JObject();
+
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PAY011.1";
-            log.apilog_by = input.username;
-            log.apilog_data = "all";
+            log.apilog_code = "PAY012.1";
+            log.apilog_by = req.username;
 
             try
             {
+
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
-                    output["result"] = "0";
-                    output["result_text"] = BpcOpr.MessageNotAuthen;
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
 
                     log.apilog_status = "500";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
@@ -2910,104 +2905,102 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
 
-                cls_ctTRPaytran objPaytran = new cls_ctTRPaytran();
-                List<cls_TRPaytran> listPaytran = objPaytran.getDataByFillter(input.language, input.company_code, Convert.ToDateTime(input.fromdate), Convert.ToDateTime(input.todate), input.worker_code);
+                cls_ctTRPaytran controller = new cls_ctTRPaytran();
+                List<cls_TRPaytran> listResult = controller.getDataByFillter(req.language, req.company_code, datefrom, dateto, req.worker_code);
                 JArray array = new JArray();
 
-                if (listPaytran != null)
+                if (listResult.Count > 0)
                 {
-                    if (listPaytran.Count > 0)
+                    int index = 1;
+
+                    foreach (cls_TRPaytran model in listResult)
                     {
-                        int index = 1;
+                        JObject json = new JObject();
 
-                        foreach (cls_TRPaytran model in listPaytran)
-                        {
-                            JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("paytran_date", model.paytran_date);
 
-                            // Check if the properties are not null before accessing them
-                            if (model != null)
-                            {
-                                json.Add("company_code", model.company_code);
-                                json.Add("worker_code", model.worker_code);
-                                json.Add("paytran_date", model.paytran_date);
+                        json.Add("paytran_ssoemp", model.paytran_ssoemp);
+                        json.Add("paytran_ssocom", model.paytran_ssocom);
+                        json.Add("paytran_ssorateemp", model.paytran_ssorateemp);
+                        json.Add("paytran_ssoratecom", model.paytran_ssoratecom);
 
-                                json.Add("paytran_ssoemp", model.paytran_ssoemp);
-                                json.Add("paytran_ssocom", model.paytran_ssocom);
-                                json.Add("paytran_ssorateemp", model.paytran_ssorateemp);
-                                json.Add("paytran_ssoratecom", model.paytran_ssoratecom);
+                        json.Add("paytran_pfemp", model.paytran_pfemp);
+                        json.Add("paytran_pfcom", model.paytran_pfcom);
 
-                                json.Add("paytran_pfemp", model.paytran_pfemp);
-                                json.Add("paytran_pfcom", model.paytran_pfcom);
+                        json.Add("paytran_income_401", model.paytran_income_401);
+                        json.Add("paytran_deduct_401", model.paytran_deduct_401);
+                        json.Add("paytran_tax_401", model.paytran_tax_401);
 
-                                json.Add("paytran_income_401", model.paytran_income_401);
-                                json.Add("paytran_deduct_401", model.paytran_deduct_401);
-                                json.Add("paytran_tax_401", model.paytran_tax_401);
+                        json.Add("paytran_income_4012", model.paytran_income_4012);
+                        json.Add("paytran_deduct_4012", model.paytran_deduct_4012);
+                        json.Add("paytran_tax_4012", model.paytran_tax_4012);
 
-                                json.Add("paytran_income_4012", model.paytran_income_4012);
-                                json.Add("paytran_deduct_4012", model.paytran_deduct_4012);
-                                json.Add("paytran_tax_4012", model.paytran_tax_4012);
+                        json.Add("paytran_income_4013", model.paytran_income_4013);
+                        json.Add("paytran_deduct_4013", model.paytran_deduct_4013);
+                        json.Add("paytran_tax_4013", model.paytran_tax_4013);
 
-                                json.Add("paytran_income_4013", model.paytran_income_4013);
-                                json.Add("paytran_deduct_4013", model.paytran_deduct_4013);
-                                json.Add("paytran_tax_4013", model.paytran_tax_4013);
+                        json.Add("paytran_income_402I", model.paytran_income_402I);
+                        json.Add("paytran_deduct_402I", model.paytran_deduct_402I);
+                        json.Add("paytran_tax_402I", model.paytran_tax_402I);
 
-                                json.Add("paytran_income_402I", model.paytran_income_402I);
-                                json.Add("paytran_deduct_402I", model.paytran_deduct_402I);
-                                json.Add("paytran_tax_402I", model.paytran_tax_402I);
+                        json.Add("paytran_income_402O", model.paytran_income_402O);
+                        json.Add("paytran_deduct_402O", model.paytran_deduct_402O);
+                        json.Add("paytran_tax_402O", model.paytran_tax_402O);
 
-                                json.Add("paytran_income_402O", model.paytran_income_402O);
-                                json.Add("paytran_deduct_402O", model.paytran_deduct_402O);
-                                json.Add("paytran_tax_402O", model.paytran_tax_402O);
+                        json.Add("paytran_income_notax", model.paytran_income_notax);
+                        json.Add("paytran_deduct_notax", model.paytran_deduct_notax);
 
-                                json.Add("paytran_income_notax", model.paytran_income_notax);
-                                json.Add("paytran_deduct_notax", model.paytran_deduct_notax);
+                        json.Add("paytran_income_total", model.paytran_income_total);
+                        json.Add("paytran_deduct_total", model.paytran_deduct_total);
 
-                                json.Add("paytran_income_total", model.paytran_income_total);
-                                json.Add("paytran_deduct_total", model.paytran_deduct_total);
+                        json.Add("paytran_netpay_b", model.paytran_netpay_b);
+                        json.Add("paytran_netpay_c", model.paytran_netpay_c);
 
-                                json.Add("paytran_netpay_b", model.paytran_netpay_b);
-                                json.Add("paytran_netpay_c", model.paytran_netpay_c);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
 
-                                double other_income = model.paytran_income_total - model.paytran_salary;
-                                double other_deduct = model.paytran_deduct_total - (model.paytran_tax_401 + model.paytran_income_4013 + model.paytran_ssoemp + model.paytran_pfemp);
+                        json.Add("worker_detail", model.worker_detail);
 
-                                json.Add("worker_detail", model.worker_detail);
-                                json.Add("paytran_salary", model.paytran_salary);
-                                json.Add("paytran_tax_total", model.paytran_tax_401 + model.paytran_income_4013 + model.paytran_income_402I + model.paytran_income_402O);
-                                json.Add("paytran_netpay", model.paytran_netpay_b + model.paytran_netpay_c);
+                        json.Add("paytran_salary", model.paytran_salary);
+                        json.Add("paytran_overtime", model.paytran_overtime);
+                        json.Add("paytran_diligence", model.paytran_diligence);
 
-                                json.Add("other_income", other_income);
-                                json.Add("other_deduct", other_deduct);
+                        json.Add("paytran_absent", model.paytran_absent);
+                        json.Add("paytran_late", model.paytran_late);
+                        json.Add("paytran_leave", model.paytran_leave);
 
-                                json.Add("modified_by", model.modified_by);
-                                json.Add("modified_date", model.modified_date);
-                                json.Add("flag", model.flag);
-                                json.Add("index", index);
+                        json.Add("change", false);
+                        json.Add("index", index);
 
-                                index++;
-                            }
+                        index++;
 
-                            array.Add(json);
-                        }
-
-                        output["result"] = "1";
-                        output["result_text"] = "Data found";
-                        output["data"] = array;
+                        array.Add(json);
                     }
-                    else
-                    {
-                        output["result"] = "0";
-                        output["result_text"] = "Data not found";
-                        output["data"] = array;
-                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+
                 }
                 else
                 {
                     output["result"] = "0";
-                    output["result_text"] = "An error occurred";
+                    output["result_text"] = "Data not found";
                     output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
                 }
+
             }
             catch (Exception e)
             {
@@ -3169,7 +3162,12 @@ namespace BPC_OPR
                     log.apilog_message = objPaytran.getMessage();
                 }
                 objPaytran.dispose();
+                output["message"] = "Data not Found";
+
+                log.apilog_status = "404";
+                log.apilog_message = "Data not Found";
             }
+
             catch (Exception ex)
             {
                 output["success"] = false;
@@ -3235,11 +3233,34 @@ namespace BPC_OPR
                         paytran.paytran_income_402I = 0;
                         paytran.paytran_income_402O = 0;
 
+                        paytran.paytran_deduct_401 = 0;
+                        paytran.paytran_deduct_4012 = 0;
+                        paytran.paytran_deduct_4013 = 0;
+                        paytran.paytran_deduct_402I = 0;
+                        paytran.paytran_deduct_402O = 0;
+
                         paytran.paytran_tax_401 = 0;
                         paytran.paytran_tax_4012 = 0;
                         paytran.paytran_tax_4013 = 0;
                         paytran.paytran_tax_402I = 0;
                         paytran.paytran_tax_402O = 0;
+
+                        paytran.paytran_income_notax = 0;
+                        paytran.paytran_deduct_notax = 0;
+
+                        paytran.paytran_income_total = 0;
+                        paytran.paytran_deduct_total = 0;
+
+                        paytran.paytran_netpay_b = 0;
+                        paytran.paytran_netpay_c = 0;
+
+                        paytran.paytran_salary = 0;
+                        paytran.paytran_overtime = 0;
+                        paytran.paytran_diligence = 0;
+
+                        paytran.paytran_absent = 0;
+                        paytran.paytran_late = 0;
+                        paytran.paytran_leave = 0;
 
                         foreach (cls_TRPaytran model in listPaytran)
                         {
@@ -3252,6 +3273,12 @@ namespace BPC_OPR
                             paytran.paytran_income_402I += (model.paytran_income_402I - model.paytran_deduct_402I);
                             paytran.paytran_income_402O += (model.paytran_income_402O - model.paytran_deduct_402O);
 
+                            paytran.paytran_deduct_401 += model.paytran_deduct_401;
+                            paytran.paytran_deduct_4012 += model.paytran_deduct_4012;
+                            paytran.paytran_deduct_4013 += model.paytran_deduct_4013;
+                            paytran.paytran_deduct_402I += model.paytran_deduct_402I;
+                            paytran.paytran_deduct_402O += model.paytran_deduct_402O;
+
                             paytran.paytran_tax_401 += model.paytran_tax_401;
                             paytran.paytran_tax_4012 += model.paytran_tax_4012;
                             paytran.paytran_tax_4013 += model.paytran_tax_4013;
@@ -3262,6 +3289,23 @@ namespace BPC_OPR
                             paytran.paytran_ssocom += model.paytran_ssocom;
                             paytran.paytran_pfemp += model.paytran_pfemp;
                             paytran.paytran_pfcom += model.paytran_pfcom;
+
+                            paytran.paytran_income_notax += model.paytran_income_notax;
+                            paytran.paytran_deduct_notax += model.paytran_deduct_notax;
+
+                            paytran.paytran_income_total += model.paytran_income_total;
+                            paytran.paytran_deduct_total += model.paytran_deduct_total;
+
+                            paytran.paytran_netpay_b += model.paytran_netpay_b;
+                            paytran.paytran_netpay_c += model.paytran_netpay_c;
+
+                            paytran.paytran_salary += model.paytran_salary;
+                            paytran.paytran_overtime += model.paytran_overtime;
+                            paytran.paytran_diligence += model.paytran_diligence;
+
+                            paytran.paytran_absent += model.paytran_absent;
+                            paytran.paytran_late += model.paytran_late;
+                            paytran.paytran_leave += model.paytran_leave;
 
                         }
 
@@ -3277,6 +3321,12 @@ namespace BPC_OPR
                         json.Add("paytran_income_402I", paytran.paytran_income_402I);
                         json.Add("paytran_income_402O", paytran.paytran_income_402O);
 
+                        json.Add("paytran_deduct_401", paytran.paytran_deduct_401);
+                        json.Add("paytran_deduct_4012", paytran.paytran_deduct_4012);
+                        json.Add("paytran_deduct_4013", paytran.paytran_deduct_4013);
+                        json.Add("paytran_deduct_402I", paytran.paytran_deduct_402I);
+                        json.Add("paytran_deduct_402O", paytran.paytran_deduct_402O);
+
                         json.Add("paytran_tax_401", paytran.paytran_tax_401);
                         json.Add("paytran_tax_4012", paytran.paytran_tax_4012);
                         json.Add("paytran_tax_4013", paytran.paytran_tax_4013);
@@ -3287,6 +3337,23 @@ namespace BPC_OPR
                         json.Add("paytran_ssocom", paytran.paytran_ssocom);
                         json.Add("paytran_pfemp", paytran.paytran_pfemp);
                         json.Add("paytran_pfcom", paytran.paytran_pfcom);
+
+                        json.Add("paytran_income_notax", paytran.paytran_income_notax);
+                        json.Add("paytran_deduct_notax", paytran.paytran_deduct_notax);
+
+                        json.Add("paytran_income_total", paytran.paytran_income_total);
+                        json.Add("paytran_deduct_total", paytran.paytran_deduct_total);
+
+                        json.Add("paytran_netpay_b", paytran.paytran_netpay_b);
+                        json.Add("paytran_netpay_c", paytran.paytran_netpay_c);
+
+                        json.Add("paytran_salary", paytran.paytran_salary);
+                        json.Add("paytran_overtime", paytran.paytran_overtime);
+                        json.Add("paytran_diligence", paytran.paytran_diligence);
+
+                        json.Add("paytran_absent", paytran.paytran_absent);
+                        json.Add("paytran_late", paytran.paytran_late);
+                        json.Add("paytran_leave", paytran.paytran_leave);
 
                         json.Add("index", index);
                         index++;
@@ -3320,6 +3387,94 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        #endregion
+
+        #region Payreduce
+        public string getTRPayreduceList(FillterPayroll req)
+        {
+
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY013.1";
+            log.apilog_by = req.username;
+
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRPayreduce controller = new cls_ctTRPayreduce();
+                List<cls_TRPayreduce> listResult = controller.getDataByFillter(req.company_code, req.worker_code, Convert.ToDateTime(req.paydate));
+                JArray array = new JArray();
+
+                if (listResult.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRPayreduce model in listResult)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        
+                        json.Add("payreduce_paydate", model.payreduce_paydate);
+                        json.Add("reduce_code", model.reduce_code);
+                        json.Add("payreduce_amount", model.payreduce_amount);
+                        json.Add("reduce_name_th", model.reduce_name_th);
+                        json.Add("reduce_name_en", model.reduce_name_en);
+
+                        json.Add("change", false);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+            }
+            catch (Exception e)
+            {
+                output["result"] = "0";
+                output["result_text"] = "An error occurred";
+                output["error"] = e.Message;
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
         #endregion
 
     }

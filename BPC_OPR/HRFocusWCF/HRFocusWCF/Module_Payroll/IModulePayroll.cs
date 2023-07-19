@@ -205,9 +205,6 @@ namespace BPC_OPR
         #endregion
 
         #region Paytran&Acc
-        [OperationContract(Name = "getpaytran")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTRPaytranList(InputTRPaytran input);
 
         [OperationContract(Name = "getpaytranacc")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -223,5 +220,16 @@ namespace BPC_OPR
         #endregion
 
 
+        #region Paytran
+        [OperationContract(Name = "paytran_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaytranList(FillterPayroll req);
+        #endregion
+
+        #region Payreduce
+        [OperationContract(Name = "payreduce_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPayreduceList(FillterPayroll req);
+        #endregion
     }
 }

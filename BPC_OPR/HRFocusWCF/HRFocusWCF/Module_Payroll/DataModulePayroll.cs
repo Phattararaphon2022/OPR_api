@@ -87,7 +87,6 @@ namespace BPC_OPR
 
     #endregion
 
-
     #region MTProvident
     [DataContract]
     public class InputMTProvident
@@ -127,7 +126,7 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
 
-     #endregion
+    #endregion
 
     #region bonus
     [DataContract]
@@ -187,7 +186,7 @@ namespace BPC_OPR
         public int index { get; set; }
     }
 
-     #endregion
+    #endregion
 
     #region set Batch
     [DataContract]
@@ -213,7 +212,7 @@ namespace BPC_OPR
         //set bonus
         [DataMember]
         public string bonus_code { get; set; }
-        
+
         [DataMember]
         public string paypolbonus_code { get; set; }
 
@@ -229,7 +228,7 @@ namespace BPC_OPR
         [DataMember]
         public string paypolitem_code { get; set; }
         //payitems
-      
+
         [DataMember]
         public DateTime payitem_date { get; set; }
         [DataMember]
@@ -250,10 +249,10 @@ namespace BPC_OPR
         public int index { get; set; }
         [DataMember]
         public bool flag { get; set; }
-        
+
         [DataMember]
         public string transaction_data { get; set; }
-        
+
     }
 
     #endregion
@@ -269,7 +268,7 @@ namespace BPC_OPR
         [DataMember]
         public string worker_detail { get; set; }
         [DataMember]
-        public string paypolbonus_code { get; set; }        
+        public string paypolbonus_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]
@@ -278,8 +277,6 @@ namespace BPC_OPR
         public int index { get; set; }
     }
     #endregion
-
-
 
     #region InputMTPeriod
     [DataContract]
@@ -325,7 +322,6 @@ namespace BPC_OPR
     }
     #endregion
 
-
     #region TRPayitem
     [DataContract]
     public class InputTRPayitem
@@ -358,29 +354,29 @@ namespace BPC_OPR
         public string modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
-         [DataMember]
+        [DataMember]
         public string transaction_data { get; set; }
 
         [DataMember]
-         public DateTime date { get; set; }
+        public DateTime date { get; set; }
         public string language { get; set; }
-         [DataMember]
+        [DataMember]
         public string com { get; set; }
-         [DataMember]
+        [DataMember]
         public string emp { get; set; }
-       
-         [DataMember]
+
+        [DataMember]
         public string item_type { get; set; }
-         [DataMember]
+        [DataMember]
         public string item { get; set; }
 
-         [DataMember]
-         public List<cls_MTWorker> emp_data { get; set; }
-        
-    }
-    
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
 
-        #endregion
+    }
+
+
+    #endregion
 
     #region TRPayitem
     [DataContract]
@@ -398,9 +394,9 @@ namespace BPC_OPR
         public string worker_code { get; set; }
         [DataMember]
         public string item_code { get; set; }
-         [DataMember]
+        [DataMember]
         public string payitem_paytype { get; set; }
-        
+
         [DataMember]
         public string transaction_data { get; set; }
         [DataMember]
@@ -422,6 +418,8 @@ namespace BPC_OPR
         public string ip { get; set; }
         [DataMember]
         public string username { get; set; }
+        [DataMember]
+        public string company { get; set; }
         [DataMember]
         public string fromdate { get; set; }
         [DataMember]
@@ -500,9 +498,39 @@ namespace BPC_OPR
         [DataMember]
         public string modified_date { get; set; }
     }
-#endregion
+    #endregion
+
+    #region FillterPayroll
+    [DataContract]
+    public class FillterPayroll
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+        [DataMember]
+        public string paydate { get; set; }
+        [DataMember]
+        public string emp { get; set; }
+
+    }
+    #endregion
 
 
 }
 
- 
+

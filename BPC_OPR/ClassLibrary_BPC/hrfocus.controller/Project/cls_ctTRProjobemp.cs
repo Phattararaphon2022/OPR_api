@@ -37,6 +37,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBEMP_EMP");         
                 obj_str.Append(", ISNULL(PROJOBEMP_FROMDATE, '01/01/1900') AS PROJOBEMP_FROMDATE");
                 obj_str.Append(", ISNULL(PROJOBEMP_TODATE, '01/01/1900') AS PROJOBEMP_TODATE");
+                obj_str.Append(", PROJOBEMP_TYPE");
                 obj_str.Append(", PROJOBEMP_STATUS");
 
                 obj_str.Append(", PROJOB_CODE");     
@@ -65,6 +66,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobemp_fromdate = Convert.ToDateTime(dr["PROJOBEMP_FROMDATE"]);
                     model.projobemp_todate = Convert.ToDateTime(dr["PROJOBEMP_TODATE"]);
 
+                    model.projobemp_type = Convert.ToString(dr["PROJOBEMP_TYPE"]); 
                     model.projobemp_status = Convert.ToString(dr["PROJOBEMP_STATUS"]); 
                     
                     model.projob_code = Convert.ToString(dr["PROJOB_CODE"]);                                        
@@ -226,6 +228,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBEMP_EMP ");                
                 obj_str.Append(", PROJOBEMP_FROMDATE ");
                 obj_str.Append(", PROJOBEMP_TODATE ");
+                obj_str.Append(", PROJOBEMP_TYPE ");
                 obj_str.Append(", PROJOBEMP_STATUS ");
                 
                 obj_str.Append(", PROJOB_CODE ");     
@@ -241,6 +244,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBEMP_EMP ");                
                 obj_str.Append(", @PROJOBEMP_FROMDATE ");
                 obj_str.Append(", @PROJOBEMP_TODATE ");
+                obj_str.Append(", @PROJOBEMP_TYPE ");
                 obj_str.Append(", @PROJOBEMP_STATUS ");
 
                 obj_str.Append(", @PROJOB_CODE ");
@@ -261,6 +265,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBEMP_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBEMP_FROMDATE"].Value = model.projobemp_fromdate;
                 obj_cmd.Parameters.Add("@PROJOBEMP_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBEMP_TODATE"].Value = model.projobemp_todate;
 
+                obj_cmd.Parameters.Add("@PROJOBEMP_TYPE", SqlDbType.Char); obj_cmd.Parameters["@PROJOBEMP_TYPE"].Value = model.projobemp_type;
+                
                 obj_cmd.Parameters.Add("@PROJOBEMP_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBEMP_STATUS"].Value = model.projobemp_status;
                 
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;               
@@ -294,7 +300,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE PRO_TR_PROJOBEMP SET ");
 
                 obj_str.Append(" PROJOBEMP_FROMDATE=@PROJOBEMP_FROMDATE ");
-                obj_str.Append(", PROJOBEMP_TODATE=@PROJOBEMP_TODATE ");              
+                obj_str.Append(", PROJOBEMP_TODATE=@PROJOBEMP_TODATE ");
+
+                obj_str.Append(", PROJOBEMP_TYPE=@PROJOBEMP_TYPE "); 
                 obj_str.Append(", PROJOBEMP_STATUS=@PROJOBEMP_STATUS ");                                  
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
@@ -310,6 +318,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBEMP_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBEMP_FROMDATE"].Value = model.projobemp_fromdate;
                 obj_cmd.Parameters.Add("@PROJOBEMP_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBEMP_TODATE"].Value = model.projobemp_todate;
 
+                obj_cmd.Parameters.Add("@PROJOBEMP_TYPE", SqlDbType.Char); obj_cmd.Parameters["@PROJOBEMP_TYPE"].Value = model.projobemp_type;
                 obj_cmd.Parameters.Add("@PROJOBEMP_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBEMP_STATUS"].Value = model.projobemp_status;  
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
