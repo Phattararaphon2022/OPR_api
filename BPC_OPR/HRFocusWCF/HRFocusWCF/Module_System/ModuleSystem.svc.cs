@@ -2834,13 +2834,294 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Rounds
-        public string getMTRoundsList(InputMTRounds input)
+        //#region Rounds
+        //public string getMTRoundsList(InputMTRounds input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTRounds objRounds = new cls_ctMTRounds();
+        //        List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group,"", input.rounds_code);
+
+        //        //List<cls_MTRounds> listRounds = objRounds.getDataByFillter("","","");
+
+        //        JArray array = new JArray();
+
+        //        if (listRounds.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_MTRounds model in listRounds)
+        //            {
+        //                JObject json = new JObject();
+
+        //                json.Add("rounds_id", model.rounds_id);
+        //                json.Add("rounds_code", model.rounds_code);
+        //                json.Add("rounds_name_th", model.rounds_name_th);
+        //                json.Add("rounds_name_en", model.rounds_name_en);
+
+        //                json.Add("rounds_from", model.rounds_from);
+        //                json.Add("rounds_to", model.rounds_to);
+        //                json.Add("rounds_result", model.rounds_result);
+
+        //                json.Add("rounds_group", model.rounds_group);
+                        
+
+
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
+
+        //                json.Add("index", index);
+
+        //                index++;
+
+        //                array.Add(json);
+        //            }
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTRounds(InputMTRounds input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.2";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTRounds objRounds = new cls_ctMTRounds();
+        //        cls_MTRounds model = new cls_MTRounds();
+
+        //        //model.company_code = input.company_code;
+
+        //        model.rounds_id = input.rounds_id;
+        //        model.rounds_code = input.rounds_code;
+        //        model.rounds_name_th = input.rounds_name_th;
+        //        model.rounds_name_en = input.rounds_name_en;
+        //        model.rounds_from = input.rounds_from;
+        //        model.rounds_to = input.rounds_to;
+        //        model.rounds_result = input.rounds_result;
+        //        model.rounds_group = input.rounds_group;
+                
+        //        model.modified_by = input.modified_by;
+        //        model.flag = input.flag;
+
+
+        //        string strID = objRounds.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objRounds.getMessage();
+        //        }
+
+        //        objRounds.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //    }
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public string doDeleteMTRounds(InputMTRounds input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTRounds controller = new cls_ctMTRounds();
+
+        //        bool blnResult = controller.delete(input.rounds_id.ToString());
+
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public async Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        bool upload = await this.doUploadFile(fileName, stream);
+
+        //        if (upload)
+        //        {
+        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
+        //            string tmp = srv_import.doImportExcel("ROUNS", fileName, by);
+
+
+        //            output["success"] = true;
+        //            output["message"] = tmp;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //#endregion
+
+        #region Round
+        public string getMTRoundList(InputMTRound input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "SYS016.1";
-            log.apilog_by = input.username;
+             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
             {
@@ -2857,43 +3138,65 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTRounds objRounds = new cls_ctMTRounds();
-                List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group,"", input.rounds_code);
-
-                //List<cls_MTRounds> listRounds = objRounds.getDataByFillter("","","");
-
+                cls_ctMTRound objMTRound = new cls_ctMTRound();
+                List<cls_MTRound> listRound = objMTRound.getDataByFillter(input.round_group, "", input.round_code);
                 JArray array = new JArray();
 
-                if (listRounds.Count > 0)
+                if (listRound.Count > 0)
                 {
                     int index = 1;
 
-                    foreach (cls_MTRounds model in listRounds)
+                    foreach (cls_MTRound model in listRound)
                     {
                         JObject json = new JObject();
-
-                        json.Add("rounds_id", model.rounds_id);
-                        json.Add("rounds_code", model.rounds_code);
-                        json.Add("rounds_name_th", model.rounds_name_th);
-                        json.Add("rounds_name_en", model.rounds_name_en);
-
-                        json.Add("rounds_from", model.rounds_from);
-                        json.Add("rounds_to", model.rounds_to);
-                        json.Add("rounds_result", model.rounds_result);
-
-                        json.Add("rounds_group", model.rounds_group);
-                        
-
+                        json.Add("round_id", model.round_id);
+                        json.Add("round_code", model.round_code);
+                        json.Add("round_name_th", model.round_name_th);
+                        json.Add("round_name_en", model.round_name_en);
+                        json.Add("round_group", model.round_group);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
 
+
+                        array.Add(json);
+
+                        cls_ctTRRound objTRRound = new cls_ctTRRound();
+                        List<cls_TRRound> listTRRound = objTRRound.getDataByFillter(model.round_id.ToString());
+                        JArray arrayTRRound = new JArray();
+
+                        if (listTRRound.Count > 0)
+                        {
+                            int indexTRRound = 1;
+
+                            foreach (cls_TRRound modelTRRound in listTRRound)
+                            {
+                                JObject jsonTRRound = new JObject();
+                                jsonTRRound.Add("round_id", modelTRRound.round_id);
+                                jsonTRRound.Add("round_from", modelTRRound.round_from);
+                                jsonTRRound.Add("round_to", modelTRRound.round_to);
+                                jsonTRRound.Add("round_result", modelTRRound.round_result);
+
+                                jsonTRRound.Add("index", indexTRRound);
+
+                                indexTRRound++;
+
+
+
+                                arrayTRRound.Add(jsonTRRound);
+                            }
+                            json.Add("round_data", arrayTRRound);
+                        }
+                        else
+                        {
+                            json.Add("round_data", arrayTRRound);
+                        }
                         json.Add("index", index);
 
                         index++;
 
-                        array.Add(json);
+                        //array.Add(json);
                     }
 
                     output["result"] = "1";
@@ -2907,13 +3210,13 @@ namespace BPC_OPR
                     output["data"] = array;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                return ex.ToString();
             }
             return output.ToString(Formatting.None);
         }
-        public string doManageMTRounds(InputMTRounds input)
+        public string doManageMTRound(InputMTRound input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
@@ -2935,27 +3238,37 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTRounds objRounds = new cls_ctMTRounds();
-                cls_MTRounds model = new cls_MTRounds();
+                cls_ctMTRound objMTRound = new cls_ctMTRound();
+                cls_MTRound model = new cls_MTRound();
+                model.round_id = input.round_id.Equals("") ? 0 : Convert.ToInt32(input.round_id);
+                model.round_code = input.round_code;
 
-                //model.company_code = input.company_code;
+                model.round_name_th = input.round_name_th;
+                model.round_name_en = input.round_name_en;
+                model.round_group = input.round_group;
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
 
-                model.rounds_id = input.rounds_id;
-                model.rounds_code = input.rounds_code;
-                model.rounds_name_th = input.rounds_name_th;
-                model.rounds_name_en = input.rounds_name_en;
-                model.rounds_from = input.rounds_from;
-                model.rounds_to = input.rounds_to;
-                model.rounds_result = input.rounds_result;
-                model.rounds_group = input.rounds_group;
-                
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
-
-                string strID = objRounds.insert(model);
+                string strID = objMTRound.insert(model);
                 if (!strID.Equals(""))
                 {
+                    try
+                    {
+                        cls_ctTRRound objTRRound = new cls_ctTRRound();
+                        objTRRound.delete(input.round_id.ToString());
+                        if (input.round_data.Count > 0)
+                        {
+                            objTRRound.insert(input.round_data);
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -2969,10 +3282,10 @@ namespace BPC_OPR
                     output["message"] = "Retrieved data not successfully";
 
                     log.apilog_status = "500";
-                    log.apilog_message = objRounds.getMessage();
+                    log.apilog_message = objMTRound.getMessage();
                 }
 
-                objRounds.dispose();
+                objMTRound.dispose();
             }
             catch (Exception ex)
             {
@@ -2984,7 +3297,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public string doDeleteMTRounds(InputMTRounds input)
+         public string doDeleteMTRound(InputMTRound input)
         {
             JObject output = new JObject();
 
@@ -3010,12 +3323,14 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTRounds controller = new cls_ctMTRounds();
+                cls_ctMTRound controller = new cls_ctMTRound();
 
-                bool blnResult = controller.delete(input.rounds_id.ToString());
+                bool blnResult = controller.delete(input.round_id.ToString());
 
                 if (blnResult)
                 {
+                    cls_ctTRRound objTRRound = new cls_ctTRRound();
+                    objTRRound.delete(input.round_id.ToString());
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -3050,7 +3365,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadMTRound(string token, string by, string fileName, Stream stream)
         {
             JObject output = new JObject();
 
@@ -3079,9 +3394,8 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("ROUNS", fileName, by);
-
-
+                    string tmp = srv_import.doImportExcel("ROUND", fileName, by);
+             
                     output["success"] = true;
                     output["message"] = tmp;
 

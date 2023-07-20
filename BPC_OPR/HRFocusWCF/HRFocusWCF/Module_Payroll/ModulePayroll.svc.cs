@@ -780,7 +780,9 @@ namespace BPC_OPR
                             {
                                 JObject jsonProvidentrate = new JObject();
 
-                                jsonProvidentrate.Add("leave_code", modelTRProvidentrate.provident_code);
+                                jsonProvidentrate.Add("company_code", modelTRProvidentrate.company_code);
+
+                                jsonProvidentrate.Add("provident_code", modelTRProvidentrate.provident_code);
                                 jsonProvidentrate.Add("workage_from", modelTRProvidentrate.workage_from);
                                 jsonProvidentrate.Add("workage_to", modelTRProvidentrate.workage_to);
                                 jsonProvidentrate.Add("rate_emp", modelTRProvidentrate.rate_emp);
@@ -822,6 +824,12 @@ namespace BPC_OPR
             }
             return output.ToString(Formatting.None);
         }
+
+
+
+
+
+
         public string doManageMTProvident(InputMTProvident input)
         {
             JObject output = new JObject();
@@ -861,12 +869,13 @@ namespace BPC_OPR
                 {
                     try
                     {
-                        cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
-                        objProvidentrate.delete(input.company_code, input.provident_code);
+                        cls_ctTRProvidentWorkage objTRProvidentWorkage = new cls_ctTRProvidentWorkage();
+                        objTRProvidentWorkage.delete(input.company_code, input.provident_code);
                         if (input.providentWorkage_data.Count > 0)
                         {
-                            objProvidentrate.insert(input.providentWorkage_data);
+                            objTRProvidentWorkage.insert(input.providentWorkage_data);
                         }
+                    
                     }
                     catch (Exception ex)
                     {
@@ -874,7 +883,7 @@ namespace BPC_OPR
                     }
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
+                    output["provident_id"] = strID;
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -933,7 +942,7 @@ namespace BPC_OPR
                 if (blnResult)
                 {
                     cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
-                    objProvidentrate.delete(input.company_code, input.provident_code);
+                    objProvidentrate.delete(input.company_code ,  input.provident_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1095,7 +1104,7 @@ namespace BPC_OPR
                             {
                                 JObject jsonBonusrate = new JObject();
 
-                                //jsonBonusrate.Add("company_code", modelTRBonusrate.company_code);
+                                jsonBonusrate.Add("company_code", modelTRBonusrate.company_code);
                                 jsonBonusrate.Add("bonus_code", modelTRBonusrate.bonus_code);
                                 jsonBonusrate.Add("bonusrate_from", modelTRBonusrate.bonusrate_from);
                                 jsonBonusrate.Add("bonusrate_to", modelTRBonusrate.bonusrate_to);

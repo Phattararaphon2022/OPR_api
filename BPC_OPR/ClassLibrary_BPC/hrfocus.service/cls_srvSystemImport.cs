@@ -944,10 +944,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                 }
                 #endregion
 
-                #region //ROUNS
+                #region //ROUND
                 switch (type)
                 {
-                    case "ROUNS":
+                    case "ROUND":
 
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
@@ -957,18 +957,12 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTRounds objReason = new cls_ctMTRounds();
                                 cls_MTRounds model = new cls_MTRounds();
-                                model.rounds_id = dr["rounds_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["rounds_id"].ToString());
+                                model.round_id = dr["round_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["round_id"].ToString());
 
-                                 model.rounds_code = dr["rounds_code"].ToString();
-                                 model.rounds_name_th = dr["rounds_name_th"].ToString();
-                                 model.rounds_name_en = dr["rounds_name_en"].ToString();
-
-                                 model.rounds_from = dr["rounds_from"].ToString();
-                                 model.rounds_to = dr["rounds_to"].ToString();
-                                 model.rounds_result = dr["rounds_result"].ToString();
-
-                            
-                                 model.rounds_group = dr["rounds_group"].ToString();
+                                 model.round_code = dr["round_code"].ToString();
+                                 model.round_name_th = dr["round_name_th"].ToString();
+                                 model.round_name_en = dr["round_name_en"].ToString();
+                                 model.round_group = dr["round_group"].ToString();
 
                                 model.modified_by = by;
  
@@ -980,7 +974,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
-                                    objStr.Append(model.rounds_code);
+                                    objStr.Append(model.round_code);
                                 }
 
                             }

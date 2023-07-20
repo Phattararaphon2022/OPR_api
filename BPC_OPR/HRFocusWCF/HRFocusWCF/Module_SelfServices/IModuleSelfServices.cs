@@ -267,6 +267,20 @@ namespace BPC_OPR
         string doDeleteeTRAccountdep(InputTRAccountdep input);
         #endregion
 
+        #region TRAccountmodule
+        [OperationContract(Name = "accountmodule_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRAccountmoduleList(InputTRAccountmodule input);
+
+        [OperationContract(Name = "accountmodule")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRAccountmodule(InputTRAccountmodule input);
+
+        [OperationContract(Name = "accountmodule_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeTRAccountmodule(InputTRAccountmodule input);
+        #endregion
+
         #region Approvedoc
         [OperationContract(Name = "approve_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
