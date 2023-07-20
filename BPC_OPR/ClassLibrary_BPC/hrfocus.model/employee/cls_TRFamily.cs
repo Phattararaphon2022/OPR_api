@@ -33,6 +33,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime modified_date { get; set; }
 
         public bool flag { get; set; }
+
+        public string family_occupation { get; set; }
+        public string family_tel { get; set; }
+
     }
 }
 

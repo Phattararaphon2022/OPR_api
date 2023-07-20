@@ -4288,6 +4288,9 @@ namespace BPC_OPR
                         json.Add("family_fname_en", model.family_fname_en);
                         json.Add("family_lname_en", model.family_lname_en);
                         json.Add("family_birthdate", model.family_birthdate);
+                        json.Add("family_occupation", model.family_occupation);
+                        json.Add("family_tel", model.family_tel);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -9814,6 +9817,7 @@ namespace BPC_OPR
                         json.Add("empsuggest_code", model.empsuggest_code);
                         json.Add("empsuggest_date", model.empsuggest_date);
                         json.Add("empsuggest_note", model.empsuggest_note);
+                        json.Add("empsuggest_amount", model.empsuggest_amount);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
