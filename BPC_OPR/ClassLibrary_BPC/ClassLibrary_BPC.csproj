@@ -179,6 +179,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTInstitute.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTLevel.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTLocation.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMainmenu.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajor.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajorr.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolround.cs" />
@@ -193,6 +194,8 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolcode.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTRound.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTRounds.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTItemmenu.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTSubmenu.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTSupply.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTUniform.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctSYSCodestructure.cs" />
@@ -358,8 +361,10 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTFamily.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTHospital.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTInstitute.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTItemmenu.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTLevel.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTLocation.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTMainmenu.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajor.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajorr.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTPolround.cs" />
@@ -370,6 +375,7 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTRequest.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTRound.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTRounds.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTSubmenu.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTSupply.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTUniform.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTYear.cs" />
