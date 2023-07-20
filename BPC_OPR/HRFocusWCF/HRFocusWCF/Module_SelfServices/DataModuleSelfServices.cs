@@ -640,6 +640,8 @@ namespace BPC_OPR
         public string workflow_type { get; set; }
         [DataMember]
         public string worker_code { get; set; }
+        [DataMember]
+        public string typenotin { get; set; }
 
     }
     #endregion
