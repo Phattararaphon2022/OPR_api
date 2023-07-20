@@ -146,6 +146,8 @@ namespace BPC_OPR
         [DataMember]
         public string parent_level { get; set; }
         [DataMember]
+        public bool notused { get; set; }
+        [DataMember]
         public string company_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }
@@ -167,6 +169,8 @@ namespace BPC_OPR
         public int position_level { get; set; }
         [DataMember]
         public string company_code { get; set; }
+        [DataMember]
+        public bool notused { get; set; }
         [DataMember]
         public string modified_by { get; set; }
 
@@ -1117,6 +1121,8 @@ namespace BPC_OPR
         public double emptraining_cost { get; set; }
         [DataMember]
         public string emptraining_note { get; set; }
+        [DataMember]
+        public string emptraining_count { get; set; }
         [DataMember]
         public string institute_code { get; set; }
         [DataMember]

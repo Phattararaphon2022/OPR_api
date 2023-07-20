@@ -40,6 +40,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(EMPSUGGEST_DATE, '') AS EMPSUGGEST_DATE");
                 obj_str.Append(", EMPSUGGEST_NOTE");
 
+                obj_str.Append(", ISNULL(EMPSUGGEST_AMOUNT, 0) AS EMPSUGGEST_AMOUNT");
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -63,6 +65,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.empsuggest_code = dr["EMPSUGGEST_CODE"].ToString();
                     model.empsuggest_date = Convert.ToDateTime(dr["EMPSUGGEST_DATE"]);
                     model.empsuggest_note = dr["EMPSUGGEST_NOTE"].ToString();
+
+                    model.empsuggest_amount = Convert.ToDouble(dr["EMPSUGGEST_AMOUNT"]);
+
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -118,7 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp)
+        public bool checkDataOld(string com, string emp, string id)
         {
             bool blnResult = false;
             try
@@ -129,6 +134,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_SUGGEST");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
+                if (!id.ToString().Equals(""))
+                {
+                    obj_str.Append(" AND EMPSUGGEST_ID='" + id + "' ");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -178,7 +187,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code))
+                if (this.checkDataOld(model.company_code, model.worker_code,model.empsuggest_id.ToString()))
                 {
 
                     return this.update(model);
@@ -197,6 +206,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", EMPSUGGEST_DATE ");
                 }
                 obj_str.Append(", EMPSUGGEST_NOTE ");
+                obj_str.Append(", EMPSUGGEST_AMOUNT ");
+
                 obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
                 obj_str.Append(", CREATED_BY ");
@@ -234,6 +245,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@EMPSUGGEST_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPSUGGEST_DATE"].Value = model.empsuggest_date;
                 }
                 obj_cmd.Parameters.Add("@EMPSUGGEST_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPSUGGEST_NOTE"].Value = model.empsuggest_note;
+                obj_cmd.Parameters.Add("@EMPSUGGEST_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSUGGEST_AMOUNT"].Value = model.empsuggest_amount;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -268,6 +280,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", EMPSUGGEST_DATE=@EMPSUGGEST_DATE ");
                 }
                 obj_str.Append(", EMPSUGGEST_NOTE=@EMPSUGGEST_NOTE ");
+                obj_str.Append(", EMPSUGGEST_AMOUNT=@EMPSUGGEST_AMOUNT ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
@@ -286,6 +299,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@EMPSUGGEST_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPSUGGEST_DATE"].Value = model.empsuggest_date;
                 }
                 obj_cmd.Parameters.Add("@EMPSUGGEST_NOTE", SqlDbType.Bit); obj_cmd.Parameters["@EMPSUGGEST_NOTE"].Value = model.empsuggest_note;
+                obj_cmd.Parameters.Add("@EMPSUGGEST_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSUGGEST_AMOUNT"].Value = model.empsuggest_amount;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

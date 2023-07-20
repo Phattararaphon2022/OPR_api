@@ -47,6 +47,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(EMPTRAINING_COST, 0) AS EMPTRAINING_COST");
                 obj_str.Append(", ISNULL(EMPTRAINING_NOTE, '') AS EMPTRAINING_NOTE");
 
+                obj_str.Append(", ISNULL(EMPTRAINING_COUNT, '') AS EMPTRAINING_COUNT");
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -79,6 +81,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.emptraining_hours = Convert.ToDouble(dr["EMPTRAINING_HOURS"]);
                     model.emptraining_cost = Convert.ToDouble(dr["EMPTRAINING_COST"]);
                     model.emptraining_note = Convert.ToString(dr["EMPTRAINING_NOTE"]);
+                    model.emptraining_count = Convert.ToString(dr["EMPTRAINING_COUNT"]);
+
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -137,7 +141,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp)
+        public bool checkDataOld(string com, string emp,string id)
         {
             bool blnResult = false;
             try
@@ -148,6 +152,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_TRAINING");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
+                if(!id.ToString().Equals("")){
+                    obj_str.Append(" AND EMPTRAINING_NO='" + id + "' ");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -197,7 +204,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code))
+                if (this.checkDataOld(model.company_code, model.worker_code,model.emptraining_no.ToString()))
                 {
                         return this.update(model);
                 }
@@ -220,6 +227,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPTRAINING_HOURS ");
                 obj_str.Append(", EMPTRAINING_COST ");
                 obj_str.Append(", EMPTRAINING_NOTE ");
+                obj_str.Append(", EMPTRAINING_COUNT ");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -239,6 +248,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @EMPTRAINING_HOURS ");
                 obj_str.Append(", @EMPTRAINING_COST ");
                 obj_str.Append(", @EMPTRAINING_NOTE ");
+                obj_str.Append(", @EMPTRAINING_COUNT ");
+
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", '1' ");
@@ -264,6 +275,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@EMPTRAINING_HOURS", SqlDbType.Decimal); obj_cmd.Parameters["@EMPTRAINING_HOURS"].Value = model.emptraining_hours;
                 obj_cmd.Parameters.Add("@EMPTRAINING_COST", SqlDbType.Decimal); obj_cmd.Parameters["@EMPTRAINING_COST"].Value = model.emptraining_cost;
                 obj_cmd.Parameters.Add("@EMPTRAINING_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPTRAINING_NOTE"].Value = model.emptraining_note;
+                obj_cmd.Parameters.Add("@EMPTRAINING_COUNT", SqlDbType.VarChar); obj_cmd.Parameters["@EMPTRAINING_COUNT"].Value = model.emptraining_count;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -302,6 +314,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPTRAINING_HOURS=@EMPTRAINING_HOURS ");
                 obj_str.Append(", EMPTRAINING_COST=@EMPTRAINING_COST ");
                 obj_str.Append(", EMPTRAINING_NOTE=@EMPTRAINING_NOTE ");
+                obj_str.Append(", EMPTRAINING_COUNT=@EMPTRAINING_COUNT ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
@@ -324,6 +337,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@EMPTRAINING_HOURS", SqlDbType.Decimal); obj_cmd.Parameters["@EMPTRAINING_HOURS"].Value = model.emptraining_hours;
                 obj_cmd.Parameters.Add("@EMPTRAINING_COST", SqlDbType.Decimal); obj_cmd.Parameters["@EMPTRAINING_COST"].Value = model.emptraining_cost;
                 obj_cmd.Parameters.Add("@EMPTRAINING_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPTRAINING_NOTE"].Value = model.emptraining_note;
+                obj_cmd.Parameters.Add("@EMPTRAINING_COUNT", SqlDbType.VarChar); obj_cmd.Parameters["@EMPTRAINING_COUNT"].Value = model.emptraining_count;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
@@ -432,6 +446,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPTRAINING_HOURS ");
                 obj_str.Append(", EMPTRAINING_COST ");
                 obj_str.Append(", EMPTRAINING_NOTE ");
+                obj_str.Append(", EMPTRAINING_COUNT ");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -451,6 +467,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @EMPTRAINING_HOURS ");
                 obj_str.Append(", @EMPTRAINING_COST ");
                 obj_str.Append(", @EMPTRAINING_NOTE ");
+                obj_str.Append(", @EMPTRAINING_COUNT ");
+
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", '1' ");
@@ -496,7 +514,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@EMPTRAINING_STATUS", SqlDbType.VarChar); 
                     obj_cmd.Parameters.Add("@EMPTRAINING_HOURS", SqlDbType.Decimal); 
                     obj_cmd.Parameters.Add("@EMPTRAINING_COST", SqlDbType.Decimal); 
-                    obj_cmd.Parameters.Add("@EMPTRAINING_NOTE", SqlDbType.VarChar); 
+                    obj_cmd.Parameters.Add("@EMPTRAINING_NOTE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@EMPTRAINING_COUNT", SqlDbType.VarChar); 
 
                     obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
@@ -516,6 +535,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         obj_cmd.Parameters["@EMPTRAINING_HOURS"].Value = model.emptraining_hours;
                         obj_cmd.Parameters["@EMPTRAINING_COST"].Value = model.emptraining_cost;
                         obj_cmd.Parameters["@EMPTRAINING_NOTE"].Value = model.emptraining_note;
+                        obj_cmd.Parameters["@EMPTRAINING_COUNT"].Value = model.emptraining_note;
+
                         obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                         obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
