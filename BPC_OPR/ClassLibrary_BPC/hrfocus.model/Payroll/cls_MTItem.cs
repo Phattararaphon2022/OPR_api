@@ -22,6 +22,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Payroll
         public string item_caltax { get; set; }
         public string item_calpf { get; set; }
         public string item_calot { get; set; }
+        public string item_allowance { get; set; }
         public string item_calsso { get; set; }
         public string item_contax { get; set; }
         public string item_section { get; set; }

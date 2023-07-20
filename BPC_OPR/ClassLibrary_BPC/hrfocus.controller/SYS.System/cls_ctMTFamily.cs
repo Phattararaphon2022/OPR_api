@@ -33,7 +33,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("FAMILY_ID");
+                obj_str.Append("COMPANY_CODE");
+                obj_str.Append(", FAMILY_ID");
                 obj_str.Append(", FAMILY_CODE");
                 obj_str.Append(", ISNULL(FAMILY_NAME_TH, '') AS FAMILY_NAME_TH");
                 obj_str.Append(", ISNULL(FAMILY_NAME_EN, '') AS FAMILY_NAME_EN");
@@ -47,7 +48,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY FAMILY_CODE");
+                obj_str.Append(" ORDER BY COMPANY_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -55,6 +56,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTFamily();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
 
                     model.family_id = Convert.ToInt32(dr["FAMILY_ID"]);
                     model.family_code = dr["FAMILY_CODE"].ToString();
@@ -183,7 +186,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO SYS_MT_FAMILY");
                 obj_str.Append(" (");
-                obj_str.Append("FAMILY_ID");
+                obj_str.Append("COMPANY_CODE ");
+
+                obj_str.Append(", FAMILY_ID");
                 obj_str.Append(", FAMILY_CODE ");
                 obj_str.Append(", FAMILY_NAME_TH ");
                 obj_str.Append(", FAMILY_NAME_EN ");
@@ -196,7 +201,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@FAMILY_ID ");
+                obj_str.Append("@COMPANY_CODE ");
+
+                obj_str.Append(", @FAMILY_ID ");
                 obj_str.Append(", @FAMILY_CODE ");
                 obj_str.Append(", @FAMILY_NAME_TH ");
                 obj_str.Append(", @FAMILY_NAME_EN ");
@@ -205,7 +212,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @MODIFIED_BY ");
                 obj_str.Append(", @MODIFIED_DATE ");
-                obj_str.Append(", '1' ");
+                obj_str.Append(", @FLAG ");
+           
                 obj_str.Append(" )");
                 
                 obj_conn.doConnect();
@@ -213,6 +221,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.family_id = this.getNextID();
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = model.family_id;
                 obj_cmd.Parameters.Add("@FAMILY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_CODE"].Value = model.family_code;
@@ -220,10 +229,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@FAMILY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_EN"].Value = model.family_name_en;
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
 
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
-                                     
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
                 obj_cmd.ExecuteNonQuery();
                                 
                 obj_conn.doClose();

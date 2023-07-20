@@ -452,19 +452,19 @@ namespace BPC_OPR
         #region Rounds
         [OperationContract(Name = "rounds_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getMTRoundsList(InputMTRounds input);
+        string getMTRoundList(InputMTRound input);
 
         [OperationContract(Name = "rounds")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageMTRounds(InputMTRounds input);
+        string doManageMTRound(InputMTRound input);
 
         [OperationContract(Name = "rounds_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteMTRounds(InputMTRounds input);
+        string doDeleteMTRound(InputMTRound input);
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadRounds?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream);
+        Task<string> doUploadMTRound(string token, string by, string fileName, Stream stream);
 
         #endregion
 

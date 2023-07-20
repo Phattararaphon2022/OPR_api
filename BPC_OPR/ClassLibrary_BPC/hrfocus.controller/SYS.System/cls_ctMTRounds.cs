@@ -18,7 +18,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
         public cls_ctMTRounds() { }
 
-        public string getMessage() { return this.Message.Replace("SYS_MT_ROUNDS", "").Replace("cls_ctMTRounds", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("SYS_MT_ROUND", "").Replace("cls_ctMTRounds", "").Replace("line", ""); }
 
         public void dispose()
         {
@@ -35,60 +35,48 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("ROUNDS_ID");
-                obj_str.Append(", ROUNDS_CODE");
-                obj_str.Append(", ISNULL(ROUNDS_NAME_TH, '') AS ROUNDS_NAME_TH");
-                obj_str.Append(", ISNULL(ROUNDS_NAME_EN, '') AS ROUNDS_NAME_EN");
+                obj_str.Append("ROUND_ID");
+                obj_str.Append(", ROUND_CODE");
+                obj_str.Append(", ISNULL(ROUND_NAME_TH, '') AS ROUND_NAME_TH");
+                obj_str.Append(", ISNULL(ROUND_NAME_EN, '') AS ROUND_NAME_EN");
 
-                obj_str.Append(", ROUNDS_FROM");
-                obj_str.Append(", ROUNDS_TO");
-                obj_str.Append(", ROUNDS_RESULT");
-                obj_str.Append(", ROUNDS_GROUP");
-
+                obj_str.Append(", ROUND_GROUP");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
-                obj_str.Append(", FLAG");
-                obj_str.Append(" FROM SYS_MT_ROUNDS");
+
+                obj_str.Append(" FROM SYS_MT_ROUND");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY ROUNDS_CODE");
+                obj_str.Append(" ORDER BY ROUND_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTRounds();
-                    model.rounds_id = Convert.ToInt32(dr["ROUNDS_ID"]);
-                    model.rounds_code = dr["ROUNDS_CODE"].ToString();
-                    model.rounds_from = dr["ROUNDS_FROM"].ToString();
-                    model.rounds_to = dr["ROUNDS_TO"].ToString();
-                    model.rounds_result = dr["ROUNDS_RESULT"].ToString();
-                    model.rounds_name_th = dr["ROUNDS_NAME_TH"].ToString();
-                    model.rounds_name_en = dr["ROUNDS_NAME_EN"].ToString();
-                    model.rounds_group = dr["ROUNDS_GROUP"].ToString();
 
-                    if (dr["MODIFIED_BY"].ToString().Equals(""))
-                    {
-                        model.modified_by = dr["CREATED_BY"].ToString();
-                        model.modified_date = Convert.ToDateTime(dr["CREATED_DATE"]);
-                    }
-                    else
-                    {
-                        model.modified_by = dr["MODIFIED_BY"].ToString();
-                        model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
-                    }
-                    model.flag = Convert.ToBoolean(dr["FLAG"]);
+                    model.round_id = Convert.ToInt32(dr["ROUND_ID"]);
+                    model.round_code = dr["ROUND_CODE"].ToString();
+                    model.round_name_th = dr["ROUND_NAME_TH"].ToString();
+                    model.round_name_en = dr["ROUND_NAME_EN"].ToString();
+
+                    model.round_group = dr["ROUND_GROUP"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    
                     list_model.Add(model);
                 }
 
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Rounds.getData)" + ex.ToString();
+                Message = "ERROR::(Round.getData)" + ex.ToString();
             }
 
             return list_model;
@@ -99,31 +87,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = "";
 
             if (!group.Equals(""))
-                strCondition += " AND ROUNDS_GROUP='" + group + "'";
+                strCondition += " AND ROUND_GROUP='" + group + "'";
 
             if (!id.Equals(""))
-                strCondition += " AND ROUNDS_ID='" + id + "'";
+                strCondition += " AND ROUND_ID='" + id + "'";
 
             if (!code.Equals(""))
-                strCondition += " AND ROUNDS_CODE='" + code + "'";
+                strCondition += " AND ROUND_CODE='" + code + "'";
 
             return this.getData(strCondition);
-
-
-
-
-            //string strCondition = "";
-
-            //strCondition += " AND ROUNDS_GROUP='" + group + "'";
-
-            //if (!id.Equals(""))
-            //    strCondition += " AND ROUNDS_ID='" + id + "'";
-
-            //if (!code.Equals(""))
-            //    strCondition += " AND ROUNDS_CODE='" + code + "'";
-           
-
-            //return this.getData(strCondition);
         }
 
         public bool checkDataOld(string group, string code, string id)
@@ -133,12 +105,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ROUNDS_ID");
-                obj_str.Append(" FROM SYS_MT_ROUNDS");
+                obj_str.Append("SELECT ROUND_ID");
+                obj_str.Append(" FROM SYS_MT_ROUND");
                 obj_str.Append(" WHERE 1=1 ");
-                obj_str.Append(" AND ROUNDS_GROUP='" + group + "'");
-                obj_str.Append(" AND ROUNDS_CODE='" + code + "'");
-                obj_str.Append(" AND ROUNDS_ID='" + id + "'");
+                obj_str.Append(" AND ROUND_GROUP='" + group + "'");
+                obj_str.Append(" AND ROUND_CODE='" + code + "'");
+                obj_str.Append(" AND ROUND_ID='" + id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -149,7 +121,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(ROUNDS.checkDataOld)" + ex.ToString();
+                Message = "ERROR::(ROUND.checkDataOld)" + ex.ToString();
             }
 
             return blnResult;
@@ -162,8 +134,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT MAX(ROUNDS_ID) ");
-                obj_str.Append(" FROM SYS_MT_ROUNDS");
+                obj_str.Append("SELECT MAX(ROUND_ID) ");
+                obj_str.Append(" FROM SYS_MT_ROUND");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -174,7 +146,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(ROUNDS.getNextID)" + ex.ToString();
+                Message = "ERROR::(ROUND.getNextID)" + ex.ToString();
             }
 
             return intResult;
@@ -189,9 +161,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM SYS_MT_ROUNDS");
+                obj_str.Append(" DELETE FROM SYS_MT_ROUND");
                 obj_str.Append(" WHERE 1=1 ");
-                obj_str.Append(" AND ROUNDS_ID='" + id + "'");
+                obj_str.Append(" AND ROUND_ID='" + id + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -199,7 +171,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "ERROR::(ROUNDS.delete)" + ex.ToString();
+                Message = "ERROR::(ROUND.delete)" + ex.ToString();
             }
 
             return blnResult;
@@ -207,49 +179,40 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
         public string insert(cls_MTRounds model)
         {
-            string blnResult = "";
+            string strResult = "";
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.rounds_group, model.rounds_code, model.rounds_id.ToString()))
+                if (this.checkDataOld(model.round_group, model.round_code,model.round_id.ToString()))
                 {
-                    return this.update(model);
+                    bool blnResult = this.update(model);
+
+                    if (blnResult)
+                        return model.round_id.ToString();
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 int id = this.getNextID();
 
-                obj_str.Append("INSERT INTO SYS_MT_ROUNDS");
+                obj_str.Append("INSERT INTO SYS_MT_ROUND");
                 obj_str.Append(" (");
-                obj_str.Append(" ROUNDS_ID ");
-                obj_str.Append(", ROUNDS_CODE ");
-
-                obj_str.Append(", ROUNDS_NAME_TH ");
-                obj_str.Append(", ROUNDS_NAME_EN ");
-
-                obj_str.Append(", ROUNDS_FROM ");
-                obj_str.Append(", ROUNDS_TO ");
-                obj_str.Append(", ROUNDS_RESULT ");
-
-                obj_str.Append(", ROUNDS_GROUP ");
-                
+                obj_str.Append("ROUND_ID ");
+                obj_str.Append(", ROUND_CODE ");
+                obj_str.Append(", ROUND_NAME_TH ");
+                obj_str.Append(", ROUND_NAME_EN ");
+                obj_str.Append(", ROUND_GROUP ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append(" @ROUNDS_ID ");
-                obj_str.Append(", @ROUNDS_CODE ");
-                obj_str.Append(", @ROUNDS_NAME_TH ");
-                obj_str.Append(", @ROUNDS_NAME_EN ");
-
-                obj_str.Append(", @ROUNDS_FROM ");
-                obj_str.Append(", @ROUNDS_TO ");
-                obj_str.Append(", @ROUNDS_RESULT ");
-
-                obj_str.Append(", @ROUNDS_GROUP ");
+                obj_str.Append(" @ROUND_ID ");
+                obj_str.Append(", @ROUND_CODE ");
+                obj_str.Append(", @ROUND_NAME_TH ");
+                obj_str.Append(", @ROUND_NAME_EN ");
+                obj_str.Append(", @ROUND_GROUP ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -259,92 +222,80 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@ROUNDS_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUNDS_ID"].Value = id;
-
-                obj_cmd.Parameters.Add("@ROUNDS_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_CODE"].Value = model.rounds_code;
-                obj_cmd.Parameters.Add("@ROUNDS_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_NAME_TH"].Value = model.rounds_name_th;
-                obj_cmd.Parameters.Add("@ROUNDS_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_NAME_EN"].Value = model.rounds_name_en;
-
-                obj_cmd.Parameters.Add("@ROUNDS_FROM", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_FROM"].Value = model.rounds_from;
-                obj_cmd.Parameters.Add("@ROUNDS_TO", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_TO"].Value = model.rounds_to;
-                obj_cmd.Parameters.Add("@ROUNDS_RESULT", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_RESULT"].Value = model.rounds_result;
-
-                obj_cmd.Parameters.Add("@ROUNDS_GROUP", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_GROUP"].Value = model.rounds_group;
+ 
+                obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUND_ID"].Value = id;
+                obj_cmd.Parameters.Add("@ROUND_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_CODE"].Value = model.round_code;
+                obj_cmd.Parameters.Add("@ROUND_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_NAME_TH"].Value = model.round_name_th;
+                obj_cmd.Parameters.Add("@ROUND_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_NAME_EN"].Value = model.round_name_en;
+                obj_cmd.Parameters.Add("@ROUND_GROUP", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_GROUP"].Value = model.round_group;
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
-                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = id.ToString();
+            
             }
             catch (Exception ex)
             {
-                blnResult = "";
+                strResult = "";
                 Message = "ERROR::(ROUNDS.insert)" + ex.ToString();
             }
 
-            return blnResult;
+            return strResult;
         }
 
-        public string update(cls_MTRounds model)
+        public bool update(cls_MTRounds model)
         {
-            string blnResult = "";
+            bool blnResult = false;
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("UPDATE SYS_MT_ROUNDS SET ");
+                obj_str.Append("UPDATE SYS_MT_ROUND SET ");
 
-                obj_str.Append(" ROUNDS_NAME_TH=@ROUNDS_NAME_TH ");
-                obj_str.Append(", ROUNDS_NAME_EN=@ROUNDS_NAME_EN ");
-
-                obj_str.Append(", ROUNDS_FROM=@ROUNDS_FROM ");
-                obj_str.Append(", ROUNDS_TO=@ROUNDS_TO ");
-                obj_str.Append(", ROUNDS_RESULT=@ROUNDS_RESULT ");
-
+                obj_str.Append(" ROUND_CODE=@ROUND_CODE ");
+                obj_str.Append(", ROUND_NAME_TH=@ROUND_NAME_TH ");
+                obj_str.Append(", ROUND_NAME_EN=@ROUND_NAME_EN ");
+                obj_str.Append(", ROUND_GROUP=@ROUND_GROUP ");
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
-                obj_str.Append(" WHERE ROUNDS_ID=@ROUNDS_ID ");
-                obj_str.Append(" AND ROUNDS_CODE=@ROUNDS_CODE ");
-                obj_str.Append(" AND ROUNDS_GROUP=@ROUNDS_GROUP ");
 
+
+                obj_str.Append(" WHERE ROUND_ID=@ROUND_ID ");
+
+                
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@ROUNDS_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_NAME_TH"].Value = model.rounds_name_th;
-                obj_cmd.Parameters.Add("@ROUNDS_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_NAME_EN"].Value = model.rounds_name_en;
-                obj_cmd.Parameters.Add("@ROUNDS_FROM", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_FROM"].Value = model.rounds_from;
-                obj_cmd.Parameters.Add("@ROUNDS_TO", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_TO"].Value = model.rounds_to;
-                obj_cmd.Parameters.Add("@ROUNDS_RESULT", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_RESULT"].Value = model.rounds_result;
-
+                obj_cmd.Parameters.Add("@ROUND_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_CODE"].Value = model.round_code;
+                obj_cmd.Parameters.Add("@ROUND_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_NAME_TH"].Value = model.round_name_th;
+                obj_cmd.Parameters.Add("@ROUND_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_NAME_EN"].Value = model.round_name_en;
+                obj_cmd.Parameters.Add("@ROUND_GROUP", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_GROUP"].Value = model.round_group;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
-                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@ROUNDS_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUNDS_ID"].Value = model.rounds_id;
-
-                obj_cmd.Parameters.Add("@ROUNDS_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_CODE"].Value = model.rounds_code;
-                obj_cmd.Parameters.Add("@ROUNDS_GROUP", SqlDbType.VarChar); obj_cmd.Parameters["@ROUNDS_GROUP"].Value = model.rounds_group;
-
+                obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUND_ID"].Value = model.round_id;
 
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = model.rounds_id.ToString();
+
+                blnResult = true;
             }
             catch (Exception ex)
             {
-                blnResult = "ERROR::(Year.update)" + ex.ToString();
-                Message = "ERROR::(Year.update)" + ex.ToString();
+                Message = "ERROR::(Round.update)" + ex.ToString();
             }
 
             return blnResult;
+      
         }
 
     }

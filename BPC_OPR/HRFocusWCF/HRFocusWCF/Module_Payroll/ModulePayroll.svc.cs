@@ -30,7 +30,7 @@ using ClassLibrary_BPC.hrfocus;
 using ClassLibrary_BPC.hrfocus.model.SYS.System;
 using ClassLibrary_BPC.hrfocus.model.Payroll;
 using ClassLibrary_BPC.hrfocus.controller.Payroll;
-
+using ClassLibrary_BPC.hrfocus.service.Payroll;
 namespace BPC_OPR
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ModuleSystem" in code, svc and config file together.
@@ -199,7 +199,7 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
-                bool strID = controller.insert(model);
+                string strID = controller.insert(model);
 
                 if (!strID.Equals(""))
                 {
@@ -347,8 +347,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Taxrate", fileName, "TEST");
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("Taxrate", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -382,7 +382,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        #endregion   
+        #endregion
 
         #region MTItem
         public string getMTItemList(BasicRequest req)
@@ -410,7 +410,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTItem contaddresstype = new cls_ctMTItem();
-                List<cls_MTItem> list = contaddresstype.getDataByFillter(req.company_code, "", req.item_code, req.item_type);
+                List<cls_MTItem> list = contaddresstype.getDataByFillter(req.company_code, "", req.item_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -431,10 +431,11 @@ namespace BPC_OPR
                         json.Add("item_calpf", model.item_calpf);
                         json.Add("item_calsso", model.item_calsso);
                         json.Add("item_calot", model.item_calot);
+
+                        json.Add("item_allowance", model.item_allowance);
                         json.Add("item_contax", model.item_contax);
                         json.Add("item_section", model.item_section);
                         json.Add("item_rate", model.item_rate);
-                        json.Add("item_account", model.item_account);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -522,15 +523,16 @@ namespace BPC_OPR
                 model.item_calpf = input.item_calpf;
                 model.item_calsso = input.item_calsso;
                 model.item_calot = input.item_calot;
+                model.item_allowance = input.item_allowance;
+
                 model.item_contax = input.item_contax;
                 model.item_section = input.item_section;
                 model.item_rate = input.item_rate;
-                model.item_account = input.item_account;
 
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
 
-                bool strID = controller.insert(model);
+                string strID = controller.insert(model);
 
                 if (!strID.Equals(""))
                 {
@@ -678,8 +680,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("MTItemr", fileName, "TEST");
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("MTItem", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -739,16 +741,16 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTProvident objMTBonus = new cls_ctMTProvident();
-                List<cls_MTProvident> listMTBonus = objMTBonus.getDataByFillter(req.company_code, "", "");
+                cls_ctMTProvident objMTProvident = new cls_ctMTProvident();
+                List<cls_MTProvident> listMTProvident = objMTProvident.getDataByFillter(req.company_code, "", "");
 
                 JArray array = new JArray();
 
-                if (listMTBonus.Count > 0)
+                if (listMTProvident.Count > 0)
                 {
                     int index = 1;
 
-                    foreach (cls_MTProvident model in listMTBonus)
+                    foreach (cls_MTProvident model in listMTProvident)
                     {
                         JObject json = new JObject();
 
@@ -766,35 +768,37 @@ namespace BPC_OPR
                         //json.Add("index", index);
                         array.Add(json);
 
-                        cls_ctTRProvidentWorkage objBonusrate = new cls_ctTRProvidentWorkage();
-                        List<cls_TRProvidentWorkage> listTRBonusrate = objBonusrate.getDataByFillter(model.company_code, model.provident_code);
-                        JArray arrayBonusrate = new JArray();
+                        cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
+                        List<cls_TRProvidentWorkage> listTRProvident = objProvidentrate.getDataByFillter(model.company_code, model.provident_code);
+                        JArray arrayProvidentrate = new JArray();
 
-                        if (listTRBonusrate.Count > 0)
+                        if (listTRProvident.Count > 0)
                         {
-                            int indexBonusrate = 1;
+                            int indexProvidentrate = 1;
 
-                            foreach (cls_TRProvidentWorkage modelTRBonusrate in listTRBonusrate)
+                            foreach (cls_TRProvidentWorkage modelTRProvidentrate in listTRProvident)
                             {
-                                JObject jsonBonusrate = new JObject();
+                                JObject jsonProvidentrate = new JObject();
 
-                                jsonBonusrate.Add("leave_code", modelTRBonusrate.provident_code);
-                                jsonBonusrate.Add("workage_from", modelTRBonusrate.workage_from);
-                                jsonBonusrate.Add("workage_to", modelTRBonusrate.workage_to);
-                                jsonBonusrate.Add("rate_emp", modelTRBonusrate.rate_emp);
-                                jsonBonusrate.Add("rate_com", modelTRBonusrate.rate_com);
-                                
+                                jsonProvidentrate.Add("company_code", modelTRProvidentrate.company_code);
 
-                                jsonBonusrate.Add("index", indexBonusrate);
-                                indexBonusrate++;
+                                jsonProvidentrate.Add("provident_code", modelTRProvidentrate.provident_code);
+                                jsonProvidentrate.Add("workage_from", modelTRProvidentrate.workage_from);
+                                jsonProvidentrate.Add("workage_to", modelTRProvidentrate.workage_to);
+                                jsonProvidentrate.Add("rate_emp", modelTRProvidentrate.rate_emp);
+                                jsonProvidentrate.Add("rate_com", modelTRProvidentrate.rate_com);
 
-                                arrayBonusrate.Add(jsonBonusrate);
+
+                                jsonProvidentrate.Add("index", indexProvidentrate);
+                                indexProvidentrate++;
+
+                                arrayProvidentrate.Add(jsonProvidentrate);
                             }
-                            json.Add("providentWorkage_data", arrayBonusrate);
+                            json.Add("providentWorkage_data", arrayProvidentrate);
                         }
                         else
                         {
-                            json.Add("providentWorkage_data", arrayBonusrate);
+                            json.Add("providentWorkage_data", arrayProvidentrate);
                         }
                         json.Add("index", index);
 
@@ -820,6 +824,12 @@ namespace BPC_OPR
             }
             return output.ToString(Formatting.None);
         }
+
+
+
+
+
+
         public string doManageMTProvident(InputMTProvident input)
         {
             JObject output = new JObject();
@@ -842,7 +852,7 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTProvident objMTBonus = new cls_ctMTProvident();
+                cls_ctMTProvident objMTProvident = new cls_ctMTProvident();
                 cls_MTProvident model = new cls_MTProvident();
 
                 model.company_code = input.company_code;
@@ -854,17 +864,18 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
-                bool strID = objMTBonus.insert(model);
+                bool strID = objMTProvident.insert(model);
                 if (!strID.Equals(""))
                 {
                     try
                     {
-                        cls_ctTRProvidentWorkage objBonusrate = new cls_ctTRProvidentWorkage();
-                        objBonusrate.delete(input.company_code, input.provident_code);
+                        cls_ctTRProvidentWorkage objTRProvidentWorkage = new cls_ctTRProvidentWorkage();
+                        objTRProvidentWorkage.delete(input.company_code, input.provident_code);
                         if (input.providentWorkage_data.Count > 0)
                         {
-                            objBonusrate.insert(input.providentWorkage_data);
+                            objTRProvidentWorkage.insert(input.providentWorkage_data);
                         }
+                    
                     }
                     catch (Exception ex)
                     {
@@ -872,7 +883,7 @@ namespace BPC_OPR
                     }
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
+                    output["provident_id"] = strID;
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -883,10 +894,10 @@ namespace BPC_OPR
                     output["message"] = "Retrieved data not successfully";
 
                     log.apilog_status = "500";
-                    log.apilog_message = objMTBonus.getMessage();
+                    log.apilog_message = objMTProvident.getMessage();
                 }
 
-                objMTBonus.dispose();
+                objMTProvident.dispose();
             }
             catch (Exception ex)
             {
@@ -930,8 +941,8 @@ namespace BPC_OPR
 
                 if (blnResult)
                 {
-                    cls_ctTRProvidentWorkage objBonusrate = new cls_ctTRProvidentWorkage();
-                    objBonusrate.delete(input.company_code, input.provident_code);
+                    cls_ctTRProvidentWorkage objProvidentrate = new cls_ctTRProvidentWorkage();
+                    objProvidentrate.delete(input.company_code ,  input.provident_code);
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -994,8 +1005,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("Bonus", fileName, by);
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("Provident", fileName, by);
 
 
                     output["success"] = true;
@@ -1093,7 +1104,7 @@ namespace BPC_OPR
                             {
                                 JObject jsonBonusrate = new JObject();
 
-                                //jsonBonusrate.Add("company_code", modelTRBonusrate.company_code);
+                                jsonBonusrate.Add("company_code", modelTRBonusrate.company_code);
                                 jsonBonusrate.Add("bonus_code", modelTRBonusrate.bonus_code);
                                 jsonBonusrate.Add("bonusrate_from", modelTRBonusrate.bonusrate_from);
                                 jsonBonusrate.Add("bonusrate_to", modelTRBonusrate.bonusrate_to);
@@ -1165,11 +1176,11 @@ namespace BPC_OPR
                 model.bonus_name_th = input.bonus_name_th;
                 model.bonus_name_en = input.bonus_name_en;
                 model.item_code = input.item_code;
-                
+
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
-                bool strID = objMTBonus.insert(model);
+                string strID = objMTBonus.insert(model);
                 if (!strID.Equals(""))
                 {
                     try
@@ -1309,7 +1320,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("Bonus", fileName, by);
 
 
@@ -1356,7 +1367,7 @@ namespace BPC_OPR
             log.apilog_data = "all";
             try
             {
-  
+
 
                 //var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 //if (authHeader == null || !objBpcOpr.doVerify(authHeader))
@@ -1595,7 +1606,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("PERIOD", fileName, by);
 
 
@@ -1631,7 +1642,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-        
+
 
         #region batch set bonus
         public string getBatchBonusList(InputTRList input)
@@ -1657,7 +1668,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRBonus objMTBonus = new cls_ctTRBonus();
-                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("","", input.company_code, input.paypolbonus_code);
+                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("", "", input.company_code, input.paypolbonus_code);
 
                 JArray array = new JArray();
 
@@ -1721,72 +1732,72 @@ namespace BPC_OPR
                 //bool blnResult = true;
                 //string strMessage = "";
 
-               try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                try
                 {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
+                    var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                    if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                    {
+                        output["success"] = false;
+                        output["message"] = BpcOpr.MessageNotAuthen;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
+                        log.apilog_status = "500";
+                        log.apilog_message = BpcOpr.MessageNotAuthen;
+                        objBpcOpr.doRecordLog(log);
 
-                    return output.ToString(Formatting.None);
-                }
+                        return output.ToString(Formatting.None);
+                    }
                     cls_ctTRBonus objPol = new cls_ctTRBonus();
                     List<cls_TRBonus> listPol = new List<cls_TRBonus>();
                     bool strID = false;
                     foreach (cls_MTWorker modelWorker in input.emp_data)
-                         {
-                      
-                    cls_TRBonus model = new cls_TRBonus();
+                    {
 
-                    model.paypolbonus_code = input.paypolbonus_code;
-                    model.company_code = input.company_code;
-                    model.worker_code = modelWorker.worker_code;
+                        cls_TRBonus model = new cls_TRBonus();
 
-                    model.flag = input.flag;
-                    model.created_by = input.modified_by;
+                        model.paypolbonus_code = input.paypolbonus_code;
+                        model.company_code = input.company_code;
+                        model.worker_code = modelWorker.worker_code;
 
-                    listPol.Add(model);
+                        model.flag = input.flag;
+                        model.created_by = input.modified_by;
+
+                        listPol.Add(model);
+                    }
+                    if (listPol.Count > 0)
+                    {
+                        strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
+
+
+                    }
+                    if (strID)
+                    {
+
+                        output["success"] = true;
+                        output["message"] = "Retrieved data successfully";
+                        output["record_id"] = strID;
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = objPol.getMessage();
+                    }
+
+                    objPol.dispose();
                 }
-                if (listPol.Count > 0)
+                catch (Exception ex)
                 {
-                    strID = objPol.insertlist(input.company_code, input.bonus_code, listPol);
-
-
+                    output["result"] = "0";
+                    output["result_text"] = ex.ToString();
                 }
-                if (strID)
-                {
-                
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = objPol.getMessage();
-                }
-                      
-                objPol.dispose();
-            }
-             catch (Exception ex)
-               {
-                   output["result"] = "0";
-                   output["result_text"] = ex.ToString();
-               }
 
 
-               return output.ToString(Formatting.None);
+                return output.ToString(Formatting.None);
             }
 
         }
@@ -1819,11 +1830,11 @@ namespace BPC_OPR
 
                 cls_ctTRBonus controller = new cls_ctTRBonus();
 
-                bool blnResult = controller.delete(input.company_code, input.worker_code,input.paypolbonus_code);
+                bool blnResult = controller.delete(input.company_code, input.worker_code, input.paypolbonus_code);
 
                 if (blnResult)
                 {
-                   
+
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -1886,7 +1897,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("SetBonus", fileName, by);
 
 
@@ -2168,7 +2179,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("SetProvident", fileName, by);
 
 
@@ -2450,7 +2461,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
 
 
@@ -2486,7 +2497,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
 
         #region  PayItem
 
@@ -2747,15 +2757,15 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
 
-        }              
- 
+        }
+
         public string doDeleteTRPayitem(InputTRPayitem input)
         {
             JObject output = new JObject();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-            
+
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PAY011.4";
@@ -2909,7 +2919,7 @@ namespace BPC_OPR
                 DateTime dateto = Convert.ToDateTime(req.todate);
 
                 cls_ctTRPaytran controller = new cls_ctTRPaytran();
-                List<cls_TRPaytran> listResult = controller.getDataByFillter(req.language, req.company,datefrom, dateto, req.worker_code);
+                List<cls_TRPaytran> listResult = controller.getDataByFillter(req.language, req.company, datefrom, dateto, req.worker_code);
                 JArray array = new JArray();
 
                 if (listResult.Count > 0)
@@ -2951,7 +2961,7 @@ namespace BPC_OPR
                         json.Add("paytran_income_402O", model.paytran_income_402O);
                         json.Add("paytran_deduct_402O", model.paytran_deduct_402O);
                         json.Add("paytran_tax_402O", model.paytran_tax_402O);
-                        
+
                         json.Add("paytran_income_notax", model.paytran_income_notax);
                         json.Add("paytran_deduct_notax", model.paytran_deduct_notax);
 
@@ -2960,7 +2970,7 @@ namespace BPC_OPR
 
                         json.Add("paytran_netpay_b", model.paytran_netpay_b);
                         json.Add("paytran_netpay_c", model.paytran_netpay_c);
-                      
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -2974,12 +2984,12 @@ namespace BPC_OPR
                         json.Add("paytran_absent", model.paytran_absent);
                         json.Add("paytran_late", model.paytran_late);
                         json.Add("paytran_leave", model.paytran_leave);
-                        
+
                         json.Add("change", false);
                         json.Add("index", index);
 
                         index++;
-                        
+
                         array.Add(json);
                     }
 
