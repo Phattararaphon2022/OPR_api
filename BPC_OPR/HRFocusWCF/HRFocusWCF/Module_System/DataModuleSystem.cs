@@ -1042,6 +1042,10 @@ namespace BPC_OPR
         public string polround_leave { get; set; }
         [DataMember]
         public string polround_netpay { get; set; }
+
+          [DataMember]
+        public string polround_loan { get; set; }
+        
         [DataMember]
         public string polround_timelate { get; set; }
         [DataMember]

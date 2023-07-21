@@ -10101,6 +10101,7 @@ namespace BPC_OPR
                         json.Add("polround_ot_summary", model.polround_ot_summary);
                         json.Add("polround_absent", model.polround_absent);
                         json.Add("polround_late", model.polround_late);
+                        json.Add("polround_loan", model.polround_loan);
                         json.Add("polround_leave", model.polround_leave);
                         json.Add("polround_netpay", model.polround_netpay);
                         json.Add("polround_timelate", model.polround_timelate);
@@ -10192,6 +10193,9 @@ namespace BPC_OPR
                 model.polround_late = input.polround_late;
                 model.polround_leave = input.polround_leave;
                 model.polround_netpay = input.polround_netpay;
+                model.polround_loan = input.polround_loan;
+
+                
                 model.polround_timelate = input.polround_timelate;
                 model.polround_timeleave = input.polround_timeleave;
                 model.polround_timeot = input.polround_timeot;

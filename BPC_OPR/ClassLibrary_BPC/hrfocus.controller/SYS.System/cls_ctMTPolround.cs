@@ -45,6 +45,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(POLROUND_OT_SUMMARY, '') AS POLROUND_OT_SUMMARY");
                 obj_str.Append(", ISNULL(POLROUND_ABSENT, '') AS POLROUND_ABSENT");
                 obj_str.Append(", ISNULL(POLROUND_LATE, '') AS POLROUND_LATE");
+                obj_str.Append(", ISNULL(POLROUND_LOAN, '') AS POLROUND_LOAN");
+
                 obj_str.Append(", ISNULL(POLROUND_LEAVE, '') AS POLROUND_LEAVE");
                 obj_str.Append(", ISNULL(POLROUND_NETPAY, '') AS POLROUND_NETPAY");
                 obj_str.Append(", ISNULL(POLROUND_TIMELATE, '') AS POLROUND_TIMELATE");
@@ -75,6 +77,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.polround_ot_summary = dr["POLROUND_OT_SUMMARY"].ToString();
                     model.polround_absent = dr["POLROUND_ABSENT"].ToString();
                     model.polround_late = dr["POLROUND_LATE"].ToString();
+                    model.polround_loan = dr["POLROUND_LOAN"].ToString();
                     model.polround_leave = dr["POLROUND_LEAVE"].ToString();
                     model.polround_netpay = dr["POLROUND_NETPAY"].ToString();
                     model.polround_timelate = dr["POLROUND_TIMELATE"].ToString();
@@ -212,6 +215,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", POLROUND_ABSENT ");
                 obj_str.Append(", POLROUND_LATE ");
                 obj_str.Append(", POLROUND_LEAVE ");
+                obj_str.Append(", POLROUND_LOAN ");
+                
                 obj_str.Append(", POLROUND_NETPAY ");
                 obj_str.Append(", POLROUND_TIMELATE ");
                 obj_str.Append(", POLROUND_TIMELEAVE ");
@@ -233,6 +238,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @POLROUND_OT_SUMMARY ");
                 obj_str.Append(", @POLROUND_ABSENT ");
                 obj_str.Append(", @POLROUND_LATE ");
+                obj_str.Append(", @POLROUND_LOAN ");
+                
                 obj_str.Append(", @POLROUND_LEAVE ");
                 obj_str.Append(", @POLROUND_NETPAY ");
                 obj_str.Append(", @POLROUND_TIMELATE ");
@@ -259,6 +266,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@POLROUND_OT_SUMMARY", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_OT_SUMMARY"].Value = model.polround_ot_summary;
                 obj_cmd.Parameters.Add("@POLROUND_ABSENT", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_ABSENT"].Value = model.polround_absent;
                 obj_cmd.Parameters.Add("@POLROUND_LATE", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_LATE"].Value = model.polround_late;
+                obj_cmd.Parameters.Add("@POLROUND_LOAN", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_LOAN"].Value = model.polround_loan;
+
                 obj_cmd.Parameters.Add("@POLROUND_LEAVE", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_LEAVE"].Value = model.polround_leave;
                 obj_cmd.Parameters.Add("@POLROUND_NETPAY", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_NETPAY"].Value = model.polround_netpay;
                 obj_cmd.Parameters.Add("@POLROUND_TIMELATE", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_TIMELATE"].Value = model.polround_timelate;
@@ -303,6 +312,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", POLROUND_OT_SUMMARY=@POLROUND_OT_SUMMARY ");
                 obj_str.Append(", POLROUND_ABSENT=@POLROUND_ABSENT ");
                 obj_str.Append(", POLROUND_LATE=@POLROUND_LATE ");
+                obj_str.Append(", POLROUND_LOAN=@POLROUND_LOAN ");
+                
                 obj_str.Append(", POLROUND_LEAVE=@POLROUND_LEAVE ");
                 obj_str.Append(", POLROUND_NETPAY=@POLROUND_NETPAY ");
                 obj_str.Append(", POLROUND_TIMELATE=@POLROUND_TIMELATE ");
@@ -329,6 +340,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@POLROUND_OT_SUMMARY", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_OT_SUMMARY"].Value = model.polround_ot_summary;
                 obj_cmd.Parameters.Add("@POLROUND_ABSENT", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_ABSENT"].Value = model.polround_absent;
                 obj_cmd.Parameters.Add("@POLROUND_LATE", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_LATE"].Value = model.polround_late;
+                obj_cmd.Parameters.Add("@POLROUND_LOAN", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_LOAN"].Value = model.polround_loan;
+
+                
                 obj_cmd.Parameters.Add("@POLROUND_LEAVE", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_LEAVE"].Value = model.polround_leave;
                 obj_cmd.Parameters.Add("@POLROUND_NETPAY", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_NETPAY"].Value = model.polround_netpay;
                 obj_cmd.Parameters.Add("@POLROUND_TIMELATE", SqlDbType.VarChar); obj_cmd.Parameters["@POLROUND_TIMELATE"].Value = model.polround_timelate;
