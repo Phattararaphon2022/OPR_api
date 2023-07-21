@@ -9,18 +9,22 @@ namespace ClassLibrary_BPC.hrfocus.model.SYS.System
     public class cls_MTRounds
     {
         public cls_MTRounds() { }
-        public int rounds_id { get; set; }
-        public string rounds_code { get; set; }
-        public string rounds_name_th { get; set; }
-        public string rounds_name_en { get; set; }
 
-        public string rounds_from { get; set; }
-        public string rounds_to { get; set; }
-        public string rounds_result { get; set; }
-        public string rounds_group { get; set; }
+        public int round_id { get; set; }
+        public string round_code { get; set; }
+        public string round_name_th { get; set; }
+        public string round_name_en { get; set; }
 
-        public string modified_by { get; set; }
+        public string round_group { get; set; }
+
+	    public string created_by { get;set; }
+        public DateTime created_date { get; set; }
+	    
+
+	    public string modified_by { get;set; }
         public DateTime modified_date { get; set; }
+
         public bool flag { get; set; }
+
     }
 }

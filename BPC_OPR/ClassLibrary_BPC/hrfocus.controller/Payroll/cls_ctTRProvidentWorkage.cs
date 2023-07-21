@@ -85,45 +85,21 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
            return this.getData(strCondition);
        }
 
-       public int getNextID()
-       {
-           int intResult = 1;
-           try
-           {
-               System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+        
 
-               obj_str.Append("SELECT ISNULL(PROVIDENT_CODE, 1) ");
-               obj_str.Append(" FROM EMP_TR_PROVIDENT");
-               obj_str.Append(" ORDER BY PROVIDENT_CODE DESC ");
-
-               DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
-
-               if (dt.Rows.Count > 0)
-               {
-                   intResult = Convert.ToInt32(dt.Rows[0][0]) + 1;
-               }
-           }
-           catch (Exception ex)
-           {
-               Message = "PAYPW002:" + ex.ToString();
-           }
-
-           return intResult;
-       }
-
-       public bool checkDataOld(string com, string code, double workagefrom)
+       public bool checkDataOld(string com, string code)
        {
            bool blnResult = false;
            try
            {
                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-               obj_str.Append("SELECT PROVIDENT_ID");
+               obj_str.Append("SELECT PROVIDENT_CODE");
                obj_str.Append(" FROM PAY_TR_PROVIDENT_WORKAGE");
                obj_str.Append(" WHERE 1=1 ");
                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                obj_str.Append(" AND PROVIDENT_CODE='" + code + "'");
-               obj_str.Append(" AND WORKAGE_FROM='" + workagefrom + "'");
+               //obj_str.Append(" AND WORKAGE_FROM='" + workagefrom + "'");
 
 
                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -168,12 +144,21 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
            return blnResult;
        }
 
+
+
        public bool insert(List<cls_TRProvidentWorkage> list_model)
        {
            bool blnResult = false;
            //string strResult = "";
            try
-           {
+         
+               {
+                //-- Check data old
+                   if (!this.delete(list_model[0].company_code, list_model[0].provident_code))
+                {
+                    return false;
+                }
+
                cls_ctConnection obj_conn = new cls_ctConnection();
                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
@@ -201,6 +186,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                obj_conn.doOpenTransaction();
 
                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+ 
 
                obj_str2.Append(" DELETE FROM PAY_TR_PROVIDENT_WORKAGE");
                obj_str2.Append(" WHERE 1=1 ");
@@ -234,6 +220,11 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                        obj_cmd.ExecuteNonQuery();
 
                    }
+
+                   blnResult = obj_conn.doCommit();
+                   obj_conn.doClose();
+
+                   blnResult = true;
 
                    blnResult = obj_conn.doCommit();
 

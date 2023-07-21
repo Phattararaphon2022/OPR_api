@@ -33,7 +33,6 @@ namespace BPC_OPR
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ModuleSystem" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select ModuleSystem.svc or ModuleSystem.svc.cs at the Solution Explorer and start debugging.
-
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
 
     public class ModuleSystem : IModuleSystem
@@ -340,7 +339,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("BANK", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("BANK", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -374,334 +373,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-
-
-
-
-
-        //#region Policy structure code
-        //public string getSYSCodestructureList()
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_ctSYSCodestructure objStruc = new cls_ctSYSCodestructure();
-        //    List<cls_SYSCodestructure> listStruc = objStruc.getData();
-
-        //    JArray array = new JArray();
-
-        //    if (listStruc.Count > 0)
-        //    {
-        //        int index = 1;
-
-        //        foreach (cls_SYSCodestructure model in listStruc)
-        //        {
-        //            JObject json = new JObject();
-
-        //            json.Add("codestructure_code", model.codestructure_code);
-        //            json.Add("codestructure_name_th", model.codestructure_name_th);
-        //            json.Add("codestructure_name_en", model.codestructure_name_en);
-
-        //            json.Add("index", index);
-
-        //            index++;
-
-        //            array.Add(json);
-        //        }
-
-        //        output["result"] = "1";
-        //        output["result_text"] = "1";
-        //        output["data"] = array;
-        //    }
-        //    else
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = "Data not Found";
-        //        output["data"] = array;
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string getMTPolcode(InputMTPolcode req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_ctMTPolcode objPol = new cls_ctMTPolcode();
-
-        //    List<cls_MTPolcode> listPol = objPol.getDataByFillter(req.company_code, "", req.polcode_type);
-
-        //    JArray array = new JArray();
-
-        //    if (listPol.Count > 0)
-        //    {
-        //        int index = 1;
-
-        //        foreach (cls_MTPolcode model in listPol)
-        //        {
-        //            JObject json = new JObject();
-
-        //            json.Add("company_code", model.company_code);
-        //            json.Add("polcode_id", model.polcode_id);
-        //            json.Add("polcode_type", model.polcode_type);
-        //            json.Add("modified_by", model.modified_by);
-        //            json.Add("modified_date", model.modified_date);
-        //            json.Add("flag", model.flag);
-
-        //            json.Add("index", index);
-
-        //            index++;
-
-        //            array.Add(json);
-        //        }
-
-        //        output["result"] = "1";
-        //        output["result_text"] = "1";
-        //        output["data"] = array;
-        //    }
-        //    else
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = "Data not Found";
-        //        output["data"] = array;
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string getTRPolcode(FillterCompany req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-        //    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.polcode_id);
-
-        //    JArray array = new JArray();
-
-        //    if (listTRPolcode.Count > 0)
-        //    {
-        //        int index = 1;
-
-        //        foreach (cls_TRPolcode model in listTRPolcode)
-        //        {
-        //            JObject json = new JObject();
-
-        //            json.Add("polcode_id", model.polcode_id);
-        //            json.Add("codestructure_code", model.codestructure_code);
-        //            json.Add("polcode_lenght", model.polcode_lenght);
-        //            json.Add("polcode_text", model.polcode_text);
-        //            json.Add("polcode_order", model.polcode_order);
-
-        //            json.Add("index", index);
-
-        //            index++;
-
-        //            array.Add(json);
-        //        }
-
-        //        output["result"] = "1";
-        //        output["result_text"] = "1";
-        //        output["data"] = array;
-        //    }
-        //    else
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = "Data not Found";
-        //        output["data"] = array;
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doManagePolcode(InputMTPolcode input)
-        //{
-        //    JObject output = new JObject();
-
-        //    try
-        //    {
-        //        cls_ctMTPolcode objMTPolcode = new cls_ctMTPolcode();
-        //        cls_MTPolcode model = new cls_MTPolcode();
-
-        //        model.company_code = input.company_code;
-        //        model.polcode_id = input.polcode_id;
-        //        model.polcode_type = input.polcode_type;
-        //        model.modified_by = input.modified_by;
-        //        model.flag = model.flag;
-
-        //        string strID = objMTPolcode.insert(model);
-
-        //        if (!strID.Equals(""))
-        //        {
-        //            string polcode_data = input.polcode_data;
-
-        //            try
-        //            {
-        //                JObject jsonObject = new JObject();
-        //                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRPolcode>>(polcode_data);
-
-
-        //                List<cls_TRPolcode> list_model = new List<cls_TRPolcode>();
-
-        //                int intID = Convert.ToInt32(strID);
-
-        //                foreach (cls_TRPolcode item in jsonArray)
-        //                {
-        //                    item.polcode_id = intID;
-        //                    list_model.Add(item);
-        //                }
-
-        //                if (list_model.Count > 0)
-        //                {
-        //                    cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-        //                    objTRPolcode.insert(list_model);
-        //                }
-
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                string str = ex.ToString();
-        //            }
-
-
-        //            output["result"] = "1";
-        //            output["result_text"] = "0";
-        //        }
-        //        else
-        //        {
-        //            output["result"] = "2";
-        //            output["result_text"] = objMTPolcode.getMessage();
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-
-        //    }
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public string doDeleteMTPolcode(InputMTPolcode input)
-        //{
-        //    JObject output = new JObject();
-
-        //    try
-        //    {
-        //        cls_ctMTPolcode objMTPolcode = new cls_ctMTPolcode();
-
-        //        bool blnResult = objMTPolcode.delete(input.polcode_id.ToString());
-
-        //        if (blnResult)
-        //        {
-        //            output["result"] = "1";
-        //            output["result_text"] = "0";
-        //        }
-        //        else
-        //        {
-        //            output["result"] = "2";
-        //            output["result_text"] = objMTPolcode.getMessage();
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = ex.ToString();
-
-        //    }
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-
-        //public string getNewCode(string com, string type, string emptype)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_ctMTPolcode objPol = new cls_ctMTPolcode();
-
-        //    List<cls_MTPolcode> listPol = objPol.getDataByFillter(com, "", type);
-
-
-        //    if (listPol.Count > 0)
-        //    {
-        //        string strID = "";
-
-        //        cls_MTPolcode polcode = listPol[0];
-
-        //        cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-        //        List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(polcode.polcode_id.ToString());
-
-        //        foreach (cls_TRPolcode model in listTRPolcode)
-        //        {
-
-        //            switch (model.codestructure_code)
-        //            {
-
-        //                case "1CHA":
-        //                    strID += model.polcode_text.Substring(0, model.polcode_lenght);
-        //                    break;
-
-        //                case "2COM":
-        //                    strID += com.Substring(0, model.polcode_lenght);
-        //                    break;
-
-        //                case "3BRA":
-        //                    break;
-
-        //                case "4EMT":
-        //                    strID += emptype;
-        //                    break;
-
-        //                case "5YEA":
-        //                    DateTime dateNowY = DateTime.Now;
-        //                    string formatY = "";
-        //                    for (int i = 0; i < model.polcode_lenght; i++)
-        //                    {
-        //                        formatY += "y";
-        //                    }
-        //                    strID += dateNowY.ToString(formatY);
-        //                    break;
-
-        //                case "6MON":
-        //                    DateTime dateNowM = DateTime.Now;
-        //                    string formatM = "";
-        //                    for (int i = 0; i < model.polcode_lenght; i++)
-        //                    {
-        //                        formatM += "M";
-        //                    }
-        //                    strID += dateNowM.ToString(formatM);
-        //                    break;
-
-        //                //case "MAUT":
-        //                //    cls_ctMTWorker objWorker = new cls_ctMTWorker();
-        //                //    int intRunningID = objWorker.doGetNextRunningID(com, strID);
-        //                //    strID += intRunningID.ToString().PadLeft(model.polcode_lenght, '0');
-        //                //    break;
-
-        //            }
-
-
-        //        }
-
-
-
-
-        //        output["result"] = "1";
-        //        output["result_text"] = "1";
-        //        output["data"] = strID;
-        //    }
-        //    else
-        //    {
-        //        output["result"] = "0";
-        //        output["result_text"] = "Data not Found";
-        //        output["data"] = "";
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-
-        //#endregion
-
 
         #region structure
         public string getCodestructureList(FillterCompany req)
@@ -743,7 +414,7 @@ namespace BPC_OPR
                         json.Add("codestructure_code", model.codestructure_code);
                         json.Add("codestructure_name_th", model.codestructure_name_th);
                         json.Add("codestructure_name_en", model.codestructure_name_en);
-   
+
                         json.Add("index", index++);
                         array.Add(json);
                     }
@@ -968,7 +639,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("codestructure", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("codestructure", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -1002,306 +673,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-        //#region TRPolcode
-        //public string getTRPolcodeList(FillterCompany req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CODE001.1";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctTRPolcode objCardtype = new cls_ctTRPolcode();
-        //        List<cls_TRPolcode> list = objCardtype.getDataByFillter("");
-        //        JArray array = new JArray();
-
-        //        if (list.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_TRPolcode model in list)
-        //            {
-        //                JObject json = new JObject();
-
-        //                json.Add("codestructure_code", model.codestructure_code);
-        //                json.Add("codestructure_name_th", model.codestructure_name_th);
-        //                json.Add("codestructure_name_en", model.codestructure_name_en);
-
-        //                json.Add("index", index++);
-        //                array.Add(json);
-        //            }
-
-        //            output["success"] = true;
-        //            output["message"] = "";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Data not Found";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = "Data not Found";
-        //        }
-
-        //        objCardtype.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doManageTRPolcode(InputTRPolcode input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CODE001.2";
-        //    //log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctTRPolcode objCodestructure = new cls_ctTRPolcode();
-        //        cls_TRPolcode model = new cls_TRPolcode();
-
-        //        //model.cardtype_id = Convert.ToInt32(input.cardtype_id);
-        //        model.codestructure_code = input.codestructure_code;
-        //        model.codestructure_name_th = input.codestructure_name_th;
-        //        model.codestructure_name_en = input.codestructure_name_en;
-
-
-        //        bool strID = objCodestructure.insert(model);
-
-        //        if (!strID.Equals(""))
-        //        {
-        //            output["success"] = true;
-        //            output["message"] = "Retrieved data successfully";
-        //            output["record_id"] = strID;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Retrieved data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = objCodestructure.getMessage();
-        //        }
-
-        //        objCodestructure.dispose();
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //public string doDeleteCodestructure(InputMTCodestructure input)
-        //{
-        //    JObject output = new JObject();
-
-        //    var json_data = new JavaScriptSerializer().Serialize(input);
-        //    var tmp = JToken.Parse(json_data);
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CODE001.3";
-        //    //log.apilog_by = input.modified_by;
-        //    log.apilog_data = tmp.ToString();
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctTRPolcode objCardtype = new cls_ctTRPolcode();
-
-        //        if (objCardtype.checkDataOld(input.codestructure_code))
-        //        {
-        //            bool blnResult = objCardtype.delete(input.codestructure_code);
-
-        //            if (blnResult)
-        //            {
-        //                output["success"] = true;
-        //                output["message"] = "Remove data successfully";
-
-        //                log.apilog_status = "200";
-        //                log.apilog_message = "";
-        //            }
-        //            else
-        //            {
-        //                output["success"] = false;
-        //                output["message"] = "Remove data not successfully";
-
-        //                log.apilog_status = "500";
-        //                log.apilog_message = objCardtype.getMessage();
-        //            }
-
-        //        }
-        //        else
-        //        {
-        //            string message = "Not Found Project code : " + input.codestructure_code;
-        //            output["success"] = false;
-        //            output["message"] = message;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = message;
-        //        }
-
-        //        objCardtype.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Remove data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    output["data"] = tmp;
-
-        //    return output.ToString(Formatting.None);
-
-        //}
-        //public async Task<string> doUploadTRPolcode(string token, string by, string fileName, Stream stream)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "CODE001.4";
-        //    log.apilog_by = by;
-        //    log.apilog_data = "Stream";
-
-        //    try
-        //    {
-        //        if (!objBpcOpr.doVerify(token))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-
-        //        bool upload = await this.doUploadFile(fileName, stream);
-
-        //        if (upload)
-        //        {
-        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
-        //            string tmp = srv_import.doImportExcel("TRPolcode", fileName, "TEST");
-
-        //            output["success"] = true;
-        //            output["message"] = tmp;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Upload data not successfully";
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = "Upload data not successfully";
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Upload data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-        //#endregion
 
         #region TRPolcode
         public string getTRPolcodeList(BasicRequest req)
@@ -1346,10 +717,7 @@ namespace BPC_OPR
                         json.Add("polcode_text", model.polcode_text);
                         json.Add("polcode_order", model.polcode_order);
 
-                        //json.Add("company_code", model.company_code);
-                        //json.Add("modified_by", model.modified_by);
-                        //json.Add("modified_date", model.modified_date);
-                        //json.Add("flag", model.flag);
+                 
 
                         json.Add("index", index);
 
@@ -1402,8 +770,7 @@ namespace BPC_OPR
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "SYS002.2";
-            //log.apilog_by = input.modified_by;
-            log.apilog_data = tmp.ToString();
+             log.apilog_data = tmp.ToString();
 
             try
             {
@@ -1422,17 +789,14 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
                 cls_TRPolcode model = new cls_TRPolcode();
-                //model.polcode_id = Convert.ToInt32(input.polcode_id);
-                model.polcode_id = input.polcode_id;
+                 model.polcode_id = input.polcode_id;
                 model.codestructure_code = input.codestructure_code;
 
                 model.polcode_lenght = input.polcode_lenght;
                 model.polcode_text = input.polcode_text;
                 model.polcode_order = input.polcode_order;
 
-                //model.company_code = input.company_code;
-                //model.modified_by = input.modified_by;
-                //model.flag = model.flag;
+             
 
                 string strID = controller.insert(model);
 
@@ -1583,7 +947,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("TRPolcode", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("TRPolcode", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2006,7 +1370,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-        
 
         #region MTCardtype
         public string getCardtypeList(BasicRequest req)
@@ -2279,7 +1642,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("CARDTYPE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("CARDTYPE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2583,7 +1946,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("FAMILY", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("FAMILY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2891,7 +2254,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("LEVEL", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("LEVEL", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -3471,13 +2834,294 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region Rounds
-        public string getMTRoundsList(InputMTRounds input)
+        //#region Rounds
+        //public string getMTRoundsList(InputMTRounds input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTRounds objRounds = new cls_ctMTRounds();
+        //        List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group,"", input.rounds_code);
+
+        //        //List<cls_MTRounds> listRounds = objRounds.getDataByFillter("","","");
+
+        //        JArray array = new JArray();
+
+        //        if (listRounds.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_MTRounds model in listRounds)
+        //            {
+        //                JObject json = new JObject();
+
+        //                json.Add("rounds_id", model.rounds_id);
+        //                json.Add("rounds_code", model.rounds_code);
+        //                json.Add("rounds_name_th", model.rounds_name_th);
+        //                json.Add("rounds_name_en", model.rounds_name_en);
+
+        //                json.Add("rounds_from", model.rounds_from);
+        //                json.Add("rounds_to", model.rounds_to);
+        //                json.Add("rounds_result", model.rounds_result);
+
+        //                json.Add("rounds_group", model.rounds_group);
+                        
+
+
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
+
+        //                json.Add("index", index);
+
+        //                index++;
+
+        //                array.Add(json);
+        //            }
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTRounds(InputMTRounds input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.2";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTRounds objRounds = new cls_ctMTRounds();
+        //        cls_MTRounds model = new cls_MTRounds();
+
+        //        //model.company_code = input.company_code;
+
+        //        model.rounds_id = input.rounds_id;
+        //        model.rounds_code = input.rounds_code;
+        //        model.rounds_name_th = input.rounds_name_th;
+        //        model.rounds_name_en = input.rounds_name_en;
+        //        model.rounds_from = input.rounds_from;
+        //        model.rounds_to = input.rounds_to;
+        //        model.rounds_result = input.rounds_result;
+        //        model.rounds_group = input.rounds_group;
+                
+        //        model.modified_by = input.modified_by;
+        //        model.flag = input.flag;
+
+
+        //        string strID = objRounds.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Retrieved data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objRounds.getMessage();
+        //        }
+
+        //        objRounds.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //    }
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public string doDeleteMTRounds(InputMTRounds input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTRounds controller = new cls_ctMTRounds();
+
+        //        bool blnResult = controller.delete(input.rounds_id.ToString());
+
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public async Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS016.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        bool upload = await this.doUploadFile(fileName, stream);
+
+        //        if (upload)
+        //        {
+        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
+        //            string tmp = srv_import.doImportExcel("ROUNS", fileName, by);
+
+
+        //            output["success"] = true;
+        //            output["message"] = tmp;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //#endregion
+
+        #region Round
+        public string getMTRoundList(InputMTRound input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "SYS016.1";
-            log.apilog_by = input.username;
+             log.apilog_by = input.username;
             log.apilog_data = "all";
             try
             {
@@ -3494,43 +3138,65 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTRounds objRounds = new cls_ctMTRounds();
-                List<cls_MTRounds> listRounds = objRounds.getDataByFillter(input.rounds_group,"", input.rounds_code);
-
-                //List<cls_MTRounds> listRounds = objRounds.getDataByFillter("","","");
-
+                cls_ctMTRound objMTRound = new cls_ctMTRound();
+                List<cls_MTRound> listRound = objMTRound.getDataByFillter(input.round_group, "", input.round_code);
                 JArray array = new JArray();
 
-                if (listRounds.Count > 0)
+                if (listRound.Count > 0)
                 {
                     int index = 1;
 
-                    foreach (cls_MTRounds model in listRounds)
+                    foreach (cls_MTRound model in listRound)
                     {
                         JObject json = new JObject();
-
-                        json.Add("rounds_id", model.rounds_id);
-                        json.Add("rounds_code", model.rounds_code);
-                        json.Add("rounds_name_th", model.rounds_name_th);
-                        json.Add("rounds_name_en", model.rounds_name_en);
-
-                        json.Add("rounds_from", model.rounds_from);
-                        json.Add("rounds_to", model.rounds_to);
-                        json.Add("rounds_result", model.rounds_result);
-
-                        json.Add("rounds_group", model.rounds_group);
-                        
-
+                        json.Add("round_id", model.round_id);
+                        json.Add("round_code", model.round_code);
+                        json.Add("round_name_th", model.round_name_th);
+                        json.Add("round_name_en", model.round_name_en);
+                        json.Add("round_group", model.round_group);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
 
+
+                        array.Add(json);
+
+                        cls_ctTRRound objTRRound = new cls_ctTRRound();
+                        List<cls_TRRound> listTRRound = objTRRound.getDataByFillter(model.round_id.ToString());
+                        JArray arrayTRRound = new JArray();
+
+                        if (listTRRound.Count > 0)
+                        {
+                            int indexTRRound = 1;
+
+                            foreach (cls_TRRound modelTRRound in listTRRound)
+                            {
+                                JObject jsonTRRound = new JObject();
+                                jsonTRRound.Add("round_id", modelTRRound.round_id);
+                                jsonTRRound.Add("round_from", modelTRRound.round_from);
+                                jsonTRRound.Add("round_to", modelTRRound.round_to);
+                                jsonTRRound.Add("round_result", modelTRRound.round_result);
+
+                                jsonTRRound.Add("index", indexTRRound);
+
+                                indexTRRound++;
+
+
+
+                                arrayTRRound.Add(jsonTRRound);
+                            }
+                            json.Add("round_data", arrayTRRound);
+                        }
+                        else
+                        {
+                            json.Add("round_data", arrayTRRound);
+                        }
                         json.Add("index", index);
 
                         index++;
 
-                        array.Add(json);
+                        //array.Add(json);
                     }
 
                     output["result"] = "1";
@@ -3544,13 +3210,13 @@ namespace BPC_OPR
                     output["data"] = array;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                return ex.ToString();
             }
             return output.ToString(Formatting.None);
         }
-        public string doManageMTRounds(InputMTRounds input)
+        public string doManageMTRound(InputMTRound input)
         {
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
@@ -3572,27 +3238,37 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-                cls_ctMTRounds objRounds = new cls_ctMTRounds();
-                cls_MTRounds model = new cls_MTRounds();
+                cls_ctMTRound objMTRound = new cls_ctMTRound();
+                cls_MTRound model = new cls_MTRound();
+                model.round_id = input.round_id.Equals("") ? 0 : Convert.ToInt32(input.round_id);
+                model.round_code = input.round_code;
 
-                //model.company_code = input.company_code;
+                model.round_name_th = input.round_name_th;
+                model.round_name_en = input.round_name_en;
+                model.round_group = input.round_group;
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
 
-                model.rounds_id = input.rounds_id;
-                model.rounds_code = input.rounds_code;
-                model.rounds_name_th = input.rounds_name_th;
-                model.rounds_name_en = input.rounds_name_en;
-                model.rounds_from = input.rounds_from;
-                model.rounds_to = input.rounds_to;
-                model.rounds_result = input.rounds_result;
-                model.rounds_group = input.rounds_group;
-                
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
 
-
-                string strID = objRounds.insert(model);
+                string strID = objMTRound.insert(model);
                 if (!strID.Equals(""))
                 {
+                    try
+                    {
+                        cls_ctTRRound objTRRound = new cls_ctTRRound();
+                        objTRRound.delete(input.round_id.ToString());
+                        if (input.round_data.Count > 0)
+                        {
+                            objTRRound.insert(input.round_data);
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -3606,10 +3282,10 @@ namespace BPC_OPR
                     output["message"] = "Retrieved data not successfully";
 
                     log.apilog_status = "500";
-                    log.apilog_message = objRounds.getMessage();
+                    log.apilog_message = objMTRound.getMessage();
                 }
 
-                objRounds.dispose();
+                objMTRound.dispose();
             }
             catch (Exception ex)
             {
@@ -3621,7 +3297,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public string doDeleteMTRounds(InputMTRounds input)
+         public string doDeleteMTRound(InputMTRound input)
         {
             JObject output = new JObject();
 
@@ -3647,12 +3323,14 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTRounds controller = new cls_ctMTRounds();
+                cls_ctMTRound controller = new cls_ctMTRound();
 
-                bool blnResult = controller.delete(input.rounds_id.ToString());
+                bool blnResult = controller.delete(input.round_id.ToString());
 
                 if (blnResult)
                 {
+                    cls_ctTRRound objTRRound = new cls_ctTRRound();
+                    objTRRound.delete(input.round_id.ToString());
                     output["success"] = true;
                     output["message"] = "Remove data successfully";
 
@@ -3687,7 +3365,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTRounds(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadMTRound(string token, string by, string fileName, Stream stream)
         {
             JObject output = new JObject();
 
@@ -3716,9 +3394,8 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("ROUNS", fileName, by);
-
-
+                    string tmp = srv_import.doImportExcel("ROUND", fileName, by);
+             
                     output["success"] = true;
                     output["message"] = tmp;
 
@@ -4033,7 +3710,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("REDUCE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("REDUCE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4337,7 +4014,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("ETHNICITY", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("ETHNICITY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4638,7 +4315,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("RELIGION", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("RELIGION", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -4941,7 +4618,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("BLOODTYPE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("BLOODTYPE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5243,7 +4920,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("HOSPITAL", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("HOSPITAL", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5544,7 +5221,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("PROVINCE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("PROVINCE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5858,7 +5535,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Combranch", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Combranch", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -5932,7 +5609,7 @@ namespace BPC_OPR
                         JObject json = new JObject();
                         json.Add("company_id", model.company_id);
                         json.Add("company_code", model.company_code);
-                        json.Add("company_initials", model.company_initials);
+                        //json.Add("company_initials", model.company_initials);
                         json.Add("company_name_th", model.company_name_th);
                         json.Add("company_name_en", model.company_name_en);
 
@@ -6033,7 +5710,7 @@ namespace BPC_OPR
 
                 model.company_id = input.company_id;
                 model.company_code = input.company_code;
-                model.company_initials = input.company_initials;
+                //model.company_initials = input.company_initials;
 
                 model.company_name_th = input.company_name_th;
                 model.company_name_en = input.company_name_en;
@@ -6207,8 +5884,8 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvSystemImport srv_import = new cls_srvSystemImport(); 
-                    string tmp = srv_import.doImportExcel("COMPANY", fileName, "TEST");
+                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
+                    string tmp = srv_import.doImportExcel("COMPANY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -6243,9 +5920,7 @@ namespace BPC_OPR
         }
 
         #endregion
-
-        
-
+       
         #region COMLOCATION
         public string getComlocationList(FillterCompany req)
         {
@@ -6522,7 +6197,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Comlocation", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Comlocation", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -6557,7 +6232,6 @@ namespace BPC_OPR
         }
 
         #endregion
-        
 
         #region comBank
         public string getCombankList(FillterCompany req)
@@ -6868,7 +6542,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("COMBANK", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COMBANK", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -6902,8 +6576,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-
 
         #region MTcomcard
         public string getComcardList (FillterCompany req)
@@ -7211,7 +6883,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Comcard", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Comcard", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -7245,9 +6917,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-
-        
 
         #region MTcomAddres
         public string getComAddressList(FillterCompany req)
@@ -7574,7 +7243,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("COMADDRES", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COMADDRES", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -7931,7 +7600,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Comaddlocation", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Comaddlocation", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8234,7 +7903,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Course", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("COURSE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8269,10 +7938,6 @@ namespace BPC_OPR
         }
 
         #endregion
-
-        
-
-        
 
         #region Institute
         public string getInstituteList(BasicRequest req)
@@ -8541,7 +8206,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Institute", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Institute", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8576,7 +8241,6 @@ namespace BPC_OPR
         }
 
         #endregion
-
         
         #region Faculty
         public string getFacultyList(BasicRequest req)
@@ -8845,7 +8509,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("faculty", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("FACULTY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -8880,9 +8544,6 @@ namespace BPC_OPR
         }
 
         #endregion
-
-
-        
 
         #region Major
         public string getMajorList(BasicRequest req)
@@ -9150,7 +8811,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Major", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Major", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9452,7 +9113,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("SUPPLY", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("SUPPLY", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9753,7 +9414,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("UNIFORM", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("UNIFORM", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -9787,8 +9448,6 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-        
 
         #region Qualification
         public string getQualificationList(BasicRequest req)
@@ -10056,7 +9715,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("Qualification", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("Qualification", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -10358,7 +10017,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("ADDRESSTYPE", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("ADDRESSTYPE", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -10662,6 +10321,7 @@ namespace BPC_OPR
        
 
         #endregion
+
         #region Image 
         public string doUploadImageslogo(string ref_to, Stream stream)
         {
@@ -10778,10 +10438,7 @@ namespace BPC_OPR
         }
 
         #endregion
-
-
-        ///
-        /// 
+ 
         #region Imagemaps 
         public string doUploadImagesmaps(string ref_to, Stream stream)
         {
@@ -10900,6 +10557,302 @@ namespace BPC_OPR
 
         #endregion
         ///
+
+        #region MTMainmenu
+        public string getMTMainmenuList(InputMTMainmenu input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS002.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTMainmenu controller = new cls_ctMTMainmenu();
+                List<cls_MTMainmenu> list = controller.getDataByFillter(input.mainmenu_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTMainmenu model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("mainmenu_code", model.mainmenu_code);
+                        json.Add("mainmenu_detail_th", model.mainmenu_detail_th);
+                        json.Add("mainmenu_detail_en", model.mainmenu_detail_en);
+                        json.Add("mainmenu_order", model.mainmenu_order);
+                        json.Add("index", index);
+                        cls_ctMTSubmenu controller_submenu = new cls_ctMTSubmenu();
+                        List<cls_MTSubmenu> listSubMenu = controller_submenu.getDataByFillter(model.mainmenu_code, "");
+                        JArray arraySubmenu = new JArray();
+                        if (listSubMenu.Count > 0)
+                        {
+                            int indexSubmenu = 1;
+
+                            foreach (cls_MTSubmenu modelSubMenu in listSubMenu)
+                            {
+                                JObject jsonSubMenu = new JObject();
+                                jsonSubMenu.Add("mainmenu_code", modelSubMenu.mainmenu_code);
+                                jsonSubMenu.Add("submenu_code", modelSubMenu.submenu_code);
+                                jsonSubMenu.Add("submenu_detail_th", modelSubMenu.submenu_detail_th);
+                                jsonSubMenu.Add("submenu_detail_en", modelSubMenu.submenu_detail_en);
+                                jsonSubMenu.Add("submenu_order", modelSubMenu.submenu_order);
+                                jsonSubMenu.Add("index", indexSubmenu);
+                                cls_ctMTItemmenu controller_itemmenu = new cls_ctMTItemmenu();
+                                List<cls_MTItemmenu> listItemMenu = controller_itemmenu.getDataByFillter(modelSubMenu.submenu_code, "");
+                                JArray arrayItemMenu = new JArray();
+                                if (listItemMenu.Count > 0)
+                                {
+                                    int indexItemMenu = 1;
+
+                                    foreach (cls_MTItemmenu modelItemMenu in listItemMenu)
+                                    {
+                                        JObject jsonItemMenu = new JObject();
+                                        jsonItemMenu.Add("submenu_code", modelItemMenu.submenu_code);
+                                        jsonItemMenu.Add("itemmenu_code", modelItemMenu.itemmenu_code);
+                                        jsonItemMenu.Add("itemmenu_detail_th", modelItemMenu.itemmenu_detail_th);
+                                        jsonItemMenu.Add("itemmenu_detail_en", modelItemMenu.itemmenu_detail_en);
+                                        jsonItemMenu.Add("itemmenu_order", modelItemMenu.itemmenu_order);
+                                        jsonItemMenu.Add("index", indexItemMenu);
+
+
+                                        indexItemMenu++;
+
+                                        arrayItemMenu.Add(jsonItemMenu);
+                                    }
+                                    jsonSubMenu.Add("itemmenu_data", arrayItemMenu);
+                                }
+                                else
+                                {
+                                    jsonSubMenu.Add("itemmenu_data", arrayItemMenu);
+                                }
+
+
+                                indexSubmenu++;
+
+                                arraySubmenu.Add(jsonSubMenu);
+                            }
+                            json.Add("submenu_data", arraySubmenu);
+                        }
+                        else
+                        {
+                            json.Add("submenu_data", arraySubmenu);
+                        }
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTMainmenu(InputMTMainmenu input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS002.2";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTMainmenu controller = new cls_ctMTMainmenu();
+                cls_ctMTSubmenu controller_submenu = new cls_ctMTSubmenu();
+                cls_ctMTItemmenu controller_itemmenu = new cls_ctMTItemmenu();
+                int success = 0;
+                int fail = 0;
+                foreach (cls_MTMainmenu data in input.mainmenu_data)
+                {
+                    cls_MTMainmenu model = new cls_MTMainmenu();
+                    string strID = controller.insert(data);
+                    if (!strID.Equals(""))
+                    {
+                        if(data.submenu.Count>0){
+                            foreach (cls_MTSubmenu datasubmenu in data.submenu)
+                            {
+                                datasubmenu.mainmenu_code = strID;
+                                string submenu = controller_submenu.insert(datasubmenu);
+                                if (!submenu.Equals("") && datasubmenu.itemmenu.Count > 0)
+                                {
+                                    foreach (cls_MTItemmenu dataitemmenu in datasubmenu.itemmenu)
+                                    {
+                                        dataitemmenu.submenu_code = submenu;
+                                        string itemmenu = controller_itemmenu.insert(dataitemmenu);
+                                    }
+                                }
+                            }
+                        }
+                        success += 1;
+                    }
+                    else
+                    {
+                        fail += 1;
+                    }
+
+                }
+                output["success"] = true;
+                output["message"] = "Retrieved data successfully";
+                output["success"] = success;
+                output["fail"] = fail;
+
+                log.apilog_status = "200";
+                log.apilog_message = "";
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTMainmenu(InputMTMainmenu input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF002.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTMainmenu controller = new cls_ctMTMainmenu();
+                bool blnResult = controller.delete(input.mainmenu_code);
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctMTSubmenu SubMenu = new cls_ctMTSubmenu();
+                        SubMenu.delete(input.mainmenu_code, input.submenu_code);
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
 
         //#region ComImage
         //#region test
@@ -11066,8 +11019,6 @@ namespace BPC_OPR
         //}
 
         //#endregion
-
-
         #region MTRequest
         public string getRequestList(BasicRequest req)
         {
@@ -11357,7 +11308,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvSystemImport srv_import = new cls_srvSystemImport();
-                    string tmp = srv_import.doImportExcel("request", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("request", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;

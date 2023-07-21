@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ClassLibrary_BPC.hrfocus.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
-
+using ClassLibrary_BPC.hrfocus.model;
 namespace BPC_OPR
 {
     public class DataModuleSystem
@@ -194,7 +195,7 @@ namespace BPC_OPR
 
 
     [DataContract]
-    public class InputMTRounds
+    public class InputMTRound
     {
         [DataMember]
         public string device_name { get; set; }
@@ -203,23 +204,25 @@ namespace BPC_OPR
         [DataMember]
         public string username { get; set; }
         [DataMember]
-        public int rounds_id { get; set; }
+        public int round_id { get; set; }
         [DataMember]
-        public string rounds_code { get; set; }
+        public string round_code { get; set; }
         [DataMember]
-        public string rounds_name_th { get; set; }
+        public string round_name_th { get; set; }
         [DataMember]
-        public string rounds_name_en { get; set; }
+        public string round_name_en { get; set; }
         [DataMember]
-        public string rounds_group { get; set; }
+        public string round_group { get; set; }
         [DataMember]
-        public string rounds_data { get; set; }
+        public List<cls_TRRound> round_data { get; set; }
+
+   
         [DataMember]
-        public string rounds_from { get; set; }
+        public string round_from { get; set; }
         [DataMember]
-        public string rounds_to { get; set; }
+        public string round_to { get; set; }
         [DataMember]
-        public string rounds_result { get; set; }
+        public string round_result { get; set; }
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]
@@ -1082,5 +1085,28 @@ namespace BPC_OPR
         [DataMember]
         public string modified_by { get; set; }
     }
+
+    #region InputMTMainmenu
+    [DataContract]
+    public class InputMTMainmenu
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string mainmenu_code { get; set; }
+        [DataMember]
+        public string submenu_code { get; set; }
+        [DataMember]
+        public string itemmenu_code { get; set; }
+        [DataMember]
+        public List<cls_MTMainmenu> mainmenu_data { get; set; }
+    }
+    #endregion
 }
 

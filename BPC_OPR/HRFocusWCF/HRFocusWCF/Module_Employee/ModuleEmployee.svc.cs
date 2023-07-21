@@ -490,7 +490,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTWorker controller = new cls_ctMTWorker();
-                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill);
+                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill,req.worker_empstatus);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -537,6 +537,13 @@ namespace BPC_OPR
                         json.Add("modified_date", model.modified_date);
 
                         json.Add("self_admin", model.self_admin);
+
+                        json.Add("worker_tel", model.worker_tel);
+                        json.Add("worker_email", model.worker_email);
+                        json.Add("worker_line", model.worker_line);
+                        json.Add("worker_facebook", model.worker_facebook);
+
+                        json.Add("worker_military", model.worker_military);
 
                         json.Add("flag", model.flag);
 

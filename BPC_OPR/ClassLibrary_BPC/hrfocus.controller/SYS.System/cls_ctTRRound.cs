@@ -138,7 +138,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (!this.delete(list_model[0].round_id))
+                if (!this.delete(list_model[0].round_id.ToString()))
                 {
                     return false;
                 }
@@ -198,10 +198,5 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-
-        public bool checkDataOld(string p)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

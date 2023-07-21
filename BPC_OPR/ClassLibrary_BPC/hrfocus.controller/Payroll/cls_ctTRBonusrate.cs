@@ -117,7 +117,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             bool blnResult = true;
             try
             {
-                //cls_ctConnection obj_conn = new cls_ctConnection();
+                cls_ctConnection obj_conn = new cls_ctConnection();
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append(" DELETE FROM PAY_TR_BONUSRATE");

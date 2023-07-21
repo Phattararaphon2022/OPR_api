@@ -65,7 +65,16 @@ namespace BPC_OPR
         Task<string> doUploadMTItemr(string token, string by, string fileName, Stream stream);
         #endregion
 
-        
+        //#region paybank
+        ////
+        //[OperationContract(Name = "paybank")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getpaybank(BasicRequest req);
+
+        ////[OperationContract]
+        ////[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json)]
+        ////string getpaybank(string com);
+        //#endregion
 
         #region MTProvident
         [OperationContract(Name = "MTProvident_list")]
@@ -79,7 +88,7 @@ namespace BPC_OPR
         [OperationContract(Name = "MTProvident_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteMTProvident(InputMTProvident input);
-
+         
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProvident?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTProvident(string token, string by, string fileName, Stream stream);

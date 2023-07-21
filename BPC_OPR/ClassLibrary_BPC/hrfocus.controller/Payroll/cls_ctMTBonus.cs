@@ -121,7 +121,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return intResult;
         }
 
-        public bool checkDataOld(string com, string code)
+        public bool checkDataOld(string com, string code, string id)
         {
             bool blnResult = false;
             try
@@ -133,6 +133,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND BONUS_CODE='" + code + "'");
+                obj_str.Append(" AND BONUS_ID='" + id + "'");
                                                 
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -174,18 +175,29 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return blnResult;
         }
 
-        public bool insert(cls_MTBonus model)
+        public string insert(cls_MTBonus model)
         {
-            bool blnResult = false;
-            //string strResult = "";
+            string strResult = "";
             try
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.bonus_code))
+                if (this.checkDataOld(model.company_code, model.bonus_code, model.bonus_id.ToString()))
                 {
-                    return this.update(model);
+                    if (this.update(model))
+                        return model.bonus_id.ToString();
+                    else
+                        return "";
                 }
+
+                
+
+                //-- Check data old
+                //if (this.checkDataOld(model.company_code, model.bonus_code))
+                //{
+                //    return this.update(model);
+                //}
+
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -220,6 +232,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                model.bonus_id = this.getNextID();
 
                 obj_cmd.Parameters.Add("@BONUS_ID", SqlDbType.Int); obj_cmd.Parameters["@BONUS_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@BONUS_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BONUS_CODE"].Value = model.bonus_code;
@@ -235,17 +248,19 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
      
                 obj_cmd.ExecuteNonQuery();
 
+ 
+
                 obj_conn.doClose();
-                blnResult = true;
-                //strResult = model.bonus_id.ToString();
+                strResult = model.bonus_id.ToString();
             }
             catch (Exception ex)
             {
-                Message = "PAYB005:" + ex.ToString();
-                //strResult = "";
+                strResult = "";
+                 Message = "PAYB005:" + ex.ToString();
+                
+                
             }
-
-            return blnResult;
+            return strResult;
         }
 
         public bool update(cls_MTBonus model)
@@ -257,8 +272,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE PAY_MT_BONUS SET ");
 
-                obj_str.Append(" BONUS_CODE=@BONUS_CODE ");
-                obj_str.Append(", BONUS_NAME_TH=@BONUS_NAME_TH ");
+                //obj_str.Append(" BONUS_CODE=@BONUS_CODE ");
+                obj_str.Append("  BONUS_NAME_TH=@BONUS_NAME_TH ");
                 obj_str.Append(", BONUS_NAME_EN=@BONUS_NAME_EN ");
 
                 obj_str.Append(", ITEM_CODE=@ITEM_CODE ");
@@ -266,15 +281,15 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
+                obj_str.Append(" WHERE BONUS_CODE=@BONUS_CODE ");
 
 
-                obj_str.Append(" WHERE BONUS_ID=@BONUS_ID ");
+                //obj_str.Append(" WHERE BONUS_ID=@BONUS_ID ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@BONUS_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BONUS_CODE"].Value = model.bonus_code;
                 obj_cmd.Parameters.Add("@BONUS_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@BONUS_NAME_TH"].Value = model.bonus_name_th;
                 obj_cmd.Parameters.Add("@BONUS_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@BONUS_NAME_EN"].Value = model.bonus_name_en;
 
@@ -285,7 +300,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@BONUS_ID", SqlDbType.Int); obj_cmd.Parameters["@BONUS_ID"].Value = model.bonus_id;
+                obj_cmd.Parameters.Add("@BONUS_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BONUS_CODE"].Value = model.bonus_code;
 
                 obj_cmd.ExecuteNonQuery();
 

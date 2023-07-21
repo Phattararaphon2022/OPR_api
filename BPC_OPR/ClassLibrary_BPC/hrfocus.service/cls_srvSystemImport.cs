@@ -1,6 +1,7 @@
 ﻿using ClassLibrary_BPC.hrfocus.controller;
 using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.model.SYS.System;
+using ClassLibrary_BPC.hrfocus.model.System;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -118,6 +119,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.reason_name_en = dr["reason_name_en"].ToString();
                                 model.reason_group = dr["reason_group"].ToString();
                                 model.modified_by = by;
+                                model.created_by = by;
+
                                 model.flag = false;
                                 string strID = controller.insert(model);
                                 if (!strID.Equals(""))
@@ -208,18 +211,15 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 cls_ctMTFamily objReason = new cls_ctMTFamily();
                                 cls_MTFamily model = new cls_MTFamily();
                                 model = new cls_MTFamily();
+                                model.company_code = dr["company_code"].ToString();
 
                                 model.family_id = dr["family_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["family_id"].ToString());
-
-                                //model.family_id = Convert.ToInt32(dr["family_id"]);
                                 model.family_code = dr["family_code"].ToString();
                                 model.family_name_th = dr["family_name_th"].ToString();
                                 model.family_name_en = dr["family_name_en"].ToString();
 
-                                //model.modified_date = Convert.ToDateTime(dr["modified_date"]);   
-
-                             
-                                model.modified_by = by;
+                                model.created_by = by;
+                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
 
@@ -268,7 +268,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.addresstype_name_th = dr["addresstype_name_th"].ToString();
                                 model.addresstype_name_en = dr["addresstype_name_en"].ToString();
 
-                               
+                                model.created_by = by;
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -312,11 +312,12 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTEthnicity objReason = new cls_ctMTEthnicity();
                                 cls_MTEthnicity model = new cls_MTEthnicity();
+                                model.ethnicity_id = dr["ethnicity_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["ethnicity_id"].ToString());
 
-                                model.ethnicity_id = Convert.ToInt32(dr["ETHNICITY_ID"]);
-                                model.ethnicity_code = dr["ETHNICITY_CODE"].ToString();
-                                model.ethnicity_name_th = dr["ETHNICITY_NAME_TH"].ToString();
-                                model.ethnicity_name_en = dr["ETHNICITY_NAME_EN"].ToString();         
+                                //model.ethnicity_id = Convert.ToInt32(dr["ETHNICITY_ID"]);
+                                model.ethnicity_code = dr["ethnicity_code"].ToString();
+                                model.ethnicity_name_th = dr["ethnicity_name_th"].ToString();
+                                model.ethnicity_name_en = dr["ethnicity_name_en"].ToString();         
 
                                 
                                 model.modified_by = by;
@@ -361,11 +362,12 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTBloodtype objReason = new cls_ctMTBloodtype();
                                 cls_MTBloodtype model = new cls_MTBloodtype();
+                                model.bloodtype_id = dr["bloodtype_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["bloodtype_id"].ToString());
 
-                                model.bloodtype_id = Convert.ToInt32(dr["BLOODTYPE_ID"]);
-                                model.bloodtype_code = dr["BLOODTYPE_CODE"].ToString();
-                                model.bloodtype_name_th = dr["BLOODTYPE_NAME_TH"].ToString();
-                                model.bloodtype_name_en = dr["BLOODTYPE_NAME_EN"].ToString();               
+                                //model.bloodtype_id = Convert.ToInt32(dr["BLOODTYPE_ID"]);
+                                model.bloodtype_code = dr["bloodtype_code"].ToString();
+                                model.bloodtype_name_th = dr["bloodtype_name_th"].ToString();
+                                model.bloodtype_name_en = dr["bloodtype_name_en"].ToString();               
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -409,11 +411,12 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTHospital objReason = new cls_ctMTHospital();
                                 cls_MTHospital model = new cls_MTHospital();
+                                model.hospital_id = dr["hospital_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["hospital_id"].ToString());
 
-                                model.hospital_id = Convert.ToInt32(dr["HOSPITAL_ID"]);
-                                model.hospital_code = dr["HOSPITAL_CODE"].ToString();
-                                model.hospital_name_th = dr["HOSPITAL_NAME_TH"].ToString();
-                                model.hospital_name_en = dr["HOSPITAL_NAME_EN"].ToString();               
+                                //model.hospital_id = Convert.ToInt32(dr["HOSPITAL_ID"]);
+                                model.hospital_code = dr["hospital_code"].ToString();
+                                model.hospital_name_th = dr["hospital_name_th"].ToString();
+                                model.hospital_name_en = dr["hospital_name_en"].ToString();               
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -507,11 +510,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTProvince objReason = new cls_ctMTProvince();
                                 cls_MTProvince model = new cls_MTProvince();
-
-                                model.province_id = Convert.ToInt32(dr["PROVINCE_ID"]);
-                                model.province_code = dr["PROVINCE_CODE"].ToString();
-                                model.province_name_th = dr["PROVINCE_NAME_TH"].ToString();
-                                model.province_name_en = dr["PROVINCE_NAME_EN"].ToString();
+                                model.province_id = dr["province_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["province_id"].ToString());
+                                model.province_code = dr["province_code"].ToString();
+                                model.province_name_th = dr["province_name_th"].ToString();
+                                model.province_name_en = dr["province_name_en"].ToString();
+                                model.created_by = by;
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -554,11 +557,13 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTCcourse objCourse = new cls_ctMTCcourse();
                                 cls_MTCcourse model = new cls_MTCcourse();
+                                model.course_id = dr["course_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["course_id"].ToString());
 
-                                model.course_id = Convert.ToInt32(dr["COURSE_ID"]);                                
-                                model.course_code = dr["COURSE_CODE"].ToString();
-                                model.course_name_th = dr["COURSE_NAME_TH"].ToString();
-                                model.course_name_en = dr["COURSE_NAME_EN"].ToString();
+                                //model.course_id = Convert.ToInt32(dr["COURSE_ID"]);                                
+                                model.course_code = dr["course_code"].ToString();
+                                model.course_name_th = dr["course_name_th"].ToString();
+                                model.course_name_en = dr["course_name_en"].ToString();
+                                model.created_by = by;
 
                                 model.modified_by = by;
 
@@ -592,7 +597,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 #region  //Institute
                 switch (type)
                 {
-                    case "COURSE":
+                    case "Institute":
 
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
@@ -602,11 +607,13 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTInstitute objInstitute = new cls_ctMTInstitute();
                                 cls_MTInstitute model = new cls_MTInstitute();
+                                model.institute_id = dr["institute_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["institute_id"].ToString());
 
-                                model.institute_id = Convert.ToInt32(dr["institute_id"]);
+                                //model.institute_id = Convert.ToInt32(dr["institute_id"]);
                                 model.institute_code = dr["institute_code"].ToString();
                                 model.institute_name_th = dr["institute_name_th"].ToString();
-                                model.institute_name_th = dr["institute_name_th"].ToString();
+                                model.institute_name_en = dr["institute_name_en"].ToString();
+                                model.created_by = by;
 
                                 model.modified_by = by;
 
@@ -650,11 +657,13 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTFaculty objCourse = new cls_ctMTFaculty();
                                 cls_MTFaculty model = new cls_MTFaculty();
+                                model.faculty_id = dr["faculty_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["faculty_id"].ToString());
 
-                                model.faculty_id = Convert.ToInt32(dr["faculty_id"]);
+                                //model.faculty_id = Convert.ToInt32(dr["faculty_id"]);
                                 model.faculty_code = dr["faculty_code"].ToString();
                                 model.faculty_name_th = dr["faculty_name_th"].ToString();
                                 model.faculty_name_en = dr["faculty_name_en"].ToString();
+                                model.created_by = by;
 
                                 model.modified_by = by;
 
@@ -685,10 +694,61 @@ namespace ClassLibrary_BPC.hrfocus.service
                 }
                 #endregion
 
-                #region  //Major
+                #region  //major
                 switch (type)
                 {
-                    case "QUALIFICATION":
+                    case "Major":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTMajorr objCourse = new cls_ctMTMajorr();
+                                cls_MTMajorr model = new cls_MTMajorr();
+                                model.major_id = dr["major_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["major_id"].ToString());
+
+                                //model.faculty_id = Convert.ToInt32(dr["faculty_id"]);
+                                model.major_code = dr["major_code"].ToString();
+                                model.major_name_th = dr["major_name_th"].ToString();
+                                model.major_name_en = dr["major_name_en"].ToString();
+                                model.created_by = by;
+
+                                model.modified_by = by;
+
+                                string strID = objCourse.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.major_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+
+                #region  //Qualification
+                switch (type)
+                {
+                    case "Qualification":
 
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
@@ -698,11 +758,13 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTQualification objQualification = new cls_ctMTQualification();
                                 cls_MTQualification model = new cls_MTQualification();
+                                model.qualification_id = dr["qualification_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["qualification_id"].ToString());
 
-                                model.qualification_id = Convert.ToInt32(dr["qualification_id"]);
+                                //model.qualification_id = Convert.ToInt32(dr["qualification_id"]);
                                 model.qualification_code = dr["qualification_code"].ToString();
                                 model.qualification_name_th = dr["qualification_name_th"].ToString();
                                 model.qualification_name_en = dr["qualification_name_en"].ToString();
+                                model.created_by = by;
 
                                 model.modified_by = by;
 
@@ -733,7 +795,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                 }
                 #endregion
 
-                #region  //Qualification
+                #region  //COURSE
                 switch (type)
                 {
                     case "COURSE":
@@ -746,11 +808,13 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTCcourse objCourse = new cls_ctMTCcourse();
                                 cls_MTCcourse model = new cls_MTCcourse();
+                                model.course_id = dr["course_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["course_id"].ToString());
 
-                                model.course_id = Convert.ToInt32(dr["COURSE_ID"]);
-                                model.course_code = dr["COURSE_CODE"].ToString();
-                                model.course_name_th = dr["COURSE_NAME_TH"].ToString();
-                                model.course_name_en = dr["COURSE_NAME_EN"].ToString();
+                                //model.course_id = Convert.ToInt32(dr["COURSE_ID"]);
+                                model.course_code = dr["course_code"].ToString();
+                                model.course_name_th = dr["course_name_th"].ToString();
+                                model.course_name_en = dr["course_name_en"].ToString();
+                                model.created_by = by;
 
                                 model.modified_by = by;
 
@@ -794,11 +858,12 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTReligion objReason = new cls_ctMTReligion();
                                 cls_MTReligion model = new cls_MTReligion();
+                                model.religion_id = dr["religion_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["religion_id"].ToString());
 
-                                model.religion_id = Convert.ToInt32(dr["RELIGION_ID"]);
-                                model.religion_code = dr["RELIGION_CODE"].ToString();
-                                model.religion_name_th = dr["RELIGION_NAME_TH"].ToString();
-                                model.religion_name_en = dr["RELIGION_NAME_EN"].ToString();         
+                                //model.religion_id = Convert.religion_code(dr["RELIGION_ID"]);
+                                model.religion_code = dr["religion_code"].ToString();
+                                model.religion_name_th = dr["religion_name_th"].ToString();
+                                model.religion_name_en = dr["religion_name_en"].ToString();         
                                 model.modified_by = by;
 
                                 string strID = objReason.insert(model);
@@ -838,19 +903,19 @@ namespace ClassLibrary_BPC.hrfocus.service
                         {
                             foreach (DataRow dr in dt.Rows)
                             {
-
                                 cls_ctMTReduce objReason = new cls_ctMTReduce();
                                 cls_MTReduce model = new cls_MTReduce();
+                                model.reduce_id = dr["reduce_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["reduce_id"].ToString());
 
-                                model.reduce_id = Convert.ToInt32(dr["REDUCE_ID"]);
-                                model.reduce_code = dr["REDUCE_CODE"].ToString();
-                                model.reduce_name_th = dr["REDUCE_NAME_TH"].ToString();
-                                model.reduce_name_en = dr["REDUCE_NAME_EN"].ToString();
+                                model.reduce_code = dr["reduce_code"].ToString();
+                                model.reduce_name_th = dr["reduce_name_th"].ToString();
+                                model.reduce_name_en = dr["reduce_name_en"].ToString();
 
-                                model.reduce_amount = Convert.ToDouble(dr["REDUCE_AMOUNT"]);
-                                model.reduce_percent = Convert.ToDouble(dr["REDUCE_PERCENT"]);
-                                model.reduce_percent_max = Convert.ToDouble(dr["REDUCE_PERCENT_MAX"]);
+                                model.reduce_amount = Convert.ToDouble(dr["reduce_amount"]);
+                                model.reduce_percent = Convert.ToDouble(dr["reduce_percent"]);
+                                model.reduce_percent_max = Convert.ToDouble(dr["reduce_percent_max"]);
                                 model.modified_by = by;
+                                model.created_by = by;
 
                                 string strID = objReason.insert(model);
 
@@ -879,10 +944,238 @@ namespace ClassLibrary_BPC.hrfocus.service
                 }
                 #endregion
 
+                #region //ROUND
+                switch (type)
+                {
+                    case "ROUND":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTRounds objReason = new cls_ctMTRounds();
+                                cls_MTRounds model = new cls_MTRounds();
+                                model.round_id = dr["round_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["round_id"].ToString());
+
+                                 model.round_code = dr["round_code"].ToString();
+                                 model.round_name_th = dr["round_name_th"].ToString();
+                                 model.round_name_en = dr["round_name_en"].ToString();
+                                 model.round_group = dr["round_group"].ToString();
+
+                                model.modified_by = by;
+ 
+                                string strID = objReason.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.round_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region //SUPPLY
+                switch (type)
+                {
+                    case "SUPPLY":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTSupply objReason = new cls_ctMTSupply();
+                                cls_MTSupply model = new cls_MTSupply();
+                                model.supply_id = dr["supply_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["supply_id"].ToString());
+                                model.supply_code = dr["supply_code"].ToString();
+                                model.supply_name_th = dr["supply_name_th"].ToString();
+                                model.supply_name_en = dr["supply_name_en"].ToString();
+
+                                model.modified_by = by;
+                                model.created_by = by;
+
+                                string strID = objReason.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.supply_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+
+                #region //company
+                switch (type)
+                {
+                    case "COMPANY":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTCompany objReason = new cls_ctMTCompany();
+                                cls_MTCompany model = new cls_MTCompany();
+
+                                 
+
+                                model.company_id = dr["company_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["company_id"].ToString());
+                                model.company_code = dr["company_code"].ToString();
+                                //model.company_initials = dr["company_initials"].ToString();
+                                model.company_name_th = dr["company_name_th"].ToString();
+                                model.company_name_en = dr["company_name_en"].ToString();
+                                model.sso_tax_no = dr["sso_tax_no"].ToString();
+                                model.citizen_no = dr["citizen_no"].ToString();
+                                model.provident_fund_no = dr["provident_fund_no"].ToString();
+
+                                model.hrs_perday = Convert.ToDouble(dr["hrs_perday"]);
+                                model.sso_com_rate = Convert.ToDouble(dr["sso_com_rate"]);
+                                model.sso_emp_rate = Convert.ToDouble(dr["sso_emp_rate"]);
+ 
+                                model.sso_security_no = dr["sso_security_no"].ToString();
+                                model.sso_branch_no = dr["sso_branch_no"].ToString();
+
+                                model.sso_min_wage = Convert.ToDouble(dr["sso_min_wage"]);
+                                model.sso_max_wage = Convert.ToDouble(dr["sso_max_wage"]);
+
+
+
+                                model.sso_min_age = Convert.ToInt32(dr["sso_min_age"]);
+                                model.sso_max_age = Convert.ToInt32(dr["sso_max_age"]);
+ 
+
+                      
+
+
+                    
+
+
+                                model.modified_by = by;
+
+                                string strID = objReason.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.company_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+                #region //Branch
+                switch (type)
+                {
+                    case "Combranch":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                cls_ctMTCombranch objReason = new cls_ctMTCombranch();
+                                cls_MTCombranch model = new cls_MTCombranch();
+
+                                model.company_code = dr["company_code"].ToString();
+
+                                model.combranch_id = dr["combranch_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["combranch_id"].ToString());
+                                model.sso_combranch_no = dr["sso_combranch_no"].ToString();
+
+                                model.combranch_code = dr["combranch_code"].ToString();
+                                model.combranch_name_th = dr["combranch_name_th"].ToString();
+                                model.combranch_name_en = dr["combranch_name_en"].ToString();
+
+ 
+                                model.modified_by = by;
+                                model.created_by = by;
+
+                                string strID = objReason.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.combranch_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+
                 #region //Year
                 switch (type)
                 {
-                    case "Year":
+                    case "YEAR":
 
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
@@ -892,19 +1185,27 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTYear objYear = new cls_ctMTYear();
                                 cls_MTYear model = new cls_MTYear();
-
-                                //model.year_id = Convert.ToInt32(dr["year_id"]);
+                                model.company_code = dr["company_code"].ToString();
+                                model.year_id = dr["year_id"].ToString();
                                 model.year_code = dr["year_code"].ToString();
+                                model.year_fromdate = Convert.ToDateTime(dr["year_fromdate"]);
+                                model.year_todate = Convert.ToDateTime(dr["year_todate"]);
                                 model.year_name_th = dr["year_name_th"].ToString();
                                 model.year_name_en = dr["year_name_en"].ToString();
-                                model.company_code = dr["company_code"].ToString();
-
-                                model.year_fromdate = Convert.ToDateTime(dr["year_fromdate"]);
-
-                                model.year_todate = Convert.ToDateTime(dr["year_todate"]);
                                 model.year_group = dr["year_group"].ToString();
-                                model.modified_by = by;
 
+                                //model.year_id = Convert.ToInt32(dr["year_id"]);
+                                //model.year_code = dr["year_code"].ToString();
+                                //model.year_name_th = dr["year_name_th"].ToString();
+                                //model.year_name_en = dr["year_name_en"].ToString();
+                                //model.company_code = dr["company_code"].ToString();
+
+                                //model.year_fromdate = Convert.ToDateTime(dr["year_fromdate"]);
+
+                                //model.year_todate = Convert.ToDateTime(dr["year_todate"]);
+                                //model.year_group = dr["year_group"].ToString();
+                                model.modified_by = by;
+                                model.created_by = by;
                                 string strID = objYear.insert(model);
 
                                 if (!strID.Equals(""))

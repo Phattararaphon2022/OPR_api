@@ -90,7 +90,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTAccount> getDataByFillter(string com,string user, string type,int id)
+        public List<cls_MTAccount> getDataByFillter(string com,string user, string type,int id, string typenotin)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -101,6 +101,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND ACCOUNT_TYPE='" + type + "'";
             if (!id.Equals(0))
                 strCondition += " AND ACCOUNT_ID='" + id + "'";
+            if (!typenotin.Equals(""))
+                strCondition += " AND ACCOUNT_TYPE NOT IN (" + typenotin + ")";
 
             return this.getData(strCondition);
         }

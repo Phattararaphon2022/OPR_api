@@ -69,13 +69,15 @@ namespace BPC_OPR
         [DataMember]
         public string item_calot { get; set; }
         [DataMember]
+        public string item_allowance { get; set; }
+        
+        [DataMember]
         public string item_contax { get; set; }
         [DataMember]
         public string item_section { get; set; }
         [DataMember]
         public double item_rate { get; set; }
-        [DataMember]
-        public string item_account { get; set; }
+        
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]

@@ -50,7 +50,7 @@ namespace BPC_OPR
             try
             {
                 cls_ctMTAccount Account = new cls_ctMTAccount();
-                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "",0);
+                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "",0,"");
 
                 JArray array = new JArray();
 
@@ -244,7 +244,7 @@ namespace BPC_OPR
                 var pwd = decodedValue.Claims.Single(claim => claim.Type == "pass_qwer");
                 var iat = decodedValue.Claims.Single(claim => claim.Type == "iat");
                 cls_ctMTAccount Account = new cls_ctMTAccount();
-                List<cls_MTAccount> list = Account.getDataByFillter(com.Value, usr.Value, "",0);
+                List<cls_MTAccount> list = Account.getDataByFillter(com.Value, usr.Value, "",0,"");
 
                 if (usr.Value.Equals(list[0].account_user) && pwd.Value.Equals(list[0].account_pwd))                
                 {
@@ -348,6 +348,9 @@ namespace BPC_OPR
         public string language { get; set; }
         [DataMember]
         public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        
         [DataMember]
         public string item_code { get; set; }
 

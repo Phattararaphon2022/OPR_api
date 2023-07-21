@@ -361,6 +361,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_status = dr["worker_status"].ToString();
                                 model.religion_code = dr["religion_code"].ToString();
                                 model.blood_code = dr["blood_code"].ToString();
+                                model.worker_height = Convert.ToDouble(dr["worker_height"]);
+                                model.worker_weight = Convert.ToDouble(dr["worker_weight"]);
                                 if (dr["worker_resignstatus"].ToString().Equals("1"))
                                 {
                                     model.worker_resigndate = Convert.ToDateTime(dr["worker_resigndate"]);
@@ -1478,7 +1480,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_code = dr["worker_code"].ToString();
 
                                 model.empsuggest_code = dr["empsuggest_code"].ToString();
-                                model.empsuggest_date = Convert.ToDateTime(dr["empsuggest_date"]);
+                                model.empsuggest_amount = Convert.ToDouble(dr["empsuggest_amount"]);
                                 model.empsuggest_note = dr["empsuggest_note"].ToString();
 
 

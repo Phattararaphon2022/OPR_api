@@ -6023,10 +6023,10 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.project_code, input.job_code);
+                //bool clear = controller.delete(input.project_code, input.job_code);
 
-                if (clear)
-                {
+                //if (clear)
+                //{
                     foreach (cls_TRProjobemp model in jsonArray)
                     {
 
@@ -6041,14 +6041,16 @@ namespace BPC_OPR
                             var json = new JavaScriptSerializer().Serialize(model);
                             var tmp2 = JToken.Parse(json);
                             obj_error.Append(tmp2);
+
+                            error++;
                         }
 
                     }
-                }
-                else
-                {
-                    error = 1;
-                }
+                //}
+                //else
+                //{
+                //    error = 1;
+                //}
 
 
                 if (error == 0)
@@ -6120,9 +6122,9 @@ namespace BPC_OPR
 
                 cls_ctTRProjobemp controller = new cls_ctTRProjobemp();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.projob_code, Convert.ToDateTime(input.projobemp_fromdate)))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobemp_emp, Convert.ToDateTime(input.projobemp_fromdate)))
                 {
-                    bool blnResult = controller.delete(input.project_code, input.projob_code, input.projob_code, Convert.ToDateTime(input.projobemp_fromdate));
+                    bool blnResult = controller.delete(input.project_code, input.projob_code, input.projobemp_emp, Convert.ToDateTime(input.projobemp_fromdate));
 
                     if (blnResult)
                     {
@@ -6144,7 +6146,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-                    string message = "Not Found Project code : " + input.project_code;
+                    string message = "Not Found Employee code : " + input.project_code;
                     output["success"] = false;
                     output["message"] = message;
 
@@ -7446,6 +7448,13 @@ namespace BPC_OPR
 
                         output["result_link"] = link;
                     }
+                    else if (input.task_type.Trim().Equals("TRN_BONUS"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        string link = srvPay.doExportBonus(input.company_code, intTaskID.ToString());
+
+                        output["result_link"] = link;
+                    }
                     //else if (input.task_type.Trim().Equals("TRN_PF"))
                     //{
                     //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
@@ -8215,10 +8224,18 @@ namespace BPC_OPR
                     List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company, req.project_code, "", fromdate, todate, "");
 
 
+                    cls_ctTRProjobemp proemp_controller = new cls_ctTRProjobemp();
+                    
+
                     int count_emp_project = 0;
                     int count_working_project = 0;
                     int count_leave_project = 0;
                     int count_absent_project = 0;
+
+                    int count_staff_project_regular = 0;
+                    int count_staff_project_temp = 0;
+                    int count_staff_project_resign = 0;
+
 
                     double sum_cost_project = 0;
                     double sum_pay_project = 0;
@@ -8233,6 +8250,10 @@ namespace BPC_OPR
                         int count_leave = 0;
                         int count_absent = 0;
 
+                        int count_staff_regular = 0;
+                        int count_staff_temp = 0;
+                        int count_staff_resign = 0;
+
                         double sum_cost = 0;
                         double sum_pay = 0;
                         
@@ -8244,6 +8265,26 @@ namespace BPC_OPR
                             {
                                 manpower += tmp.projobshift_emp;                                
                             }
+                        }
+
+                        //-- Staff
+                        List<cls_TRProjobemp> proemp_list = proemp_controller.getDataByFillter(req.project_code, jobmain.projobmain_code);
+                        foreach (cls_TRProjobemp tmp in proemp_list)
+                        {
+                            if (tmp.projobemp_todate < fromdate)
+                                continue;
+
+                            if (tmp.projobemp_fromdate > todate)
+                                continue;
+
+                            if (tmp.projobemp_todate == todate)
+                                count_staff_resign++;
+
+                            if (tmp.projobemp_type.Equals("R"))
+                                count_staff_regular++;
+                            else
+                                count_staff_temp++;
+
                         }
 
                         //-- Working      
@@ -8291,6 +8332,10 @@ namespace BPC_OPR
                         json.Add("projobmain_cost", sum_cost);
                         json.Add("projobmain_pay", sum_pay);
 
+                        json.Add("projobmain_staff_regular", count_staff_regular);
+                        json.Add("projobmain_staff_temp", count_staff_temp);
+                        json.Add("projobmain_resign", count_staff_resign);
+
                         array_job.Add(json);
 
                         //-- Summary
@@ -8298,6 +8343,10 @@ namespace BPC_OPR
                         count_working_project += count_working;
                         count_leave_project += count_leave;
                         count_absent_project += count_absent;
+
+                        count_staff_project_regular += count_staff_regular;
+                        count_staff_project_temp += count_staff_temp;
+                        count_staff_project_resign += count_staff_resign;
 
                         sum_cost_project += sum_cost;
                         sum_pay_project += sum_pay;
@@ -8318,7 +8367,12 @@ namespace BPC_OPR
                     json.Add("project_leave", count_leave_project);
                     json.Add("project_absent", count_absent_project);
 
+                    json.Add("project_staff_regular", count_staff_project_regular);
+                    json.Add("project_staff_temp", count_staff_project_temp);
+                    json.Add("project_staff_resign", count_staff_project_resign);
+
                     json.Add("projobmain_data", array_job);
+                    
                     
                     json.Add("project_cost", sum_cost_project);
                     json.Add("project_pay", sum_pay_project);
@@ -8407,7 +8461,8 @@ namespace BPC_OPR
                 //-- Time wage
                 cls_ctTRWageday wage_controller = new cls_ctTRWageday();
                 List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company, req.project_code, "", fromdate, todate, "");
-                
+
+                cls_ctTRProjobemp proemp_controller = new cls_ctTRProjobemp();
                 
 
                 foreach (cls_MTProjobmain jobmain in list_jobmain)
@@ -8417,8 +8472,32 @@ namespace BPC_OPR
                     int count_leave = 0;
                     int count_absent = 0;
 
+                    int count_staff_regular = 0;
+                    int count_staff_temp = 0;
+                    int count_staff_resign = 0;
+
                     double sum_cost = 0;
                     double sum_pay = 0;
+
+                    //-- Staff
+                    List<cls_TRProjobemp> proemp_list = proemp_controller.getDataByFillter(req.project_code, jobmain.projobmain_code);
+                    foreach (cls_TRProjobemp tmp in proemp_list)
+                    {
+                        if (tmp.projobemp_todate < fromdate)
+                            continue;
+
+                        if (tmp.projobemp_fromdate > todate)
+                            continue;
+
+                        if (tmp.projobemp_todate == todate)
+                            count_staff_resign++;
+
+                        if (tmp.projobemp_type.Equals("R"))
+                            count_staff_regular++;
+                        else
+                            count_staff_temp++;
+
+                    }
 
                     //-- Cost by job
                     List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version);
@@ -8581,6 +8660,10 @@ namespace BPC_OPR
                     json.Add("projobmain_absent", count_absent);
                     json.Add("projobmain_cost", sum_cost);
                     json.Add("projobmain_pay", sum_pay);
+
+                    json.Add("projobmain_staff_regular", count_staff_regular);
+                    json.Add("projobmain_staff_temp", count_staff_temp);
+                    json.Add("projobmain_resign", count_staff_resign);
 
                     json.Add("timecard_data", array_timecard);
 

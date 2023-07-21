@@ -36,7 +36,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("COMPANY_ID");
                 obj_str.Append(", COMPANY_CODE");
-                obj_str.Append(", ISNULL(COMPANY_INITIALS, '') AS COMPANY_INITIALS");
+                //obj_str.Append(", ISNULL(COMPANY_INITIALS, '') AS COMPANY_INITIALS");
 
                 obj_str.Append(", ISNULL(COMPANY_NAME_TH, '') AS COMPANY_NAME_TH");
                 obj_str.Append(", ISNULL(COMPANY_NAME_EN, '') AS COMPANY_NAME_EN");
@@ -77,7 +77,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.company_id = Convert.ToInt32(dr["COMPANY_ID"]);
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.company_initials = dr["COMPANY_INITIALS"].ToString();
+                    //model.company_initials = dr["COMPANY_INITIALS"].ToString();
                     model.company_name_th = dr["COMPANY_NAME_TH"].ToString();
                     model.company_name_en = dr["COMPANY_NAME_EN"].ToString();
 
@@ -242,7 +242,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_ID ");
                 obj_str.Append(", COMPANY_CODE ");
-                obj_str.Append(", COMPANY_INITIALS ");
+                //obj_str.Append(", COMPANY_INITIALS ");
                 obj_str.Append(", COMPANY_NAME_TH ");
                 obj_str.Append(", COMPANY_NAME_EN ");
 
@@ -271,7 +271,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_ID ");
                 obj_str.Append(", @COMPANY_CODE ");
-                obj_str.Append(", @COMPANY_INITIALS ");
+                //obj_str.Append(", @COMPANY_INITIALS ");
                 obj_str.Append(", @COMPANY_NAME_TH ");
                 obj_str.Append(", @COMPANY_NAME_EN ");
 
@@ -302,7 +302,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@COMPANY_ID", SqlDbType.Int); obj_cmd.Parameters["@COMPANY_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@COMPANY_INITIALS", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_INITIALS"].Value = model.company_initials;
+                //obj_cmd.Parameters.Add("@COMPANY_INITIALS", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_INITIALS"].Value = model.company_initials;
 
                 obj_cmd.Parameters.Add("@COMPANY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_NAME_TH"].Value = model.company_name_th;
                 obj_cmd.Parameters.Add("@COMPANY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_NAME_EN"].Value = model.company_name_en;
@@ -357,7 +357,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE SYS_MT_COMPANYS SET ");
 
                 obj_str.Append(" COMPANY_CODE=@COMPANY_CODE ");
-                obj_str.Append(", COMPANY_INITIALS=@COMPANY_INITIALS ");
+                //obj_str.Append(", COMPANY_INITIALS=@COMPANY_INITIALS ");
                 obj_str.Append(", COMPANY_NAME_TH=@COMPANY_NAME_TH ");
                 obj_str.Append(", COMPANY_NAME_EN=@COMPANY_NAME_EN ");
 
@@ -390,7 +390,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@COMPANY_INITIALS", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_INITIALS"].Value = model.company_initials;
+                //obj_cmd.Parameters.Add("@COMPANY_INITIALS", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_INITIALS"].Value = model.company_initials;
 
                 obj_cmd.Parameters.Add("@COMPANY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_NAME_TH"].Value = model.company_name_th;
                 obj_cmd.Parameters.Add("@COMPANY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_NAME_EN"].Value = model.company_name_en;
