@@ -353,7 +353,7 @@ namespace BPC_OPR
 
                 if (controller.checkDataOld(input.worker_code))
                 {
-                    bool blnResult = controller.delete(input.worker_code);
+                    bool blnResult = controller.delete(input.worker_id.ToString());
 
                     if (blnResult)
                     {
@@ -4281,15 +4281,14 @@ namespace BPC_OPR
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("family_id", model.family_id);
-                        json.Add("family_code", model.family_code);
                         json.Add("family_type", model.family_type);
                         json.Add("family_fname_th", model.family_fname_th);
                         json.Add("family_lname_th", model.family_lname_th);
                         json.Add("family_fname_en", model.family_fname_en);
                         json.Add("family_lname_en", model.family_lname_en);
-                        json.Add("family_birthdate", model.family_birthdate);
                         json.Add("family_occupation", model.family_occupation);
                         json.Add("family_tel", model.family_tel);
+                        json.Add("family_address", model.family_address);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);

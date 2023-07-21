@@ -565,13 +565,15 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
-                                model.family_code = dr["family_code"].ToString();
                                 model.family_type = dr["family_type"].ToString();
                                 model.family_fname_th = dr["family_fname_th"].ToString();
                                 model.family_lname_th = dr["family_lname_th"].ToString();
                                 model.family_fname_en = dr["family_fname_en"].ToString();
                                 model.family_lname_en = dr["family_lname_en"].ToString();
-                                model.family_birthdate = Convert.ToDateTime(dr["family_birthdate"]);
+                                model.family_occupation = dr["family_occupation"].ToString();
+                                model.family_tel = dr["family_tel"].ToString();
+                                model.family_address = dr["family_address"].ToString();
+
 
                                 model.modified_by = by;
 

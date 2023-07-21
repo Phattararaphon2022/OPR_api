@@ -68,7 +68,34 @@ namespace BPC_OPR
             return result;
 
         }
-
+         public byte[] DownloadFile(string filePath)
+         {
+             byte[] data = { };
+             try
+             {
+                 data = File.ReadAllBytes(filePath);
+             }
+             catch
+             {
+             }
+             return data;
+         }
+         public string DeleteFile(string filePath)
+         {
+             JObject output = new JObject();
+             try
+             {
+                 File.Delete(filePath);
+                 output["success"] = true;
+                 output["message"] = filePath;
+             }
+             catch
+             {
+                 output["success"] = false;
+                 output["message"] = filePath;
+             }
+             return output.ToString(Formatting.None);
+         }
 
 
 
@@ -3235,6 +3262,70 @@ namespace BPC_OPR
              return output.ToString(Formatting.None);
          }
          #endregion
+
+        #region Attachflie(REQ011)
+         public async Task<string> doUploadMTReqdoc(string token, string by, string fileName, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ011";
+             log.apilog_by = by;
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 if (!objBpcOpr.doVerify(token))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+
+                 bool upload = await this.doUploadFile(fileName, stream);
+
+                 if (upload)
+                 {
+                     string FilePath = Path.Combine
+               (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
+                     output["success"] = true;
+                     output["message"] = FilePath;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Upload data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = "Upload data not successfully";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+        #endregion
 
     }
 }

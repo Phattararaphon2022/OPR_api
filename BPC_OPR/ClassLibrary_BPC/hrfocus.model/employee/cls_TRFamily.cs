@@ -36,6 +36,7 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string family_occupation { get; set; }
         public string family_tel { get; set; }
+        public string family_address { get; set; }
 
     }
 }
