@@ -1281,6 +1281,56 @@ namespace ClassLibrary_BPC.hrfocus.service
                 #endregion
 
 
+                #region //TRPolcode
+                switch (type)
+                {
+                    case "TRPolcode":
+
+                        DataTable dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctTRPolcode objReason = new cls_ctTRPolcode();
+                                cls_TRPolcode model = new cls_TRPolcode();
+                                model.polcode_id = dr["polcode_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["polcode_id"].ToString());
+
+                                 model.codestructure_code = dr["codestructure_code"].ToString();
+                                model.polcode_lenght = Convert.ToInt32(dr["polcode_lenght"]);
+                                model.polcode_text = dr["polcode_text"].ToString();
+                                model.polcode_order = Convert.ToInt32(dr["polcode_order"]);
+
+                                 model.modified_by = by;
+
+                                string strID = objReason.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.codestructure_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+                }
+                #endregion
+
+
                 #region //cartype
                 switch (type)
                 {

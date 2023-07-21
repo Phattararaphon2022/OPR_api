@@ -844,6 +844,8 @@ namespace BPC_OPR
         [DataMember]
         public string family_id { get; set; }
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string family_code { get; set; }
         [DataMember]
         public string family_name_th { get; set; }

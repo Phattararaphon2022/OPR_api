@@ -1713,7 +1713,7 @@ namespace BPC_OPR
                     foreach (cls_MTFamily model in list)
                     {
                         JObject json = new JObject();
-
+                        json.Add("company_code", model.company_code);
                         json.Add("family_id", model.family_id);
                         json.Add("family_code", model.family_code);
                         json.Add("family_name_th", model.family_name_th);
@@ -1790,6 +1790,7 @@ namespace BPC_OPR
                 cls_ctMTFamily objFamily = new cls_ctMTFamily();
                 cls_MTFamily model = new cls_MTFamily();
 
+                model.company_code = input.company_code;
                 model.family_id = Convert.ToInt32(input.family_id);
                 model.family_code = input.family_code;
                 model.family_name_th = input.family_name_th;
