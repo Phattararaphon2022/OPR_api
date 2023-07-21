@@ -10557,7 +10557,469 @@ namespace BPC_OPR
 
 
         #endregion
-        
+        ///
+
+        #region MTMainmenu
+        public string getMTMainmenuList(InputMTMainmenu input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS002.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTMainmenu controller = new cls_ctMTMainmenu();
+                List<cls_MTMainmenu> list = controller.getDataByFillter(input.mainmenu_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTMainmenu model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("mainmenu_code", model.mainmenu_code);
+                        json.Add("mainmenu_detail_th", model.mainmenu_detail_th);
+                        json.Add("mainmenu_detail_en", model.mainmenu_detail_en);
+                        json.Add("mainmenu_order", model.mainmenu_order);
+                        json.Add("index", index);
+                        cls_ctMTSubmenu controller_submenu = new cls_ctMTSubmenu();
+                        List<cls_MTSubmenu> listSubMenu = controller_submenu.getDataByFillter(model.mainmenu_code, "");
+                        JArray arraySubmenu = new JArray();
+                        if (listSubMenu.Count > 0)
+                        {
+                            int indexSubmenu = 1;
+
+                            foreach (cls_MTSubmenu modelSubMenu in listSubMenu)
+                            {
+                                JObject jsonSubMenu = new JObject();
+                                jsonSubMenu.Add("mainmenu_code", modelSubMenu.mainmenu_code);
+                                jsonSubMenu.Add("submenu_code", modelSubMenu.submenu_code);
+                                jsonSubMenu.Add("submenu_detail_th", modelSubMenu.submenu_detail_th);
+                                jsonSubMenu.Add("submenu_detail_en", modelSubMenu.submenu_detail_en);
+                                jsonSubMenu.Add("submenu_order", modelSubMenu.submenu_order);
+                                jsonSubMenu.Add("index", indexSubmenu);
+                                cls_ctMTItemmenu controller_itemmenu = new cls_ctMTItemmenu();
+                                List<cls_MTItemmenu> listItemMenu = controller_itemmenu.getDataByFillter(modelSubMenu.submenu_code, "");
+                                JArray arrayItemMenu = new JArray();
+                                if (listItemMenu.Count > 0)
+                                {
+                                    int indexItemMenu = 1;
+
+                                    foreach (cls_MTItemmenu modelItemMenu in listItemMenu)
+                                    {
+                                        JObject jsonItemMenu = new JObject();
+                                        jsonItemMenu.Add("submenu_code", modelItemMenu.submenu_code);
+                                        jsonItemMenu.Add("itemmenu_code", modelItemMenu.itemmenu_code);
+                                        jsonItemMenu.Add("itemmenu_detail_th", modelItemMenu.itemmenu_detail_th);
+                                        jsonItemMenu.Add("itemmenu_detail_en", modelItemMenu.itemmenu_detail_en);
+                                        jsonItemMenu.Add("itemmenu_order", modelItemMenu.itemmenu_order);
+                                        jsonItemMenu.Add("index", indexItemMenu);
+
+
+                                        indexItemMenu++;
+
+                                        arrayItemMenu.Add(jsonItemMenu);
+                                    }
+                                    jsonSubMenu.Add("itemmenu_data", arrayItemMenu);
+                                }
+                                else
+                                {
+                                    jsonSubMenu.Add("itemmenu_data", arrayItemMenu);
+                                }
+
+
+                                indexSubmenu++;
+
+                                arraySubmenu.Add(jsonSubMenu);
+                            }
+                            json.Add("submenu_data", arraySubmenu);
+                        }
+                        else
+                        {
+                            json.Add("submenu_data", arraySubmenu);
+                        }
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTMainmenu(InputMTMainmenu input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS002.2";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTMainmenu controller = new cls_ctMTMainmenu();
+                cls_ctMTSubmenu controller_submenu = new cls_ctMTSubmenu();
+                cls_ctMTItemmenu controller_itemmenu = new cls_ctMTItemmenu();
+                int success = 0;
+                int fail = 0;
+                foreach (cls_MTMainmenu data in input.mainmenu_data)
+                {
+                    cls_MTMainmenu model = new cls_MTMainmenu();
+                    string strID = controller.insert(data);
+                    if (!strID.Equals(""))
+                    {
+                        if(data.submenu.Count>0){
+                            foreach (cls_MTSubmenu datasubmenu in data.submenu)
+                            {
+                                datasubmenu.mainmenu_code = strID;
+                                string submenu = controller_submenu.insert(datasubmenu);
+                                if (!submenu.Equals("") && datasubmenu.itemmenu.Count > 0)
+                                {
+                                    foreach (cls_MTItemmenu dataitemmenu in datasubmenu.itemmenu)
+                                    {
+                                        dataitemmenu.submenu_code = submenu;
+                                        string itemmenu = controller_itemmenu.insert(dataitemmenu);
+                                    }
+                                }
+                            }
+                        }
+                        success += 1;
+                    }
+                    else
+                    {
+                        fail += 1;
+                    }
+
+                }
+                output["success"] = true;
+                output["message"] = "Retrieved data successfully";
+                output["success"] = success;
+                output["fail"] = fail;
+
+                log.apilog_status = "200";
+                log.apilog_message = "";
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTMainmenu(InputMTMainmenu input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF002.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTMainmenu controller = new cls_ctMTMainmenu();
+                bool blnResult = controller.delete(input.mainmenu_code);
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctMTSubmenu SubMenu = new cls_ctMTSubmenu();
+                        SubMenu.delete(input.mainmenu_code, input.submenu_code);
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
+        //#region ComImage
+        //#region test
+        //////public string doUploadComImages(string ref_to, Stream streamlogo, Stream streammaps)
+        //////{
+        //////    JObject output = new JObject();
+
+        //////    cls_SYSApilog log = new cls_SYSApilog();
+        //////    log.apilog_code = "SYS026.1";
+        //////    log.apilog_by = "";
+        //////    log.apilog_data = "Stream";
+
+        //////    try
+        //////    {
+        //////        cls_ctTRComimages ct_empimages = new cls_ctTRComimages();
+
+        //////        string[] temp = ref_to.Split('.');
+
+        //////        MultipartParser parserlogo = new MultipartParser(streamlogo);
+        //////        MultipartParser parsermaps = new MultipartParser(streammaps);
+
+        //////        if (parserlogo.Success && parsermaps.Success)
+        //////        {
+        //////            cls_TRComimages comimages = new cls_TRComimages();
+        //////            comimages.company_code = temp[0];
+        //////            comimages.comimages_imageslogo = parserlogo.FileContents;
+        //////            comimages.comimages_imagesmaps = parsermaps.FileContents;
+
+        //////            comimages.modified_by = temp[1];
+        //////            comimages.comimages_id = 1;
+
+        //////            ct_empimages.insert(comimages);
+
+        //////            output["result"] = "1";
+        //////            output["result_text"] = "0";
+        //////        }
+        //////        else
+        //////        {
+        //////            output["result"] = "0";
+        //////            output["result_text"] = "0";
+        //////        }
+        //////    }
+        //////    catch (Exception ex)
+        //////    {
+        //////        output["result"] = "0";
+        //////        output["result_text"] = ex.ToString();
+        //////    }
+
+        //////    return output.ToString(Formatting.None);
+        //////}
+
+        //#endregion
+        //public string doUploadComImages(string ref_to, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS026.1";
+        //    log.apilog_by = "";
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        cls_ctTRComimages ct_empimages = new cls_ctTRComimages();
+
+        //        string[] temp = ref_to.Split('.');
+
+        //        MultipartParser parser = new MultipartParser(stream);
+
+        //        if (parser.Success)
+        //        {
+        //            cls_TRComimages comimages = new cls_TRComimages();
+        //            comimages.company_code = temp[0];
+
+        //            comimages.comimages_imageslogo = parser.FileContents;
+
+        //            comimages.modified_by = temp[1];
+        //            comimages.comimages_id = 1;
+
+        //            ct_empimages.insert(comimages);
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "0";
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "0";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //public bool IsValidImage(byte[] bytes)
+        //{
+        //    try
+        //    {
+        //        using (MemoryStream ms = new MemoryStream(bytes))
+        //        {
+        //            Image.FromStream(ms);
+        //        }
+        //    }
+        //    catch (ArgumentException)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
+
+        //public string doGetComImages(FillterCompany req)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS026.2";
+        //    log.apilog_by = "";
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        cls_ctTRComimages ct_comimages = new cls_ctTRComimages();
+        //        List<cls_TRComimages> list_comimages = ct_comimages.getDataByFillter(req.company_code);
+
+        //        if (list_comimages.Count > 0)
+        //        {
+        //            cls_TRComimages md_image = list_comimages[0];
+
+        //            bool isValidLogo = IsValidImage(md_image.comimages_imageslogo);
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "";
+
+        //            if (isValidLogo)
+        //                output["data_logo"] = "data:image/png;base64," + Convert.ToBase64String(md_image.comimages_imageslogo);
+        //            else
+        //                output["data_logo"] = "";
+
+                    
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "2";
+        //            output["result_text"] = "Data not found";
+        //            output["data_logo"] = "";
+        //            output["data_maps"] = "";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+        //        output["data_logo"] = "";
+        //        output["data_maps"] = "";
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //#endregion
         #region MTRequest
         public string getRequestList(BasicRequest req)
         {

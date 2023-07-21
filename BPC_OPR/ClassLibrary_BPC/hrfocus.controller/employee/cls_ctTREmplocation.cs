@@ -124,7 +124,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp)
+        public bool checkDataOld(string com, string emp, string id)
         {
             bool blnResult = false;
             try
@@ -135,6 +135,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_LOCATION");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
+                if (!id.ToString().Equals(""))
+                {
+                    obj_str.Append(" AND LOCATION_CODE='" + id + "' ");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -184,7 +188,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code))
+                if (this.checkDataOld(model.company_code, model.worker_code,model.location_code))
                 {
                     return this.update(model);
                 }

@@ -743,6 +743,7 @@ namespace BPC_OPR
                         json.Add("dep_level", model.dep_level);
                         json.Add("parent_level", model.parent_level);
                         json.Add("company_code", model.company_code);
+                        json.Add("notused", model.notused);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -822,6 +823,10 @@ namespace BPC_OPR
                 model.dep_parent = input.dep_parent;
                 model.dep_level = input.dep_level;
                 model.parent_level = input.parent_level;
+                if (input.notused)
+                {
+                    model.notused = input.notused;
+                }
                 model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 
@@ -1054,6 +1059,7 @@ namespace BPC_OPR
                         json.Add("position_name_en", model.position_name_en);
                         json.Add("position_level", model.position_level);
                         json.Add("company_code", model.company_code);
+                        json.Add("notused", model.notused);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -1132,6 +1138,10 @@ namespace BPC_OPR
                 model.position_name_en = input.position_name_en;
                 model.position_level = input.position_level;
                 model.company_code = input.company_code;
+                if (input.notused)
+                {
+                    model.notused = input.notused;
+                }
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
@@ -2758,7 +2768,7 @@ namespace BPC_OPR
 
                 cls_ctTREmplocation controller = new cls_ctTREmplocation();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -3095,7 +3105,7 @@ namespace BPC_OPR
 
                 cls_ctTREmpbranch controller = new cls_ctTREmpbranch();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -3260,10 +3270,6 @@ namespace BPC_OPR
                         json.Add("address_amphur", model.address_amphur);
                         json.Add("province_code", model.province_code);
                         json.Add("address_zipcode", model.address_zipcode);
-                        json.Add("address_tel", model.address_tel);
-                        json.Add("address_email", model.address_email);
-                        json.Add("address_line", model.address_line);
-                        json.Add("address_facebook", model.address_facebook);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -3440,7 +3446,7 @@ namespace BPC_OPR
 
                 cls_ctTRAddress controller = new cls_ctTRAddress();
 
-                if (controller.checkDataOld(input.company_code,input.worker_code))
+                if (controller.checkDataOld(input.company_code,input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -3778,7 +3784,7 @@ namespace BPC_OPR
 
                 cls_ctTRCard controller = new cls_ctTRCard();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -4119,7 +4125,7 @@ namespace BPC_OPR
 
                 cls_ctTRBank controller = new cls_ctTRBank();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -4282,6 +4288,9 @@ namespace BPC_OPR
                         json.Add("family_fname_en", model.family_fname_en);
                         json.Add("family_lname_en", model.family_lname_en);
                         json.Add("family_birthdate", model.family_birthdate);
+                        json.Add("family_occupation", model.family_occupation);
+                        json.Add("family_tel", model.family_tel);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -4458,7 +4467,7 @@ namespace BPC_OPR
 
                 cls_ctTRFamily controller = new cls_ctTRFamily();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -4792,7 +4801,7 @@ namespace BPC_OPR
 
                 cls_ctTRHospital controller = new cls_ctTRHospital();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -5471,7 +5480,7 @@ namespace BPC_OPR
 
                 cls_ctTRDep controller = new cls_ctTRDep();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -5809,7 +5818,7 @@ namespace BPC_OPR
 
                 cls_ctTRPosition controller = new cls_ctTRPosition();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -6144,7 +6153,7 @@ namespace BPC_OPR
 
                 cls_ctTRGroup controller = new cls_ctTRGroup();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -6484,7 +6493,7 @@ namespace BPC_OPR
 
                 cls_ctTREducation controller = new cls_ctTREducation();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -6650,6 +6659,8 @@ namespace BPC_OPR
                         json.Add("institute_other", model.institute_other);
                         json.Add("course_code", model.course_code);
                         json.Add("course_other", model.course_other);
+
+                        json.Add("emptraining_count", model.emptraining_count);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -6827,7 +6838,7 @@ namespace BPC_OPR
 
                 cls_ctTRTraining controller = new cls_ctTRTraining();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -7166,7 +7177,7 @@ namespace BPC_OPR
 
                 cls_ctTRAssessment controller = new cls_ctTRAssessment();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -7504,7 +7515,7 @@ namespace BPC_OPR
 
                 cls_ctTRCriminal controller = new cls_ctTRCriminal();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -7843,7 +7854,7 @@ namespace BPC_OPR
 
                 cls_ctTRSalary controller = new cls_ctTRSalary();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -8180,7 +8191,7 @@ namespace BPC_OPR
 
                 cls_ctTRProvident controller = new cls_ctTRProvident();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -8527,7 +8538,7 @@ namespace BPC_OPR
 
                 cls_ctTRBenefit controller = new cls_ctTRBenefit();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -8863,7 +8874,7 @@ namespace BPC_OPR
 
                 cls_ctTRReduce controller = new cls_ctTRReduce();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -9309,7 +9320,7 @@ namespace BPC_OPR
 
                 cls_ctTRSupply controller = new cls_ctTRSupply();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -9647,7 +9658,7 @@ namespace BPC_OPR
 
                 cls_ctTRUniform controller = new cls_ctTRUniform();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 
@@ -9806,6 +9817,7 @@ namespace BPC_OPR
                         json.Add("empsuggest_code", model.empsuggest_code);
                         json.Add("empsuggest_date", model.empsuggest_date);
                         json.Add("empsuggest_note", model.empsuggest_note);
+                        json.Add("empsuggest_amount", model.empsuggest_amount);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -9983,7 +9995,7 @@ namespace BPC_OPR
 
                 cls_ctTRSuggest controller = new cls_ctTRSuggest();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code))
+                if (controller.checkDataOld(input.company_code, input.worker_code,""))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 

@@ -34,7 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append(" COMPANY_CODE");
-                obj_str.Append(", ACCOUNT_ID");
+                //obj_str.Append(", ACCOUNT_ID");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_PWD");
                 obj_str.Append(", ACCOUNT_TYPE");
@@ -63,7 +63,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_MTAccount();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
+                    //model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
 
@@ -90,7 +90,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTAccount> getDataByFillter(string com,string user, string type,int id)
+        public List<cls_MTAccount> getDataByFillter(string com,string user, string type,int id, string typenotin)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -101,6 +101,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND ACCOUNT_TYPE='" + type + "'";
             if (!id.Equals(0))
                 strCondition += " AND ACCOUNT_ID='" + id + "'";
+            if (!typenotin.Equals(""))
+                strCondition += " AND ACCOUNT_TYPE NOT IN (" + typenotin + ")";
 
             return this.getData(strCondition);
         }

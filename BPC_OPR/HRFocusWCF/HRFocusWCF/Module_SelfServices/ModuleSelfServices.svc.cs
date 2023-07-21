@@ -4475,7 +4475,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTAccount objMTAccount = new cls_ctMTAccount();
-                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type,input.account_id);
+                List<cls_MTAccount> list = objMTAccount.getDataByFillter(input.company_code, input.account_user, input.account_type, input.account_id, input.typenotin);
 
                 JArray array = new JArray();
 

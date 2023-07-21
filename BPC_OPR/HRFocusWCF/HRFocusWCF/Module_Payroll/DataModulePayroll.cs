@@ -128,7 +128,7 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
 
-     #endregion
+    #endregion
 
     #region bonus
     [DataContract]
@@ -188,7 +188,7 @@ namespace BPC_OPR
         public int index { get; set; }
     }
 
-     #endregion
+    #endregion
 
     #region set Batch
     [DataContract]
@@ -214,7 +214,7 @@ namespace BPC_OPR
         //set bonus
         [DataMember]
         public string bonus_code { get; set; }
-        
+
         [DataMember]
         public string paypolbonus_code { get; set; }
 
@@ -230,7 +230,7 @@ namespace BPC_OPR
         [DataMember]
         public string paypolitem_code { get; set; }
         //payitems
-      
+
         [DataMember]
         public DateTime payitem_date { get; set; }
         [DataMember]
@@ -251,10 +251,10 @@ namespace BPC_OPR
         public int index { get; set; }
         [DataMember]
         public bool flag { get; set; }
-        
+
         [DataMember]
         public string transaction_data { get; set; }
-        
+
     }
 
     #endregion
@@ -270,7 +270,7 @@ namespace BPC_OPR
         [DataMember]
         public string worker_detail { get; set; }
         [DataMember]
-        public string paypolbonus_code { get; set; }        
+        public string paypolbonus_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }
         [DataMember]
@@ -279,7 +279,7 @@ namespace BPC_OPR
         public int index { get; set; }
     }
     #endregion
-    
+
     #region InputMTPeriod
     [DataContract]
     public class InputMTPeriod
@@ -323,7 +323,7 @@ namespace BPC_OPR
 
     }
     #endregion
-    
+
     #region TRPayitem
     [DataContract]
     public class InputTRPayitem
@@ -356,29 +356,29 @@ namespace BPC_OPR
         public string modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
-         [DataMember]
+        [DataMember]
         public string transaction_data { get; set; }
 
         [DataMember]
-         public DateTime date { get; set; }
+        public DateTime date { get; set; }
         public string language { get; set; }
-         [DataMember]
+        [DataMember]
         public string com { get; set; }
-         [DataMember]
+        [DataMember]
         public string emp { get; set; }
-       
-         [DataMember]
+
+        [DataMember]
         public string item_type { get; set; }
-         [DataMember]
+        [DataMember]
         public string item { get; set; }
 
-         [DataMember]
-         public List<cls_MTWorker> emp_data { get; set; }
-        
-    }
-    
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
 
-        #endregion
+    }
+
+
+    #endregion
 
     #region TRPayitem
     [DataContract]
@@ -396,9 +396,9 @@ namespace BPC_OPR
         public string worker_code { get; set; }
         [DataMember]
         public string item_code { get; set; }
-         [DataMember]
+        [DataMember]
         public string payitem_paytype { get; set; }
-        
+
         [DataMember]
         public string transaction_data { get; set; }
         [DataMember]
@@ -408,6 +408,98 @@ namespace BPC_OPR
         public List<cls_MTWorker> emp_data { get; set; }
     }
 
+    #endregion
+
+    #region Paytran
+    [DataContract]
+    public class InputTRPaytran
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+        [DataMember]
+        public string emp { get; set; }
+        [DataMember]
+        public string year { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string paydate { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public DateTime paytran_date { get; set; }
+        [DataMember]
+        public double paytran_ssoemp { get; set; }
+        [DataMember]
+        public double paytran_ssocom { get; set; }
+        [DataMember]
+        public double paytran_ssorateemp { get; set; }
+        [DataMember]
+        public double paytran_ssoratecom { get; set; }
+        [DataMember]
+        public double paytran_pfemp { get; set; }
+        [DataMember]
+        public double paytran_pfcom { get; set; }
+        [DataMember]
+        public double paytran_income_401 { get; set; }
+        [DataMember]
+        public double paytran_deduct_401 { get; set; }
+        [DataMember]
+        public double paytran_tax_401 { get; set; }
+        [DataMember]
+        public double paytran_income_4012 { get; set; }
+        [DataMember]
+        public double paytran_deduct_4012 { get; set; }
+        [DataMember]
+        public double paytran_tax_4012 { get; set; }
+        [DataMember]
+        public double paytran_income_4013 { get; set; }
+        [DataMember]
+        public double paytran_deduct_4013 { get; set; }
+        [DataMember]
+        public double paytran_tax_4013 { get; set; }
+        [DataMember]
+        public double paytran_income_402I { get; set; }
+        [DataMember]
+        public double paytran_deduct_402I { get; set; }
+        [DataMember]
+        public double paytran_tax_402I { get; set; }
+        [DataMember]
+        public double paytran_income_402O { get; set; }
+        [DataMember]
+        public double paytran_deduct_402O { get; set; }
+        [DataMember]
+        public double paytran_tax_402O { get; set; }
+        [DataMember]
+        public double paytran_income_notax { get; set; }
+        [DataMember]
+        public double paytran_deduct_notax { get; set; }
+        [DataMember]
+        public double paytran_income_total { get; set; }
+        [DataMember]
+        public double paytran_deduct_total { get; set; }
+        [DataMember]
+        public double paytran_netpay_b { get; set; }
+        [DataMember]
+        public double paytran_netpay_c { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
     #endregion
 
     #region FillterPayroll
@@ -421,7 +513,7 @@ namespace BPC_OPR
         [DataMember]
         public string username { get; set; }
         [DataMember]
-        public string company { get; set; }
+        public string company_code { get; set; }
         [DataMember]
         public string language { get; set; }
         [DataMember]
@@ -432,6 +524,10 @@ namespace BPC_OPR
         public string fromdate { get; set; }
         [DataMember]
         public string todate { get; set; }
+        [DataMember]
+        public string paydate { get; set; }
+        [DataMember]
+        public string emp { get; set; }
 
     }
     #endregion
@@ -439,4 +535,4 @@ namespace BPC_OPR
 
 }
 
- 
+

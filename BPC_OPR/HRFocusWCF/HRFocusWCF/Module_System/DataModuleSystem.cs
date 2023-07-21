@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
-
+using ClassLibrary_BPC.hrfocus.model;
 namespace BPC_OPR
 {
     public class DataModuleSystem
@@ -1087,5 +1087,28 @@ namespace BPC_OPR
         [DataMember]
         public string modified_by { get; set; }
     }
+
+    #region InputMTMainmenu
+    [DataContract]
+    public class InputMTMainmenu
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string mainmenu_code { get; set; }
+        [DataMember]
+        public string submenu_code { get; set; }
+        [DataMember]
+        public string itemmenu_code { get; set; }
+        [DataMember]
+        public List<cls_MTMainmenu> mainmenu_data { get; set; }
+    }
+    #endregion
 }
 

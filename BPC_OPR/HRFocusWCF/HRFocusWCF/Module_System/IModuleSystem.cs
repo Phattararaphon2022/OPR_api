@@ -697,6 +697,18 @@ namespace BPC_OPR
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         //string doGetComImages(FillterCompany req);
         //#endregion
+        #region MTMainMenu
+        [OperationContract(Name = "mainmenu_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTMainmenuList(InputMTMainmenu input);
 
+        [OperationContract(Name = "mainmenu")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTMainmenu(InputMTMainmenu input);
+
+        [OperationContract(Name = "mainmenu_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTMainmenu(InputMTMainmenu input);
+        #endregion
     }
 }

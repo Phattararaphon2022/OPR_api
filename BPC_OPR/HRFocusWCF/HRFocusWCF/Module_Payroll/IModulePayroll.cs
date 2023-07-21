@@ -213,10 +213,32 @@ namespace BPC_OPR
         Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
         #endregion
 
+        #region Paytran&Acc
+
+        [OperationContract(Name = "getpaytranacc")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaytranAccList(InputTRPaytran input);
+
+        [OperationContract(Name = "doManageTRPaytran")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPaytran(InputTRPaytran input);
+
+        [OperationContract(Name = "doDeleteTRPaytran")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPaytran(InputTRPaytran input);
+        #endregion
+
+
         #region Paytran
         [OperationContract(Name = "paytran_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRPaytranList(FillterPayroll req);
+        #endregion
+
+        #region Payreduce
+        [OperationContract(Name = "payreduce_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPayreduceList(FillterPayroll req);
         #endregion
     }
 }
