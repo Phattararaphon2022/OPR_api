@@ -2741,6 +2741,148 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "MainMenu",
+					"item": [
+						{
+							"name": "System/mainmenu_list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"mainmenu_code\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/mainmenu_list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"mainmenu_list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/mainmenu",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"mainmenu_data\":[\r\n        {\r\n            \"mainmenu_code\":\"ATT\",\r\n            \"mainmenu_detail_th\":\"Attendance\",\r\n            \"mainmenu_detail_en\":\"Attendance\",\r\n            \"mainmenu_order\":1,\r\n            \"submenu\":[\r\n                {\r\n                  \"mainmenu_code\":\"\", \r\n                  \"submenu_code\":\"ATT001\", \r\n                  \"submenu_detail_th\":\"Policy\", \r\n                  \"submenu_detail_en\":\"นโยบาย\", \r\n                  \"submenu_order\":1,\r\n                   \"itemmenu\":[\r\n                       {\r\n                          \"submenu_code\":\"\", \r\n                          \"itemmenu_code\":\"ATT001-001\", \r\n                          \"itemmenu_detail_th\":\"Plan Holiday\", \r\n                          \"itemmenu_detail_en\":\"แผลน วันหยุด\", \r\n                          \"itemmenu_order\":1 \r\n                       }\r\n                   ]\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/mainmenu",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"mainmenu"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "System/mainmenu_del",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"mainmenu_code\":\"ATT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/Module_System/ModuleSystem.svc/System/mainmenu_del",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"Module_System",
+										"ModuleSystem.svc",
+										"System",
+										"mainmenu_del"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -4882,7 +5024,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_id\":0,\r\n    \"account_user\":\"Group01\",\r\n    \"account_type\":\"\",\r\n    \"worker_code\":\"\"\r\n}",
+									"raw": "{\r\n    \"device_name\":\"phone\",\r\n    \"ip\":\"127.0.0.1\",\r\n    \"username\":\"Admin\",\r\n    \"company_code\":\"OPR\",\r\n    \"account_id\":0,\r\n    \"account_user\":\"Group01\",\r\n    \"account_type\":\"\",\r\n    \"worker_code\":\"\",\r\n    \"typenotin\":\"\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
