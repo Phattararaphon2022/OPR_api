@@ -1713,7 +1713,7 @@ namespace BPC_OPR
                     foreach (cls_MTFamily model in list)
                     {
                         JObject json = new JObject();
-
+                        json.Add("company_code", model.company_code);
                         json.Add("family_id", model.family_id);
                         json.Add("family_code", model.family_code);
                         json.Add("family_name_th", model.family_name_th);
@@ -1790,6 +1790,7 @@ namespace BPC_OPR
                 cls_ctMTFamily objFamily = new cls_ctMTFamily();
                 cls_MTFamily model = new cls_MTFamily();
 
+                model.company_code = input.company_code;
                 model.family_id = Convert.ToInt32(input.family_id);
                 model.family_code = input.family_code;
                 model.family_name_th = input.family_name_th;
@@ -10100,6 +10101,7 @@ namespace BPC_OPR
                         json.Add("polround_ot_summary", model.polround_ot_summary);
                         json.Add("polround_absent", model.polround_absent);
                         json.Add("polround_late", model.polround_late);
+                        json.Add("polround_loan", model.polround_loan);
                         json.Add("polround_leave", model.polround_leave);
                         json.Add("polround_netpay", model.polround_netpay);
                         json.Add("polround_timelate", model.polround_timelate);
@@ -10191,6 +10193,9 @@ namespace BPC_OPR
                 model.polround_late = input.polround_late;
                 model.polround_leave = input.polround_leave;
                 model.polround_netpay = input.polround_netpay;
+                model.polround_loan = input.polround_loan;
+
+                
                 model.polround_timelate = input.polround_timelate;
                 model.polround_timeleave = input.polround_timeleave;
                 model.polround_timeot = input.polround_timeot;
