@@ -223,7 +223,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = id.ToString();
+                blnResult = model.polmenu_code;
             }
             catch (Exception ex)
             {

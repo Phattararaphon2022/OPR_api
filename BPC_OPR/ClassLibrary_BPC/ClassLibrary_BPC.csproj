@@ -157,6 +157,8 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqAssessment.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqCriminal.cs" />
     <Compile Include="hrfocus.controller\SYS.System\ApiController.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTAccessdata.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTAccessmenu.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDep.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTGroup.cs" />

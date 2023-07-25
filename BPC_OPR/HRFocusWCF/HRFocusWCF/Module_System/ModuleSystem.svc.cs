@@ -10859,6 +10859,313 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region MTPolmenu
+        public string getMTPolmenuList(InputMTPolmenu input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS002.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPolmenu controller = new cls_ctMTPolmenu();
+                List<cls_MTPolmenu> list = controller.getDataByFillter(input.company_code,input.polmenu_id,input.polmenu_code);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTPolmenu model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("polmenu_id", model.polmenu_id);
+                        json.Add("polmenu_code", model.polmenu_code);
+                        json.Add("polmenu_name_th", model.polmenu_name_th);
+                        json.Add("polmenu_name_en", model.polmenu_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("index", index);
+                        cls_ctMTAccessdata controller_accessdata = new cls_ctMTAccessdata();
+                        List<cls_MTAccessdata> listAccessData = controller_accessdata.getDataByFillter(model.company_code,model.polmenu_code);
+                        JArray arrayAccessData = new JArray();
+                        if (listAccessData.Count > 0)
+                        {
+                            int indexAccessData = 1;
+
+                            foreach (cls_MTAccessdata modelAccessData in listAccessData)
+                            {
+                                JObject jsonAccessData = new JObject();
+                                jsonAccessData.Add("company_code", modelAccessData.company_code);
+                                jsonAccessData.Add("polmenu_code", modelAccessData.polmenu_code);
+                                jsonAccessData.Add("accessdata_module", modelAccessData.accessdata_module);
+                                jsonAccessData.Add("accessdata_new", modelAccessData.accessdata_new);
+                                jsonAccessData.Add("accessdata_edit", modelAccessData.accessdata_edit);
+                                jsonAccessData.Add("accessdata_delete", modelAccessData.accessdata_delete);
+                                jsonAccessData.Add("accessdata_salary", modelAccessData.accessdata_salary);
+                                jsonAccessData.Add("index", indexAccessData);
+                                cls_ctMTAccessmenu controller_AccessMenu = new cls_ctMTAccessmenu();
+                                List<cls_MTAccessmenu> listAccessMenu = controller_AccessMenu.getDataByFillter(modelAccessData.company_code, modelAccessData.polmenu_code, modelAccessData.accessdata_module,"","");
+                                JArray arrayAccessMenu = new JArray();
+                                if (listAccessMenu.Count > 0)
+                                {
+                                    int indexAccessMenu = 1;
+
+                                    foreach (cls_MTAccessmenu modelAccessMenu in listAccessMenu)
+                                    {
+                                        JObject jsonAccessMenu = new JObject();
+                                        jsonAccessMenu.Add("submenu_code", modelAccessMenu.company_code);
+                                        jsonAccessMenu.Add("itemmenu_code", modelAccessMenu.polmenu_code);
+                                        jsonAccessMenu.Add("itemmenu_detail_th", modelAccessMenu.accessmenu_module);
+                                        jsonAccessMenu.Add("itemmenu_detail_en", modelAccessMenu.accessmenu_type);
+                                        jsonAccessMenu.Add("itemmenu_order", modelAccessMenu.accessmenu_code);
+                                        jsonAccessMenu.Add("index", indexAccessMenu);
+
+
+                                        indexAccessMenu++;
+
+                                        arrayAccessMenu.Add(jsonAccessMenu);
+                                    }
+                                    jsonAccessData.Add("accessmenu_data", arrayAccessMenu);
+                                }
+                                else
+                                {
+                                    jsonAccessData.Add("accessmenu_data", arrayAccessMenu);
+                                }
+
+
+                                indexAccessData++;
+
+                                arrayAccessData.Add(jsonAccessData);
+                            }
+                            json.Add("accessdata_data", arrayAccessData);
+                        }
+                        else
+                        {
+                            json.Add("accessdata_data", arrayAccessData);
+                        }
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTPolmenu(InputMTPolmenu input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SYS002.2";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTPolmenu controller = new cls_ctMTPolmenu();
+                cls_ctMTAccessdata controller_AccessData = new cls_ctMTAccessdata();
+                cls_ctMTAccessmenu controller_AccessMenu = new cls_ctMTAccessmenu();
+                int success = 0;
+                int fail = 0;
+                foreach (cls_MTPolmenu data in input.polmenu_data)
+                {
+                    cls_MTPolmenu model = new cls_MTPolmenu();
+                    model.company_code = input.company_code;
+                    model.modified_by = input.username;
+                    string strID = controller.insert(data);
+                    if (!strID.Equals(""))
+                    {
+                        if (data.accessdata_data.Count > 0)
+                        {
+                            foreach (cls_MTAccessdata dataaccessdata in data.accessdata_data)
+                            {
+                                dataaccessdata.polmenu_code = strID;
+                                string accessdata = controller_AccessData.insert(dataaccessdata);
+                                if (!accessdata.Equals("") && dataaccessdata.accessmenu_data.Count > 0)
+                                {
+                                    foreach (cls_MTAccessmenu modelaccessmenu in dataaccessdata.accessmenu_data)
+                                    {
+                                        modelaccessmenu.polmenu_code = strID;
+                                        string accessmenu = controller_AccessMenu.insert(modelaccessmenu);
+                                    }
+                                }
+                            }
+                        }
+                        success += 1;
+                    }
+                    else
+                    {
+                        fail += 1;
+                    }
+
+                }
+                output["success"] = true;
+                output["message"] = "Retrieved data successfully";
+                output["success"] = success;
+                output["fail"] = fail;
+
+                log.apilog_status = "200";
+                log.apilog_message = "";
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteeMTPolmenu(InputMTPolmenu input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "SELF002.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTPolmenu controller = new cls_ctMTPolmenu();
+                bool blnResult = controller.delete(input.company_code,input.polmenu_id,input.polmenu_code);
+                if (blnResult)
+                {
+                    try
+                    {
+                        cls_ctMTAccessdata AccessData = new cls_ctMTAccessdata();
+                        AccessData.delete(input.company_code,input.polmenu_code,"");
+                        cls_ctMTAccessmenu AccessMenu = new cls_ctMTAccessmenu();
+                        AccessMenu.delete(input.company_code,input.polmenu_code,"","","");
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+
         //#region ComImage
         //#region test
         //////public string doUploadComImages(string ref_to, Stream streamlogo, Stream streammaps)

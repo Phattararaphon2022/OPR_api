@@ -710,5 +710,19 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeMTMainmenu(InputMTMainmenu input);
         #endregion
+
+        #region MTPolmenu
+        [OperationContract(Name = "polmenu_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPolmenuList(InputMTPolmenu input);
+
+        [OperationContract(Name = "polmenu")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPolmenu(InputMTPolmenu input);
+
+        [OperationContract(Name = "polmenu_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTPolmenu(InputMTPolmenu input);
+        #endregion
     }
 }
