@@ -169,6 +169,33 @@ namespace BPC_OPR
 
     #endregion
 
+    #region TRPaybonus
+    [DataContract]
+    public class InputTRPaybonus
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string paybonus_date { get; set; }
+        [DataMember]
+        public double paybonus_amount { get; set; }
+        [DataMember]
+        public double paybonus_quantity { get; set; }
+        [DataMember]
+        public double paybonus_rate { get; set; }
+        [DataMember]
+        public double paybonus_tax { get; set; }
+        [DataMember]
+        public string paybonus_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public string modified_date { get; set; }
+    }
+    #endregion
+
     #region Bonusrate
     [DataContract]
     public class InputTRBonusrate
