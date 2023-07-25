@@ -1078,11 +1078,16 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  List<cls_TRCard> list_comcard = objComcard.getDataByFillter(com, "NTID", "", "", "");
                  cls_TRCard comcard = list_comcard[0];
 
- 
 
+                 //-- Step 8 Get Company card
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
                  List<cls_MTProvince> list_province = objProvince.getDataByFillter("");
 
+                 //-- Step 9 Get Company card
+                 cls_ctTRPaybonus objPaybonus= new cls_ctTRPaybonus();
+                 List<cls_TRPaybonus> list_paybonus = objPaybonus.getDataByFillter("", com, datePay ,  "");
+                 cls_TRPaybonus paybonus = list_paybonus[0];
+             
 
 
                  string tmpData = "";
@@ -1105,6 +1110,8 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                          cls_TRAddress obj_address = new cls_TRAddress();
                          cls_MTProvince obj_province = new cls_MTProvince();
                          cls_TRCard obj_card = new cls_TRCard();
+                         cls_TRPaybonus obj_paybonus= new cls_TRPaybonus();
+
 
  
                          foreach (cls_MTWorker worker in list_worker)
@@ -1183,18 +1190,18 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                              //6.ชื่อสถานประกอบการ 
 
                              bkData += comdetail.company_name_en + "|";
-
-                             //7.อัตราเงินสมทบ เปลี่ยนเป็นโบนัส ///////////
-                             if (paybank.paytran_ssocom == 4)
-                                 bkData += paybank.paytran_ssocom;
+ 
+                             //7.โบนัส 
+                             if (paybonus.paybonus_netpay == 4)
+                                 bkData += paybonus.paybonus_netpay;
                              else
-                                 bkData += paybank.paytran_ssocom.ToString("0000") + "|";
+                                 bkData += paybonus.paybonus_netpay.ToString("0000") + "|";
  
                              //8.จำนวนผู้ประกันตน			
-                             // if (paytran.paytran_tax_401 == 6)
-                             //    bkData += paytran.paytran_tax_401;
-                             //else
-                             //    bkData += paytran.paytran_tax_401.ToString("000000") + "|";
+                             if (paytran.paytran_tax_401 == 6)
+                                 bkData += paytran.paytran_tax_401;
+                             else
+                                 bkData += paytran.paytran_tax_401.ToString("000000") + "|";
  
 
                              //9.ค่าจ้างรวม PAYTRAN_INCOME_TOTAL
@@ -1266,11 +1273,11 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                              else
                                  bkData += paytran.paytran_income_total.ToString("00000000000000") + "|";
 
-                             //7.จำนวนเงินสมทบ
-                             if (paytran.paytran_pfemp == 12)
-                                 bkData += paytran.paytran_pfemp + "|";
+                             //7.โบนัส
+                             if (paybonus.paybonus_netpay == 12)
+                                 bkData += paybonus.paybonus_netpay + "|";
                              else
-                                 bkData += paytran.paytran_pfemp.ToString("000000000000") + "|";
+                                 bkData += paybonus.paybonus_netpay.ToString("000000000000") + "|";
 
 
                              //8.คอลัมน์ว่าง			                          
@@ -1294,7 +1301,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                       try
                     {
                         //-- Step 1 create file
-                        string filename = "TRN_SSO_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
+                        string filename = "TRN_BONUS_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
                         string filepath = Path.Combine
                        (ClassLibrary_BPC.Config.PathFileExport, filename);
 
