@@ -42,7 +42,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(PROJECT_NAME_SUB, '') AS PROJECT_NAME_SUB");
                 obj_str.Append(", ISNULL(PROJECT_CODECENTRAL, '') AS PROJECT_CODECENTRAL");
                 obj_str.Append(", ISNULL(PROJECT_PROTYPE, '') AS PROJECT_PROTYPE");
+
+                obj_str.Append(", ISNULL(PROJECT_PROAREA, '') AS PROJECT_PROAREA");
+                obj_str.Append(", ISNULL(PROJECT_PROGROUP, '') AS PROJECT_PROGROUP");
+
+
                 obj_str.Append(", ISNULL(PROJECT_PROBUSINESS, '') AS PROJECT_PROBUSINESS");
+
                 obj_str.Append(", ISNULL(PROJECT_ROUNDTIME, '') AS PROJECT_ROUNDTIME");
                 obj_str.Append(", ISNULL(PROJECT_ROUNDMONEY, '') AS PROJECT_ROUNDMONEY");
                 obj_str.Append(", ISNULL(PROJECT_STATUS, '') AS PROJECT_STATUS");
@@ -73,6 +79,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.project_name_sub = dr["PROJECT_NAME_SUB"].ToString();
                     model.project_codecentral = dr["PROJECT_CODECENTRAL"].ToString();
                     model.project_protype = dr["PROJECT_PROTYPE"].ToString();
+
+                    model.project_proarea = dr["PROJECT_PROAREA"].ToString();
+                    model.project_progroup = dr["PROJECT_PROGROUP"].ToString();
+
                     model.project_probusiness = dr["PROJECT_PROBUSINESS"].ToString();
                     model.project_roundtime = dr["PROJECT_ROUNDTIME"].ToString();
                     model.project_roundmoney = dr["PROJECT_ROUNDMONEY"].ToString();
@@ -94,7 +104,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProject> getDataByFillter(string code, string codecentral, string type, string business)
+        public List<cls_MTProject> getDataByFillter(string code, string codecentral, string type, string business, string area, string group)
         {
             string strCondition = "";
 
@@ -109,6 +119,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!business.Equals(""))
                 strCondition += " AND PROJECT_PROBUSINESS='" + business + "'";
+
+            ////
+            if (!area.Equals(""))
+                strCondition += " AND PROJECT_PROAREA='" + area + "'";
+            if (!group.Equals(""))
+                strCondition += " AND PROJECT_PROGROUP='" + group + "'";
+            ///
 
             return this.getData(strCondition);
         }
@@ -217,6 +234,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_NAME_SUB ");
                 obj_str.Append(", PROJECT_CODECENTRAL ");
                 obj_str.Append(", PROJECT_PROTYPE ");
+
+                obj_str.Append(", PROJECT_PROAREA ");
+                obj_str.Append(", PROJECT_PROGROUP ");
+
                 obj_str.Append(", PROJECT_PROBUSINESS ");
                 obj_str.Append(", PROJECT_ROUNDTIME ");
                 obj_str.Append(", PROJECT_ROUNDMONEY ");
@@ -237,6 +258,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJECT_NAME_SUB ");
                 obj_str.Append(", @PROJECT_CODECENTRAL ");
                 obj_str.Append(", @PROJECT_PROTYPE ");
+
+                obj_str.Append(", @PROJECT_PROAREA ");
+                obj_str.Append(", @PROJECT_PROGROUP ");
+
+
                 obj_str.Append(", @PROJECT_PROBUSINESS ");
                 obj_str.Append(", @PROJECT_ROUNDTIME ");
                 obj_str.Append(", @PROJECT_ROUNDMONEY ");
@@ -260,6 +286,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_NAME_SUB", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_NAME_SUB"].Value = model.project_name_sub;
                 obj_cmd.Parameters.Add("@PROJECT_CODECENTRAL", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODECENTRAL"].Value = model.project_codecentral;
                 obj_cmd.Parameters.Add("@PROJECT_PROTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROTYPE"].Value = model.project_protype;
+
+                obj_cmd.Parameters.Add("@PROJECT_PROAREA", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROAREA"].Value = model.project_proarea;
+                obj_cmd.Parameters.Add("@PROJECT_PROGROUP", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROGROUP"].Value = model.project_progroup;
+
+                
                 obj_cmd.Parameters.Add("@PROJECT_PROBUSINESS", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROBUSINESS"].Value = model.project_probusiness;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDTIME", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDTIME"].Value = model.project_roundtime;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDMONEY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDMONEY"].Value = model.project_roundmoney;
@@ -298,6 +329,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_NAME_SUB=@PROJECT_NAME_SUB ");
                 obj_str.Append(", PROJECT_CODECENTRAL=@PROJECT_CODECENTRAL ");
                 obj_str.Append(", PROJECT_PROTYPE=@PROJECT_PROTYPE ");
+
+                obj_str.Append(", PROJECT_PROAREA=@PROJECT_PROAREA ");
+                obj_str.Append(", PROJECT_PROGROUP=@PROJECT_PROGROUP ");
+
+
                 obj_str.Append(", PROJECT_PROBUSINESS=@PROJECT_PROBUSINESS ");
                 obj_str.Append(", PROJECT_ROUNDTIME=@PROJECT_ROUNDTIME ");
                 obj_str.Append(", PROJECT_ROUNDMONEY=@PROJECT_ROUNDMONEY ");
@@ -318,6 +354,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_NAME_SUB", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_NAME_SUB"].Value = model.project_name_sub;
                 obj_cmd.Parameters.Add("@PROJECT_CODECENTRAL", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODECENTRAL"].Value = model.project_codecentral;
                 obj_cmd.Parameters.Add("@PROJECT_PROTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROTYPE"].Value = model.project_protype;
+
+                obj_cmd.Parameters.Add("@PROJECT_PROAREA", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROAREA"].Value = model.project_proarea;
+                obj_cmd.Parameters.Add("@PROJECT_PROGROUP", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROGROUP"].Value = model.project_progroup;
+
+                
+                
                 obj_cmd.Parameters.Add("@PROJECT_PROBUSINESS", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROBUSINESS"].Value = model.project_probusiness;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDTIME", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDTIME"].Value = model.project_roundtime;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDMONEY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDMONEY"].Value = model.project_roundmoney;

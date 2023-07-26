@@ -1,6 +1,8 @@
 ﻿using AntsCode.Util;
 using ClassLibrary_BPC.hrfocus.controller;
+using ClassLibrary_BPC.hrfocus.controller.Project;
 using ClassLibrary_BPC.hrfocus.model;
+using ClassLibrary_BPC.hrfocus.model.Project;
 using ClassLibrary_BPC.hrfocus.service;
 using ClassLibrary_BPC.hrfocus.service.Payroll;
 using Newtonsoft.Json;
@@ -1624,7 +1626,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProject controller = new cls_ctMTProject();
-                List<cls_MTProject> list = controller.getDataByFillter(req.project_code, "", "", "");
+                List<cls_MTProject> list = controller.getDataByFillter(req.project_code, "", "", "", "", "");
 
                 cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
@@ -1646,6 +1648,10 @@ namespace BPC_OPR
                         json.Add("project_name_sub", model.project_name_sub);
                         json.Add("project_codecentral", model.project_codecentral);
                         json.Add("project_protype", model.project_protype);
+
+                        json.Add("project_proarea", model.project_proarea);
+                        json.Add("project_progroup", model.project_progroup);
+
                         json.Add("project_probusiness", model.project_probusiness);
                         json.Add("project_roundtime", model.project_roundtime);
                         json.Add("project_roundmoney", model.project_roundmoney);
@@ -1777,6 +1783,11 @@ namespace BPC_OPR
                 model.project_name_sub = input.project_name_sub;
                 model.project_codecentral = input.project_codecentral;
                 model.project_protype = input.project_protype;
+
+                model.project_proarea = input.project_proarea;
+                model.project_progroup = input.project_progroup;
+                
+
                 model.project_probusiness = input.project_probusiness;
                 model.project_roundtime = input.project_roundtime;
                 model.project_roundmoney = input.project_roundmoney;
@@ -8194,7 +8205,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
 
@@ -8361,6 +8372,12 @@ namespace BPC_OPR
                     json.Add("project_name_th", project.project_name_th);
                     json.Add("project_name_en", project.project_name_en);
                     json.Add("project_type", project.project_protype);
+
+                    json.Add("project_proarea", project.project_proarea);
+                    json.Add("project_progroup", project.project_progroup);
+
+
+                    
                     json.Add("project_business", project.project_probusiness);     
                     json.Add("project_manpower", count_emp_project);
                     json.Add("project_working", count_working_project);
@@ -8439,7 +8456,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
 
@@ -8682,6 +8699,608 @@ namespace BPC_OPR
             {
                 output["success"] = false;
                 output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region MTProarea
+        public string getMTProareaList(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO024.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProarea controller = new cls_ctMTProarea();
+                List<cls_MTProarea> list = controller.getDataByFillter("");
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTProarea model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("proarea_id", model.proarea_id);
+                        json.Add("proarea_code", model.proarea_code);
+                        json.Add("proarea_name_th", model.proarea_name_th);
+                        json.Add("proarea_name_en", model.proarea_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTProarea(InputMTProarea input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO024.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProarea controller = new cls_ctMTProarea();
+                cls_MTProarea model = new cls_MTProarea();
+
+                model.proarea_id = Convert.ToInt32(input.proarea_id);
+                model.proarea_code = input.proarea_code;
+                model.proarea_name_th = input.proarea_name_th;
+                model.proarea_name_en = input.proarea_name_en;
+                model.modified_by = input.modified_by;
+
+                string strID = controller.insert(model);
+
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        public string doDeleteMTProarea(InputMTProarea input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO024.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProarea controller = new cls_ctMTProarea();
+
+                if (controller.checkDataOld(input.proarea_code))
+                {
+                    bool blnResult = controller.delete(input.proarea_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.proarea_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO024.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvProjectImport srv_import = new cls_srvProjectImport();
+                    string tmp = srv_import.doImportExcel("PROAREA", fileName, by);
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region MTProgroup
+        public string getMTProgroup(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProgroup controller = new cls_ctMTProgroup();
+                List<cls_MTProgroup> list = controller.getDataByFillter("");
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTProgroup model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("progroup_id", model.progroup_id);
+                        json.Add("progroup_code", model.progroup_code);
+                        json.Add("progroup_name_th", model.progroup_name_th);
+                        json.Add("progroup_name_en", model.progroup_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTProgroup(InputMTProgroup input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProgroup controller = new cls_ctMTProgroup();
+                cls_MTProgroup model = new cls_MTProgroup();
+
+                model.progroup_id = Convert.ToInt32(input.progroup_id);
+                model.progroup_code = input.progroup_code;
+                model.progroup_name_th = input.progroup_name_th;
+                model.progroup_name_en = input.progroup_name_en;
+                model.modified_by = input.modified_by;
+
+                string strID = controller.insert(model);
+
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        public string doDeleteMTProgroup(InputMTProgroup input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProgroup controller = new cls_ctMTProgroup();
+
+                if (controller.checkDataOld(input.progroup_code))
+                {
+                    bool blnResult = controller.delete(input.progroup_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.progroup_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvProjectImport srv_import = new cls_srvProjectImport();
+                    string tmp = srv_import.doImportExcel("PROGROUP", fileName, by);
+
+                    output["success"] = true;
+                    output["message"] = tmp;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();

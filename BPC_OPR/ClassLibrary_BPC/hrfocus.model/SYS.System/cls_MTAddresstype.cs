@@ -10,9 +10,9 @@ namespace ClassLibrary_BPC.hrfocus.model
     {
    
         public cls_MTAddresstype() {
-            this.addresstype_code = "";
-            this.addresstype_name_th = "";
-            this.addresstype_name_en = "";
+            //this.addresstype_code = "";
+            //this.addresstype_name_th = "";
+            //this.addresstype_name_en = "";
         }
 
         public int addresstype_id { get; set; }
