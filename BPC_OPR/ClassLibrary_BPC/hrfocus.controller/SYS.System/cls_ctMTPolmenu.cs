@@ -59,7 +59,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.polmenu_name_en = dr["POLMENU_NAME_EN"].ToString();
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
-                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    model.modified_date = dr["MODIFIED_DATE"].ToString();
                     model.flag = Convert.ToBoolean(dr["FLAG"]);
 
                     list_model.Add(model);
@@ -179,7 +179,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.company_code,model.polmenu_id,model.polmenu_code))
                 {
-                    return this.update(model);
+                    this.delete(model.company_code, 0, model.polmenu_code);
                 }
                 int id = getNextID();
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -215,8 +215,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@POLMENU_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@POLMENU_CODE"].Value = model.polmenu_code;
                 obj_cmd.Parameters.Add("@POLMENU_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@POLMENU_NAME_TH"].Value = model.polmenu_name_th;
                 obj_cmd.Parameters.Add("@POLMENU_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@POLMENU_NAME_EN"].Value = model.polmenu_name_en;
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.Int); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.Int); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
 

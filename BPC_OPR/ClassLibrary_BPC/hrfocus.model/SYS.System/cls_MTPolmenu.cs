@@ -11,9 +11,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string polmenu_name_th { get; set; }
         public string polmenu_name_en { get; set; }
         public string created_by { get; set; }
-        public DateTime created_date { get; set; }
+        public string created_date { get; set; }
         public string modified_by { get; set; }
-        public DateTime modified_date { get; set; }
+        public string modified_date { get; set; }
         public bool flag { get; set; }
         public List<cls_MTAccessdata> accessdata_data { get; set; }
     }

@@ -204,7 +204,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public bool insert(List<cls_MTAccessmenu> list_model)
+        public bool insert(List<cls_MTAccessmenu> list_model, string polmenu_code)
         {
             bool blnResult = false;
             try
@@ -240,7 +240,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str2.Append(" DELETE FROM SYS_MT_ACCESSMENU");
                 obj_str2.Append(" WHERE 1=1 ");
                 obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
-                obj_str2.Append(" AND POLMENU_CODE='" + list_model[0].polmenu_code + "'");
+                obj_str2.Append(" AND POLMENU_CODE='" + polmenu_code + "'");
+                obj_str2.Append(" AND ACCESSMENU_MODULE='" + list_model[0].accessmenu_module + "'");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
                 if (blnResult)
@@ -257,7 +258,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     {
 
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                        obj_cmd.Parameters["@POLMENU_CODE"].Value = model.polmenu_code;
+                        obj_cmd.Parameters["@POLMENU_CODE"].Value = polmenu_code;
                         obj_cmd.Parameters["@ACCESSMENU_MODULE"].Value = model.accessmenu_module;
                         obj_cmd.Parameters["@ACCESSMENU_TYPE"].Value = model.accessmenu_type;
                         obj_cmd.Parameters["@ACCESSMENU_CODE"].Value = model.accessmenu_code;
