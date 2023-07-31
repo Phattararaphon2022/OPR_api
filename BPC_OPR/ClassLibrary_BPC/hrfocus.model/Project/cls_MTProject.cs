@@ -18,6 +18,11 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_codecentral { get; set; }
 
         public string project_protype { get; set; }
+
+        public string project_proarea { get; set; }
+        public string project_progroup { get; set; }
+
+
         public string project_probusiness { get; set; }
         public string project_roundtime { get; set; }
         public string project_roundmoney { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary_BPC.hrfocus.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -406,6 +407,32 @@ namespace BPC_OPR
         public string modified_by { get; set; }
         [DataMember]
         public string modified_date { get; set; }
+    }
+
+    //Black List
+    [DataContract]
+    public class InputBlacklist
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string blacklist_note { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
     }
 
 

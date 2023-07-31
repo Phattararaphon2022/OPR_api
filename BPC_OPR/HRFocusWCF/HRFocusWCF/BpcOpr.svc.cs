@@ -371,6 +371,8 @@ namespace BPC_OPR
         public string type { get; set; }
         [DataMember]
         public string emptype { get; set; }
+          [DataMember]
+        public string addresstype_code { get; set; }
         
     }
 

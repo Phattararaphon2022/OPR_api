@@ -353,7 +353,7 @@ namespace BPC_OPR
 
                 if (controller.checkDataOld(input.worker_code))
                 {
-                    bool blnResult = controller.delete(input.worker_code);
+                    bool blnResult = controller.delete(input.worker_id.ToString());
 
                     if (blnResult)
                     {
@@ -490,7 +490,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTWorker controller = new cls_ctMTWorker();
-                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill);
+                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill,req.worker_empstatus);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -537,6 +537,13 @@ namespace BPC_OPR
                         json.Add("modified_date", model.modified_date);
 
                         json.Add("self_admin", model.self_admin);
+
+                        json.Add("worker_tel", model.worker_tel);
+                        json.Add("worker_email", model.worker_email);
+                        json.Add("worker_line", model.worker_line);
+                        json.Add("worker_facebook", model.worker_facebook);
+
+                        json.Add("worker_military", model.worker_military);
 
                         json.Add("flag", model.flag);
 
@@ -4281,15 +4288,14 @@ namespace BPC_OPR
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("family_id", model.family_id);
-                        json.Add("family_code", model.family_code);
                         json.Add("family_type", model.family_type);
                         json.Add("family_fname_th", model.family_fname_th);
                         json.Add("family_lname_th", model.family_lname_th);
                         json.Add("family_fname_en", model.family_fname_en);
                         json.Add("family_lname_en", model.family_lname_en);
-                        json.Add("family_birthdate", model.family_birthdate);
                         json.Add("family_occupation", model.family_occupation);
                         json.Add("family_tel", model.family_tel);
+                        json.Add("family_address", model.family_address);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);

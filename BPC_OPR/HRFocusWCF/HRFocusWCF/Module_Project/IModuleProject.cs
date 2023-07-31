@@ -422,5 +422,40 @@ namespace BPC_OPR
         [OperationContract(Name = "projobpol_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTRProjobpol(InputTRProjobpol input);
-    }
+    
+        //-- MTProarea
+        [OperationContract(Name = "proarea_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProareaList(BasicRequest req);
+
+        [OperationContract(Name = "proarea")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTProarea(InputMTProarea input);
+
+        [OperationContract(Name = "proarea_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTProarea(InputMTProarea input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProarea?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream);
+
+        //-- MTProgroup
+        [OperationContract(Name = "progroup_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProgroup(BasicRequest req);
+
+        [OperationContract(Name = "progroup")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTProgroup(InputMTProgroup input);
+
+        [OperationContract(Name = "progroup_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTProgroup(InputMTProgroup input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProgroup?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream);
+
+}
 }
