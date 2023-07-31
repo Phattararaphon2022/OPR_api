@@ -10934,11 +10934,11 @@ namespace BPC_OPR
                                     foreach (cls_MTAccessmenu modelAccessMenu in listAccessMenu)
                                     {
                                         JObject jsonAccessMenu = new JObject();
-                                        jsonAccessMenu.Add("submenu_code", modelAccessMenu.company_code);
-                                        jsonAccessMenu.Add("itemmenu_code", modelAccessMenu.polmenu_code);
-                                        jsonAccessMenu.Add("itemmenu_detail_th", modelAccessMenu.accessmenu_module);
-                                        jsonAccessMenu.Add("itemmenu_detail_en", modelAccessMenu.accessmenu_type);
-                                        jsonAccessMenu.Add("itemmenu_order", modelAccessMenu.accessmenu_code);
+                                        jsonAccessMenu.Add("company_code", modelAccessMenu.company_code);
+                                        jsonAccessMenu.Add("polmenu_code", modelAccessMenu.polmenu_code);
+                                        jsonAccessMenu.Add("accessmenu_module", modelAccessMenu.accessmenu_module);
+                                        jsonAccessMenu.Add("accessmenu_type", modelAccessMenu.accessmenu_type);
+                                        jsonAccessMenu.Add("accessmenu_code", modelAccessMenu.accessmenu_code);
                                         jsonAccessMenu.Add("index", indexAccessMenu);
 
 
@@ -11034,25 +11034,28 @@ namespace BPC_OPR
                 int fail = 0;
                 foreach (cls_MTPolmenu data in input.polmenu_data)
                 {
-                    cls_MTPolmenu model = new cls_MTPolmenu();
-                    model.company_code = input.company_code;
-                    model.modified_by = input.username;
+                    data.company_code = input.company_code;
+                    data.modified_by = input.username;
                     string strID = controller.insert(data);
                     if (!strID.Equals(""))
                     {
                         if (data.accessdata_data.Count > 0)
                         {
+                            //controller_AccessData.delete(input.company_code, strID, "");
+                            controller_AccessData.insert(data.accessdata_data, strID);
                             foreach (cls_MTAccessdata dataaccessdata in data.accessdata_data)
                             {
-                                dataaccessdata.polmenu_code = strID;
-                                string accessdata = controller_AccessData.insert(dataaccessdata);
-                                if (!accessdata.Equals("") && dataaccessdata.accessmenu_data.Count > 0)
+                                //dataaccessdata.polmenu_code = strID;
+                                //string accessdata = controller_AccessData.insert(dataaccessdata);
+                                if (dataaccessdata.accessmenu_data.Count > 0)
                                 {
-                                    foreach (cls_MTAccessmenu modelaccessmenu in dataaccessdata.accessmenu_data)
-                                    {
-                                        modelaccessmenu.polmenu_code = strID;
-                                        string accessmenu = controller_AccessMenu.insert(modelaccessmenu);
-                                    }
+                                    //controller_AccessMenu.delete(input.company_code,strID,"","","");
+                                    controller_AccessMenu.insert(dataaccessdata.accessmenu_data,strID);
+                                    //foreach (cls_MTAccessmenu modelaccessmenu in dataaccessdata.accessmenu_data)
+                                    //{
+                                    //    modelaccessmenu.polmenu_code = strID;
+                                    //    string accessmenu = controller_AccessMenu.insert(modelaccessmenu);
+                                    //}
                                 }
                             }
                         }
@@ -11331,6 +11334,7 @@ namespace BPC_OPR
         //}
 
         //#endregion
+
         #region MTRequest
         public string getRequestList(BasicRequest req)
         {
