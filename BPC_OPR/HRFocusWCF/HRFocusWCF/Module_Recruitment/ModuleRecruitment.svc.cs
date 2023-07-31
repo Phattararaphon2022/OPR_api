@@ -3263,7 +3263,7 @@ namespace BPC_OPR
          }
          #endregion
 
-        #region Attachflie(REQ011)
+         #region Attachflie(REQ011)
          public async Task<string> doUploadMTReqdoc(string token, string by, string fileName, Stream stream)
          {
              JObject output = new JObject();
@@ -3322,6 +3322,388 @@ namespace BPC_OPR
              {
                  objBpcOpr.doRecordLog(log);
              }
+
+             return output.ToString(Formatting.None);
+         }
+        #endregion
+
+        #region Blacklist
+         public string getMTBlacklistList(InputBlacklist input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "BLK01.1";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTBlacklist controller = new cls_ctMTBlacklist();
+                 List<cls_MTBlacklist> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_MTBlacklist model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("worker_code", model.worker_code);
+                         json.Add("reason_code", model.reason_code);
+                         json.Add("blacklist_note", model.blacklist_note);
+
+                         json.Add("worker_detail_th", model.worker_detail_th);
+                         json.Add("worker_detail_en", model.worker_detail_en);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doManageMTBlacklistList(InputBlacklist input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ005.2";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTBlacklist controller = new cls_ctMTBlacklist();
+                 cls_MTBlacklist model = new cls_MTBlacklist();
+
+                 model.company_code = input.company_code;
+                 model.worker_code = input.worker_code;
+                 model.reason_code = input.reason_code;
+                 model.blacklist_note = input.blacklist_note;
+
+                 model.modified_by = input.modified_by;
+
+                 string strID = controller.insert(model);
+
+                 if (!strID.Equals(""))
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doDeleteMTBlacklistList(InputBlacklist input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ010.3";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTBlacklist controller = new cls_ctMTBlacklist();
+
+                 if (controller.checkDataOld(input.company_code, input.worker_code))
+                 {
+                     bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                     if (blnResult)
+                     {
+                         output["success"] = true;
+                         output["message"] = "Remove data successfully";
+
+                         log.apilog_status = "200";
+                         log.apilog_message = "";
+                     }
+                     else
+                     {
+                         output["success"] = false;
+                         output["message"] = "Remove data not successfully";
+
+                         log.apilog_status = "500";
+                         log.apilog_message = controller.getMessage();
+                     }
+
+                 }
+                 else
+                 {
+                     string message = "Not Found Project code : " + input.worker_code;
+                     output["success"] = false;
+                     output["message"] = message;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = message;
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Remove data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+
+         }
+
+         public async Task<string> doUploadMTBlacklistList(string token, string by, string fileName, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "BLK01.4";
+             log.apilog_by = by;
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 if (!objBpcOpr.doVerify(token))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+
+                 bool upload = await this.doUploadFile(fileName, stream);
+
+                 if (upload)
+                 {
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
+                     string tmp = srv_import.doImportExcel("BLACKLIST", fileName, by);
+
+                     output["success"] = true;
+                     output["message"] = tmp;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Upload data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = "Upload data not successfully";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+         public string doSetBatchBlacklist(InputBlacklist input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "BLK001.1";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+                 cls_ctMTBlacklist objPo = new cls_ctMTBlacklist();
+                 List<cls_MTBlacklist> listPo = new List<cls_MTBlacklist>();
+                 bool strID = false;
+                 foreach (cls_MTWorker modelWorker in input.emp_data)
+                 {
+                     cls_MTBlacklist model = new cls_MTBlacklist();
+                     model.company_code = input.company_code;
+                     model.worker_code = modelWorker.worker_code;
+                     model.reason_code = input.reason_code;
+                     model.blacklist_note = input.blacklist_note;
+                     model.created_by = input.modified_by;
+
+                     listPo.Add(model);
+                 }
+                 if (listPo.Count > 0)
+                 {
+                     strID = objPo.insertlist(listPo);
+                 }
+                 if (strID)
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = objPo.getMessage();
+                 }
+                 objPo.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["result"] = "0";
+                 output["result_text"] = ex.ToString();
+             }
+
 
              return output.ToString(Formatting.None);
          }
