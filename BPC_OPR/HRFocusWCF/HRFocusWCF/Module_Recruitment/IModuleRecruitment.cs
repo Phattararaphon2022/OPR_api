@@ -204,7 +204,29 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqSuggest?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream);
         #endregion
-     
+
+        #region Blacklist
+        [OperationContract(Name = "getblacklist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTBlacklistList(InputBlacklist input);
+
+        [OperationContract(Name = "blacklist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTBlacklistList(InputBlacklist input);
+
+        [OperationContract(Name = "blacklist_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTBlacklistList(InputBlacklist input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTBlacklistList?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTBlacklistList(string token, string by, string fileName, Stream stream);
+
+        [OperationContract(Name = "batchblacklist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchBlacklist(InputBlacklist input);
+        #endregion
+
     }
 
 }

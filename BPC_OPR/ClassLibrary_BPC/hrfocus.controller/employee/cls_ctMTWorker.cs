@@ -197,7 +197,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype,string searchemp , string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill)
+        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype,string searchemp , string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill,string empstatus)
         {
             string strCondition = "";
 
@@ -233,6 +233,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!include_resign)
             {
                 strCondition += " AND (WORKER_RESIGNSTATUS='0' OR WORKER_RESIGNSTATUS IS NULL) ";
+            }
+
+            if (!empstatus.Equals(""))
+            {
+                strCondition += " AND WORKER_STATUS='" + empstatus + "'";
             }
 
             return this.getData(strCondition);
