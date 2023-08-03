@@ -137,9 +137,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(" AND ACCESSMENU_MODULE='" + module + "' ");
                 if (!code.Equals(""))
                     obj_str.Append(" AND POLMENU_CODE='" + code + "'");
-                if (!code.Equals(""))
+                if (!type.Equals(""))
                     obj_str.Append(" AND ACCESSMENU_TYPE='" + type + "'");
-                if (!code.Equals(""))
+                if (!accessmenu_code.Equals(""))
                     obj_str.Append(" AND ACCESSMENU_CODE='" + accessmenu_code + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());

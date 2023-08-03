@@ -14,6 +14,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public bool account_email_alert { get; set; }
         public string account_line { get; set; }
         public bool account_line_alert { get; set; }
+        public string polmenu_code { get; set; }
        
         public string created_by { get; set; }
         public DateTime created_date { get; set; }

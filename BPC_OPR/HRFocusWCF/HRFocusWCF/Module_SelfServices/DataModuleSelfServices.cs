@@ -619,7 +619,8 @@ namespace BPC_OPR
         public string account_line { get; set; }
         [DataMember]
         public bool account_line_alert { get; set; }
-
+        [DataMember]
+        public string polmenu_code { get; set; }
         [DataMember]
         public List<cls_TRAccountpos> positonn_data { get; set; }
         [DataMember]

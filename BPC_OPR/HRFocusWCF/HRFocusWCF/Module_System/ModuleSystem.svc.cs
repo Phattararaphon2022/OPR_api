@@ -11039,6 +11039,8 @@ namespace BPC_OPR
                     string strID = controller.insert(data);
                     if (!strID.Equals(""))
                     {
+                        controller_AccessData.delete(input.company_code, strID, "");
+                        controller_AccessMenu.delete(input.company_code, strID, "", "", "");
                         if (data.accessdata_data.Count > 0)
                         {
                             //controller_AccessData.delete(input.company_code, strID, "");
