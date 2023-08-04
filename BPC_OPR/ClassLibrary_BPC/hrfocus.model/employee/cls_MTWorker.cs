@@ -67,6 +67,6 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string position_name_th { get; set; }
         public string position_name_en { get;set; }
 
-
+        public double worker_age { get; set; }
     }
 }

@@ -102,6 +102,19 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+
+        [DataMember]
+        public double worker_age { get; set; }
+        [DataMember]
+        public string worker_tel { get; set; }
+        [DataMember]
+        public string worker_email { get; set; }
+        [DataMember]
+        public string worker_line { get; set; }
+        [DataMember]
+        public string worker_facebook { get; set; }
+        [DataMember]
+        public string worker_military { get; set; }
     }
 
     //Fillter All
@@ -431,6 +444,46 @@ namespace BPC_OPR
         public List<cls_MTWorker> emp_data { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputDocatt
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int reqdoc_id { get; set; }
+        [DataMember]
+        public string reqdoc_doc { get; set; }
+        [DataMember]
+        public string reqdoc_date { get; set; }
+        [DataMember]
+        public string reqdoc_date_to { get; set; }
+        [DataMember]
+        public string reqdoc_note { get; set; }
+        [DataMember]
+        public int status { get; set; }
+        //[DataMember]
+        //public List<cls_TRReqempinfo> reqempinfo_data { get; set; }
+        [DataMember]
+        public List<cls_TRDocatt> docatt_data { get; set; }
+
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
     }

@@ -227,6 +227,32 @@ namespace BPC_OPR
         string doSetBatchBlacklist(InputBlacklist input);
         #endregion
 
+        #region Attach File
+        [OperationContract(Name = "docatt_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTDocattList(InputDocatt input);
+
+        [OperationContract(Name = "docatt")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTDocatt(InputDocatt input);
+
+        [OperationContract(Name = "docatt_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTDocatt(InputDocatt input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTDocatt?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTDocatt(string token, string by, string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doGetMTDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        byte[] DownloadFile(string file_Path);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doDeleteMTDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        string DeleteFile(string file_Path);
+        #endregion
+
     }
 
 }
