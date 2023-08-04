@@ -34,7 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append(" COMPANY_CODE");
-                //obj_str.Append(", ACCOUNT_ID");
+                obj_str.Append(", ACCOUNT_ID");
                 obj_str.Append(", ACCOUNT_USER");
                 obj_str.Append(", ACCOUNT_PWD");
                 obj_str.Append(", ACCOUNT_TYPE");
@@ -45,6 +45,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ACCOUNT_LINE");
                 obj_str.Append(", ACCOUNT_LINE_ALERT");
 
+                obj_str.Append(", ISNULL(POLMENU_CODE, '') AS POLMENU_CODE");
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", FLAG");
@@ -63,7 +64,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model = new cls_MTAccount();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
-                    //model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
+                    model.account_id = Convert.ToInt32(dr["ACCOUNT_ID"]);
                     model.account_user = dr["ACCOUNT_USER"].ToString();
                     model.account_pwd = this.Decrypt(dr["ACCOUNT_PWD"].ToString());
 
@@ -73,6 +74,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.account_email_alert = Convert.ToBoolean(dr["ACCOUNT_EMAIL_ALERT"].ToString());
                     model.account_line = dr["ACCOUNT_LINE"].ToString();
                     model.account_line_alert = Convert.ToBoolean(dr["ACCOUNT_LINE_ALERT"].ToString());
+                    model.polmenu_code = dr["POLMENU_CODE"].ToString();
                     model.flag = Convert.ToBoolean(dr["FLAG"].ToString());
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
@@ -140,6 +142,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.account_email_alert = Convert.ToBoolean(dr["ACCOUNT_EMAIL_ALERT"].ToString());
                     model.account_line = dr["ACCOUNT_LINE"].ToString();
                     model.account_line_alert = Convert.ToBoolean(dr["ACCOUNT_LINE_ALERT"].ToString());
+                    model.polmenu_code = dr["POLMENU_CODE"].ToString();
                     model.flag = Convert.ToBoolean(dr["FLAG"].ToString());
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
@@ -265,6 +268,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ACCOUNT_EMAIL_ALERT ");
                 obj_str.Append(", ACCOUNT_LINE ");
                 obj_str.Append(", ACCOUNT_LINE_ALERT ");
+                obj_str.Append(", POLMENU_CODE ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -282,6 +286,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @ACCOUNT_EMAIL_ALERT ");
                 obj_str.Append(", @ACCOUNT_LINE ");
                 obj_str.Append(", @ACCOUNT_LINE_ALERT ");
+                obj_str.Append(", @POLMENU_CODE ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -302,6 +307,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@ACCOUNT_EMAIL_ALERT", SqlDbType.Bit); obj_cmd.Parameters["@ACCOUNT_EMAIL_ALERT"].Value = model.account_email_alert;
                 obj_cmd.Parameters.Add("@ACCOUNT_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_LINE"].Value = model.account_line;
                 obj_cmd.Parameters.Add("@ACCOUNT_LINE_ALERT", SqlDbType.Bit); obj_cmd.Parameters["@ACCOUNT_LINE_ALERT"].Value = model.account_line_alert;
+                obj_cmd.Parameters.Add("@POLMENU_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@POLMENU_CODE"].Value = model.polmenu_code;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -341,6 +347,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ACCOUNT_EMAIL_ALERT=@ACCOUNT_EMAIL_ALERT ");
                 obj_str.Append(", ACCOUNT_LINE=@ACCOUNT_LINE ");
                 obj_str.Append(", ACCOUNT_LINE_ALERT=@ACCOUNT_LINE_ALERT ");
+                obj_str.Append(", POLMENU_CODE=@POLMENU_CODE ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -367,6 +374,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@ACCOUNT_EMAIL_ALERT", SqlDbType.Bit); obj_cmd.Parameters["@ACCOUNT_EMAIL_ALERT"].Value = model.account_email_alert;
                 obj_cmd.Parameters.Add("@ACCOUNT_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@ACCOUNT_LINE"].Value = model.account_line;
                 obj_cmd.Parameters.Add("@ACCOUNT_LINE_ALERT", SqlDbType.Bit); obj_cmd.Parameters["@ACCOUNT_LINE_ALERT"].Value = model.account_line_alert;
+                obj_cmd.Parameters.Add("@POLMENU_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@POLMENU_CODE"].Value = model.polmenu_code;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

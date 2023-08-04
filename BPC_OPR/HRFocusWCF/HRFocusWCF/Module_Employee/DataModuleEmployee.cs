@@ -1241,6 +1241,8 @@ namespace BPC_OPR
         public string worker_gender { get; set; }
         [DataMember]
         public string group_code { get; set; }
+        [DataMember]
+        public string worker_empstatus { get; set; }
 
     }
 }

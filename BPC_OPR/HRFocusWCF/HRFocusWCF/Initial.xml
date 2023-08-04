@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HRFocus>
-  <ServerName>DESKTOP-VIP623A</ServerName>
+  <ServerName>161.82.218.95</ServerName>
   <DBName>OPR</DBName>
-  <DBLoginID>Test</DBLoginID>
+  <DBLoginID>sa</DBLoginID>
   <DBPassword>Sql2019*</DBPassword>
   <Language>T</Language>
   <BirthDay>N</BirthDay>

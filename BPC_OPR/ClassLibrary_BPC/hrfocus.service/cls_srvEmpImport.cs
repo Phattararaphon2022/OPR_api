@@ -361,6 +361,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_status = dr["worker_status"].ToString();
                                 model.religion_code = dr["religion_code"].ToString();
                                 model.blood_code = dr["blood_code"].ToString();
+                                model.worker_height = Convert.ToDouble(dr["worker_height"]);
+                                model.worker_weight = Convert.ToDouble(dr["worker_weight"]);
                                 if (dr["worker_resignstatus"].ToString().Equals("1"))
                                 {
                                     model.worker_resigndate = Convert.ToDateTime(dr["worker_resigndate"]);
@@ -565,13 +567,15 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
-                                model.family_code = dr["family_code"].ToString();
                                 model.family_type = dr["family_type"].ToString();
                                 model.family_fname_th = dr["family_fname_th"].ToString();
                                 model.family_lname_th = dr["family_lname_th"].ToString();
                                 model.family_fname_en = dr["family_fname_en"].ToString();
                                 model.family_lname_en = dr["family_lname_en"].ToString();
-                                model.family_birthdate = Convert.ToDateTime(dr["family_birthdate"]);
+                                model.family_occupation = dr["family_occupation"].ToString();
+                                model.family_tel = dr["family_tel"].ToString();
+                                model.family_address = dr["family_address"].ToString();
+
 
                                 model.modified_by = by;
 
@@ -1476,7 +1480,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_code = dr["worker_code"].ToString();
 
                                 model.empsuggest_code = dr["empsuggest_code"].ToString();
-                                model.empsuggest_date = Convert.ToDateTime(dr["empsuggest_date"]);
+                                model.empsuggest_amount = Convert.ToDouble(dr["empsuggest_amount"]);
                                 model.empsuggest_note = dr["empsuggest_note"].ToString();
 
 
