@@ -1982,6 +1982,276 @@ namespace BPC_OPR
         }
         #endregion
 
+
+        //#region MTLEVEL
+        //public string getLevelList(InputMTLevel input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTLevel objReason = new cls_ctMTLevel();
+        //        List<cls_MTLevel> listReason = objReason.getDataByFillter(input.level_group, input.level_id, input.level_code, input.company_code);
+        //        JArray array = new JArray();
+
+        //        if (listReason.Count > 0)
+        //        {
+
+        //            int index = 1;
+
+        //            foreach (cls_MTLevel model in listReason)
+        //            {
+        //                JObject json = new JObject();
+        //                json.Add("company_code", model.company_code);
+        //                json.Add("level_id", model.level_id);
+        //                json.Add("level_code", model.level_code);
+        //                json.Add("level_name_th", model.level_name_th);
+        //                json.Add("level_name_en", model.level_name_en);
+        //                json.Add("level_group", model.level_group);
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
+
+        //                json.Add("index", index);
+
+        //                index++;
+
+        //                array.Add(json);
+        //            }
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return e.ToString();
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //public string doManageMTLevel(InputMTLevel input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS001.2";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTLevel objReason = new cls_ctMTLevel();
+        //        cls_MTLevel model = new cls_MTLevel();
+
+        //        model.level_id = input.level_id.Equals("") ? 0 : Convert.ToInt32(input.level_id.ToString());
+        //        model.company_code = input.company_code;
+        //        model.level_code = input.level_code;
+        //        model.level_name_th = input.level_name_th;
+        //        model.level_name_en = input.level_name_en;
+        //        model.level_group = input.level_group;
+        //        model.modified_by = input.modified_by;
+        //        //model.flag = input.flag;
+
+        //        string strID = objReason.insert(model);
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Duplicate Code ";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objReason.getMessage();
+        //        }
+
+        //        objReason.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //    }
+
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+        //public string doDeleteMTLevel(InputMTLevel input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS001.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTLevel objReason = new cls_ctMTLevel();
+
+        //        bool blnResult = objReason.delete(input.level_id, input.company_code);
+
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = objReason.getMessage();
+        //        }
+        //        objReason.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+
+
+        //}
+        //public async Task<string> doUploadMTLevel(string token, string by, string fileName, Stream stream)
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "SYS001.4";
+        //    log.apilog_by = by;
+        //    log.apilog_data = "Stream";
+
+        //    try
+        //    {
+        //        if (!objBpcOpr.doVerify(token))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        bool upload = await this.doUploadFile(fileName, stream);
+
+        //        if (upload)
+        //        {
+        //            cls_srvSystemImport srv_import = new cls_srvSystemImport();
+        //            string tmp = srv_import.doImportExcel("level", fileName, by);
+
+
+        //            output["success"] = true;
+        //            output["message"] = tmp;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Upload data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = "Upload data not successfully";
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Upload data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //#endregion
+
+
         #region MTLEVEL
         public string getLevelList(BasicRequest req)
         {
@@ -2023,6 +2293,7 @@ namespace BPC_OPR
                         json.Add("level_code", model.level_code);
                         json.Add("level_name_th", model.level_name_th);
                         json.Add("level_name_en", model.level_name_en);
+
                         json.Add("company_code", model.company_code);
 
                         json.Add("modified_by", model.modified_by);
@@ -2101,6 +2372,7 @@ namespace BPC_OPR
                 model.level_code = input.level_code;
                 model.level_name_th = input.level_name_th;
                 model.level_name_en = input.level_name_en;
+
                 model.company_code = input.company_code;
 
                 model.created_by = input.created_by;
@@ -11024,6 +11296,7 @@ namespace BPC_OPR
         //}
 
         //#endregion
+
         #region MTRequest
         public string getRequestList(BasicRequest req)
         {

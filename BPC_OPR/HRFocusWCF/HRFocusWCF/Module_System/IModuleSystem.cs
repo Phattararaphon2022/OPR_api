@@ -125,6 +125,27 @@ namespace BPC_OPR
         Task<string> doUploadMTFamily(string token, string by, string fileName, Stream stream);
         #endregion
 
+
+        //#region LEVEL
+        //[OperationContract(Name = "level_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getLevelList(InputMTLevel input);
+
+        //[OperationContract(Name = "level")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageMTLevel(InputMTLevel input);
+
+        //[OperationContract(Name = "level_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteMTLevel(InputMTLevel input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadLevel?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadMTLevel(string token, string by, string fileName, Stream stream);
+
+        //#endregion
+
+
         #region LEVEL
         [OperationContract(Name = "level_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

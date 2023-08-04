@@ -14,7 +14,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string level_code { get; set; }
         public string level_name_th { get; set; }
         public string level_name_en { get; set; }
-
+ 
         public string company_code { get; set; }
 
         public string created_by { get; set; }
