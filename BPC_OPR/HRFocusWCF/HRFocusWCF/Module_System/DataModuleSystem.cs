@@ -1141,5 +1141,26 @@ namespace BPC_OPR
         public List<cls_MTPolmenu> polmenu_data { get; set; }
     }
     #endregion
+
+    #region InputTRWorkflow
+    [DataContract]
+    public class InputTRWorkflow
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string workflow_type { get; set; }
+        [DataMember]
+        public List<cls_TRWorkflow> workflow_data { get; set; }
+    }
+    #endregion
 }
 
