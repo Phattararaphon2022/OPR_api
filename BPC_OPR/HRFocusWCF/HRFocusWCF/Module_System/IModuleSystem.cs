@@ -745,5 +745,19 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeMTPolmenu(InputMTPolmenu input);
         #endregion
+
+        #region TRWorkflow
+        [OperationContract(Name = "sysworkflow_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRWorkflowList(InputTRWorkflow input);
+
+        [OperationContract(Name = "sysworkflow")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRWorkflow(InputTRWorkflow input);
+
+        [OperationContract(Name = "sysworkflow_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeTRWorkflow(InputTRWorkflow input);
+        #endregion
     }
 }
