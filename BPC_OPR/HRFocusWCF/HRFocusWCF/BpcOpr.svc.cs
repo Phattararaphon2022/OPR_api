@@ -72,6 +72,7 @@ namespace BPC_OPR
                         json.Add("account_email_alert", model.account_email_alert);
                         json.Add("account_line", model.account_line);
                         json.Add("account_line_alert", model.account_line_alert);
+                        json.Add("polmenu_code", model.polmenu_code);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -371,6 +372,8 @@ namespace BPC_OPR
         public string type { get; set; }
         [DataMember]
         public string emptype { get; set; }
+          [DataMember]
+        public string addresstype_code { get; set; }
         
     }
 

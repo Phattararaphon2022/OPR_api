@@ -83,8 +83,11 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaybank.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaybonus.cs" />
     <Compile Include="hrfocus.controller\Payroll\date.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPayreduce.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctMTProgroup.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctMTProarea.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTBlacklist.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTDocatt.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
@@ -92,6 +95,9 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRDocatt.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqimage.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqPosition.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqProject.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqSalary.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
@@ -160,6 +166,8 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqAssessment.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqCriminal.cs" />
     <Compile Include="hrfocus.controller\SYS.System\ApiController.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTAccessdata.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTAccessmenu.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTBank.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDep.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTGroup.cs" />
@@ -191,6 +199,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMainmenu.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajor.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTMajorr.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolmenu.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTPolround.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTProvince.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTQualification.cs" />
@@ -229,7 +238,10 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\employee\cls_TREmpimages.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybank.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRPaybonus.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPayreduce.cs" />
+    <Compile Include="hrfocus.model\Project\cls_MTProgroup.cs" />
+    <Compile Include="hrfocus.model\Project\cls_MTProarea.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobpol.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobversion.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRBonus.cs" />
@@ -240,6 +252,7 @@
     <Compile Include="hrfocus.model\Recruitment\cls_MTBlacklist.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_MTDocatt.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRDocatt.cs" />
+    <Compile Include="hrfocus.model\Recruitment\cls_TRReqProject.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTAccount.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTBonus.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTItem.cs" />
@@ -349,6 +362,8 @@
     <Compile Include="hrfocus.model\Recruitment\cls_TRApplytraining.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRReqAssessment.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRReqCriminal.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTAccessdata.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTAccessmenu.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTBank.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTDep.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTGroup.cs" />
@@ -381,6 +396,7 @@
     <Compile Include="hrfocus.model\SYS.System\cls_MTMainmenu.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajor.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTMajorr.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_MTPolmenu.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTPolround.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTProvince.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_MTQualification.cs" />

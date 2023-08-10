@@ -844,6 +844,8 @@ namespace BPC_OPR
         [DataMember]
         public string family_id { get; set; }
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string family_code { get; set; }
         [DataMember]
         public string family_name_th { get; set; }
@@ -1040,6 +1042,10 @@ namespace BPC_OPR
         public string polround_leave { get; set; }
         [DataMember]
         public string polround_netpay { get; set; }
+
+          [DataMember]
+        public string polround_loan { get; set; }
+        
         [DataMember]
         public string polround_timelate { get; set; }
         [DataMember]
@@ -1106,6 +1112,33 @@ namespace BPC_OPR
         public string itemmenu_code { get; set; }
         [DataMember]
         public List<cls_MTMainmenu> mainmenu_data { get; set; }
+    }
+    #endregion
+
+    #region InputMTPolmenu
+    [DataContract]
+    public class InputMTPolmenu
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int polmenu_id { get; set; }
+        [DataMember]
+        public string polmenu_code { get; set; }
+        [DataMember]
+        public string polmenu_name_th { get; set; }
+        [DataMember]
+        public string polmenu_name_en { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public List<cls_MTPolmenu> polmenu_data { get; set; }
     }
     #endregion
 }

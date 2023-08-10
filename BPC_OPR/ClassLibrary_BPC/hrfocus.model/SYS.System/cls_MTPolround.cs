@@ -25,6 +25,9 @@ namespace ClassLibrary_BPC.hrfocus.model.SYS.System
         public string polround_timeleave { get; set; }
         public string polround_timeot { get; set; }
         public string polround_timeworking { get; set; }
+        public string polround_loan { get; set; }
+
+        
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
         public string modified_by { get; set; }

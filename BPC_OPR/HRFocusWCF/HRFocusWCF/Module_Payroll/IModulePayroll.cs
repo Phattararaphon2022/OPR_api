@@ -112,6 +112,28 @@ namespace BPC_OPR
         Task<string> doUploadBonus(string token, string by, string fileName, Stream stream);
         #endregion
 
+        //#region paybonus
+        //[OperationContract(Name = "doManageTRPaybonus_List")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getTRPaybonusList(BasicRequest req);
+
+        //[OperationContract(Name = "ManageTRPaybonus")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageTRPaybonusList(InputTRPaybonus input);
+
+        //[OperationContract(Name = "ManageTRPaybonus_list")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doManageTRPaybonus(InputTRPaybonus input);
+
+        //[OperationContract(Name = "ManageTRPaybonus_del")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string doDeleteTRPaybonus(InputTRPaybonus input);
+
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", UriTemplate = "/doUploadManageTRPaybonus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        //Task<string> doUploadManageTRPaybonus(string token, string by, string fileName, Stream stream);
+        //#endregion
+
         #region MTPeriod
         [OperationContract(Name = "periods_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

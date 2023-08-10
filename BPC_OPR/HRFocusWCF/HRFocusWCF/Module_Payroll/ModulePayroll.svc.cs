@@ -781,13 +781,6 @@ namespace BPC_OPR
                                 JObject jsonProvidentrate = new JObject();
 
                                 jsonProvidentrate.Add("company_code", modelTRProvidentrate.company_code);
-                                //jsonBonusrate.Add("leave_code", modelTRBonusrate.provident_code);
-                                //jsonBonusrate.Add("workage_from", modelTRBonusrate.workage_from);
-                                //jsonBonusrate.Add("workage_to", modelTRBonusrate.workage_to);
-                                //jsonBonusrate.Add("rate_emp", modelTRBonusrate.rate_emp);
-                                //jsonBonusrate.Add("rate_com", modelTRBonusrate.rate_com);
-
-
                                 jsonProvidentrate.Add("provident_code", modelTRProvidentrate.provident_code);
                                 jsonProvidentrate.Add("workage_from", modelTRProvidentrate.workage_from);
                                 jsonProvidentrate.Add("workage_to", modelTRProvidentrate.workage_to);

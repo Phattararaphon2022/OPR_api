@@ -113,6 +113,12 @@ namespace BPC_OPR
         public string project_codecentral { get; set; }
         [DataMember]
         public string project_protype { get; set; }
+
+        [DataMember]
+        public string project_proarea { get; set; }
+        [DataMember]
+        public string project_progroup { get; set; }
+
         [DataMember]
         public string project_probusiness { get; set; }
         [DataMember]
@@ -153,6 +159,10 @@ namespace BPC_OPR
         public string project_codecentral { get; set; }
         [DataMember]
         public string project_protype { get; set; }
+        [DataMember]
+        public string project_proarea { get; set; }
+        [DataMember]
+        public string project_progroup { get; set; }
         [DataMember]
         public string project_probusiness { get; set; }
 
@@ -581,4 +591,37 @@ namespace BPC_OPR
          
 
      }
+
+    [DataContract] 
+    public class InputMTProarea
+    {
+        [DataMember]
+        public string proarea_id { get; set; }
+        [DataMember]
+        public string proarea_code { get; set; }
+        [DataMember]
+        public string proarea_name_th { get; set; }
+        [DataMember]
+        public string proarea_name_en { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+    }
+
+     [DataContract] 
+    public class InputMTProgroup
+    {
+        [DataMember]
+        public string progroup_id { get; set; }
+        [DataMember]
+        public string progroup_code { get; set; }
+        [DataMember]
+        public string progroup_name_th { get; set; }
+        [DataMember]
+        public string progroup_name_en { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+    
+
+}
+
 }

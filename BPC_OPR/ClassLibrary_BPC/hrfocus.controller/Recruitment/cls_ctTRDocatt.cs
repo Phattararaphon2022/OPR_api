@@ -31,12 +31,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("REQDOC_ID");
-                obj_str.Append(", REQDOC_ATT_NO");
-                obj_str.Append(", REQDOC_ATT_FILENAME");
-                obj_str.Append(", REQDOC_ATT_FILETYPE");
-                obj_str.Append(", REQDOC_ATT_PATH");
-                obj_str.Append(", REQDOC_ATT_PATH");
+                obj_str.Append("COMPANY_CODE");
+                obj_str.Append(", WORKER_CODE");
+                obj_str.Append(", DOCUMENT_ID");
+                obj_str.Append(", DOCUMENT_NAME");
+                obj_str.Append(", DOCUMENT_TYPE");
+                obj_str.Append(", DOCUMENT_PATH");
 
                 obj_str.Append(", CREATED_BY");
                 obj_str.Append(", CREATED_DATE");
@@ -47,7 +47,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY REQDOC_ATT_NO");
+                obj_str.Append(" ORDER BY DOCUMENT_ID");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -55,13 +55,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_TRDocatt();
 
-                    model.reqdoc_id = Convert.ToInt32(dr["REQDOC_ID"]);
-                    model.reqdoc_att_no = Convert.ToInt32(dr["REQDOC_ATT_NO"]);
-                    model.reqdoc_att_file_name = dr["REQDOC_ATT_FILENAME"].ToString();
-                    model.reqdoc_att_file_type = dr["REQDOC_ATT_FILETYPE"].ToString();
-                    model.reqdoc_att_path = dr["REQDOC_ATT_PATH"].ToString();
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.document_id = Convert.ToInt32(dr["DOCUMENT_ID"]);
+                    model.document_name = dr["DOCUMENT_NAME"].ToString();
+                    model.document_type = dr["DOCUMENT_TYPE"].ToString();
+                    model.document_path = dr["DOCUMENT_PATH"].ToString();
+
                     model.created_by = dr["CREATED_BY"].ToString();
-                    model.created_date = Convert.ToDateTime(dr["CREATED_DATE"]).ToString();
+                    model.created_date = Convert.ToDateTime(dr["CREATED_DATE"]);
 
                     list_model.Add(model);
                 }
@@ -69,39 +71,39 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Trreqdocatt.getData)" + ex.ToString();
+                Message = "ERROR::(Trdocatt.getData)" + ex.ToString();
             }
 
             return list_model;
         }
-        public List<cls_TRDocatt> getDataByFillter(int reqdoc_id, int reqdoc_att_no, string filename, string filetype)
+        public List<cls_TRDocatt> getDataByFillter(string com, int doc_id,string code)
         {
             string strCondition = "";
-            if (!reqdoc_id.Equals(0))
-                strCondition += " AND REQDOC_ID='" + reqdoc_id + "'";
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
 
-            if (!reqdoc_att_no.Equals(0))
-                strCondition += " AND REQDOC_ATT_NO='" + reqdoc_att_no + "'";
+            if (!doc_id.Equals(0))
+                strCondition += " AND DOCUMENT_ID='" + doc_id + "'";
 
-            if (!filename.Equals(""))
-                strCondition += " AND REQDOC_ATT_FILENAME='" + filename + "'";
+            if (!code.Equals(""))
+                strCondition += " AND WORKER_CODE='" + code + "'";
 
-            if (!filetype.Equals(""))
-                strCondition += " AND TOPIC_TYPE='" + filetype + "'";
 
             return this.getData(strCondition);
         }
-        public bool checkDataOld(int reqdoc_id,int reqdoc_att_no)
+        public bool checkDataOld(string com, int doc_id,string code)
         {
             bool blnResult = false;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT REQDOC_ATT_NO");
+                obj_str.Append("SELECT DOCUMENT_ID");
                 obj_str.Append(" FROM REQ_TR_DOCATT");
-                obj_str.Append(" WHERE REQDOC_ID ='" + reqdoc_id + "' ");
-                obj_str.Append(" AND REQDOC_ATT_NO='" + reqdoc_att_no + "'");
+                obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
+                obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
+                obj_str.Append(" AND WORKER_CODE='" + code + "'");
+
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -112,12 +114,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "ERROR::(Trreqdocatt.checkDataOld)" + ex.ToString();
+                Message = "ERROR::(Trdocatt.checkDataOld)" + ex.ToString();
             }
 
             return blnResult;
         }
-        public bool delete(int reqdoc_id,int reqdoc_att_no)
+        public bool delete(string com, int doc_id,string code)
         {
             bool blnResult = true;
             try
@@ -127,11 +129,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append(" DELETE FROM REQ_TR_DOCATT");
-                if (!reqdoc_id.Equals(0))
-                    obj_str.Append(" WHERE REQDOC_ID='" + reqdoc_id + "'");
-
-                if (!reqdoc_att_no.Equals(0))
-                    obj_str.Append(" WHERE REQDOC_ATT_NO='" + reqdoc_att_no + "'");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
+                if (!code.Equals(0))
+                    obj_str.Append(" AND WORKER_CODE='" + code + "'");
+                if (!doc_id.Equals(0))
+                    obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -139,7 +141,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "ERROR::(Trreqdocatt.delete)" + ex.ToString();
+                Message = "ERROR::(Trdocatt.delete)" + ex.ToString();
             }
 
             return blnResult;
@@ -151,7 +153,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT MAX(REQDOC_ATT_NO) ");
+                obj_str.Append("SELECT MAX(DOCUMENT_ID) ");
                 obj_str.Append(" FROM REQ_TR_DOCATT");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -174,7 +176,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.reqdoc_id,model.reqdoc_att_no))
+                if (this.checkDataOld(model.company_code, model.document_id, model.worker_code))
                 {
                     return this.update(model);
                 }
@@ -184,21 +186,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 int id = this.getNextID();
                 obj_str.Append("INSERT INTO REQ_TR_DOCATT");
                 obj_str.Append(" (");
-                obj_str.Append("REQDOC_ID ");
-                obj_str.Append(", REQDOC_ATT_NO ");
-                obj_str.Append(", REQDOC_ATT_FILENAME ");
-                obj_str.Append(", REQDOC_ATT_FILETYPE ");
-                obj_str.Append(", REQDOC_ATT_PATH ");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE");
+                obj_str.Append(", DOCUMENT_ID");
+                obj_str.Append(", DOCUMENT_NAME");
+                obj_str.Append(", DOCUMENT_TYPE");
+                obj_str.Append(", DOCUMENT_PATH");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@REQDOC_ID ");
-                obj_str.Append(", @REQDOC_ATT_NO ");
-                obj_str.Append(", @REQDOC_ATT_FILENAME ");
-                obj_str.Append(", @REQDOC_ATT_FILETYPE ");
-                obj_str.Append(", @REQDOC_ATT_PATH ");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE");
+                obj_str.Append(", @DOCUMENT_ID ");
+                obj_str.Append(", @DOCUMENT_NAME ");
+                obj_str.Append(", @DOCUMENT_TYPE ");
+                obj_str.Append(", @DOCUMENT_PATH ");
+
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(" )");
@@ -207,11 +213,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@REQDOC_ID", SqlDbType.Int); obj_cmd.Parameters["@REQDOC_ID"].Value = model.reqdoc_id;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_NO", SqlDbType.Int); obj_cmd.Parameters["@REQDOC_ATT_NO"].Value = id;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_FILENAME", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILENAME"].Value = model.reqdoc_att_file_name;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_FILETYPE", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILETYPE"].Value = model.reqdoc_att_file_type;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_PATH"].Value = model.reqdoc_att_path;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = id; ;
+                obj_cmd.Parameters.Add("@DOCUMENT_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_NAME"].Value = model.document_name;
+                obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
+                obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
+
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
@@ -237,14 +245,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("UPDATE REQ_TR_DOCATT SET ");
-                obj_str.Append(" REQDOC_ATT_FILENAME=@REQDOC_ATT_FILENAME ");
-                obj_str.Append(", REQDOC_ATT_FILETYPE=@REQDOC_ATT_FILETYPE ");
-                obj_str.Append(", REQDOC_ATT_PATH=@REQDOC_ATT_PATH ");
-                obj_str.Append(", CREATED_BY=@CREATED_BY ");
-                obj_str.Append(", CREATED_DATE=@CREATED_DATE ");
+                obj_str.Append("DOCUMENT_NAME=@DOCUMENT_NAME ");
+                obj_str.Append(", DOCUMENT_TYPE=@DOCUMENT_TYPE ");
+                obj_str.Append(", DOCUMENT_PATH=@DOCUMENT_PATH ");
 
-                obj_str.Append(" WHERE REQDOC_ID=@REQDOC_ID ");
-                obj_str.Append(" AND REQDOC_ATT_NO=@REQDOC_ATT_NO ");
+                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
+                if (!model.document_id.Equals(0))
+                    obj_str.Append(" AND DOCUMENT_ID=@DOCUMENT_ID ");
+                if (!model.worker_code.Equals(""))
+                    obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
       
 
                 obj_conn.doConnect();
@@ -253,18 +262,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
 
-                obj_cmd.Parameters.Add("@REQDOC_ID", SqlDbType.Int); obj_cmd.Parameters["@REQDOC_ID"].Value = model.reqdoc_id;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_NO", SqlDbType.Int); obj_cmd.Parameters["@REQDOC_ATT_NO"].Value = model.reqdoc_att_no;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_FILENAME", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILENAME"].Value = model.reqdoc_att_file_name;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_FILETYPE", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_FILETYPE"].Value = model.reqdoc_att_file_type;
-                obj_cmd.Parameters.Add("@REQDOC_ATT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@REQDOC_ATT_PATH"].Value = model.reqdoc_att_path;
-                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
-                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = model.document_id; ;
+                obj_cmd.Parameters.Add("@DOCUMENT_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_NAME"].Value = model.document_name;
+                obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
+                obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
+             
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
 
-                blnResult = model.reqdoc_id.ToString();
+                blnResult = model.document_id.ToString();
             }
             catch (Exception ex)
             {
