@@ -6545,8 +6545,15 @@ namespace BPC_OPR
                         json.Add("company_code", model.company_code);
 
                         json.Add("combank_id", model.combank_id);
+                        json.Add("combank_bankname", model.combank_bankname);
+
                         json.Add("combank_bankcode", model.combank_bankcode);
                         json.Add("combank_bankaccount", model.combank_bankaccount);
+                        
+                        json.Add("combank_banktype", model.combank_banktype);
+                        json.Add("combank_branch", model.combank_branch);
+
+
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -7250,6 +7257,10 @@ namespace BPC_OPR
                         json.Add("comaddres_zipcode", model.comaddres_zipcode);
 
                         json.Add("comaddres_tel", model.comaddres_tel);
+
+                        json.Add("comaddres_fax", model.comaddres_fax);
+                        json.Add("comaddres_url", model.comaddres_url);
+
                         json.Add("comaddres_email", model.comaddres_email);
                         json.Add("comaddres_line", model.comaddres_line);
                         json.Add("comaddres_facebook", model.comaddres_facebook);

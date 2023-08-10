@@ -34,6 +34,10 @@ namespace ClassLibrary_BPC.hrfocus.model
 
 
         public string comaddres_tel { get; set; }
+
+        public string comaddres_fax { get; set; }
+        public string comaddres_url { get; set; }
+
         public string comaddres_email { get; set; }
         public string comaddres_line { get; set; }
         public string comaddres_facebook { get; set; }

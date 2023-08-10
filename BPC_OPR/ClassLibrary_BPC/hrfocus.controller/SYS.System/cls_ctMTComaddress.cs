@@ -58,6 +58,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(PROVINCE_CODE, '') AS PROVINCE_CODE");
 
                 obj_str.Append(", ISNULL(COMADDRES_TEL, '') AS COMADDRES_TEL");
+
+                obj_str.Append(", ISNULL(COMADDRES_FAX, '') AS COMADDRES_FAX");
+                obj_str.Append(", ISNULL(COMADDRES_URL, '') AS COMADDRES_URL");
+
+
                 obj_str.Append(", ISNULL(COMADDRES_EMAIL, '') AS COMADDRES_EMAIL");
                 obj_str.Append(", ISNULL(COMADDRES_LINE, '') AS COMADDRES_LINE");
                 obj_str.Append(", ISNULL(COMADDRES_FACEBOOK, '') AS COMADDRES_FACEBOOK");
@@ -102,6 +107,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.province_code = Convert.ToString(dr["PROVINCE_CODE"]);
 
                     model.comaddres_tel = Convert.ToString(dr["COMADDRES_TEL"]);
+
+                    model.comaddres_fax = Convert.ToString(dr["COMADDRES_FAX"]);
+                    model.comaddres_url = Convert.ToString(dr["COMADDRES_URL"]);
+
+
                     model.comaddres_email = Convert.ToString(dr["COMADDRES_EMAIL"]);
                     model.comaddres_line = Convert.ToString(dr["COMADDRES_LINE"]);
                     model.comaddres_facebook = Convert.ToString(dr["COMADDRES_FACEBOOK"]);
@@ -255,6 +265,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", COMADDRES_ZIPCODE ");
                 obj_str.Append(", PROVINCE_CODE ");
                 obj_str.Append(", COMADDRES_TEL ");
+
+                obj_str.Append(", COMADDRES_FAX ");
+                obj_str.Append(", COMADDRES_URL ");
+
+
+
                 obj_str.Append(", COMADDRES_EMAIL ");
                 obj_str.Append(", COMADDRES_LINE ");
                 obj_str.Append(", COMADDRES_FACEBOOK ");
@@ -289,6 +305,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
                 obj_str.Append(", @COMADDRES_TEL ");
+
+                obj_str.Append(", @COMADDRES_FAX ");
+                obj_str.Append(", @COMADDRES_URL ");
+
                 obj_str.Append(", @COMADDRES_EMAIL ");
                 obj_str.Append(", @COMADDRES_LINE ");
                 obj_str.Append(", @COMADDRES_FACEBOOK ");
@@ -326,6 +346,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROVINCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCE_CODE"].Value = model.province_code;
 
                 obj_cmd.Parameters.Add("@COMADDRES_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_TEL"].Value = model.comaddres_tel;
+
+                obj_cmd.Parameters.Add("@COMADDRES_FAX", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_FAX"].Value = model.comaddres_fax;
+                obj_cmd.Parameters.Add("@COMADDRES_URL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_URL"].Value = model.comaddres_url;
+
+                
                 obj_cmd.Parameters.Add("@COMADDRES_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_EMAIL"].Value = model.comaddres_email;
                 obj_cmd.Parameters.Add("@COMADDRES_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_LINE"].Value = model.comaddres_line;
                 obj_cmd.Parameters.Add("@COMADDRES_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_FACEBOOK"].Value = model.comaddres_facebook;
@@ -380,6 +405,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", COMADDRES_ZIPCODE=@COMADDRES_ZIPCODE ");
                 obj_str.Append(", COMADDRES_TEL=@COMADDRES_TEL ");
+
+                obj_str.Append(", COMADDRES_FAX=@COMADDRES_FAX ");
+                obj_str.Append(", COMADDRES_URL=@COMADDRES_URL ");
+
                 obj_str.Append(", COMADDRES_EMAIL=@COMADDRES_EMAIL ");
                 obj_str.Append(", COMADDRES_LINE=@COMADDRES_LINE ");
                 obj_str.Append(", COMADDRES_FACEBOOK=@COMADDRES_FACEBOOK ");
@@ -416,6 +445,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
                 obj_cmd.Parameters.Add("@COMADDRES_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_TEL"].Value = model.comaddres_tel;
+
+                obj_cmd.Parameters.Add("@COMADDRES_FAX", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_FAX"].Value = model.comaddres_fax;
+                obj_cmd.Parameters.Add("@COMADDRES_URL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_URL"].Value = model.comaddres_url;
+
+                
                 obj_cmd.Parameters.Add("@COMADDRES_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_EMAIL"].Value = model.comaddres_email;
                 obj_cmd.Parameters.Add("@COMADDRES_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_LINE"].Value = model.comaddres_line;
                 obj_cmd.Parameters.Add("@COMADDRES_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@COMADDRES_FACEBOOK"].Value = model.comaddres_facebook;
