@@ -142,6 +142,8 @@ namespace BPC_OPR
         public string applywork_code { get; set; }
         [DataMember]
         public string job_type { get; set; }
+        [DataMember]
+        public int status { get; set; }
     }
 
 

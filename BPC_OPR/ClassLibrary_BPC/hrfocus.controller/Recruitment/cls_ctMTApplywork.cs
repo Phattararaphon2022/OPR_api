@@ -138,7 +138,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_MTWorker> getDataByFillter(string com, string code)
+        public List<cls_MTWorker> getDataByFillter(string com, string code,int status)
         {
             string strCondition = "";
 
@@ -146,6 +146,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!code.Equals(""))
                 strCondition += " AND WORKER_CODE  ='" + code + "'";
+            if(!status.Equals(""))
+                strCondition += " AND STATUS  ='" + status + "'";
 
             return this.getData(strCondition);
         }
