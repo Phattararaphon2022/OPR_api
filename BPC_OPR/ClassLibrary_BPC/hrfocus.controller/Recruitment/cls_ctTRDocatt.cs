@@ -34,6 +34,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", WORKER_CODE");
                 obj_str.Append(", DOCUMENT_ID");
+                obj_str.Append(", JOB_TYPE");
+
                 obj_str.Append(", DOCUMENT_NAME");
                 obj_str.Append(", DOCUMENT_TYPE");
                 obj_str.Append(", DOCUMENT_PATH");
@@ -58,6 +60,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.document_id = Convert.ToInt32(dr["DOCUMENT_ID"]);
+                    model.job_type = dr["JOB_TYPE"].ToString();
+
                     model.document_name = dr["DOCUMENT_NAME"].ToString();
                     model.document_type = dr["DOCUMENT_TYPE"].ToString();
                     model.document_path = dr["DOCUMENT_PATH"].ToString();
@@ -76,7 +80,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_TRDocatt> getDataByFillter(string com, int doc_id,string code)
+        public List<cls_TRDocatt> getDataByFillter(string com, int doc_id,string code , string type)
         {
             string strCondition = "";
             if (!com.Equals(""))
@@ -88,10 +92,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!code.Equals(""))
                 strCondition += " AND WORKER_CODE='" + code + "'";
 
+            if(!type.Equals(""))
+                strCondition += " AND JOB_TYPE='" + type + "'";                
+
 
             return this.getData(strCondition);
         }
-        public bool checkDataOld(string com, int doc_id,string code)
+        public bool checkDataOld(string com,string doc_id,string code)
         {
             bool blnResult = false;
             try
@@ -119,7 +126,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public bool delete(string com, int doc_id,string code)
+        public bool delete(string com, string doc_id, string code)
         {
             bool blnResult = true;
             try
@@ -170,13 +177,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return intResult;
         }
-        public string insert(cls_TRDocatt model)
+        public bool insert(cls_TRDocatt model)
         {
-            string blnResult = "";
+            bool blnResult = false;
+            string strResult = "";
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.document_id, model.worker_code))
+                if (this.checkDataOld(model.company_code, model.document_id.ToString(), model.worker_code))
                 {
                     return this.update(model);
                 }
@@ -189,6 +197,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE");
                 obj_str.Append(", DOCUMENT_ID");
+                obj_str.Append(", JOB_TYPE");
+
                 obj_str.Append(", DOCUMENT_NAME");
                 obj_str.Append(", DOCUMENT_TYPE");
                 obj_str.Append(", DOCUMENT_PATH");
@@ -201,6 +211,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE");
                 obj_str.Append(", @DOCUMENT_ID ");
+                obj_str.Append(", @JOB_TYPE");
+
                 obj_str.Append(", @DOCUMENT_NAME ");
                 obj_str.Append(", @DOCUMENT_TYPE ");
                 obj_str.Append(", @DOCUMENT_PATH ");
@@ -215,7 +227,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
-                obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = id; ;
+                obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = id;
+                obj_cmd.Parameters.Add("@JOB_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@JOB_TYPE"].Value = model.job_type;
                 obj_cmd.Parameters.Add("@DOCUMENT_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_NAME"].Value = model.document_name;
                 obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
                 obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
@@ -226,7 +239,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = id.ToString();
+                blnResult = true;
+                strResult = id.ToString();
             }
             catch (Exception ex)
             {
@@ -235,9 +249,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public string update(cls_TRDocatt model)
+        public bool update(cls_TRDocatt model)
         {
-            string blnResult = "";
+            bool blnResult = false;
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -245,7 +259,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("UPDATE REQ_TR_DOCATT SET ");
-                obj_str.Append("DOCUMENT_NAME=@DOCUMENT_NAME ");
+                obj_str.Append("JOB_TYPE=@JOB_TYPE ");
+                obj_str.Append(", DOCUMENT_NAME=@DOCUMENT_NAME ");
                 obj_str.Append(", DOCUMENT_TYPE=@DOCUMENT_TYPE ");
                 obj_str.Append(", DOCUMENT_PATH=@DOCUMENT_PATH ");
 
@@ -265,6 +280,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                 obj_cmd.Parameters.Add("@DOCUMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@DOCUMENT_ID"].Value = model.document_id; ;
+                obj_cmd.Parameters.Add("@JOB_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@JOB_TYPE"].Value = model.job_type;
                 obj_cmd.Parameters.Add("@DOCUMENT_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_NAME"].Value = model.document_name;
                 obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
                 obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
@@ -273,7 +289,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_conn.doClose();
 
-                blnResult = model.document_id.ToString();
+                blnResult = true;
             }
             catch (Exception ex)
             {

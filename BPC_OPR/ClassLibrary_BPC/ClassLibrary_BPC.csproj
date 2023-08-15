@@ -90,6 +90,7 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProarea.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTBlacklist.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTDocatt.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctMTReqRequest.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="hrfocus.model\Payroll\cls_TRPolProvident.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_MTBlacklist.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_MTDocatt.cs" />
+    <Compile Include="hrfocus.model\Recruitment\cls_MTReqRequest.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRDocatt.cs" />
     <Compile Include="hrfocus.model\Recruitment\cls_TRReqProject.cs" />
     <Compile Include="hrfocus.model\SelfServices\cls_MTAccount.cs" />

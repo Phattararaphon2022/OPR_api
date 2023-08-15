@@ -51,7 +51,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", BLOOD_CODE");
                 obj_str.Append(", WORKER_HEIGHT");
                 obj_str.Append(", WORKER_WEIGHT");
-                obj_str.Append(", ISNULL(WORKER_AGE, 0) AS WORKER_AGE");
+                //obj_str.Append(", ISNULL(WORKER_AGE, 0) AS WORKER_AGE");
                 obj_str.Append(", ISNULL(WORKER_TEL, '') AS WORKER_TEL");
                 obj_str.Append(", ISNULL(WORKER_EMAIL, '') AS WORKER_EMAIL");
                 obj_str.Append(", ISNULL(WORKER_LINE, '') AS WORKER_LINE");
@@ -59,6 +59,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");
                 obj_str.Append(", ISNULL(NATIONALITY_CODE, '') AS NATIONALITY_CODE");
+
+                obj_str.Append(", STATUS");
 
                 obj_str.Append(", ISNULL(REQ_MT_WORKER.MODIFIED_BY, REQ_MT_WORKER.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(REQ_MT_WORKER.MODIFIED_DATE, REQ_MT_WORKER.CREATED_DATE) AS MODIFIED_DATE");
@@ -103,7 +105,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.blood_code = dr["BLOOD_CODE"].ToString();
                     model.worker_height = Convert.ToDouble(dr["WORKER_HEIGHT"]);
                     model.worker_weight = Convert.ToDouble(dr["WORKER_WEIGHT"]);
-                    model.worker_age = Convert.ToDouble(dr["WORKER_AGE"]);
+                    //model.worker_age = Convert.ToDouble(dr["WORKER_AGE"]);
 
                     model.worker_tel = dr["WORKER_TEL"].ToString();
                     model.worker_email = dr["WORKER_EMAIL"].ToString();
@@ -112,6 +114,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.worker_military = dr["WORKER_MILITARY"].ToString();
                     model.nationality_code = dr["NATIONALITY_CODE"].ToString();
+
+                    model.status = Convert.ToInt32(dr["STATUS"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -289,7 +293,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", BLOOD_CODE ");
                 obj_str.Append(", WORKER_HEIGHT ");
                 obj_str.Append(", WORKER_WEIGHT ");
-                obj_str.Append(", WORKER_AGE ");
+                //obj_str.Append(", WORKER_AGE ");
 
                 obj_str.Append(", WORKER_TEL ");
                 obj_str.Append(", WORKER_EMAIL ");
@@ -298,6 +302,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_MILITARY ");
                 obj_str.Append(", NATIONALITY_CODE ");
+                obj_str.Append(", STATUS ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -325,7 +330,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @BLOOD_CODE ");
                 obj_str.Append(", @WORKER_HEIGHT ");
                 obj_str.Append(", @WORKER_WEIGHT ");
-                obj_str.Append(", @WORKER_AGE ");
+                //obj_str.Append(", @WORKER_AGE ");
 
                 obj_str.Append(", @WORKER_TEL ");
                 obj_str.Append(", @WORKER_EMAIL ");
@@ -334,6 +339,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @WORKER_MILITARY ");
                 obj_str.Append(", @NATIONALITY_CODE ");
+
+                obj_str.Append(", @STATUS ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -367,7 +374,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@BLOOD_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BLOOD_CODE"].Value = model.blood_code;
                 obj_cmd.Parameters.Add("@WORKER_HEIGHT", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_HEIGHT"].Value = model.worker_height;
                 obj_cmd.Parameters.Add("@WORKER_WEIGHT", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_WEIGHT"].Value = model.worker_weight;
-                obj_cmd.Parameters.Add("@WORKER_AGE", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_AGE"].Value = model.worker_age;
+                //obj_cmd.Parameters.Add("@WORKER_AGE", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_AGE"].Value = model.worker_age;
 
                 obj_cmd.Parameters.Add("@WORKER_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TEL"].Value = model.worker_tel;
                 obj_cmd.Parameters.Add("@WORKER_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMAIL"].Value = model.worker_email;
@@ -376,6 +383,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
                 obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
+
+                obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = 0;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -424,7 +433,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", BLOOD_CODE=@BLOOD_CODE ");
                 obj_str.Append(", WORKER_HEIGHT=@WORKER_HEIGHT ");
                 obj_str.Append(", WORKER_WEIGHT=@WORKER_WEIGHT ");
-                obj_str.Append(", WORKER_AGE=@WORKER_AGE ");
+                //obj_str.Append(", WORKER_AGE=@WORKER_AGE ");
 
                 obj_str.Append(", WORKER_TEL=@WORKER_TEL ");
                 obj_str.Append(", WORKER_EMAIL=@WORKER_EMAIL ");
@@ -468,7 +477,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@BLOOD_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BLOOD_CODE"].Value = model.blood_code;
                 obj_cmd.Parameters.Add("@WORKER_HEIGHT", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_HEIGHT"].Value = model.worker_height;
                 obj_cmd.Parameters.Add("@WORKER_WEIGHT", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_WEIGHT"].Value = model.worker_weight;
-                obj_cmd.Parameters.Add("@WORKER_AGE", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_AGE"].Value = model.worker_age;
+                //obj_cmd.Parameters.Add("@WORKER_AGE", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_AGE"].Value = model.worker_age;
 
                 obj_cmd.Parameters.Add("@WORKER_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TEL"].Value = model.worker_tel;
                 obj_cmd.Parameters.Add("@WORKER_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMAIL"].Value = model.worker_email;
