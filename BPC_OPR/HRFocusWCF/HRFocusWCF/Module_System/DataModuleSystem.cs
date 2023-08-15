@@ -44,7 +44,6 @@ namespace BPC_OPR
         public int index { get; set; }
     }
 
-
     public class InputMTPolcode
     {
         [DataMember]
