@@ -224,6 +224,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctMTYear.cs" />
     <Compile Include="hrfocus.controller\cls_ctTRPCost.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRRound.cs" />
+    <Compile Include="hrfocus.controller\SYS.System\cls_ctTRWorkflow.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmpattitem.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
@@ -421,6 +422,7 @@
     <Compile Include="hrfocus.model\cls_SYSApilog.cs" />
     <Compile Include="hrfocus.model\cls_TRPCost.cs" />
     <Compile Include="hrfocus.model\SYS.System\cls_TRRound.cs" />
+    <Compile Include="hrfocus.model\SYS.System\cls_TRWorkflow.cs" />
     <Compile Include="hrfocus.service\Attendance\cls_srvAttendanceImport.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRAccumalate.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRAddress.cs" />

@@ -862,6 +862,12 @@ namespace BPC_OPR
     public class InputMTLevel
     {
         [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
         public string level_id { get; set; }
         [DataMember]
         public string level_code { get; set; }
@@ -869,6 +875,8 @@ namespace BPC_OPR
         public string level_name_th { get; set; }
         [DataMember]
         public string level_name_en { get; set; }
+        [DataMember]
+        public string level_group { get; set; }
         [DataMember]
         public string created_by { get; set; }
         [DataMember]
@@ -1139,6 +1147,27 @@ namespace BPC_OPR
         public bool flag { get; set; }
         [DataMember]
         public List<cls_MTPolmenu> polmenu_data { get; set; }
+    }
+    #endregion
+
+    #region InputTRWorkflow
+    [DataContract]
+    public class InputTRWorkflow
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string account_user { get; set; }
+        [DataMember]
+        public string workflow_type { get; set; }
+        [DataMember]
+        public List<cls_TRWorkflow> workflow_data { get; set; }
     }
     #endregion
 }

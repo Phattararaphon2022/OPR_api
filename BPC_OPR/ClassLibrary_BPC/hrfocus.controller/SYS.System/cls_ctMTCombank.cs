@@ -37,8 +37,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", COMBANK_ID");
+                obj_str.Append(", ISNULL(COMBANK_BANKNAME, '') AS COMBANK_BANKNAME");
                 obj_str.Append(", ISNULL(COMBANK_BANKCODE, '') AS COMBANK_BANKCODE");
                 obj_str.Append(", ISNULL(COMBANK_BANKACCOUNT, '') AS COMBANK_BANKACCOUNT");
+
+                obj_str.Append(", ISNULL(COMBANK_BANKTYPE, '') AS COMBANK_BANKTYPE");
+                obj_str.Append(", ISNULL(COMBANK_BRANCH, '') AS COMBANK_BRANCH");
+
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -59,8 +64,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.combank_id = Convert.ToInt32(dr["COMBANK_ID"]);
+
+
+                    model.combank_bankname = dr["COMBANK_BANKNAME"].ToString();
+
                     model.combank_bankcode = dr["COMBANK_BANKCODE"].ToString();
                     model.combank_bankaccount = dr["COMBANK_BANKACCOUNT"].ToString();
+
+                    model.combank_banktype = dr["COMBANK_BANKTYPE"].ToString();
+                    model.combank_branch = dr["COMBANK_BRANCH"].ToString();
+
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -198,8 +211,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
                 obj_str.Append(", COMBANK_ID ");
+                obj_str.Append(", COMBANK_BANKNAME ");
                 obj_str.Append(", COMBANK_BANKCODE ");
                 obj_str.Append(", COMBANK_BANKACCOUNT ");
+
+                obj_str.Append(", COMBANK_BANKTYPE ");
+                obj_str.Append(", COMBANK_BRANCH ");
+
+
+
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -208,8 +229,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @COMBANK_ID ");
+                obj_str.Append(", @COMBANK_BANKNAME ");
+
                 obj_str.Append(", @COMBANK_BANKCODE ");
                 obj_str.Append(", @COMBANK_BANKACCOUNT ");
+
+                obj_str.Append(", @COMBANK_BANKTYPE ");
+                obj_str.Append(", @COMBANK_BRANCH ");
+
+
+
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -224,8 +253,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@COMBANK_ID", SqlDbType.Int); obj_cmd.Parameters["@COMBANK_ID"].Value = this.getNextID();
+
+                obj_cmd.Parameters.Add("@COMBANK_BANKNAME", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKNAME"].Value = model.combank_bankname;
+
                 obj_cmd.Parameters.Add("@COMBANK_BANKCODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKCODE"].Value = model.combank_bankcode;
                 obj_cmd.Parameters.Add("@COMBANK_BANKACCOUNT", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKACCOUNT"].Value = model.combank_bankaccount;
+
+                obj_cmd.Parameters.Add("@COMBANK_BANKTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKTYPE"].Value = model.combank_banktype;
+                obj_cmd.Parameters.Add("@COMBANK_BRANCH", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BRANCH"].Value = model.combank_branch;
+
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -257,6 +293,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE SYS_MT_COMBANkK SET ");
                 obj_str.Append(" COMBANK_BANKCODE=@COMBANK_BANKCODE ");
+                obj_str.Append(" COMBANK_BANKNAME=@COMBANK_BANKNAME ");
+
+                obj_str.Append(" COMBANK_BANKTYPE=@COMBANK_BANKTYPE ");
+                obj_str.Append(" COMBANK_BRANCH=@COMBANK_BRANCH ");
+
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -270,6 +311,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@COMBANK_BANKCODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKCODE"].Value = model.combank_bankcode;
+                obj_cmd.Parameters.Add("@COMBANK_BANKNAME", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKNAME"].Value = model.combank_bankname;
+
+                obj_cmd.Parameters.Add("@COMBANK_BANKTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BANKTYPE"].Value = model.combank_banktype;
+                obj_cmd.Parameters.Add("@COMBANK_BRANCH", SqlDbType.VarChar); obj_cmd.Parameters["@COMBANK_BRANCH"].Value = model.combank_branch;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
