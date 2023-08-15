@@ -125,7 +125,7 @@ namespace BPC_OPR
                  }
 
                  cls_ctMTApplywork controller = new cls_ctMTApplywork();
-                 List<cls_MTWorker> list = controller.getDataByFillter(req.company_code, req.worker_code);
+                 List<cls_MTWorker> list = controller.getDataByFillter(req.company_code, req.worker_code,req.status);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
@@ -3462,7 +3462,6 @@ namespace BPC_OPR
                  cls_ctTRDocatt controller = new cls_ctTRDocatt();
 
                  JObject jsonObject = new JObject();
-                 Console.Write(input.transaction_data);
                  var jsonArray = JsonConvert.DeserializeObject<List<cls_TRDocatt>>(input.transaction_data);
 
                  int success = 0;
@@ -5449,6 +5448,176 @@ namespace BPC_OPR
              {
                  output["success"] = false;
                  output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string getMTReqRequestPosition(InputReqRequest input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQST2.1";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTReqRequest controller = new cls_ctMTReqRequest();
+                 List<cls_MTReqRequest> list = controller.getPositionData(input.company_code);
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_MTReqRequest model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("request_id", model.request_id);
+                         json.Add("request_code", model.request_code);
+                         json.Add("request_position", model.request_position);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+
+                         json.Add("position_name_th", model.position_name_th);
+                         json.Add("position_name_en", model.position_name_en);
+
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string getMTReqRequestProject(InputReqRequest input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQST2.2";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTReqRequest controller = new cls_ctMTReqRequest();
+                 List<cls_MTReqRequest> list = controller.getProjectData(input.company_code);
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_MTReqRequest model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("request_id", model.request_id);
+                         json.Add("request_code", model.request_code);
+                         json.Add("request_project", model.request_project);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+
+                         json.Add("project_name_th", model.project_name_th);
+                         json.Add("project_name_en", model.project_name_en);
+
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
 
                  log.apilog_status = "500";
                  log.apilog_message = ex.ToString();

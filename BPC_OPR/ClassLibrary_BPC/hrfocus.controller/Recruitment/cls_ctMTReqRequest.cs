@@ -357,5 +357,123 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public List<cls_MTReqRequest> getPositionData(string com)
+        {
+            List<cls_MTReqRequest> list_model = new List<cls_MTReqRequest>();
+            cls_MTReqRequest model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+                obj_str.Append("REQ_MT_REQUEST.COMPANY_CODE");
+
+                obj_str.Append(", REQ_MT_REQUEST.REQUEST_ID");
+                obj_str.Append(", REQ_MT_REQUEST.REQUEST_CODE");
+                obj_str.Append(", ISNULL(REQ_MT_REQUEST.REQUEST_POSITION, '') AS REQUEST_POSITION");
+
+                obj_str.Append(", ISNULL(REQ_MT_REQUEST.MODIFIED_BY, REQ_MT_REQUEST.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(REQ_MT_REQUEST.MODIFIED_DATE, REQ_MT_REQUEST.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(", ISNULL(EMP_MT_POSITION.POSITION_NAME_TH,'') AS POSITION_NAME_TH");
+                obj_str.Append(", ISNULL(EMP_MT_POSITION.POSITION_NAME_EN,'') AS POSITION_NAME_EN");
+
+                obj_str.Append(" FROM REQ_MT_REQUEST");
+                obj_str.Append(" INNER JOIN EMP_MT_POSITION ON EMP_MT_POSITION.POSITION_CODE=REQ_MT_REQUEST.REQUEST_POSITION");
+
+                obj_str.Append(" WHERE 1=1");
+                obj_str.Append(" AND REQ_MT_REQUEST.COMPANY_CODE ='" + com + "'");
+
+                
+
+                obj_str.Append(" ORDER BY REQUEST_CODE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_MTReqRequest();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.request_id = Convert.ToInt32(dr["REQUEST_ID"]);
+                    model.request_code = dr["REQUEST_CODE"].ToString();
+                    model.request_position = dr["REQUEST_POSITION"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    model.position_name_th = dr["POSITION_NAME_TH"].ToString();
+                    model.position_name_en = dr["POSITION_NAME_EN"].ToString();
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "REQSTPST:" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+        public List<cls_MTReqRequest> getProjectData(string com)
+        {
+            List<cls_MTReqRequest> list_model = new List<cls_MTReqRequest>();
+            cls_MTReqRequest model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+                obj_str.Append("REQ_MT_REQUEST.COMPANY_CODE");
+
+                obj_str.Append(", REQ_MT_REQUEST.REQUEST_ID");
+                obj_str.Append(", REQ_MT_REQUEST.REQUEST_CODE");
+                obj_str.Append(", ISNULL(REQ_MT_REQUEST.REQUEST_PROJECT, '') AS REQUEST_PROJECT");
+
+                obj_str.Append(", ISNULL(REQ_MT_REQUEST.MODIFIED_BY, REQ_MT_REQUEST.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(REQ_MT_REQUEST.MODIFIED_DATE, REQ_MT_REQUEST.CREATED_DATE) AS MODIFIED_DATE");
+
+                obj_str.Append(", ISNULL(PRO_MT_PROJECT.PROJECT_NAME_TH,'') AS PROJECT_NAME_TH");
+                obj_str.Append(", ISNULL(PRO_MT_PROJECT.PROJECT_NAME_EN,'') AS PROJECT_NAME_EN");
+
+                obj_str.Append(" FROM REQ_MT_REQUEST");
+                obj_str.Append(" INNER JOIN PRO_MT_PROJECT ON PRO_MT_PROJECT.PROJECT_CODE=REQ_MT_REQUEST.REQUEST_PROJECT");
+
+                obj_str.Append(" WHERE 1=1");
+                obj_str.Append(" AND REQ_MT_REQUEST.COMPANY_CODE ='" + com + "'");
+
+
+
+                obj_str.Append(" ORDER BY REQUEST_CODE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_MTReqRequest();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.request_id = Convert.ToInt32(dr["REQUEST_ID"]);
+                    model.request_code = dr["REQUEST_CODE"].ToString();
+                    model.request_position = dr["REQUEST_PROJECT"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    model.position_name_th = dr["PROJECT_NAME_TH"].ToString();
+                    model.position_name_en = dr["PROJECT_NAME_EN"].ToString();
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "REQSTPRO:" + ex.ToString();
+            }
+
+            return list_model;
+        }
     }
 }

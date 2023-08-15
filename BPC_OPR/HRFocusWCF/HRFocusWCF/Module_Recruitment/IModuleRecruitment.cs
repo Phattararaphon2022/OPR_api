@@ -327,6 +327,14 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReqRequestList?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTReqRequestList(string token, string by, string fileName, Stream stream);
+
+        [OperationContract(Name = "getrequestposition")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqRequestPosition(InputReqRequest input);
+
+        [OperationContract(Name = "getrequestproject")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqRequestProject(InputReqRequest input);
         #endregion
 
     }
