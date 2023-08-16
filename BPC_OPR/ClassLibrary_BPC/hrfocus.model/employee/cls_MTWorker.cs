@@ -72,6 +72,15 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string position_name_th { get; set; }
         public string position_name_en { get;set; }
 
+        public double worker_age { get; set; }
+
+        public List<cls_TRDocatt> reqdocatt_data { get; set; }
+
+        public bool checkblacklist { get; set; }
+        public bool checkhistory { get; set; }
+        public string nationality_code { get; set; }
+        public int status { get; set; }
+
 
     }
 }

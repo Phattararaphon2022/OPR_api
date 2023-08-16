@@ -337,6 +337,7 @@ namespace BPC_OPR
         Task<string> doUploadCodestructure(string token, string by, string fileName, Stream stream);
         #endregion
 
+
         #region TRPolcode
         //-- TRPolcode
         [OperationContract(Name = "TRPolcode_list")]

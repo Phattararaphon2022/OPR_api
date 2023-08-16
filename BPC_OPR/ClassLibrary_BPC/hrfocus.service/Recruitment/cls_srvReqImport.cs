@@ -83,7 +83,15 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 if(!dr["worker_height"].ToString().Equals("")){
                                     model.worker_height = Convert.ToDouble(dr["worker_height"]);
                                 }
-                                model.worker_resignstatus = false;
+                                if (!dr["worker_age"].ToString().Equals(""))
+                                {
+                                    model.worker_age = Convert.ToDouble(dr["worker_age"]);
+                                }
+                                model.worker_tel = dr["worker_tel"].ToString();
+                                model.worker_email = dr["worker_email"].ToString();
+                                model.worker_line = dr["worker_line"].ToString();
+                                model.worker_facebook = dr["worker_facebook"].ToString();
+                                model.worker_military = dr["worker_military"].ToString();
 
                                 model.modified_by = by;
 

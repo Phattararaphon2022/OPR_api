@@ -227,6 +227,116 @@ namespace BPC_OPR
         string doSetBatchBlacklist(InputBlacklist input);
         #endregion
 
+        #region Attach File
+        [OperationContract(Name = "docatt_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTReqDocattList(FillterApplywork input);
+
+        [OperationContract(Name = "docatt")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRReqDocatt(InputApplyTransaction input);
+
+        [OperationContract(Name = "docatt_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRReqDocatt(InputTRDocatt input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqDocatt?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqDocatt(string token, string by, string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTDocatt?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTDocatt(string token, string by, string fileName, Stream stream);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doGetMTDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        byte[] DownloadFile(string file_Path);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doDeleteMTDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        string DeleteFile(string file_Path);
+        #endregion
+
+        #region TR_POSITION
+        [OperationContract(Name = "reqpsotionlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRApplyPositionList(FillterApplywork input);
+
+        [OperationContract(Name = "reqposition")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRApplyPosition(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqposition_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRApplyPosition(InputTRApplyPosition input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyPosition?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyPosition(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_PROJECT
+        [OperationContract(Name = "reqprojectlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRApplyProjectList(FillterApplywork input);
+
+        [OperationContract(Name = "reqproject")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRApplyProject(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqproject_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRApplyProject(InputTRApplyProject input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyProject?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyProject(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region TR_Salary
+        [OperationContract(Name = "reqsalarylist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRApplySalaryList(FillterApplywork input);
+
+        [OperationContract(Name = "reqsalary")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRApplySalary(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqsalary_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRApplySalary(InputTRApplySalary input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplySalary?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplySalary(string token, string by, string fileName, Stream stream);
+        #endregion
+
+        #region ReqRequest
+        [OperationContract(Name = "getreqrequest")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqRequest(InputReqRequest input);
+
+        [OperationContract(Name = "reqrequest")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTReqRequestList(InputReqRequest input);
+
+        [OperationContract(Name = "reqrequest_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTReqRequestList(InputReqRequest input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReqRequestList?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTReqRequestList(string token, string by, string fileName, Stream stream);
+
+        [OperationContract(Name = "getrequestposition")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqRequestPosition(InputReqRequest input);
+
+        [OperationContract(Name = "getrequestproject")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReqRequestProject(InputReqRequest input);
+        #endregion
+
     }
 
 }
