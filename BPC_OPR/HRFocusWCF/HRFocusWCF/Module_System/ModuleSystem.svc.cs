@@ -1005,14 +1005,14 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTPolcode objPol = new cls_ctMTPolcode();
-                List<cls_MTPolcode> listPol = objPol.getDataByFillter(req.com, "", req.type);
+                //cls_ctMTPolcode objPol = new cls_ctMTPolcode();
+                //List<cls_MTPolcode> listPol = objPol.getDataByFillter(req.com, "", req.type);
                 JArray array = new JArray();
 
-                if (listPol.Count > 0)
-                {
+                //if (listPol.Count > 0)
+                //{
                     string strID = "";
-                    cls_MTPolcode polcode = listPol[0];
+                    //cls_MTPolcode polcode = listPol[0];
 
                     cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
                     List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter("");
@@ -1031,6 +1031,7 @@ namespace BPC_OPR
                                 break;
 
                             case "3BRA":
+                                strID += req.empbranch;
                                 break;
 
                             case "4EMT":
@@ -1074,18 +1075,18 @@ namespace BPC_OPR
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Data not Found";
-                    output["data"] = "";
+                //}
+                //else
+                //{
+                //    output["success"] = false;
+                //    output["message"] = "Data not Found";
+                //    output["data"] = "";
 
-                    log.apilog_status = "404";
-                    log.apilog_message = "Data not Found";
-                }
+                //    log.apilog_status = "404";
+                //    log.apilog_message = "Data not Found";
+                //}
 
-                objPol.dispose();
+                    objTRPolcode.dispose();
             }
             catch (Exception ex)
             {

@@ -140,6 +140,10 @@ namespace BPC_OPR
         public DateTime paydate { get; set; }
         [DataMember]
         public string applywork_code { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
+        [DataMember]
+        public int status { get; set; }
     }
 
 
@@ -496,6 +500,44 @@ namespace BPC_OPR
         public bool flag { get; set; }
     }
 
+    [DataContract]
+    public class InputTRDocatt
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string document_id { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
+        [DataMember]
+        public string document_name { get; set; }
+        [DataMember]
+        public string document_type { get; set; }
+        [DataMember]
+        public string document_path { get; set; }
+        [DataMember]
+        public string created_by { get; set; }
+        [DataMember]
+        public DateTime created_date { get; set; }
+
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
 
     [DataContract]
     public class InputTRApplySalary
@@ -562,9 +604,44 @@ namespace BPC_OPR
     }
 
 
-
-
-
-
-
+    [DataContract]
+    public class InputReqRequest
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int request_id { get; set; }
+        [DataMember]
+        public string request_code { get; set; }
+        [DataMember]
+        public string request_date { get; set; }
+        [DataMember]
+        public string request_startdate { get; set; }
+        [DataMember]
+        public string request_enddate { get; set; }
+        [DataMember]
+        public string request_position { get; set; }
+        [DataMember]
+        public string request_project { get; set; }
+        [DataMember]
+        public string request_employee_type { get; set; }
+        [DataMember]
+        public string request_quantity { get; set; }
+        [DataMember]
+        public string request_urgency { get; set; }
+        [DataMember]
+        public string request_note { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
 }

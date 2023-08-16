@@ -373,6 +373,8 @@ namespace BPC_OPR
         [DataMember]
         public string emptype { get; set; }
         [DataMember]
+        public string empbranch { get; set; }
+        [DataMember]
         public string addresstype_code { get; set; }
         [DataMember]
         public string level_group { get; set; }
