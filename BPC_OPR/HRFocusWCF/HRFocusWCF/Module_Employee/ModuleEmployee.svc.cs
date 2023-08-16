@@ -736,7 +736,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTDep controller = new cls_ctMTDep();
-                List<cls_MTDep> list = controller.getDataByFillter("", req.level_code);
+                List<cls_MTDep> list = controller.getDataByFillter(req.company_code,"", req.level_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1054,7 +1054,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTPosition controller = new cls_ctMTPosition();
-                List<cls_MTPosition> list = controller.getDataByFillter("");
+                List<cls_MTPosition> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1367,7 +1367,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTGroup controller = new cls_ctMTGroup();
-                List<cls_MTGroup> list = controller.getDataByFillter("");
+                List<cls_MTGroup> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
