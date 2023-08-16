@@ -276,7 +276,10 @@ namespace BPC_OPR
 
                 
                 model.worker_probationdate = Convert.ToDateTime(input.worker_probationdate);
-                model.worker_probationenddate = Convert.ToDateTime(input.worker_probationenddate);
+                if(input.worker_probationenddate != null){
+                    model.worker_probationenddate = Convert.ToDateTime(input.worker_probationenddate);
+                }
+                
                 model.worker_probationday = input.worker_probationday;
 
                 model.hrs_perday = input.hrs_perday;
@@ -294,6 +297,7 @@ namespace BPC_OPR
 
                 model.worker_military = input.worker_military;
 
+                model.nationality_code = input.nationality_code;
 
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;

@@ -78,9 +78,12 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public bool checkblacklist { get; set; }
         public bool checkhistory { get; set; }
+        public int counthistory { get; set; }
         public string nationality_code { get; set; }
         public int status { get; set; }
 
-
+        public string worker_cardno { get; set; }
+        public DateTime worker_cardnoissuedate { get; set; }
+        public DateTime worker_cardnoexpiredate { get; set; }
     }
 }

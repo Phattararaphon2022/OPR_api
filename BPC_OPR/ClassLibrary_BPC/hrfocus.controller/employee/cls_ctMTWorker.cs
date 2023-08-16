@@ -78,7 +78,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(WORKER_LINE, '') AS WORKER_LINE");
                 obj_str.Append(", ISNULL(WORKER_FACEBOOK, '') AS WORKER_FACEBOOK");
 
-                obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");                
+                obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");
+
+                obj_str.Append(", ISNULL(NATIONALITY_CODE, '') AS NATIONALITY_CODE");   
 
                 obj_str.Append(", ISNULL(EMP_MT_WORKER.MODIFIED_BY, EMP_MT_WORKER.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(EMP_MT_WORKER.MODIFIED_DATE, EMP_MT_WORKER.CREATED_DATE) AS MODIFIED_DATE");
@@ -153,6 +155,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_facebook = dr["WORKER_FACEBOOK"].ToString();
 
                     model.worker_military = dr["WORKER_MILITARY"].ToString();
+
+                    model.nationality_code = dr["NATIONALITY_CODE"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -420,7 +424,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
 
                 obj_str.Append(", WORKER_PROBATIONDATE ");
-                obj_str.Append(", WORKER_PROBATIONENDDATE ");
+                if (model.worker_probationenddate.ToString().Equals(""))
+                {
+                    obj_str.Append(", WORKER_PROBATIONENDDATE ");
+                }
                 obj_str.Append(", WORKER_PROBATIONDAY ");
 
                 obj_str.Append(", HRS_PERDAY ");
@@ -436,6 +443,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_FACEBOOK ");
 
                 obj_str.Append(", WORKER_MILITARY ");
+
+                obj_str.Append(", NATIONALITY_CODE ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -484,7 +493,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
                 obj_str.Append(", @WORKER_PROBATIONDATE ");
-                obj_str.Append(", @WORKER_PROBATIONENDDATE ");
+                if (model.worker_probationenddate.ToString().Equals(""))
+                {
+                    obj_str.Append(", @WORKER_PROBATIONENDDATE ");
+                }
                 obj_str.Append(", @WORKER_PROBATIONDAY ");
 
                 obj_str.Append(", @HRS_PERDAY ");
@@ -500,6 +512,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @WORKER_MILITARY ");
 
+                obj_str.Append(", @NATIONALITY_CODE ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -554,7 +567,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
                 obj_cmd.Parameters.Add("@WORKER_PROBATIONDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONDATE"].Value = model.worker_probationdate;
-                obj_cmd.Parameters.Add("@WORKER_PROBATIONENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONENDDATE"].Value = model.worker_probationenddate;
+                if (model.worker_probationenddate.ToString().Equals(""))
+                {
+                    obj_cmd.Parameters.Add("@WORKER_PROBATIONENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONENDDATE"].Value = model.worker_probationenddate;
+                }
                 obj_cmd.Parameters.Add("@WORKER_PROBATIONDAY", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_PROBATIONDAY"].Value = model.worker_probationday;
 
                 obj_cmd.Parameters.Add("@HRS_PERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@HRS_PERDAY"].Value = model.hrs_perday;
@@ -570,6 +586,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FACEBOOK"].Value = model.worker_facebook;
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
+
+                obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -654,6 +672,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_MILITARY=@WORKER_MILITARY ");
 
+                obj_str.Append(", NATIONALITY_CODE=@NATIONALITY_CODE ");
+
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
@@ -724,6 +744,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FACEBOOK"].Value = model.worker_facebook;
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
+                obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
