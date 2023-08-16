@@ -91,8 +91,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
 
-                    model.company_code = dr["COMPANY_CODE"].ToString();
-
                     model.worker_id = Convert.ToInt32(dr["WORKER_ID"]);
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.worker_card = dr["WORKER_CARD"].ToString();
@@ -134,9 +132,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.initial_name_th = dr["INITIAL_NAME_TH"].ToString();
                     model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
 
-                    model.checkblacklist = this.checkblacklist(model.worker_code);
+                    model.checkblacklist = this.checkblacklist(model.worker_cardno);
                     //model.checkhistory = this.checkhistory(model.worker_code);
-                    model.counthistory = this.counthistory(model.worker_code);
+                    model.counthistory = this.counthistory(model.worker_cardno);
 
                     list_model.Add(model);
                 }
@@ -558,8 +556,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT WORKER_CODE");
-                obj_str.Append(" FROM REQ_MT_BLACKLIST");
-                obj_str.Append(" WHERE WORKER_CODE = (SELECT WORKER_CODE FROM EMP_TR_CARD WHERE CARD_CODE = (SELECT CARD_CODE FROM REQ_TR_CARD WHERE WORKER_CODE='" + code + "' AND CARD_TYPE = 'NTID'))");
+                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append(" WHERE WORKER_BLACKLISTSTATUS = 1 ");
+                obj_str.Append(" AND WORKER_CARDNO ='"+code+"'");
+
 
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());

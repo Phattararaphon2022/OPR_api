@@ -80,10 +80,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTPosition> getDataByFillter(string code)
+        public List<cls_MTPosition> getDataByFillter(string code,string com)
         {
             string strCondition = "";
 
+                strCondition += " AND COMPANY_CODE='" + com + "'";
             if (!code.Equals(""))
                 strCondition += " AND POSITION_CODE='" + code + "'";
 
