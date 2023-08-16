@@ -58,6 +58,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(WORKER_RESIGNSTATUS, '0') AS WORKER_RESIGNSTATUS");
                 obj_str.Append(", ISNULL(WORKER_RESIGNREASON, '') AS WORKER_RESIGNREASON");
 
+
+                obj_str.Append(", ISNULL(WORKER_BLACKLISTSTATUS, '0') AS WORKER_BLACKLISTSTATUS");
+                obj_str.Append(", ISNULL(WORKER_BLACKLISTREASON, '') AS WORKER_BLACKLISTREASON");
+                obj_str.Append(", ISNULL(WORKER_BLACKLISTNOTE, '') AS WORKER_BLACKLISTNOTE");
+
+
+
                 obj_str.Append(", ISNULL(WORKER_PROBATIONDATE, '01/01/2999') AS WORKER_PROBATIONDATE");
                 obj_str.Append(", ISNULL(WORKER_PROBATIONENDDATE, '01/01/2999') AS WORKER_PROBATIONENDDATE");
                 obj_str.Append(", ISNULL(WORKER_PROBATIONDAY, 0) AS WORKER_PROBATIONDAY");
@@ -125,6 +132,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_resigndate = Convert.ToDateTime(dr["WORKER_RESIGNDATE"]);
                     model.worker_resignstatus = Convert.ToBoolean(dr["WORKER_RESIGNSTATUS"]);
                     model.worker_resignreason = dr["WORKER_RESIGNREASON"].ToString();
+
+
+                    model.worker_blackliststatus = Convert.ToBoolean(dr["WORKER_BLACKLISTSTATUS"]);
+                    model.worker_blacklistreason = dr["WORKER_BLACKLISTREASON"].ToString();
+                    model.worker_blacklistnote = dr["WORKER_BLACKLISTNOTE"].ToString();
+
 
                     model.worker_probationdate = Convert.ToDateTime(dr["WORKER_PROBATIONDATE"]);
                     model.worker_probationenddate = Convert.ToDateTime(dr["WORKER_PROBATIONENDDATE"]);
@@ -197,7 +210,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype,string searchemp , string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill,string empstatus)
+        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill, string empstatus, bool worker_blackliststatus)
         {
             string strCondition = "";
 
@@ -239,6 +252,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 strCondition += " AND WORKER_STATUS='" + empstatus + "'";
             }
+            if (!worker_blackliststatus)
+            {
+                strCondition += " AND (WORKER_BLACKLISTSTATUS='0' OR WORKER_BLACKLISTSTATUS IS NULL) ";
+            }
+
 
             return this.getData(strCondition);
         }
@@ -393,6 +411,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
 
 
+                obj_str.Append(", WORKER_BLACKLISTSTATUS ");
+
+                if (model.worker_blackliststatus)
+                {
+                    obj_str.Append(", WORKER_BLACKLISTREASON ");
+                    obj_str.Append(", WORKER_BLACKLISTNOTE ");
+                }
+
                 obj_str.Append(", WORKER_PROBATIONDATE ");
                 obj_str.Append(", WORKER_PROBATIONENDDATE ");
                 obj_str.Append(", WORKER_PROBATIONDAY ");
@@ -446,6 +472,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     obj_str.Append(", @WORKER_RESIGNDATE ");
                     obj_str.Append(", @WORKER_RESIGNREASON ");
+                }
+
+                obj_str.Append(", @WORKER_BLACKLISTSTATUS ");
+
+                if (model.worker_blackliststatus)
+                {
+                    obj_str.Append(", @WORKER_BLACKLISTREASON ");
+                    obj_str.Append(", @WORKER_BLACKLISTNOTE ");
                 }
 
 
@@ -508,6 +542,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@WORKER_RESIGNDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_RESIGNDATE"].Value = model.worker_resigndate;
                     obj_cmd.Parameters.Add("@WORKER_RESIGNREASON", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_RESIGNREASON"].Value = model.worker_resignreason;
                 }
+
+                obj_cmd.Parameters.Add("@WORKER_BLACKLISTSTATUS", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_BLACKLISTSTATUS"].Value = model.worker_blackliststatus;
+
+                if (model.worker_blackliststatus)
+                {
+                    obj_cmd.Parameters.Add("@WORKER_BLACKLISTREASON", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_BLACKLISTREASON"].Value = model.worker_blacklistreason;
+                     obj_cmd.Parameters.Add("@WORKER_BLACKLISTNOTE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_BLACKLISTNOTE"].Value = model.worker_blacklistnote;
+                }
+
 
 
                 obj_cmd.Parameters.Add("@WORKER_PROBATIONDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONDATE"].Value = model.worker_probationdate;
@@ -585,6 +628,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", WORKER_RESIGNREASON=@WORKER_RESIGNREASON ");
                 }
 
+                obj_str.Append(", WORKER_BLACKLISTSTATUS=@WORKER_BLACKLISTSTATUS ");
+
+                if (model.worker_blackliststatus)
+                {
+                    obj_str.Append(", WORKER_BLACKLISTREASON=@WORKER_BLACKLISTREASON ");
+                    obj_str.Append(", WORKER_BLACKLISTNOTE=@WORKER_BLACKLISTNOTE ");
+                }
+
 
                 obj_str.Append(", WORKER_PROBATIONDATE=@WORKER_PROBATIONDATE ");
                 obj_str.Append(", WORKER_PROBATIONENDDATE=@WORKER_PROBATIONENDDATE ");
@@ -646,6 +697,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     obj_cmd.Parameters.Add("@WORKER_RESIGNDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_RESIGNDATE"].Value = model.worker_resigndate;
                     obj_cmd.Parameters.Add("@WORKER_RESIGNREASON", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_RESIGNREASON"].Value = model.worker_resignreason;
+                }
+
+
+                obj_cmd.Parameters.Add("@WORKER_BLACKLISTSTATUS", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_BLACKLISTSTATUS"].Value = model.worker_blackliststatus;
+
+                if (model.worker_blackliststatus)
+                {
+                    obj_cmd.Parameters.Add("@WORKER_BLACKLISTREASON", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_BLACKLISTREASON"].Value = model.worker_blacklistreason;
+                     obj_cmd.Parameters.Add("@WORKER_BLACKLISTNOTE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_BLACKLISTNOTE"].Value = model.worker_blacklistnote;
                 }
 
                 obj_cmd.Parameters.Add("@WORKER_PROBATIONDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONDATE"].Value = model.worker_probationdate;
