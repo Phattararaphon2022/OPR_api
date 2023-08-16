@@ -44,6 +44,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(WORKER_FNAME_EN, '') AS WORKER_FNAME_EN");
                 obj_str.Append(", ISNULL(WORKER_LNAME_EN, '') AS WORKER_LNAME_EN");
                 obj_str.Append(", WORKER_TYPE");
+                obj_str.Append(", WORKER_STATUS");
                 obj_str.Append(", WORKER_GENDER");
                 obj_str.Append(", WORKER_BIRTHDATE");
                 obj_str.Append(", WORKER_HIREDATE");
@@ -59,6 +60,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");
                 obj_str.Append(", ISNULL(NATIONALITY_CODE, '') AS NATIONALITY_CODE");
+
+                obj_str.Append(", ISNULL(WORKER_CARDNO, '') AS WORKER_CARDNO");
+                obj_str.Append(", ISNULL(WORKER_CARDNOISSUEDATE, '01/01/2999') AS WORKER_CARDNOISSUEDATE");
+                obj_str.Append(", ISNULL(WORKER_CARDNOEXPIREDATE, '01/01/2999') AS WORKER_CARDNOEXPIREDATE");
 
                 obj_str.Append(", STATUS");
 
@@ -97,6 +102,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_fname_en = dr["WORKER_FNAME_EN"].ToString();
                     model.worker_lname_en = dr["WORKER_LNAME_EN"].ToString();
                     model.worker_type = dr["WORKER_TYPE"].ToString();
+                    model.worker_status = dr["WORKER_STATUS"].ToString();
 
                     model.worker_gender = dr["WORKER_GENDER"].ToString();
                     model.worker_birthdate = Convert.ToDateTime(dr["WORKER_BIRTHDATE"]);
@@ -115,6 +121,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_military = dr["WORKER_MILITARY"].ToString();
                     model.nationality_code = dr["NATIONALITY_CODE"].ToString();
 
+                    model.worker_cardno = dr["WORKER_CARDNO"].ToString();
+                    model.worker_cardnoissuedate = Convert.ToDateTime(dr["WORKER_CARDNOISSUEDATE"]);
+                    model.worker_cardnoexpiredate = Convert.ToDateTime(dr["WORKER_CARDNOEXPIREDATE"]);
+
+
                     model.status = Convert.ToInt32(dr["STATUS"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
@@ -124,8 +135,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
 
                     model.checkblacklist = this.checkblacklist(model.worker_code);
-                    model.checkhistory = this.checkhistory(model.worker_code);
-
+                    //model.checkhistory = this.checkhistory(model.worker_code);
+                    model.counthistory = this.counthistory(model.worker_code);
 
                     list_model.Add(model);
                 }
@@ -287,6 +298,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_FNAME_EN ");
                 obj_str.Append(", WORKER_LNAME_EN ");
                 obj_str.Append(", WORKER_TYPE ");
+                obj_str.Append(", WORKER_STATUS ");
 
                 obj_str.Append(", WORKER_GENDER ");
                 obj_str.Append(", WORKER_BIRTHDATE ");
@@ -304,6 +316,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_MILITARY ");
                 obj_str.Append(", NATIONALITY_CODE ");
+                obj_str.Append(", WORKER_CARDNO ");
+                obj_str.Append(", WORKER_CARDNOISSUEDATE ");
+                obj_str.Append(", WORKER_CARDNOEXPIREDATE ");
+
                 obj_str.Append(", STATUS ");
 
                 obj_str.Append(", CREATED_BY ");
@@ -325,6 +341,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @WORKER_FNAME_EN ");
                 obj_str.Append(", @WORKER_LNAME_EN ");
                 obj_str.Append(", @WORKER_TYPE ");
+                obj_str.Append(", @WORKER_STATUS ");
                 obj_str.Append(", @WORKER_GENDER ");
                 obj_str.Append(", @WORKER_BIRTHDATE ");
                 obj_str.Append(", @WORKER_HIREDATE ");
@@ -341,6 +358,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @WORKER_MILITARY ");
                 obj_str.Append(", @NATIONALITY_CODE ");
+
+                obj_str.Append(", @WORKER_CARDNO ");
+                obj_str.Append(", @WORKER_CARDNOISSUEDATE ");
+                obj_str.Append(", @WORKER_CARDNOEXPIREDATE ");
 
                 obj_str.Append(", @STATUS ");
 
@@ -367,7 +388,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_LNAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_LNAME_TH"].Value = model.worker_lname_th;
                 obj_cmd.Parameters.Add("@WORKER_FNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FNAME_EN"].Value = model.worker_fname_en;
                 obj_cmd.Parameters.Add("@WORKER_LNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_LNAME_EN"].Value = model.worker_lname_en;
-                obj_cmd.Parameters.Add("@WORKER_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TYPE"].Value = model.worker_type; 
+                obj_cmd.Parameters.Add("@WORKER_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TYPE"].Value = model.worker_type;
+                obj_cmd.Parameters.Add("@WORKER_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_STATUS"].Value = model.worker_status; 
+                
                 obj_cmd.Parameters.Add("@WORKER_GENDER", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_GENDER"].Value = model.worker_gender;
 
                 obj_cmd.Parameters.Add("@WORKER_BIRTHDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_BIRTHDATE"].Value = model.worker_birthdate;
@@ -385,6 +408,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
                 obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
+
+                obj_cmd.Parameters.Add("@WORKER_CARDNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CARDNO"].Value = model.worker_cardno;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOISSUEDATE"].Value = model.worker_cardnoissuedate;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
 
                 obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = 0;
 
@@ -426,6 +453,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_FNAME_EN=@WORKER_FNAME_EN ");
                 obj_str.Append(", WORKER_LNAME_EN=@WORKER_LNAME_EN ");
                 obj_str.Append(", WORKER_TYPE=@WORKER_TYPE ");
+                obj_str.Append(", WORKER_STATUS=@WORKER_STATUS ");
 
                 obj_str.Append(", WORKER_GENDER=@WORKER_GENDER ");
 
@@ -444,6 +472,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_MILITARY=@WORKER_MILITARY ");
                 obj_str.Append(", NATIONALITY_CODE=@NATIONALITY_CODE ");
+
+                obj_str.Append(", WORKER_CARDNO=@WORKER_CARDNO ");
+                obj_str.Append(", WORKER_CARDNOISSUEDATE=@WORKER_CARDNOISSUEDATE ");
+                obj_str.Append(", WORKER_CARDNOEXPIREDATE=@WORKER_CARDNOEXPIREDATE ");
+
+                obj_str.Append(", STATUS=@STATUS ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -470,7 +504,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_LNAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_LNAME_TH"].Value = model.worker_lname_th;
                 obj_cmd.Parameters.Add("@WORKER_FNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FNAME_EN"].Value = model.worker_fname_en;
                 obj_cmd.Parameters.Add("@WORKER_LNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_LNAME_EN"].Value = model.worker_lname_en;
-                obj_cmd.Parameters.Add("@WORKER_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TYPE"].Value = model.worker_type; 
+                obj_cmd.Parameters.Add("@WORKER_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_TYPE"].Value = model.worker_type;
+                obj_cmd.Parameters.Add("@WORKER_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_STATUS"].Value = model.worker_status;                 
                 obj_cmd.Parameters.Add("@WORKER_GENDER", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_GENDER"].Value = model.worker_gender;
 
                 obj_cmd.Parameters.Add("@WORKER_BIRTHDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_BIRTHDATE"].Value = model.worker_birthdate;
@@ -488,6 +523,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
                 obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
+
+                obj_cmd.Parameters.Add("@WORKER_CARDNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CARDNO"].Value = model.worker_cardno;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOISSUEDATE"].Value = model.worker_cardnoissuedate;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
+
+                obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = model.status;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
@@ -542,8 +583,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT WORKER_CODE");
-                obj_str.Append(" FROM EMP_TR_CARD");
-                obj_str.Append(" WHERE CARD_CODE = (SELECT CARD_CODE FROM REQ_TR_CARD WHERE WORKER_CODE='" + code + "' AND CARD_TYPE = 'NTID')");
+                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append(" WHERE WORKER_CARDNO = '" + code + "' ");
 
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -558,6 +599,32 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 Message = "APW008:" + ex.ToString();
             }
             return blnResult;
+        }
+
+        public int counthistory(string code)
+        {
+            int intResult = 0;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT WORKER_CODE");
+                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append(" WHERE WORKER_CARDNO = '" + code + "' ");
+
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    intResult = Convert.ToInt32(dt.Rows.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "APW008:" + ex.ToString();
+            }
+            return intResult;
         }
     }
 }
