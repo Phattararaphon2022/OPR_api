@@ -74,6 +74,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public bool checkblacklist { get; set; }
         public bool checkhistory { get; set; }
         public int counthistory { get; set; }
+        public bool checkcertificate { get; set; }
         public string nationality_code { get; set; }
         public int status { get; set; }
 

@@ -132,9 +132,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.initial_name_th = dr["INITIAL_NAME_TH"].ToString();
                     model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
 
-                    model.checkblacklist = this.checkblacklist(model.worker_cardno);
+                    model.checkblacklist = this.checkblacklist(model.worker_cardno,model.company_code);
                     //model.checkhistory = this.checkhistory(model.worker_code);
-                    model.counthistory = this.counthistory(model.worker_cardno);
+                    model.counthistory = this.counthistory(model.worker_cardno, model.company_code);
+                    model.checkcertificate = this.checkCertificate(model.worker_code, model.company_code);
 
                     list_model.Add(model);
                 }
@@ -548,7 +549,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool checkblacklist(string code)
+        public bool checkblacklist(string code,string com)
         {
             bool blnResult = false;
             try
@@ -557,8 +558,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT WORKER_CODE");
                 obj_str.Append(" FROM EMP_MT_WORKER");
-                obj_str.Append(" WHERE WORKER_BLACKLISTSTATUS = 1 ");
-                obj_str.Append(" AND WORKER_CARDNO ='"+code+"'");
+                obj_str.Append(" WHERE COMPANY_CODE = '" + com + "' ");
+                obj_str.Append(" AND WORKER_BLACKLISTSTATUS = 1 ");
+                obj_str.Append(" AND WORKER_CARDNO ='" + code + "'");
 
 
 
@@ -601,7 +603,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public int counthistory(string code)
+        public int counthistory(string code,string com)
         {
             int intResult = 0;
             try
@@ -610,7 +612,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT WORKER_CODE");
                 obj_str.Append(" FROM EMP_MT_WORKER");
-                obj_str.Append(" WHERE WORKER_CARDNO = '" + code + "' ");
+                obj_str.Append(" WHERE COMPANY_CODE = '" + com + "' ");
+
+                obj_str.Append(" AND WORKER_CARDNO = '" + code + "' ");
 
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -625,6 +629,35 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 Message = "APW008:" + ex.ToString();
             }
             return intResult;
+        }
+
+        public bool checkCertificate(string code,string com)
+        {
+            bool blnResult = false;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT WORKER_CODE");
+                obj_str.Append(" FROM REQ_TR_DOCATT");
+                obj_str.Append(" WHERE COMPANY_CODE = '"+com+"' ");
+                obj_str.Append(" AND WORKER_CODE ='" + code + "'");
+                obj_str.Append(" AND JOB_TYPE = 'MCER' ");
+
+
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    blnResult = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "APW007:" + ex.ToString();
+            }
+            return blnResult;
         }
     }
 }

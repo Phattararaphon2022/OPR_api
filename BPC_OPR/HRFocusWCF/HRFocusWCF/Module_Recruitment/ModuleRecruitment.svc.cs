@@ -182,6 +182,8 @@ namespace BPC_OPR
                          json.Add("checkblacklist", model.checkblacklist);
                          //json.Add("checkhistory", model.checkhistory);
                          json.Add("counthistory", model.counthistory);
+                         json.Add("checkcertificate", model.checkcertificate);
+
 
                          //cls_ctTRDocatt objMTDoc = new cls_ctTRDocatt();
                          //List<cls_TRDocatt> listTRDoc = objMTDoc.getDataByFillter(model.company_code, 0,model.worker_code,"");
