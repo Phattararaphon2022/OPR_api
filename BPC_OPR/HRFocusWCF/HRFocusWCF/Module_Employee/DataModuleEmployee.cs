@@ -58,6 +58,15 @@ namespace BPC_OPR
         [DataMember]
         public string worker_resignreason { get; set; }
 
+
+        [DataMember]
+        public bool worker_blackliststatus { get; set; }
+        [DataMember]
+        public string worker_blacklistreason { get; set; }
+        [DataMember]
+        public string worker_blacklistnote { get; set; }
+        
+
         [DataMember]
         public string worker_probationdate { get; set; }
         [DataMember]
@@ -81,6 +90,12 @@ namespace BPC_OPR
         public string worker_military { get; set; }
         [DataMember]
         public string nationality_code { get; set; }
+        [DataMember]
+        public string worker_cardno { get; set; }
+        [DataMember]
+        public string worker_cardnoissuedate { get; set; }
+        [DataMember]
+        public string worker_cardnoexpiredate { get; set; }
 
 
         //-- Transaction
@@ -129,6 +144,9 @@ namespace BPC_OPR
         public DateTime paydate { get; set; }
         [DataMember]
         public string level_code { get; set; }
+
+        [DataMember]
+        public string worker_type { get; set; }
     }
     [DataContract]
     public class InputMTDep
@@ -1245,6 +1263,9 @@ namespace BPC_OPR
         public string group_code { get; set; }
         [DataMember]
         public string worker_empstatus { get; set; }
+        [DataMember]
+        public bool worker_blackliststatus { get; set; }
+        
 
     }
 }

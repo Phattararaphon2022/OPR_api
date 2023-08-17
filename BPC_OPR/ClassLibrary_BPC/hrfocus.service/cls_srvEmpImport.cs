@@ -334,6 +334,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     model.worker_resignstatus = false;
                                 }
+                                model.worker_blackliststatus = false;
                                 model.worker_probationday = Convert.ToDouble(dr["worker_probationday"]);
                                 model.worker_probationdate = Convert.ToDateTime(dr["worker_probationdate"]);
                                 model.worker_probationenddate = Convert.ToDateTime(dr["worker_probationenddate"]);
@@ -345,6 +346,12 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_line = dr["worker_line"].ToString();
                                 model.worker_facebook = dr["worker_facebook"].ToString();
                                 model.worker_military = dr["worker_military"].ToString();
+                                model.nationality_code = dr["nationality_code"].ToString();
+
+                                model.worker_cardno = dr["worker_cardno"].ToString();
+                                model.worker_cardnoissuedate = Convert.ToDateTime(dr["worker_cardnoissuedate"]);
+                                model.worker_cardnoexpiredate = Convert.ToDateTime(dr["worker_cardnoexpiredate"]);
+                                
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);

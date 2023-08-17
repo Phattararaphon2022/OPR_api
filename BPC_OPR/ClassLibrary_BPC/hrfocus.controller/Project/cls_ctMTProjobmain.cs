@@ -185,6 +185,31 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
+        public bool delete(string version, string project)
+        {
+            bool blnResult = true;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("DELETE FROM PRO_MT_PROJOBMAIN");
+                obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");                
+                obj_str.Append(" AND VERSION='" + version + "'");
+
+                blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                blnResult = false;
+                Message = "BNK004:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
         public bool delete(string version, string project, string code)
         {
             bool blnResult = true;

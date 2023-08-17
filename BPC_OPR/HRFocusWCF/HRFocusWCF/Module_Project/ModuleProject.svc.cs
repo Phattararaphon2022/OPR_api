@@ -1667,6 +1667,11 @@ namespace BPC_OPR
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
                         List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+
+                        //-- Contract
+                        cls_ctTRProcontract contract = new cls_ctTRProcontract();
+                        List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
+
                         foreach (cls_MTProjobmain jobmain in list_job)
                         {
                             
@@ -1700,8 +1705,20 @@ namespace BPC_OPR
 
                         json.Add("project_emp", manpower);
                         json.Add("project_cost", sum_cost);
-                        json.Add("project_start", new DateTime());
-                        json.Add("project_end", new DateTime());
+
+
+                        DateTime project_start = new DateTime();
+                        DateTime project_end = new DateTime();
+                        foreach (cls_TRProcontract model_ in list_contract)
+                        {
+                            project_start = model_.procontract_fromdate;
+                            project_end = model_.procontract_todate;
+
+
+                        }
+
+                        json.Add("project_start", project_start);
+                        json.Add("project_end", project_end);
             
 
                         json.Add("modified_by", model.modified_by);
@@ -3955,7 +3972,7 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.project_code);
+                bool clear = controller.delete(input.version, input.project_code);
 
                 if (clear)
                 {
@@ -4793,7 +4810,7 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.project_code, input.job_code);
+                bool clear = controller.delete(input.version, input.project_code, input.job_code);
 
                 if (clear)
                 {
@@ -9312,6 +9329,168 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        #endregion
+
+        #region Compare cost
+
+        public string getCostCompare(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO026.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+                JArray array = new JArray();
+
+                cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+                cls_ctMTProject project_controller = new cls_ctMTProject();
+                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
+
+                JObject json;
+               
+
+                cls_ctMTProcost mtcost_controller = new cls_ctMTProcost();
+                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company, "");
+
+                foreach (cls_MTProject project in list_project)
+                {
+
+                    cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
+                    List<cls_MTProjobversion> list_jobversion = jobversion_controller.getDataByFillter(project.project_code);
+
+                    JArray array_job = new JArray();
+
+                    foreach (cls_MTProjobversion version in list_jobversion)
+                    {
+                        //-- Job main
+                        cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
+                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, version.version);
+
+                        //-- Job shift
+                        cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                        List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(req.project_code, "", version.version);
+
+                        foreach (cls_MTProjobmain jobmain in list_jobmain)
+                        {
+
+                            //-- Cost 
+                            List<cls_TRProjobcost> list_cost = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, version.version);
+
+                            foreach (cls_MTProcost mtcost in list_mtcost)
+                            {
+                                //-- Clear amount
+                                mtcost.procost_amount = 0;
+
+                                foreach (cls_TRProjobcost cost in list_cost)
+                                {
+                                    if (mtcost.procost_code.Equals(cost.projobcost_code))
+                                    {
+                                        mtcost.procost_amount = cost.projobcost_amount;
+                                        break;
+                                    }
+                                }
+
+                            }
+
+                            //-- Job shift
+                            int manpower = 0;
+                            foreach (cls_TRProjobshift tmp in shift_list)
+                            {
+                                if (tmp.projob_code.Equals(jobmain.projobmain_code))
+                                {
+                                    manpower += tmp.projobshift_emp;
+                                }
+                            }
+
+                            json = new JObject();
+
+                            json.Add("project_id", project.project_id);
+                            json.Add("project_code", project.project_code);
+                            json.Add("project_name_th", project.project_name_th);
+                            json.Add("project_name_en", project.project_name_en);
+                            json.Add("project_type", project.project_protype);
+                            json.Add("project_proarea", project.project_proarea);
+                            json.Add("project_progroup", project.project_progroup);
+
+                            json.Add("version", version.version);
+                            json.Add("fromdate", version.fromdate);
+                            json.Add("todate", version.todate);
+                            
+                            json.Add("projobmain_id", jobmain.projobmain_id);
+                            json.Add("projobmain_code", jobmain.projobmain_code);
+                            json.Add("projobmain_name_th", jobmain.projobmain_name_th);
+                            json.Add("projobmain_name_en", jobmain.projobmain_name_en);
+                            json.Add("projobmain_type", jobmain.projobmain_type);
+
+                            int i = 1;
+                            double sum_cost = 0;
+                            foreach (cls_MTProcost mtcost in list_mtcost)
+                            {
+                                json.Add("allow" + i.ToString(), mtcost.procost_amount);
+                                i++;
+
+                                sum_cost += doGetAmountPerday(mtcost.procost_amount, mtcost.procost_type);
+                            }
+
+                            sum_cost *= manpower;
+
+                            json.Add("projobmain_manpower", manpower);
+                            json.Add("projobmain_cost", sum_cost);
+
+
+                            array.Add(json);
+
+
+                        } //-- Next job
+
+                    } //-- Next version
+
+                } //-- Next project
+
+
+                output["success"] = true;
+                output["message"] = "";
+                output["data"] = array;
+
+                log.apilog_status = "200";
+                log.apilog_message = "";
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
         #endregion
     }
 }

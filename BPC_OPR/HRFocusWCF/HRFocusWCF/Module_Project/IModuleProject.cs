@@ -457,5 +457,11 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProgroup?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream);
 
-}
+
+        //-- Cost compare
+        [OperationContract(Name = "cost_compare")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getCostCompare(FillterProject req);
+
+    }
 }
