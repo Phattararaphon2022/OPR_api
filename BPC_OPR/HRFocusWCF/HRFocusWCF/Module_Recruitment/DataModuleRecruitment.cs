@@ -158,6 +158,8 @@ namespace BPC_OPR
         public string transaction_data { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
     }
 
     [DataContract]
@@ -602,7 +604,29 @@ namespace BPC_OPR
         [DataMember]
         public int index { get; set; }
     }
+    [DataContract]
+    public class InputTRApplyBenefit
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string applywork_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
 
+        [DataMember]
+        public int empbenefit_id { get; set; }
+        [DataMember]
+        public string empbenefit_amount { get; set; }
+        [DataMember]
+        public string item_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
 
     [DataContract]
     public class InputReqRequest

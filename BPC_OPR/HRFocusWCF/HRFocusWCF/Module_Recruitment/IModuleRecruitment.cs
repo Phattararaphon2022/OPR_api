@@ -311,6 +311,24 @@ namespace BPC_OPR
         Task<string> doUploadApplySalary(string token, string by, string fileName, Stream stream);
         #endregion
 
+        #region TR_Benefit
+        [OperationContract(Name = "reqbenefitlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRApplyBenefitList(FillterApplywork input);
+
+        [OperationContract(Name = "reqbenefit")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRApplyBenefit(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqbenefit_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRApplyBenefit(InputTRApplyBenefit input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyBenefit?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyBenefit(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #region ReqRequest
         [OperationContract(Name = "getreqrequest")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

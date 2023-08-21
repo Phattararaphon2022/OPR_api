@@ -41,6 +41,11 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime worker_resigndate { get; set; }
         public bool worker_resignstatus { get; set; }
         public string worker_resignreason { get; set; }
+
+        public bool worker_blackliststatus { get; set; }
+        public string worker_blacklistreason { get; set; }
+        public string worker_blacklistnote{ get; set; }
+
         public DateTime worker_probationdate { get; set; }
         public DateTime worker_probationenddate { get; set; }
         public double worker_probationday { get; set; }
@@ -73,9 +78,13 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public bool checkblacklist { get; set; }
         public bool checkhistory { get; set; }
+        public int counthistory { get; set; }
+        public bool checkcertificate { get; set; }
         public string nationality_code { get; set; }
         public int status { get; set; }
 
-
+        public string worker_cardno { get; set; }
+        public DateTime worker_cardnoissuedate { get; set; }
+        public DateTime worker_cardnoexpiredate { get; set; }
     }
 }

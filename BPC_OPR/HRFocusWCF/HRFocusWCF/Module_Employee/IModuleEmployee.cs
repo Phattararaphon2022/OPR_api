@@ -643,6 +643,19 @@ namespace BPC_OPR
         string doSetBatchAssessment(InputSetAssessment input);
         #endregion
 
+        #region กราฟ
+        [OperationContract(Name = "locationlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getlocationList(FillterWorker input);
+ 
+        #endregion
+
+        #region typelist
+        [OperationContract(Name = "typelist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTypeionList(FillterWorker input);
+        #endregion
+
         #endregion
     }
 }

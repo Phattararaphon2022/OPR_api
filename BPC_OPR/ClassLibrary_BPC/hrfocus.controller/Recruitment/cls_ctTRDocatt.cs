@@ -126,7 +126,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public bool delete(string com, string doc_id, string code)
+        public bool delete(string com, string doc_id, string code,string type)
         {
             bool blnResult = true;
             try
@@ -141,6 +141,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(" AND WORKER_CODE='" + code + "'");
                 if (!doc_id.Equals(0))
                     obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
+                if(!type.Equals(0))
+                    obj_str.Append(" AND JOB_TYPE='" + type + "'");
+
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -233,7 +236,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@DOCUMENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_TYPE"].Value = model.document_type;
                 obj_cmd.Parameters.Add("@DOCUMENT_PATH", SqlDbType.VarChar); obj_cmd.Parameters["@DOCUMENT_PATH"].Value = model.document_path;
 
-                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.ExecuteNonQuery();

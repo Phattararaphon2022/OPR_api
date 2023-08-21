@@ -1,11 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HRFocus>
+<<<<<<< HEAD
 
   <ServerName>.\SQL2019</ServerName>
   <DBName>OPR</DBName>
   <DBLoginID>sa</DBLoginID>
   <DBPassword>Sql2019**</DBPassword>
 
+=======
+  <ServerName>161.82.218.95</ServerName>
+  <DBName>OPR</DBName>
+  <DBLoginID>sa</DBLoginID>
+  <DBPassword>Sql2019*</DBPassword>
+>>>>>>> fe0ce9fcbd4079c46b527eadab5b5b9e205501d0
   <Language>T</Language>
   <BirthDay>N</BirthDay>
   <EndProbation>N</EndProbation>

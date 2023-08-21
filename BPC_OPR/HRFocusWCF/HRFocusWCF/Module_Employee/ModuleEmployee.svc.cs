@@ -25,6 +25,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Configuration;
 using System.Web.Script.Serialization;
 using ClassLibrary_BPC.hrfocus.service;
+using ClassLibrary_BPC.hrfocus.model.employee;
 
 namespace BPC_OPR
 {
@@ -131,6 +132,11 @@ namespace BPC_OPR
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("worker_resignreason", model.worker_resignreason);
 
+                        json.Add("worker_blackliststatus", model.worker_blackliststatus);
+                        json.Add("worker_blacklistreason", model.worker_blacklistreason);
+                        json.Add("worker_blacklistnote", model.worker_blacklistnote);
+
+
                         json.Add("worker_probationdate", model.worker_probationdate);
                         json.Add("worker_probationenddate", model.worker_probationenddate);
                         json.Add("worker_probationday", model.worker_probationday);
@@ -151,6 +157,11 @@ namespace BPC_OPR
 
                         json.Add("worker_military", model.worker_military);
 
+                        json.Add("nationality_code", model.nationality_code);
+
+                        json.Add("worker_cardno", model.worker_cardno);
+                        json.Add("worker_cardnoissuedate", model.worker_cardnoissuedate);
+                        json.Add("worker_cardnoexpiredate", model.worker_cardnoexpiredate);
 
                         json.Add("flag", model.flag);
 
@@ -259,9 +270,21 @@ namespace BPC_OPR
                     model.worker_resigndate = Convert.ToDateTime(input.worker_resigndate);
                     model.worker_resignreason = input.worker_resignreason;
                 }
+
+                model.worker_blackliststatus = input.worker_blackliststatus;
+                if (input.worker_blackliststatus)
+                {
+                     
+                    model.worker_blacklistreason = input.worker_blacklistreason;
+                    model.worker_blacklistnote = input.worker_blacklistnote;
+                }
+
                 
                 model.worker_probationdate = Convert.ToDateTime(input.worker_probationdate);
-                model.worker_probationenddate = Convert.ToDateTime(input.worker_probationenddate);
+                if(input.worker_probationenddate != null){
+                    model.worker_probationenddate = Convert.ToDateTime(input.worker_probationenddate);
+                }
+                
                 model.worker_probationday = input.worker_probationday;
 
                 model.hrs_perday = input.hrs_perday;
@@ -279,6 +302,11 @@ namespace BPC_OPR
 
                 model.worker_military = input.worker_military;
 
+                model.nationality_code = input.nationality_code;
+
+                model.worker_cardno = input.worker_cardno;
+                model.worker_cardnoissuedate = Convert.ToDateTime(input.worker_cardnoissuedate);
+                model.worker_cardnoexpiredate = Convert.ToDateTime(input.worker_cardnoexpiredate);
 
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
@@ -490,7 +518,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTWorker controller = new cls_ctMTWorker();
-                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code,req.worker_emptype,req.searchemp,req.level_code,req.dep_code,req.position_code,"",req.worker_resignstatus,req.location_code,req.date_fill,req.worker_empstatus);
+                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code, req.worker_emptype, req.searchemp, req.level_code, req.dep_code, req.position_code, "", req.worker_resignstatus, req.location_code, req.date_fill, req.worker_empstatus, req.worker_blackliststatus);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -732,7 +760,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTDep controller = new cls_ctMTDep();
-                List<cls_MTDep> list = controller.getDataByFillter("", req.level_code);
+                List<cls_MTDep> list = controller.getDataByFillter(req.company_code,"", req.level_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1050,7 +1078,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTPosition controller = new cls_ctMTPosition();
-                List<cls_MTPosition> list = controller.getDataByFillter("");
+                List<cls_MTPosition> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1363,7 +1391,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTGroup controller = new cls_ctMTGroup();
-                List<cls_MTGroup> list = controller.getDataByFillter("");
+                List<cls_MTGroup> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -11515,6 +11543,221 @@ namespace BPC_OPR
 
         #endregion
 
+        //
+        #region Set batch
+        public string getlocationList(FillterWorker input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
 
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTDashboards objPolItem = new cls_ctMTDashboards();
+                List<cls_MTDashboards> listPolItem = objPolItem.getDataByFillter(input.worker_code);
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTDashboards model in listPolItem)
+                    {
+                        JObject json = new JObject();
+
+                     
+                    json.Add("worker_code", model.worker_code);
+                    json.Add("location_name_th", model.location_name_th);
+                    json.Add("location_name_en", model.location_name_en);
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+
+        //public string getTypeionList(FillterWorker input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "EMBT001.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        cls_ctMTTypeDashboards objType = new cls_ctMTTypeDashboards();
+        //        List<cls_MTDashboards> listType = objType.getDataByFillterType(input.worker_code);
+
+        //        JArray array = new JArray();
+
+        //        if (listType.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_MTDashboards model in listType)
+        //            {
+        //                JObject json = new JObject();
+
+
+        //                json.Add("worker_code", model.worker_code);
+        //                json.Add("type_name_th", model.type_name_th);
+        //                json.Add("type_name_en", model.type_name_en);
+
+        //                index++;
+
+        //                array.Add(json);
+
+        //            }
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+
+
+       
+ 
+        
+        #endregion
+
+
+
+        public string getTypeionList(FillterWorker input)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "E024.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTTypeDashboards controller = new cls_ctMTTypeDashboards();
+                List<cls_MTDashboards> list = controller.getDataByFillterType(input.worker_type);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTDashboards model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("type_name_th", model.type_name_th);
+                        json.Add("type_name_en", model.type_name_en);
+
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
     }
+
 }

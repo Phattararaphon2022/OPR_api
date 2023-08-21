@@ -81,7 +81,10 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctMTTypeDashboards.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaybank.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaybonus.cs" />
     <Compile Include="hrfocus.controller\Payroll\date.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRDocatt.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqBenefit.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqimage.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqPosition.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqProject.cs" />
@@ -238,6 +242,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTPlantimeallw.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTRateot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
+    <Compile Include="hrfocus.model\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.model\employee\cls_TREmpimages.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybank.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybonus.cs" />
