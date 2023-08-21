@@ -16,5 +16,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string timeinput_terminal { get; set; }
         public string timeinput_function { get; set; }
         public string timeinput_compare { get; set; }
+
+        //-- show only
+        public string projob_code { get; set; }
+        public string project_code { get; set; }
+        public string shift_code { get; set; }
     }
 }
