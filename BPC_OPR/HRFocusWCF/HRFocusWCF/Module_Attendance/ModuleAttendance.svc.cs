@@ -4329,6 +4329,7 @@ namespace BPC_OPR
 
                 model.company_code = input.company_code;
                 model.project_code = input.project_code;
+                model.projob_code = input.projob_code;
                 model.worker_code = input.worker_code;
 
                 model.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
