@@ -21,6 +21,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public double request_quantity { get; set; }
         public string request_urgency { get; set; }
         public string request_note { get; set; }
+        public double request_accepted { get; set; }
+        public int request_status { get; set; }
+
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
         public string modified_by { get; set; }
