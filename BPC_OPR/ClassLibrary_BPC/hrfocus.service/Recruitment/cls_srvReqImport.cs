@@ -142,10 +142,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.address_amphur = dr["address_amphur"].ToString();
                                 model.province_code = dr["province_code"].ToString();
                                 model.address_zipcode = dr["address_zipcode"].ToString();
-                                model.address_tel = dr["address_tel"].ToString();
-                                model.address_email = dr["address_email"].ToString();
-                                model.address_line = dr["address_line"].ToString();
-                                model.address_facebook = dr["address_facebook"].ToString();
 
                                 model.modified_by = by;
 

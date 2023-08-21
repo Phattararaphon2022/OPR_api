@@ -776,10 +776,6 @@ namespace BPC_OPR
                          json.Add("address_amphur", model.address_amphur);
                          json.Add("province_code", model.province_code);
                          json.Add("address_zipcode", model.address_zipcode);
-                         json.Add("address_tel", model.address_tel);
-                         json.Add("address_email", model.address_email);
-                         json.Add("address_line", model.address_line);
-                         json.Add("address_facebook", model.address_facebook);
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
                          json.Add("index", index++);
@@ -5610,7 +5606,7 @@ namespace BPC_OPR
                  }
 
                  cls_ctMTReqRequest controller = new cls_ctMTReqRequest();
-                 List<cls_MTReqRequest> list = controller.getDataByFillter(input.company_code,input.request_code);
+                 List<cls_MTReqRequest> list = controller.getDataByFillter(input.company_code,input.request_code,input.request_status);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
