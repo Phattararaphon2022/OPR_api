@@ -159,7 +159,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public bool checkDataOld(DateTime date, string card, string time)
+        public bool checkDataOld(DateTime date, string card, string time, string terminal)
         {
             bool blnResult = false;
             try
@@ -171,6 +171,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE TIMEINPUT_DATE='" + date.ToString("MM/dd/yyyy") + "'");
                 obj_str.Append(" AND TIMEINPUT_HHMM='" + time + "'");
                 obj_str.Append(" AND TIMEINPUT_CARD='" + card + "'");
+
+                if(!terminal.Equals(""))
+                    obj_str.Append(" AND TIMEINPUT_TERMINAL='" + terminal + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -219,7 +222,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.timeinput_date, model.timeinput_card, model.timeinput_hhmm))
+                if (this.checkDataOld(model.timeinput_date, model.timeinput_card, model.timeinput_hhmm, model.timeinput_terminal))
                 {
                     return true;
                 }
