@@ -40,6 +40,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPBENEFIT_ID");
                 obj_str.Append(", ITEM_CODE");
                 obj_str.Append(", EMPBENEFIT_AMOUNT");
+                obj_str.Append(", EMPBENEFIT_STARTDATE");
+                obj_str.Append(", EMPBENEFIT_ENDDATE");
+                obj_str.Append(", EMPBENEFIT_REASON");
+                obj_str.Append(", ISNULL(EMPBENEFIT_NOTE, '') AS EMPBENEFIT_NOTE");
+                obj_str.Append(", ISNULL(EMPBENEFIT_PAYTYPE, 'A') AS EMPBENEFIT_PAYTYPE");
+                obj_str.Append(", ISNULL(EMPBENEFIT_BREAK, 0) AS EMPBENEFIT_BREAK");
+                obj_str.Append(", ISNULL(EMPBENEFIT_BREAKREASON, '') AS EMPBENEFIT_BREAKREASON");
+                obj_str.Append(", ISNULL(EMPBENEFIT_CONDITIONPAY, 'F') AS EMPBENEFIT_CONDITIONPAY");
+                obj_str.Append(", ISNULL(EMPBENEFIT_PAYFIRST, 'Y') AS EMPBENEFIT_PAYFIRST");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -63,6 +72,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.item_code = dr["ITEM_CODE"].ToString();
                     model.empbenefit_id = Convert.ToInt32(dr["EMPBENEFIT_ID"]);
                     model.empbenefit_amount = Convert.ToDouble(dr["EMPBENEFIT_AMOUNT"]);
+                    model.empbenefit_startdate = Convert.ToDateTime(dr["EMPBENEFIT_STARTDATE"]);
+                    model.empbenefit_enddate = Convert.ToDateTime(dr["EMPBENEFIT_ENDDATE"]);
+                    model.empbenefit_reason = dr["EMPBENEFIT_REASON"].ToString();
+                    model.empbenefit_note = dr["EMPBENEFIT_NOTE"].ToString();
+                    model.empbenefit_paytype = dr["EMPBENEFIT_PAYTYPE"].ToString();
+                    model.empbenefit_break = Convert.ToBoolean(dr["EMPBENEFIT_BREAK"]);
+                    model.empbenefit_breakreason = dr["EMPBENEFIT_BREAKREASON"].ToString();
+                    model.empbenefit_conditionpay = dr["EMPBENEFIT_CONDITIONPAY"].ToString();
+                    model.empbenefit_payfirst = dr["EMPBENEFIT_PAYFIRST"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
@@ -200,6 +218,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPBENEFIT_ID ");
                 obj_str.Append(", ITEM_CODE ");
                 obj_str.Append(", EMPBENEFIT_AMOUNT ");
+                obj_str.Append(", EMPBENEFIT_STARTDATE ");
+                obj_str.Append(", EMPBENEFIT_ENDDATE ");
+                obj_str.Append(", EMPBENEFIT_REASON ");
+                obj_str.Append(", EMPBENEFIT_NOTE ");
+                obj_str.Append(", EMPBENEFIT_PAYTYPE ");
+                obj_str.Append(", EMPBENEFIT_BREAK ");
+
+                if (model.empbenefit_break)
+                {
+                    obj_str.Append(", EMPBENEFIT_BREAKREASON ");
+                }
+                obj_str.Append(", EMPBENEFIT_CONDITIONPAY ");
+                obj_str.Append(", EMPBENEFIT_PAYFIRST ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -213,6 +244,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @EMPBENEFIT_ID ");
                 obj_str.Append(", @ITEM_CODE ");
                 obj_str.Append(", @EMPBENEFIT_AMOUNT ");
+                obj_str.Append(", @EMPBENEFIT_STARTDATE ");
+                obj_str.Append(", @EMPBENEFIT_ENDDATE ");
+                obj_str.Append(", @EMPBENEFIT_REASON ");
+                obj_str.Append(", @EMPBENEFIT_NOTE ");
+                obj_str.Append(", @EMPBENEFIT_PAYTYPE ");
+                obj_str.Append(", @EMPBENEFIT_BREAK ");
+                if (model.empbenefit_break)
+                {
+                    obj_str.Append(", @EMPBENEFIT_BREAKREASON ");
+                }
+                obj_str.Append(", @EMPBENEFIT_CONDITIONPAY ");
+                obj_str.Append(", @EMPBENEFIT_PAYFIRST ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -229,6 +272,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@EMPBENEFIT_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPBENEFIT_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
                 obj_cmd.Parameters.Add("@EMPBENEFIT_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPBENEFIT_AMOUNT"].Value = model.empbenefit_amount;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_STARTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPBENEFIT_STARTDATE"].Value = model.empbenefit_startdate;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_ENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPBENEFIT_ENDDATE"].Value = model.empbenefit_enddate;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_REASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_REASON"].Value = model.empbenefit_reason;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_NOTE"].Value = model.empbenefit_note;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_PAYTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_PAYTYPE"].Value = model.empbenefit_paytype;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_BREAK", SqlDbType.Bit); obj_cmd.Parameters["@EMPBENEFIT_BREAK"].Value = model.empbenefit_break;
+                if (model.empbenefit_break)
+                {
+                    obj_cmd.Parameters.Add("@EMPBENEFIT_BREAKREASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_BREAKREASON"].Value = model.empbenefit_breakreason;
+                }
+                obj_cmd.Parameters.Add("@EMPBENEFIT_CONDITIONPAY", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_CONDITIONPAY"].Value = model.empbenefit_conditionpay;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_PAYFIRST", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_PAYFIRST"].Value = model.empbenefit_payfirst;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -259,6 +314,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" ITEM_CODE=@ITEM_CODE ");
                 obj_str.Append(", EMPBENEFIT_AMOUNT=@EMPBENEFIT_AMOUNT ");
+                obj_str.Append(", EMPBENEFIT_STARTDATE=@EMPBENEFIT_STARTDATE ");
+                obj_str.Append(", EMPBENEFIT_ENDDATE=@EMPBENEFIT_ENDDATE ");
+                obj_str.Append(", EMPBENEFIT_REASON=@EMPBENEFIT_REASON ");
+                obj_str.Append(", EMPBENEFIT_NOTE=@EMPBENEFIT_NOTE ");
+                obj_str.Append(", EMPBENEFIT_PAYTYPE=@EMPBENEFIT_PAYTYPE ");
+                obj_str.Append(", EMPBENEFIT_BREAK=@EMPBENEFIT_BREAK ");
+                if (model.empbenefit_break)
+                {
+                    obj_str.Append(", EMPBENEFIT_BREAKREASON=@EMPBENEFIT_BREAKREASON ");
+                }
+                obj_str.Append(", EMPBENEFIT_CONDITIONPAY=@EMPBENEFIT_CONDITIONPAY ");
+                obj_str.Append(", EMPBENEFIT_PAYFIRST=@EMPBENEFIT_PAYFIRST ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
@@ -273,6 +340,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
                 obj_cmd.Parameters.Add("@EMPBENEFIT_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPBENEFIT_AMOUNT"].Value = model.empbenefit_amount;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_STARTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPBENEFIT_STARTDATE"].Value = model.empbenefit_startdate;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_ENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPBENEFIT_ENDDATE"].Value = model.empbenefit_enddate;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_REASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_REASON"].Value = model.empbenefit_reason;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_NOTE"].Value = model.empbenefit_note;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_PAYTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_PAYTYPE"].Value = model.empbenefit_paytype;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_BREAK", SqlDbType.Bit); obj_cmd.Parameters["@EMPBENEFIT_BREAK"].Value = model.empbenefit_break;
+                if (model.empbenefit_break)
+                {
+                    obj_cmd.Parameters.Add("@EMPBENEFIT_BREAKREASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_BREAKREASON"].Value = model.empbenefit_breakreason;
+                }
+                obj_cmd.Parameters.Add("@EMPBENEFIT_CONDITIONPAY", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_CONDITIONPAY"].Value = model.empbenefit_conditionpay;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_PAYFIRST", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_PAYFIRST"].Value = model.empbenefit_payfirst;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

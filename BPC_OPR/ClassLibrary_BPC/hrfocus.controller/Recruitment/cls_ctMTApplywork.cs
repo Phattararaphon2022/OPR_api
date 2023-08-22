@@ -133,7 +133,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
 
                     model.checkblacklist = this.checkblacklist(model.worker_cardno,model.company_code);
-                    //model.checkhistory = this.checkhistory(model.worker_code);
                     model.counthistory = this.counthistory(model.worker_cardno, model.company_code);
                     model.checkcertificate = this.checkCertificate(model.worker_code, model.company_code);
 
@@ -483,6 +482,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", FLAG=@FLAG ");
 
                 obj_str.Append(" WHERE WORKER_ID=@WORKER_ID ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
 
 
                 obj_conn.doConnect();
@@ -534,6 +535,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
                 obj_cmd.Parameters.Add("@WORKER_ID", SqlDbType.Int); obj_cmd.Parameters["@WORKER_ID"].Value = strResult;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -574,31 +576,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 Message = "APW007:" + ex.ToString();
-            }
-            return blnResult;
-        }
-        public bool checkhistory(string code)
-        {
-            bool blnResult = false;
-            try
-            {
-                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-
-                obj_str.Append("SELECT WORKER_CODE");
-                obj_str.Append(" FROM EMP_MT_WORKER");
-                obj_str.Append(" WHERE WORKER_CARDNO = '" + code + "' ");
-
-
-                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
-
-                if (dt.Rows.Count > 0)
-                {
-                    blnResult = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Message = "APW008:" + ex.ToString();
             }
             return blnResult;
         }
@@ -655,9 +632,61 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "APW007:" + ex.ToString();
+                Message = "APW009:" + ex.ToString();
             }
             return blnResult;
+        }
+
+        public string updatestatus(cls_MTWorker model)
+        {
+            
+            string strResult = "";
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("UPDATE REQ_MT_WORKER SET ");
+
+                obj_str.Append(" STATUS=@STATUS ");
+
+                obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+                obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+                obj_str.Append(", FLAG=@FLAG ");
+
+                obj_str.Append(" WHERE WORKER_ID=@WORKER_ID ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
+
+                obj_conn.doConnect();
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                
+                strResult = model.worker_id.ToString();
+
+                obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = model.status;
+
+                obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
+                obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
+                obj_cmd.Parameters.Add("@WORKER_ID", SqlDbType.Int); obj_cmd.Parameters["@WORKER_ID"].Value = strResult;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
+                obj_cmd.ExecuteNonQuery();
+
+                obj_conn.doClose();
+
+            }
+            catch (Exception ex)
+            {
+                strResult = "";
+                Message = "APW010:" + ex.ToString();
+            }
+
+            return strResult;
         }
     }
 }

@@ -48,6 +48,10 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqworker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream);
 
+        [OperationContract(Name = "requpdate_status")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doUpdateStatusReq(InputReqWorker input);
+
         //image
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqImages?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]

@@ -38,6 +38,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPSALARY_ID");
 
                 obj_str.Append(", EMPSALARY_AMOUNT");
+                obj_str.Append(", EMPSALARY_DATE");
+                obj_str.Append(", ISNULL(EMPSALARY_REASON, '') AS EMPSALARY_REASON");
+
+                obj_str.Append(", ISNULL(EMPSALARY_INCAMOUNT, 0) AS EMPSALARY_INCAMOUNT");
+                obj_str.Append(", ISNULL(EMPSALARY_INCPERCENT, 0) AS EMPSALARY_INCPERCENT");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -59,9 +64,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.empsalary_id = Convert.ToInt32(dr["EMPSALARY_ID"]);
-                    //model.empsalary_type = dr["EMPSALARY_TYPE"].ToString();
 
                     model.empsalary_amount = Convert.ToDouble(dr["EMPSALARY_AMOUNT"]);
+                    model.empsalary_date = Convert.ToDateTime(dr["EMPSALARY_DATE"]);
+                    model.empsalary_reason = dr["EMPSALARY_REASON"].ToString();
+
+                    model.empsalary_incamount = Convert.ToDouble(dr["EMPSALARY_INCAMOUNT"]);
+                    model.empsalary_incpercent = Convert.ToDouble(dr["EMPSALARY_INCPERCENT"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -196,8 +205,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", EMPSALARY_ID ");
                 obj_str.Append(", EMPSALARY_AMOUNT ");
-
-                //obj_str.Append(", EMPSALARY_TYPE ");
+                obj_str.Append(", EMPSALARY_DATE ");
+                obj_str.Append(", EMPSALARY_REASON ");
+                obj_str.Append(", EMPSALARY_INCAMOUNT ");
+                obj_str.Append(", EMPSALARY_INCPERCENT ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -210,8 +221,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @EMPSALARY_ID ");
                 obj_str.Append(", @EMPSALARY_AMOUNT ");
-
-                //obj_str.Append(", @EMPSALARY_TYPE ");
+                obj_str.Append(", @EMPSALARY_DATE ");
+                obj_str.Append(", @EMPSALARY_REASON ");
+                obj_str.Append(", @EMPSALARY_INCAMOUNT ");
+                obj_str.Append(", @EMPSALARY_INCPERCENT ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -229,8 +242,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@EMPSALARY_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPSALARY_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@EMPSALARY_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSALARY_AMOUNT"].Value = model.empsalary_amount;
-
-                //obj_cmd.Parameters.Add("@EMPSALARY_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPSALARY_TYPE"].Value = model.empsalary_type;
+                obj_cmd.Parameters.Add("@EMPSALARY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPSALARY_DATE"].Value = model.empsalary_date;
+                obj_cmd.Parameters.Add("@EMPSALARY_REASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPSALARY_REASON"].Value = model.empsalary_reason;
+                obj_cmd.Parameters.Add("@EMPSALARY_INCAMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSALARY_INCAMOUNT"].Value = model.empsalary_incamount;
+                obj_cmd.Parameters.Add("@EMPSALARY_INCPERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSALARY_INCPERCENT"].Value = model.empsalary_incpercent;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -260,7 +275,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE REQ_TR_SALARY SET ");
 
                 obj_str.Append(" EMPSALARY_AMOUNT=@EMPSALARY_AMOUNT ");
-                //obj_str.Append(", EMPSALARY_TYPE=@EMPSALARY_TYPE ");
+                obj_str.Append(", EMPSALARY_REASON=@EMPSALARY_REASON ");
+
+                obj_str.Append(", EMPSALARY_INCAMOUNT=@EMPSALARY_INCAMOUNT ");
+                obj_str.Append(", EMPSALARY_INCPERCENT=@EMPSALARY_INCPERCENT ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
@@ -274,7 +292,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@EMPSALARY_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSALARY_AMOUNT"].Value = model.empsalary_amount;
-                //obj_cmd.Parameters.Add("@EMPSALARY_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPSALARY_TYPE"].Value = model.empsalary_type;
+                obj_cmd.Parameters.Add("@EMPSALARY_REASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPSALARY_REASON"].Value = model.empsalary_reason;
+
+                obj_cmd.Parameters.Add("@EMPSALARY_INCAMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSALARY_INCAMOUNT"].Value = model.empsalary_incamount;
+                obj_cmd.Parameters.Add("@EMPSALARY_INCPERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPSALARY_INCPERCENT"].Value = model.empsalary_incpercent;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

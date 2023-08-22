@@ -163,6 +163,12 @@ namespace BPC_OPR
                         json.Add("worker_cardnoissuedate", model.worker_cardnoissuedate);
                         json.Add("worker_cardnoexpiredate", model.worker_cardnoexpiredate);
 
+                        json.Add("worker_socialno", model.worker_socialno);
+                        json.Add("worker_socialnoissuedate", model.worker_socialnoissuedate);
+                        json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        json.Add("worker_socialsentdate", model.worker_socialsentdate);
+                        json.Add("worker_socialnotsent", model.worker_socialnotsent);
+
                         json.Add("flag", model.flag);
 
                         json.Add("initial_name_th", model.initial_name_th);
@@ -266,7 +272,7 @@ namespace BPC_OPR
                 model.worker_weight = input.worker_weight;
 
                 model.worker_resignstatus = input.worker_resignstatus;
-                if (input.worker_resignstatus.ToString().Equals("")){
+                if (input.worker_resignstatus){
                     model.worker_resigndate = Convert.ToDateTime(input.worker_resigndate);
                     model.worker_resignreason = input.worker_resignreason;
                 }
@@ -307,6 +313,15 @@ namespace BPC_OPR
                 model.worker_cardno = input.worker_cardno;
                 model.worker_cardnoissuedate = Convert.ToDateTime(input.worker_cardnoissuedate);
                 model.worker_cardnoexpiredate = Convert.ToDateTime(input.worker_cardnoexpiredate);
+
+                model.worker_socialno = input.worker_socialno;
+                model.worker_socialnoissuedate = Convert.ToDateTime(input.worker_socialnoissuedate);
+                model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoexpiredate);
+                if (input.worker_socialsentdate != null)
+                {
+                    model.worker_socialsentdate = Convert.ToDateTime(input.worker_socialsentdate);
+                }
+                model.worker_socialnotsent = input.worker_socialnotsent;
 
                 model.modified_by = input.modified_by;
                 model.flag = model.flag;
@@ -553,6 +568,11 @@ namespace BPC_OPR
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("worker_resignreason", model.worker_resignreason);
 
+                        json.Add("worker_blackliststatus", model.worker_blackliststatus);
+                        json.Add("worker_blacklistreason", model.worker_blacklistreason);
+                        json.Add("worker_blacklistnote", model.worker_blacklistnote);
+
+
                         json.Add("worker_probationdate", model.worker_probationdate);
                         json.Add("worker_probationenddate", model.worker_probationenddate);
                         json.Add("worker_probationday", model.worker_probationday);
@@ -572,6 +592,18 @@ namespace BPC_OPR
                         json.Add("worker_facebook", model.worker_facebook);
 
                         json.Add("worker_military", model.worker_military);
+
+                        json.Add("nationality_code", model.nationality_code);
+
+                        json.Add("worker_cardno", model.worker_cardno);
+                        json.Add("worker_cardnoissuedate", model.worker_cardnoissuedate);
+                        json.Add("worker_cardnoexpiredate", model.worker_cardnoexpiredate);
+
+                        json.Add("worker_socialno", model.worker_socialno);
+                        json.Add("worker_socialnoissuedate", model.worker_socialnoissuedate);
+                        json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        json.Add("worker_socialsentdate", model.worker_socialsentdate);
+                        json.Add("worker_socialnotsent", model.worker_socialnotsent);
 
                         json.Add("flag", model.flag);
 

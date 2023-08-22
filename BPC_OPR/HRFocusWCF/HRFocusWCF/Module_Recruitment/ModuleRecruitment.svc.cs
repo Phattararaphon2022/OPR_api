@@ -537,7 +537,87 @@ namespace BPC_OPR
 
              return output.ToString(Formatting.None);
          }
+         public string doUpdateStatusReq(InputReqWorker input)
+         {
+             JObject output = new JObject();
 
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ001.5";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTApplywork controller = new cls_ctMTApplywork();
+                 cls_MTWorker model = new cls_MTWorker();
+
+                 string strWorkerCode = input.worker_code;
+                 string strComCode = input.company_code;
+
+                 model.company_code = strComCode;
+                 model.worker_id = input.worker_id;
+
+                 model.status = input.status;
+
+                 model.modified_by = input.modified_by;
+                 model.flag = model.flag;
+
+                 string strID = controller.updatestatus(model);
+
+                 if (!strID.Equals(""))
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
          #endregion
 
          #region req image (REQ002)
@@ -4851,12 +4931,15 @@ namespace BPC_OPR
                      foreach (cls_TRSalary model in list)
                      {
                          JObject json = new JObject();
-                         json.Add("empsalary_id", model.empsalary_id);
-                         json.Add("empsalary_amount", model.empsalary_amount);
-                         //json.Add("empsalary_type", model.empsalary_type);
-
                          json.Add("company_code", model.company_code);
                          json.Add("worker_code", model.worker_code);
+                         json.Add("empsalary_id", model.empsalary_id);
+                         json.Add("empsalary_amount", model.empsalary_amount);
+                         json.Add("empsalary_date", model.empsalary_date);
+                         json.Add("empsalary_reason", model.empsalary_reason);
+
+                         json.Add("empsalary_incamount", model.empsalary_incamount);
+                         json.Add("empsalary_incpercent", model.empsalary_incpercent);
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
@@ -5194,6 +5277,17 @@ namespace BPC_OPR
                          json.Add("empbenefit_id", model.empbenefit_id);
                          json.Add("item_code", model.item_code);
                          json.Add("empbenefit_amount", model.empbenefit_amount);
+                         json.Add("empbenefit_startdate", model.empbenefit_startdate);
+                         json.Add("empbenefit_enddate", model.empbenefit_enddate);
+                         json.Add("empbenefit_reason", model.empbenefit_reason);
+                         json.Add("empbenefit_note", model.empbenefit_note);
+
+                         json.Add("empbenefit_paytype", model.empbenefit_paytype);
+                         json.Add("empbenefit_break", model.empbenefit_break);
+                         json.Add("empbenefit_breakreason", model.empbenefit_breakreason);
+
+                         json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
+                         json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
@@ -5540,6 +5634,9 @@ namespace BPC_OPR
 
                          json.Add("request_note", model.request_note);
 
+                         json.Add("request_accepted", model.request_accepted);
+                         json.Add("request_status", model.request_status);
+
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
                          json.Add("index", index++);
@@ -5625,6 +5722,10 @@ namespace BPC_OPR
                  model.request_quantity = Convert.ToDouble(input.request_quantity);
                  model.request_urgency = input.request_urgency;
                  model.request_note = input.request_note;
+
+                 model.request_accepted = Convert.ToDouble(input.request_accepted);
+                 model.request_status = input.request_status;
+
 
                  model.modified_by = input.modified_by;
 
