@@ -40,6 +40,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(REDUCE_NAME_EN, '') AS REDUCE_NAME_EN");
 
                 obj_str.Append(", ISNULL(REDUCE_AMOUNT, '') AS REDUCE_AMOUNT");
+                obj_str.Append(", ISNULL(REDUCE_AMOUNT_MAX, '') AS REDUCE_AMOUNT_MAX");
+
+                
                 obj_str.Append(", ISNULL(REDUCE_PERCENT, '') AS REDUCE_PERCENT");
                 obj_str.Append(", ISNULL(REDUCE_PERCENT_MAX, '') AS REDUCE_PERCENT_MAX");
 
@@ -66,6 +69,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.reduce_name_en = dr["REDUCE_NAME_EN"].ToString();
 
                     model.reduce_amount = Convert.ToDouble(dr["REDUCE_AMOUNT"]);
+                    model.reduce_amount_max = Convert.ToDouble(dr["REDUCE_AMOUNT_MAX"]);
+
+                    
                     model.reduce_percent = Convert.ToDouble(dr["REDUCE_PERCENT"]);
                     model.reduce_percent_max = Convert.ToDouble(dr["REDUCE_PERCENT_MAX"]);
 
@@ -204,6 +210,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", REDUCE_NAME_EN ");
 
                 obj_str.Append(", REDUCE_AMOUNT ");
+                obj_str.Append(", REDUCE_AMOUNT_MAX ");
+
+                
                 obj_str.Append(", REDUCE_PERCENT ");
                 obj_str.Append(", REDUCE_PERCENT_MAX ");
 
@@ -219,6 +228,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @REDUCE_NAME_EN ");
 
                 obj_str.Append(", @REDUCE_AMOUNT ");
+                obj_str.Append(", @REDUCE_AMOUNT_MAX ");
+
+                
                 obj_str.Append(", @REDUCE_PERCENT ");
                 obj_str.Append(", @REDUCE_PERCENT_MAX ");
 
@@ -237,6 +249,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@REDUCE_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@REDUCE_NAME_EN"].Value = model.reduce_name_en;
 
                 obj_cmd.Parameters.Add("@REDUCE_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_AMOUNT"].Value = model.reduce_amount;
+                obj_cmd.Parameters.Add("@REDUCE_AMOUNT_MAX", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_AMOUNT_MAX"].Value = model.reduce_amount_max;
+
                 obj_cmd.Parameters.Add("@REDUCE_PERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_PERCENT"].Value = model.reduce_percent;
                 obj_cmd.Parameters.Add("@REDUCE_PERCENT_MAX", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_PERCENT_MAX"].Value = model.reduce_percent_max;
 
@@ -271,6 +285,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", REDUCE_NAME_EN=@REDUCE_NAME_EN ");
 
                 obj_str.Append(", REDUCE_AMOUNT=@REDUCE_AMOUNT ");
+                obj_str.Append(", REDUCE_AMOUNT_MAX=@REDUCE_AMOUNT_MAX ");
+
+                
                 obj_str.Append(", REDUCE_PERCENT=@REDUCE_PERCENT ");
                 obj_str.Append(", REDUCE_PERCENT_MAX=@REDUCE_PERCENT_MAX ");
 
@@ -288,6 +305,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@REDUCE_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@REDUCE_NAME_EN"].Value = model.reduce_name_en;
 
                 obj_cmd.Parameters.Add("@REDUCE_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_AMOUNT"].Value = model.reduce_amount;
+                obj_cmd.Parameters.Add("@REDUCE_AMOUNT_MAX", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_AMOUNT_MAX"].Value = model.reduce_amount_max;
+
                 obj_cmd.Parameters.Add("@REDUCE_PERCENT", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_PERCENT"].Value = model.reduce_percent;
                 obj_cmd.Parameters.Add("@REDUCE_PERCENT_MAX", SqlDbType.Decimal); obj_cmd.Parameters["@REDUCE_PERCENT_MAX"].Value = model.reduce_percent_max;
 

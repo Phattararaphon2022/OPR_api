@@ -488,5 +488,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        internal List<cls_TRTimeleave> getDataByFillter(int p1, string p2, string com, string p3, DateTime dateFrom, DateTime dateTo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

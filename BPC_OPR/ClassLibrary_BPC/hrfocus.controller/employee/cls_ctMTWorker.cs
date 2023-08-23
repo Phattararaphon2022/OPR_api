@@ -63,8 +63,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(WORKER_BLACKLISTREASON, '') AS WORKER_BLACKLISTREASON");
                 obj_str.Append(", ISNULL(WORKER_BLACKLISTNOTE, '') AS WORKER_BLACKLISTNOTE");
 
-
-
                 obj_str.Append(", ISNULL(WORKER_PROBATIONDATE, '01/01/2999') AS WORKER_PROBATIONDATE");
                 obj_str.Append(", ISNULL(WORKER_PROBATIONENDDATE, '01/01/2999') AS WORKER_PROBATIONENDDATE");
                 obj_str.Append(", ISNULL(WORKER_PROBATIONDAY, 0) AS WORKER_PROBATIONDAY");
@@ -78,7 +76,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(WORKER_LINE, '') AS WORKER_LINE");
                 obj_str.Append(", ISNULL(WORKER_FACEBOOK, '') AS WORKER_FACEBOOK");
 
-                obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");                
+                obj_str.Append(", ISNULL(WORKER_MILITARY, '') AS WORKER_MILITARY");
+
+                obj_str.Append(", ISNULL(NATIONALITY_CODE, '') AS NATIONALITY_CODE");
+
+                obj_str.Append(", WORKER_CARDNO");
+                obj_str.Append(", WORKER_CARDNOISSUEDATE");
+                obj_str.Append(", WORKER_CARDNOEXPIREDATE");
+
+                obj_str.Append(", WORKER_SOCIALNO");
+                obj_str.Append(", WORKER_SOCIALNOISSUEDATE");
+                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE");
+
+                obj_str.Append(", ISNULL(WORKER_SOCIALSENTDATE, '01/01/2999') AS WORKER_SOCIALSENTDATE");
+                obj_str.Append(", WORKER_SOCIALNOTSENT");
 
                 obj_str.Append(", ISNULL(EMP_MT_WORKER.MODIFIED_BY, EMP_MT_WORKER.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(EMP_MT_WORKER.MODIFIED_DATE, EMP_MT_WORKER.CREATED_DATE) AS MODIFIED_DATE");
@@ -154,6 +165,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.worker_military = dr["WORKER_MILITARY"].ToString();
 
+                    model.nationality_code = dr["NATIONALITY_CODE"].ToString();
+
+                    model.worker_socialno = dr["WORKER_SOCIALNO"].ToString();
+                    model.worker_socialnoissuedate = Convert.ToDateTime(dr["WORKER_SOCIALNOISSUEDATE"]);
+                    model.worker_socialnoexpiredate = Convert.ToDateTime(dr["WORKER_SOCIALNOEXPIREDATE"]);
+                    model.worker_socialsentdate = Convert.ToDateTime(dr["WORKER_SOCIALSENTDATE"]);
+                    model.worker_socialnotsent = Convert.ToBoolean(dr["WORKER_SOCIALNOTSENT"]);
+
+                    model.worker_cardno = dr["WORKER_CARDNO"].ToString();
+                    model.worker_cardnoissuedate = Convert.ToDateTime(dr["WORKER_CARDNOISSUEDATE"]);
+                    model.worker_cardnoexpiredate = Convert.ToDateTime(dr["WORKER_CARDNOEXPIREDATE"]);
+
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
@@ -225,7 +248,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND WORKER_CODE='" + worker_code + "'";
             if (!searchemp.Equals(""))
             {
-                strCondition += "AND (WORKER_CODE like'" + searchemp + "%' or WORKER_FNAME_TH like '" + searchemp + "%' or WORKER_LNAME_TH like '" + searchemp + "%' or WORKER_FNAME_EN like '" + searchemp + "%' or WORKER_LNAME_EN like '" + searchemp + "%')";
+                strCondition += "AND (WORKER_CODE LIKE'" + searchemp + "%' OR WORKER_FNAME_TH LIKE '" + searchemp + "%' OR WORKER_LNAME_TH LIKE '" + searchemp + "%' OR WORKER_FNAME_EN LIKE '" + searchemp + "%' OR WORKER_LNAME_EN LIKE '" + searchemp + "%' OR WORKER_CARDNO LIKE '" + searchemp + "%')";
             }
             if (!level_code.Equals("") && !dep_code.Equals(""))
             {
@@ -252,10 +275,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 strCondition += " AND WORKER_STATUS='" + empstatus + "'";
             }
-            if (!worker_blackliststatus)
-            {
-                strCondition += " AND (WORKER_BLACKLISTSTATUS='0' OR WORKER_BLACKLISTSTATUS IS NULL) ";
-            }
+            //if (!worker_blackliststatus)
+            //{
+            //    strCondition += " AND (WORKER_BLACKLISTSTATUS='0' OR WORKER_BLACKLISTSTATUS IS NULL) ";
+            //}
 
 
             return this.getData(strCondition);
@@ -420,7 +443,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
 
                 obj_str.Append(", WORKER_PROBATIONDATE ");
-                obj_str.Append(", WORKER_PROBATIONENDDATE ");
+                if (model.worker_probationenddate.ToString().Equals(""))
+                {
+                    obj_str.Append(", WORKER_PROBATIONENDDATE ");
+                }
                 obj_str.Append(", WORKER_PROBATIONDAY ");
 
                 obj_str.Append(", HRS_PERDAY ");
@@ -436,6 +462,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_FACEBOOK ");
 
                 obj_str.Append(", WORKER_MILITARY ");
+
+                obj_str.Append(", NATIONALITY_CODE ");
+
+                obj_str.Append(", WORKER_CARDNO ");
+                obj_str.Append(", WORKER_CARDNOISSUEDATE ");
+                obj_str.Append(", WORKER_CARDNOEXPIREDATE ");
+
+                obj_str.Append(", WORKER_SOCIALNO ");
+                obj_str.Append(", WORKER_SOCIALNOISSUEDATE ");
+                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE ");
+                if (model.worker_socialsentdate.ToString().Equals(""))
+                {
+                    obj_str.Append(", WORKER_SOCIALSENTDATE ");
+                }
+                obj_str.Append(", WORKER_SOCIALNOTSENT ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -484,7 +525,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
                 obj_str.Append(", @WORKER_PROBATIONDATE ");
-                obj_str.Append(", @WORKER_PROBATIONENDDATE ");
+                if (model.worker_probationenddate.ToString().Equals(""))
+                {
+                    obj_str.Append(", @WORKER_PROBATIONENDDATE ");
+                }
                 obj_str.Append(", @WORKER_PROBATIONDAY ");
 
                 obj_str.Append(", @HRS_PERDAY ");
@@ -499,6 +543,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @WORKER_FACEBOOK ");
 
                 obj_str.Append(", @WORKER_MILITARY ");
+
+                obj_str.Append(", @NATIONALITY_CODE ");
+
+                obj_str.Append(", @WORKER_CARDNO ");
+                obj_str.Append(", @WORKER_CARDNOISSUEDATE ");
+                obj_str.Append(", @WORKER_CARDNOEXPIREDATE ");
+
+                obj_str.Append(", WORKER_SOCIALNO ");
+                obj_str.Append(", WORKER_SOCIALNOISSUEDATE ");
+                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE ");
+                if (model.worker_socialsentdate.ToString().Equals(""))
+                {
+                    obj_str.Append(", WORKER_SOCIALSENTDATE ");
+                }
+                obj_str.Append(", WORKER_SOCIALNOTSENT ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -554,7 +613,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
                 obj_cmd.Parameters.Add("@WORKER_PROBATIONDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONDATE"].Value = model.worker_probationdate;
-                obj_cmd.Parameters.Add("@WORKER_PROBATIONENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONENDDATE"].Value = model.worker_probationenddate;
+                if (model.worker_probationenddate.ToString().Equals(""))
+                {
+                    obj_cmd.Parameters.Add("@WORKER_PROBATIONENDDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_PROBATIONENDDATE"].Value = model.worker_probationenddate;
+                }
                 obj_cmd.Parameters.Add("@WORKER_PROBATIONDAY", SqlDbType.Decimal); obj_cmd.Parameters["@WORKER_PROBATIONDAY"].Value = model.worker_probationday;
 
                 obj_cmd.Parameters.Add("@HRS_PERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@HRS_PERDAY"].Value = model.hrs_perday;
@@ -570,6 +632,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FACEBOOK"].Value = model.worker_facebook;
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
+
+                obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
+
+                obj_cmd.Parameters.Add("@WORKER_CARDNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CARDNO"].Value = model.worker_cardno;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOISSUEDATE"].Value = model.worker_cardnoissuedate;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
+
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_SOCIALNO"].Value = model.worker_socialno;
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOISSUEDATE"].Value = model.worker_socialnoissuedate;
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOEXPIREDATE"].Value = model.worker_socialnoexpiredate;
+                if (model.worker_socialsentdate.ToString().Equals(""))
+                {
+                    obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
+                }
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOTSENT", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_SOCIALNOTSENT"].Value = model.worker_socialnotsent;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -654,6 +731,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_MILITARY=@WORKER_MILITARY ");
 
+                obj_str.Append(", NATIONALITY_CODE=@NATIONALITY_CODE ");
+
+                obj_str.Append(", WORKER_CARDNO=@WORKER_CARDNO ");
+                obj_str.Append(", WORKER_CARDNOISSUEDATE=@WORKER_CARDNOISSUEDATE ");
+                obj_str.Append(", WORKER_CARDNOEXPIREDATE=@WORKER_CARDNOEXPIREDATE ");
+
+                obj_str.Append(", WORKER_SOCIALNO=@WORKER_SOCIALNO ");
+                obj_str.Append(", WORKER_SOCIALNOISSUEDATE=@WORKER_SOCIALNOISSUEDATE ");
+                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE=@WORKER_SOCIALNOEXPIREDATE ");
+                obj_str.Append(", WORKER_SOCIALSENTDATE=@WORKER_SOCIALSENTDATE ");
+                obj_str.Append(", WORKER_SOCIALNOTSENT=@WORKER_SOCIALNOTSENT ");
+
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
@@ -724,6 +813,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_FACEBOOK"].Value = model.worker_facebook;
 
                 obj_cmd.Parameters.Add("@WORKER_MILITARY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_MILITARY"].Value = model.worker_military;
+                obj_cmd.Parameters.Add("@NATIONALITY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@NATIONALITY_CODE"].Value = model.nationality_code;
+
+                obj_cmd.Parameters.Add("@WORKER_CARDNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CARDNO"].Value = model.worker_cardno;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOISSUEDATE"].Value = model.worker_cardnoissuedate;
+                obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
+
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_SOCIALNO"].Value = model.worker_socialno;
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOISSUEDATE"].Value = model.worker_socialnoissuedate;
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOEXPIREDATE"].Value = model.worker_socialnoexpiredate;
+                if (model.worker_socialsentdate.ToString().Equals(""))
+                {
+                    obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
+                }
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOTSENT", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_SOCIALNOTSENT"].Value = model.worker_socialnotsent;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

@@ -3746,6 +3746,8 @@ namespace BPC_OPR
                         json.Add("reduce_name_en", model.reduce_name_en);
 
                         json.Add("reduce_amount", model.reduce_amount);
+                        json.Add("reduce_amount_max", model.reduce_amount_max);
+
                         json.Add("reduce_percent", model.reduce_percent);
                         json.Add("reduce_percent_max", model.reduce_percent_max);
 
@@ -3829,6 +3831,8 @@ namespace BPC_OPR
                 model.reduce_name_en = input.reduce_name_en;
 
                 model.reduce_amount = input.reduce_amount;
+                model.reduce_amount_max = input.reduce_amount_max; 
+
                 model.reduce_percent = input.reduce_percent;
                 model.reduce_percent_max = input.reduce_percent_max;
 

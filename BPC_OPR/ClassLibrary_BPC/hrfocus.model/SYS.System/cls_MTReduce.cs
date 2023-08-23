@@ -16,6 +16,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string reduce_name_en { get; set; }
 
         public double reduce_amount { get; set; }
+        public double reduce_amount_max { get; set; }
+
         public double reduce_percent { get; set; }
         public double reduce_percent_max { get; set; }
 

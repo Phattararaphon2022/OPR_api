@@ -88,6 +88,24 @@ namespace BPC_OPR
         public string worker_facebook { get; set; }
         [DataMember]
         public string worker_military { get; set; }
+        [DataMember]
+        public string nationality_code { get; set; }
+        [DataMember]
+        public string worker_cardno { get; set; }
+        [DataMember]
+        public string worker_cardnoissuedate { get; set; }
+        [DataMember]
+        public string worker_cardnoexpiredate { get; set; }
+        [DataMember]
+        public string worker_socialno { get; set; }
+        [DataMember]
+        public string worker_socialnoissuedate { get; set; }
+        [DataMember]
+        public string worker_socialnoexpiredate { get; set; }
+        [DataMember]
+        public string worker_socialsentdate { get; set; }
+        [DataMember]
+        public bool worker_socialnotsent { get; set; }
 
 
         //-- Transaction

@@ -903,6 +903,8 @@ namespace BPC_OPR
         [DataMember]
         public double reduce_amount { get; set; }
         [DataMember]
+        public double reduce_amount_max { get; set; }
+        [DataMember]
         public double reduce_percent { get; set; }
         [DataMember]
         public double reduce_percent_max { get; set; }

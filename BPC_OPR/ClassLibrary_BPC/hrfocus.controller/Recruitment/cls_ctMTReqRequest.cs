@@ -47,6 +47,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(REQUEST_URGENCY, '') AS REQUEST_URGENCY");
                 obj_str.Append(", ISNULL(REQUEST_NOTE, '') AS REQUEST_NOTE");
 
+                obj_str.Append(", ISNULL(REQUEST_ACCEPTED, 0) AS REQUEST_ACCEPTED");
+                obj_str.Append(", REQUEST_STATUS");
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -76,8 +79,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.request_employee_type = dr["REQUEST_EMPLOYEE_TYPE"].ToString();
                     model.request_quantity = Convert.ToDouble(dr["REQUEST_QUANTITY"]);
                     model.request_urgency = dr["REQUEST_URGENCY"].ToString();
-
                     model.request_note = dr["REQUEST_NOTE"].ToString();
+
+                    model.request_accepted = Convert.ToDouble(dr["REQUEST_ACCEPTED"]);
+                    model.request_status = Convert.ToInt32(dr["REQUEST_STATUS"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -220,6 +225,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", REQUEST_NOTE ");
 
+                obj_str.Append(", REQUEST_ACCEPTED ");
+                obj_str.Append(", REQUEST_STATUS ");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -242,6 +250,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @REQUEST_URGENCY ");
 
                 obj_str.Append(", @REQUEST_NOTE ");
+                obj_str.Append(", @REQUEST_ACCEPTED ");
+                obj_str.Append(", @REQUEST_STATUS ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -255,7 +265,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 model.request_id = this.getNextID();
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
-                obj_cmd.Parameters.Add("@REQUEST_ID", SqlDbType.Int); obj_cmd.Parameters["@REQUEST_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@REQUEST_ID", SqlDbType.Int); obj_cmd.Parameters["@REQUEST_ID"].Value = model.request_id;
                 obj_cmd.Parameters.Add("@REQUEST_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_CODE"].Value = model.request_code;
                 obj_cmd.Parameters.Add("@REQUEST_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@REQUEST_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@REQUEST_STARTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@REQUEST_STARTDATE"].Value = model.request_startdate;
@@ -272,6 +282,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@REQUEST_URGENCY", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_URGENCY"].Value = model.request_urgency;
 
                 obj_cmd.Parameters.Add("@REQUEST_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_NOTE"].Value = model.request_note;
+
+                obj_cmd.Parameters.Add("@REQUEST_ACCEPTED", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_ACCEPTED"].Value = model.request_accepted;
+                obj_cmd.Parameters.Add("@REQUEST_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_STATUS"].Value = model.request_status;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -312,6 +325,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", REQUEST_URGENCY=@REQUEST_URGENCY ");
                 obj_str.Append(", REQUEST_NOTE=@REQUEST_NOTE ");
 
+                obj_str.Append(", REQUEST_ACCEPTED=@REQUEST_ACCEPTED ");
+                obj_str.Append(", REQUEST_STATUS=@REQUEST_STATUS ");
+
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
@@ -337,6 +353,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@REQUEST_URGENCY", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_URGENCY"].Value = model.request_urgency;
                 obj_cmd.Parameters.Add("@REQUEST_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_NOTE"].Value = model.request_note;
+
+                obj_cmd.Parameters.Add("@REQUEST_ACCEPTED", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_ACCEPTED"].Value = model.request_accepted;
+                obj_cmd.Parameters.Add("@REQUEST_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_STATUS"].Value = model.request_status;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

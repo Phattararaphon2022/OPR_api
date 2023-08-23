@@ -103,6 +103,7 @@
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRDocatt.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqBenefit.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqimage.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqPosition.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqProject.cs" />

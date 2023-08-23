@@ -146,6 +146,7 @@ namespace BPC_OPR
                          json.Add("worker_fname_en", model.worker_fname_en);
                          json.Add("worker_lname_en", model.worker_lname_en);
                          json.Add("worker_type", model.worker_type);
+                         json.Add("worker_status", model.worker_status);
                          json.Add("worker_gender", model.worker_gender);
                          json.Add("worker_birthdate", model.worker_birthdate);
                          json.Add("worker_hiredate", model.worker_hiredate);
@@ -163,6 +164,11 @@ namespace BPC_OPR
                          json.Add("worker_military", model.worker_military);
                          json.Add("nationality_code", model.nationality_code);
 
+                         json.Add("worker_cardno", model.worker_cardno);
+                         json.Add("worker_cardnoissuedate", model.worker_cardnoissuedate);
+                         json.Add("worker_cardnoexpiredate", model.worker_cardnoexpiredate);
+
+
                          json.Add("status", model.status);
 
                          json.Add("modified_by", model.modified_by);
@@ -174,7 +180,10 @@ namespace BPC_OPR
                          json.Add("flag", model.flag);
 
                          json.Add("checkblacklist", model.checkblacklist);
-                         json.Add("checkhistory", model.checkhistory);
+                         //json.Add("checkhistory", model.checkhistory);
+                         json.Add("counthistory", model.counthistory);
+                         json.Add("checkcertificate", model.checkcertificate);
+
 
                          //cls_ctTRDocatt objMTDoc = new cls_ctTRDocatt();
                          //List<cls_TRDocatt> listTRDoc = objMTDoc.getDataByFillter(model.company_code, 0,model.worker_code,"");
@@ -295,6 +304,7 @@ namespace BPC_OPR
                      model.worker_fname_en = data.worker_fname_en;
                      model.worker_lname_en = data.worker_lname_en;
                      model.worker_type = data.worker_type;
+                     model.worker_status = data.worker_status;
                      model.worker_gender = data.worker_gender;
                      model.worker_birthdate = Convert.ToDateTime(data.worker_birthdate);
                      model.worker_hiredate = Convert.ToDateTime(data.worker_hiredate);
@@ -311,6 +321,12 @@ namespace BPC_OPR
 
                      model.worker_military = data.worker_military;
                      model.nationality_code = data.nationality_code;
+
+                     model.worker_cardno = data.worker_cardno;
+                     model.worker_cardnoissuedate = data.worker_cardnoissuedate;
+                     model.worker_cardnoexpiredate = data.worker_cardnoexpiredate;
+
+                     model.status = data.status;
 
                      model.modified_by = data.modified_by;
                      model.flag = data.flag;
@@ -521,7 +537,87 @@ namespace BPC_OPR
 
              return output.ToString(Formatting.None);
          }
+         public string doUpdateStatusReq(InputReqWorker input)
+         {
+             JObject output = new JObject();
 
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ001.5";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTApplywork controller = new cls_ctMTApplywork();
+                 cls_MTWorker model = new cls_MTWorker();
+
+                 string strWorkerCode = input.worker_code;
+                 string strComCode = input.company_code;
+
+                 model.company_code = strComCode;
+                 model.worker_id = input.worker_id;
+
+                 model.status = input.status;
+
+                 model.modified_by = input.modified_by;
+                 model.flag = model.flag;
+
+                 string strID = controller.updatestatus(model);
+
+                 if (!strID.Equals(""))
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
          #endregion
 
          #region req image (REQ002)
@@ -3468,7 +3564,7 @@ namespace BPC_OPR
                  int error = 0;
                  StringBuilder obj_error = new StringBuilder();
 
-                 bool clear = controller.delete(input.company_code,"",input.worker_code);
+                 bool clear = controller.delete(input.company_code,"",input.worker_code,input.job_type);
 
                  if (clear)
                  {
@@ -3568,7 +3664,7 @@ namespace BPC_OPR
 
                  if (controller.checkDataOld(input.company_code,Convert.ToString(input.document_id),input.worker_code))
                  {
-                     bool blnResult = controller.delete(input.company_code, Convert.ToString(input.document_id), input.worker_code);
+                     bool blnResult = controller.delete(input.company_code, Convert.ToString(input.document_id), input.worker_code,input.job_type);
 
                      if (blnResult)
                      {
@@ -4835,12 +4931,15 @@ namespace BPC_OPR
                      foreach (cls_TRSalary model in list)
                      {
                          JObject json = new JObject();
-                         json.Add("empsalary_id", model.empsalary_id);
-                         json.Add("empsalary_amount", model.empsalary_amount);
-                         json.Add("empsalary_type", model.empsalary_type);
-
                          json.Add("company_code", model.company_code);
                          json.Add("worker_code", model.worker_code);
+                         json.Add("empsalary_id", model.empsalary_id);
+                         json.Add("empsalary_amount", model.empsalary_amount);
+                         json.Add("empsalary_date", model.empsalary_date);
+                         json.Add("empsalary_reason", model.empsalary_reason);
+
+                         json.Add("empsalary_incamount", model.empsalary_incamount);
+                         json.Add("empsalary_incpercent", model.empsalary_incpercent);
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
@@ -5136,6 +5235,354 @@ namespace BPC_OPR
 
          #endregion
 
+         #region Benefit (REQ015)
+         public string getTRApplyBenefitList(FillterApplywork input)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ015.1";
+             log.apilog_by = input.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqBenefit controller = new cls_ctTRReqBenefit();
+                 List<cls_TRBenefit> list = controller.getDataByFillter(input.company_code, input.worker_code,"");
+                 JArray array = new JArray();
+
+                 if (list.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_TRBenefit model in list)
+                     {
+                         JObject json = new JObject();
+                         json.Add("company_code", model.company_code);
+                         json.Add("worker_code", model.worker_code);
+
+                         json.Add("empbenefit_id", model.empbenefit_id);
+                         json.Add("item_code", model.item_code);
+                         json.Add("empbenefit_amount", model.empbenefit_amount);
+                         json.Add("empbenefit_startdate", model.empbenefit_startdate);
+                         json.Add("empbenefit_enddate", model.empbenefit_enddate);
+                         json.Add("empbenefit_reason", model.empbenefit_reason);
+                         json.Add("empbenefit_note", model.empbenefit_note);
+
+                         json.Add("empbenefit_paytype", model.empbenefit_paytype);
+                         json.Add("empbenefit_break", model.empbenefit_break);
+                         json.Add("empbenefit_breakreason", model.empbenefit_breakreason);
+
+                         json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
+                         json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
+
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doManageTRApplyBenefit(InputApplyTransaction input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ015.2";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqBenefit controller = new cls_ctTRReqBenefit();
+
+                 JObject jsonObject = new JObject();
+                 var jsonArray = JsonConvert.DeserializeObject<List<cls_TRBenefit>>(input.transaction_data);
+
+                 int success = 0;
+                 int error = 0;
+                 StringBuilder obj_error = new StringBuilder();
+
+                 bool clear = controller.delete(input.company_code, input.worker_code);
+
+                 if (clear)
+                 {
+                     foreach (cls_TRBenefit model in jsonArray)
+                     {
+
+                         model.modified_by = input.modified_by;
+
+                         bool blnResult = controller.insert(model);
+
+                         if (blnResult)
+                             success++;
+                         else
+                         {
+                             var json = new JavaScriptSerializer().Serialize(model);
+                             var tmp2 = JToken.Parse(json);
+                             obj_error.Append(tmp2);
+                         }
+
+                     }
+                 }
+                 else
+                 {
+                     error = 1;
+                 }
+
+
+                 if (error == 0)
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     //output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     output["error"] = obj_error.ToString();
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doDeleteTRApplyBenefit(InputTRApplyBenefit input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ015.3";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqSalary controller = new cls_ctTRReqSalary();
+
+                 if (controller.checkDataOld(input.company_code, input.worker_code, input.empbenefit_id.ToString()))
+                 {
+                     bool blnResult = controller.delete(input.company_code, input.worker_code);
+
+                     if (blnResult)
+                     {
+                         output["success"] = true;
+                         output["message"] = "Remove data successfully";
+
+                         log.apilog_status = "200";
+                         log.apilog_message = "";
+                     }
+                     else
+                     {
+                         output["success"] = false;
+                         output["message"] = "Remove data not successfully";
+
+                         log.apilog_status = "500";
+                         log.apilog_message = controller.getMessage();
+                     }
+
+                 }
+                 else
+                 {
+                     string message = "Not Found Project code : " + input.empbenefit_id;
+                     output["success"] = false;
+                     output["message"] = message;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = message;
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Remove data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+
+         }
+
+         public async Task<string> doUploadApplyBenefit(string token, string by, string fileName, Stream stream)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ004.4";
+             log.apilog_by = by;
+             log.apilog_data = "Stream";
+
+             try
+             {
+                 if (!objBpcOpr.doVerify(token))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+
+                 bool upload = await this.doUploadFile(fileName, stream);
+
+                 if (upload)
+                 {
+                     cls_srvReqImport srv_import = new cls_srvReqImport();
+                     string tmp = srv_import.doImportExcel("REQBENEFIT", fileName, "TEST");
+
+                     output["success"] = true;
+                     output["message"] = tmp;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Upload data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = "Upload data not successfully";
+                 }
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Upload data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         #endregion
+
 
          #region REQ_REQUEST(REQST)
          public string getMTReqRequest(InputReqRequest input)
@@ -5186,6 +5633,9 @@ namespace BPC_OPR
                          json.Add("request_urgency", model.request_urgency);
 
                          json.Add("request_note", model.request_note);
+
+                         json.Add("request_accepted", model.request_accepted);
+                         json.Add("request_status", model.request_status);
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
@@ -5272,6 +5722,10 @@ namespace BPC_OPR
                  model.request_quantity = Convert.ToDouble(input.request_quantity);
                  model.request_urgency = input.request_urgency;
                  model.request_note = input.request_note;
+
+                 model.request_accepted = Convert.ToDouble(input.request_accepted);
+                 model.request_status = input.request_status;
+
 
                  model.modified_by = input.modified_by;
 

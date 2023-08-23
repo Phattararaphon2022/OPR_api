@@ -52,48 +52,6 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                 switch (type)
                 {
-                    case "LOCATION":
-
-                        DataTable dt = doReadExcel(filename);
-                        if (dt.Rows.Count > 0)
-                        {
-                            foreach (DataRow dr in dt.Rows)
-                            {
-
-                                cls_ctMTLocation objWorker = new cls_ctMTLocation();
-                                cls_MTLocation model = new cls_MTLocation();
-
-                                model.location_code = dr["location_code"].ToString();
-                                model.location_name_th = dr["location_name_th"].ToString();
-                                model.location_name_en = dr["location_name_en"].ToString();
-                                model.location_detail = dr["location_detail"].ToString();
-                                model.modified_by = by;
-
-                                string strID = objWorker.insert(model);
-
-                                if (!strID.Equals(""))
-                                {
-                                    success++;
-                                }
-                                else
-                                {
-                                    objStr.Append(model.location_code);
-                                }
-
-                            }
-
-                            strResult = "";
-
-                            if (success > 0)
-                                strResult += "Success : " + success.ToString();
-
-                            if (objStr.Length > 0)
-                                strResult += " Fail : " + objStr.ToString();
-
-                        }
-
-                        break;
-
                     case "DEP":
                         DataTable dtdep = doReadExcel(filename);
                         if (dtdep.Rows.Count > 0)
@@ -151,7 +109,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.position_name_th = dr["position_name_th"].ToString();
                                 model.position_name_en = dr["position_name_en"].ToString();
                                 model.company_code = dr["company_code"].ToString();
-                                model.position_level = Convert.ToInt32(dr["position_level"]);
+                                if (!dr["position_level"].ToString().Equals(""))
+                                {
+                                    model.position_level = Convert.ToInt32(dr["position_level"]);
+                                }
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
@@ -373,6 +334,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     model.worker_resignstatus = false;
                                 }
+                                model.worker_blackliststatus = false;
                                 model.worker_probationday = Convert.ToDouble(dr["worker_probationday"]);
                                 model.worker_probationdate = Convert.ToDateTime(dr["worker_probationdate"]);
                                 model.worker_probationenddate = Convert.ToDateTime(dr["worker_probationenddate"]);
@@ -384,6 +346,12 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_line = dr["worker_line"].ToString();
                                 model.worker_facebook = dr["worker_facebook"].ToString();
                                 model.worker_military = dr["worker_military"].ToString();
+                                model.nationality_code = dr["nationality_code"].ToString();
+
+                                model.worker_cardno = dr["worker_cardno"].ToString();
+                                model.worker_cardnoissuedate = Convert.ToDateTime(dr["worker_cardnoissuedate"]);
+                                model.worker_cardnoexpiredate = Convert.ToDateTime(dr["worker_cardnoexpiredate"]);
+                                
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
