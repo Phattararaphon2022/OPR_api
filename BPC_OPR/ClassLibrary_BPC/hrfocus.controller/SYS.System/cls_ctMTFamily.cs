@@ -79,12 +79,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTFamily> getDataByFillter(string code)
+        public List<cls_MTFamily> getDataByFillter(string code,string com)
         {
             string strCondition = "";
 
             if (!code.Equals(""))
                 strCondition += " AND FAMILY_CODE='" + code + "'";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
             
             return this.getData(strCondition);
         }

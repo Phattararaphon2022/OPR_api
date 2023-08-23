@@ -1704,7 +1704,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTFamily objFamily = new cls_ctMTFamily();
-                List<cls_MTFamily> list = objFamily.getDataByFillter("");
+                List<cls_MTFamily> list = objFamily.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -2279,7 +2279,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTLevel objLevel = new cls_ctMTLevel();
-                List<cls_MTLevel> list = objLevel.getDataByFillter("");
+                List<cls_MTLevel> list = objLevel.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)

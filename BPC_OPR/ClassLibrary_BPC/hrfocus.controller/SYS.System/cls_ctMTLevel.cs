@@ -78,13 +78,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTLevel> getDataByFillter(string code)
+        public List<cls_MTLevel> getDataByFillter(string code, string com)
         {
             string strCondition = "";
 
 
             if (!code.Equals(""))
                 strCondition += " AND LEVEL_CODE='" + code + "'";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
 
             
             return this.getData(strCondition);
