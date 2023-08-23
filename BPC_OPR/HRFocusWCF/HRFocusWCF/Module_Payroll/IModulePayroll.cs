@@ -212,6 +212,23 @@ namespace BPC_OPR
 
         #endregion
 
+        #region set payPolReduce
+        [OperationContract(Name = "setpolpayPolReduce_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getBatchPayPolReduceList(InputTRList input);
+
+        [OperationContract(Name = "setpaypolpayPolReduce")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPayPolReduce(InputTRList input);
+
+        [OperationContract(Name = "payPolReduce_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteBatchPayPolReduce(InputTRList input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPayPolReduce?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchPaypolPayPolReduce(string token, string by, string fileName, Stream stream);
+        #endregion
         #region set TRpayitem
         [OperationContract(Name = "TRpayitem_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -261,6 +278,44 @@ namespace BPC_OPR
         [OperationContract(Name = "payreduce_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRPayreduceList(FillterPayroll req);
+        #endregion
+
+        #region MTPlanreduce
+        [OperationContract(Name = "planreduce_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanreduceList(InputMTPlanreduce input);
+
+        [OperationContract(Name = "planreduce")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanreduce(InputMTPlanreduce input);
+
+        [OperationContract(Name = "planreduce_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanreduce(InputMTPlanreduce input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanreduce?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanreduce(string token, string by, string fileName, Stream stream);
+
+        #endregion
+
+        #region MTPlanitems
+        [OperationContract(Name = "planitems_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPlanitemsList(InputMTPlanitems input);
+
+        [OperationContract(Name = "planitems")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTPlanitems(InputMTPlanitems input);
+
+        [OperationContract(Name = "planitems_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTPlanitems(InputMTPlanitems input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanitems?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanitems(string token, string by, string fileName, Stream stream);
+
         #endregion
     }
 }
