@@ -309,6 +309,88 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         break;
                     #endregion
 
+                    #region itemsplan
+                    case "PLANITEMS":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTPlanitems controller = new cls_ctMTPlanitems();
+                                cls_MTPlanitems model = new cls_MTPlanitems();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.planitems_id = dr["planitems_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planitems_id"].ToString());
+                                model.planitems_code = dr["planitems_code"].ToString();
+                                model.planitems_name_th = dr["planitems_name_th"].ToString();
+                                model.planitems_name_en = dr["planitems_name_en"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.planitems_id + " " + model.planitems_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
+                    #region planreduce
+                    case "PLANREDUCE":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctMTPlanreduce controller = new cls_ctMTPlanreduce();
+                                cls_MTPlanreduce model = new cls_MTPlanreduce();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.planreduce_id = dr["planreduce_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planreduce_id"].ToString());
+                                model.planreduce_code = dr["planreduce_code"].ToString();
+                                model.planreduce_name_th = dr["planreduce_name_th"].ToString();
+                                model.planreduce_name_en = dr["planreduce_name_en"].ToString();
+                                model.modified_by = by;
+                                model.flag = false;
+                                string strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.planreduce_id + " " + model.planreduce_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
 
 
                     case "REASONs":

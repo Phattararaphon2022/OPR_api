@@ -12158,6 +12158,224 @@ namespace BPC_OPR
         }
 
         #endregion
+
+
+        #region TRApprove
+        public string getSysApproveList(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "REQ088.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRApprove controller = new cls_ctTRApprove();
+                List<cls_TRApprove> list = controller.getDataAllApprove(req.company_code, req.type, req.item_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRApprove model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("approve_code", model.approve_code);
+                        json.Add("workflow_type", model.workflow_type);
+                        json.Add("approve_by", model.approve_by);
+                        json.Add("approve_date", model.approve_date);
+                        json.Add("approve_status", model.approve_status);
+                        json.Add("approve_note", model.approve_note);
+                       
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageSysApprove(InputTRApprove input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "REQ001.2";
+            log.apilog_by = input.approve_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRApprove controller = new cls_ctTRApprove();
+                cls_TRApprove model = new cls_TRApprove();
+
+                model.company_code = input.company_code;                
+                model.approve_code = input.approve_code;
+                model.workflow_type = input.workflow_type;
+                model.approve_by = input.approve_by;
+                model.approve_status = input.approve_status;
+                model.approve_note = input.approve_note;
+
+                if (controller.checkDataOld(model))
+                {
+                    output["success"] = false;
+                    output["message"] = "This item has been approved.";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                else
+                {
+
+                    bool result = controller.insert(model);
+
+                    if (result)
+                    {
+                        //-- Check success approve
+                        cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                        cls_ctTRApprove approve = new cls_ctTRApprove();
+
+                        switch (input.workflow_type)
+                        {
+                            case "PRO_NEW":
+
+                                if (input.approve_status.Equals("C"))
+                                {
+                                    //-- Update status
+                                    cls_ctMTProject project = new cls_ctMTProject();
+                                    List<cls_MTProject> list_project = project.getDataByFillter(input.approve_code, "", "", "", "", "", "");
+
+                                    if (list_project.Count > 0)
+                                    {
+                                        project.update_status(list_project[0], "C");
+                                    }
+                                }
+                                else
+                                {
+                                    //-- Approve                            
+                                    List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(input.company_code, "", "PRO_NEW");
+                                    List<cls_TRApprove> list_approve = approve.getDataByFillter(input.company_code, "PRO_NEW", input.approve_code);
+                                    if (list_approve.Count >= list_workflow.Count)
+                                    {
+                                        //-- Update status
+                                        cls_ctMTProject project = new cls_ctMTProject();
+                                        List<cls_MTProject> list_project = project.getDataByFillter(input.approve_code, "", "", "", "", "", "");
+
+                                        if (list_project.Count > 0)
+                                        {
+                                            project.update_status(list_project[0], "F");
+                                        }
+
+                                    }
+                                }
+
+                                break;
+                        }
+
+
+
+                        output["success"] = true;
+                        output["message"] = "Retrieved data successfully";
+
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
     }
 }
         

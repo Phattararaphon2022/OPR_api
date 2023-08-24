@@ -760,5 +760,16 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteeTRWorkflow(InputTRWorkflow input);
         #endregion
+
+        #region TRApprove
+        [OperationContract(Name = "approve_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getSysApproveList(BasicRequest req);
+
+        [OperationContract(Name = "sysapprove")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageSysApprove(InputTRApprove input);
+
+        #endregion
     }
 }

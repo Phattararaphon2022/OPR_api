@@ -912,6 +912,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.reduce_name_en = dr["reduce_name_en"].ToString();
 
                                 model.reduce_amount = Convert.ToDouble(dr["reduce_amount"]);
+                                model.reduce_amount_max = Convert.ToDouble(dr["reduce_amount_max"]);
                                 model.reduce_percent = Convert.ToDouble(dr["reduce_percent"]);
                                 model.reduce_percent_max = Convert.ToDouble(dr["reduce_percent_max"]);
                                 model.modified_by = by;

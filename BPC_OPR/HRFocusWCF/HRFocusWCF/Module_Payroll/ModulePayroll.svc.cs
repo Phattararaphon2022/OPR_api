@@ -3132,7 +3132,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
 
 
@@ -3777,7 +3777,7 @@ namespace BPC_OPR
 
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.1";
+            log.apilog_code = "PAY014.1";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3890,7 +3890,7 @@ namespace BPC_OPR
 
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.2";
+            log.apilog_code = "PAY014.2";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -3988,7 +3988,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.3";
+            log.apilog_code = "PAY014.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -4053,7 +4053,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.4";
+            log.apilog_code = "PAY014.4";
             log.apilog_by = by;
             log.apilog_data = "Stream : " + fileName; ;
 
@@ -4076,7 +4076,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("PLANREDUCE", fileName, by);
 
 
@@ -4121,7 +4121,7 @@ namespace BPC_OPR
 
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.1";
+            log.apilog_code = "PAY015.1";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -4234,7 +4234,7 @@ namespace BPC_OPR
 
             JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.2";
+            log.apilog_code = "PAY015.2";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -4332,7 +4332,7 @@ namespace BPC_OPR
             var tmp = JToken.Parse(json_data);
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.3";
+            log.apilog_code = "PAY015.3";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
 
@@ -4397,7 +4397,7 @@ namespace BPC_OPR
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT009.4";
+            log.apilog_code = "PAY015.4";
             log.apilog_by = by;
             log.apilog_data = "Stream : " + fileName; ;
 
@@ -4420,7 +4420,7 @@ namespace BPC_OPR
 
                 if (upload)
                 {
-                    cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
                     string tmp = srv_import.doImportExcel("PLANITEMS", fileName, by);
 
 

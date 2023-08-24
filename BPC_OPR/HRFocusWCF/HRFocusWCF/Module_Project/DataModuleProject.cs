@@ -177,6 +177,9 @@ namespace BPC_OPR
 
         [DataMember]
         public string version { get; set; }
+
+        [DataMember]
+        public string status { get; set; }
     }
 
     [DataContract]
