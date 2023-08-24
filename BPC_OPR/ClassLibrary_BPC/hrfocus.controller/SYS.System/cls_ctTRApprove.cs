@@ -140,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public bool checkDataOld(string com, string workflow, string subject_code, string username)
+        private bool checkDataOld(string com, string workflow, string subject_code, string username)
         {
             bool blnResult = false;
             try
@@ -153,6 +153,35 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND WORKFLOW_TYPE='" + workflow + "'");
                 obj_str.Append(" AND APPROVE_CODE='" + subject_code + "'");
                 obj_str.Append(" AND APPROVE_BY='" + username + "'");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    blnResult = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(SysApprove.checkDataOld)" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
+        public bool checkDataOld(cls_TRApprove model)
+        {
+            bool blnResult = false;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT COMPANY_CODE");
+                obj_str.Append(" FROM SYS_TR_APPROVE");
+                obj_str.Append(" WHERE COMPANY_CODE ='" + model.company_code + "' ");
+                obj_str.Append(" AND WORKFLOW_TYPE='" + model.workflow_type + "'");
+                obj_str.Append(" AND APPROVE_CODE='" + model.approve_code + "'");
+                obj_str.Append(" AND APPROVE_BY='" + model.approve_by + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 

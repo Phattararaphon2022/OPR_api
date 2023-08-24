@@ -12275,36 +12275,31 @@ namespace BPC_OPR
                 model.approve_by = input.approve_by;
                 model.approve_status = input.approve_status;
                 model.approve_note = input.approve_note;
-               
-                bool result = controller.insert(model);
 
-                if (result)
+                if (controller.checkDataOld(model))
                 {
-                    //-- Check success approve
-                    cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
-                    cls_ctTRApprove approve = new cls_ctTRApprove();
+                    output["success"] = false;
+                    output["message"] = "This item has been approved.";
 
-                    switch (input.workflow_type)
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                else
+                {
+
+                    bool result = controller.insert(model);
+
+                    if (result)
                     {
-                        case "PRO_NEW":
+                        //-- Check success approve
+                        cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                        cls_ctTRApprove approve = new cls_ctTRApprove();
 
-                            if (input.approve_status.Equals("C"))
-                            {
-                                //-- Update status
-                                cls_ctMTProject project = new cls_ctMTProject();
-                                List<cls_MTProject> list_project = project.getDataByFillter(input.approve_code, "", "", "", "", "", "");
+                        switch (input.workflow_type)
+                        {
+                            case "PRO_NEW":
 
-                                if (list_project.Count > 0)
-                                {
-                                    project.update_status(list_project[0], "C");
-                                }
-                            }
-                            else
-                            {
-                                //-- Approve                            
-                                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(input.company_code, "", "PRO_NEW");
-                                List<cls_TRApprove> list_approve = approve.getDataByFillter(input.company_code, "PRO_NEW", input.approve_code);
-                                if (list_approve.Count >= list_workflow.Count)
+                                if (input.approve_status.Equals("C"))
                                 {
                                     //-- Update status
                                     cls_ctMTProject project = new cls_ctMTProject();
@@ -12312,31 +12307,48 @@ namespace BPC_OPR
 
                                     if (list_project.Count > 0)
                                     {
-                                        project.update_status(list_project[0], "F");
+                                        project.update_status(list_project[0], "C");
                                     }
-
                                 }
-                            }
+                                else
+                                {
+                                    //-- Approve                            
+                                    List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(input.company_code, "", "PRO_NEW");
+                                    List<cls_TRApprove> list_approve = approve.getDataByFillter(input.company_code, "PRO_NEW", input.approve_code);
+                                    if (list_approve.Count >= list_workflow.Count)
+                                    {
+                                        //-- Update status
+                                        cls_ctMTProject project = new cls_ctMTProject();
+                                        List<cls_MTProject> list_project = project.getDataByFillter(input.approve_code, "", "", "", "", "", "");
 
-                            break;
+                                        if (list_project.Count > 0)
+                                        {
+                                            project.update_status(list_project[0], "F");
+                                        }
+
+                                    }
+                                }
+
+                                break;
+                        }
+
+
+
+                        output["success"] = true;
+                        output["message"] = "Retrieved data successfully";
+
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
                     }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
 
-
-
-                    output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = controller.getMessage();
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
                 }
 
                 controller.dispose();
