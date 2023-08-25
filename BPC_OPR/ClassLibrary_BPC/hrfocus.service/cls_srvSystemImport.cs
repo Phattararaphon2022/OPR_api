@@ -949,49 +949,61 @@ namespace ClassLibrary_BPC.hrfocus.service
                 switch (type)
                 {
                     case "ROUND":
-
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
                         {
+                            cls_ctMTRounds objReason = new cls_ctMTRounds();
+                            cls_ctTRRound controller = new cls_ctTRRound();
+                            int successCount = 0;
+                            StringBuilder errorMessages = new StringBuilder();
+                            List<cls_TRRound> roundList = new List<cls_TRRound>();
+
                             foreach (DataRow dr in dt.Rows)
                             {
-
-                                cls_ctMTRounds objReason = new cls_ctMTRounds();
                                 cls_MTRounds model = new cls_MTRounds();
-                                model.round_id = dr["round_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["round_id"].ToString());
-
-                                 model.round_code = dr["round_code"].ToString();
-                                 model.round_name_th = dr["round_name_th"].ToString();
-                                 model.round_name_en = dr["round_name_en"].ToString();
-                                 model.round_group = dr["round_group"].ToString();
-
+                                model.round_id = dr["round_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["round_id"]);
+                                model.round_code = dr["round_code"].ToString();
+                                model.round_name_th = dr["round_name_th"].ToString();
+                                model.round_name_en = dr["round_name_en"].ToString();
+                                model.round_group = dr["round_group"].ToString();
                                 model.modified_by = by;
- 
+
                                 string strID = objReason.insert(model);
 
-                                if (!strID.Equals(""))
-                                {
-                                    success++;
-                                }
-                                else
-                                {
-                                    objStr.Append(model.round_code);
-                                }
+                                cls_TRRound models = new cls_TRRound();
+                                models.round_id = model.round_id.ToString();  // กำหนด round_id จาก cls_MTRounds
+                                models.round_from = Convert.ToDouble(dr["round_from"]);
+                                models.round_to = Convert.ToDouble(dr["round_to"]);
+                                models.round_result = Convert.ToDouble(dr["round_result"]);
 
+                                roundList.Add(models);
                             }
 
-                            strResult = "";
+                            bool insertResult = controller.insert(roundList);
 
-                            if (success > 0)
-                                strResult += "Success : " + success.ToString();
+                            if (insertResult)
+                            {
+                                successCount = roundList.Count;
+                            }
+                            else
+                            {
+                                foreach (cls_TRRound round in roundList)
+                                {
+                                    errorMessages.Append(round.round_id).Append(", ");
+                                }
+                            }
 
-                            if (objStr.Length > 0)
-                                strResult += " Fail : " + objStr.ToString();
+                            strResult = "Success: " + successCount;
 
+                            if (errorMessages.Length > 0)
+                                strResult += ", Fail: " + errorMessages.ToString();
                         }
-
                         break;
                 }
+
+
+
+
                 #endregion
 
                 #region //SUPPLY

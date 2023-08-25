@@ -153,7 +153,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  cls_ctMTWorker objWorker = new cls_ctMTWorker();
                  List<cls_MTWorker> list_worker = objWorker.getDataMultipleEmp(com, strEmp);
 
-                 //-- Step 2 Get Paytran
+                 //-- Step 2 Get Paytran cls_ctTRPaytran
                  cls_ctTRPaytran objPay = new cls_ctTRPaytran();
                  List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com, datePay, datePay, strEmp);
                  cls_TRPaytran paybank = list_paytran[0];

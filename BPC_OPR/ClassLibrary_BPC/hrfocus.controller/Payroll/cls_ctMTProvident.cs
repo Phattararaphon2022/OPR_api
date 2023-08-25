@@ -180,23 +180,29 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
             return blnResult;
         }
-
         public bool insert(cls_MTProvident model)
         {
             bool blnResult = false;
-            string strResult = "";
             try
             {
-
                 //-- Check data old
+ 
+
                 if (this.checkDataOld(model.company_code, model.provident_code, model.provident_id.ToString()))
                 {
-                    return this.update(model);
+                    if (model.provident_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                //int id = this.getNextID();
+
                 obj_str.Append("INSERT INTO PAY_MT_PROVIDENT");
                 obj_str.Append(" (");
                 obj_str.Append("PROVIDENT_ID ");
@@ -225,8 +231,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
-                model.provident_id = this.getNextID();
 
+               
                 obj_cmd.Parameters.Add("@PROVIDENT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROVIDENT_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@PROVIDENT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_CODE"].Value = model.provident_code;
                 obj_cmd.Parameters.Add("@PROVIDENT_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_NAME_TH"].Value = model.provident_name_th;
@@ -242,13 +248,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
                 obj_conn.doClose();
                 blnResult = true;
-                strResult = model.provident_id.ToString();
             }
             catch (Exception ex)
             {
-                Message = "PAYP005:" + ex.ToString();
-                strResult = "";
-
+                Message = "ERROR::(PAYP006.insert)" + ex.ToString();
             }
 
             return blnResult;
@@ -260,8 +263,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
+
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("UPDATE PAY_MT_PROVIDENT SET ");
+
+                  obj_str.Append("UPDATE PAY_MT_PROVIDENT SET ");
 
                 obj_str.Append(" PROVIDENT_CODE=@PROVIDENT_CODE ");
                 obj_str.Append(", PROVIDENT_NAME_TH=@PROVIDENT_NAME_TH ");
@@ -296,10 +301,134 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             }
             catch (Exception ex)
             {
-                Message = "PAYP006:" + ex.ToString();
+                Message = "ERROR::(PAYP006.update)" + ex.ToString();
             }
 
             return blnResult;
         }
     }
 }
+//
+
+//        public bool insert(cls_MTProvident model)
+//        {
+//            bool blnResult = false;
+//            string strResult = "";
+//            try
+//            {
+
+//                //-- Check data old
+//                if (this.checkDataOld(model.company_code, model.provident_code, model.provident_id.ToString()))
+//                {
+//                    return this.update(model);
+//                }
+
+//                cls_ctConnection obj_conn = new cls_ctConnection();
+//                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+//                //int id = this.getNextID();
+//                obj_str.Append("INSERT INTO PAY_MT_PROVIDENT");
+//                obj_str.Append(" (");
+//                obj_str.Append("PROVIDENT_ID ");
+//                obj_str.Append(", PROVIDENT_CODE ");
+//                obj_str.Append(", PROVIDENT_NAME_TH ");
+//                obj_str.Append(", PROVIDENT_NAME_EN ");
+
+//                obj_str.Append(", COMPANY_CODE ");
+
+//                obj_str.Append(", CREATED_BY ");
+//                obj_str.Append(", CREATED_DATE ");
+//                obj_str.Append(", FLAG ");
+//                obj_str.Append(" )");
+
+//                obj_str.Append(" VALUES(");
+//                obj_str.Append("@PROVIDENT_ID ");
+//                obj_str.Append(", @PROVIDENT_CODE ");
+//                obj_str.Append(", @PROVIDENT_NAME_TH ");
+//                obj_str.Append(", @PROVIDENT_NAME_EN ");
+//                obj_str.Append(", @COMPANY_CODE ");
+//                obj_str.Append(", @CREATED_BY ");
+//                obj_str.Append(", @CREATED_DATE ");
+//                obj_str.Append(", @FLAG ");
+//                obj_str.Append(" )");
+
+//                obj_conn.doConnect();
+
+//                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+//                model.provident_id = this.getNextID();
+
+//                obj_cmd.Parameters.Add("@PROVIDENT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROVIDENT_ID"].Value = this.getNextID();
+//                obj_cmd.Parameters.Add("@PROVIDENT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_CODE"].Value = model.provident_code;
+//                obj_cmd.Parameters.Add("@PROVIDENT_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_NAME_TH"].Value = model.provident_name_th;
+//                obj_cmd.Parameters.Add("@PROVIDENT_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_NAME_EN"].Value = model.provident_name_en;
+
+//                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
+//                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+//                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+//                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+     
+//                obj_cmd.ExecuteNonQuery();
+
+//                obj_conn.doClose();
+//                blnResult = true;
+//                strResult = model.provident_id.ToString();
+//            }
+//            catch (Exception ex)
+//            {
+//                Message = "PAYP005:" + ex.ToString();
+//                strResult = "";
+
+//            }
+
+//            return blnResult;
+//        }
+
+//        public bool update(cls_MTProvident model)
+//        {
+//            bool blnResult = false;
+//            try
+//            {
+//                cls_ctConnection obj_conn = new cls_ctConnection();
+//                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+//                obj_str.Append("UPDATE PAY_MT_PROVIDENT SET ");
+
+//                obj_str.Append(" PROVIDENT_CODE=@PROVIDENT_CODE ");
+//                obj_str.Append(", PROVIDENT_NAME_TH=@PROVIDENT_NAME_TH ");
+//                obj_str.Append(", PROVIDENT_NAME_EN=@PROVIDENT_NAME_EN ");
+
+//                obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+//                obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+//                obj_str.Append(", FLAG=@FLAG ");
+
+
+//                obj_str.Append(" WHERE PROVIDENT_ID=@PROVIDENT_ID ");
+
+//                obj_conn.doConnect();
+
+//                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+//                obj_cmd.Parameters.Add("@PROVIDENT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_CODE"].Value = model.provident_code;
+//                obj_cmd.Parameters.Add("@PROVIDENT_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_NAME_TH"].Value = model.provident_name_th;
+//                obj_cmd.Parameters.Add("@PROVIDENT_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROVIDENT_NAME_EN"].Value = model.provident_name_en;
+
+//                obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
+//                obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+//                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
+//                obj_cmd.Parameters.Add("@PROVIDENT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROVIDENT_ID"].Value = model.provident_id;
+
+//                obj_cmd.ExecuteNonQuery();
+
+//                obj_conn.doClose();
+
+//                blnResult = true;
+//            }
+//            catch (Exception ex)
+//            {
+//                Message = "PAYP006:" + ex.ToString();
+//            }
+
+//            return blnResult;
+//        }
+//    }
+//}
