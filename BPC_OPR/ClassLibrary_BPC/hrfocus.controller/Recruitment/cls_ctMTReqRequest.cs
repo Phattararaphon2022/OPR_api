@@ -545,7 +545,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 strResult = "";
-                Message = "APW010:" + ex.ToString();
+                Message = "REQST007:" + ex.ToString();
             }
 
             return strResult;

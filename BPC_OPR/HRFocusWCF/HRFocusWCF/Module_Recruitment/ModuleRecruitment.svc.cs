@@ -3863,7 +3863,7 @@ namespace BPC_OPR
                  }
 
                  cls_ctMTBlacklist controller = new cls_ctMTBlacklist();
-                 List<cls_MTBlacklist> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                 List<cls_MTBlacklist> list = controller.getDataByFillter(input.company_code, input.worker_code,input.card_no);
                  JArray array = new JArray();
 
                  if (list.Count > 0)
@@ -3874,7 +3874,16 @@ namespace BPC_OPR
                      {
                          JObject json = new JObject();
                          json.Add("company_code", model.company_code);
+                         json.Add("blacklist_id", model.blacklist_id);
+
                          json.Add("worker_code", model.worker_code);
+                         json.Add("card_no", model.card_no);
+
+                         json.Add("blacklist_fname_th", model.blacklist_fname_th);
+                         json.Add("blacklist_lname_th", model.blacklist_lname_th);
+                         json.Add("blacklist_fname_en", model.blacklist_fname_en);
+                         json.Add("blacklist_lname_en", model.blacklist_lname_en);
+
                          json.Add("reason_code", model.reason_code);
                          json.Add("blacklist_note", model.blacklist_note);
 
@@ -3954,7 +3963,13 @@ namespace BPC_OPR
                  cls_MTBlacklist model = new cls_MTBlacklist();
 
                  model.company_code = input.company_code;
+                 model.blacklist_id = input.blacklist_id;
                  model.worker_code = input.worker_code;
+                 model.card_no = input.card_no;
+                 model.blacklist_fname_th = input.blacklist_fname_th;
+                 model.blacklist_lname_th = input.blacklist_lname_th;
+                 model.blacklist_fname_en = input.blacklist_fname_en;
+                 model.blacklist_lname_en = input.blacklist_lname_en;
                  model.reason_code = input.reason_code;
                  model.blacklist_note = input.blacklist_note;
 
@@ -4029,9 +4044,9 @@ namespace BPC_OPR
 
                  cls_ctMTBlacklist controller = new cls_ctMTBlacklist();
 
-                 if (controller.checkDataOld(input.company_code, input.worker_code))
+                 if (controller.checkDataOld(input.company_code, input.card_no))
                  {
-                     bool blnResult = controller.delete(input.company_code, input.worker_code);
+                     bool blnResult = controller.delete(input.company_code, input.card_no);
 
                      if (blnResult)
                      {
@@ -4179,6 +4194,12 @@ namespace BPC_OPR
                      cls_MTBlacklist model = new cls_MTBlacklist();
                      model.company_code = input.company_code;
                      model.worker_code = modelWorker.worker_code;
+                     model.card_no = modelWorker.worker_cardno;
+                     model.blacklist_fname_th = modelWorker.worker_fname_th;
+                     model.blacklist_lname_th = modelWorker.worker_lname_th;
+                     model.blacklist_fname_en = modelWorker.worker_fname_en;
+                     model.blacklist_lname_en = modelWorker.worker_lname_en;
+
                      model.reason_code = input.reason_code;
                      model.blacklist_note = input.blacklist_note;
                      model.created_by = input.modified_by;
@@ -6076,6 +6097,88 @@ namespace BPC_OPR
              {
                  objBpcOpr.doRecordLog(log);
              }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doUpdateStatusRequest(InputReqRequest input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQST3.1";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTReqRequest controller = new cls_ctMTReqRequest();
+                 cls_MTReqRequest model = new cls_MTReqRequest();
+
+                 string strWorkerCode = input.worker_code;
+                 string strComCode = input.company_code;
+
+                 model.company_code = strComCode;
+                 model.request_id = input.request_id;
+
+                 model.request_status = input.request_status;
+
+                 model.modified_by = input.modified_by;
+                 model.flag = model.flag;
+
+                 string strID = controller.updatestatus(model);
+
+                 if (!strID.Equals(""))
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
 
              return output.ToString(Formatting.None);
          }

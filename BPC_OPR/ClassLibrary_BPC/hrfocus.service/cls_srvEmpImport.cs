@@ -351,6 +351,11 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_cardno = dr["worker_cardno"].ToString();
                                 model.worker_cardnoissuedate = Convert.ToDateTime(dr["worker_cardnoissuedate"]);
                                 model.worker_cardnoexpiredate = Convert.ToDateTime(dr["worker_cardnoexpiredate"]);
+
+                                model.worker_socialno = dr["worker_socialno"].ToString();
+                                model.worker_socialnoissuedate = Convert.ToDateTime(dr["worker_socialnoissuedate"]);
+                                model.worker_socialnoexpiredate = Convert.ToDateTime(dr["worker_socialnoexpiredate"]);
+                                model.worker_socialnotsent = false;
                                 
                                 model.modified_by = by;
 
