@@ -3532,10 +3532,10 @@ namespace BPC_OPR
                     try
                     {
                         cls_ctTRRound objTRRound = new cls_ctTRRound();
-                        objTRRound.delete(input.round_id.ToString());
+                        objTRRound.delete(strID);
                         if (input.round_data.Count > 0)
                         {
-                            objTRRound.insert(input.round_data);
+                            objTRRound.insert(input.round_data, strID);
                         }
                         
                     }
