@@ -82,7 +82,6 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
-    <Compile Include="hrfocus.controller\employee\cls_ctMTTypeDashboards.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
     <Compile Include="hrfocus.controller\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTPlanitems.cs" />
