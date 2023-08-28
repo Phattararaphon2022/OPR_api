@@ -235,6 +235,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
+                strResult = id.ToString();
             
             }
             catch (Exception ex)
