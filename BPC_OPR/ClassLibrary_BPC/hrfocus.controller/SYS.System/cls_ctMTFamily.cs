@@ -79,12 +79,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTFamily> getDataByFillter(string code)
+        public List<cls_MTFamily> getDataByFillter(string code,string com)
         {
             string strCondition = "";
 
             if (!code.Equals(""))
                 strCondition += " AND FAMILY_CODE='" + code + "'";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
             
             return this.getData(strCondition);
         }
@@ -269,20 +272,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", FLAG=@FLAG ");
 
                 obj_str.Append(" WHERE FAMILY_CODE=@FAMILY_CODE ");
+                obj_str.Append(" AND FAMILY_ID=@FAMILY_ID ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                //obj_cmd.Parameters.Add("@FAMILY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_CODE"].Value = model.family_code;
-                obj_cmd.Parameters.Add("@FAMILY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_TH"].Value = model.family_name_th;
+                 obj_cmd.Parameters.Add("@FAMILY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_TH"].Value = model.family_name_th;
                 obj_cmd.Parameters.Add("@FAMILY_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_EN"].Value = model.family_name_en;
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                //obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = model.family_id;
                 obj_cmd.Parameters.Add("@FAMILY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_CODE"].Value = model.family_code;
+                obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = model.family_id;
 
                 obj_cmd.ExecuteNonQuery();
 

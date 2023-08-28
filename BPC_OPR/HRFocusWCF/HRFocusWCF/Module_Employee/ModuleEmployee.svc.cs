@@ -11930,7 +11930,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTDashboards objPolItem = new cls_ctMTDashboards();
-                List<cls_MTDashboards> listPolItem = objPolItem.getDataByFillter(input.worker_code);
+                List<cls_MTDashboards> listPolItem = objPolItem.getDataByFillter("");
 
                 JArray array = new JArray();
 
@@ -12067,8 +12067,8 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTTypeDashboards controller = new cls_ctMTTypeDashboards();
-                List<cls_MTDashboards> list = controller.getDataByFillterType(input.worker_type);
+                cls_ctMTDashboards controller = new cls_ctMTDashboards();
+                List<cls_MTDashboards> list = controller.getDataByFillterType(input.worker_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)

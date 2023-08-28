@@ -242,7 +242,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(" WHERE BANK_CODE=@BANK_CODE ");
-                //obj_str.Append(" AND BANK_CODE=@BANK_CODE ");
+                obj_str.Append(" AND BANK_ID=@BANK_ID ");
 
 
 
@@ -254,8 +254,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@BANK_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_NAME_EN"].Value = model.bank_name_en;        
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
-                //obj_cmd.Parameters.Add("@BANK_ID", SqlDbType.Int); obj_cmd.Parameters["@BANK_ID"].Value = model.bank_id;
                 obj_cmd.Parameters.Add("@BANK_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BANK_CODE"].Value = model.bank_code;
+                obj_cmd.Parameters.Add("@BANK_ID", SqlDbType.Int); obj_cmd.Parameters["@BANK_ID"].Value = model.bank_id;
 
 
                 obj_cmd.ExecuteNonQuery();

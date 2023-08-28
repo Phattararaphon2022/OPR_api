@@ -233,6 +233,9 @@ namespace BPC_OPR
         public string worker_code { get; set; }
         [DataMember]
         public string worker_detail { get; set; }
+         [DataMember]
+        public string paybatchreduce_code { get; set; }
+        
 
         [DataMember]
         public List<cls_MTWorker> emp_data { get; set; }
@@ -558,6 +561,74 @@ namespace BPC_OPR
 
     }
     #endregion
+
+
+    #region InputMTPlanleave
+    [DataContract]
+    public class InputMTPlanreduce
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string planreduce_id { get; set; }
+        [DataMember]
+        public string planreduce_code { get; set; }
+        [DataMember]
+        public string planreduce_name_th { get; set; }
+        [DataMember]
+        public string planreduce_name_en { get; set; }
+
+         [DataMember]
+        public List<cls_TRPlanreduce> reducelists { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+    #endregion
+
+    #region InputMTPlanitems
+    [DataContract]
+    public class InputMTPlanitems
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string planitems_id { get; set; }
+        [DataMember]
+        public string planitems_code { get; set; }
+        [DataMember]
+        public string planitems_name_th { get; set; }
+        [DataMember]
+        public string planitems_name_en { get; set; }
+
+         [DataMember]
+        public List<cls_TRPlanitems> itemslists { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+    #endregion
+
 
 
 }

@@ -4329,6 +4329,7 @@ namespace BPC_OPR
 
                 model.company_code = input.company_code;
                 model.project_code = input.project_code;
+                model.projob_code = input.projob_code;
                 model.worker_code = input.worker_code;
 
                 model.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
@@ -4510,6 +4511,16 @@ namespace BPC_OPR
                 timecard.modified_by = input.modified_by;
                 bool blnTimecard = objTimecard.insert(timecard);
 
+                cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
+                List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
+
+                string terminal = "MANUAL";
+
+                if (list.Count > 0)
+                {
+                    terminal = list[0].projobmachine_ip;
+                }
+
                 cls_ctTRTimeinput objTime = new cls_ctTRTimeinput();
                 cls_TRTimeinput model = new cls_TRTimeinput();
 
@@ -4517,7 +4528,7 @@ namespace BPC_OPR
                 model.timeinput_card = listWorker[0].worker_card;
                 model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
                 model.timeinput_hhmm = input.timecard_in;
-                model.timeinput_terminal = "MANUAL";
+                model.timeinput_terminal = terminal;
                 model.timeinput_function = "";
                 model.timeinput_compare = "N";
 
@@ -4527,7 +4538,7 @@ namespace BPC_OPR
                 model.timeinput_card = listWorker[0].worker_card;
                 model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
                 model.timeinput_hhmm = input.timecard_out;
-                model.timeinput_terminal = "MANUAL";
+                model.timeinput_terminal = terminal;
                 model.timeinput_function = "";
                 model.timeinput_compare = "N";
 

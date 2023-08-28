@@ -903,6 +903,8 @@ namespace BPC_OPR
         [DataMember]
         public double reduce_amount { get; set; }
         [DataMember]
+        public double reduce_amount_max { get; set; }
+        [DataMember]
         public double reduce_percent { get; set; }
         [DataMember]
         public double reduce_percent_max { get; set; }
@@ -1169,5 +1171,26 @@ namespace BPC_OPR
         public List<cls_TRWorkflow> workflow_data { get; set; }
     }
     #endregion
+
+
+    [DataContract]
+    public class InputTRApprove
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string approve_code { get; set; }
+        [DataMember]
+        public string workflow_type { get; set; }
+        [DataMember]
+        public string approve_by { get; set; }
+        [DataMember]
+        public string approve_date { get; set; }
+        [DataMember]
+        public string approve_status { get; set; }
+        [DataMember]
+        public string approve_note { get; set; }
+
+    }
 }
 

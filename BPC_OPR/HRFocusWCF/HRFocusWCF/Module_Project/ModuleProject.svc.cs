@@ -1626,15 +1626,42 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProject controller = new cls_ctMTProject();
-                List<cls_MTProject> list = controller.getDataByFillter(req.project_code, "", "", "", "", "");
+                List<cls_MTProject> list = controller.getDataByFillter(req.project_code, "", "", "", "", "", req.status);
 
-                cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
-                cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+                //-- F add 23/08/2023
+                //-- Workflow
+                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company, "", "PRO_NEW");
 
+                //-- Approve history
+                cls_ctTRApprove approve = new cls_ctTRApprove();
+                List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company, "PRO_NEW", "");
+
+                if (req.status.Equals("W"))
+                {
+                    bool find_approve = false;
+                    foreach (cls_TRWorkflow model in list_workflow)
+                    {
+                        if (req.username.Equals(model.account_user))
+                        {
+                            find_approve = true;
+                            break;
+                        }
+                    }
+
+                    if (!find_approve)
+                        list = new List<cls_MTProject>();
+                }
+                //
+                
+                
                 JArray array = new JArray();
 
                 if (list.Count > 0)
                 {
+                    cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
                     int index = 1;
 
                     foreach (cls_MTProject model in list)
@@ -1671,6 +1698,16 @@ namespace BPC_OPR
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
                         List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
+
+                        //-- Approve
+                        int count_approve = 0;
+                        foreach (cls_TRApprove appr in list_approve)
+                        {
+                            if (model.project_code.Equals(appr.approve_code))
+                                count_approve++;
+                        }
+
+                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
 
                         foreach (cls_MTProjobmain jobmain in list_job)
                         {

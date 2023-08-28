@@ -127,6 +127,39 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND PROJECT_PROGROUP='" + group + "'";
             ///
 
+            strCondition += " AND PROJECT_STATUS='F'";
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_MTProject> getDataByFillter(string code, string codecentral, string type, string business, string area, string group, string status)
+        {
+            string strCondition = "";
+
+            if (!code.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + code + "'";
+
+            if (!codecentral.Equals(""))
+                strCondition += " AND PROJECT_CODECENTRAL='" + codecentral + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND PROJECT_PROTYPE='" + type + "'";
+
+            if (!business.Equals(""))
+                strCondition += " AND PROJECT_PROBUSINESS='" + business + "'";
+
+            ////
+            if (!area.Equals(""))
+                strCondition += " AND PROJECT_PROAREA='" + area + "'";
+            if (!group.Equals(""))
+                strCondition += " AND PROJECT_PROGROUP='" + group + "'";
+            ///
+
+            if (!status.Equals(""))
+            {
+                strCondition += " AND PROJECT_STATUS='" + status + "'";
+            }
+
             return this.getData(strCondition);
         }
 
@@ -294,7 +327,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_PROBUSINESS", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROBUSINESS"].Value = model.project_probusiness;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDTIME", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDTIME"].Value = model.project_roundtime;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDMONEY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDMONEY"].Value = model.project_roundmoney;
-                obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = model.project_status;
+                obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = "W";
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
@@ -380,6 +413,43 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 Message = "BNK006:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
+        public bool update_status(cls_MTProject model, string status)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+                obj_str.Append("UPDATE PRO_MT_PROJECT SET ");
+              
+                obj_str.Append(" PROJECT_STATUS=@PROJECT_STATUS ");
+
+                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
+                obj_conn.doConnect();
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = status;
+
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
+                obj_cmd.ExecuteNonQuery();
+
+                obj_conn.doClose();
+
+                blnResult = true;
+            }
+            catch (Exception ex)
+            {
+                Message = "BNK008:" + ex.ToString();
             }
 
             return blnResult;

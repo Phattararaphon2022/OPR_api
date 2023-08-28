@@ -195,7 +195,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string com, string project, string worker, DateTime workdate)
+        public bool checkDataOld(string com, string project, string job, string worker, DateTime workdate)
         {
             bool blnResult = false;
             try
@@ -207,6 +207,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND PROJECT_CODE='" + project + "'");
+                obj_str.Append(" AND PROJOB_CODE='" + job + "'");
                 obj_str.Append(" AND WORKER_CODE='" + worker + "'");
                 obj_str.Append(" AND TIMECARD_WORKDATE='" + workdate.ToString(this.FormatDateDB) + "'");
 
@@ -240,6 +241,34 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND WORKER_CODE='" + worker + "'");
                 obj_str.Append(" AND TIMECARD_WORKDATE='" + workdate.ToString(this.FormatDateDB) + "'");
+
+                blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                blnResult = false;
+                Message = "ERROR::(Timecard.delete)" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
+        public bool delete_nonproject(string com, string worker, DateTime workdate)
+        {
+            bool blnResult = true;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append(" DELETE FROM ATT_TR_TIMECARD");
+                obj_str.Append(" WHERE 1=1 ");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");                
+                obj_str.Append(" AND WORKER_CODE='" + worker + "'");
+                obj_str.Append(" AND TIMECARD_WORKDATE='" + workdate.ToString(this.FormatDateDB) + "'");
+                obj_str.Append(" AND (PROJECT_CODE IS NULL OR PROJECT_CODE='')");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -415,7 +444,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             cls_ctConnection obj_conn = new cls_ctConnection();
             try
             {
-                if (this.checkDataOld(model.company_code, model.project_code, model.worker_code, model.timecard_workdate))
+                if (this.checkDataOld(model.company_code, model.project_code, model.projob_code, model.worker_code, model.timecard_workdate))
                     return true;
 
 
