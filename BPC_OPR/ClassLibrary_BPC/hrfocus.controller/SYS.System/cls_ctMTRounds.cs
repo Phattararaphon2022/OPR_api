@@ -193,7 +193,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                int id = this.getNextID();
+                //int id = this.getNextID();
 
                 obj_str.Append("INSERT INTO SYS_MT_ROUND");
                 obj_str.Append(" (");
@@ -222,8 +222,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
- 
-                obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUND_ID"].Value = id;
+
+                obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUND_ID"].Value = model.round_id;
                 obj_cmd.Parameters.Add("@ROUND_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_CODE"].Value = model.round_code;
                 obj_cmd.Parameters.Add("@ROUND_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_NAME_TH"].Value = model.round_name_th;
                 obj_cmd.Parameters.Add("@ROUND_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_NAME_EN"].Value = model.round_name_en;
@@ -235,7 +235,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                strResult = id.ToString();
+                strResult = model.round_id.ToString();
             
             }
             catch (Exception ex)

@@ -132,16 +132,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool insert(List<cls_TRRound> list_model)
+        public bool insert(List<cls_TRRound> list_model,string round_id)
         {
             bool blnResult = false;
             try
             {
                 //-- Check data old
-                if (!this.delete(list_model[0].round_id.ToString()))
-                {
-                    return false;
-                }
+                //if (!this.delete(round_id.Equals("") ? list_model[0].round_id : round_id))
+                //{
+                //    return false;
+                //}
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -165,29 +165,57 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_conn.doOpenTransaction();
 
-                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
-                obj_cmd.Transaction = obj_conn.getTransaction();
-
-                obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int);
-                obj_cmd.Parameters.Add("@ROUND_FROM", SqlDbType.Decimal);
-                obj_cmd.Parameters.Add("@ROUND_TO", SqlDbType.Decimal);
-                obj_cmd.Parameters.Add("@ROUND_RESULT", SqlDbType.Decimal);
-
-
+                string strWorkerID = "";
                 foreach (cls_TRRound model in list_model)
                 {
+                    strWorkerID += "'" + model.round_id + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
 
-                    obj_cmd.Parameters["@ROUND_ID"].Value = model.round_id;
-                    obj_cmd.Parameters["@ROUND_FROM"].Value = model.round_from;
-                    obj_cmd.Parameters["@ROUND_TO"].Value = model.round_to;
-                    obj_cmd.Parameters["@ROUND_RESULT"].Value = model.round_result;
-
-                    obj_cmd.ExecuteNonQuery();
-
+                obj_str2.Append(" DELETE FROM SYS_TR_ROUND");
+                obj_str2.Append(" WHERE 1=1 ");
+                if (!round_id.Equals(""))
+                {
+                    obj_str2.Append(" AND ROUND_ID IN (" + round_id + ")");
+                }
+                else
+                {
+                    obj_str2.Append(" AND ROUND_ID IN (" + strWorkerID + ")");
                 }
 
-                blnResult = obj_conn.doCommit();
-                obj_conn.doClose();
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+                if (blnResult)
+                {
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int);
+                    obj_cmd.Parameters.Add("@ROUND_FROM", SqlDbType.Decimal);
+                    obj_cmd.Parameters.Add("@ROUND_TO", SqlDbType.Decimal);
+                    obj_cmd.Parameters.Add("@ROUND_RESULT", SqlDbType.Decimal);
+
+
+                    foreach (cls_TRRound model in list_model)
+                    {
+
+                        obj_cmd.Parameters["@ROUND_ID"].Value = round_id.Equals("") ? model.round_id : round_id;
+                        obj_cmd.Parameters["@ROUND_FROM"].Value = model.round_from;
+                        obj_cmd.Parameters["@ROUND_TO"].Value = model.round_to;
+                        obj_cmd.Parameters["@ROUND_RESULT"].Value = model.round_result;
+
+                        obj_cmd.ExecuteNonQuery();
+
+                    }
+
+                    blnResult = obj_conn.doCommit();
+                    obj_conn.doClose();
+                }
+                else
+                {
+
+                }
 
             }
             catch (Exception ex)
