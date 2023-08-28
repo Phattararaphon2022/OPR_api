@@ -124,7 +124,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_cardnoexpiredate = Convert.ToDateTime(dr["WORKER_CARDNOEXPIREDATE"]);
 
 
-                    model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status = dr["STATUS"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -147,7 +147,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_MTWorker> getDataByFillter(string com, string code,int status)
+        public List<cls_MTWorker> getDataByFillter(string com, string code,string status)
         {
             string strCondition = "";
 
@@ -411,7 +411,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_CARDNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOISSUEDATE"].Value = model.worker_cardnoissuedate;
                 obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
 
-                obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = 0;
+                obj_cmd.Parameters.Add("@STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@STATUS"].Value = 'W';
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -528,7 +528,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_CARDNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOISSUEDATE"].Value = model.worker_cardnoissuedate;
                 obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
 
-                obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = model.status;
+                obj_cmd.Parameters.Add("@STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@STATUS"].Value = model.status;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
@@ -558,11 +558,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT WORKER_CODE");
-                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append("SELECT CARD_NO");
+                obj_str.Append(" FROM REQ_MT_BLACKLIST");
                 obj_str.Append(" WHERE COMPANY_CODE = '" + com + "' ");
-                obj_str.Append(" AND WORKER_BLACKLISTSTATUS = 1 ");
-                obj_str.Append(" AND WORKER_CARDNO ='" + code + "'");
+                obj_str.Append(" AND CARD_NO ='" + code + "'");
 
 
 

@@ -46,10 +46,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(ADDRESS_AMPHUR, '') AS ADDRESS_AMPHUR");
                 obj_str.Append(", ISNULL(PROVINCE_CODE, '') AS PROVINCE_CODE");
                 obj_str.Append(", ISNULL(ADDRESS_ZIPCODE, '') AS ADDRESS_ZIPCODE");
-                obj_str.Append(", ISNULL(ADDRESS_TEL, '') AS ADDRESS_TEL");
-                obj_str.Append(", ISNULL(ADDRESS_EMAIL, '') AS ADDRESS_EMAIL");
-                obj_str.Append(", ISNULL(ADDRESS_LINE, '') AS ADDRESS_LINE");
-                obj_str.Append(", ISNULL(ADDRESS_FACEBOOK, '') AS ADDRESS_FACEBOOK");
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -79,10 +75,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.address_amphur = Convert.ToString(dr["ADDRESS_AMPHUR"]);
                     model.province_code = Convert.ToString(dr["PROVINCE_CODE"]);
                     model.address_zipcode = Convert.ToString(dr["ADDRESS_ZIPCODE"]);
-                    model.address_tel = Convert.ToString(dr["ADDRESS_TEL"]);
-                    model.address_email = Convert.ToString(dr["ADDRESS_EMAIL"]);
-                    model.address_line = Convert.ToString(dr["ADDRESS_LINE"]);
-                    model.address_facebook = Convert.ToString(dr["ADDRESS_FACEBOOK"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -223,10 +215,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ADDRESS_AMPHUR ");
                 obj_str.Append(", PROVINCE_CODE ");
                 obj_str.Append(", ADDRESS_ZIPCODE ");
-                obj_str.Append(", ADDRESS_TEL ");
-                obj_str.Append(", ADDRESS_EMAIL ");
-                obj_str.Append(", ADDRESS_LINE ");
-                obj_str.Append(", ADDRESS_FACEBOOK ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -245,10 +233,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @ADDRESS_AMPHUR ");
                 obj_str.Append(", @PROVINCE_CODE ");
                 obj_str.Append(", @ADDRESS_ZIPCODE ");
-                obj_str.Append(", @ADDRESS_TEL ");
-                obj_str.Append(", @ADDRESS_EMAIL ");
-                obj_str.Append(", @ADDRESS_LINE ");
-                obj_str.Append(", @ADDRESS_FACEBOOK ");
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", '1' ");
@@ -272,10 +256,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@ADDRESS_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_AMPHUR"].Value = model.address_amphur;
                 obj_cmd.Parameters.Add("@PROVINCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCE_CODE"].Value = model.province_code;
                 obj_cmd.Parameters.Add("@ADDRESS_ZIPCODE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_ZIPCODE"].Value = model.address_zipcode;
-                obj_cmd.Parameters.Add("@ADDRESS_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_TEL"].Value = model.address_tel;
-                obj_cmd.Parameters.Add("@ADDRESS_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_EMAIL"].Value = model.address_email;
-                obj_cmd.Parameters.Add("@ADDRESS_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_LINE"].Value = model.address_line;
-                obj_cmd.Parameters.Add("@ADDRESS_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_FACEBOOK"].Value = model.address_facebook;
                 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -313,10 +293,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ADDRESS_AMPHUR=@ADDRESS_AMPHUR ");
                 obj_str.Append(", PROVINCE_CODE=@PROVINCE_CODE ");
                 obj_str.Append(", ADDRESS_ZIPCODE=@ADDRESS_ZIPCODE ");
-                obj_str.Append(", ADDRESS_TEL=@ADDRESS_TEL ");
-                obj_str.Append(", ADDRESS_EMAIL=@ADDRESS_EMAIL ");
-                obj_str.Append(", ADDRESS_LINE=@ADDRESS_LINE ");
-                obj_str.Append(", ADDRESS_FACEBOOK=@ADDRESS_FACEBOOK ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -338,10 +314,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@ADDRESS_AMPHUR", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_AMPHUR"].Value = model.address_amphur;
                 obj_cmd.Parameters.Add("@PROVINCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROVINCE_CODE"].Value = model.province_code;
                 obj_cmd.Parameters.Add("@ADDRESS_ZIPCODE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_ZIPCODE"].Value = model.address_zipcode;
-                obj_cmd.Parameters.Add("@ADDRESS_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_TEL"].Value = model.address_tel;
-                obj_cmd.Parameters.Add("@ADDRESS_EMAIL", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_EMAIL"].Value = model.address_email;
-                obj_cmd.Parameters.Add("@ADDRESS_LINE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_LINE"].Value = model.address_line;
-                obj_cmd.Parameters.Add("@ADDRESS_FACEBOOK", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESS_FACEBOOK"].Value = model.address_facebook;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

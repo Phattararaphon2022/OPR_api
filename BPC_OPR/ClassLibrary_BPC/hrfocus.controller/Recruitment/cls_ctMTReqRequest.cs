@@ -98,7 +98,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTReqRequest> getDataByFillter(string com, string code)
+        public List<cls_MTReqRequest> getDataByFillter(string com, string code,int status)
         {
             string strCondition = "";
 
@@ -106,6 +106,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!code.ToString().Equals(""))
                 strCondition += " AND REQUEST_CODE='" + code + "'";
+            if (!status.Equals(""))
+                strCondition += " AND REQUEST_STATUS  ='" + status + "'";
 
             return this.getData(strCondition);
         }
@@ -283,8 +285,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@REQUEST_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_NOTE"].Value = model.request_note;
 
-                obj_cmd.Parameters.Add("@REQUEST_ACCEPTED", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_ACCEPTED"].Value = model.request_accepted;
-                obj_cmd.Parameters.Add("@REQUEST_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_STATUS"].Value = model.request_status;
+                obj_cmd.Parameters.Add("@REQUEST_ACCEPTED", SqlDbType.Decimal); obj_cmd.Parameters["@REQUEST_ACCEPTED"].Value = 0;
+                obj_cmd.Parameters.Add("@REQUEST_STATUS", SqlDbType.Int); obj_cmd.Parameters["@REQUEST_STATUS"].Value = 0;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -403,6 +405,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE 1=1");
                 obj_str.Append(" AND REQ_MT_REQUEST.COMPANY_CODE ='" + com + "'");
+                obj_str.Append(" AND REQ_MT_REQUEST.REQUEST_STATUS = 0 ");
 
                 
 
@@ -462,6 +465,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE 1=1");
                 obj_str.Append(" AND REQ_MT_REQUEST.COMPANY_CODE ='" + com + "'");
+                obj_str.Append(" AND REQ_MT_REQUEST.REQUEST_STATUS = 0 ");
 
 
 
@@ -493,6 +497,58 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
 
             return list_model;
+        }
+
+        public string updatestatus(cls_MTReqRequest model)
+        {
+
+            string strResult = "";
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("UPDATE REQ_MT_REQUEST SET ");
+
+                obj_str.Append(" REQUEST_STATUS=@REQUEST_STATUS ");
+
+                obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+                obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+                obj_str.Append(", FLAG=@FLAG ");
+
+                obj_str.Append(" WHERE REQUEST_ID=@REQUEST_ID ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
+
+                obj_conn.doConnect();
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+
+                strResult = model.request_id.ToString();
+
+                obj_cmd.Parameters.Add("@REQUEST_STATUS", SqlDbType.Int); obj_cmd.Parameters["@REQUEST_STATUS"].Value = model.request_status;
+
+                obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
+                obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
+                obj_cmd.Parameters.Add("@REQUEST_ID", SqlDbType.Int); obj_cmd.Parameters["@REQUEST_ID"].Value = strResult;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
+                obj_cmd.ExecuteNonQuery();
+
+                obj_conn.doClose();
+
+            }
+            catch (Exception ex)
+            {
+                strResult = "";
+                Message = "REQST007:" + ex.ToString();
+            }
+
+            return strResult;
         }
     }
 }

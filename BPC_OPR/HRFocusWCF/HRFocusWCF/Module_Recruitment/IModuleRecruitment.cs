@@ -357,6 +357,10 @@ namespace BPC_OPR
         [OperationContract(Name = "getrequestproject")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTReqRequestProject(InputReqRequest input);
+
+        [OperationContract(Name = "request_status")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doUpdateStatusRequest(InputReqRequest input);
         #endregion
 
     }
