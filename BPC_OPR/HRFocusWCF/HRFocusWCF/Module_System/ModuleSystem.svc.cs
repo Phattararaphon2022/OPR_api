@@ -3447,7 +3447,7 @@ namespace BPC_OPR
                             foreach (cls_TRRound modelTRRound in listTRRound)
                             {
                                 JObject jsonTRRound = new JObject();
-                                jsonTRRound.Add("round_id", modelTRRound.round_id);
+                                jsonTRRound.Add("round_id", model.round_id);
                                 jsonTRRound.Add("round_from", modelTRRound.round_from);
                                 jsonTRRound.Add("round_to", modelTRRound.round_to);
                                 jsonTRRound.Add("round_result", modelTRRound.round_result);
