@@ -971,7 +971,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 string strID = objReason.insert(model);
 
                                 cls_TRRound models = new cls_TRRound();
-                                models.round_id = model.round_id.ToString();  // กำหนด round_id จาก cls_MTRounds
+                                models.round_id = strID;  // กำหนด round_id จาก cls_MTRounds
                                 models.round_from = Convert.ToDouble(dr["round_from"]);
                                 models.round_to = Convert.ToDouble(dr["round_to"]);
                                 models.round_result = Convert.ToDouble(dr["round_result"]);
