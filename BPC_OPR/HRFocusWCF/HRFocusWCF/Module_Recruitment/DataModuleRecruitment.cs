@@ -292,6 +292,16 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+        [DataMember]
+        public int foreignercard_id { get; set; }
+        [DataMember]
+        public string foreignercard_code { get; set; }
+        [DataMember]
+        public string foreignercard_type { get; set; }
+        [DataMember]
+        public string foreignercard_issue { get; set; }
+        [DataMember]
+        public string foreignercard_expire { get; set; }
     }
 
     public class InputTRReqEducation

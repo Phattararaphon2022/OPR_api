@@ -12334,6 +12334,40 @@ namespace BPC_OPR
                                 }
 
                                 break;
+
+                            case "REQ_APY":
+
+                                if (input.approve_status.Equals("C"))
+                                {
+                                    //-- Update status
+                                    cls_ctMTApplywork applywork = new cls_ctMTApplywork();
+                                    List<cls_MTWorker> list_applywork = applywork.getDataByFillter(input.company_code,input.approve_code, "");
+
+                                    if (list_applywork.Count > 0)
+                                    {
+                                        applywork.updatestatus(list_applywork[0], "C");
+                                    }
+                                }
+                                else
+                                {
+                                    //-- Approve                            
+                                    List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(input.company_code, "", "REQ_APY");
+                                    List<cls_TRApprove> list_approve = approve.getDataByFillter(input.company_code, "REQ_APY", input.approve_code);
+                                    if (list_approve.Count >= list_workflow.Count)
+                                    {
+                                        //-- Update status
+                                        cls_ctMTApplywork applywork = new cls_ctMTApplywork();
+                                        List<cls_MTWorker> list_applywork = applywork.getDataByFillter(input.company_code, input.approve_code, "");
+
+                                        if (list_applywork.Count > 0)
+                                        {
+                                            applywork.updatestatus(list_applywork[0], "F");
+                                        }
+
+                                    }
+                                }
+
+                                break;
                         }
 
 
