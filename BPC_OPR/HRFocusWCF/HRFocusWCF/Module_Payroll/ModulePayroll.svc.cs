@@ -1667,7 +1667,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctTRBonus objMTBonus = new cls_ctTRBonus();
-                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("", "", input.company_code, input.paypolbonus_code);
+                List<cls_TRBonus> listMTBonus = objMTBonus.getDataByFillter("", "", input.company_code, input.paypolbonus_code, input.worker_code);
 
                 JArray array = new JArray();
 
@@ -1682,6 +1682,8 @@ namespace BPC_OPR
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("worker_detail", model.worker_detail);
+                        json.Add("worker_name", model.worker_name);
+                        
                         json.Add("paypolbonus_code", model.paypolbonus_code);
                         json.Add("modified_by", model.created_by);
                         json.Add("modified_date", model.created_date);

@@ -19,6 +19,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Payroll
 
         //-- Show only
         public string worker_detail { get; set; }
+        public string worker_name { get; set; }
 
     }
 }
