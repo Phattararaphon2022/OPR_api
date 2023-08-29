@@ -233,7 +233,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill, string empstatus, bool worker_blackliststatus)
+        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill, string empstatus, bool worker_blackliststatus,string project_code)
         {
             string strCondition = "";
 
@@ -263,6 +263,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!location_code.Equals(""))
             {
                 strCondition += " AND WORKER_CODE IN (SELECT DISTINCT WORKER_CODE FROM EMP_TR_LOCATION WHERE COMPANY_CODE='" + com + "' AND LOCATION_CODE='" + location_code + "' )";
+            }
+
+            if (!project_code.Equals(""))
+            {
+                strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + "' )";
             }
 
 
@@ -740,7 +745,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_SOCIALNO=@WORKER_SOCIALNO ");
                 obj_str.Append(", WORKER_SOCIALNOISSUEDATE=@WORKER_SOCIALNOISSUEDATE ");
                 obj_str.Append(", WORKER_SOCIALNOEXPIREDATE=@WORKER_SOCIALNOEXPIREDATE ");
-                obj_str.Append(", WORKER_SOCIALSENTDATE=@WORKER_SOCIALSENTDATE ");
+                if (model.worker_socialsentdate.ToString().Equals(""))
+                {
+                    obj_str.Append(", WORKER_SOCIALSENTDATE=@WORKER_SOCIALSENTDATE ");
+                }
                 obj_str.Append(", WORKER_SOCIALNOTSENT=@WORKER_SOCIALNOTSENT ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");

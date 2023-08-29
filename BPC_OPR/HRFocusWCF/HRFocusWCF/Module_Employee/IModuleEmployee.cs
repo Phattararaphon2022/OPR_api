@@ -288,18 +288,32 @@ namespace BPC_OPR
         [OperationContract(Name = "empforeignerlist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRForeignerList(FillterWorker input);
-
         [OperationContract(Name = "empforeigner")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageTRForeigner(InputTREmpForeigner input);
-
         [OperationContract(Name = "empforeigner_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTRForeigner(InputTREmpForeigner input);
-
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadForeigner?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadForeigner(string token, string by, string fileName, Stream stream);
+
+        //--
+        [OperationContract(Name = "empforeignercardlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRForeignercardList(FillterWorker input);
+
+        [OperationContract(Name = "empforeignercard")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRForeignercard(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empforeignercard_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRForeignercard(InputTREmpForeigner input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadForeignercard?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadForeignercard(string token, string by, string fileName, Stream stream);
         #endregion
 
         #region TR_Dep

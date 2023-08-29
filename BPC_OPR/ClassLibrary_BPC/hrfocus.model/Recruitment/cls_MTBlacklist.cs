@@ -11,7 +11,13 @@ namespace ClassLibrary_BPC.hrfocus.model
         public cls_MTBlacklist() { }
 
         public string company_code { get; set; }
+        public int blacklist_id { get; set; }
+        public string card_no { get; set; }
         public string worker_code { get; set; }
+        public string blacklist_fname_th { get; set; }
+        public string blacklist_lname_th { get; set; }
+        public string blacklist_fname_en { get; set; }
+        public string blacklist_lname_en { get; set; }
         public string reason_code { get; set; }
         public string blacklist_note { get; set; }
         public string created_by { get; set; }

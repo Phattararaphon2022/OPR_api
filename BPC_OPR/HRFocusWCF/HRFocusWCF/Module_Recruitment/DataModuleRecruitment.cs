@@ -118,7 +118,7 @@ namespace BPC_OPR
         [DataMember]
         public string worker_military { get; set; }
         [DataMember]
-        public int status { get; set; }
+        public string status { get; set; }
 
         [DataMember]
         public string reqworker_data { get; set; }
@@ -145,7 +145,7 @@ namespace BPC_OPR
         [DataMember]
         public string job_type { get; set; }
         [DataMember]
-        public int status { get; set; }
+        public string status { get; set; }
     }
 
 
@@ -448,7 +448,19 @@ namespace BPC_OPR
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
+        public int blacklist_id { get; set; }
+        [DataMember]
         public string worker_code { get; set; }
+        [DataMember]
+        public string card_no { get; set; }
+        [DataMember]
+        public string blacklist_fname_th { get; set; }
+        [DataMember]
+        public string blacklist_lname_th { get; set; }
+        [DataMember]
+        public string blacklist_fname_en { get; set; }
+        [DataMember]
+        public string blacklist_lname_en { get; set; }
         [DataMember]
         public string reason_code { get; set; }
         [DataMember]

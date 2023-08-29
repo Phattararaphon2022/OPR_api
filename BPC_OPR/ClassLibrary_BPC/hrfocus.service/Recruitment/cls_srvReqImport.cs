@@ -71,9 +71,12 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_lname_th = dr["worker_lname_th"].ToString();
                                 model.worker_fname_en = dr["worker_fname_en"].ToString();
                                 model.worker_lname_en = dr["worker_lname_en"].ToString();
+                                model.worker_type = dr["worker_type"].ToString();
                                 model.worker_gender = dr["worker_gender"].ToString();
                                 model.worker_birthdate = Convert.ToDateTime(dr["worker_birthdate"]);
                                 model.worker_hiredate = Convert.ToDateTime(dr["worker_hiredate"]);
+                                model.worker_status = dr["worker_status"].ToString();
+
                                 model.religion_code = dr["religion_code"].ToString();
                                 model.blood_code = dr["blood_code"].ToString();
                                 if (!dr["worker_weight"].ToString().Equals(""))
@@ -83,16 +86,16 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 if(!dr["worker_height"].ToString().Equals("")){
                                     model.worker_height = Convert.ToDouble(dr["worker_height"]);
                                 }
-                                if (!dr["worker_age"].ToString().Equals(""))
-                                {
-                                    model.worker_age = Convert.ToDouble(dr["worker_age"]);
-                                }
                                 model.worker_tel = dr["worker_tel"].ToString();
                                 model.worker_email = dr["worker_email"].ToString();
                                 model.worker_line = dr["worker_line"].ToString();
                                 model.worker_facebook = dr["worker_facebook"].ToString();
                                 model.worker_military = dr["worker_military"].ToString();
+                                model.nationality_code = dr["nationality_code"].ToString();
 
+                                model.worker_cardno = dr["worker_cardno"].ToString();
+                                model.worker_cardnoissuedate = Convert.ToDateTime(dr["worker_cardnoissuedate"]);
+                                model.worker_cardnoexpiredate = Convert.ToDateTime(dr["worker_cardnoexpiredate"]);
                                 model.modified_by = by;
 
                                 string strID = objReqworker.insert(model);
@@ -142,10 +145,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.address_amphur = dr["address_amphur"].ToString();
                                 model.province_code = dr["province_code"].ToString();
                                 model.address_zipcode = dr["address_zipcode"].ToString();
-                                model.address_tel = dr["address_tel"].ToString();
-                                model.address_email = dr["address_email"].ToString();
-                                model.address_line = dr["address_line"].ToString();
-                                model.address_facebook = dr["address_facebook"].ToString();
 
                                 model.modified_by = by;
 
@@ -526,7 +525,57 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
 
+                    case "BLACKLIST":
 
+                        DataTable dtreqblacklist = doReadExcel(filename);
+                        if (dtreqblacklist.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtreqblacklist.Rows)
+                            {
+
+                                cls_ctMTBlacklist objReqworker = new cls_ctMTBlacklist();
+                                cls_MTBlacklist model = new cls_MTBlacklist();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.worker_code = dr["worker_code"].ToString();
+
+                                model.card_no = dr["card_no"].ToString();
+                                model.blacklist_fname_th = dr["blacklist_fname_th"].ToString();
+                                model.blacklist_lname_th = dr["blacklist_lname_th"].ToString();
+                                model.blacklist_fname_en = dr["blacklist_fname_en"].ToString();
+                                model.blacklist_lname_en = dr["blacklist_lname_en"].ToString();
+
+                                model.reason_code = dr["reason_code"].ToString();
+
+                                model.blacklist_note = dr["blacklist_note"].ToString();
+
+                                model.modified_by = by;
+
+                                
+                                string strID = objReqworker.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.worker_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
                 }
 
             }

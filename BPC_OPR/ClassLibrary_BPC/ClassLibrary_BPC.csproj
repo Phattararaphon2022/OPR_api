@@ -83,6 +83,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTRForeignercard.cs" />
     <Compile Include="hrfocus.controller\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTPlanitems.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTPlanreduce.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="hrfocus.model\Attendance\cls_MTShift.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.model\employee\cls_TREmpimages.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TRForeignercard.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTPlanitems.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTPlanreduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybank.cs" />
