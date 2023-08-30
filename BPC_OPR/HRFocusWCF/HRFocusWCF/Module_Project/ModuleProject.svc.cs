@@ -1682,6 +1682,8 @@ namespace BPC_OPR
                         json.Add("project_probusiness", model.project_probusiness);
                         json.Add("project_roundtime", model.project_roundtime);
                         json.Add("project_roundmoney", model.project_roundmoney);
+                        json.Add("project_proholiday", model.project_proholiday);
+
                         json.Add("project_status", model.project_status);
                         json.Add("company_code", model.company_code);
                                                 
@@ -1844,7 +1846,8 @@ namespace BPC_OPR
 
                 model.project_probusiness = input.project_probusiness;
                 model.project_roundtime = input.project_roundtime;
-                model.project_roundmoney = input.project_roundmoney;
+                model.project_proholiday = input.project_proholiday;
+                
                 model.project_status = input.project_status;
                 model.company_code = input.company_code;               
 
