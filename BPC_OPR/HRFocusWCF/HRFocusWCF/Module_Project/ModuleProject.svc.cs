@@ -1845,9 +1845,12 @@ namespace BPC_OPR
                 
 
                 model.project_probusiness = input.project_probusiness;
+                //
                 model.project_roundtime = input.project_roundtime;
+                model.project_roundmoney = input.project_roundmoney;
                 model.project_proholiday = input.project_proholiday;
-                
+                //
+
                 model.project_status = input.project_status;
                 model.company_code = input.company_code;               
 

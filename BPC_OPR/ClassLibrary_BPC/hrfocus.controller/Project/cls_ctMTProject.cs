@@ -45,17 +45,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(PROJECT_PROAREA, '') AS PROJECT_PROAREA");
                 obj_str.Append(", ISNULL(PROJECT_PROGROUP, '') AS PROJECT_PROGROUP");
-
-
                 obj_str.Append(", ISNULL(PROJECT_PROBUSINESS, '') AS PROJECT_PROBUSINESS");
 
+                //
                 obj_str.Append(", ISNULL(PROJECT_ROUNDTIME, '') AS PROJECT_ROUNDTIME");
                 obj_str.Append(", ISNULL(PROJECT_ROUNDMONEY, '') AS PROJECT_ROUNDMONEY");
-
                 obj_str.Append(", ISNULL(PROJECT_PROHOLIDAY, '') AS PROJECT_PROHOLIDAY");
+                //
 
-
-                
                 obj_str.Append(", ISNULL(PROJECT_STATUS, '') AS PROJECT_STATUS");
                 obj_str.Append(", ISNULL(COMPANY_CODE, '') AS COMPANY_CODE");
 
@@ -89,10 +86,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.project_progroup = dr["PROJECT_PROGROUP"].ToString();
 
                     model.project_probusiness = dr["PROJECT_PROBUSINESS"].ToString();
+
+                    //
                     model.project_roundtime = dr["PROJECT_ROUNDTIME"].ToString();
                     model.project_roundmoney = dr["PROJECT_ROUNDMONEY"].ToString();
                     model.project_proholiday = dr["PROJECT_PROHOLIDAY"].ToString();
-
+                    //
 
                     model.project_status = dr["PROJECT_STATUS"].ToString();
                     model.company_code = dr["COMPANY_CODE"].ToString();
