@@ -172,8 +172,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-
-        public bool insert(cls_TRReduce model)
+         public bool insert(cls_TRReduce model)
         {
             bool blnResult = false;
             string strResult = "";

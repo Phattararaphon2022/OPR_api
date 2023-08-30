@@ -89,6 +89,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
             if (!item.Equals(""))
                 strCondition += " AND PAY_TR_PAYBATCHREDUCE.PAYBATCHREDUCE_CODE='" + item + "'";
+
             return this.getData(language, strCondition);
         }
 
@@ -167,63 +168,64 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return blnResult;
         }
 
-        public bool insert(cls_TRPolReduce model)
+        //public bool insert(cls_TRPolReduce model)
 
-        {
-            bool blnResult = false;
-            try
-            {
-                //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code))
-                {
-                    return this.update(model);
-                }
-                cls_ctConnection obj_conn = new cls_ctConnection();
-                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+        //{
+        //    bool blnResult = false;
+        //    try
+        //    {
+        //        //-- Check data old
+        //        if (this.checkDataOld(model.company_code, model.worker_code))
+        //        {
+        //            return this.update(model);
+        //        }
+        //        cls_ctConnection obj_conn = new cls_ctConnection();
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO PAY_TR_PAYBATCHREDUCE");
-                obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
-                obj_str.Append(", WORKER_CODE ");
-                obj_str.Append(", PAYBATCHREDUCE_CODE ");
-                obj_str.Append(", CREATED_BY ");
-                obj_str.Append(", CREATED_DATE ");
-                obj_str.Append(", FLAG ");
-                obj_str.Append(" )");
+        //        obj_str.Append("INSERT INTO PAY_TR_PAYBATCHREDUCE");
+        //        obj_str.Append(" (");
+        //        obj_str.Append("COMPANY_CODE ");
+        //        obj_str.Append(", WORKER_CODE ");
+        //        obj_str.Append(", PAYBATCHREDUCE_CODE ");
+        //        obj_str.Append(", CREATED_BY ");
+        //        obj_str.Append(", CREATED_DATE ");
+        //        obj_str.Append(", FLAG ");
+        //        obj_str.Append(" )");
 
-                obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
-                obj_str.Append(", @WORKER_CODE ");
-                obj_str.Append(", @PAYBATCHREDUCE_CODE ");
-                obj_str.Append(", @CREATED_BY ");
-                obj_str.Append(", @CREATED_DATE ");
-                obj_str.Append(", @FLAG ");
-                obj_str.Append(" )");                
+        //        obj_str.Append(" VALUES(");
+        //        obj_str.Append("@COMPANY_CODE ");
+        //        obj_str.Append(", @WORKER_CODE ");
+        //        obj_str.Append(", @PAYBATCHREDUCE_CODE ");
+        //        obj_str.Append(", @CREATED_BY ");
+        //        obj_str.Append(", @CREATED_DATE ");
+        //        obj_str.Append(", @FLAG ");
+        //        obj_str.Append(" )");                
 
 
-                obj_conn.doConnect();
+        //        obj_conn.doConnect();
 
-                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+        //        SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
-                obj_cmd.Parameters.Add("@PAYBATCHREDUCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PAYBATCHREDUCE_CODE"].Value = model.paybatchreduce_code;
+        //        obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+        //        obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+        //        obj_cmd.Parameters.Add("@PAYBATCHREDUCE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PAYBATCHREDUCE_CODE"].Value = model.paybatchreduce_code;
 
-                obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
-                obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+        //        obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+        //        obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+        //        obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.ExecuteNonQuery();
+        //        obj_cmd.ExecuteNonQuery();
 
-                obj_conn.doClose();
-                blnResult = true;
-            }
-            catch (Exception ex)
-            {
-                Message = "PAYTRPI005:" + ex.ToString();
-            }
+        //        obj_conn.doClose();
+        //        blnResult = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "PAYTRPI005:" + ex.ToString();
+        //    }
 
-            return blnResult;
-        }
+        //    return blnResult;
+        //}
 
         public bool update(cls_TRPolReduce model)
         {
@@ -265,7 +267,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return blnResult;
         }
 
-        public bool insertlist(string com, string item, List<cls_TRPolReduce> list_model) 
+        public bool insertlist(string com, string item, List<cls_TRPolReduce> list_model)
         {
             bool blnResult = false;
             try

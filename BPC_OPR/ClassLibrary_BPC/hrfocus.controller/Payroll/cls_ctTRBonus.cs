@@ -51,7 +51,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 else
                 {
                     obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL");
-                    obj_str.Append(", BONUS_NAME_EN WORKER_NAME");
+                    obj_str.Append(", BONUS_NAME_EN AS WORKER_NAME");
                 }
 
                 obj_str.Append(" FROM PAY_TR_PAYPOLBONUS");
@@ -110,7 +110,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
 
             if (!emp.Equals(""))
-                strCondition += " AND WORKER_CODE='" + emp + "'";
+                strCondition += " AND PAY_TR_PAYPOLBONUS.WORKER_CODE='" + emp + "'";
 
 
             return this.getData(language, strCondition);

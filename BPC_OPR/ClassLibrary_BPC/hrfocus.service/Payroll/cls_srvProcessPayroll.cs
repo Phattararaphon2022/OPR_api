@@ -112,8 +112,6 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
             return strResult;
         }
 
-
-
         #region SSO
         //SSO   
          public string doExportSso(string com,string taskid)

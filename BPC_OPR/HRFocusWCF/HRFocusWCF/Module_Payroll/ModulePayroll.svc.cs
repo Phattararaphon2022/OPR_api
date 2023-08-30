@@ -2568,90 +2568,205 @@ namespace BPC_OPR
             }
             return output.ToString(Formatting.None);
         }
+
         public string doSetBatchPayPolReduce(InputTRList input)
         {
-            JObject output = new JObject();
-
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
+
+            JObject output = new JObject();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PAY008.2";
-            log.apilog_by = input.modified_by;
+            log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
+
+            try
             {
-                string company_code = input.company_code;
-                string item_code = input.worker_code;
-                //-- Transaction
-                string pay_data = input.transaction_data;
-                try
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
-                    var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                    if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                    {
-                        output["success"] = false;
-                        output["message"] = BpcOpr.MessageNotAuthen;
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
 
-                        log.apilog_status = "500";
-                        log.apilog_message = BpcOpr.MessageNotAuthen;
-                        objBpcOpr.doRecordLog(log);
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
 
-                        return output.ToString(Formatting.None);
-                    }
-                    cls_ctTRPolReduce objPol = new cls_ctTRPolReduce();
-                    List<cls_TRPolReduce> listPol = new List<cls_TRPolReduce>();
-                    bool strID = false;
-                    foreach (cls_MTWorker modelWorkers in input.emp_data)
-                    {
+                    return output.ToString(Formatting.None);
+                }
 
-                        cls_TRPolReduce model = new cls_TRPolReduce();
+                cls_ctTRPolReduce objPol = new cls_ctTRPolReduce();
+                List<cls_TRPolReduce> listPol = new List<cls_TRPolReduce>();
+                bool strID = false;
 
-                        model.paybatchreduce_code = input.paybatchreduce_code;
-                        model.company_code = input.company_code;
-                        model.worker_code = modelWorkers.worker_code;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+                    cls_TRPolReduce model = new cls_TRPolReduce();
+                    model.paybatchreduce_code = input.paybatchreduce_code;
+                    model.company_code = input.company_code;
+                    model.worker_code = modelWorker.worker_code;
+                    model.flag = input.flag;
+                    model.created_by = input.modified_by;
 
-                        model.flag = input.flag;
-                        model.created_by = input.modified_by;
+                    listPol.Add(model);
+                }
 
-                        listPol.Add(model);
-                    }
-                    if (listPol.Count > 0)
+                if (listPol.Count > 0)
+                {
+                    foreach (var pol in listPol)
                     {
                         strID = objPol.insertlist(input.company_code, input.item_code, listPol);
+                        //strID = objPol.insert(pol);
+                        if (!strID)
+                        {
+                            break;
+                        }
+                        cls_ctMTReduce MTreduce = new cls_ctMTReduce();
+                        cls_ctTRReduce controller = new cls_ctTRReduce();
+                        cls_ctTRPlanreduce TRplanreduce = new cls_ctTRPlanreduce();
+                        List<cls_TRPlanreduce> listPolItem = TRplanreduce.getDataByFillter(input.company_code, input.paybatchreduce_code);
 
 
+                        if (listPolItem.Count > 0)
+                        {
+
+                            foreach (cls_TRPlanreduce model in listPolItem)
+                            {
+                                cls_TRReduce TRreduce = new cls_TRReduce();
+
+                                TRreduce.company_code = model.company_code;
+                                TRreduce.worker_code = pol.worker_code;
+                                TRreduce.reduce_type = model.reduce_code;
+                                TRreduce.empreduce_amount = MTreduce.getDataByFillter("", model.reduce_code)[0].reduce_amount;
+                                TRreduce.modified_by = pol.created_by;
+
+                                controller.insert(TRreduce);
+                            }
+                        }
                     }
-                    if (strID)
-                    {
-
-                        output["success"] = true;
-                        output["message"] = "Retrieved data successfully";
-                        output["record_id"] = strID;
-
-                        log.apilog_status = "200";
-                        log.apilog_message = "";
-                    }
-                    else
-                    {
-                        output["success"] = false;
-                        output["message"] = "Retrieved data not successfully";
-
-                        log.apilog_status = "500";
-                        log.apilog_message = objPol.getMessage();
-                    }
-
-                    objPol.dispose();
                 }
-                catch (Exception ex)
+
+                if (strID)
                 {
-                    output["result"] = "0";
-                    output["result_text"] = ex.ToString();
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objPol.getMessage();
                 }
 
+                objPol.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
 
-                return output.ToString(Formatting.None);
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
             }
 
+            return output.ToString(Formatting.None);
         }
+
+
+        //public string doSetBatchPayPolReduce(InputTRList input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "PAY008.2";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+        //    {
+        //        string company_code = input.company_code;
+        //        string item_code = input.worker_code;
+        //        //-- Transaction
+        //        string pay_data = input.transaction_data;
+        //        try
+        //        {
+        //            var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //            if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = BpcOpr.MessageNotAuthen;
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = BpcOpr.MessageNotAuthen;
+        //                objBpcOpr.doRecordLog(log);
+
+        //                return output.ToString(Formatting.None);
+        //            }
+        //            cls_ctTRPolReduce objPol = new cls_ctTRPolReduce();
+        //            List<cls_TRPolReduce> listPol = new List<cls_TRPolReduce>();
+        //            bool strID = false;
+        //            foreach (cls_MTWorker modelWorkers in input.emp_data)
+        //            {
+
+        //                cls_TRPolReduce model = new cls_TRPolReduce();
+
+        //                model.paybatchreduce_code = input.paybatchreduce_code;
+        //                model.company_code = input.company_code;
+        //                model.worker_code = modelWorkers.worker_code;
+
+        //                model.flag = input.flag;
+        //                model.created_by = input.modified_by;
+
+        //                listPol.Add(model);
+        //            }
+        //            if (listPol.Count > 0)
+        //            {
+        //                strID = objPol.insertlist(input.company_code, input.item_code, listPol);
+
+
+        //            }
+        //            if (strID)
+        //            {
+
+        //                output["success"] = true;
+        //                output["message"] = "Retrieved data successfully";
+        //                output["record_id"] = strID;
+
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Retrieved data not successfully";
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = objPol.getMessage();
+        //            }
+
+        //            objPol.dispose();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = ex.ToString();
+        //        }
+
+
+        //        return output.ToString(Formatting.None);
+        //    }
+
+        //}
 
         public string doDeleteBatchPayPolReduce(InputTRList input)
         {
