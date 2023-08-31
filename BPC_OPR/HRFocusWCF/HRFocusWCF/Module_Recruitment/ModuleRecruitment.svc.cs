@@ -6205,7 +6205,7 @@ namespace BPC_OPR
              JObject output = new JObject();
 
              cls_SYSApilog log = new cls_SYSApilog();
-             log.apilog_code = "BLK01.4";
+             log.apilog_code = "REQST01.4";
              log.apilog_by = by;
              log.apilog_data = "Stream";
 
@@ -6229,7 +6229,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQUEST", fileName, by);
+                     string tmp = srv_import.doImportExcel("REQREQUEST", fileName, by);
 
                      output["success"] = true;
                      output["message"] = tmp;

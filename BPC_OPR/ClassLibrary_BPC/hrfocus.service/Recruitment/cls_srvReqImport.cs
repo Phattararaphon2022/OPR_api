@@ -560,7 +560,109 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 }
                                 else
                                 {
+                                    objStr.Append(model.card_no);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+
+                    case "REQFOREIGNERCARD":
+
+                        DataTable dtworkerforecard = doReadExcel(filename);
+                        if (dtworkerforecard.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtworkerforecard.Rows)
+                            {
+
+                                cls_ctTRApplyforeignercard objAdd = new cls_ctTRApplyforeignercard();
+                                cls_TRForeignercard model = new cls_TRForeignercard();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.worker_code = dr["worker_code"].ToString();
+
+                                model.foreignercard_code = dr["foreigner_code"].ToString();
+                                model.foreignercard_type = dr["foreigner_type"].ToString();
+                                model.foreignercard_issue = Convert.ToDateTime(dr["foreigner_issue"]);
+                                model.foreignercard_expire = Convert.ToDateTime(dr["foreigner_expire"]);
+
+
+                                model.modified_by = by;
+
+                                bool strID = objAdd.insert(model);
+
+                                if (strID)
+                                {
+                                    success++;
+                                }
+                                else
+                                {
                                     objStr.Append(model.worker_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+
+                    case "REQREQUEST":
+
+                        DataTable dtreqrequest = doReadExcel(filename);
+                        if (dtreqrequest.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtreqrequest.Rows)
+                            {
+
+                                cls_ctMTReqRequest objReqworker = new cls_ctMTReqRequest();
+                                cls_MTReqRequest model = new cls_MTReqRequest();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.request_code = dr["request_code"].ToString();
+
+                                model.request_date = Convert.ToDateTime(dr["request_date"]);
+                                model.request_startdate = Convert.ToDateTime(dr["request_startdate"]);
+                                model.request_enddate = Convert.ToDateTime(dr["request_enddate"]);
+                                model.request_position = dr["request_position"].ToString();
+                                model.request_project = dr["request_project"].ToString();
+                                model.request_employee_type = dr["request_employee_type"].ToString();
+                                model.request_quantity = Convert.ToDouble(dr["request_quantity"].ToString());
+                                model.request_urgency = dr["request_urgency"].ToString();
+                                model.request_note = dr["request_note"].ToString();
+
+                                model.request_accepted = 0;
+                                model.request_status = '0';
+
+                                model.modified_by = by;
+
+
+                                string strID = objReqworker.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.request_code);
                                 }
 
                             }

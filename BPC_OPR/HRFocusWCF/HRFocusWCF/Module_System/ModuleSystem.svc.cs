@@ -12361,7 +12361,247 @@ namespace BPC_OPR
 
                                         if (list_applywork.Count > 0)
                                         {
-                                            applywork.updatestatus(list_applywork[0], "F");
+                                            string strID = applywork.updatestatus(list_applywork[0], "F");
+                                            if (!strID.Equals(""))
+                                            {
+
+                                                //-- get new code 
+                                                string new_code = "";
+                                                cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
+                                                List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter("");
+                                                foreach (cls_TRPolcode modelpol in listTRPolcode)
+                                                {
+
+                                                    switch (modelpol.codestructure_code)
+                                                    {
+
+                                                        case "1CHA":
+                                                            new_code += modelpol.polcode_text.Substring(0, modelpol.polcode_lenght);
+                                                            break;
+
+                                                        case "2COM":
+                                                            new_code += input.company_code.Substring(0, modelpol.polcode_lenght);
+                                                            break;
+
+                                                        case "3BRA":
+                                                            cls_ctTREmpbranch objbranch = new cls_ctTREmpbranch();
+                                                            List<cls_TREmpbranch> listbranch = objbranch.getDataByFillter(input.company_code,input.approve_code);
+                                                            new_code += listbranch[0].branch_code;
+                                                            break;
+
+                                                        case "4EMT":
+                                                            new_code += list_applywork[0].worker_type;
+                                                            break;
+
+                                                        case "5YEA":
+                                                            DateTime dateNowY = DateTime.Now;
+                                                            string formatY = "";
+                                                            for (int i = 0; i < modelpol.polcode_lenght; i++)
+                                                            {
+                                                                formatY += "y";
+                                                            }
+                                                            new_code += dateNowY.ToString(formatY);
+                                                            break;
+
+                                                        case "6MON":
+                                                            DateTime dateNowM = DateTime.Now;
+                                                            string formatM = "";
+                                                            for (int i = 0; i < modelpol.polcode_lenght; i++)
+                                                            {
+                                                                formatM += "M";
+                                                            }
+                                                            new_code += dateNowM.ToString(formatM);
+                                                            break;
+
+                                                        case "MAUT":
+                                                            cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                                                            int intRunningID = objWorker.doGetNextRunningID(input.company_code, new_code);
+                                                            new_code += intRunningID.ToString().PadLeft(modelpol.polcode_lenght, '0');
+                                                            break;
+
+                                                    }
+                                                }
+                                                //--- Employee
+                                                cls_ctMTWorker ct_worker = new cls_ctMTWorker();
+                                                cls_MTWorker model_worker = new cls_MTWorker();
+
+                                                model_worker = list_applywork[0];
+                                                model_worker.company_code = list_applywork[0].company_code;
+                                                model_worker.worker_code = new_code;
+                                                model_worker.worker_card = new_code;
+                                                model_worker.worker_initial = list_applywork[0].worker_initial;
+                                                model_worker.worker_fname_th = list_applywork[0].worker_fname_th;
+                                                model_worker.worker_lname_th = list_applywork[0].worker_lname_th;
+                                                model_worker.worker_fname_en = list_applywork[0].worker_fname_en;
+                                                model_worker.worker_lname_en = list_applywork[0].worker_lname_en;
+                                                model_worker.worker_type = list_applywork[0].worker_type;
+                                                model_worker.worker_gender = list_applywork[0].worker_gender;
+                                                model_worker.worker_birthdate = Convert.ToDateTime(list_applywork[0].worker_birthdate);
+                                                model_worker.worker_hiredate = Convert.ToDateTime(list_applywork[0].worker_hiredate);
+                                                model_worker.worker_status = list_applywork[0].worker_status;
+                                                model_worker.religion_code = list_applywork[0].religion_code;
+                                                model_worker.blood_code = list_applywork[0].blood_code;
+                                                model_worker.worker_height = list_applywork[0].worker_height;
+                                                model_worker.worker_weight = list_applywork[0].worker_weight;
+                                                model_worker.worker_resignstatus = false;
+                                                model_worker.worker_blackliststatus = false;
+                                                model_worker.worker_probationdate = Convert.ToDateTime(list_applywork[0].worker_hiredate);
+                                                model_worker.hrs_perday = 8;
+                                                model_worker.worker_taxmethod = "1";
+                                                model_worker.worker_pwd = "";
+                                                model_worker.self_admin = false;
+                                                model_worker.worker_tel = list_applywork[0].worker_tel;
+                                                model_worker.worker_email = list_applywork[0].worker_email;
+                                                model_worker.worker_line = list_applywork[0].worker_line;
+                                                model_worker.worker_facebook = list_applywork[0].worker_facebook;
+                                                model_worker.worker_military = list_applywork[0].worker_military;
+                                                model_worker.nationality_code = list_applywork[0].nationality_code;
+                                                model_worker.worker_cardno = list_applywork[0].worker_cardno;
+                                                model_worker.worker_cardnoissuedate = Convert.ToDateTime(list_applywork[0].worker_cardnoissuedate);
+                                                model_worker.worker_cardnoexpiredate = Convert.ToDateTime(list_applywork[0].worker_cardnoexpiredate);
+                                                model_worker.worker_socialno = list_applywork[0].worker_cardno;
+                                                model_worker.worker_socialnoissuedate = Convert.ToDateTime(list_applywork[0].worker_cardnoissuedate);
+                                                model_worker.worker_socialnoexpiredate = Convert.ToDateTime(list_applywork[0].worker_cardnoexpiredate);
+                                                model_worker.worker_socialnotsent = false;
+                                                model_worker.modified_by = input.approve_by;
+
+                                                string workID = ct_worker.insert(model_worker);
+
+                                                if (!workID.Equals(""))
+                                                {
+                                                    //--address
+                                                    cls_ctTRApplyaddress applyadd = new cls_ctTRApplyaddress();
+                                                    cls_ctTRAddress workadd = new cls_ctTRAddress();
+                                                    List<cls_TRAddress> list_applyadd = applyadd.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applyadd.Count > 0)
+                                                    {
+                                                        foreach (cls_TRAddress modeladd in list_applyadd)
+                                                        {
+                                                            modeladd.worker_code = new_code;
+                                                            workadd.insert(modeladd);
+                                                        }
+                                                    }
+
+                                                    //--foreigner card
+                                                    cls_ctTRApplyforeignercard applyfore = new cls_ctTRApplyforeignercard();
+                                                    cls_ctTRForeignercard workfore = new cls_ctTRForeignercard();
+                                                    List<cls_TRForeignercard> list_applyfore = applyfore.getDataByFillter(input.company_code, input.approve_code,"");
+                                                    if (list_applyfore.Count > 0)
+                                                    {
+                                                        foreach (cls_TRForeignercard modelfore in list_applyfore)
+                                                        {
+                                                            modelfore.worker_code = new_code;
+                                                            workfore.insert(modelfore);
+                                                        }
+                                                    }
+
+                                                    //--education
+                                                    cls_ctTRApplyeducation applyedu = new cls_ctTRApplyeducation();
+                                                    cls_ctTREducation workedu = new cls_ctTREducation();
+                                                    List<cls_TREducation> list_applyedu = applyedu.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applyedu.Count > 0)
+                                                    {
+                                                        foreach (cls_TREducation modeledu in list_applyedu)
+                                                        {
+                                                            modeledu.worker_code = new_code;
+                                                            workedu.insert(modeledu);
+                                                        }
+                                                    }
+
+                                                    //--training
+                                                    cls_ctTRApplytraining applytra = new cls_ctTRApplytraining();
+                                                    cls_ctTRTraining worktra = new cls_ctTRTraining();
+                                                    List<cls_TRTraining> list_applytra = applytra.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applytra.Count > 0)
+                                                    {
+                                                        foreach (cls_TRTraining modeltra in list_applytra)
+                                                        {
+                                                            modeltra.worker_code = new_code;
+                                                            worktra.insert(modeltra);
+                                                        }
+                                                    }
+
+                                                    //--appraisal
+                                                    cls_ctTRReqAssessment applyass = new cls_ctTRReqAssessment();
+                                                    cls_ctTRAssessment workass = new cls_ctTRAssessment();
+                                                    List<cls_TRAssessment> list_applyass = applyass.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applyass.Count > 0)
+                                                    {
+                                                        foreach (cls_TRAssessment modelass in list_applyass)
+                                                        {
+                                                            modelass.worker_code = new_code;
+                                                            workass.insert(modelass);
+                                                        }
+                                                    }
+
+                                                    //--criminal
+                                                    cls_ctTRReqCriminal applycri = new cls_ctTRReqCriminal();
+                                                    cls_ctTRCriminal workcri = new cls_ctTRCriminal();
+                                                    List<cls_TRCriminal> list_applycri = applycri.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applycri.Count > 0)
+                                                    {
+                                                        foreach (cls_TRCriminal modelcri in list_applycri)
+                                                        {
+                                                            modelcri.worker_code = new_code;
+                                                            workcri.insert(modelcri);
+                                                        }
+                                                    }
+
+                                                    //--suggest
+                                                    cls_ctTRApplySuggest applysug = new cls_ctTRApplySuggest();
+                                                    cls_ctTRSuggest worksug = new cls_ctTRSuggest();
+                                                    List<cls_TRSuggest> list_applysug = applysug.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applysug.Count > 0)
+                                                    {
+                                                        foreach (cls_TRSuggest modelsug in list_applysug)
+                                                        {
+                                                            modelsug.worker_code = new_code;
+                                                            worksug.insert(modelsug);
+                                                        }
+                                                    }
+
+                                                    //--position
+                                                    cls_ctTRReqPosition applypos = new cls_ctTRReqPosition();
+                                                    cls_ctTRPosition workpos = new cls_ctTRPosition();
+                                                    List<cls_TRPosition> list_applypos = applypos.getDataByFillter(input.company_code, input.approve_code,"");
+                                                    if (list_applypos.Count > 0)
+                                                    {
+                                                        foreach (cls_TRPosition modelpos in list_applypos)
+                                                        {
+                                                            modelpos.worker_code = new_code;
+                                                            modelpos.empposition_date = Convert.ToDateTime(list_applywork[0].worker_hiredate);
+                                                            modelpos.empposition_reason = "";
+                                                            workpos.insert(modelpos);
+                                                        }
+                                                    }
+
+                                                    //--salary
+                                                    cls_ctTRReqSalary applysal = new cls_ctTRReqSalary();
+                                                    cls_ctTRSalary worksal = new cls_ctTRSalary();
+                                                    List<cls_TRSalary> list_applysal = applysal.getDataByFillter(input.company_code, input.approve_code);
+                                                    if (list_applysal.Count > 0)
+                                                    {
+                                                        foreach (cls_TRSalary modelsal in list_applysal)
+                                                        {
+                                                            modelsal.worker_code = new_code;
+                                                            worksal.insert(modelsal);
+                                                        }
+                                                    }
+
+                                                    //--benefit
+                                                    cls_ctTRReqBenefit applyben = new cls_ctTRReqBenefit();
+                                                    cls_ctTRBenefit workben = new cls_ctTRBenefit();
+                                                    List<cls_TRBenefit> list_applyben = applyben.getDataByFillter(input.company_code, input.approve_code,"");
+                                                    if (list_applyben.Count > 0)
+                                                    {
+                                                        foreach (cls_TRBenefit modelben in list_applyben)
+                                                        {
+                                                            modelben.worker_code = new_code;
+                                                            workben.insert(modelben);
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
 
                                     }
