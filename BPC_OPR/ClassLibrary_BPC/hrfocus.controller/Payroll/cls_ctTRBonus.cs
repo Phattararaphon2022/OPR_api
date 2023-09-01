@@ -46,19 +46,19 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 {
                     obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL");
 
-                    obj_str.Append(", BONUS_NAME_TH AS WORKER_NAME");
+                    obj_str.Append(", PAY_MT_BONUS.BONUS_NAME_TH AS BONUS_NAME");
                 }
                 else
                 {
                     obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL");
-                    obj_str.Append(", BONUS_NAME_EN AS WORKER_NAME");
+                    obj_str.Append(", PAY_MT_BONUS.BONUS_NAME_EN AS BONUS_NAME");
                 }
 
                 obj_str.Append(" FROM PAY_TR_PAYPOLBONUS");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=PAY_TR_PAYPOLBONUS.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=PAY_TR_PAYPOLBONUS.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
 
-                obj_str.Append(" INNER JOIN PAY_MT_BONUS ON PAY_MT_BONUS.COMPANY_CODE=PAY_TR_PAYPOLBONUS.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=PAY_TR_PAYPOLBONUS.WORKER_CODE");
+                obj_str.Append(" INNER JOIN PAY_MT_BONUS ON PAY_MT_BONUS.BONUS_CODE=PAY_TR_PAYPOLBONUS.PAYPOLBONUS_CODE");
  
                 obj_str.Append(" WHERE 1=1");
 
@@ -79,7 +79,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                     model.paypolbonus_code = dr["PAYPOLBONUS_CODE"].ToString();
 
                     model.worker_detail = dr["WORKER_DETAIL"].ToString();
-                    model.worker_name = dr["WORKER_NAME"].ToString();
+                    model.bonus_name = dr["BONUS_NAME"].ToString();
 
 
 

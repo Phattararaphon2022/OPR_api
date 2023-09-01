@@ -11975,7 +11975,7 @@ namespace BPC_OPR
 
 
 
-        public string getTypeionList(FillterWorker input)
+        public string getDasTypeList(FillterWorker input)
         {
             JObject output = new JObject();
 

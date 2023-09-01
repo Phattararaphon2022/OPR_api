@@ -1682,7 +1682,7 @@ namespace BPC_OPR
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("worker_detail", model.worker_detail);
-                        json.Add("worker_name", model.worker_name);
+                        json.Add("bonus_name", model.bonus_name);
                         
                         json.Add("paypolbonus_code", model.paypolbonus_code);
                         json.Add("modified_by", model.created_by);

@@ -33,6 +33,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" COUNT(DISTINCT EMP_MT_WORKER.WORKER_CODE) AS WORKER_CODE");
                 obj_str.Append(", SYS_MT_LOCATION.LOCATION_NAME_TH");
                 obj_str.Append(", SYS_MT_LOCATION.LOCATION_NAME_EN");
+
+                obj_str.Append(", MAX(EMP_TR_LOCATION.EMPLOCATION_STARTDATE) AS EMPLOCATION_STARTDATE");
+                obj_str.Append(", MAX(EMP_TR_LOCATION.EMPLOCATION_ENDDATE) AS EMPLOCATION_ENDDATE");
+
                 obj_str.Append(" FROM EMP_TR_LOCATION");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_TR_LOCATION.WORKER_CODE = EMP_MT_WORKER.WORKER_CODE");
                 obj_str.Append(" INNER JOIN SYS_MT_LOCATION ON EMP_TR_LOCATION.LOCATION_CODE = SYS_MT_LOCATION.LOCATION_CODE");
@@ -42,7 +46,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" GROUP BY SYS_MT_LOCATION.LOCATION_NAME_TH,SYS_MT_LOCATION.LOCATION_NAME_EN");
+                obj_str.Append(" GROUP BY SYS_MT_LOCATION.LOCATION_NAME_TH, SYS_MT_LOCATION.LOCATION_NAME_EN");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -50,7 +54,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_MTDashboards();
 
-                    model.worker_code = Convert.ToInt32(dr["WORKER_CODE"]);
+                     model.worker_code = dr["WORKER_CODE"].ToString();
+
                     model.location_name_th = dr["LOCATION_NAME_TH"].ToString();
                     model.location_name_en = dr["LOCATION_NAME_EN"].ToString();
 
@@ -88,7 +93,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT");
-                obj_str.Append(" COUNT(*) AS WORKER_CODE");
+                 obj_str.Append("  EMP_MT_WORKER.WORKER_CODE");
+                obj_str.Append(", EMP_MT_WORKER.WORKER_TYPE");
+
                 obj_str.Append(", EMP_MT_TYPE.TYPE_NAME_TH");
                 obj_str.Append(",  EMP_MT_TYPE.TYPE_NAME_EN");
                 obj_str.Append(" FROM EMP_MT_WORKER");
@@ -97,7 +104,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1");
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
-                obj_str.Append("GROUP BY EMP_MT_TYPE.TYPE_CODE, EMP_MT_TYPE.TYPE_NAME_TH, EMP_MT_TYPE.TYPE_NAME_EN");
+                //obj_str.Append("GROUP BY EMP_MT_TYPE.TYPE_CODE, EMP_MT_TYPE.TYPE_NAME_TH, EMP_MT_TYPE.TYPE_NAME_EN");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -105,7 +112,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_MTDashboards();
 
-                    model.worker_code = Convert.ToInt32(dr["WORKER_CODE"]);
+                     model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_type = dr["WORKER_TYPE"].ToString();
+
+
                     model.type_name_th = dr["TYPE_NAME_TH"].ToString();
                     model.type_name_en = dr["TYPE_NAME_EN"].ToString();
 
@@ -129,8 +139,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!code.Equals(""))
 
                 strCondition += " AND WORKER_CODE='" + code;
-            //strCondition += " AND EMP_MT_WORKER='" + type + "('M', 'D')";
-
+ 
 
 
             return this.getDataType(strCondition);
