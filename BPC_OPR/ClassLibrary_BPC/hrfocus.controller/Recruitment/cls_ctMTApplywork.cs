@@ -636,7 +636,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public string updatestatus(cls_MTWorker model)
+        public string updatestatus(cls_MTWorker model,string status)
         {
             
             string strResult = "";
@@ -665,7 +665,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 
                 strResult = model.worker_id.ToString();
 
-                obj_cmd.Parameters.Add("@STATUS", SqlDbType.Int); obj_cmd.Parameters["@STATUS"].Value = model.status;
+                obj_cmd.Parameters.Add("@STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@STATUS"].Value = status;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

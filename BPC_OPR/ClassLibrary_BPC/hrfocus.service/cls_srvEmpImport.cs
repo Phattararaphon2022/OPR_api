@@ -1484,6 +1484,52 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
 
+                    case "EMPFOREIGNERCARD":
+
+                        DataTable dtworkerforecard = doReadExcel(filename);
+                        if (dtworkerforecard.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtworkerforecard.Rows)
+                            {
+
+                                cls_ctTRForeignercard objAdd = new cls_ctTRForeignercard();
+                                cls_TRForeignercard model = new cls_TRForeignercard();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.worker_code = dr["worker_code"].ToString();
+
+                                model.foreignercard_code = dr["foreigner_code"].ToString();
+                                model.foreignercard_type = dr["foreigner_type"].ToString();
+                                model.foreignercard_issue = Convert.ToDateTime(dr["foreigner_issue"]);
+                                model.foreignercard_expire = Convert.ToDateTime(dr["foreigner_expire"]);
+
+
+                                model.modified_by = by;
+
+                                bool strID = objAdd.insert(model);
+
+                                if (strID)
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.worker_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
                 }
 
             }
