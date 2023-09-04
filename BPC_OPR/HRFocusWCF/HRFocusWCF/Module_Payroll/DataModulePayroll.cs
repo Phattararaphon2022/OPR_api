@@ -234,6 +234,9 @@ namespace BPC_OPR
         [DataMember]
         public string worker_detail { get; set; }
          [DataMember]
+        public string worker_name { get; set; }
+        
+         [DataMember]
         public string paybatchreduce_code { get; set; }
         
 

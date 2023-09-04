@@ -126,6 +126,8 @@ namespace BPC_OPR
         [DataMember]
         public string project_roundmoney { get; set; }
         [DataMember]
+        public string project_proholiday { get; set; }
+        [DataMember]
         public string project_status { get; set; }
         [DataMember]
         public string company_code { get; set; }
