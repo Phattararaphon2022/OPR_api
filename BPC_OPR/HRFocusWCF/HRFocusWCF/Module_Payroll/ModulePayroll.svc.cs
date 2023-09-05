@@ -3250,7 +3250,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
-                    string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
+                    string tmp = srv_import.doImportExcel("PAYITEM", fileName, by);
 
 
                     output["success"] = true;
