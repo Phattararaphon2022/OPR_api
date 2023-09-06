@@ -696,4 +696,24 @@ namespace BPC_OPR
         [DataMember]
         public bool flag { get; set; }
     }
+
+    [DataContract]
+    public class InputTRReqImage
+    {
+        [DataMember]
+        public int empimages_no { get; set; }
+        [DataMember]
+        public string empimages_images { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
 }

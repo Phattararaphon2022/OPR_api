@@ -727,6 +727,166 @@ namespace BPC_OPR
 
              return output.ToString(Formatting.None);
          }
+
+         public string getReqImageList(FillterApplywork req)
+         {
+             JObject output = new JObject();
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ002.4";
+             log.apilog_by = req.username;
+             log.apilog_data = "all";
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqimage controller = new cls_ctTRReqimage();
+                 List<cls_TREmpimages> list_empimages = controller.getDataByFillter(req.company_code, req.worker_code);
+                 JArray array = new JArray();
+
+                 if (list_empimages.Count > 0)
+                 {
+                     int index = 1;
+
+                     foreach (cls_TREmpimages model in list_empimages)
+                     {
+                         JObject json = new JObject();
+                         json.Add("empimages_no", model.empimages_no);
+                         json.Add("empimages_images", model.empimages_images);
+                         json.Add("worker_code", model.worker_code);
+                         json.Add("company_code", model.company_code);
+                         json.Add("modified_by", model.modified_by);
+                         json.Add("modified_date", model.modified_date);
+                         json.Add("index", index++);
+                         array.Add(json);
+                     }
+
+                     output["success"] = true;
+                     output["message"] = "";
+                     output["data"] = array;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Data not Found";
+                     output["data"] = array;
+
+                     log.apilog_status = "404";
+                     log.apilog_message = "Data not Found";
+                 }
+
+                 controller.dispose();
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doManageReqImage(InputTRReqImage input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQ002.5";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctTRReqimage controller = new cls_ctTRReqimage();
+                 cls_TREmpimages model = new cls_TREmpimages();
+
+                 byte[] bytes = Encoding.ASCII.GetBytes(input.empimages_images);
+
+                 model.empimages_no = Convert.ToInt32(input.empimages_no);
+                 model.worker_code = input.worker_code;
+                 model.company_code = input.company_code;
+                 model.empimages_images = bytes;
+                 model.company_code = input.company_code;
+                 model.modified_by = input.modified_by;
+
+                 bool blnID = controller.insert(model);
+
+                 if (blnID)
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
          #endregion
 
          #region Address (REQ003)
@@ -4378,7 +4538,7 @@ namespace BPC_OPR
 
                  if (controller.checkDataOld(input.company_code, input.card_no))
                  {
-                     bool blnResult = controller.delete(input.company_code, input.card_no);
+                     bool blnResult = controller.delete(input.company_code, input.card_no,input.worker_code);
 
                      if (blnResult)
                      {

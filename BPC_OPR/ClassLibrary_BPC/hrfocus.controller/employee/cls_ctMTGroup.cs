@@ -113,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string id,string code)
+        public bool checkDataOld(string id,string code,string com)
         {
             bool blnResult = false;
             try
@@ -122,8 +122,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT GROUP_CODE");
                 obj_str.Append(" FROM EMP_MT_GROUP");
-                obj_str.Append(" WHERE GROUP_ID='" + id + "'");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND GROUP_CODE='" + code + "'");
+                if (!id.ToString().Equals(""))
+                {
+                    obj_str.Append(" AND GROUP_ID='" + id + "'");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -171,7 +175,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.group_id.ToString(),model.group_code))
+                if (this.checkDataOld(model.group_id.ToString(),model.group_code,model.company_code))
                 {
                     if (this.update(model))
                         return model.group_id.ToString();

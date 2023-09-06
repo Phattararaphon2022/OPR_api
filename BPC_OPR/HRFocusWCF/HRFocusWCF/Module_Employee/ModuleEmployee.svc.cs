@@ -763,6 +763,166 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+        public string getImageList(FillterWorker req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP002.4";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTREmpimages controller = new cls_ctTREmpimages();
+                List<cls_TREmpimages> list_empimages = controller.getDataByFillter(req.company_code, req.worker_code);
+                JArray array = new JArray();
+
+                if (list_empimages.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TREmpimages model in list_empimages)
+                    {
+                        JObject json = new JObject();
+                        json.Add("empimages_no", model.empimages_no);
+                        json.Add("empimages_images", model.empimages_images);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("company_code", model.company_code);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageWorkerImage(InputTREmpImage input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMP002.5";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTREmpimages controller = new cls_ctTREmpimages();
+                cls_TREmpimages model = new cls_TREmpimages();
+
+                byte[] bytes = Encoding.ASCII.GetBytes(input.empimages_images);
+
+                model.empimages_no = Convert.ToInt32(input.empimages_no);
+                model.worker_code = input.worker_code;
+                model.company_code = input.company_code;
+                model.empimages_images = bytes;
+                model.company_code = input.company_code;
+                model.modified_by = input.modified_by;
+
+                bool blnID = controller.insert(model);
+
+                if (blnID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
         #endregion
 
         #region Dep(DEP001)
@@ -966,7 +1126,7 @@ namespace BPC_OPR
 
                 cls_ctMTDep controller = new cls_ctMTDep();
 
-                if (controller.checkDataOld(input.dep_id, input.dep_code))
+                if (controller.checkDataOld(input.dep_id, input.dep_code,input.company_code))
                 {
                     bool blnResult = controller.delete(input.dep_code);
 
@@ -1280,7 +1440,7 @@ namespace BPC_OPR
 
                 cls_ctMTPosition controller = new cls_ctMTPosition();
 
-                if (controller.checkDataOld(input.position_id,input.position_code))
+                if (controller.checkDataOld(input.position_id,input.position_code,input.company_code))
                 {
                     bool blnResult = controller.delete(input.position_code);
 
@@ -1586,7 +1746,7 @@ namespace BPC_OPR
 
                 cls_ctMTGroup controller = new cls_ctMTGroup();
 
-                if (controller.checkDataOld(input.group_id,input.group_code))
+                if (controller.checkDataOld(input.group_id,input.group_code,input.company_code))
                 {
                     bool blnResult = controller.delete(input.group_code);
 
