@@ -555,14 +555,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @WORKER_CARDNOISSUEDATE ");
                 obj_str.Append(", @WORKER_CARDNOEXPIREDATE ");
 
-                obj_str.Append(", WORKER_SOCIALNO ");
-                obj_str.Append(", WORKER_SOCIALNOISSUEDATE ");
-                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE ");
+                obj_str.Append(", @WORKER_SOCIALNO ");
+                obj_str.Append(", @WORKER_SOCIALNOISSUEDATE ");
+                obj_str.Append(", @WORKER_SOCIALNOEXPIREDATE ");
                 if (model.worker_socialsentdate.ToString().Equals(""))
                 {
-                    obj_str.Append(", WORKER_SOCIALSENTDATE ");
+                    obj_str.Append(", @WORKER_SOCIALSENTDATE ");
                 }
-                obj_str.Append(", WORKER_SOCIALNOTSENT ");
+                obj_str.Append(", @WORKER_SOCIALNOTSENT ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");

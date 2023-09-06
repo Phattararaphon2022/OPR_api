@@ -99,6 +99,7 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTBlacklist.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTDocatt.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTReqRequest.cs" />
+    <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplyforeignercard.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRApplySuggest.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProjobpol.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProjobversion.cs" />

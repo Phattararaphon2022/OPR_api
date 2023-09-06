@@ -104,18 +104,32 @@ namespace BPC_OPR
         [OperationContract(Name = "reqforeignerlist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRForeignerList(FillterApplywork input);
-
         [OperationContract(Name = "reqforeigner")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageTRreqForeigner(InputTRReqForeigner input);
-
         [OperationContract(Name = "reqforeigner_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTRreqForeigner(InputTRReqForeigner input);
-
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadForeigner?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadreqForeigner(string token, string by, string fileName, Stream stream);
+
+        //--
+        [OperationContract(Name = "reqforeignercardlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRForeignercardList(FillterApplywork input);
+
+        [OperationContract(Name = "reqforeignercard")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRForeignercard(InputWorkerTransaction input);
+
+        [OperationContract(Name = "reqforeignercard_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRForeignercard(InputTRReqForeigner input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqForeignercard?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqForeignercard(string token, string by, string fileName, Stream stream);
         #endregion
 
 
