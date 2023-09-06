@@ -45,6 +45,14 @@ namespace BPC_OPR
         [OperationContract(Name = "doGetWorkerImages")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doGetWorkerImages(FillterWorker req);
+
+        [OperationContract(Name = "images_worker")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getImageList(FillterWorker req);
+
+        [OperationContract(Name = "doimages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageWorkerImage(InputTREmpImage input);
         #endregion
 
         #region Dep

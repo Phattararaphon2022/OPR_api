@@ -173,7 +173,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string com, string card)
+        public bool delete(string com, string card,string emp)
         {
             bool blnResult = true;
             try
@@ -185,6 +185,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM REQ_MT_BLACKLIST");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND CARD_NO='" + card + "' ");
+                if (!emp.Equals(""))
+                {
+                    obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
+                }
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
