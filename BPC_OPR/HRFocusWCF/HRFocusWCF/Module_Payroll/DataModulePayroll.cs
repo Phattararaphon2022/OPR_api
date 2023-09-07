@@ -275,6 +275,12 @@ namespace BPC_OPR
         [DataMember]
         public string payitem_note { get; set; }
 
+         [DataMember]
+        public string reduce_code { get; set; }
+    
+        
+  
+            
 
         [DataMember]
         public string modified_by { get; set; }
