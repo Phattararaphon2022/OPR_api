@@ -2622,19 +2622,21 @@ namespace BPC_OPR
                             break;
                         }
                         cls_ctMTReduce MTreduce = new cls_ctMTReduce();
+
                         cls_ctTRReduce controller = new cls_ctTRReduce();
                         cls_ctTRPlanreduce TRplanreduce = new cls_ctTRPlanreduce();
-                        List<cls_TRPlanreduce> listPolItem = TRplanreduce.getDataByFillter(input.company_code, input.paybatchreduce_code);
+                        //List<cls_TRPlanreduce> listPolItem = TRplanreduce.getDataByFillter(input.company_code, input.paybatchreduce_code);
+                        List<cls_MTReduce> listPolItem = MTreduce.getDataByFillter("", input.paybatchreduce_code);
 
 
                         if (listPolItem.Count > 0)
                         {
 
-                            foreach (cls_TRPlanreduce model in listPolItem)
+                            foreach (cls_MTReduce model in listPolItem)
                             {
                                 cls_TRReduce TRreduce = new cls_TRReduce();
 
-                                TRreduce.company_code = model.company_code;
+                                TRreduce.company_code = pol.company_code;
                                 TRreduce.worker_code = pol.worker_code;
                                 TRreduce.reduce_type = model.reduce_code;
                                 TRreduce.empreduce_amount = MTreduce.getDataByFillter("", model.reduce_code)[0].reduce_amount;
@@ -2645,6 +2647,7 @@ namespace BPC_OPR
                         }
                     }
                 }
+
 
                 if (strID)
                 {
@@ -3250,7 +3253,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
-                    string tmp = srv_import.doImportExcel("Set Income / Deduct", fileName, by);
+                    string tmp = srv_import.doImportExcel("PAYITEM", fileName, by);
 
 
                     output["success"] = true;
