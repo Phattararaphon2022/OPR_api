@@ -282,7 +282,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" DEP_NAME_TH=@DEP_NAME_TH ");
                 obj_str.Append(", DEP_NAME_EN=@DEP_NAME_EN ");
                 obj_str.Append(", DEP_PARENT=@DEP_PARENT ");
-                obj_str.Append(", DEP_LEVEL=@DEP_LEVEL ");
+                //obj_str.Append(", DEP_LEVEL=@DEP_LEVEL ");
                 obj_str.Append(", PARENT_LEVEL=@PARENT_LEVEL ");
                 if (!model.notused.ToString().Equals(""))
                 {
@@ -299,7 +299,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@DEP_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_NAME_TH"].Value = model.dep_name_th;
                 obj_cmd.Parameters.Add("@DEP_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_NAME_EN"].Value = model.dep_name_en;
                 obj_cmd.Parameters.Add("@DEP_PARENT", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_PARENT"].Value = model.dep_parent;
-                obj_cmd.Parameters.Add("@DEP_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_LEVEL"].Value = model.dep_level;
+                //obj_cmd.Parameters.Add("@DEP_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_LEVEL"].Value = model.dep_level;
                 obj_cmd.Parameters.Add("@PARENT_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@PARENT_LEVEL"].Value = model.parent_level;
                 if (!model.notused.ToString().Equals(""))
                 {

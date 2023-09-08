@@ -322,8 +322,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_status = dr["worker_status"].ToString();
                                 model.religion_code = dr["religion_code"].ToString();
                                 model.blood_code = dr["blood_code"].ToString();
-                                model.worker_height = Convert.ToDouble(dr["worker_height"]);
-                                model.worker_weight = Convert.ToDouble(dr["worker_weight"]);
+                                model.worker_height = dr["worker_height"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["worker_height"]);
+                                model.worker_weight = dr["worker_weight"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["worker_weight"]);
                                 if (dr["worker_resignstatus"].ToString().Equals("1"))
                                 {
                                     model.worker_resigndate = Convert.ToDateTime(dr["worker_resigndate"]);
@@ -1507,6 +1507,54 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.modified_by = by;
 
                                 bool strID = objAdd.insert(model);
+
+                                if (strID)
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.worker_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+
+                    case "EMPEXPERIENCE":
+
+                        DataTable dtworkerexp = doReadExcel(filename);
+                        if (dtworkerexp.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtworkerexp.Rows)
+                            {
+
+                                cls_ctTRExperience objExp = new cls_ctTRExperience();
+                                cls_TRExperience model = new cls_TRExperience();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.worker_code = dr["worker_code"].ToString();
+
+                                model.company_name = dr["company_name"].ToString();
+                                model.position = dr["position"].ToString();
+                                model.salary = Convert.ToDouble(dr["salary"]);
+                                model.startdate = Convert.ToDateTime(dr["startdate"]);
+                                model.enddate = Convert.ToDateTime(dr["enddate"]);
+                                model.description = dr["description"].ToString();
+
+                                model.modified_by = by;
+
+                                bool strID = objExp.insert(model);
 
                                 if (strID)
                                 {
