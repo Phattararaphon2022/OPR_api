@@ -678,6 +678,24 @@ namespace BPC_OPR
         string getDasTypeList(FillterWorker input);
         #endregion
 
+        #region TR_Experience
+        [OperationContract(Name = "empexperiencelist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRExperienceList(FillterWorker input);
+
+        [OperationContract(Name = "empexperience")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRExperience(InputWorkerTransaction input);
+
+        [OperationContract(Name = "empexperience_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRExperience(InputTREmpExperience input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpExperience?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpExperience(string token, string by, string fileName, Stream stream);
+        #endregion
+
         #endregion
     }
 }
