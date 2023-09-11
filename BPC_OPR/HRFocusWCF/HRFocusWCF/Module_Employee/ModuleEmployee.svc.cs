@@ -2592,6 +2592,7 @@ namespace BPC_OPR
                 model.status_code = input.status_code;
                 model.status_name_th = input.status_name_th;
                 model.status_name_en = input.status_name_en;
+                model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
