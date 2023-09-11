@@ -104,7 +104,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_ADMIN, 0) AS SELF_ADMIN");
 
                 obj_str.Append(" FROM EMP_MT_WORKER");
-                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE AND EMP_MT_WORKER.COMPANY_CODE = EMP_MT_INITIAL.COMPANY_CODE");
 
                 obj_str.Append(" WHERE 1=1");
 
