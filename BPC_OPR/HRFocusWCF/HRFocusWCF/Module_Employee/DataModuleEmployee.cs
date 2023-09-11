@@ -1289,4 +1289,54 @@ namespace BPC_OPR
         public string project_code { get; set; }
 
     }
+
+    [DataContract]
+    public class InputTREmpImage
+    {
+        [DataMember]
+        public int empimages_no { get; set; }
+        [DataMember]
+        public string empimages_images { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+
+    [DataContract]
+    public class InputTREmpExperience
+    {
+        [DataMember]
+        public int experience_id { get; set; }
+        [DataMember]
+        public string company_name { get; set; }
+        [DataMember]
+        public string position { get; set; }
+        [DataMember]
+        public string salary { get; set; }
+        [DataMember]
+        public string startdate { get; set; }
+        [DataMember]
+        public string enddate { get; set; }
+        [DataMember]
+        public string description { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
 }

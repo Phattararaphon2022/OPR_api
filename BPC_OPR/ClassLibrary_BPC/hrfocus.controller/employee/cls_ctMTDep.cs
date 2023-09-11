@@ -125,7 +125,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string id ,string code)
+        public bool checkDataOld(string id ,string code,string com)
         {
             bool blnResult = false;
             try
@@ -134,8 +134,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT DEP_CODE");
                 obj_str.Append(" FROM EMP_MT_DEP");
-                obj_str.Append(" WHERE DEP_ID='" + id + "'");
+                obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND DEP_CODE='" + code + "'");
+                if (!id.ToString().Equals(""))
+                {
+                    obj_str.Append(" AND DEP_ID='" + id + "'");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -183,7 +187,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.dep_id.ToString(),model.dep_code))
+                if (this.checkDataOld(model.dep_id.ToString(),model.dep_code,model.company_code))
                 {
                     if (this.update(model))
                         return model.dep_id.ToString();
@@ -278,7 +282,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" DEP_NAME_TH=@DEP_NAME_TH ");
                 obj_str.Append(", DEP_NAME_EN=@DEP_NAME_EN ");
                 obj_str.Append(", DEP_PARENT=@DEP_PARENT ");
-                obj_str.Append(", DEP_LEVEL=@DEP_LEVEL ");
+                //obj_str.Append(", DEP_LEVEL=@DEP_LEVEL ");
                 obj_str.Append(", PARENT_LEVEL=@PARENT_LEVEL ");
                 if (!model.notused.ToString().Equals(""))
                 {
@@ -295,7 +299,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@DEP_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_NAME_TH"].Value = model.dep_name_th;
                 obj_cmd.Parameters.Add("@DEP_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_NAME_EN"].Value = model.dep_name_en;
                 obj_cmd.Parameters.Add("@DEP_PARENT", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_PARENT"].Value = model.dep_parent;
-                obj_cmd.Parameters.Add("@DEP_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_LEVEL"].Value = model.dep_level;
+                //obj_cmd.Parameters.Add("@DEP_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@DEP_LEVEL"].Value = model.dep_level;
                 obj_cmd.Parameters.Add("@PARENT_LEVEL", SqlDbType.VarChar); obj_cmd.Parameters["@PARENT_LEVEL"].Value = model.parent_level;
                 if (!model.notused.ToString().Equals(""))
                 {

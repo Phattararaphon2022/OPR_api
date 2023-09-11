@@ -60,6 +60,14 @@ namespace BPC_OPR
         [OperationContract(Name = "reqimages")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doGetReqImages(FillterApplywork req);
+
+        [OperationContract(Name = "images_req")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getReqImageList(FillterApplywork req);
+
+        [OperationContract(Name = "doreqimages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageReqImage(InputTRReqImage input);
         #endregion
 
         #region TR_Address
