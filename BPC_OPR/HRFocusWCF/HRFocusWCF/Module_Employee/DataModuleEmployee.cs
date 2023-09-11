@@ -218,6 +218,8 @@ namespace BPC_OPR
         [DataMember]
         public string initial_name_en { get; set; }
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string modified_by { get; set; }
     }
 
@@ -250,6 +252,8 @@ namespace BPC_OPR
         [DataMember]
         public string type_name_en { get; set; }
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string modified_by { get; set; }
     }
 
@@ -264,6 +268,8 @@ namespace BPC_OPR
         public string status_name_th { get; set; }
         [DataMember]
         public string status_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }
     }
