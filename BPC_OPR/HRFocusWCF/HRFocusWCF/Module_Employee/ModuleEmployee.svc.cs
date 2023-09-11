@@ -1889,7 +1889,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTInitial controller = new cls_ctMTInitial();
-                List<cls_MTInitial> list = controller.getDataByFillter("");
+                List<cls_MTInitial> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1903,6 +1903,7 @@ namespace BPC_OPR
                         json.Add("initial_code", model.initial_code);
                         json.Add("initial_name_th", model.initial_name_th);
                         json.Add("initial_name_en", model.initial_name_en);
+                        json.Add("company_code", model.company_code);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -1979,6 +1980,7 @@ namespace BPC_OPR
                 model.initial_code = input.initial_code;
                 model.initial_name_th = input.initial_name_th;
                 model.initial_name_en = input.initial_name_en;
+                model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
@@ -2050,9 +2052,9 @@ namespace BPC_OPR
 
                 cls_ctMTInitial controller = new cls_ctMTInitial();
 
-                if (controller.checkDataOld(input.initial_id,input.initial_code))
+                if (controller.checkDataOld(input.initial_id,input.initial_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.initial_code);
+                    bool blnResult = controller.delete(input.initial_code,input.company_code);
 
                     if (blnResult)
                     {
@@ -2193,7 +2195,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTType controller = new cls_ctMTType();
-                List<cls_MTType> list = controller.getDataByFillter("");
+                List<cls_MTType> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -2207,6 +2209,7 @@ namespace BPC_OPR
                         json.Add("type_code", model.type_code);
                         json.Add("type_name_th", model.type_name_th);
                         json.Add("type_name_en", model.type_name_en);
+                        json.Add("company_code", model.company_code);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -2283,6 +2286,7 @@ namespace BPC_OPR
                 model.type_code = input.type_code;
                 model.type_name_th = input.type_name_th;
                 model.type_name_en = input.type_name_en;
+                model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
@@ -2354,9 +2358,9 @@ namespace BPC_OPR
 
                 cls_ctMTType controller = new cls_ctMTType();
 
-                if (controller.checkDataOld(input.type_id, input.type_code))
+                if (controller.checkDataOld(input.type_id, input.type_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.type_code);
+                    bool blnResult = controller.delete(input.type_code,input.company_code);
 
                     if (blnResult)
                     {
@@ -2497,7 +2501,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTStatus controller = new cls_ctMTStatus();
-                List<cls_MTStatus> list = controller.getDataByFillter("");
+                List<cls_MTStatus> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -2511,6 +2515,7 @@ namespace BPC_OPR
                         json.Add("status_code", model.status_code);
                         json.Add("status_name_th", model.status_name_th);
                         json.Add("status_name_en", model.status_name_en);
+                        json.Add("company_code", model.company_code);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -2658,9 +2663,9 @@ namespace BPC_OPR
 
                 cls_ctMTStatus controller = new cls_ctMTStatus();
 
-                if (controller.checkDataOld(input.status_id, input.status_code))
+                if (controller.checkDataOld(input.status_id, input.status_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.status_code);
+                    bool blnResult = controller.delete(input.status_code,input.company_code);
 
                     if (blnResult)
                     {
