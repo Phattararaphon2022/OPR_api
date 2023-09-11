@@ -9,6 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_TRPolcode
     {
         public cls_TRPolcode() { }
+        public string company_code { get; set; }
 
         public int polcode_id { get; set; }
         public string codestructure_code { get; set; }

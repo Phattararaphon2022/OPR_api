@@ -9,6 +9,8 @@ namespace ClassLibrary_BPC.hrfocus.model.SYS.System
     public class cls_MTCcourse
      {
         public cls_MTCcourse() { }
+        public string company_code { get; set; }
+
         public int course_id { get; set; }
         public string course_code { get; set; }
         public string course_name_th { get; set; }

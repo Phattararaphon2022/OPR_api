@@ -33,8 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
+                obj_str.Append("COMPANY_CODE");
 
-                obj_str.Append("QUALIFICATION_ID");
+                obj_str.Append(", QUALIFICATION_ID");
                 obj_str.Append(", QUALIFICATION_CODE");
                 obj_str.Append(", ISNULL(QUALIFICATION_NAME_TH, '') AS QUALIFICATION_NAME_TH");
                 obj_str.Append(", ISNULL(QUALIFICATION_NAME_EN, '') AS QUALIFICATION_NAME_EN");
@@ -55,6 +56,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTQualification();
+                    model.company_code = dr["COMPANY_CODE"].ToString();
 
                     model.qualification_id = Convert.ToInt32(dr["QUALIFICATION_ID"]);
                     model.qualification_code = dr["QUALIFICATION_CODE"].ToString();
@@ -76,10 +78,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTQualification> getDataByFillter(string code)
+        public List<cls_MTQualification> getDataByFillter(string com, string code)
         {
             string strCondition = "";
-
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
             if (!code.Equals(""))
                 strCondition += " AND QUALIFICATION_CODE='" + code + "'";
             
@@ -112,7 +115,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code, string id)
+        public bool checkDataOld(string code, string com, string id)
         {
             bool blnResult = false;
             try
@@ -122,6 +125,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT QUALIFICATION_CODE");
                 obj_str.Append(" FROM SYS_MT_QUALIFICATION");
                 obj_str.Append(" WHERE QUALIFICATION_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
+
                 obj_str.Append(" AND QUALIFICATION_ID='" + id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -139,7 +144,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string code)
+        public bool delete(string code, string com)
         {
             bool blnResult = true;
             try
@@ -150,6 +155,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM SYS_MT_QUALIFICATION");
                 obj_str.Append(" WHERE QUALIFICATION_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -170,7 +176,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.qualification_code, model.qualification_id.ToString()))
+                if (this.checkDataOld(model.qualification_code, model.company_code, model.qualification_id.ToString()))
                 {
                     if (this.update(model))
                         return model.qualification_id.ToString();
@@ -183,7 +189,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO SYS_MT_QUALIFICATION");
                 obj_str.Append(" (");
-                obj_str.Append("QUALIFICATION_ID ");
+                obj_str.Append("COMPANY_CODE ");
+
+                obj_str.Append(", QUALIFICATION_ID ");
                 obj_str.Append(", QUALIFICATION_CODE ");
                 obj_str.Append(", QUALIFICATION_NAME_TH ");
                 obj_str.Append(", QUALIFICATION_NAME_EN ");               
@@ -193,7 +201,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@QUALIFICATION_ID ");
+                obj_str.Append("@COMPANY_CODE ");
+
+                obj_str.Append(", @QUALIFICATION_ID ");
                 obj_str.Append(", @QUALIFICATION_CODE ");
                 obj_str.Append(", @QUALIFICATION_NAME_TH ");
                 obj_str.Append(", @QUALIFICATION_NAME_EN ");      
@@ -207,6 +217,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.qualification_id = this.getNextID();
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@QUALIFICATION_ID", SqlDbType.Int); obj_cmd.Parameters["@QUALIFICATION_ID"].Value = model.qualification_id;
                 obj_cmd.Parameters.Add("@QUALIFICATION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@QUALIFICATION_CODE"].Value = model.qualification_code;

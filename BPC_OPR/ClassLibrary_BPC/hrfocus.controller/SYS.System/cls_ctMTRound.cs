@@ -33,8 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
-                
-                obj_str.Append("ROUND_ID");
+                obj_str.Append("COMPANY_CODE");
+
+                obj_str.Append(", ROUND_ID");
                 obj_str.Append(", ROUND_CODE");
                 obj_str.Append(", ISNULL(ROUND_NAME_TH, '') AS ROUND_NAME_TH");
                 obj_str.Append(", ISNULL(ROUND_NAME_EN, '') AS ROUND_NAME_EN");
@@ -57,6 +58,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTRound();
+                    model.company_code = Convert.ToString(dr["COMPANY_CODE"]);
 
                     model.round_id = Convert.ToInt32(dr["ROUND_ID"]);
                     model.round_code = dr["ROUND_CODE"].ToString();
@@ -80,11 +82,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTRound> getDataByFillter(string group, string id, string code)
+        public List<cls_MTRound> getDataByFillter(string group, string com, string id, string code)
         {
             string strCondition = "";
 
             strCondition += " AND ROUND_GROUP='" + group + "'";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!id.Equals(""))
                 strCondition += " AND ROUND_ID='" + id + "'";
@@ -95,7 +100,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string group, string code, string id)
+        public bool checkDataOld(string group, string com, string code, string id)
         {
             bool blnResult = false;
             try
@@ -106,6 +111,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM SYS_MT_ROUND");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND ROUND_GROUP='" + group + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
+
                 obj_str.Append(" AND ROUND_CODE='" + code + "'");
                 obj_str.Append(" AND ROUND_ID='" + id + "'");
                                                 
@@ -149,7 +156,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool delete(string id)
+        public bool delete(string id,string com)
         {
             bool blnResult = true;
             try
@@ -161,6 +168,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" DELETE FROM SYS_MT_ROUND");
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND ROUND_ID='" + id + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
+
                                               
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -180,7 +189,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.round_group, model.round_code, model.round_id.ToString()))
+                if (this.checkDataOld(model.round_group, model.company_code, model.round_code, model.round_id.ToString()))
                 {
                     bool blnResult =  this.update(model);
 
@@ -193,7 +202,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO SYS_MT_ROUND");
                 obj_str.Append(" (");
-                obj_str.Append("ROUND_ID ");
+                obj_str.Append("COMPANY_CODE ");
+
+                obj_str.Append(", ROUND_ID ");
                 obj_str.Append(", ROUND_CODE ");
                 obj_str.Append(", ROUND_NAME_TH ");
                 obj_str.Append(", ROUND_NAME_EN ");
@@ -204,7 +215,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append(" @ROUND_ID ");
+                obj_str.Append("@COMPANY_CODE ");
+
+                obj_str.Append(", @ROUND_ID ");
                 obj_str.Append(", @ROUND_CODE ");
                 obj_str.Append(", @ROUND_NAME_TH ");
                 obj_str.Append(", @ROUND_NAME_EN ");
@@ -219,6 +232,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 strResult = this.getNextID().ToString();
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@ROUND_ID", SqlDbType.Int); obj_cmd.Parameters["@ROUND_ID"].Value = strResult;
                 obj_cmd.Parameters.Add("@ROUND_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ROUND_CODE"].Value = model.round_code;

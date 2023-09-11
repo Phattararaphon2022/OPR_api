@@ -55,7 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
               obj_conn.doConnect();
 
-              obj_str.Append(" EXEC [dbo].[PAY_PRO_JOBTAX] '" + com + "', '" + taskid + "' ");
+              obj_str.Append(" EXEC [dbo].[PAY_TR_PAYTRAN '" + com + "', '" + taskid + "' ");
 
               SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());              
               obj_cmd.CommandType = CommandType.Text;
@@ -185,7 +185,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  //cls_MTCompany comcard = list_comcard[0];
 
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
-                 List<cls_MTProvince> list_province = objProvince.getDataByFillter("");
+                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com,"");
 
 
 
@@ -820,7 +820,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
 
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
-                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com);
+                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com,"");
  
                  string tmpData = "";
 
@@ -1079,7 +1079,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  //-- Step 8 Get Company card
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
-                 List<cls_MTProvince> list_province = objProvince.getDataByFillter("");
+                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com,"");
 
                  //-- Step 9 Get Company card
                  cls_ctTRPaybonus objPaybonus= new cls_ctTRPaybonus();
