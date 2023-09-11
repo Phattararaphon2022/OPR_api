@@ -260,6 +260,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         break;
                     #endregion
 
+
                     #region Bonus
                     case "Bonus":
                         if (dt.Rows.Count > 0)

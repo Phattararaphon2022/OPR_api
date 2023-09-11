@@ -1922,7 +1922,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTProtype controller = new cls_ctMTProtype();
+                cls_ctMTProject controller = new cls_ctMTProject();
 
                 if (controller.checkDataOld(input.project_code))
                 {
@@ -1948,7 +1948,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-                    string message = "Not Found Project code : " + input.project_code;
+                    string message = "Not Found Project code : " + input.project_id;
                     output["success"] = false;
                     output["message"] = message;
 

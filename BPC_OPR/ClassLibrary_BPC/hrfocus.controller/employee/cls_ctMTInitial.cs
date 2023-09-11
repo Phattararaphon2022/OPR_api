@@ -37,6 +37,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", INITIAL_CODE");
                 obj_str.Append(", ISNULL(INITIAL_NAME_TH, '') AS INITIAL_NAME_TH");
                 obj_str.Append(", ISNULL(INITIAL_NAME_EN, '') AS INITIAL_NAME_EN");
+                obj_str.Append(", COMPANY_CODE");
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(" FROM EMP_MT_INITIAL");
@@ -57,6 +59,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.initial_code = dr["INITIAL_CODE"].ToString();
                     model.initial_name_th = dr["INITIAL_NAME_TH"].ToString();
                     model.initial_name_en = dr["INITIAL_NAME_EN"].ToString();
+                    model.company_code = dr["COMPANY_CODE"].ToString();
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
@@ -72,9 +75,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTInitial> getDataByFillter(string code)
+        public List<cls_MTInitial> getDataByFillter(string code , string com)
         {
             string strCondition = "";
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE ='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND INITIAL_CODE ='" + code + "'";
@@ -108,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string id,string code)
+        public bool checkDataOld(string id,string code,string com)
         {
             bool blnResult = false;
             try
@@ -118,6 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT INITIAL_CODE");
                 obj_str.Append(" FROM EMP_MT_INITIAL");
                 obj_str.Append(" WHERE INITIAL_ID='" + id + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND INITIAL_CODE='" + code + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -135,7 +141,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string code)
+        public bool delete(string code,string com)
         {
             bool blnResult = true;
             try
@@ -146,6 +152,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM EMP_MT_INITIAL");
                 obj_str.Append(" WHERE INITIAL_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -166,7 +173,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.initial_id.ToString(),model.initial_code))
+                if (this.checkDataOld(model.initial_id.ToString(),model.initial_code,model.company_code))
                 {
                     if (this.update(model))
                         return model.initial_id.ToString();
@@ -183,6 +190,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", INITIAL_CODE ");
                 obj_str.Append(", INITIAL_NAME_TH ");
                 obj_str.Append(", INITIAL_NAME_EN ");
+                obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -192,6 +200,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @INITIAL_CODE ");
                 obj_str.Append(", @INITIAL_NAME_TH ");
                 obj_str.Append(", @INITIAL_NAME_EN ");
+                obj_str.Append(", @COMPANY_CODE ");
+
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", 1 ");
@@ -207,6 +217,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@INITIAL_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@INITIAL_CODE"].Value = model.initial_code;
                 obj_cmd.Parameters.Add("@INITIAL_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@INITIAL_NAME_TH"].Value = model.initial_name_th;
                 obj_cmd.Parameters.Add("@INITIAL_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@INITIAL_NAME_EN"].Value = model.initial_name_en;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
@@ -238,6 +249,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(" WHERE INITIAL_ID=@INITIAL_ID ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
 
                 obj_conn.doConnect();
 
@@ -250,6 +263,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.Parameters.Add("@INITIAL_ID", SqlDbType.Int); obj_cmd.Parameters["@INITIAL_ID"].Value = model.initial_id;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
 
                 obj_cmd.ExecuteNonQuery();
 

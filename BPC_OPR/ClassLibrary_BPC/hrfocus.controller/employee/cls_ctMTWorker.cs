@@ -34,7 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("EMP_MT_WORKER.COMPANY_CODE");
                 obj_str.Append(", WORKER_ID");
                 obj_str.Append(", WORKER_CODE");
                 obj_str.Append(", WORKER_CARD");
@@ -111,7 +111,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE, WORKER_CODE");
+                obj_str.Append(" ORDER BY EMP_MT_WORKER.COMPANY_CODE, WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -203,7 +203,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
 
-            strCondition += " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND EMP_MT_WORKER.COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND WORKER_CODE='" + code + "'";
@@ -239,7 +239,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
             if (!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND EMP_MT_WORKER.COMPANY_CODE='" + com + "'";
 
             if (!emptype.Equals(""))
                 strCondition += " AND WORKER_TYPE='" + emptype + "'";

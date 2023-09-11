@@ -65,7 +65,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 
                                 cls_ctMTBank objWorker = new cls_ctMTBank();
                                 cls_MTBank model = new cls_MTBank();
-                                
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.bank_code = dr["bank_code"].ToString();
                                 model.bank_name_th = dr["bank_name_th"].ToString();
                                 model.bank_name_en = dr["bank_name_en"].ToString();
@@ -161,14 +162,12 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 cls_ctMTLevel objReason = new cls_ctMTLevel();
                                 cls_MTLevel model = new cls_MTLevel();
                                 model.level_id = dr["level_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["level_id"].ToString());
-
-                                //model.level_id = Convert.ToInt32(dr["level_id"]);
-                                model.level_code = dr["level_code"].ToString();
+ 
+                                 model.level_code = dr["level_code"].ToString();
                                 model.level_name_th = dr["level_name_th"].ToString();
                                 model.level_name_en = dr["level_name_en"].ToString();
                                 model.company_code = dr["company_code"].ToString();
-                                //model.modified_date = Convert.ToDateTime(dr["modified_date"]);
-                                model.modified_by = by;
+                                 model.modified_by = by;
                                 string strID = objReason.insert(model);
 
                                 if (!strID.Equals(""))
@@ -261,6 +260,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTAddresstype objReason = new cls_ctMTAddresstype();
                                 cls_MTAddresstype model = new cls_MTAddresstype();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.addresstype_id = dr["addresstype_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["addresstype_id"].ToString());
 
                                 //model.addresstype_id = Convert.ToInt32(dr["addresstype_id"]);
@@ -312,6 +313,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTEthnicity objReason = new cls_ctMTEthnicity();
                                 cls_MTEthnicity model = new cls_MTEthnicity();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.ethnicity_id = dr["ethnicity_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["ethnicity_id"].ToString());
 
                                 //model.ethnicity_id = Convert.ToInt32(dr["ETHNICITY_ID"]);
@@ -362,6 +365,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTBloodtype objReason = new cls_ctMTBloodtype();
                                 cls_MTBloodtype model = new cls_MTBloodtype();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.bloodtype_id = dr["bloodtype_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["bloodtype_id"].ToString());
 
                                 //model.bloodtype_id = Convert.ToInt32(dr["BLOODTYPE_ID"]);
@@ -411,6 +416,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTHospital objReason = new cls_ctMTHospital();
                                 cls_MTHospital model = new cls_MTHospital();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.hospital_id = dr["hospital_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["hospital_id"].ToString());
 
                                 //model.hospital_id = Convert.ToInt32(dr["HOSPITAL_ID"]);
@@ -510,6 +517,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTProvince objReason = new cls_ctMTProvince();
                                 cls_MTProvince model = new cls_MTProvince();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.province_id = dr["province_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["province_id"].ToString());
                                 model.province_code = dr["province_code"].ToString();
                                 model.province_name_th = dr["province_name_th"].ToString();
@@ -557,6 +566,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTCcourse objCourse = new cls_ctMTCcourse();
                                 cls_MTCcourse model = new cls_MTCcourse();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.course_id = dr["course_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["course_id"].ToString());
 
                                 //model.course_id = Convert.ToInt32(dr["COURSE_ID"]);                                
@@ -607,6 +618,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTInstitute objInstitute = new cls_ctMTInstitute();
                                 cls_MTInstitute model = new cls_MTInstitute();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.institute_id = dr["institute_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["institute_id"].ToString());
 
                                 //model.institute_id = Convert.ToInt32(dr["institute_id"]);
@@ -657,6 +670,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTFaculty objCourse = new cls_ctMTFaculty();
                                 cls_MTFaculty model = new cls_MTFaculty();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.faculty_id = dr["faculty_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["faculty_id"].ToString());
 
                                 //model.faculty_id = Convert.ToInt32(dr["faculty_id"]);
@@ -707,6 +722,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTMajorr objCourse = new cls_ctMTMajorr();
                                 cls_MTMajorr model = new cls_MTMajorr();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.major_id = dr["major_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["major_id"].ToString());
 
                                 //model.faculty_id = Convert.ToInt32(dr["faculty_id"]);
@@ -758,6 +775,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTQualification objQualification = new cls_ctMTQualification();
                                 cls_MTQualification model = new cls_MTQualification();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.qualification_id = dr["qualification_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["qualification_id"].ToString());
 
                                 //model.qualification_id = Convert.ToInt32(dr["qualification_id"]);
@@ -808,6 +827,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTCcourse objCourse = new cls_ctMTCcourse();
                                 cls_MTCcourse model = new cls_MTCcourse();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.course_id = dr["course_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["course_id"].ToString());
 
                                 //model.course_id = Convert.ToInt32(dr["COURSE_ID"]);
@@ -858,6 +879,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTReligion objReason = new cls_ctMTReligion();
                                 cls_MTReligion model = new cls_MTReligion();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.religion_id = dr["religion_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["religion_id"].ToString());
 
                                 //model.religion_id = Convert.religion_code(dr["RELIGION_ID"]);
@@ -905,6 +928,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTReduce objReason = new cls_ctMTReduce();
                                 cls_MTReduce model = new cls_MTReduce();
+
                                 model.reduce_id = dr["reduce_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["reduce_id"].ToString());
 
                                 model.reduce_code = dr["reduce_code"].ToString();
@@ -952,7 +976,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                         DataTable dt = doReadExcel(filename);
                         if (dt.Rows.Count > 0)
                         {
-                            cls_ctMTRounds objReason = new cls_ctMTRounds();
+                            cls_ctMTRounds objRound = new cls_ctMTRounds();
                             cls_ctTRRound controller = new cls_ctTRRound();
                             int successCount = 0;
                             StringBuilder errorMessages = new StringBuilder();
@@ -961,13 +985,15 @@ namespace ClassLibrary_BPC.hrfocus.service
                             foreach (DataRow dr in dt.Rows)
                             {
                                 cls_MTRounds model = new cls_MTRounds();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.round_id = dr["round_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["round_id"]);
                                 model.round_code = dr["round_code"].ToString();
                                 model.round_name_th = dr["round_name_th"].ToString();
                                 model.round_name_en = dr["round_name_en"].ToString();
                                 model.round_group = dr["round_group"].ToString();
                                 model.modified_by = by;
-                                string strID = objReason.insert(model);
+                                string strID = objRound.insert(model);
                                 cls_TRRound models = new cls_TRRound();
                                 models.round_id = model.round_id.ToString();  // กำหนด round_id จาก cls_MTRounds
                                 models.round_from = Convert.ToDouble(dr["round_from"]);
@@ -1016,6 +1042,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTSupply objReason = new cls_ctMTSupply();
                                 cls_MTSupply model = new cls_MTSupply();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.supply_id = dr["supply_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["supply_id"].ToString());
                                 model.supply_code = dr["supply_code"].ToString();
                                 model.supply_name_th = dr["supply_name_th"].ToString();
@@ -1304,6 +1332,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRPolcode objReason = new cls_ctTRPolcode();
                                 cls_TRPolcode model = new cls_TRPolcode();
+                                model.company_code = dr["company_code"].ToString();
+
                                 model.polcode_id = dr["polcode_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["polcode_id"].ToString());
 
                                  model.codestructure_code = dr["codestructure_code"].ToString();
@@ -1354,6 +1384,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
                                 cls_MTCardtype model = new cls_MTCardtype();
+                                model.company_code = dr["company_code"].ToString();
 
                                 model.cardtype_code = dr["cardtype_code"].ToString();
                                 model.cardtype_name_th = dr["cardtype_name_th"].ToString();

@@ -9,6 +9,8 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTBloodtype
     {
         public cls_MTBloodtype() { }
+        public string company_code { get; set; }
+
         public int bloodtype_id { get; set; }
         public string bloodtype_code { get; set; }
         public string bloodtype_name_th { get; set; }

@@ -99,7 +99,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTBank controller = new cls_ctMTBank();
-                List<cls_MTBank> list = controller.getDataByFillter("");
+                List<cls_MTBank> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -183,6 +183,7 @@ namespace BPC_OPR
 
                 cls_ctMTBank controller = new cls_ctMTBank();
                 cls_MTBank model = new cls_MTBank();
+                model.company_code = input.company_code;
 
                 model.bank_id = Convert.ToInt32(input.bank_id);
                 model.bank_code = input.bank_code;
@@ -258,9 +259,9 @@ namespace BPC_OPR
 
                 cls_ctMTBank controller = new cls_ctMTBank();
 
-                if (controller.checkDataOld(input.bank_code, input.bank_id.ToString()))
+                if (controller.checkDataOld(input.bank_code,input.company_code, input.bank_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.bank_code);
+                    bool blnResult = controller.delete(input.bank_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -700,7 +701,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
-                List<cls_TRPolcode> list = controller.getDataByFillter("");
+                List<cls_TRPolcode> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -710,6 +711,8 @@ namespace BPC_OPR
                     foreach (cls_TRPolcode model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("polcode_id", model.polcode_id);
                         json.Add("codestructure_code", model.codestructure_code);
 
@@ -789,6 +792,8 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
                 cls_TRPolcode model = new cls_TRPolcode();
+                model.company_code = input.company_code;
+
                  model.polcode_id = input.polcode_id;
                 model.codestructure_code = input.codestructure_code;
 
@@ -866,9 +871,9 @@ namespace BPC_OPR
 
                 cls_ctTRPolcode controller = new cls_ctTRPolcode();
 
-                if (controller.checkDataOld(input.codestructure_code )  )
+                if (controller.checkDataOld(input.company_code ,input.codestructure_code )  )
                 {
-                    bool blnResult = controller.delete(input.polcode_id.ToString());
+                    bool blnResult = controller.delete(input.polcode_id.ToString(), input.company_code);
 
                     if (blnResult)
                     {
@@ -1015,7 +1020,7 @@ namespace BPC_OPR
                     //cls_MTPolcode polcode = listPol[0];
 
                     cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter("");
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.company_code,"");
                     foreach (cls_TRPolcode model in listTRPolcode)
                     {
 
@@ -1398,7 +1403,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
-                List<cls_MTCardtype> list = objCardtype.getDataByFillter("");
+                List<cls_MTCardtype> list = objCardtype.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1408,6 +1413,7 @@ namespace BPC_OPR
                     foreach (cls_MTCardtype model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
 
                         json.Add("cardtype_id", model.cardtype_id);
                         json.Add("cardtype_code", model.cardtype_code);
@@ -1486,6 +1492,7 @@ namespace BPC_OPR
 
                 cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
                 cls_MTCardtype model = new cls_MTCardtype();
+                model.company_code = input.company_code;
 
                 model.cardtype_id = Convert.ToInt32(input.cardtype_id);
                 model.cardtype_code = input.cardtype_code;
@@ -1562,9 +1569,9 @@ namespace BPC_OPR
 
                 cls_ctMTCardtype objCardtype = new cls_ctMTCardtype();
 
-                if (objCardtype.checkDataOld(input.cardtype_code, input.cardtype_id.ToString()))
+                if (objCardtype.checkDataOld(input.cardtype_code, input.company_code,input.cardtype_id.ToString()))
                 {
-                    bool blnResult = objCardtype.delete(input.cardtype_code);
+                    bool blnResult = objCardtype.delete(input.company_code, input.cardtype_code );
 
                     if (blnResult)
                     {
@@ -3413,7 +3420,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTRound objMTRound = new cls_ctMTRound();
-                List<cls_MTRound> listRound = objMTRound.getDataByFillter(input.round_group, "", input.round_code);
+                List<cls_MTRound> listRound = objMTRound.getDataByFillter(input.round_group, input.company_code, "", input.round_code);
                 JArray array = new JArray();
 
                 if (listRound.Count > 0)
@@ -3423,6 +3430,8 @@ namespace BPC_OPR
                     foreach (cls_MTRound model in listRound)
                     {
                         JObject json = new JObject();
+                        json.Add("comapny_code", model.company_code);
+
                         json.Add("round_id", model.round_id);
                         json.Add("round_code", model.round_code);
                         json.Add("round_name_th", model.round_name_th);
@@ -3514,6 +3523,8 @@ namespace BPC_OPR
                 }
                 cls_ctMTRound objMTRound = new cls_ctMTRound();
                 cls_MTRound model = new cls_MTRound();
+                model.company_code = input.company_code;
+
                 model.round_id = input.round_id.Equals("") ? 0 : Convert.ToInt32(input.round_id);
                 model.round_code = input.round_code;
 
@@ -3599,7 +3610,7 @@ namespace BPC_OPR
 
                 cls_ctMTRound controller = new cls_ctMTRound();
 
-                bool blnResult = controller.delete(input.round_id.ToString());
+                bool blnResult = controller.delete(input.round_id.ToString(), input.company_code);
 
                 if (blnResult)
                 {
@@ -4052,7 +4063,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTEthnicity controller = new cls_ctMTEthnicity();
-                List<cls_MTEthnicity> list = controller.getDataByFillter("");
+                List<cls_MTEthnicity> list = controller.getDataByFillter(req.company_code, "");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4062,6 +4073,8 @@ namespace BPC_OPR
                     foreach (cls_MTEthnicity model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("ethnicity_id", model.ethnicity_id);
                         json.Add("ethnicity_code", model.ethnicity_code);
                         json.Add("ethnicity_name_th", model.ethnicity_name_th);
@@ -4136,6 +4149,7 @@ namespace BPC_OPR
 
                 cls_ctMTEthnicity controller = new cls_ctMTEthnicity();
                 cls_MTEthnicity model = new cls_MTEthnicity();
+                model.company_code = input.company_code;
 
                 model.ethnicity_id = Convert.ToInt32(input.ethnicity_id);
                 model.ethnicity_code = input.ethnicity_code;
@@ -4211,9 +4225,9 @@ namespace BPC_OPR
 
                 cls_ctMTEthnicity controller = new cls_ctMTEthnicity();
 
-                if (controller.checkDataOld(input.ethnicity_code, input.ethnicity_id.ToString()))
+                if (controller.checkDataOld(input.ethnicity_code, input.company_code, input.ethnicity_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.ethnicity_code);
+                    bool blnResult = controller.delete(input.ethnicity_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -4353,7 +4367,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTReligion controller = new cls_ctMTReligion();
-                List<cls_MTReligion> list = controller.getDataByFillter("");
+                List<cls_MTReligion> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4363,6 +4377,8 @@ namespace BPC_OPR
                     foreach (cls_MTReligion model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("religion_id", model.religion_id);
                         json.Add("religion_code", model.religion_code);
                         json.Add("religion_name_th", model.religion_name_th);
@@ -4437,6 +4453,7 @@ namespace BPC_OPR
 
                 cls_ctMTReligion controller = new cls_ctMTReligion();
                 cls_MTReligion model = new cls_MTReligion();
+                model.company_code = input.company_code;
 
                 model.religion_id = Convert.ToInt32(input.religion_id);
                 model.religion_code = input.religion_code;
@@ -4512,9 +4529,9 @@ namespace BPC_OPR
 
                 cls_ctMTReligion controller = new cls_ctMTReligion();
 
-                if (controller.checkDataOld(input.religion_code, input.religion_id.ToString()))
+                if (controller.checkDataOld(input.religion_code, input.company_code, input.religion_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.religion_code);
+                    bool blnResult = controller.delete(input.religion_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -4656,7 +4673,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTBloodtype controller = new cls_ctMTBloodtype();
-                List<cls_MTBloodtype> list = controller.getDataByFillter("");
+                List<cls_MTBloodtype> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4666,6 +4683,8 @@ namespace BPC_OPR
                     foreach (cls_MTBloodtype model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("bloodtype_id", model.bloodtype_id);
                         json.Add("bloodtype_code", model.bloodtype_code);
                         json.Add("bloodtype_name_th", model.bloodtype_name_th);
@@ -4740,6 +4759,7 @@ namespace BPC_OPR
 
                 cls_ctMTBloodtype controller = new cls_ctMTBloodtype();
                 cls_MTBloodtype model = new cls_MTBloodtype();
+                model.company_code = input.company_code;
 
                 model.bloodtype_id = Convert.ToInt32(input.bloodtype_id);
                 model.bloodtype_code = input.bloodtype_code;
@@ -4815,9 +4835,9 @@ namespace BPC_OPR
 
                 cls_ctMTBloodtype controller = new cls_ctMTBloodtype();
 
-                if (controller.checkDataOld(input.bloodtype_code, input.bloodtype_id.ToString()))
+                if (controller.checkDataOld(input.bloodtype_code,input.company_code, input.bloodtype_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.bloodtype_code);
+                    bool blnResult = controller.delete(input.company_code, input.bloodtype_code);
 
                     if (blnResult)
                     {
@@ -4958,7 +4978,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTHospital controller = new cls_ctMTHospital();
-                List<cls_MTHospital> list = controller.getDataByFillter("");
+                List<cls_MTHospital> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4968,6 +4988,8 @@ namespace BPC_OPR
                     foreach (cls_MTHospital model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("hospital_id", model.hospital_id);
                         json.Add("hospital_code", model.hospital_code);
                         json.Add("hospital_name_th", model.hospital_name_th);
@@ -5042,6 +5064,7 @@ namespace BPC_OPR
 
                 cls_ctMTHospital controller = new cls_ctMTHospital();
                 cls_MTHospital model = new cls_MTHospital();
+                model.company_code = input.company_code;
 
                 model.hospital_id = Convert.ToInt32(input.hospital_id);
                 model.hospital_code = input.hospital_code;
@@ -5117,9 +5140,9 @@ namespace BPC_OPR
 
                 cls_ctMTHospital controller = new cls_ctMTHospital();
 
-                if (controller.checkDataOld(input.hospital_code, input.hospital_id.ToString()))
+                if (controller.checkDataOld(input.hospital_code,input.company_code, input.hospital_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.hospital_code);
+                    bool blnResult = controller.delete(input.hospital_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -5259,7 +5282,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProvince contprovince = new cls_ctMTProvince();
-                List<cls_MTProvince> list = contprovince.getDataByFillter("");
+                List<cls_MTProvince> list = contprovince.getDataByFillter(req.company_code,"" );
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5269,6 +5292,8 @@ namespace BPC_OPR
                     foreach (cls_MTProvince model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("province_id", model.province_id);
                         json.Add("province_code", model.province_code);
                         json.Add("province_name_th", model.province_name_th);
@@ -5343,6 +5368,7 @@ namespace BPC_OPR
 
                 cls_ctMTProvince controller = new cls_ctMTProvince();
                 cls_MTProvince model = new cls_MTProvince();
+                model.company_code = input.company_code;
 
                 model.province_id = Convert.ToInt32(input.province_id);
                 model.province_code = input.province_code;
@@ -5418,9 +5444,9 @@ namespace BPC_OPR
 
                 cls_ctMTProvince controller = new cls_ctMTProvince();
 
-                if (controller.checkDataOld(input.province_code, input.province_id.ToString()))
+                if (controller.checkDataOld(input.province_code,input.company_code, input.province_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.province_code);
+                    bool blnResult = controller.delete(input.province_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -7952,7 +7978,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTCcourse contcourse = new cls_ctMTCcourse();
-                List<cls_MTCcourse> list = contcourse.getDataByFillter("");
+                List<cls_MTCcourse> list = contcourse.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -7962,6 +7988,8 @@ namespace BPC_OPR
                     foreach (cls_MTCcourse model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("course_id", model.course_id);
                         json.Add("course_code", model.course_code);
                         json.Add("course_name_th", model.course_name_th);
@@ -8036,6 +8064,7 @@ namespace BPC_OPR
 
                 cls_ctMTCcourse controller = new cls_ctMTCcourse();
                 cls_MTCcourse model = new cls_MTCcourse();
+                model.company_code = input.company_code;
 
                 model.course_id = Convert.ToInt32(input.course_id);
                 model.course_code = input.course_code;
@@ -8111,9 +8140,9 @@ namespace BPC_OPR
 
                 cls_ctMTCcourse controller = new cls_ctMTCcourse();
 
-                if (controller.checkDataOld(input.course_code, input.course_id.ToString()))
+                if (controller.checkDataOld(input.course_code, input.company_code, input.course_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.course_code);
+                    bool blnResult = controller.delete(input.course_code,input.company_code);
 
                     if (blnResult)
                     {
@@ -8255,7 +8284,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTInstitute contInstitute = new cls_ctMTInstitute();
-                List<cls_MTInstitute> list = contInstitute.getDataByFillter("");
+                List<cls_MTInstitute> list = contInstitute.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -8265,6 +8294,8 @@ namespace BPC_OPR
                     foreach (cls_MTInstitute model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("institute_id", model.institute_id);
                         json.Add("institute_code", model.institute_code);
                         json.Add("institute_name_th", model.institute_name_th);
@@ -8339,6 +8370,7 @@ namespace BPC_OPR
 
                 cls_ctMTInstitute controller = new cls_ctMTInstitute();
                 cls_MTInstitute model = new cls_MTInstitute();
+                model.company_code = input.company_code;
 
                 model.institute_id = Convert.ToInt32(input.institute_id);
                 model.institute_code = input.institute_code;
@@ -8414,9 +8446,9 @@ namespace BPC_OPR
 
                 cls_ctMTInstitute controller = new cls_ctMTInstitute();
 
-                if (controller.checkDataOld(input.institute_code, input.institute_id.ToString()))
+                if (controller.checkDataOld(input.institute_code, input.company_code, input.institute_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.institute_code);
+                    bool blnResult = controller.delete(input.institute_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -8558,7 +8590,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTFaculty contFaculty = new cls_ctMTFaculty();
-                List<cls_MTFaculty> list = contFaculty.getDataByFillter("");
+                List<cls_MTFaculty> list = contFaculty.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -8568,6 +8600,8 @@ namespace BPC_OPR
                     foreach (cls_MTFaculty model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("faculty_id", model.faculty_id);
                         json.Add("faculty_code", model.faculty_code);
                         json.Add("faculty_name_th", model.faculty_name_th);
@@ -8642,6 +8676,7 @@ namespace BPC_OPR
 
                 cls_ctMTFaculty controller = new cls_ctMTFaculty();
                 cls_MTFaculty model = new cls_MTFaculty();
+                model.company_code = input.company_code;
 
                 model.faculty_id = Convert.ToInt32(input.faculty_id);
                 model.faculty_code = input.faculty_code;
@@ -8717,9 +8752,9 @@ namespace BPC_OPR
 
                 cls_ctMTFaculty controller = new cls_ctMTFaculty();
 
-                if (controller.checkDataOld(input.faculty_code, input.faculty_id.ToString()))
+                if (controller.checkDataOld(input.faculty_code,input.company_code, input.faculty_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.faculty_code);
+                    bool blnResult = controller.delete(input.faculty_code,input.company_code);
 
                     if (blnResult)
                     {
@@ -8860,7 +8895,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTMajorr contMajor = new cls_ctMTMajorr();
-                List<cls_MTMajorr> list = contMajor.getDataByFillter("");
+                List<cls_MTMajorr> list = contMajor.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -8870,6 +8905,8 @@ namespace BPC_OPR
                     foreach (cls_MTMajorr model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("major_id", model.major_id);
                         json.Add("major_code", model.major_code);
                         json.Add("major_name_th", model.major_name_th);
@@ -8944,6 +8981,7 @@ namespace BPC_OPR
 
                 cls_ctMTMajorr controller = new cls_ctMTMajorr();
                 cls_MTMajorr model = new cls_MTMajorr();
+                model.company_code = input.company_code;
 
                 model.major_id = Convert.ToInt32(input.major_id);
                 model.major_code = input.major_code;
@@ -9019,9 +9057,9 @@ namespace BPC_OPR
 
                 cls_ctMTMajorr controller = new cls_ctMTMajorr();
 
-                if (controller.checkDataOld(input.major_code , input.major_id.ToString()))
+                if (controller.checkDataOld(input.major_code, input.company_code, input.major_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.major_code);
+                    bool blnResult = controller.delete(input.major_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -9162,7 +9200,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTSupply controller = new cls_ctMTSupply();
-                List<cls_MTSupply> list = controller.getDataByFillter("");
+                List<cls_MTSupply> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -9172,6 +9210,8 @@ namespace BPC_OPR
                     foreach (cls_MTSupply model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("supply_id", model.supply_id);
                         json.Add("supply_code", model.supply_code);
                         json.Add("supply_name_th", model.supply_name_th);
@@ -9246,6 +9286,7 @@ namespace BPC_OPR
 
                 cls_ctMTSupply controller = new cls_ctMTSupply();
                 cls_MTSupply model = new cls_MTSupply();
+                model.company_code = input.company_code;
 
                 model.supply_id = Convert.ToInt32(input.supply_id);
                 model.supply_code = input.supply_code;
@@ -9321,9 +9362,9 @@ namespace BPC_OPR
 
                 cls_ctMTSupply controller = new cls_ctMTSupply();
 
-                if (controller.checkDataOld(input.supply_code))
+                if (controller.checkDataOld(input.supply_code, input.company_code))
                 {
-                    bool blnResult = controller.delete(input.supply_code);
+                    bool blnResult = controller.delete(input.supply_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -9764,7 +9805,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTQualification contQualification = new cls_ctMTQualification();
-                List<cls_MTQualification> list = contQualification.getDataByFillter("");
+                List<cls_MTQualification> list = contQualification.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -9774,6 +9815,8 @@ namespace BPC_OPR
                     foreach (cls_MTQualification model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("qualification_id", model.qualification_id);
                         json.Add("qualification_code", model.qualification_code);
                         json.Add("qualification_name_th", model.qualification_name_th);
@@ -9848,6 +9891,7 @@ namespace BPC_OPR
 
                 cls_ctMTQualification controller = new cls_ctMTQualification();
                 cls_MTQualification model = new cls_MTQualification();
+                model.company_code = input.company_code;
 
                 model.qualification_id = Convert.ToInt32(input.qualification_id);
                 model.qualification_code = input.qualification_code;
@@ -9923,9 +9967,9 @@ namespace BPC_OPR
 
                 cls_ctMTQualification controller = new cls_ctMTQualification();
 
-                if (controller.checkDataOld(input.qualification_code, input.qualification_id.ToString()))
+                if (controller.checkDataOld(input.qualification_code, input.company_code, input.qualification_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.qualification_code);
+                    bool blnResult = controller.delete(input.qualification_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -10066,7 +10110,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTAddresstype contaddresstype = new cls_ctMTAddresstype();
-                List<cls_MTAddresstype> list = contaddresstype.getDataByFillter("");
+                List<cls_MTAddresstype> list = contaddresstype.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -10076,6 +10120,7 @@ namespace BPC_OPR
                     foreach (cls_MTAddresstype model in list)
                     {
                         JObject json = new JObject();
+
                         json.Add("addresstype_id", model.addresstype_id);
                         json.Add("addresstype_code", model.addresstype_code);
                         json.Add("addresstype_name_th", model.addresstype_name_th);
@@ -10150,6 +10195,7 @@ namespace BPC_OPR
 
                 cls_ctMTAddresstype controller = new cls_ctMTAddresstype();
                 cls_MTAddresstype model = new cls_MTAddresstype();
+                model.company_code = input.company_code;
 
                 model.addresstype_id = Convert.ToInt32(input.addresstype_id);
                 model.addresstype_code = input.addresstype_code;
@@ -10225,9 +10271,9 @@ namespace BPC_OPR
 
                 cls_ctMTAddresstype controller = new cls_ctMTAddresstype();
 
-                if (controller.checkDataOld(input.addresstype_code, input.addresstype_id.ToString()))
+                if (controller.checkDataOld(input.company_code, input.addresstype_code, input.addresstype_id.ToString()))
                 {
-                    bool blnResult = controller.delete(input.addresstype_code);
+                    bool blnResult = controller.delete(input.company_code, input.addresstype_code);
 
                     if (blnResult)
                     {
@@ -12368,7 +12414,7 @@ namespace BPC_OPR
                                                 //-- get new code 
                                                 string new_code = "";
                                                 cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                                                List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter("");
+                                                List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(input.company_code, "");
                                                 foreach (cls_TRPolcode modelpol in listTRPolcode)
                                                 {
 
