@@ -15,6 +15,8 @@ namespace BPC_OPR
     public class InputMTProbusiness
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string probusiness_id { get; set; }
         [DataMember]
         public string probusiness_code { get; set; }
@@ -32,6 +34,8 @@ namespace BPC_OPR
         [DataMember]
         public string protype_id { get; set; }
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string protype_code { get; set; }
         [DataMember]
         public string protype_name_th { get; set; }
@@ -44,6 +48,8 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTProuniform
     {
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string prouniform_id { get; set; }
         [DataMember]
@@ -59,6 +65,8 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTProslip
     {
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string proslip_id { get; set; }
         [DataMember]
@@ -601,6 +609,8 @@ namespace BPC_OPR
     public class InputMTProarea
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string proarea_id { get; set; }
         [DataMember]
         public string proarea_code { get; set; }
@@ -615,6 +625,8 @@ namespace BPC_OPR
      [DataContract] 
     public class InputMTProgroup
     {
+         [DataMember]
+         public string company_code { get; set; }
         [DataMember]
         public string progroup_id { get; set; }
         [DataMember]

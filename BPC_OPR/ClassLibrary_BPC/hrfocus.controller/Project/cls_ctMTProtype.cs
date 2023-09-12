@@ -33,8 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
+                obj_str.Append("COMPANY_CODE");
 
-                obj_str.Append("PROTYPE_ID");
+                obj_str.Append(", PROTYPE_ID");
                 obj_str.Append(", PROTYPE_CODE");
                 obj_str.Append(", PROTYPE_NAME_TH");
                 obj_str.Append(", PROTYPE_NAME_EN");
@@ -54,6 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTProtype();
+                    model.company_code = Convert.ToString(dr["COMPANY_CODE"]);
 
                     model.protype_id = Convert.ToInt32(dr["PROTYPE_ID"]);
                     model.protype_code = dr["PROTYPE_CODE"].ToString();
@@ -74,9 +76,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProtype> getDataByFillter(string code)
+        public List<cls_MTProtype> getDataByFillter(string com, string code)
         {
             string strCondition = "";
+            strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND PROTYPE_CODE='" + code + "'";
@@ -110,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code,string com)
         {
             bool blnResult = false;
             try
@@ -120,6 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROTYPE_CODE");
                 obj_str.Append(" FROM PRO_MT_PROTYPE");
                 obj_str.Append(" WHERE PROTYPE_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -136,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string code)
+        public bool delete(string code, string com)
         {
             bool blnResult = true;
             try
@@ -147,6 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_MT_PROTYPE");
                 obj_str.Append(" WHERE PROTYPE_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -167,7 +172,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.protype_code))
+                if (this.checkDataOld(model.protype_code,model.company_code))
                 {
                     if (this.update(model))
                         return model.protype_id.ToString();
@@ -180,7 +185,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO PRO_MT_PROTYPE");
                 obj_str.Append(" (");
-                obj_str.Append("PROTYPE_ID ");
+                obj_str.Append("COMPANY_CODE ");
+
+                obj_str.Append(", PROTYPE_ID ");
                 obj_str.Append(", PROTYPE_CODE ");
                 obj_str.Append(", PROTYPE_NAME_TH ");
                 obj_str.Append(", PROTYPE_NAME_EN ");
@@ -190,7 +197,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@PROTYPE_ID ");
+                obj_str.Append("@COMPANY_CODE ");
+
+                obj_str.Append(", @PROTYPE_ID ");
                 obj_str.Append(", @PROTYPE_CODE ");
                 obj_str.Append(", @PROTYPE_NAME_TH ");
                 obj_str.Append(", @PROTYPE_NAME_EN ");
@@ -204,6 +213,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.protype_id = this.getNextID();
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@PROTYPE_ID", SqlDbType.Int); obj_cmd.Parameters["@PROTYPE_ID"].Value = model.protype_id;
                 obj_cmd.Parameters.Add("@PROTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROTYPE_CODE"].Value = model.protype_code;

@@ -9,6 +9,8 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTProslip
     {
         public cls_MTProslip() { }
+        public string company_code { get; set; }
+
         public int proslip_id { get; set; }
         public string proslip_code { get; set; }
         public string proslip_name_th { get; set; }

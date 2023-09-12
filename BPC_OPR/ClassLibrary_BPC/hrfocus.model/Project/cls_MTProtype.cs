@@ -9,6 +9,8 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTProtype
     {
         public cls_MTProtype() { }
+        public string company_code { get; set; }
+
         public int protype_id { get; set; }
         public string protype_code { get; set; }
         public string protype_name_th { get; set; }
