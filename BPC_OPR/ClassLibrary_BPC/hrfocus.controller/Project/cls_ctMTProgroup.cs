@@ -33,8 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
+                obj_str.Append("COMPANY_CODE");
 
-                obj_str.Append("PROGROUP_ID");
+                obj_str.Append(", PROGROUP_ID");
                 obj_str.Append(", PROGROUP_CODE");
                 obj_str.Append(", PROGROUP_NAME_TH");
                 obj_str.Append(", PROGROUP_NAME_EN");             
@@ -54,6 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTProgroup();
+                    model.company_code = Convert.ToString(dr["COMPANY_CODE"]);
 
                     model.progroup_id = Convert.ToInt32(dr["PROGROUP_ID"]);
                     model.progroup_code = dr["PROGROUP_CODE"].ToString();
@@ -74,9 +76,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
             return list_model;
         }
 
-        public List<cls_MTProgroup> getDataByFillter(string code)
+        public List<cls_MTProgroup> getDataByFillter(string com, string code)
         {
             string strCondition = "";
+            strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND PROGROUP_CODE='" + code + "'";
@@ -110,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string com)
         {
             bool blnResult = false;
             try
@@ -120,7 +123,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 obj_str.Append("SELECT PROGROUP_CODE");
                 obj_str.Append(" FROM PRO_MT_PROGROUP");
                 obj_str.Append(" WHERE PROGROUP_CODE='" + code + "'");
-      
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
+
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 if (dt.Rows.Count > 0)
@@ -136,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
             return blnResult;
         }
 
-        public bool delete(string code)
+        public bool delete(string code, string com)
         {
             bool blnResult = true;
             try
@@ -147,6 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
 
                 obj_str.Append("DELETE FROM PRO_MT_PROGROUP");
                 obj_str.Append(" WHERE PROGROUP_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -167,7 +172,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.progroup_code))
+                if (this.checkDataOld(model.progroup_code, model.company_code))
                 {
                     if (this.update(model))
                         return model.progroup_id.ToString();
@@ -180,7 +185,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
 
                 obj_str.Append("INSERT INTO PRO_MT_PROGROUP");
                 obj_str.Append(" (");
-                obj_str.Append("PROGROUP_ID ");
+                obj_str.Append("COMPANY_CODE ");
+
+                obj_str.Append(", PROGROUP_ID ");
                 obj_str.Append(", PROGROUP_CODE ");
                 obj_str.Append(", PROGROUP_NAME_TH ");
                 obj_str.Append(", PROGROUP_NAME_EN ");               
@@ -190,7 +197,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@PROGROUP_ID ");
+                obj_str.Append("@COMPANY_CODE ");
+
+                obj_str.Append(", @PROGROUP_ID ");
                 obj_str.Append(", @PROGROUP_CODE ");
                 obj_str.Append(", @PROGROUP_NAME_TH ");
                 obj_str.Append(", @PROGROUP_NAME_EN ");      
@@ -204,6 +213,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.progroup_id = this.getNextID();
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@PROGROUP_ID", SqlDbType.Int); obj_cmd.Parameters["@PROGROUP_ID"].Value = model.progroup_id;
                 obj_cmd.Parameters.Add("@PROGROUP_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROGROUP_CODE"].Value = model.progroup_code;
