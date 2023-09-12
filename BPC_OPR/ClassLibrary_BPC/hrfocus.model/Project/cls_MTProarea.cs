@@ -9,6 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Project
    public class cls_MTProarea
     {
        public cls_MTProarea() { }
+       public string company_code { get; set; }
 
        public int proarea_id { get; set; }
        public string proarea_code { get; set; }
