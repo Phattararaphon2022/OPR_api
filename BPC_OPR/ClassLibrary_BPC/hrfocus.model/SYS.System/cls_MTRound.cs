@@ -9,6 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model.SYS.System
     public class cls_MTRound
     {
         public cls_MTRound() { }
+        public string company_code { get; set; }
 
         public int round_id { get; set; }
         public string round_code { get; set; }

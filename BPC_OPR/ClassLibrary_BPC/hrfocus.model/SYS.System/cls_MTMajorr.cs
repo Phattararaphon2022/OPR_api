@@ -9,6 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model.SYS.System
     public class cls_MTMajorr
     {
         public cls_MTMajorr() { }
+        public string company_code { get; set; }
 
         public int major_id { get; set; }
         public string major_code { get; set; }

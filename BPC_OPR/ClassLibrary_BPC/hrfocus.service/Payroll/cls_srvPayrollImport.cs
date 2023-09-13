@@ -260,6 +260,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         break;
                     #endregion
 
+
                     #region Bonus
                     case "Bonus":
                         if (dt.Rows.Count > 0)
@@ -375,6 +376,55 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                                 else
                                 {
                                     objStr.Append(model.planreduce_id + " " + model.planreduce_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+                        break;
+                    #endregion
+
+                    #region  TRPayitem
+                    case "PAYITEM":
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctTRPayitem controller = new cls_ctTRPayitem();
+                                cls_TRPayitem model = new cls_TRPayitem();
+
+                                model.company_code = dr["company_code"].ToString();
+                                model.worker_code = dr["worker_code"].ToString();
+                                model.payitem_date = Convert.ToDateTime(dr["payitem_date"].ToString());
+
+                                 model.payitem_amount = dr["payitem_amount"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["payitem_amount"].ToString());
+                                 model.payitem_quantity = dr["payitem_quantity"].ToString().Equals("") ? 0 : Convert.ToDouble(dr["payitem_quantity"].ToString());
+                                 model.item_code = dr["item_code"].ToString();
+
+                                 model.payitem_paytype = dr["payitem_paytype"].ToString();
+
+ 
+                                model.payitem_note = dr["payitem_note"].ToString();
+
+                                model.modified_by = by;
+                                model.flag = false;
+                                bool strID = controller.insert(model);
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.worker_code + " " + model.worker_code);
                                 }
 
                             }

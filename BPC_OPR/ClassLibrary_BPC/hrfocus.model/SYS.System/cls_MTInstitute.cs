@@ -9,6 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTInstitute
     {
         public cls_MTInstitute() { }
+        public string company_code { get; set; }
 
         public int institute_id { get; set; }
         public string institute_code { get; set; }

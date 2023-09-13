@@ -14,6 +14,7 @@ namespace ClassLibrary_BPC.hrfocus.model
             this.province_name_th = "";
             this.province_name_en = "";
         }
+        public string company_code { get; set; }
 
         public int province_id { get; set; }
         public string province_code { get; set; }

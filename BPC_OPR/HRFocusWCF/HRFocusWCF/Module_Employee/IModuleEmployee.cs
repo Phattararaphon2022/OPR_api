@@ -675,7 +675,7 @@ namespace BPC_OPR
         #region typelist
         [OperationContract(Name = "typelist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTypeionList(FillterWorker input);
+        string getDasTypeList(FillterWorker input);
         #endregion
 
         #region TR_Experience

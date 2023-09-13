@@ -16,6 +16,8 @@ namespace BPC_OPR
     public class InputMTBank
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string bank_id { get; set; }
         [DataMember]
         public string bank_code { get; set; }
@@ -68,6 +70,8 @@ namespace BPC_OPR
     {
         [DataMember]
         public int polcode_id { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string codestructure_code { get; set; }
         [DataMember]
@@ -210,6 +214,10 @@ namespace BPC_OPR
         public string round_name_th { get; set; }
         [DataMember]
         public string round_name_en { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+
         [DataMember]
         public string round_group { get; set; }
         [DataMember]
@@ -496,6 +504,8 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTCardtype
     {
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string cardtype_id { get; set; }
         [DataMember]
@@ -923,6 +933,8 @@ namespace BPC_OPR
     public class InputMTReligion
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string religion_id { get; set; }
         [DataMember]
         public string religion_code { get; set; }
@@ -941,6 +953,8 @@ namespace BPC_OPR
     public class InputMTProvince
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string province_id { get; set; }
         [DataMember]
         public string province_code { get; set; }
@@ -958,6 +972,8 @@ namespace BPC_OPR
     public class InputMTAddresstype
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string addresstype_id { get; set; }
         [DataMember]
         public string addresstype_code { get; set; }
@@ -974,6 +990,9 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTEthnicity
     {
+
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string ethnicity_id { get; set; }
         [DataMember]
@@ -993,6 +1012,8 @@ namespace BPC_OPR
     public class InputMTBloodtype
     {
         [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
         public string bloodtype_id { get; set; }
         [DataMember]
         public string bloodtype_code { get; set; }
@@ -1010,6 +1031,8 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTHospital
     {
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string hospital_id { get; set; }
         [DataMember]
@@ -1074,6 +1097,8 @@ namespace BPC_OPR
     [DataContract]
     public class InputMTSupply
     {
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string supply_id { get; set; }
         [DataMember]

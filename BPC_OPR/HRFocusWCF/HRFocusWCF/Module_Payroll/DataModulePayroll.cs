@@ -234,6 +234,9 @@ namespace BPC_OPR
         [DataMember]
         public string worker_detail { get; set; }
          [DataMember]
+        public string worker_name { get; set; }
+        
+         [DataMember]
         public string paybatchreduce_code { get; set; }
         
 
@@ -272,6 +275,12 @@ namespace BPC_OPR
         [DataMember]
         public string payitem_note { get; set; }
 
+         [DataMember]
+        public string reduce_code { get; set; }
+    
+        
+  
+            
 
         [DataMember]
         public string modified_by { get; set; }

@@ -27,6 +27,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_roundtime { get; set; }
         public string project_roundmoney { get; set; }
 
+        public string project_proholiday { get; set; }
+
+
         public string project_status { get; set; }
         public string company_code { get; set; }  
 

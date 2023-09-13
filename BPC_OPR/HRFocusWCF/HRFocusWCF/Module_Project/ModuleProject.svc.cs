@@ -109,7 +109,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProbusiness controller = new cls_ctMTProbusiness();
-                List<cls_MTProbusiness> list = controller.getDataByFillter("");
+                List<cls_MTProbusiness> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -119,6 +119,8 @@ namespace BPC_OPR
                     foreach (cls_MTProbusiness model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("probusiness_id", model.probusiness_id);
                         json.Add("probusiness_code", model.probusiness_code);
                         json.Add("probusiness_name_th", model.probusiness_name_th);
@@ -193,6 +195,7 @@ namespace BPC_OPR
 
                 cls_ctMTProbusiness controller = new cls_ctMTProbusiness();
                 cls_MTProbusiness model = new cls_MTProbusiness();
+                model.company_code = input.company_code;
 
                 model.probusiness_id = Convert.ToInt32(input.probusiness_id);
                 model.probusiness_code = input.probusiness_code;
@@ -268,9 +271,9 @@ namespace BPC_OPR
 
                 cls_ctMTProbusiness controller = new cls_ctMTProbusiness();
 
-                if (controller.checkDataOld(input.probusiness_code))
+                if (controller.checkDataOld(input.probusiness_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.probusiness_code);
+                    bool blnResult = controller.delete(input.probusiness_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -410,7 +413,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProtype controller = new cls_ctMTProtype();
-                List<cls_MTProtype> list = controller.getDataByFillter("");
+                List<cls_MTProtype> list = controller.getDataByFillter(req.company_code, req.protype_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -420,6 +423,8 @@ namespace BPC_OPR
                     foreach (cls_MTProtype model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("protype_id", model.protype_id);
                         json.Add("protype_code", model.protype_code);
                         json.Add("protype_name_th", model.protype_name_th);
@@ -494,6 +499,7 @@ namespace BPC_OPR
 
                 cls_ctMTProtype controller = new cls_ctMTProtype();
                 cls_MTProtype model = new cls_MTProtype();
+                model.company_code = input.company_code;
 
                 model.protype_id = Convert.ToInt32(input.protype_id);
                 model.protype_code = input.protype_code;
@@ -569,9 +575,9 @@ namespace BPC_OPR
 
                 cls_ctMTProtype controller = new cls_ctMTProtype();
 
-                if (controller.checkDataOld(input.protype_code))
+                if (controller.checkDataOld(input.protype_code, input.company_code))
                 {
-                    bool blnResult = controller.delete(input.protype_code);
+                    bool blnResult = controller.delete(input.protype_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -711,7 +717,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProuniform controller = new cls_ctMTProuniform();
-                List<cls_MTProuniform> list = controller.getDataByFillter("");
+                List<cls_MTProuniform> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -721,6 +727,8 @@ namespace BPC_OPR
                     foreach (cls_MTProuniform model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("prouniform_id", model.prouniform_id);
                         json.Add("prouniform_code", model.prouniform_code);
                         json.Add("prouniform_name_th", model.prouniform_name_th);
@@ -795,6 +803,7 @@ namespace BPC_OPR
 
                 cls_ctMTProuniform controller = new cls_ctMTProuniform();
                 cls_MTProuniform model = new cls_MTProuniform();
+                model.company_code = input.company_code;
 
                 model.prouniform_id = Convert.ToInt32(input.prouniform_id);
                 model.prouniform_code = input.prouniform_code;
@@ -870,9 +879,9 @@ namespace BPC_OPR
 
                 cls_ctMTProuniform controller = new cls_ctMTProuniform();
 
-                if (controller.checkDataOld(input.prouniform_code))
+                if (controller.checkDataOld(input.prouniform_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.prouniform_code);
+                    bool blnResult = controller.delete(input.prouniform_code,input.company_code);
 
                     if (blnResult)
                     {
@@ -1012,7 +1021,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProslip controller = new cls_ctMTProslip();
-                List<cls_MTProslip> list = controller.getDataByFillter("");
+                List<cls_MTProslip> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1022,6 +1031,8 @@ namespace BPC_OPR
                     foreach (cls_MTProslip model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("proslip_id", model.proslip_id);
                         json.Add("proslip_code", model.proslip_code);
                         json.Add("proslip_name_th", model.proslip_name_th);
@@ -1096,6 +1107,7 @@ namespace BPC_OPR
 
                 cls_ctMTProslip controller = new cls_ctMTProslip();
                 cls_MTProslip model = new cls_MTProslip();
+                model.company_code = input.company_code;
 
                 model.proslip_id = Convert.ToInt32(input.proslip_id);
                 model.proslip_code = input.proslip_code;
@@ -1171,9 +1183,9 @@ namespace BPC_OPR
 
                 cls_ctMTProslip controller = new cls_ctMTProslip();
 
-                if (controller.checkDataOld(input.proslip_code))
+                if (controller.checkDataOld(input.proslip_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.proslip_code);
+                    bool blnResult = controller.delete(input.proslip_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -1682,6 +1694,8 @@ namespace BPC_OPR
                         json.Add("project_probusiness", model.project_probusiness);
                         json.Add("project_roundtime", model.project_roundtime);
                         json.Add("project_roundmoney", model.project_roundmoney);
+                        json.Add("project_proholiday", model.project_proholiday);
+
                         json.Add("project_status", model.project_status);
                         json.Add("company_code", model.company_code);
                                                 
@@ -1843,8 +1857,12 @@ namespace BPC_OPR
                 
 
                 model.project_probusiness = input.project_probusiness;
+                //
                 model.project_roundtime = input.project_roundtime;
                 model.project_roundmoney = input.project_roundmoney;
+                model.project_proholiday = input.project_proholiday;
+                //
+
                 model.project_status = input.project_status;
                 model.company_code = input.company_code;               
 
@@ -1916,7 +1934,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTProtype controller = new cls_ctMTProtype();
+                cls_ctMTProject controller = new cls_ctMTProject();
 
                 if (controller.checkDataOld(input.project_code))
                 {
@@ -1942,7 +1960,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-                    string message = "Not Found Project code : " + input.project_code;
+                    string message = "Not Found Project code : " + input.project_id;
                     output["success"] = false;
                     output["message"] = message;
 
@@ -8792,7 +8810,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProarea controller = new cls_ctMTProarea();
-                List<cls_MTProarea> list = controller.getDataByFillter("");
+                List<cls_MTProarea> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -8802,6 +8820,8 @@ namespace BPC_OPR
                     foreach (cls_MTProarea model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("proarea_id", model.proarea_id);
                         json.Add("proarea_code", model.proarea_code);
                         json.Add("proarea_name_th", model.proarea_name_th);
@@ -8876,6 +8896,7 @@ namespace BPC_OPR
 
                 cls_ctMTProarea controller = new cls_ctMTProarea();
                 cls_MTProarea model = new cls_MTProarea();
+                model.company_code = input.company_code;
 
                 model.proarea_id = Convert.ToInt32(input.proarea_id);
                 model.proarea_code = input.proarea_code;
@@ -8951,9 +8972,9 @@ namespace BPC_OPR
 
                 cls_ctMTProarea controller = new cls_ctMTProarea();
 
-                if (controller.checkDataOld(input.proarea_code))
+                if (controller.checkDataOld(input.proarea_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.proarea_code);
+                    bool blnResult = controller.delete(input.proarea_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -9093,7 +9114,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProgroup controller = new cls_ctMTProgroup();
-                List<cls_MTProgroup> list = controller.getDataByFillter("");
+                List<cls_MTProgroup> list = controller.getDataByFillter(req.company_code,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -9103,6 +9124,8 @@ namespace BPC_OPR
                     foreach (cls_MTProgroup model in list)
                     {
                         JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
                         json.Add("progroup_id", model.progroup_id);
                         json.Add("progroup_code", model.progroup_code);
                         json.Add("progroup_name_th", model.progroup_name_th);
@@ -9177,6 +9200,7 @@ namespace BPC_OPR
 
                 cls_ctMTProgroup controller = new cls_ctMTProgroup();
                 cls_MTProgroup model = new cls_MTProgroup();
+                model.company_code = input.company_code;
 
                 model.progroup_id = Convert.ToInt32(input.progroup_id);
                 model.progroup_code = input.progroup_code;
@@ -9252,9 +9276,9 @@ namespace BPC_OPR
 
                 cls_ctMTProgroup controller = new cls_ctMTProgroup();
 
-                if (controller.checkDataOld(input.progroup_code))
+                if (controller.checkDataOld(input.progroup_code,input.company_code))
                 {
-                    bool blnResult = controller.delete(input.progroup_code);
+                    bool blnResult = controller.delete(input.progroup_code, input.company_code);
 
                     if (blnResult)
                     {

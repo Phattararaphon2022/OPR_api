@@ -112,8 +112,6 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
             return strResult;
         }
 
-
-
         #region SSO
         //SSO   
          public string doExportSso(string com,string taskid)
@@ -153,7 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  cls_ctMTWorker objWorker = new cls_ctMTWorker();
                  List<cls_MTWorker> list_worker = objWorker.getDataMultipleEmp(com, strEmp);
 
-                 //-- Step 2 Get Paytran
+                 //-- Step 2 Get Paytran cls_ctTRPaytran
                  cls_ctTRPaytran objPay = new cls_ctTRPaytran();
                  List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com, datePay, datePay, strEmp);
                  cls_TRPaytran paybank = list_paytran[0];
@@ -187,7 +185,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  //cls_MTCompany comcard = list_comcard[0];
 
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
-                 List<cls_MTProvince> list_province = objProvince.getDataByFillter("");
+                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com,"");
 
 
 
@@ -822,7 +820,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
 
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
-                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com);
+                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com,"");
  
                  string tmpData = "";
 
@@ -1081,7 +1079,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  //-- Step 8 Get Company card
                  cls_ctMTProvince objProvince = new cls_ctMTProvince();
-                 List<cls_MTProvince> list_province = objProvince.getDataByFillter("");
+                 List<cls_MTProvince> list_province = objProvince.getDataByFillter(com,"");
 
                  //-- Step 9 Get Company card
                  cls_ctTRPaybonus objPaybonus= new cls_ctTRPaybonus();

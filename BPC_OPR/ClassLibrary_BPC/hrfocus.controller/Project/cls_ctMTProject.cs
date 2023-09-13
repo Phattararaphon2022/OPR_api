@@ -45,12 +45,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(PROJECT_PROAREA, '') AS PROJECT_PROAREA");
                 obj_str.Append(", ISNULL(PROJECT_PROGROUP, '') AS PROJECT_PROGROUP");
-
-
                 obj_str.Append(", ISNULL(PROJECT_PROBUSINESS, '') AS PROJECT_PROBUSINESS");
 
+                //
                 obj_str.Append(", ISNULL(PROJECT_ROUNDTIME, '') AS PROJECT_ROUNDTIME");
                 obj_str.Append(", ISNULL(PROJECT_ROUNDMONEY, '') AS PROJECT_ROUNDMONEY");
+                obj_str.Append(", ISNULL(PROJECT_PROHOLIDAY, '') AS PROJECT_PROHOLIDAY");
+                //
+
                 obj_str.Append(", ISNULL(PROJECT_STATUS, '') AS PROJECT_STATUS");
                 obj_str.Append(", ISNULL(COMPANY_CODE, '') AS COMPANY_CODE");
 
@@ -84,8 +86,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.project_progroup = dr["PROJECT_PROGROUP"].ToString();
 
                     model.project_probusiness = dr["PROJECT_PROBUSINESS"].ToString();
+
+                    //
                     model.project_roundtime = dr["PROJECT_ROUNDTIME"].ToString();
                     model.project_roundmoney = dr["PROJECT_ROUNDMONEY"].ToString();
+                    model.project_proholiday = dr["PROJECT_PROHOLIDAY"].ToString();
+                    //
+
                     model.project_status = dr["PROJECT_STATUS"].ToString();
                     model.company_code = dr["COMPANY_CODE"].ToString();
 
@@ -274,6 +281,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_PROBUSINESS ");
                 obj_str.Append(", PROJECT_ROUNDTIME ");
                 obj_str.Append(", PROJECT_ROUNDMONEY ");
+                obj_str.Append(", PROJECT_PROHOLIDAY ");
                 obj_str.Append(", PROJECT_STATUS ");
                 obj_str.Append(", COMPANY_CODE ");
 
@@ -299,6 +307,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJECT_PROBUSINESS ");
                 obj_str.Append(", @PROJECT_ROUNDTIME ");
                 obj_str.Append(", @PROJECT_ROUNDMONEY ");
+                obj_str.Append(", @PROJECT_PROHOLIDAY ");
+
                 obj_str.Append(", @PROJECT_STATUS ");
                 obj_str.Append(", @COMPANY_CODE ");
 
@@ -327,6 +337,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_PROBUSINESS", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROBUSINESS"].Value = model.project_probusiness;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDTIME", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDTIME"].Value = model.project_roundtime;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDMONEY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDMONEY"].Value = model.project_roundmoney;
+                obj_cmd.Parameters.Add("@PROJECT_PROHOLIDAY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROHOLIDAY"].Value = model.project_proholiday;
+
                 obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = "W";
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
@@ -370,6 +382,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_PROBUSINESS=@PROJECT_PROBUSINESS ");
                 obj_str.Append(", PROJECT_ROUNDTIME=@PROJECT_ROUNDTIME ");
                 obj_str.Append(", PROJECT_ROUNDMONEY=@PROJECT_ROUNDMONEY ");
+                obj_str.Append(", PROJECT_PROHOLIDAY=@PROJECT_PROHOLIDAY ");
+                
                 obj_str.Append(", PROJECT_STATUS=@PROJECT_STATUS ");
                
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
@@ -396,6 +410,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_PROBUSINESS", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROBUSINESS"].Value = model.project_probusiness;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDTIME", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDTIME"].Value = model.project_roundtime;
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDMONEY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDMONEY"].Value = model.project_roundmoney;
+                obj_cmd.Parameters.Add("@PROJECT_PROHOLIDAY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROHOLIDAY"].Value = model.project_proholiday;
+
                 obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = model.project_status;
                                
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;

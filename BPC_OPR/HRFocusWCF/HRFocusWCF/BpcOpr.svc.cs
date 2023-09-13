@@ -351,8 +351,9 @@ namespace BPC_OPR
         public string company_code { get; set; }
         [DataMember]
         public string worker_code { get; set; }
-        
         [DataMember]
+        public string protype_code { get; set; }
+         [DataMember]
         public string item_code { get; set; }
 
         [DataMember]

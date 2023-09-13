@@ -14,6 +14,7 @@ namespace ClassLibrary_BPC.hrfocus.model
             //this.addresstype_name_th = "";
             //this.addresstype_name_en = "";
         }
+        public string company_code { get; set; }
 
         public int addresstype_id { get; set; }
         public string addresstype_code { get; set; }

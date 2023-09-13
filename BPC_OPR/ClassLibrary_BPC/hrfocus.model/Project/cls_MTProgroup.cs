@@ -9,7 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Project
    public class cls_MTProgroup
     {
        public cls_MTProgroup() { }
-
+       public string company_code { get; set; }
        public int progroup_id { get; set; }
        public string progroup_code { get; set; }
        public string progroup_name_th { get; set; }

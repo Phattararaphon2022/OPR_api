@@ -33,8 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
+                obj_str.Append("COMPANY_CODE");
 
-                obj_str.Append("PROSLIP_ID");
+                obj_str.Append(", PROSLIP_ID");
                 obj_str.Append(", PROSLIP_CODE");
                 obj_str.Append(", PROSLIP_NAME_TH");
                 obj_str.Append(", PROSLIP_NAME_EN");
@@ -54,6 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTProslip();
+                    model.company_code = Convert.ToString(dr["COMPANY_CODE"]);
 
                     model.proslip_id = Convert.ToInt32(dr["PROSLIP_ID"]);
                     model.proslip_code = dr["PROSLIP_CODE"].ToString();
@@ -74,9 +76,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProslip> getDataByFillter(string code)
+        public List<cls_MTProslip> getDataByFillter(string com, string code)
         {
             string strCondition = "";
+            strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND PROSLIP_CODE='" + code + "'";
@@ -110,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string com)
         {
             bool blnResult = false;
             try
@@ -120,6 +123,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROSLIP_CODE");
                 obj_str.Append(" FROM PRO_MT_PROSLIP");
                 obj_str.Append(" WHERE PROSLIP_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -136,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string code)
+        public bool delete(string code , string com)
         {
             bool blnResult = true;
             try
@@ -147,6 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_MT_PROSLIP");
                 obj_str.Append(" WHERE PROSLIP_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -167,7 +172,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.proslip_code))
+                if (this.checkDataOld(model.proslip_code, model.company_code))
                 {
                     if (this.update(model))
                         return model.proslip_id.ToString();
@@ -180,7 +185,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO PRO_MT_PROSLIP");
                 obj_str.Append(" (");
-                obj_str.Append("PROSLIP_ID ");
+                obj_str.Append("COMPANY_CODE ");
+
+                obj_str.Append(", PROSLIP_ID ");
                 obj_str.Append(", PROSLIP_CODE ");
                 obj_str.Append(", PROSLIP_NAME_TH ");
                 obj_str.Append(", PROSLIP_NAME_EN ");
@@ -190,7 +197,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@PROSLIP_ID ");
+                obj_str.Append("@COMPANY_CODE ");
+
+                obj_str.Append(", @PROSLIP_ID ");
                 obj_str.Append(", @PROSLIP_CODE ");
                 obj_str.Append(", @PROSLIP_NAME_TH ");
                 obj_str.Append(", @PROSLIP_NAME_EN ");
@@ -204,6 +213,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.proslip_id = this.getNextID();
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
                 obj_cmd.Parameters.Add("@PROSLIP_ID", SqlDbType.Int); obj_cmd.Parameters["@PROSLIP_ID"].Value = model.proslip_id;
                 obj_cmd.Parameters.Add("@PROSLIP_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROSLIP_CODE"].Value = model.proslip_code;
