@@ -38,21 +38,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE");
 
                 obj_str.Append(", FOREIGNER_ID");
-                obj_str.Append(", PASSPORT_NO");
-                obj_str.Append(", PASSPORT_ISSUE");
-                obj_str.Append(", PASSPORT_EXPIRE");
-                obj_str.Append(", VISA_NO");
-                obj_str.Append(", VISA_ISSUE");
-                obj_str.Append(", VISA_EXPIRE");
-                obj_str.Append(", WORKPERMIT_NO");
-                obj_str.Append(", WORKPERMIT_BY");
-                obj_str.Append(", WORKPERMIT_ISSUE");
-                obj_str.Append(", WORKPERMIT_EXPIRE");
+                //obj_str.Append(", PASSPORT_NO");
+                //obj_str.Append(", PASSPORT_ISSUE");
+                //obj_str.Append(", PASSPORT_EXPIRE");
+                //obj_str.Append(", VISA_NO");
+                //obj_str.Append(", VISA_ISSUE");
+                //obj_str.Append(", VISA_EXPIRE");
+                //obj_str.Append(", WORKPERMIT_NO");
+                //obj_str.Append(", WORKPERMIT_BY");
+                //obj_str.Append(", WORKPERMIT_ISSUE");
+                //obj_str.Append(", WORKPERMIT_EXPIRE");
+                //obj_str.Append(", ENTRY_DATE");
+                //obj_str.Append(", CERTIFICATE_NO");
+                //obj_str.Append(", CERTIFICATE_EXPIRE");
+                //obj_str.Append(", ISNULL(OTHERDOC_NO, '') AS OTHERDOC_NO");
+                //obj_str.Append(", ISNULL(OTHERDOC_EXPIRE, '') AS OTHERDOC_EXPIRE");
+                obj_str.Append(", FOREIGNER_TYPE");
                 obj_str.Append(", ENTRY_DATE");
-                obj_str.Append(", CERTIFICATE_NO");
-                obj_str.Append(", CERTIFICATE_EXPIRE");
-                obj_str.Append(", ISNULL(OTHERDOC_NO, '') AS OTHERDOC_NO");
-                obj_str.Append(", ISNULL(OTHERDOC_EXPIRE, '') AS OTHERDOC_EXPIRE");
+                obj_str.Append(", SENT_SSO");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -75,22 +78,26 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_code = dr["WORKER_CODE"].ToString();
 
                     model.foreigner_id = Convert.ToInt32(dr["FOREIGNER_ID"]);
-                    model.passport_no = dr["PASSPORT_NO"].ToString();
-                    model.passport_issue = Convert.ToDateTime(dr["PASSPORT_ISSUE"]);
-                    model.passport_expire = Convert.ToDateTime(dr["PASSPORT_EXPIRE"]);
-                    model.visa_no = dr["VISA_NO"].ToString();
-                    model.visa_issue = Convert.ToDateTime(dr["VISA_ISSUE"]);
-                    model.visa_expire = Convert.ToDateTime(dr["VISA_EXPIRE"]);
-                    model.workpermit_no = dr["WORKPERMIT_NO"].ToString();
-                    model.workpermit_by = dr["WORKPERMIT_BY"].ToString();
-                    model.workpermit_issue = Convert.ToDateTime(dr["WORKPERMIT_ISSUE"]);
-                    model.workpermit_expire = Convert.ToDateTime(dr["WORKPERMIT_EXPIRE"]);
-                    model.entry_date = Convert.ToDateTime(dr["ENTRY_DATE"]);
-                    model.certificate_no = dr["CERTIFICATE_NO"].ToString();
-                    model.certificate_expire = Convert.ToDateTime(dr["CERTIFICATE_EXPIRE"]);
-                    model.otherdoc_no = dr["OTHERDOC_NO"].ToString();
-                    model.otherdoc_expire = Convert.ToDateTime(dr["OTHERDOC_EXPIRE"]);
+                    //model.passport_no = dr["PASSPORT_NO"].ToString();
+                    //model.passport_issue = Convert.ToDateTime(dr["PASSPORT_ISSUE"]);
+                    //model.passport_expire = Convert.ToDateTime(dr["PASSPORT_EXPIRE"]);
+                    //model.visa_no = dr["VISA_NO"].ToString();
+                    //model.visa_issue = Convert.ToDateTime(dr["VISA_ISSUE"]);
+                    //model.visa_expire = Convert.ToDateTime(dr["VISA_EXPIRE"]);
+                    //model.workpermit_no = dr["WORKPERMIT_NO"].ToString();
+                    //model.workpermit_by = dr["WORKPERMIT_BY"].ToString();
+                    //model.workpermit_issue = Convert.ToDateTime(dr["WORKPERMIT_ISSUE"]);
+                    //model.workpermit_expire = Convert.ToDateTime(dr["WORKPERMIT_EXPIRE"]);
+                    //model.entry_date = Convert.ToDateTime(dr["ENTRY_DATE"]);
+                    //model.certificate_no = dr["CERTIFICATE_NO"].ToString();
+                    //model.certificate_expire = Convert.ToDateTime(dr["CERTIFICATE_EXPIRE"]);
+                    //model.otherdoc_no = dr["OTHERDOC_NO"].ToString();
+                    //model.otherdoc_expire = Convert.ToDateTime(dr["OTHERDOC_EXPIRE"]);
 
+                    model.foreigner_type = dr["FOREIGNER_TYPE"].ToString();
+                    model.entry_date = Convert.ToDateTime(dr["ENTRY_DATE"]);
+                    model.sent_sso = Convert.ToBoolean(dr["SENT_SSO"]);                    
+                    
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
                     list_model.Add(model);
@@ -184,7 +191,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM EMP_TR_FOREIGNER");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                obj_str.Append(" AND FOREIGNER_ID='" + id + "' ");
+                if (!id.Equals("")) {
+                    obj_str.Append(" AND FOREIGNER_ID='" + id + "' ");
+                }
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -222,24 +231,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE ");
 
                 obj_str.Append(", FOREIGNER_ID ");
-                obj_str.Append(", PASSPORT_NO ");
-                obj_str.Append(", PASSPORT_ISSUE ");
-                obj_str.Append(", PASSPORT_EXPIRE ");
-                obj_str.Append(", VISA_NO ");
-                obj_str.Append(", VISA_ISSUE ");
-                obj_str.Append(", VISA_EXPIRE ");
-                obj_str.Append(", WORKPERMIT_NO ");
-                obj_str.Append(", WORKPERMIT_BY");
-                obj_str.Append(", WORKPERMIT_ISSUE ");
-                obj_str.Append(", WORKPERMIT_EXPIRE ");
+                //obj_str.Append(", PASSPORT_NO ");
+                //obj_str.Append(", PASSPORT_ISSUE ");
+                //obj_str.Append(", PASSPORT_EXPIRE ");
+                //obj_str.Append(", VISA_NO ");
+                //obj_str.Append(", VISA_ISSUE ");
+                //obj_str.Append(", VISA_EXPIRE ");
+                //obj_str.Append(", WORKPERMIT_NO ");
+                //obj_str.Append(", WORKPERMIT_BY");
+                //obj_str.Append(", WORKPERMIT_ISSUE ");
+                //obj_str.Append(", WORKPERMIT_EXPIRE ");
+                //obj_str.Append(", ENTRY_DATE");
+                //obj_str.Append(", CERTIFICATE_NO");
+                //obj_str.Append(", CERTIFICATE_EXPIRE");
+                //if (!model.otherdoc_no.ToString().Equals(""))
+                //{
+                //    obj_str.Append(", OTHERDOC_NO");
+                //    obj_str.Append(", OTHERDOC_EXPIRE");
+                //}
+
+                obj_str.Append(", FOREIGNER_TYPE");
                 obj_str.Append(", ENTRY_DATE");
-                obj_str.Append(", CERTIFICATE_NO");
-                obj_str.Append(", CERTIFICATE_EXPIRE");
-                if (!model.otherdoc_no.ToString().Equals(""))
-                {
-                    obj_str.Append(", OTHERDOC_NO");
-                    obj_str.Append(", OTHERDOC_EXPIRE");
-                }
+                obj_str.Append(", SENT_SSO");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -250,24 +263,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @FOREIGNER_ID ");
-                obj_str.Append(", @PASSPORT_NO ");
-                obj_str.Append(", @PASSPORT_ISSUE ");
-                obj_str.Append(", @PASSPORT_EXPIRE ");
-                obj_str.Append(", @VISA_NO ");
-                obj_str.Append(", @VISA_ISSUE ");
-                obj_str.Append(", @VISA_EXPIRE ");
-                obj_str.Append(", @WORKPERMIT_NO ");
-                obj_str.Append(", @WORKPERMIT_BY ");
-                obj_str.Append(", @WORKPERMIT_ISSUE ");
-                obj_str.Append(", @WORKPERMIT_EXPIRE ");
-                obj_str.Append(", @ENTRY_DATE ");
-                obj_str.Append(", @CERTIFICATE_NO ");
-                obj_str.Append(", @CERTIFICATE_EXPIRE ");
-                if (!model.otherdoc_no.ToString().Equals(""))
-                {
-                    obj_str.Append(", @OTHERDOC_NO");
-                    obj_str.Append(", @OTHERDOC_EXPIRE");
-                }
+                //obj_str.Append(", @PASSPORT_NO ");
+                //obj_str.Append(", @PASSPORT_ISSUE ");
+                //obj_str.Append(", @PASSPORT_EXPIRE ");
+                //obj_str.Append(", @VISA_NO ");
+                //obj_str.Append(", @VISA_ISSUE ");
+                //obj_str.Append(", @VISA_EXPIRE ");
+                //obj_str.Append(", @WORKPERMIT_NO ");
+                //obj_str.Append(", @WORKPERMIT_BY ");
+                //obj_str.Append(", @WORKPERMIT_ISSUE ");
+                //obj_str.Append(", @WORKPERMIT_EXPIRE ");
+                //obj_str.Append(", @ENTRY_DATE ");
+                //obj_str.Append(", @CERTIFICATE_NO ");
+                //obj_str.Append(", @CERTIFICATE_EXPIRE ");
+                //if (!model.otherdoc_no.ToString().Equals(""))
+                //{
+                //    obj_str.Append(", @OTHERDOC_NO");
+                //    obj_str.Append(", @OTHERDOC_EXPIRE");
+                //}
+
+                obj_str.Append(", @FOREIGNER_TYPE");
+                obj_str.Append(", @ENTRY_DATE");
+                obj_str.Append(", @SENT_SSO");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -284,24 +301,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.Parameters.Add("@FOREIGNER_ID", SqlDbType.Int); obj_cmd.Parameters["@FOREIGNER_ID"].Value = this.getNextID();
-                obj_cmd.Parameters.Add("@PASSPORT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@PASSPORT_NO"].Value = model.passport_no;
-                obj_cmd.Parameters.Add("@PASSPORT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_ISSUE"].Value = model.passport_issue;
-                obj_cmd.Parameters.Add("@PASSPORT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_EXPIRE"].Value = model.passport_expire;
-                obj_cmd.Parameters.Add("@VISA_NO", SqlDbType.VarChar); obj_cmd.Parameters["@VISA_NO"].Value = model.visa_no;
-                obj_cmd.Parameters.Add("@VISA_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_ISSUE"].Value = model.visa_issue;
-                obj_cmd.Parameters.Add("@VISA_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_EXPIRE"].Value = model.visa_expire;
-                obj_cmd.Parameters.Add("@WORKPERMIT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_NO"].Value = model.workpermit_no;
-                obj_cmd.Parameters.Add("@WORKPERMIT_BY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_BY"].Value = model.workpermit_by;
-                obj_cmd.Parameters.Add("@WORKPERMIT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_ISSUE"].Value = model.workpermit_issue;
-                obj_cmd.Parameters.Add("@WORKPERMIT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_EXPIRE"].Value = model.workpermit_expire;
+                //obj_cmd.Parameters.Add("@PASSPORT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@PASSPORT_NO"].Value = model.passport_no;
+                //obj_cmd.Parameters.Add("@PASSPORT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_ISSUE"].Value = model.passport_issue;
+                //obj_cmd.Parameters.Add("@PASSPORT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_EXPIRE"].Value = model.passport_expire;
+                //obj_cmd.Parameters.Add("@VISA_NO", SqlDbType.VarChar); obj_cmd.Parameters["@VISA_NO"].Value = model.visa_no;
+                //obj_cmd.Parameters.Add("@VISA_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_ISSUE"].Value = model.visa_issue;
+                //obj_cmd.Parameters.Add("@VISA_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_EXPIRE"].Value = model.visa_expire;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_NO"].Value = model.workpermit_no;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_BY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_BY"].Value = model.workpermit_by;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_ISSUE"].Value = model.workpermit_issue;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_EXPIRE"].Value = model.workpermit_expire;
+                //obj_cmd.Parameters.Add("@ENTRY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@ENTRY_DATE"].Value = model.entry_date;
+                //obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
+                //obj_cmd.Parameters.Add("@CERTIFICATE_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_EXPIRE"].Value = model.certificate_expire;
+                //if (!model.otherdoc_no.Equals(""))
+                //{
+                //    obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
+                //    obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
+                //}
+
+                obj_cmd.Parameters.Add("@FOREIGNER_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@FOREIGNER_TYPE"].Value = model.foreigner_type;
                 obj_cmd.Parameters.Add("@ENTRY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@ENTRY_DATE"].Value = model.entry_date;
-                obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
-                obj_cmd.Parameters.Add("@CERTIFICATE_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_EXPIRE"].Value = model.certificate_expire;
-                if (!model.otherdoc_no.Equals(""))
-                {
-                    obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
-                    obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
-                }
+                obj_cmd.Parameters.Add("@SENT_SSO", SqlDbType.Bit); obj_cmd.Parameters["@SENT_SSO"].Value = model.sent_sso;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -329,21 +350,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE EMP_TR_FOREIGNER SET ");
 
-                obj_str.Append(" PASSPORT_NO=@PASSPORT_NO ");
-                obj_str.Append(", PASSPORT_ISSUE=@PASSPORT_ISSUE ");
-                obj_str.Append(", PASSPORT_EXPIRE=@PASSPORT_EXPIRE ");
-                obj_str.Append(", VISA_NO=@VISA_NO ");
-                obj_str.Append(", VISA_ISSUE=@VISA_ISSUE ");
-                obj_str.Append(", VISA_EXPIRE=@VISA_EXPIRE ");
-                obj_str.Append(", WORKPERMIT_NO=@WORKPERMIT_NO ");
-                obj_str.Append(", WORKPERMIT_BY=@WORKPERMIT_BY ");
-                obj_str.Append(", WORKPERMIT_ISSUE=@WORKPERMIT_ISSUE ");
-                obj_str.Append(", WORKPERMIT_EXPIRE=@WORKPERMIT_EXPIRE ");
-                obj_str.Append(", ENTRY_DATE=@ENTRY_DATE ");
-                obj_str.Append(", CERTIFICATE_NO=@CERTIFICATE_NO ");
-                obj_str.Append(", CERTIFICATE_EXPIRE=@CERTIFICATE_EXPIRE ");
-                obj_str.Append(", OTHERDOC_NO=@OTHERDOC_NO ");
-                obj_str.Append(", OTHERDOC_EXPIRE=@OTHERDOC_EXPIRE ");
+                //obj_str.Append(" PASSPORT_NO=@PASSPORT_NO ");
+                //obj_str.Append(", PASSPORT_ISSUE=@PASSPORT_ISSUE ");
+                //obj_str.Append(", PASSPORT_EXPIRE=@PASSPORT_EXPIRE ");
+                //obj_str.Append(", VISA_NO=@VISA_NO ");
+                //obj_str.Append(", VISA_ISSUE=@VISA_ISSUE ");
+                //obj_str.Append(", VISA_EXPIRE=@VISA_EXPIRE ");
+                //obj_str.Append(", WORKPERMIT_NO=@WORKPERMIT_NO ");
+                //obj_str.Append(", WORKPERMIT_BY=@WORKPERMIT_BY ");
+                //obj_str.Append(", WORKPERMIT_ISSUE=@WORKPERMIT_ISSUE ");
+                //obj_str.Append(", WORKPERMIT_EXPIRE=@WORKPERMIT_EXPIRE ");
+                //obj_str.Append(", ENTRY_DATE=@ENTRY_DATE ");
+                //obj_str.Append(", CERTIFICATE_NO=@CERTIFICATE_NO ");
+                //obj_str.Append(", CERTIFICATE_EXPIRE=@CERTIFICATE_EXPIRE ");
+                //obj_str.Append(", OTHERDOC_NO=@OTHERDOC_NO ");
+                //obj_str.Append(", OTHERDOC_EXPIRE=@OTHERDOC_EXPIRE ");
+
+                obj_str.Append(" FOREIGNER_TYPE=@FOREIGNER_TYPE ");
+                obj_str.Append(" ENTRY_DATE=@ENTRY_DATE ");
+                obj_str.Append(" SENT_SSO=@SENT_SSO ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -354,21 +379,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@PASSPORT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@PASSPORT_NO"].Value = model.passport_no;
-                obj_cmd.Parameters.Add("@PASSPORT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_ISSUE"].Value = model.passport_issue;
-                obj_cmd.Parameters.Add("@PASSPORT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_EXPIRE"].Value = model.passport_expire;
-                obj_cmd.Parameters.Add("@VISA_NO", SqlDbType.VarChar); obj_cmd.Parameters["@VISA_NO"].Value = model.visa_no;
-                obj_cmd.Parameters.Add("@VISA_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_ISSUE"].Value = model.visa_issue;
-                obj_cmd.Parameters.Add("@VISA_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_EXPIRE"].Value = model.visa_expire;
-                obj_cmd.Parameters.Add("@WORKPERMIT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_NO"].Value = model.workpermit_no;
-                obj_cmd.Parameters.Add("@WORKPERMIT_BY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_BY"].Value = model.workpermit_by;
-                obj_cmd.Parameters.Add("@WORKPERMIT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_ISSUE"].Value = model.workpermit_issue;
-                obj_cmd.Parameters.Add("@WORKPERMIT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_EXPIRE"].Value = model.workpermit_expire;
+                //obj_cmd.Parameters.Add("@PASSPORT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@PASSPORT_NO"].Value = model.passport_no;
+                //obj_cmd.Parameters.Add("@PASSPORT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_ISSUE"].Value = model.passport_issue;
+                //obj_cmd.Parameters.Add("@PASSPORT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@PASSPORT_EXPIRE"].Value = model.passport_expire;
+                //obj_cmd.Parameters.Add("@VISA_NO", SqlDbType.VarChar); obj_cmd.Parameters["@VISA_NO"].Value = model.visa_no;
+                //obj_cmd.Parameters.Add("@VISA_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_ISSUE"].Value = model.visa_issue;
+                //obj_cmd.Parameters.Add("@VISA_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@VISA_EXPIRE"].Value = model.visa_expire;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_NO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_NO"].Value = model.workpermit_no;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_BY", SqlDbType.VarChar); obj_cmd.Parameters["@WORKPERMIT_BY"].Value = model.workpermit_by;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_ISSUE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_ISSUE"].Value = model.workpermit_issue;
+                //obj_cmd.Parameters.Add("@WORKPERMIT_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKPERMIT_EXPIRE"].Value = model.workpermit_expire;
+                //obj_cmd.Parameters.Add("@ENTRY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@ENTRY_DATE"].Value = model.entry_date;
+                //obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
+                //obj_cmd.Parameters.Add("@CERTIFICATE_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_EXPIRE"].Value = model.certificate_expire;
+                //obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
+                //obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
+
+                obj_cmd.Parameters.Add("@FOREIGNER_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@FOREIGNER_TYPE"].Value = model.foreigner_type;
                 obj_cmd.Parameters.Add("@ENTRY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@ENTRY_DATE"].Value = model.entry_date;
-                obj_cmd.Parameters.Add("@CERTIFICATE_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CERTIFICATE_NO"].Value = model.certificate_no;
-                obj_cmd.Parameters.Add("@CERTIFICATE_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@CERTIFICATE_EXPIRE"].Value = model.certificate_expire;
-                obj_cmd.Parameters.Add("@OTHERDOC_NO", SqlDbType.VarChar); obj_cmd.Parameters["@OTHERDOC_NO"].Value = model.otherdoc_no;
-                obj_cmd.Parameters.Add("@OTHERDOC_EXPIRE", SqlDbType.DateTime); obj_cmd.Parameters["@OTHERDOC_EXPIRE"].Value = model.otherdoc_expire;
+                obj_cmd.Parameters.Add("@SENT_SSO", SqlDbType.Bit); obj_cmd.Parameters["@SENT_SSO"].Value = model.sent_sso;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

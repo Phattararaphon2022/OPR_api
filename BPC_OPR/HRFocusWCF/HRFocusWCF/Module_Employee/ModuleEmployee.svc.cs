@@ -5176,34 +5176,62 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRForeigner controller = new cls_ctTRForeigner();
-                List<cls_TRForeigner> list = controller.getDataByFillter(input.company_code, input.worker_code);
+                List<cls_TRForeigner> listforeigner = controller.getDataByFillter(input.company_code, input.worker_code);
                 JArray array = new JArray();
 
-                if (list.Count > 0)
+                if (listforeigner.Count > 0)
                 {
                     int index = 1;
+                    cls_ctTRForeignercard objforecard = new cls_ctTRForeignercard();
 
-                    foreach (cls_TRForeigner model in list)
+                    foreach (cls_TRForeigner model in listforeigner)
                     {
                         JObject json = new JObject();
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("foreigner_id", model.foreigner_id);
-                        json.Add("passport_no", model.passport_no);
-                        json.Add("passport_issue", model.passport_issue);
-                        json.Add("passport_expire", model.passport_expire);
-                        json.Add("visa_no", model.visa_no);
-                        json.Add("visa_issue", model.visa_issue);
-                        json.Add("visa_expire", model.visa_expire);
-                        json.Add("workpermit_no", model.workpermit_no);
-                        json.Add("workpermit_by", model.workpermit_by);
-                        json.Add("workpermit_issue", model.workpermit_issue);
-                        json.Add("workpermit_expire", model.workpermit_expire);
+                        //json.Add("passport_no", model.passport_no);
+                        //json.Add("passport_issue", model.passport_issue);
+                        //json.Add("passport_expire", model.passport_expire);
+                        //json.Add("visa_no", model.visa_no);
+                        //json.Add("visa_issue", model.visa_issue);
+                        //json.Add("visa_expire", model.visa_expire);
+                        //json.Add("workpermit_no", model.workpermit_no);
+                        //json.Add("workpermit_by", model.workpermit_by);
+                        //json.Add("workpermit_issue", model.workpermit_issue);
+                        //json.Add("workpermit_expire", model.workpermit_expire);
+                        //json.Add("entry_date", model.entry_date);
+                        //json.Add("certificate_no", model.certificate_no);
+                        //json.Add("certificate_expire", model.certificate_expire);
+                        //json.Add("otherdoc_no", model.otherdoc_no);
+                        //json.Add("otherdoc_expire", model.otherdoc_expire);
+                        json.Add("foreigner_type", model.foreigner_type);
                         json.Add("entry_date", model.entry_date);
-                        json.Add("certificate_no", model.certificate_no);
-                        json.Add("certificate_expire", model.certificate_expire);
-                        json.Add("otherdoc_no", model.otherdoc_no);
-                        json.Add("otherdoc_expire", model.otherdoc_expire);
+                        json.Add("sent_sso", model.sent_sso);
+                        //--Foreigner Card
+                        List<cls_TRForeignercard> listforecard = objforecard.getDataByFillter(input.company_code, input.worker_code,"");
+                        JArray forecardarray = new JArray();
+                        if (listforecard.Count > 0)
+                        {
+                            int indexforecard = 1;
+                            foreach (cls_TRForeignercard modelforecard in listforecard)
+                            {
+                                JObject jsonforecard = new JObject();
+                                jsonforecard.Add("foreignercard_id", modelforecard.foreignercard_id);
+                                jsonforecard.Add("foreignercard_code", modelforecard.foreignercard_code);
+                                jsonforecard.Add("foreignercard_type", modelforecard.foreignercard_type);
+                                jsonforecard.Add("foreignercard_issue", modelforecard.foreignercard_issue);
+                                jsonforecard.Add("foreignercard_expire", modelforecard.foreignercard_expire);
+                                jsonforecard.Add("index", indexforecard);
+                                indexforecard++;
+                                forecardarray.Add(jsonforecard);
+                            }
+                            json.Add("foreigner_card", forecardarray);
+                        }
+                        else
+                        {
+                            json.Add("foreigner_card", forecardarray);
+                        }
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -5279,21 +5307,25 @@ namespace BPC_OPR
                 model.company_code = input.company_code;
                 model.worker_code = input.worker_code;
                 model.foreigner_id = Convert.ToInt32(input.foreigner_id);
-                model.passport_no = input.passport_no;
-                model.passport_issue = Convert.ToDateTime(input.passport_issue);
-                model.passport_expire = Convert.ToDateTime(input.passport_expire);
-                model.visa_no = input.visa_no;
-                model.visa_issue = Convert.ToDateTime(input.visa_issue);
-                model.visa_expire = Convert.ToDateTime(input.visa_expire);
-                model.workpermit_no = input.workpermit_no;
-                model.workpermit_by = input.workpermit_by;
-                model.workpermit_issue = Convert.ToDateTime(input.workpermit_issue);
-                model.workpermit_expire = Convert.ToDateTime(input.workpermit_expire);
+                //model.passport_no = input.passport_no;
+                //model.passport_issue = Convert.ToDateTime(input.passport_issue);
+                //model.passport_expire = Convert.ToDateTime(input.passport_expire);
+                //model.visa_no = input.visa_no;
+                //model.visa_issue = Convert.ToDateTime(input.visa_issue);
+                //model.visa_expire = Convert.ToDateTime(input.visa_expire);
+                //model.workpermit_no = input.workpermit_no;
+                //model.workpermit_by = input.workpermit_by;
+                //model.workpermit_issue = Convert.ToDateTime(input.workpermit_issue);
+                //model.workpermit_expire = Convert.ToDateTime(input.workpermit_expire);
+                //model.entry_date = Convert.ToDateTime(input.entry_date);
+                //model.certificate_no = input.certificate_no;
+                //model.certificate_expire = Convert.ToDateTime(input.certificate_expire);
+                //model.otherdoc_no = input.otherdoc_no;
+                //model.otherdoc_expire = Convert.ToDateTime(input.otherdoc_expire);
+
+                model.foreigner_type = input.foreigner_type;
                 model.entry_date = Convert.ToDateTime(input.entry_date);
-                model.certificate_no = input.certificate_no;
-                model.certificate_expire = Convert.ToDateTime(input.certificate_expire);
-                model.otherdoc_no = input.otherdoc_no;
-                model.otherdoc_expire = Convert.ToDateTime(input.otherdoc_expire);
+                model.sent_sso = Convert.ToBoolean(input.sent_sso);
 
                 model.modified_by = input.modified_by;
 
@@ -5301,6 +5333,8 @@ namespace BPC_OPR
 
                 if (!strID.Equals(""))
                 {
+                    cls_ctTRForeignercard objforecard = new cls_ctTRForeignercard();
+                    bool trforecard = objforecard.insertList(input.company_code, input.worker_code, input.forecard_list);
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
@@ -5371,6 +5405,9 @@ namespace BPC_OPR
 
                     if (blnResult)
                     {
+                        cls_ctTRForeignercard objforecard = new cls_ctTRForeignercard();
+                        bool trforecard = objforecard.delete(input.company_code, input.worker_code, "");
+
                         output["success"] = true;
                         output["message"] = "Remove data successfully";
 
