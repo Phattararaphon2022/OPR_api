@@ -1638,7 +1638,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProject controller = new cls_ctMTProject();
-                List<cls_MTProject> list = controller.getDataByFillter(req.project_code, "", "", "", "", "", req.status);
+                List<cls_MTProject> list = controller.getDataByFillter(req.company, req.project_code, "", "", "", "", "", req.status);
 
                 //-- F add 23/08/2023
                 //-- Workflow
@@ -1936,9 +1936,9 @@ namespace BPC_OPR
 
                 cls_ctMTProject controller = new cls_ctMTProject();
 
-                if (controller.checkDataOld(input.project_code))
+                if (controller.checkDataOld(input.project_code, input.company_code))
                 {
-                    bool blnResult = controller.delete(input.project_code);
+                    bool blnResult = controller.delete(input.project_code, input.company_code);
 
                     if (blnResult)
                     {
@@ -8277,7 +8277,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
 
@@ -8528,7 +8528,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
 
@@ -9425,7 +9425,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter("", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
                

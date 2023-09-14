@@ -110,6 +110,8 @@ namespace BPC_OPR
         [DataMember]
         public string project_id { get; set; }
         [DataMember]
+        public string comapny_code { get; set; }
+        [DataMember]
         public string project_code { get; set; }
         [DataMember]
         public string project_name_th { get; set; }
@@ -155,6 +157,8 @@ namespace BPC_OPR
         public string username { get; set; }
         [DataMember]
         public string company { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
         [DataMember]
         public string language { get; set; }
         [DataMember]

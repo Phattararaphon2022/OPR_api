@@ -65,7 +65,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY PROJECT_CODE");
+                obj_str.Append(" ORDER BY PROJECT_CODE, COMPANY_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -111,9 +111,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProject> getDataByFillter(string code, string codecentral, string type, string business, string area, string group)
+        public List<cls_MTProject> getDataByFillter(string com, string code, string codecentral, string type, string business, string area, string group)
         {
             string strCondition = "";
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + code + "'";
@@ -139,9 +141,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_MTProject> getDataByFillter(string code, string codecentral, string type, string business, string area, string group, string status)
+        public List<cls_MTProject> getDataByFillter(string com, string code, string codecentral, string type, string business, string area, string group, string status)
         {
             string strCondition = "";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + code + "'";
@@ -196,7 +201,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code)
+        public bool checkDataOld(string code, string com)
         {
             bool blnResult = false;
             try
@@ -206,6 +211,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROJECT_CODE");
                 obj_str.Append(" FROM PRO_MT_PROJECT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE ='" + com + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -222,7 +228,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string code)
+        public bool delete(string code, string com)
         {
             bool blnResult = true;
             try
@@ -233,6 +239,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_MT_PROJECT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE ='" + com + "'");
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -253,7 +260,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code))
+                if (this.checkDataOld(model.project_code, model.company_code))
                 {
                     if (this.update(model))
                         return this.update(model);
