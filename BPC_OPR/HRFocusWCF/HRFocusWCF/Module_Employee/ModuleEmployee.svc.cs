@@ -475,7 +475,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
-                    string tmp = srv_import.doImportExcel("WORKER", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("WORKER", fileName, by);
 
                     output["success"] = true;
                     output["message"] = tmp;
