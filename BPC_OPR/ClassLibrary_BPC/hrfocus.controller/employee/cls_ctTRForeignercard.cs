@@ -315,5 +315,121 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        public bool insertList(string com, string code, List<cls_TRForeignercard> list_model)
+        {
+            bool blnResult = false;
+            cls_ctConnection obj_conn = new cls_ctConnection();
+            try
+            {
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append(" DELETE FROM EMP_TR_FOREIGNERCARD");
+                obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
+                obj_str.Append(" AND WORKER_CODE='" + code + "'");                
+
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str.ToString());
+
+                //-- Step 2 insert
+                if (blnResult)
+                {
+                    obj_str = new System.Text.StringBuilder();
+                    obj_str.Append("INSERT INTO EMP_TR_FOREIGNERCARD");
+                    obj_str.Append(" (");
+                    obj_str.Append("FOREIGNERCARD_ID ");
+                    obj_str.Append(", FOREIGNERCARD_CODE ");
+                    obj_str.Append(", FOREIGNERCARD_TYPE ");
+                    obj_str.Append(", FOREIGNERCARD_ISSUE ");
+                    obj_str.Append(", FOREIGNERCARD_EXPIRE ");
+
+                    obj_str.Append(", COMPANY_CODE ");
+                    obj_str.Append(", WORKER_CODE ");
+
+                    obj_str.Append(", CREATED_BY ");
+                    obj_str.Append(", CREATED_DATE ");
+                    obj_str.Append(", FLAG ");
+                    obj_str.Append(" )");
+
+                    obj_str.Append(" VALUES(");
+                    obj_str.Append("@FOREIGNERCARD_ID ");
+                    obj_str.Append(", @FOREIGNERCARD_CODE ");
+                    obj_str.Append(", @FOREIGNERCARD_TYPE ");
+                    obj_str.Append(", @FOREIGNERCARD_ISSUE ");
+                    obj_str.Append(", @FOREIGNERCARD_EXPIRE ");
+
+                    obj_str.Append(", @COMPANY_CODE ");
+                    obj_str.Append(", @WORKER_CODE ");
+
+                    obj_str.Append(", @CREATED_BY ");
+                    obj_str.Append(", @CREATED_DATE ");
+                    obj_str.Append(", '1' ");
+                    obj_str.Append(" )");
+
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+
+                    obj_cmd.Parameters.Add("@FOREIGNERCARD_ID", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@FOREIGNERCARD_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@FOREIGNERCARD_TYPE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@FOREIGNERCARD_ISSUE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@FOREIGNERCARD_EXPIRE", SqlDbType.DateTime);
+
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+                                        
+                    foreach (cls_TRForeignercard model in list_model)
+                    {
+
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                        obj_cmd.Parameters["@FOREIGNERCARD_ID"].Value = this.getNextID();
+                        obj_cmd.Parameters["@FOREIGNERCARD_CODE"].Value = model.foreignercard_code;
+                        obj_cmd.Parameters["@FOREIGNERCARD_TYPE"].Value = model.foreignercard_type;
+                        obj_cmd.Parameters["@FOREIGNERCARD_ISSUE"].Value = model.foreignercard_issue;
+                        obj_cmd.Parameters["@FOREIGNERCARD_EXPIRE"].Value = model.foreignercard_expire;
+
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+                    
+                        obj_cmd.ExecuteNonQuery();
+
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                }
+
+            }
+
+
+            catch (Exception ex)
+            {
+                Message = "ERROR::(ForeignerCard.insertList)" + ex.ToString();
+                obj_conn.doRollback();
+            }
+            finally
+            {
+                obj_conn.doClose();
+            }
+
+            return blnResult;
+        }
+          
     }
+    
 }
