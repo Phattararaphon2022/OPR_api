@@ -33,9 +33,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ");
-                obj_str.Append("COMPANY_CODE");
-
-                obj_str.Append(", BLOODTYPE_ID");
+ 
+                obj_str.Append("  BLOODTYPE_ID");
                 obj_str.Append(", BLOODTYPE_CODE");
                 obj_str.Append(", BLOODTYPE_NAME_TH");
                 obj_str.Append(", BLOODTYPE_NAME_EN");             
@@ -55,8 +54,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTBloodtype();
-                    model.company_code = dr["COMPANY_CODE"].ToString();
-
+ 
                     model.bloodtype_id = Convert.ToInt32(dr["BLOODTYPE_ID"]);
                     model.bloodtype_code = dr["BLOODTYPE_CODE"].ToString();
                     model.bloodtype_name_th = dr["BLOODTYPE_NAME_TH"].ToString();
@@ -76,11 +74,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTBloodtype> getDataByFillter(string com, string code)
+        public List<cls_MTBloodtype> getDataByFillter(  string code)
         {
             string strCondition = "";
-            if (!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+ 
             if (!code.Equals(""))
                 strCondition += " AND BLOODTYPE_CODE='" + code + "'";
             
@@ -113,7 +110,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code, string com, string id)
+        public bool checkDataOld(string code,   string id)
         {
             bool blnResult = false;
             try
@@ -123,8 +120,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT BLOODTYPE_CODE");
                 obj_str.Append(" FROM SYS_MT_BLOODTYPE");
                 obj_str.Append(" WHERE BLOODTYPE_CODE='" + code + "'");
-                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
-
+ 
                 obj_str.Append(" AND BLOODTYPE_ID='" + id + "'");
       
       
@@ -143,7 +139,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string code)
+        public bool delete(  string code)
         {
             bool blnResult = true;
             try
@@ -154,8 +150,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM SYS_MT_BLOODTYPE");
                 obj_str.Append(" WHERE BLOODTYPE_CODE='" + code + "'");
-                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
-
+ 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
             }
@@ -175,7 +170,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.bloodtype_code, model.company_code, model.bloodtype_id.ToString()))
+                if (this.checkDataOld(model.bloodtype_code,   model.bloodtype_id.ToString()))
                 {
                     if (this.update(model))
                         return model.bloodtype_id.ToString();
@@ -188,9 +183,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO SYS_MT_BLOODTYPE");
                 obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
-
-                obj_str.Append(", BLOODTYPE_ID ");
+ 
+                obj_str.Append("  BLOODTYPE_ID ");
                 obj_str.Append(", BLOODTYPE_CODE ");
                 obj_str.Append(", BLOODTYPE_NAME_TH ");
                 obj_str.Append(", BLOODTYPE_NAME_EN ");               
@@ -200,9 +194,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
-
-                obj_str.Append(", @BLOODTYPE_ID ");
+ 
+                obj_str.Append("  @BLOODTYPE_ID ");
                 obj_str.Append(", @BLOODTYPE_CODE ");
                 obj_str.Append(", @BLOODTYPE_NAME_TH ");
                 obj_str.Append(", @BLOODTYPE_NAME_EN ");      
@@ -216,8 +209,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.bloodtype_id = this.getNextID();
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-
+ 
                 obj_cmd.Parameters.Add("@BLOODTYPE_ID", SqlDbType.Int); obj_cmd.Parameters["@BLOODTYPE_ID"].Value = model.bloodtype_id;
                 obj_cmd.Parameters.Add("@BLOODTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@BLOODTYPE_CODE"].Value = model.bloodtype_code;
                 obj_cmd.Parameters.Add("@BLOODTYPE_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@BLOODTYPE_NAME_TH"].Value = model.bloodtype_name_th;

@@ -10,8 +10,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     {
         public cls_MTSupply() { }
 
-        public string company_code { get; set; }
-
+ 
         public int supply_id { get; set; }
         public string supply_code { get; set; }
         public string supply_name_th { get; set; }

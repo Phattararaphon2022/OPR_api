@@ -10,8 +10,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     {
 
         public cls_MTEthnicity() { }
-        public string company_code { get; set; }
-
+ 
         public int ethnicity_id { get; set; }
         public string ethnicity_code { get; set; }
         public string ethnicity_name_th { get; set; }

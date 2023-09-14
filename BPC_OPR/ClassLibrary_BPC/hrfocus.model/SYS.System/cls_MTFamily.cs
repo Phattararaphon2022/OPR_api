@@ -9,8 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTFamily
     {
      public cls_MTFamily() { }
-        public string company_code { get; set; }
-
+ 
         public int family_id { get; set; }
         public string family_code { get; set; }
         public string family_name_th { get; set; }

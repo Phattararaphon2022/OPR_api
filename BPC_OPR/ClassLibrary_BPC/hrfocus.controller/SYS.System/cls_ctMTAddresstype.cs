@@ -35,8 +35,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", ADDRESSTYPE_ID");
+                 obj_str.Append("  ADDRESSTYPE_ID");
                 obj_str.Append(", ADDRESSTYPE_CODE");
                 obj_str.Append(", ISNULL(ADDRESSTYPE_NAME_TH, '') AS ADDRESSTYPE_NAME_TH");
                 obj_str.Append(", ISNULL(ADDRESSTYPE_NAME_EN, '') AS ADDRESSTYPE_NAME_EN");
@@ -57,8 +56,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 foreach (DataRow dr in dt.Rows)
                 {
                     model = new cls_MTAddresstype();
-                    model.company_code = Convert.ToString(dr["COMPANY_CODE"]);
-
+ 
                     model.addresstype_id = Convert.ToInt32(dr["ADDRESSTYPE_ID"]);
                     model.addresstype_code = dr["ADDRESSTYPE_CODE"].ToString();
                     model.addresstype_name_th = dr["ADDRESSTYPE_NAME_TH"].ToString();
@@ -79,11 +77,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTAddresstype> getDataByFillter(string com, string code)
+        public List<cls_MTAddresstype> getDataByFillter(  string code)
         {
             string strCondition = "";
-            strCondition += " AND COMPANY_CODE='" + com + "'";
-
+ 
             if (!code.Equals(""))
                 strCondition += " AND ADDRESSTYPE_CODE='" + code + "'";
             
@@ -117,7 +114,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string code, string id)
+        public bool checkDataOld(  string code, string id)
         {
             bool blnResult = false;
             try
@@ -130,8 +127,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" AND ADDRESSTYPE_CODE='" + code + "'");
 
-                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
-                obj_str.Append(" AND ADDRESSTYPE_ID='" + id + "'");
+                 obj_str.Append(" AND ADDRESSTYPE_ID='" + id + "'");
 
        
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -149,7 +145,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string code)
+        public bool delete(  string code)
         {
             bool blnResult = true;
             try
@@ -161,8 +157,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM SYS_MT_ADDRESSTYPE");
 
                 obj_str.Append(" WHERE ADDRESSTYPE_CODE='" + code + "'");
-                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
-
+ 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
             }
@@ -182,7 +177,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.addresstype_code, model.addresstype_id.ToString()))
+                if (this.checkDataOld(  model.addresstype_code, model.addresstype_id.ToString()))
                 {
                     if (this.update(model))
                         return model.addresstype_id.ToString();
@@ -196,9 +191,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO SYS_MT_ADDRESSTYPE");
                 obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
-
-                obj_str.Append(", ADDRESSTYPE_ID ");
+ 
+                obj_str.Append("  ADDRESSTYPE_ID ");
                 obj_str.Append(", ADDRESSTYPE_CODE ");
                 obj_str.Append(", ADDRESSTYPE_NAME_TH ");
                 obj_str.Append(", ADDRESSTYPE_NAME_EN ");               
@@ -208,9 +202,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
-
-                obj_str.Append(", @ADDRESSTYPE_ID ");
+ 
+                obj_str.Append("  @ADDRESSTYPE_ID ");
                 obj_str.Append(", @ADDRESSTYPE_CODE ");
                 obj_str.Append(", @ADDRESSTYPE_NAME_TH ");
                 obj_str.Append(", @ADDRESSTYPE_NAME_EN ");      
@@ -224,8 +217,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 //model.addresstype_id = this.getNextID();
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-
+ 
                 obj_cmd.Parameters.Add("@ADDRESSTYPE_ID", SqlDbType.Int); obj_cmd.Parameters["@ADDRESSTYPE_ID"].Value = id;
                 obj_cmd.Parameters.Add("@ADDRESSTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESSTYPE_CODE"].Value = model.addresstype_code;
                 obj_cmd.Parameters.Add("@ADDRESSTYPE_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@ADDRESSTYPE_NAME_TH"].Value = model.addresstype_name_th;

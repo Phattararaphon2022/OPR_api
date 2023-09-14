@@ -10,8 +10,7 @@ namespace ClassLibrary_BPC.hrfocus
     {
         public cls_MTFaculty() { }
 
-        public string company_code { get; set; }
-        public int faculty_id { get; set; }
+         public int faculty_id { get; set; }
         public string faculty_code { get; set; }
         public string faculty_name_th { get; set; }
         public string faculty_name_en { get; set; }

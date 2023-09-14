@@ -10,8 +10,7 @@ namespace ClassLibrary_BPC.hrfocus.model.SYS.System
     {
         public cls_MTQualification() { }
 
-        public string company_code { get; set; }
-        public int qualification_id { get; set; }
+         public int qualification_id { get; set; }
         public string qualification_code { get; set; }
         public string qualification_name_th { get; set; }
         public string qualification_name_en { get; set; }

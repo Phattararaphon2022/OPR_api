@@ -33,8 +33,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", FAMILY_ID");
+                 obj_str.Append("  FAMILY_ID");
                 obj_str.Append(", FAMILY_CODE");
                 obj_str.Append(", ISNULL(FAMILY_NAME_TH, '') AS FAMILY_NAME_TH");
                 obj_str.Append(", ISNULL(FAMILY_NAME_EN, '') AS FAMILY_NAME_EN");
@@ -48,7 +47,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE");
+                obj_str.Append(" ORDER BY FAMILY_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -57,8 +56,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     model = new cls_MTFamily();
 
-                    model.company_code = dr["COMPANY_CODE"].ToString();
-
+ 
                     model.family_id = Convert.ToInt32(dr["FAMILY_ID"]);
                     model.family_code = dr["FAMILY_CODE"].ToString();
                     model.family_name_th = dr["FAMILY_NAME_TH"].ToString();
@@ -79,15 +77,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTFamily> getDataByFillter(string code,string com)
+        public List<cls_MTFamily> getDataByFillter(string code )
         {
             string strCondition = "";
 
             if (!code.Equals(""))
                 strCondition += " AND FAMILY_CODE='" + code + "'";
 
-            if (!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+ 
             
             return this.getData(strCondition);
         }
@@ -189,9 +186,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("INSERT INTO SYS_MT_FAMILY");
                 obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
-
-                obj_str.Append(", FAMILY_ID");
+ 
+                obj_str.Append("  FAMILY_ID");
                 obj_str.Append(", FAMILY_CODE ");
                 obj_str.Append(", FAMILY_NAME_TH ");
                 obj_str.Append(", FAMILY_NAME_EN ");
@@ -204,9 +200,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
-
-                obj_str.Append(", @FAMILY_ID ");
+ 
+                obj_str.Append("  @FAMILY_ID ");
                 obj_str.Append(", @FAMILY_CODE ");
                 obj_str.Append(", @FAMILY_NAME_TH ");
                 obj_str.Append(", @FAMILY_NAME_EN ");
@@ -224,8 +219,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 model.family_id = this.getNextID();
-                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
-
+ 
                 obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = model.family_id;
                 obj_cmd.Parameters.Add("@FAMILY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_CODE"].Value = model.family_code;
                 obj_cmd.Parameters.Add("@FAMILY_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_NAME_TH"].Value = model.family_name_th;
