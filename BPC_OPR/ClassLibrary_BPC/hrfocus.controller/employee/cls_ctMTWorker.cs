@@ -34,7 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("EMP_MT_WORKER.COMPANY_CODE");
                 obj_str.Append(", WORKER_ID");
                 obj_str.Append(", WORKER_CODE");
                 obj_str.Append(", WORKER_CARD");
@@ -98,20 +98,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(INITIAL_NAME_TH, '') AS INITIAL_NAME_TH");
                 obj_str.Append(", ISNULL(INITIAL_NAME_EN, '') AS INITIAL_NAME_EN");
 
-                obj_str.Append(", ISNULL((SELECT POSITION_NAME_TH FROM EMP_MT_POSITION WHERE POSITION_CODE = (SELECT TOP 1 EMPPOSITION_POSITION FROM EMP_TR_POSITION where WORKER_CODE = EMP_MT_WORKER.WORKER_CODE  AND EMPPOSITION_DATE<=GETDATE() ORDER BY EMPPOSITION_DATE DESC)),'') AS POSITION_NAME_TH");
-                obj_str.Append(", ISNULL((SELECT POSITION_NAME_EN FROM EMP_MT_POSITION WHERE POSITION_CODE = (SELECT TOP 1 EMPPOSITION_POSITION FROM EMP_TR_POSITION where WORKER_CODE = EMP_MT_WORKER.WORKER_CODE  AND EMPPOSITION_DATE<=GETDATE() ORDER BY EMPPOSITION_DATE DESC)),'') AS POSITION_NAME_EN");
+                obj_str.Append(", ISNULL((SELECT POSITION_NAME_TH FROM EMP_MT_POSITION WHERE POSITION_CODE = (SELECT TOP 1 EMPPOSITION_POSITION FROM EMP_TR_POSITION where WORKER_CODE = EMP_MT_WORKER.WORKER_CODE AND COMPANY_CODE = EMP_MT_WORKER.COMPANY_CODE AND EMPPOSITION_DATE<=GETDATE() ORDER BY EMPPOSITION_DATE DESC)),'') AS POSITION_NAME_TH");
+                obj_str.Append(", ISNULL((SELECT POSITION_NAME_EN FROM EMP_MT_POSITION WHERE POSITION_CODE = (SELECT TOP 1 EMPPOSITION_POSITION FROM EMP_TR_POSITION where WORKER_CODE = EMP_MT_WORKER.WORKER_CODE AND COMPANY_CODE = EMP_MT_WORKER.COMPANY_CODE AND EMPPOSITION_DATE<=GETDATE() ORDER BY EMPPOSITION_DATE DESC)),'') AS POSITION_NAME_EN");
 
                 obj_str.Append(", ISNULL(SELF_ADMIN, 0) AS SELF_ADMIN");
 
                 obj_str.Append(" FROM EMP_MT_WORKER");
-                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE AND EMP_MT_WORKER.COMPANY_CODE = EMP_MT_INITIAL.COMPANY_CODE");
 
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE, WORKER_CODE");
+                obj_str.Append(" ORDER BY EMP_MT_WORKER.COMPANY_CODE, WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -203,7 +203,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
 
-            strCondition += " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND EMP_MT_WORKER.COMPANY_CODE='" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND WORKER_CODE='" + code + "'";
@@ -239,7 +239,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
             if (!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND EMP_MT_WORKER.COMPANY_CODE='" + com + "'";
 
             if (!emptype.Equals(""))
                 strCondition += " AND WORKER_TYPE='" + emptype + "'";

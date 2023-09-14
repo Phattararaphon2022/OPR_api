@@ -192,6 +192,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.initial_code = dr["initial_code"].ToString();
                                 model.initial_name_th = dr["initial_name_th"].ToString();
                                 model.initial_name_en = dr["initial_name_en"].ToString();
+                                model.company_code = dr["company_code"].ToString();
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
@@ -231,6 +232,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.type_code = dr["type_code"].ToString();
                                 model.type_name_th = dr["type_name_th"].ToString();
                                 model.type_name_en = dr["type_name_en"].ToString();
+                                model.company_code = dr["company_code"].ToString();
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
@@ -270,6 +272,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.status_code = dr["status_code"].ToString();
                                 model.status_name_th = dr["status_name_th"].ToString();
                                 model.status_name_en = dr["status_name_en"].ToString();
+                                model.company_code = dr["company_code"].ToString();
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
