@@ -130,7 +130,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp,string id)
+        public bool checkDataOld(string com, string emp,int id,string date)
         {
             bool blnResult = false;
             try
@@ -141,8 +141,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_SALARY");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                if(!id.ToString().Equals("")){
+                if(!id.Equals(0)){
                     obj_str.Append(" AND EMPSALARY_ID='" + id + "' ");
+                }
+                if (!date.Equals(""))
+                {
+                    obj_str.Append(" AND EMPSALARY_DATE='" + date + "' ");
+
                 }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -193,7 +198,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code,model.empsalary_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.empsalary_id, model.empsalary_date.ToString("yyyy-MM-ddTHH:mm:ss")))
                 {
                         return this.update(model);
                 }
@@ -289,7 +294,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
-                obj_str.Append(" AND EMPSALARY_ID=@EMPSALARY_ID ");
+                obj_str.Append(" AND EMPSALARY_DATE=@EMPSALARY_DATE ");
+                //obj_str.Append(" AND EMPSALARY_ID=@EMPSALARY_ID ");
 
                 obj_conn.doConnect();
 
@@ -307,6 +313,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                 obj_cmd.Parameters.Add("@EMPSALARY_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPSALARY_ID"].Value = model.empsalary_id;
+                obj_cmd.Parameters.Add("@EMPSALARY_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPSALARY_DATE"].Value = model.empsalary_date;
+
 
                 obj_cmd.ExecuteNonQuery();
 

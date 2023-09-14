@@ -138,7 +138,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp,string id)
+        public bool checkDataOld(string com, string emp,int id,string item ,string date)
         {
             bool blnResult = false;
             try
@@ -149,8 +149,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_BENEFIT");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                if(!id.ToString().Equals("")){
+                if(!id.Equals(0)){
                     obj_str.Append(" AND EMPBENEFIT_ID='" + id + "' ");
+                }
+                if (!item.ToString().Equals(""))
+                {
+                    obj_str.Append(" AND ITEM_CODE='" + item + "' ");
+                }
+                if (!date.ToString().Equals(""))
+                {
+                    obj_str.Append(" AND EMPBENEFIT_STARTDATE='" + date + "' ");
                 }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -201,7 +209,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code,model.empbenefit_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.empbenefit_id, model.item_code, model.empbenefit_startdate.ToString("yyyy-MM-ddTHH:mm:ss")))
                 {
                         return this.update(model);
                 }
@@ -311,9 +319,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE EMP_TR_BENEFIT SET ");
 
-                obj_str.Append(" ITEM_CODE=@ITEM_CODE ");
-                obj_str.Append(", EMPBENEFIT_AMOUNT=@EMPBENEFIT_AMOUNT ");
-                obj_str.Append(", EMPBENEFIT_STARTDATE=@EMPBENEFIT_STARTDATE ");
+                obj_str.Append(" EMPBENEFIT_AMOUNT=@EMPBENEFIT_AMOUNT ");
                 obj_str.Append(", EMPBENEFIT_ENDDATE=@EMPBENEFIT_ENDDATE ");
                 obj_str.Append(", EMPBENEFIT_REASON=@EMPBENEFIT_REASON ");
                 obj_str.Append(", EMPBENEFIT_NOTE=@EMPBENEFIT_NOTE ");
@@ -331,7 +337,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
-                obj_str.Append(" AND EMPBENEFIT_ID=@EMPBENEFIT_ID ");
+                obj_str.Append(" AND ITEM_CODE=@ITEM_CODE ");
+                obj_str.Append(" AND EMPBENEFIT_STARTDATE=@EMPBENEFIT_STARTDATE ");
+                if (!model.empbenefit_id.Equals(0))
+                {
+                    obj_str.Append(" AND EMPBENEFIT_ID=@EMPBENEFIT_ID ");
+                }
 
                 obj_conn.doConnect();
 
