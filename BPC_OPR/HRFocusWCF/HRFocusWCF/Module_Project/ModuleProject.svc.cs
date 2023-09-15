@@ -6003,6 +6003,94 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region แสดงข้อมูลหน้า จัดการข้อมูลโครงการ  
+        public string getProjobempFillterList(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO027.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProjobemp controller = new cls_ctTRProjobemp();
+                List<cls_TRProjobemp> list = controller.getDataByFillterAll(req.project_code, req.projob_code, req.projobemp_emp, req.projobemp_type);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProjobemp model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("projobemp_id", model.projobemp_id);
+                        json.Add("projobemp_emp", model.projobemp_emp);
+                        json.Add("projobemp_fromdate", model.projobemp_fromdate);
+                        json.Add("projobemp_todate", model.projobemp_todate);
+                        json.Add("projobemp_type", model.projobemp_type);
+                        json.Add("projobemp_status", model.projobemp_status);
+
+                        json.Add("projob_code", model.projob_code);
+                        json.Add("project_code", model.project_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
         #region TRProjobemp
         public string getTRProjobempList(FillterProject req)
         {

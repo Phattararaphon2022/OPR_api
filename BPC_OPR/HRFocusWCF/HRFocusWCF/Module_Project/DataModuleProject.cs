@@ -196,6 +196,13 @@ namespace BPC_OPR
 
         [DataMember]
         public string status { get; set; }
+        [DataMember]
+        public string projob_code { get; set; }
+        [DataMember]
+        public string projobemp_emp { get; set; }
+         [DataMember]
+        public string projobemp_type { get; set; }
+        
     }
 
     [DataContract]

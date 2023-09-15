@@ -349,6 +349,12 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobemp?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream);
 
+
+        //
+        [OperationContract(Name = "projobempfillter_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getProjobempFillterList(FillterProject req);
+        //
         //--
         [OperationContract(Name = "projobworking_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

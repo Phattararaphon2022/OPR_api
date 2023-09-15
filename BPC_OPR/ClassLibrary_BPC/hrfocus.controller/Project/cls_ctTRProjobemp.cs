@@ -100,6 +100,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+       //
+        public List<cls_TRProjobemp> getDataByFillterAll(string project, string job, string com, string type)
+        {
+            string strCondition = "";
+
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            if (!job.Equals(""))
+                strCondition += " AND PROJOB_CODE='" + job + "'";
+
+            if (!com.Equals(""))
+                strCondition += " AND PROJOBEMP_EMP ='" + com + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND PROJOBEMP_TYPE ='" + type + "'";
+
+
+     
+            return this.getData(strCondition);
+        }
+        //
+
         public List<cls_TRProjobemp> getDataByFillter(string project, string job, DateTime fromdate, DateTime todate)
         {
             string strCondition = "";
