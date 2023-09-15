@@ -44,8 +44,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(PROCONTRACT_CUSTOMER, '') AS PROCONTRACT_CUSTOMER");
                 obj_str.Append(", ISNULL(PROCONTRACT_BIDDER, '') AS PROCONTRACT_BIDDER");
              
-                obj_str.Append(", PROJECT_CODE");                
+                obj_str.Append(", PROJECT_CODE");
+                obj_str.Append(", PROCONTRACT_TYPE");                
 
+                
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
@@ -72,6 +74,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.procontract_customer = Convert.ToString(dr["PROCONTRACT_CUSTOMER"]);
                     model.procontract_bidder = Convert.ToString(dr["PROCONTRACT_BIDDER"]);                                        
                     model.project_code = Convert.ToString(dr["PROJECT_CODE"]);
+                    model.procontract_type = Convert.ToString(dr["PROCONTRACT_TYPE"]);
+
                    
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -225,7 +229,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROCONTRACT_TODATE ");
                 obj_str.Append(", PROCONTRACT_CUSTOMER ");
                 obj_str.Append(", PROCONTRACT_BIDDER ");     
-                obj_str.Append(", PROJECT_CODE ");               
+                obj_str.Append(", PROJECT_CODE ");
+                obj_str.Append(", PROCONTRACT_TYPE ");
+
+                
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -241,6 +248,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROCONTRACT_CUSTOMER ");
                 obj_str.Append(", @PROCONTRACT_BIDDER ");                
                 obj_str.Append(", @PROJECT_CODE ");
+                obj_str.Append(", @PROCONTRACT_TYPE ");
+
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
@@ -259,7 +268,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROCONTRACT_CUSTOMER", SqlDbType.VarChar); obj_cmd.Parameters["@PROCONTRACT_CUSTOMER"].Value = model.procontract_customer;
                 obj_cmd.Parameters.Add("@PROCONTRACT_BIDDER", SqlDbType.VarChar); obj_cmd.Parameters["@PROCONTRACT_BIDDER"].Value = model.procontract_bidder;               
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
-                
+                obj_cmd.Parameters.Add("@PROCONTRACT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROCONTRACT_TYPE"].Value = model.procontract_type;
+
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;

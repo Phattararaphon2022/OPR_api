@@ -20,7 +20,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string procontract_bidder { get; set; }
        
         public string project_code { get; set; }
-                       
+        public string procontract_type { get; set; }
+
+        
 	    public string created_by { get;set; }
         public DateTime created_date { get; set; }
 	    public string modified_by { get;set; }

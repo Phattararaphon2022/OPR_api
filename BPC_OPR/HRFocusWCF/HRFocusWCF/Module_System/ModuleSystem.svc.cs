@@ -12325,7 +12325,7 @@ namespace BPC_OPR
                                 {
                                     //-- Update status
                                     cls_ctMTProject project = new cls_ctMTProject();
-                                    List<cls_MTProject> list_project = project.getDataByFillter(input.approve_code, "", "", "", "", "", "");
+                                    List<cls_MTProject> list_project = project.getDataByFillter(input.company_code, input.approve_code, "", "", "", "", "", "");
 
                                     if (list_project.Count > 0)
                                     {
@@ -12341,7 +12341,7 @@ namespace BPC_OPR
                                     {
                                         //-- Update status
                                         cls_ctMTProject project = new cls_ctMTProject();
-                                        List<cls_MTProject> list_project = project.getDataByFillter(input.approve_code, "", "", "", "", "", "");
+                                        List<cls_MTProject> list_project = project.getDataByFillter(input.company_code,input.approve_code, "", "", "", "", "", "");
 
                                         if (list_project.Count > 0)
                                         {

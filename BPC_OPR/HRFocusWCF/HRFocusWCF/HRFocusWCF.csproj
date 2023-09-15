@@ -113,7 +113,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Module_Employee\cls_MTDashboard.cs" />
     <Compile Include="Module_Payroll\DataModulePayroll.cs" />
     <Compile Include="Module_Payroll\IModulePayroll.cs" />
     <Compile Include="Module_Payroll\ModulePayroll.svc.cs">
