@@ -223,6 +223,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", @EMPSUGGEST_DATE ");
                 }
                 obj_str.Append(", @EMPSUGGEST_NOTE ");
+                obj_str.Append(", @EMPSUGGEST_AMOUNT ");
                 obj_str.Append(", @COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @CREATED_BY ");

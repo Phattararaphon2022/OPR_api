@@ -141,7 +141,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp, string id)
+        public bool checkDataOld(string com, string emp, int id,string date)
         {
             bool blnResult = false;
             try
@@ -152,8 +152,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_DEP");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                if(!id.ToString().Equals("")){
+                if(!id.Equals(0)){
                     obj_str.Append(" AND EMPDEP_ID='" + id + "' ");
+                }
+                if(!date.Equals("")){
+                    obj_str.Append(" AND EMPDEP_DATE='" + date + "' ");
                 }
                 
 
@@ -206,7 +209,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code,model.empdep_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.empdep_id, model.empdep_date.ToString("yyyy-MM-ddTHH:mm:ss")))
                 {
                    
                         return this.update(model) ;
@@ -308,8 +311,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE EMP_TR_DEP SET ");
 
-                obj_str.Append(" EMPDEP_DATE=@EMPDEP_DATE ");
-                obj_str.Append(", EMPDEP_LEVEL01=@EMPDEP_LEVEL01 ");
+                obj_str.Append(" EMPDEP_LEVEL01=@EMPDEP_LEVEL01 ");
                 obj_str.Append(", EMPDEP_LEVEL02=@EMPDEP_LEVEL02 ");
                 obj_str.Append(", EMPDEP_LEVEL03=@EMPDEP_LEVEL03 ");
                 obj_str.Append(", EMPDEP_LEVEL04=@EMPDEP_LEVEL04 ");
@@ -326,7 +328,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
-                obj_str.Append(" AND EMPDEP_ID=@EMPDEP_ID ");
+                obj_str.Append(" AND EMPDEP_DATE=@EMPDEP_DATE ");
+
+                //obj_str.Append(" AND EMPDEP_ID=@EMPDEP_ID ");
 
                 obj_conn.doConnect();
 

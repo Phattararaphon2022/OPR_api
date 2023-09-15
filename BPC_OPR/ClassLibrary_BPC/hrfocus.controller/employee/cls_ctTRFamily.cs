@@ -79,7 +79,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.family_occupation = dr["FAMILY_OCCUPATION"].ToString();
                     model.family_tel = dr["FAMILY_TEL"].ToString();
-                    model.family_tel = dr["FAMILY_ADDRESS"].ToString();
+                    model.family_address = dr["FAMILY_ADDRESS"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -134,7 +134,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp,string id)
+        public bool checkDataOld(string com, string emp,int id,string type)
         {
             bool blnResult = false;
             try
@@ -145,10 +145,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_FAMILY");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                if(!id.ToString().Equals("")){
-                    obj_str.Append(" AND FAMILY_ID='" + id + "' ");
-
+                if (!type.Equals("")) {
+                    obj_str.Append(" AND FAMILY_TYPE='" + type + "' ");
                 }
+                if(!id.Equals(0)){
+                    obj_str.Append(" AND FAMILY_ID='" + id + "' ");
+                }
+                
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -198,7 +201,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code,model.family_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code,model.family_id,model.family_type))
                 {
                     return this.update(model);
                 }
@@ -288,8 +291,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE EMP_TR_FAMILY SET ");
 
-                obj_str.Append(", FAMILY_TYPE=@FAMILY_TYPE ");
-                obj_str.Append(", FAMILY_FNAME_TH=@FAMILY_FNAME_TH ");
+                //obj_str.Append(", FAMILY_TYPE=@FAMILY_TYPE ");
+                obj_str.Append(" FAMILY_FNAME_TH=@FAMILY_FNAME_TH ");
                 obj_str.Append(", FAMILY_LNAME_TH=@FAMILY_LNAME_TH ");
                 obj_str.Append(", FAMILY_FNAME_EN=@FAMILY_FNAME_EN ");
                 obj_str.Append(", FAMILY_LNAME_EN=@FAMILY_LNAME_EN ");
@@ -301,19 +304,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
-                obj_str.Append(" WHERE FAMILY_ID=@FAMILY_ID ");
+                obj_str.Append(" WHERE WORKER_CODE=@WORKER_CODE ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@FAMILY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_CODE"].Value = model.family_code;
                 obj_cmd.Parameters.Add("@FAMILY_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_TYPE"].Value = model.family_type;
                 obj_cmd.Parameters.Add("@FAMILY_FNAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_FNAME_TH"].Value = model.family_fname_th;
                 obj_cmd.Parameters.Add("@FAMILY_LNAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_LNAME_TH"].Value = model.family_lname_th;
                 obj_cmd.Parameters.Add("@FAMILY_FNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_FNAME_EN"].Value = model.family_fname_en;
                 obj_cmd.Parameters.Add("@FAMILY_LNAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_LNAME_EN"].Value = model.family_lname_en;
-                obj_cmd.Parameters.Add("@FAMILY_BIRTHDATE", SqlDbType.DateTime); obj_cmd.Parameters["@FAMILY_BIRTHDATE"].Value = model.family_birthdate;
                 
                 obj_cmd.Parameters.Add("@FAMILY_OCCUPATION", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_OCCUPATION"].Value = model.family_occupation;
                 obj_cmd.Parameters.Add("@FAMILY_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@FAMILY_TEL"].Value = model.family_tel;
@@ -323,6 +326,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.Parameters.Add("@FAMILY_ID", SqlDbType.Int); obj_cmd.Parameters["@FAMILY_ID"].Value = model.family_id;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.ExecuteNonQuery();
 
