@@ -9,8 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model
    public class cls_MTHospital
     {
        public cls_MTHospital() { }
-       public string company_code { get; set; }
-
+ 
        public int hospital_id { get; set; }
        public string hospital_code { get; set; }
        public string hospital_name_th { get; set; }

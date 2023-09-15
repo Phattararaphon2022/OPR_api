@@ -9,8 +9,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTCardtype
     {
         public cls_MTCardtype() { }
-        public string company_code { get; set; }
-
+ 
         public int cardtype_id { get; set; }
         public string cardtype_code { get; set; }
         public string cardtype_name_th { get; set; }

@@ -10,8 +10,7 @@ namespace ClassLibrary_BPC.hrfocus.model
     {
    
         public cls_MTReligion() { }
-        public string company_code { get; set; }
-
+ 
         public int religion_id { get; set; }
         public string religion_code { get; set; }
         public string religion_name_th { get; set; }

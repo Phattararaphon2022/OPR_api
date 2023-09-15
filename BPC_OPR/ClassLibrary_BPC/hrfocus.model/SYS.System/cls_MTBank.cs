@@ -9,7 +9,6 @@ namespace ClassLibrary_BPC.hrfocus.model
     public class cls_MTBank
     {
         public cls_MTBank() { }
-        public string company_code { get; set; }
 
         public int bank_id { get; set; }
         public string bank_code { get; set; }
