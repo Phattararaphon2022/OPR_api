@@ -128,7 +128,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp, string id)
+        public bool checkDataOld(string com, string emp, int id,string date)
         {
             bool blnResult = false;
             try
@@ -139,9 +139,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM EMP_TR_POSITION");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                if (!id.ToString().Equals(""))
+                if (!id.Equals(0))
                 {
                     obj_str.Append(" AND EMPPOSITION_ID='" + id + "' ");
+                }
+                if (!date.Equals(""))
+                {
+                    obj_str.Append(" AND EMPPOSITION_DATE='" + date + "' ");
                 }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -192,7 +196,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code,model.empposition_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.empposition_id, model.empposition_date.ToString("yyyy-MM-ddTHH:mm:ss")))
                 {
                     
                         return this.update(model);
@@ -268,8 +272,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE EMP_TR_POSITION SET ");
 
-                obj_str.Append(" EMPPOSITION_DATE=@EMPPOSITION_DATE ");
-                obj_str.Append(", EMPPOSITION_POSITION=@EMPPOSITION_POSITION ");
+                //obj_str.Append(" EMPPOSITION_DATE=@EMPPOSITION_DATE ");
+                obj_str.Append(" EMPPOSITION_POSITION=@EMPPOSITION_POSITION ");
                 obj_str.Append(", EMPPOSITION_REASON=@EMPPOSITION_REASON ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
@@ -277,13 +281,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
-                obj_str.Append(" AND EMPPOSITION_ID=@EMPPOSITION_ID ");
+                obj_str.Append(" AND EMPPOSITION_DATE=@EMPPOSITION_DATE ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@EMPPOSITION_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPPOSITION_DATE"].Value = model.empposition_date;
                 obj_cmd.Parameters.Add("@EMPPOSITION_POSITION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPOSITION_POSITION"].Value = model.empposition_position;
                 obj_cmd.Parameters.Add("@EMPPOSITION_REASON", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPOSITION_REASON"].Value = model.empposition_reason;
 
@@ -293,6 +296,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                 obj_cmd.Parameters.Add("@EMPPOSITION_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPPOSITION_ID"].Value = model.empposition_id;
+                obj_cmd.Parameters.Add("@EMPPOSITION_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPPOSITION_DATE"].Value = model.empposition_date;
 
                 obj_cmd.ExecuteNonQuery();
 
