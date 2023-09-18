@@ -45,8 +45,8 @@ namespace BPC_OPR
         string doDeleteReqWorker(InputReqWorker input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqworker?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqworker?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream,string com);
 
         [OperationContract(Name = "requpdate_status")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -84,8 +84,8 @@ namespace BPC_OPR
         string doDeleteTRApplyAddress(InputTRApplyAddress input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyAddress?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplyAddress(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyAddress?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyAddress(string token, string by, string fileName, Stream stream, string com);
 
         #endregion
 
@@ -104,8 +104,8 @@ namespace BPC_OPR
         string doDeleteTRApplyCard(InputTRApplyCard input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyCard?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplyCard(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyCard?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyCard(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region TR_Foreigner
@@ -119,8 +119,8 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTRreqForeigner(InputTRReqForeigner input);
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadForeigner?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadreqForeigner(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadForeigner?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqForeigner(string token, string by, string fileName, Stream stream,string com);
 
         //--
         [OperationContract(Name = "reqforeignercardlist")]
@@ -136,8 +136,8 @@ namespace BPC_OPR
         string doDeleteTRForeignercard(InputTRReqForeigner input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqForeignercard?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadreqForeignercard(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqForeignercard?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqForeignercard(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
 
@@ -155,8 +155,8 @@ namespace BPC_OPR
         string doDeleteTRreqEducation(InputTRReqEducation input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqEducation?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadreqEducation(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqEducation?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqEducation(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region Training
@@ -173,8 +173,8 @@ namespace BPC_OPR
         string doDeleteTRreqTraining(InputTRReqTraining input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqTraining?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadreqTraining(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqTraining?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqTraining(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region TR_Assessment
@@ -191,8 +191,8 @@ namespace BPC_OPR
         string doDeleteTRAssessment(InputTRReqAssessment input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqAssessment?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadReqAssessment(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqAssessment?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqAssessment(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region TR_Criminal
@@ -209,8 +209,8 @@ namespace BPC_OPR
         string doDeleteTRCriminal(InputTRReqCriminal input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqCriminal?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqCriminal?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region TR_Suggest
@@ -227,8 +227,8 @@ namespace BPC_OPR
         string doDeleteTRreqSuggest(InputTRReqSuggest input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqSuggest?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadreqSuggest?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region Blacklist
@@ -245,8 +245,8 @@ namespace BPC_OPR
         string doDeleteMTBlacklistList(InputBlacklist input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTBlacklistList?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTBlacklistList(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTBlacklistList?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTBlacklistList(string token, string by, string fileName, Stream stream,string com);
 
         [OperationContract(Name = "batchblacklist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -267,8 +267,8 @@ namespace BPC_OPR
         string doDeleteTRReqDocatt(InputTRDocatt input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqDocatt?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadReqDocatt(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqDocatt?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqDocatt(string token, string by, string fileName, Stream stream,string com);
 
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTDocatt?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
@@ -297,8 +297,8 @@ namespace BPC_OPR
         string doDeleteTRApplyPosition(InputTRApplyPosition input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyPosition?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplyPosition(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyPosition?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyPosition(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region TR_PROJECT
@@ -315,8 +315,8 @@ namespace BPC_OPR
         string doDeleteTRApplyProject(InputTRApplyProject input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyProject?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplyProject(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyProject?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyProject(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region TR_Salary
@@ -333,8 +333,8 @@ namespace BPC_OPR
         string doDeleteTRApplySalary(InputTRApplySalary input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplySalary?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplySalary(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplySalary?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplySalary(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region TR_Benefit
@@ -351,8 +351,8 @@ namespace BPC_OPR
         string doDeleteTRApplyBenefit(InputTRApplyBenefit input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyBenefit?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadApplyBenefit(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadApplyBenefit?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadApplyBenefit(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
         #region ReqRequest
@@ -369,8 +369,8 @@ namespace BPC_OPR
         string doDeleteMTReqRequestList(InputReqRequest input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReqRequestList?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTReqRequestList(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTReqRequestList?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTReqRequestList(string token, string by, string fileName, Stream stream,string com);
 
         [OperationContract(Name = "getrequestposition")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

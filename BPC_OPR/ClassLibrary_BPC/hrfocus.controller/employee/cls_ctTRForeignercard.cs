@@ -185,6 +185,32 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
+        public bool clear(string com, string code)
+        {
+            bool blnResult = true;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append(" DELETE FROM EMP_TR_FOREIGNERCARD");
+                obj_str.Append(" WHERE 1=1 ");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
+                obj_str.Append(" AND WORKER_CODE='" + code + "'");
+
+                blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                blnResult = false;
+                Message = "ERROR::(Foreignercard.clear)" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
         public bool insert(cls_TRForeignercard model)
         {
             bool blnResult = false;

@@ -531,7 +531,7 @@ namespace BPC_OPR
         [DataMember]
         public bool sent_sso { get; set; }
         [DataMember]
-        public List<cls_TRForeignercard> forecard_list { get; set; }
+        public List<cls_TRForeignercard> foreigner_card { get; set; }
     }
 
     [DataContract]
