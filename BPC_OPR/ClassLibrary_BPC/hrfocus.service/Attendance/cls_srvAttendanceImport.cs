@@ -55,7 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.service
             }
             return result;
         }
-        public string doImportExcel(string type, string filename, string by)
+        public string doImportExcel(string type, string filename, string by,string com)
         {
             string strResult = "";
 
@@ -121,7 +121,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTPeriod controller = new cls_ctMTPeriod();
                                 cls_MTPeriod model = new cls_MTPeriod();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.period_id = dr["period_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["period_id"].ToString());
                                 model.period_type = dr["period_type"].ToString();
@@ -169,7 +172,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTReason controller = new cls_ctMTReason();
                                 cls_MTReason model = new cls_MTReason();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.reason_id = dr["reason_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["reason_id"].ToString());
                                 model.company_code = dr["company_code"].ToString();
                                 model.reason_code = dr["reason_code"].ToString();
@@ -212,7 +218,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTLocation controller = new cls_ctMTLocation();
                                 cls_MTLocation model = new cls_MTLocation();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.location_id = dr["location_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["location_id"].ToString());
                                 model.location_code = dr["location_code"].ToString();
@@ -256,7 +265,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTPlanholiday controller = new cls_ctMTPlanholiday();
                                 cls_MTPlanholiday model = new cls_MTPlanholiday();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.planholiday_id = dr["planholiday_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planholiday_id"].ToString());
                                 model.planholiday_code = dr["planholiday_code"].ToString();
@@ -298,7 +310,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTShift controller = new cls_ctMTShift();
                                 cls_MTShift model = new cls_MTShift();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                 model.shift_id = dr["shift_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["shift_id"].ToString());
@@ -368,7 +383,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTPlanshift controller = new cls_ctMTPlanshift();
                                 cls_MTPlanshift model = new cls_MTPlanshift();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.planshift_id = dr["planshift_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planshift_id"].ToString());
                                 model.planshift_code = dr["planshift_code"].ToString();
@@ -409,7 +427,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTLeave controller = new cls_ctMTLeave();
                                 cls_MTLeave model = new cls_MTLeave();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.leave_id = dr["leave_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["leave_id"].ToString());
                                 model.leave_code = dr["leave_code"].ToString();
@@ -470,7 +491,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTPlanleave controller = new cls_ctMTPlanleave();
                                 cls_MTPlanleave model = new cls_MTPlanleave();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.planleave_id = dr["planleave_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planleave_id"].ToString());
                                 model.planleave_code = dr["planleave_code"].ToString();
@@ -511,6 +535,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTRateot controller = new cls_ctMTRateot();
                                 cls_MTRateot model = new cls_MTRateot();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.rateot_id = dr["rateot_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["rateot_id"].ToString());
                                 model.rateot_code = dr["rateot_code"].ToString();
@@ -551,6 +579,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTDiligence controller = new cls_ctMTDiligence();
                                 cls_MTDiligence model = new cls_MTDiligence();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.diligence_id = dr["diligence_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["diligence_id"].ToString());
                                 model.diligence_code = dr["diligence_code"].ToString();
@@ -609,6 +641,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTLate controller = new cls_ctMTLate();
                                 cls_MTLate model = new cls_MTLate();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.late_id = dr["late_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["late_id"].ToString());
                                 model.late_code = dr["late_code"].ToString();
@@ -649,6 +685,10 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTPlantimeallw controller = new cls_ctMTPlantimeallw();
                                 cls_MTPlantimeallw model = new cls_MTPlantimeallw();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.plantimeallw_id = dr["plantimeallw_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["plantimeallw_id"].ToString());
                                 model.plantimeallw_code = dr["plantimeallw_code"].ToString();
