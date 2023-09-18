@@ -34,7 +34,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
+                obj_str.Append("REQ_MT_WORKER.COMPANY_CODE");
                 obj_str.Append(", WORKER_ID");
                 obj_str.Append(", WORKER_CODE");
                 obj_str.Append(", WORKER_CARD");
@@ -74,14 +74,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(INITIAL_NAME_EN, '') AS INITIAL_NAME_EN");
 
                 obj_str.Append(" FROM REQ_MT_WORKER");
-                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON REQ_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON REQ_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE AND REQ_MT_WORKER.COMPANY_CODE = EMP_MT_INITIAL.COMPANY_CODE");
 
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY COMPANY_CODE, WORKER_CODE");
+                obj_str.Append(" ORDER BY REQ_MT_WORKER.COMPANY_CODE, WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -151,7 +151,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strCondition = "";
 
-            strCondition += " AND COMPANY_CODE= '" + com  + "'";
+            strCondition += " AND REQ_MT_WORKER.COMPANY_CODE= '" + com + "'";
 
             if (!code.Equals(""))
                 strCondition += " AND WORKER_CODE  ='" + code + "'";
