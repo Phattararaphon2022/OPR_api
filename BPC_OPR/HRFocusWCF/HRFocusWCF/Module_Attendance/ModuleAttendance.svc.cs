@@ -349,7 +349,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTPlanholiday(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTPlanholiday(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -378,10 +378,16 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("HOLIDAY", fileName, by);
+                    string tmp = srv_import.doImportExcel("HOLIDAY", fileName, by,com);
 
-
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -783,7 +789,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTShift(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTShift(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -812,10 +818,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("SHIFT", fileName, by);
+                    string tmp = srv_import.doImportExcel("SHIFT", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -1138,7 +1151,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTPlanshift(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTPlanshift(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -1167,10 +1180,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("PLANSHIFT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PLANSHIFT", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -1515,7 +1535,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTLeave(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTLeave(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -1544,10 +1564,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("LEAVE", fileName, by);
+                    string tmp = srv_import.doImportExcel("LEAVE", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -2099,7 +2126,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTPlanleave(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTPlanleave(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -2128,10 +2155,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("PLANLEAVE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PLANLEAVE", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -2448,7 +2482,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTRateot(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTRateot(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -2477,10 +2511,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("RATEOT", fileName, by);
+                    string tmp = srv_import.doImportExcel("RATEOT", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -2831,7 +2872,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTDiligence(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTDiligence(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -2860,10 +2901,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("DILIGENCE", fileName, by);
+                    string tmp = srv_import.doImportExcel("DILIGENCE", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -3174,7 +3222,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTLate(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTLate(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -3203,10 +3251,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("LATE", fileName, by);
+                    string tmp = srv_import.doImportExcel("LATE", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
@@ -3529,7 +3584,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTPlantimeallw(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTPlantimeallw(string token, string by, string fileName, Stream stream,string com)
         {
             JObject output = new JObject();
 
@@ -3558,10 +3613,17 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvAttendanceImport srv_import = new cls_srvAttendanceImport();
-                    string tmp = srv_import.doImportExcel("ALLOWANCE", fileName, by);
+                    string tmp = srv_import.doImportExcel("ALLOWANCE", fileName, by,com);
 
 
-                    output["success"] = true;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                    }
                     output["message"] = tmp;
 
                     log.apilog_status = "200";
