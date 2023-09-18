@@ -477,8 +477,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("WORKER", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1210,8 +1218,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("DEP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1524,8 +1540,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("POSITION", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1830,8 +1854,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("GROUP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2136,8 +2168,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("INITIAL", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2442,8 +2482,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("TYPE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2748,8 +2796,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("STATUS", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3085,8 +3141,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPLOCATION", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3422,8 +3486,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPBRANCH", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3763,8 +3835,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPADDRESS", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4101,8 +4181,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPCARD", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4442,8 +4530,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPBANK", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4783,8 +4879,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPFAMILY", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5117,8 +5221,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPHOSPITAL", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5493,8 +5605,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPFOREIGNER", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5826,8 +5946,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPFOREIGNERCARD", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6171,8 +6299,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPDEP", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6509,9 +6645,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPPOSITION", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
-
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
                     log.apilog_status = "200";
                     log.apilog_message = "";
                 }
@@ -6844,8 +6987,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPGROUP", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -7184,8 +7335,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPEDUCATION", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -7529,8 +7688,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPTRAINING", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -7868,8 +8035,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPASSESSMENT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -8206,8 +8381,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPCRIMINAL", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -8545,8 +8728,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPSALARY", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -8882,8 +9073,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPPROVIDENT", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -9229,8 +9428,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPBENEFIT", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -9565,8 +9772,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPREDUCE", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -10011,8 +10226,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPSUPPLY", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -10349,8 +10572,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPUNIFORM", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -10686,8 +10917,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPSUGGEST", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -11025,8 +11264,16 @@ namespace BPC_OPR
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPEXPERIENCE", fileName, by,com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
