@@ -40,7 +40,7 @@ namespace ClassLibrary_BPC.hrfocus.service
             return dt;
         }
 
-        public string doImportExcel(string type, string filename, string by)
+        public string doImportExcel(string type, string filename, string by,string com)
         {
             string strResult = "";
 
@@ -61,7 +61,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTDep objWorker = new cls_ctMTDep();
                                 cls_MTDep model = new cls_MTDep();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["dep_code"].ToString());
+                                    continue;
+                                }
                                 model.dep_code = dr["dep_code"].ToString();
                                 model.dep_name_th = dr["dep_name_th"].ToString();
                                 model.dep_name_en = dr["dep_name_en"].ToString();
@@ -104,7 +108,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTPosition objWorker = new cls_ctMTPosition();
                                 cls_MTPosition model = new cls_MTPosition();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["position_code"].ToString());
+                                    continue;
+                                }
                                 model.position_code = dr["position_code"].ToString();
                                 model.position_name_th = dr["position_name_th"].ToString();
                                 model.position_name_en = dr["position_name_en"].ToString();
@@ -148,7 +156,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTGroup objWorker = new cls_ctMTGroup();
                                 cls_MTGroup model = new cls_MTGroup();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["group_code"].ToString());
+                                    continue;
+                                }
                                 model.group_code = dr["group_code"].ToString();
                                 model.group_name_th = dr["group_name_th"].ToString();
                                 model.group_name_en = dr["group_name_en"].ToString();
@@ -188,7 +200,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTInitial objWorker = new cls_ctMTInitial();
                                 cls_MTInitial model = new cls_MTInitial();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["initial_code"].ToString());
+                                    continue;
+                                }
                                 model.initial_code = dr["initial_code"].ToString();
                                 model.initial_name_th = dr["initial_name_th"].ToString();
                                 model.initial_name_en = dr["initial_name_en"].ToString();
@@ -228,7 +244,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTType objWorker = new cls_ctMTType();
                                 cls_MTType model = new cls_MTType();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["type_code"].ToString());
+                                    continue;
+                                }
                                 model.type_code = dr["type_code"].ToString();
                                 model.type_name_th = dr["type_name_th"].ToString();
                                 model.type_name_en = dr["type_name_en"].ToString();
@@ -268,7 +288,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTStatus objWorker = new cls_ctMTStatus();
                                 cls_MTStatus model = new cls_MTStatus();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["status_code"].ToString());
+                                    continue;
+                                }
                                 model.status_code = dr["status_code"].ToString();
                                 model.status_name_th = dr["status_name_th"].ToString();
                                 model.status_name_en = dr["status_name_en"].ToString();
@@ -309,7 +333,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTWorker objWorker = new cls_ctMTWorker();
                                 cls_MTWorker model = new cls_MTWorker();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
                                 model.worker_card = dr["worker_code"].ToString();
@@ -397,7 +425,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRAddress objAdd = new cls_ctTRAddress();
                                 cls_TRAddress model = new cls_TRAddress();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
                                 model.address_type = dr["address_type"].ToString();
@@ -447,7 +479,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRCard objAdd = new cls_ctTRCard();
                                 cls_TRCard model = new cls_TRCard();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
                                 model.card_code = dr["card_code"].ToString();
@@ -492,7 +528,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRBank objAdd = new cls_ctTRBank();
                                 cls_TRBank model = new cls_TRBank();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -539,7 +579,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRFamily objAdd = new cls_ctTRFamily();
                                 cls_TRFamily model = new cls_TRFamily();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -590,7 +634,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRHospital objAdd = new cls_ctTRHospital();
                                 cls_TRHospital model = new cls_TRHospital();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -634,32 +682,39 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRForeigner objAdd = new cls_ctTRForeigner();
                                 cls_TRForeigner model = new cls_TRForeigner();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
-                                model.passport_no = dr["passport_no"].ToString();
-                                model.passport_issue = Convert.ToDateTime(dr["passport_issue"]);
-                                model.passport_expire = Convert.ToDateTime(dr["passport_expire"]);
-                                model.visa_no = dr["visa_no"].ToString();
-                                model.visa_issue = Convert.ToDateTime(dr["visa_issue"]);
-                                model.visa_expire = Convert.ToDateTime(dr["visa_expire"]);
-                                model.workpermit_no = dr["workpermit_no"].ToString();
-                                model.workpermit_by = dr["workpermit_by"].ToString();
-                                model.workpermit_issue = Convert.ToDateTime(dr["workpermit_issue"]);
-                                model.workpermit_expire = Convert.ToDateTime(dr["workpermit_expire"]);
                                 model.entry_date = Convert.ToDateTime(dr["entry_date"]);
-                                model.certificate_no = dr["certificate_no"].ToString();
-                                model.certificate_expire = Convert.ToDateTime(dr["certificate_expire"]);
-                                if (!dr["otherdoc_no"].ToString().Equals(""))
-                                {
-                                    model.otherdoc_no = dr["otherdoc_no"].ToString();
-                                    model.otherdoc_expire = Convert.ToDateTime(dr["otherdoc_expire"]);
-                                }
-                                else
-                                {
-                                    model.otherdoc_no = "";
-                                }
+                                model.foreigner_type = dr["foreigner_type"].ToString();
+                                model.sent_sso = Convert.ToBoolean(dr["sent_sso"]);
+                                //model.passport_no = dr["passport_no"].ToString();
+                                //model.passport_issue = Convert.ToDateTime(dr["passport_issue"]);
+                                //model.passport_expire = Convert.ToDateTime(dr["passport_expire"]);
+                                //model.visa_no = dr["visa_no"].ToString();
+                                //model.visa_issue = Convert.ToDateTime(dr["visa_issue"]);
+                                //model.visa_expire = Convert.ToDateTime(dr["visa_expire"]);
+                                //model.workpermit_no = dr["workpermit_no"].ToString();
+                                //model.workpermit_by = dr["workpermit_by"].ToString();
+                                //model.workpermit_issue = Convert.ToDateTime(dr["workpermit_issue"]);
+                                //model.workpermit_expire = Convert.ToDateTime(dr["workpermit_expire"]);
+                                //model.entry_date = Convert.ToDateTime(dr["entry_date"]);
+                                //model.certificate_no = dr["certificate_no"].ToString();
+                                //model.certificate_expire = Convert.ToDateTime(dr["certificate_expire"]);
+                                //if (!dr["otherdoc_no"].ToString().Equals(""))
+                                //{
+                                //    model.otherdoc_no = dr["otherdoc_no"].ToString();
+                                //    model.otherdoc_expire = Convert.ToDateTime(dr["otherdoc_expire"]);
+                                //}
+                                //else
+                                //{
+                                //    model.otherdoc_no = "";
+                                //}
                                 
 
                                 model.modified_by = by;
@@ -699,7 +754,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRDep objAdd = new cls_ctTRDep();
                                 cls_TRDep model = new cls_TRDep();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -755,7 +814,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRPosition objAdd = new cls_ctTRPosition();
                                 cls_TRPosition model = new cls_TRPosition();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -800,7 +863,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTREducation objAdd = new cls_ctTREducation();
                                 cls_TREducation model = new cls_TREducation();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -849,7 +916,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRTraining objAdd = new cls_ctTRTraining();
                                 cls_TRTraining model = new cls_TRTraining();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -903,7 +974,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRAssessment objAdd = new cls_ctTRAssessment();
                                 cls_TRAssessment model = new cls_TRAssessment();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -951,7 +1026,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRCriminal objAdd = new cls_ctTRCriminal();
                                 cls_TRCriminal model = new cls_TRCriminal();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -998,7 +1077,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRSalary objAdd = new cls_ctTRSalary();
                                 cls_TRSalary model = new cls_TRSalary();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1046,7 +1129,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRProvident objAdd = new cls_ctTRProvident();
                                 cls_TRProvident model = new cls_TRProvident();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1097,7 +1184,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRBenefit objAdd = new cls_ctTRBenefit();
                                 cls_TRBenefit model = new cls_TRBenefit();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1159,7 +1250,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRReduce objAdd = new cls_ctTRReduce();
                                 cls_TRReduce model = new cls_TRReduce();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1204,7 +1299,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTREmplocation objAdd = new cls_ctTREmplocation();
                                 cls_TREmplocation model = new cls_TREmplocation();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1251,7 +1350,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRGroup objAdd = new cls_ctTRGroup();
                                 cls_TRGroup model = new cls_TRGroup();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1296,7 +1399,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTREmpbranch objAdd = new cls_ctTREmpbranch();
                                 cls_TREmpbranch model = new cls_TREmpbranch();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1343,7 +1450,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRSupply objAdd = new cls_ctTRSupply();
                                 cls_TRSupply model = new cls_TRSupply();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1403,7 +1514,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRUniform objAdd = new cls_ctTRUniform();
                                 cls_TRUniform model = new cls_TRUniform();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1451,7 +1566,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRSuggest objAdd = new cls_ctTRSuggest();
                                 cls_TRSuggest model = new cls_TRSuggest();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1497,7 +1616,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRForeignercard objAdd = new cls_ctTRForeignercard();
                                 cls_TRForeignercard model = new cls_TRForeignercard();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
@@ -1544,7 +1667,11 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctTRExperience objExp = new cls_ctTRExperience();
                                 cls_TRExperience model = new cls_TRExperience();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    objStr.Append(dr["worker_code"].ToString());
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 

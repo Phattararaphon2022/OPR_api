@@ -367,8 +367,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //obj_str.Append(", OTHERDOC_EXPIRE=@OTHERDOC_EXPIRE ");
 
                 obj_str.Append(" FOREIGNER_TYPE=@FOREIGNER_TYPE ");
-                obj_str.Append(" ENTRY_DATE=@ENTRY_DATE ");
-                obj_str.Append(" SENT_SSO=@SENT_SSO ");
+                obj_str.Append(", ENTRY_DATE=@ENTRY_DATE ");
+                obj_str.Append(", SENT_SSO=@SENT_SSO ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");

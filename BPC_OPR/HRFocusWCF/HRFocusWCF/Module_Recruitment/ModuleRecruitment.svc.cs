@@ -476,7 +476,7 @@ namespace BPC_OPR
              return output.ToString(Formatting.None);
 
          }
-         public async Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadReqworker(string token, string by, string fileName, Stream stream,string com)
          {
              JObject output = new JObject();
 
@@ -505,7 +505,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQWORKER", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQWORKER", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -1166,7 +1166,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadApplyAddress(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadApplyAddress(string token, string by, string fileName, Stream stream,string com)
          {
              JObject output = new JObject();
 
@@ -1195,7 +1195,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQADDRESS", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQADDRESS", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -1504,7 +1504,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadApplyCard(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadApplyCard(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -1533,7 +1533,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQCARD", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQCARD", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -1836,7 +1836,7 @@ namespace BPC_OPR
              return output.ToString(Formatting.None);
 
          }
-         public async Task<string> doUploadreqForeigner(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadreqForeigner(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -1865,7 +1865,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQFOREIGNER", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQFOREIGNER", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -2170,7 +2170,7 @@ namespace BPC_OPR
              return output.ToString(Formatting.None);
 
          }
-         public async Task<string> doUploadreqForeignercard(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadreqForeignercard(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -2199,7 +2199,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQFOREIGNERCARD", fileName, by);
+                     string tmp = srv_import.doImportExcel("REQFOREIGNERCARD", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -2510,7 +2510,7 @@ namespace BPC_OPR
 
         }
 
-         public async Task<string> doUploadreqEducation(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadreqEducation(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2539,7 +2539,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvReqImport srv_import = new cls_srvReqImport();
-                    string tmp = srv_import.doImportExcel("REQEDUCATION", fileName, "TEST");
+                    string tmp = srv_import.doImportExcel("REQEDUCATION", fileName, by, com);
 
                     output["success"] = true;
                     output["message"] = tmp;
@@ -2849,7 +2849,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadReqAssessment(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadReqAssessment(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -2878,7 +2878,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQASSESSMENT", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQASSESSMENT", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -3187,7 +3187,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadReqCriminal(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -3216,7 +3216,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQCRIMINAL", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQCRIMINAL", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -3530,7 +3530,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadreqTraining(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadreqTraining(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -3559,7 +3559,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQTRAINING", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQTRAINING", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -3866,7 +3866,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadreqSuggest(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -3895,7 +3895,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQSUGGEST", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQSUGGEST", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -4203,7 +4203,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadReqDocatt(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadReqDocatt(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -4232,7 +4232,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQSUGGEST", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQSUGGEST", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -4589,7 +4589,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadMTBlacklistList(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadMTBlacklistList(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -4618,7 +4618,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("BLACKLIST", fileName, by);
+                     string tmp = srv_import.doImportExcel("BLACKLIST", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -5003,7 +5003,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadApplyPosition(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadApplyPosition(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -5032,7 +5032,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQPOSITION", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQPOSITION", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -5339,7 +5339,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadApplyProject(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadApplyProject(string token, string by, string fileName, Stream stream , string com)
          {
              JObject output = new JObject();
 
@@ -5368,7 +5368,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQPROJECT", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQPROJECT", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -5679,7 +5679,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadApplySalary(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadApplySalary(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -5708,7 +5708,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQSALARY", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQSALARY", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -6027,7 +6027,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadApplyBenefit(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadApplyBenefit(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -6056,7 +6056,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQBENEFIT", fileName, "TEST");
+                     string tmp = srv_import.doImportExcel("REQBENEFIT", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
@@ -6360,7 +6360,7 @@ namespace BPC_OPR
 
          }
 
-         public async Task<string> doUploadMTReqRequestList(string token, string by, string fileName, Stream stream)
+         public async Task<string> doUploadMTReqRequestList(string token, string by, string fileName, Stream stream, string com)
          {
              JObject output = new JObject();
 
@@ -6389,7 +6389,7 @@ namespace BPC_OPR
                  if (upload)
                  {
                      cls_srvReqImport srv_import = new cls_srvReqImport();
-                     string tmp = srv_import.doImportExcel("REQREQUEST", fileName, by);
+                     string tmp = srv_import.doImportExcel("REQREQUEST", fileName, by, com);
 
                      output["success"] = true;
                      output["message"] = tmp;
