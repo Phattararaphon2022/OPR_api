@@ -6029,7 +6029,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRProjobemp controller = new cls_ctTRProjobemp();
-                List<cls_TRProjobemp> list = controller.getDataByFillterAll(req.project_code, req.projob_code, req.projobemp_emp, req.projobemp_type);
+                List<cls_TRProjobemp> list = controller.getDataByFillterAll(req.project_code, req.projob_code, req.projobemp_emp, req.projobemp_type, req.searchemp);
                 JArray array = new JArray();
 
                 if (list.Count > 0)

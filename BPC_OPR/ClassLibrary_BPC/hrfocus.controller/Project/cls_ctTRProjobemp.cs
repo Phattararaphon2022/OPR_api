@@ -32,27 +32,32 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ");
-                obj_str.Append("PROJOBEMP_ID");
-                obj_str.Append(", PROJOBEMP_EMP");         
-                obj_str.Append(", ISNULL(PROJOBEMP_FROMDATE, '01/01/1900') AS PROJOBEMP_FROMDATE");
-                obj_str.Append(", ISNULL(PROJOBEMP_TODATE, '01/01/1900') AS PROJOBEMP_TODATE");
-                obj_str.Append(", PROJOBEMP_TYPE");
-                obj_str.Append(", PROJOBEMP_STATUS");
+                obj_str.Append("SELECT DISTINCT ");
+                obj_str.Append("PRO_TR_PROJOBEMP.PROJOBEMP_ID");
+                obj_str.Append(", PRO_TR_PROJOBEMP.PROJOBEMP_EMP");
 
-                obj_str.Append(", PROJOB_CODE");     
-                obj_str.Append(", PROJECT_CODE");                
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(PRO_TR_PROJOBEMP.PROJOBEMP_FROMDATE, '01/01/1900') AS PROJOBEMP_FROMDATE");
+                obj_str.Append(", ISNULL(PRO_TR_PROJOBEMP.PROJOBEMP_TODATE, '01/01/1900') AS PROJOBEMP_TODATE");
+                obj_str.Append(", PRO_TR_PROJOBEMP.PROJOBEMP_TYPE");
+                obj_str.Append(", PRO_TR_PROJOBEMP.PROJOBEMP_STATUS");
+
+                obj_str.Append(",  PRO_TR_PROJOBEMP.PROJOB_CODE");
+                obj_str.Append(", PRO_TR_PROJOBEMP.PROJECT_CODE");
+
+                obj_str.Append(", ISNULL(PRO_TR_PROJOBEMP.MODIFIED_BY, PRO_TR_PROJOBEMP.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(PRO_TR_PROJOBEMP.MODIFIED_DATE, PRO_TR_PROJOBEMP.CREATED_DATE) AS MODIFIED_DATE");
 
                 obj_str.Append(" FROM PRO_TR_PROJOBEMP");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER   ON PRO_TR_PROJOBEMP.PROJOBEMP_EMP = EMP_MT_WORKER.WORKER_CODE");
+
+                
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY PROJECT_CODE, PROJOB_CODE, PROJOBEMP_EMP");
+                obj_str.Append(" ORDER BY PRO_TR_PROJOBEMP.PROJECT_CODE, PRO_TR_PROJOBEMP.PROJOB_CODE, PRO_TR_PROJOBEMP.PROJOBEMP_EMP");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -101,7 +106,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         }
 
        //
-        public List<cls_TRProjobemp> getDataByFillterAll(string project, string job, string com, string type)
+        public List<cls_TRProjobemp> getDataByFillterAll(string project, string job, string com, string type, string searchemp)
         {
             string strCondition = "";
 
@@ -118,6 +123,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!type.Equals(""))
                 strCondition += " AND PROJOBEMP_TYPE ='" + type + "'";
 
+            if (!searchemp.Equals(""))
+            {
+                strCondition += "AND (WORKER_CODE LIKE'" + searchemp + "%' OR WORKER_FNAME_TH LIKE '" + searchemp + "%' OR WORKER_LNAME_TH LIKE '" + searchemp + "%' OR WORKER_FNAME_EN LIKE '" + searchemp + "%' OR WORKER_LNAME_EN LIKE '" + searchemp + "%' OR WORKER_CARDNO LIKE '" + searchemp + "%')";
+            }
 
      
             return this.getData(strCondition);

@@ -202,6 +202,8 @@ namespace BPC_OPR
         public string projobemp_emp { get; set; }
          [DataMember]
         public string projobemp_type { get; set; }
+         [DataMember]
+         public string searchemp { get; set; }
         
     }
 
