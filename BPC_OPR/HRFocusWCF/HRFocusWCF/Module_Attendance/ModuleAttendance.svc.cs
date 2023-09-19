@@ -383,12 +383,13 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -824,12 +825,13 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1186,12 +1188,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1570,12 +1574,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2161,12 +2167,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2517,12 +2525,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2907,12 +2917,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3257,12 +3269,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3619,12 +3633,14 @@ namespace BPC_OPR
                     if (tmp.Equals(""))
                     {
                         output["success"] = false;
+                        output["message"] = "company incorrect";
                     }
                     else
                     {
                         output["success"] = true;
+                        output["message"] = tmp;
                     }
-                    output["message"] = tmp;
+                    
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
