@@ -42,8 +42,8 @@ namespace BPC_OPR
         string doDeleteTRTaxrate(InputTRTaxrate input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRTaxrate?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRTaxrate(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRTaxrate?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRTaxrate(string token, string by, string fileName, Stream stream, string com);
 
         #endregion
 
@@ -61,8 +61,8 @@ namespace BPC_OPR
         string doDeleteMTItem(InputMTItem input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTItem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTItemr(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTItem?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTItemr(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         //#region paybank
@@ -90,8 +90,8 @@ namespace BPC_OPR
         string doDeleteMTProvident(InputMTProvident input);
          
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProvident?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProvident(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProvident?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProvident(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region bonus 
@@ -108,8 +108,8 @@ namespace BPC_OPR
         string doDeleteBonus(InputMTBonus input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadBonus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadBonus(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadBonus?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBonus(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         //#region paybonus
@@ -148,8 +148,8 @@ namespace BPC_OPR
         string doDeleteMTPeriod(InputMTPeriod input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriods?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriods?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
 
@@ -169,8 +169,8 @@ namespace BPC_OPR
         string doDeleteBatchBonus(InputTRPaypolbonus input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetBonus?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadBatchBonus(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetBonus?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchBonus(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region set paypolprovident
@@ -187,8 +187,8 @@ namespace BPC_OPR
         string doDeleteBatchPaypolprovident(InputTRList input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPolprovident?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadBatchPaypolprovident(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPolprovident?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchPaypolprovident(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region set paypolitem
@@ -205,8 +205,8 @@ namespace BPC_OPR
         string doDeleteBatchPaypolitem(InputTRList input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPaypolitem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadBatchPaypolPaypolitem(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPaypolitem?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchPaypolPaypolitem(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
 
@@ -226,8 +226,8 @@ namespace BPC_OPR
         string doDeleteBatchPayPolReduce(InputTRList input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPayPolReduce?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadBatchPaypolPayPolReduce(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadSetPayPolReduce?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadBatchPaypolPayPolReduce(string token, string by, string fileName, Stream stream, string com);
         #endregion
         #region set TRpayitem
         [OperationContract(Name = "TRpayitem_list")]
@@ -248,8 +248,8 @@ namespace BPC_OPR
         string doDeleteTRPayitem(InputTRPayitem input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRpayitem?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRpayitem?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRPayitem(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
         #region Paytran&Acc
@@ -294,8 +294,8 @@ namespace BPC_OPR
         string doDeleteMTPlanreduce(InputMTPlanreduce input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanreduce?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTPlanreduce(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanreduce?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanreduce(string token, string by, string fileName, Stream stream, string com);
 
         #endregion
 
@@ -313,8 +313,8 @@ namespace BPC_OPR
         string doDeleteMTPlanitems(InputMTPlanitems input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanitems?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTPlanitems(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPlanitems?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTPlanitems(string token, string by, string fileName, Stream stream, string com);
 
         #endregion
     }

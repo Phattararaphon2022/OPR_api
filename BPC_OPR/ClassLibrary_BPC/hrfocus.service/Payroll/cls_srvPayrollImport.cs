@@ -58,7 +58,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
             }
             return result;
         }
-        public string doImportExcel(string type, string filename, string by)
+        public string doImportExcel(string type, string filename, string by, string com)
         {
             string strResult = "";
 
@@ -79,7 +79,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctMTPeriods controller = new cls_ctMTPeriods();
                                 cls_MTPeriods model = new cls_MTPeriods();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.period_id = dr["period_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["period_id"].ToString());
                                 model.period_type = dr["period_type"].ToString();
@@ -127,6 +130,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctTRTaxrate controller = new cls_ctTRTaxrate();
                                 cls_TRTaxrate model = new cls_TRTaxrate();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.taxrate_id = dr["taxrate_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["taxrate_id"].ToString());
                                 model.taxrate_from = Convert.ToDouble(dr["taxrate_from"]);
@@ -170,7 +177,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctMTItem controller = new cls_ctMTItem();
                                 cls_MTItem model = new cls_MTItem();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.item_id = dr["item_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["item_id"].ToString());
 
@@ -225,7 +235,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctMTProvident controller = new cls_ctMTProvident();
                                 cls_MTProvident model = new cls_MTProvident();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = Convert.ToString(dr["company_code"]);
                                 model.provident_id = dr["provident_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["provident_id"].ToString());
 
@@ -270,7 +283,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctMTBonus controller = new cls_ctMTBonus();
                                 cls_MTBonus model = new cls_MTBonus();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.bonus_id = dr["bonus_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["bonus_id"].ToString());
 
 
@@ -319,7 +335,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctMTPlanitems controller = new cls_ctMTPlanitems();
                                 cls_MTPlanitems model = new cls_MTPlanitems();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.planitems_id = dr["planitems_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planitems_id"].ToString());
                                 model.planitems_code = dr["planitems_code"].ToString();
@@ -360,7 +379,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctMTPlanreduce controller = new cls_ctMTPlanreduce();
                                 cls_MTPlanreduce model = new cls_MTPlanreduce();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.planreduce_id = dr["planreduce_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["planreduce_id"].ToString());
                                 model.planreduce_code = dr["planreduce_code"].ToString();
@@ -401,7 +423,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 cls_ctTRPayitem controller = new cls_ctTRPayitem();
                                 cls_TRPayitem model = new cls_TRPayitem();
-
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
                                 model.payitem_date = Convert.ToDateTime(dr["payitem_date"].ToString());
