@@ -31,5 +31,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         //-- Show only
         public string worker_detail_th { get; set; }
         public string worker_detail_en { get; set; }
+
+        public double rate_emp { get; set; }
+        public double rate_com { get; set; }
+        public string empprovident_type { get; set; }
+
     }
 }

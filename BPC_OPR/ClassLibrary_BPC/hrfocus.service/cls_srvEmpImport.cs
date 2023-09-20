@@ -1124,7 +1124,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     model.empprovident_end = Convert.ToDateTime(dr["empprovident_end"]);
                                 }
-                                
+                                model.empprovident_type = dr["empprovident_type"].ToString();
+                                model.rate_com = Convert.ToDouble(dr["rate_com"]);
+                                model.rate_emp = Convert.ToDouble(dr["rate_emp"]);
 
                                 model.modified_by = by;
 
