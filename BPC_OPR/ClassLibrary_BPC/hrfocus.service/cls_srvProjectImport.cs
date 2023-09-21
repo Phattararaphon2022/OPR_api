@@ -42,7 +42,7 @@ namespace ClassLibrary_BPC.hrfocus.service
             return dt;
         }
 
-        public string doImportExcel(string type, string filename, string by)
+        public string doImportExcel(string type, string filename, string by, string com)
         {
             string strResult = "";
             
@@ -63,6 +63,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProbusiness controller = new cls_ctMTProbusiness();
                                 cls_MTProbusiness model = new cls_MTProbusiness();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                 model.probusiness_code = dr["probusiness_code"].ToString();
@@ -98,6 +102,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProtype controller = new cls_ctMTProtype();
                                 cls_MTProtype model = new cls_MTProtype();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                 model.protype_code = dr["protype_code"].ToString();
@@ -135,6 +143,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProuniform controller = new cls_ctMTProuniform();
                                 cls_MTProuniform model = new cls_MTProuniform();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                 model.prouniform_code = dr["prouniform_code"].ToString();
@@ -172,6 +184,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProslip controller = new cls_ctMTProslip();
                                 cls_MTProslip model = new cls_MTProslip();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                 model.proslip_code = dr["proslip_code"].ToString();
@@ -210,6 +226,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProgroup controller = new cls_ctMTProgroup();
                                 cls_MTProgroup model = new cls_MTProgroup();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                  model.progroup_code = dr["progroup_code"].ToString();
@@ -248,6 +268,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProarea controller = new cls_ctMTProarea();
                                 cls_MTProarea model = new cls_MTProarea();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.proarea_code = dr["proarea_code"].ToString();
                                 model.proarea_name_th = dr["proarea_name_th"].ToString();
@@ -285,6 +309,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                             {
                                 cls_ctMTProcost controller = new cls_ctMTProcost();
                                 cls_MTProcost model = new cls_MTProcost();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
                                 model.procost_code = dr["procost_code"].ToString();
                                 model.procost_name_th = dr["procost_name_th"].ToString();

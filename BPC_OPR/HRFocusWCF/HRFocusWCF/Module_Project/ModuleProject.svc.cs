@@ -323,7 +323,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProbusiness(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProbusiness(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -352,10 +352,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROBUSINESS", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROBUSINESS", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -627,7 +635,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProtype(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProtype(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -656,10 +664,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROTYPE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROTYPE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -931,7 +947,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProuniform(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProuniform(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -960,10 +976,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROUNIFORM", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROUNIFORM", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1235,7 +1259,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProslip(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProslip(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -1264,10 +1288,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROSLIP", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROSLIP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1548,7 +1580,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProcost(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProcost(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -1577,10 +1609,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROCOST", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROCOST", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2090,7 +2130,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProject(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProject(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2119,10 +2159,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2415,7 +2463,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProaddress(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProaddress(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2443,10 +2491,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_ADDRESS", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_ADDRESS", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2837,7 +2893,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProcontact(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProcontact(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2865,10 +2921,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_CONTACT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_CONTACT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3174,7 +3238,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProcontract(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProcontract(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -3202,10 +3266,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_CONTRACT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_CONTRACT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3509,7 +3581,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProresponsible(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProresponsible(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -3537,10 +3609,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_RESPONSIBLE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_RESPONSIBLE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3845,7 +3925,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProtimepol(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProtimepol(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -3873,10 +3953,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_TIMEPOL", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_TIMEPOL", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4280,7 +4368,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProjobmain(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProjobmain(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -4308,10 +4396,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBMAIN", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBMAIN", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4700,7 +4796,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobcontract(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobcontract(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -4728,10 +4824,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBCONTRACT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBCONTRACT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5119,7 +5223,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobcost(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobcost(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -5147,10 +5251,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBCOST", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBCOST", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5533,7 +5645,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -5561,10 +5673,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBMACHINE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBMACHINE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5942,7 +6062,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -5970,10 +6090,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBSUB", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBSUB", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6451,7 +6579,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -6479,10 +6607,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBEMP", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBEMP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6870,7 +7006,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -6898,10 +7034,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBWORKING", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBWORKING", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -7261,7 +7405,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -7289,10 +7433,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBSHIFT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBSHIFT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -9218,7 +9370,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -9247,10 +9399,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROAREA", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROAREA", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -9522,7 +9682,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -9551,10 +9711,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROGROUP", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROGROUP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
