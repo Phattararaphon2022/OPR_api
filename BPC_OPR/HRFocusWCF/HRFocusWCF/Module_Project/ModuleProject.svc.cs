@@ -3945,6 +3945,7 @@ namespace BPC_OPR
 
                 //-- Job cost
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+                cls_ctMTProcost cost_controllerall = new cls_ctMTProcost();
                 
 
                 cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
@@ -4003,29 +4004,29 @@ namespace BPC_OPR
                         //-- Allow
                         List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobmain_code, req.version);
 
-                       
+                        List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company, "");
                         int i = 1;
-                        foreach (cls_TRProjobcost cost in cost_list_max)
+                        foreach (cls_MTProcost cost in cost_list)
                         {
-                            switch (i)
-                            {
-                                case 1: model.allow1 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 2: model.allow2 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 3: model.allow3 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 4: model.allow4 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 5: model.allow5 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 6: model.allow6 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 7: model.allow7 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 8: model.allow8 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 9: model.allow9 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 10: model.allow10 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                            }
+                             bool containsTarget = cost_list_max.Any(item => item.projobcost_code == cost.procost_code);
+                             switch (i)
+                             {
+                                 case 1: model.allow1 += containsTarget?doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working:0; break;
+                                 case 2: model.allow2 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 3: model.allow3 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 4: model.allow4 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 5: model.allow5 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 6: model.allow6 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 7: model.allow7 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 8: model.allow8 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 9: model.allow9 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                 case 10: model.allow10 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                             }
 
                             i++;
+                                json.Add(cost.procost_code, containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0);
                         }
-                        
                         model.emp_total = manpower;
-
                         model.allow_emp = model.allow1 + model.allow2 + model.allow3 + model.allow4 + model.allow5 + model.allow6 + model.allow7 + model.allow8 + model.allow9 + model.allow10;
                         model.allow_total = model.allow_emp * model.emp_total;
 
@@ -5627,7 +5628,7 @@ namespace BPC_OPR
                 //-- Job contract
                 cls_ctTRProjobcontract contract_controller = new cls_ctTRProjobcontract();
                 List<cls_TRProjobcontract> contract_list = contract_controller.getDataByFillter(req.version, req.project_code, req.procontract_type);
-
+                cls_ctMTProcost cost_controllerall = new cls_ctMTProcost();
                 cls_ctMTProjobsub controller = new cls_ctMTProjobsub();
                 List<cls_MTProjobsub> list = controller.getDataByFillter(req.project_code, req.version);
 
@@ -5668,24 +5669,25 @@ namespace BPC_OPR
                         //-- Allow
                         List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobsub_code, req.version);
 
-
+                        List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company, "");
                         int i = 1;
-                        foreach (cls_TRProjobcost cost in cost_list_max)
+                        foreach (cls_MTProcost cost in cost_list)
                         {
+                            bool containsTarget = cost_list_max.Any(item => item.projobcost_code == cost.procost_code);
                             switch (i)
                             {
-                                case 1: model.allow1 += cost.projobcost_amount; break;
-                                case 2: model.allow2 += cost.projobcost_amount; break;
-                                case 3: model.allow3 += cost.projobcost_amount; break;
-                                case 4: model.allow4 += cost.projobcost_amount; break;
-                                case 5: model.allow5 += cost.projobcost_amount; break;
-                                case 6: model.allow6 += cost.projobcost_amount; break;
-                                case 7: model.allow7 += cost.projobcost_amount; break;
-                                case 8: model.allow8 += cost.projobcost_amount; break;
-                                case 9: model.allow9 += cost.projobcost_amount; break;
-                                case 10: model.allow10 += cost.projobcost_amount; break;
+                                case 1: model.allow1 += containsTarget? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount:0; break;
+                                case 2: model.allow2 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 3: model.allow3 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 4: model.allow4 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 5: model.allow5 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 6: model.allow6 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 7: model.allow7 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 8: model.allow8 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 9: model.allow9 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
+                                case 10: model.allow10 += containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0; break;
                             }
-
+                            json.Add(cost.procost_code, containsTarget ? cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount : 0);
                             i++;
                         }
 
