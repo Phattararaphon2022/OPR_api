@@ -43,9 +43,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPPROVIDENT_START");
                 obj_str.Append(", ISNULL(EMPPROVIDENT_END, '01/01/2999') AS EMPPROVIDENT_END");
 
+                obj_str.Append(", EMPPROVIDENT_TYPE");
+                obj_str.Append(", RATE_EMP");
+                obj_str.Append(", RATE_COM");
+
+
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
+                //obj_str.Append(", ISNULL((SELECT PAY_TR_PROVIDENT_WORKAGE.RATE_EMP FROM PAY_TR_PROVIDENT_WORKAGE WHERE PAY_TR_PROVIDENT_WORKAGE.PROVIDENT_CODE = EMP_TR_PROVIDENT.PROVIDENT_CODE AND PAY_TR_PROVIDENT_WORKAGE.COMPANY_CODE = EMP_TR_PROVIDENT.COMPANY_CODE),0) AS RATE_EMP");
+                //obj_str.Append(", ISNULL((SELECT PAY_TR_PROVIDENT_WORKAGE.RATE_COM FROM PAY_TR_PROVIDENT_WORKAGE WHERE PAY_TR_PROVIDENT_WORKAGE.PROVIDENT_CODE = EMP_TR_PROVIDENT.PROVIDENT_CODE AND PAY_TR_PROVIDENT_WORKAGE.COMPANY_CODE = EMP_TR_PROVIDENT.COMPANY_CODE),0) AS RATE_COM");
+                
                 obj_str.Append(" FROM EMP_TR_PROVIDENT");
                 obj_str.Append(" WHERE 1=1");
 
@@ -70,6 +78,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    model.empprovident_type = dr["EMPPROVIDENT_TYPE"].ToString();
+                    model.rate_emp = Convert.ToDouble(dr["RATE_EMP"]);
+                    model.rate_com = Convert.ToDouble(dr["RATE_COM"]);
 
                     list_model.Add(model);
                 }
@@ -210,6 +222,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (model.empprovident_end.Equals("")) {
                     obj_str.Append(", EMPPROVIDENT_END ");
                 }
+                obj_str.Append(", EMPPROVIDENT_TYPE");
+                obj_str.Append(", RATE_EMP");
+                obj_str.Append(", RATE_COM");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -228,6 +243,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     obj_str.Append(", @EMPPROVIDENT_END ");
                 }
+
+                obj_str.Append(", @EMPPROVIDENT_TYPE");
+                obj_str.Append(", @RATE_EMP");
+                obj_str.Append(", @RATE_COM");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -250,6 +269,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     obj_cmd.Parameters.Add("@EMPPROVIDENT_END", SqlDbType.Date); obj_cmd.Parameters["@EMPPROVIDENT_END"].Value = model.empprovident_end;
                 }
+
+                obj_cmd.Parameters.Add("@EMPPROVIDENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPROVIDENT_TYPE"].Value = model.empprovident_type;
+                obj_cmd.Parameters.Add("@RATE_EMP", SqlDbType.Decimal); obj_cmd.Parameters["@RATE_EMP"].Value = model.rate_emp;
+                obj_cmd.Parameters.Add("@RATE_COM", SqlDbType.Decimal); obj_cmd.Parameters["@RATE_COM"].Value = model.rate_com;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -283,6 +306,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPPROVIDENT_START=@EMPPROVIDENT_START ");
                 obj_str.Append(", EMPPROVIDENT_END=@EMPPROVIDENT_END ");
 
+                obj_str.Append(", EMPPROVIDENT_TYPE=@EMPPROVIDENT_TYPE ");
+                obj_str.Append(", RATE_EMP=@RATE_EMP ");
+                obj_str.Append(", RATE_COM=@RATE_COM ");
+                
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
 
@@ -302,6 +329,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+
+                obj_cmd.Parameters.Add("@EMPPROVIDENT_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPROVIDENT_TYPE"].Value = model.empprovident_type;
+                obj_cmd.Parameters.Add("@RATE_EMP", SqlDbType.Decimal); obj_cmd.Parameters["@RATE_EMP"].Value = model.rate_emp;
+                obj_cmd.Parameters.Add("@RATE_COM", SqlDbType.Decimal); obj_cmd.Parameters["@RATE_COM"].Value = model.rate_com;
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
@@ -340,6 +371,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
                 obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
 
+                obj_str.Append(", EMPPROVIDENT_TYPE");
+                obj_str.Append(", RATE_EMP");
+                obj_str.Append(", RATE_COM");
+
                 obj_str.Append(", ISNULL(EMP_TR_PROVIDENT.MODIFIED_BY, EMP_TR_PROVIDENT.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(EMP_TR_PROVIDENT.MODIFIED_DATE, EMP_TR_PROVIDENT.CREATED_DATE) AS MODIFIED_DATE");
 
@@ -369,6 +404,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
                     model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.empprovident_type = dr["EMPPROVIDENT_TYPE"].ToString();
+                    model.rate_emp = Convert.ToDouble(dr["RATE_EMP"]);
+                    model.rate_com = Convert.ToDouble(dr["RATE_COM"]);
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -408,6 +447,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", EMPPROVIDENT_END ");
                 }
 
+                obj_str.Append(", EMPPROVIDENT_TYPE");
+                obj_str.Append(", RATE_EMP");
+                obj_str.Append(", RATE_COM");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -425,6 +468,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     obj_str.Append(", @EMPPROVIDENT_END ");
                 }
+
+                obj_str.Append(", @EMPPROVIDENT_TYPE");
+                obj_str.Append(", @RATE_EMP");
+                obj_str.Append(", @RATE_COM");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -470,6 +517,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         obj_cmd.Parameters.Add("@EMPPROVIDENT_END", SqlDbType.DateTime);
                     }
 
+                    obj_cmd.Parameters.Add("@EMPPROVIDENT_TYPE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@RATE_EMP", SqlDbType.Decimal);
+                    obj_cmd.Parameters.Add("@RATE_COM", SqlDbType.Decimal);
+
+
                     obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
 
@@ -486,6 +538,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         {
                             obj_cmd.Parameters["@EMPPROVIDENT_END"].Value = model.empprovident_end;
                         }
+
+                        obj_cmd.Parameters["@EMPPROVIDENT_TYPE"].Value = model.empprovident_type;
+                        obj_cmd.Parameters["@RATE_EMP"].Value = model.rate_emp;
+                        obj_cmd.Parameters["@RATE_COM"].Value = model.rate_com;
 
                         obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                         obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;

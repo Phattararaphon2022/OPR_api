@@ -146,6 +146,8 @@ namespace BPC_OPR
         public string job_type { get; set; }
         [DataMember]
         public string status { get; set; }
+        [DataMember]
+        public bool blacklist { get; set; }
     }
 
 

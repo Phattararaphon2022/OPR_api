@@ -68,6 +68,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", PROJECT");
 
                 obj_str.Append(" FROM ATT_MT_SHIFT");
                 obj_str.Append(" WHERE 1=1");
@@ -121,6 +122,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    model.project = Convert.ToBoolean(dr["PROJECT"]);
 
                     list_model.Add(model);
                 }
@@ -133,7 +135,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTShift> getDataByFillter(string com, string id, string code)
+        public List<cls_MTShift> getDataByFillter(string com, string id, string code, bool project)
         {
             string strCondition = "";
 
@@ -144,6 +146,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!code.Equals(""))
                 strCondition += " AND SHIFT_CODE='" + code + "'";
+
+            if (project)
+            {
+                strCondition += " AND PROJECT='" + true + "'";
+            }
+            else
+            {
+                strCondition += " AND PROJECT='" + false + "'";
+            }
 
             return this.getData(strCondition);
         }
@@ -289,6 +300,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
+                obj_str.Append(", PROJECT ");
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
@@ -330,6 +342,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
                 obj_str.Append(", @FLAG ");
+                obj_str.Append(", @PROJECT ");
                 obj_str.Append(" )");
 
                 obj_conn.doConnect();
@@ -378,6 +391,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
+                obj_cmd.Parameters.Add("@PROJECT", SqlDbType.Bit); obj_cmd.Parameters["@PROJECT"].Value = model.project;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -442,6 +456,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
+                obj_str.Append(", PROJECT=@PROJECT ");
                 if (!model.shift_id.Equals(0))
                 {
                 obj_str.Append(" WHERE SHIFT_ID=@SHIFT_ID ");
@@ -498,6 +513,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = model.flag;
 
                 obj_cmd.Parameters.Add("@SHIFT_ID", SqlDbType.Int); obj_cmd.Parameters["@SHIFT_ID"].Value = model.shift_id;
+                obj_cmd.Parameters.Add("@PROJECT", SqlDbType.Bit); obj_cmd.Parameters["@PROJECT"].Value = model.project;
 
                 obj_cmd.ExecuteNonQuery();
 

@@ -350,6 +350,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 model.modified_by = by;
                                 model.flag = false;
+                                model.project = dr["project"].ToString().Equals("1") ? true : false;
                                 string strID = controller.insert(model);
                                 if (!strID.Equals(""))
                                 {

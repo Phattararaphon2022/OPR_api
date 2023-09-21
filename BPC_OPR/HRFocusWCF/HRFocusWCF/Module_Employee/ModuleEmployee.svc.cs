@@ -1921,7 +1921,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTInitial controller = new cls_ctMTInitial();
-                List<cls_MTInitial> list = controller.getDataByFillter("",req.company_code);
+                List<cls_MTInitial> list = controller.getDataByFillter("");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1935,7 +1935,6 @@ namespace BPC_OPR
                         json.Add("initial_code", model.initial_code);
                         json.Add("initial_name_th", model.initial_name_th);
                         json.Add("initial_name_en", model.initial_name_en);
-                        json.Add("company_code", model.company_code);
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -2012,7 +2011,6 @@ namespace BPC_OPR
                 model.initial_code = input.initial_code;
                 model.initial_name_th = input.initial_name_th;
                 model.initial_name_en = input.initial_name_en;
-                model.company_code = input.company_code;
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
@@ -2084,9 +2082,9 @@ namespace BPC_OPR
 
                 cls_ctMTInitial controller = new cls_ctMTInitial();
 
-                if (controller.checkDataOld(input.initial_id,input.initial_code,input.company_code))
+                if (controller.checkDataOld(input.initial_id,input.initial_code))
                 {
-                    bool blnResult = controller.delete(input.initial_code,input.company_code);
+                    bool blnResult = controller.delete(input.initial_code);
 
                     if (blnResult)
                     {
@@ -8813,8 +8811,13 @@ namespace BPC_OPR
                         json.Add("empprovident_start", model.empprovident_start);
                         json.Add("empprovident_end", model.empprovident_end);
 
+                        json.Add("empprovident_type", model.empprovident_type);
+                        json.Add("rate_emp", model.rate_emp);
+                        json.Add("rate_com", model.rate_com);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
+
                         json.Add("index", index++);
                         array.Add(json);
                     }
@@ -12182,10 +12185,15 @@ namespace BPC_OPR
                 {
                     cls_TRProvident model = new cls_TRProvident();
                     model.provident_code = input.provident_code;
-                    model.empprovident_card = input.empprovident_card;
+                    //model.empprovident_card = input.empprovident_card;
+                    model.empprovident_card = modelWorker.worker_code;
                     model.empprovident_entry = Convert.ToDateTime(input.empprovident_entry);
                     model.empprovident_start = Convert.ToDateTime(input.empprovident_start);
                     model.empprovident_end = Convert.ToDateTime(input.empprovident_end);
+                    model.empprovident_type = input.empprovident_type;
+                    model.rate_emp = Convert.ToDouble(input.rate_emp);
+                    model.rate_com = Convert.ToDouble(input.rate_com);
+
                     model.company_code = input.company_code;
                     model.worker_code = modelWorker.worker_code;
                     model.created_by = input.modified_by;

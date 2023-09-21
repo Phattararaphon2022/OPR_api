@@ -449,7 +449,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTShift objShift = new cls_ctMTShift();
-                List<cls_MTShift> listShift = objShift.getDataByFillter(input.company_code, input.shift_id, input.shift_code);
+                List<cls_MTShift> listShift = objShift.getDataByFillter(input.company_code, input.shift_id, input.shift_code,input.project);
 
                 JArray array = new JArray();
 
@@ -498,6 +498,7 @@ namespace BPC_OPR
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+                        json.Add("project", model.project);
                         cls_ctTRShiftbreak objBreak = new cls_ctTRShiftbreak();
                         List<cls_TRShiftbreak> listBreak = objBreak.getDataByFillter(model.company_code, model.shift_code);
                         JArray arrayBreak = new JArray();
@@ -666,6 +667,7 @@ namespace BPC_OPR
 
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
+                model.project = input.project;
 
                 string strID = objShift.insert(model);
                 if (strID.Equals("D"))

@@ -179,6 +179,9 @@ namespace BPC_OPR
         [DataMember]
         public List<cls_TRShiftallowance> shift_allowance { get; set; }
 
+        [DataMember]
+        public bool project { get; set; }
+
 
     }
     #endregion
