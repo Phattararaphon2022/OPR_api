@@ -1098,6 +1098,12 @@ namespace BPC_OPR
         [DataMember]
         public string empprovident_end { get; set; }
         [DataMember]
+        public string empprovident_type { get; set; }
+        [DataMember]
+        public double rate_emp { get; set; }
+        [DataMember]
+        public double rate_com { get; set; }
+        [DataMember]
         public List<cls_MTWorker> emp_data { get; set; }
         [DataMember]
         public string modified_by { get; set; }

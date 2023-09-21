@@ -197,14 +197,9 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 cls_ctMTInitial objWorker = new cls_ctMTInitial();
                                 cls_MTInitial model = new cls_MTInitial();
-                                if (!com.Equals(dr["company_code"].ToString()))
-                                {
-                                    continue;
-                                }
                                 model.initial_code = dr["initial_code"].ToString();
                                 model.initial_name_th = dr["initial_name_th"].ToString();
                                 model.initial_name_en = dr["initial_name_en"].ToString();
-                                model.company_code = dr["company_code"].ToString();
                                 model.modified_by = by;
 
                                 string strID = objWorker.insert(model);
@@ -1124,7 +1119,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     model.empprovident_end = Convert.ToDateTime(dr["empprovident_end"]);
                                 }
-                                
+                                model.empprovident_type = dr["empprovident_type"].ToString();
+                                model.rate_com = Convert.ToDouble(dr["rate_com"]);
+                                model.rate_emp = Convert.ToDouble(dr["rate_emp"]);
 
                                 model.modified_by = by;
 

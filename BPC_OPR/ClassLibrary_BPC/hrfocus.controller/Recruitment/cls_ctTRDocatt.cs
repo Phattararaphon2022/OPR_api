@@ -126,7 +126,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
-        public bool delete(string com, string doc_id, string code,string type)
+        public bool delete(string com, int doc_id, string code,string type)
         {
             bool blnResult = true;
             try
@@ -137,11 +137,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" DELETE FROM REQ_TR_DOCATT");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
-                if (!code.Equals(0))
+                if (!code.Equals(""))
                     obj_str.Append(" AND WORKER_CODE='" + code + "'");
                 if (!doc_id.Equals(0))
                     obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
-                if(!type.Equals(0))
+                if(!type.Equals(""))
                     obj_str.Append(" AND JOB_TYPE='" + type + "'");
 
 
