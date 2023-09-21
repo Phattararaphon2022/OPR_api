@@ -12387,7 +12387,7 @@ namespace BPC_OPR
                                 {
                                     //-- Update status
                                     cls_ctMTApplywork applywork = new cls_ctMTApplywork();
-                                    List<cls_MTWorker> list_applywork = applywork.getDataByFillter(input.company_code,input.approve_code, "");
+                                    List<cls_MTWorker> list_applywork = applywork.getDataByFillter(input.company_code,input.approve_code, "",false);
 
                                     if (list_applywork.Count > 0)
                                     {
@@ -12403,7 +12403,7 @@ namespace BPC_OPR
                                     {
                                         //-- Update status
                                         cls_ctMTApplywork applywork = new cls_ctMTApplywork();
-                                        List<cls_MTWorker> list_applywork = applywork.getDataByFillter(input.company_code, input.approve_code, "");
+                                        List<cls_MTWorker> list_applywork = applywork.getDataByFillter(input.company_code, input.approve_code, "",false);
 
                                         if (list_applywork.Count > 0)
                                         {

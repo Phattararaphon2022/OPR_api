@@ -74,7 +74,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(INITIAL_NAME_EN, '') AS INITIAL_NAME_EN");
 
                 obj_str.Append(" FROM REQ_MT_WORKER");
-                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON REQ_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE AND REQ_MT_WORKER.COMPANY_CODE = EMP_MT_INITIAL.COMPANY_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON REQ_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE");
 
                 obj_str.Append(" WHERE 1=1");
 
@@ -147,7 +147,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_MTWorker> getDataByFillter(string com, string code,string status)
+        public List<cls_MTWorker> getDataByFillter(string com, string code,string status,bool blacklist)
         {
             string strCondition = "";
 
@@ -157,6 +157,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND WORKER_CODE  ='" + code + "'";
             if(!status.Equals(""))
                 strCondition += " AND STATUS  ='" + status + "'";
+            if (blacklist)
+            {
+                strCondition += " AND WORKER_CARDNO IN (SELECT WORKER_CARDNO FROM REQ_MT_BLACKLIST WHERE COMPANY_CODE='" + com + "' AND CARD_NO = REQ_MT_WORKER.WORKER_CARDNO)";
+            }
 
             return this.getData(strCondition);
         }

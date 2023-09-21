@@ -125,7 +125,7 @@ namespace BPC_OPR
                  }
 
                  cls_ctMTApplywork controller = new cls_ctMTApplywork();
-                 List<cls_MTWorker> list = controller.getDataByFillter(req.company_code, req.worker_code,req.status);
+                 List<cls_MTWorker> list = controller.getDataByFillter(req.company_code, req.worker_code,req.status,req.blacklist);
 
                  //-- Workflow
                  cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
@@ -4132,7 +4132,7 @@ namespace BPC_OPR
                  int error = 0;
                  StringBuilder obj_error = new StringBuilder();
 
-                 bool clear = controller.delete(input.company_code,"",input.worker_code,input.job_type);
+                 bool clear = controller.delete(input.company_code,0,input.worker_code,"");
 
                  if (clear)
                  {
@@ -4232,7 +4232,7 @@ namespace BPC_OPR
 
                  if (controller.checkDataOld(input.company_code,Convert.ToString(input.document_id),input.worker_code))
                  {
-                     bool blnResult = controller.delete(input.company_code, Convert.ToString(input.document_id), input.worker_code,input.job_type);
+                     bool blnResult = controller.delete(input.company_code, Convert.ToInt32(input.document_id), input.worker_code,input.job_type);
 
                      if (blnResult)
                      {
