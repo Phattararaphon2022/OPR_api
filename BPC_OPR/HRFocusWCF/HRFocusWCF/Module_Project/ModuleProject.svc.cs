@@ -1984,6 +1984,7 @@ namespace BPC_OPR
 
                 cls_ctMTProject controller = new cls_ctMTProject();
                 cls_MTProject model = new cls_MTProject();
+                //model.project_id = input.project_id;
 
                 model.project_id = Convert.ToInt32(input.project_id);
                 model.project_code = input.project_code;
@@ -2010,13 +2011,13 @@ namespace BPC_OPR
 
                 model.modified_by = input.modified_by;
 
-                bool blnResult = controller.insert(model);
+                string strID = controller.insert(model);
 
-                if (blnResult)
+                if (!strID.Equals(""))
                 {
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
-                    //output["record_id"] = strID;
+                    output["record_id"] = strID;
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2024,7 +2025,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -2078,7 +2079,7 @@ namespace BPC_OPR
 
                 cls_ctMTProject controller = new cls_ctMTProject();
 
-                if (controller.checkDataOld(input.project_code, input.company_code))
+                if (controller.checkDataOld(input.project_code, input.company_code, input.project_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.project_code, input.company_code);
 

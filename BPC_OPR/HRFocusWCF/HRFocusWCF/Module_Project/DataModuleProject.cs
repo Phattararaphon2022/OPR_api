@@ -108,7 +108,7 @@ namespace BPC_OPR
     public class InputMTProject
     {
         [DataMember]
-        public string project_id { get; set; }
+        public int project_id { get; set; }
         [DataMember]
         public string comapny_code { get; set; }
         [DataMember]

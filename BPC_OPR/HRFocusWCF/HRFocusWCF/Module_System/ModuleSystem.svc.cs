@@ -6168,7 +6168,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Code Format is incorrect";///errorแจ้งเตือน
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();

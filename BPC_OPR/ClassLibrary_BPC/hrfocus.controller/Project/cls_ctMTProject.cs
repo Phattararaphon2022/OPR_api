@@ -182,9 +182,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ISNULL(PROTYPE_ID, 1) ");
+                obj_str.Append("SELECT ISNULL(PROJECT_ID, 1) ");
                 obj_str.Append(" FROM PRO_MT_PROJECT");
-                obj_str.Append(" ORDER BY PROTYPE_ID DESC ");
+                obj_str.Append(" ORDER BY PROJECT_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -201,17 +201,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string code, string com)
+        public bool checkDataOld(string code, string com, string id)
         {
             bool blnResult = false;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT PROJECT_CODE");
+                obj_str.Append("SELECT PROJECT_ID");
                 obj_str.Append(" FROM PRO_MT_PROJECT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + code + "'");
                 obj_str.Append(" AND COMPANY_CODE ='" + com + "'");
+                obj_str.Append(" AND PROJECT_ID ='" + id + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -253,23 +254,39 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool insert(cls_MTProject model)
+        public string insert(cls_MTProject model)
         {
-            bool blnResult = false;
+
+            string strResult = "";
             try
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.company_code))
+                if (this.checkDataOld(model.project_code, model.company_code, model.project_id.ToString()))
                 {
                     if (this.update(model))
-                        return this.update(model);
+                        return model.project_id.ToString();
                     else
-                        return false;
+                        return "";                    
                 }
+
+
+            //bool blnResult = false;
+            //try
+            //{
+
+            //    //-- Check data old
+            //    if (this.checkDataOld(model.project_code, model.company_code, model.project_id.ToString()))
+            //    {
+            //        if (this.update(model))
+            //            return this.update(model);
+            //        else
+            //            return false;
+            //    }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+                int id = this.getNextID();
 
                 obj_str.Append("INSERT INTO PRO_MT_PROJECT");
                 obj_str.Append(" (");
@@ -351,20 +368,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
-
+ 
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-
-                blnResult = true;
+                strResult = model.project_id.ToString();
+                //blnResult = true;
 
             }
             catch (Exception ex)
             {
-                Message = "BNK005:" + ex.ToString();               
+
+                Message = "BNK005:" + ex.ToString();
+                strResult = "";
+
             }
 
-            return blnResult;
+            return strResult;
         }
 
         public bool update(cls_MTProject model)
@@ -395,8 +415,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
-                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
-                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+                obj_str.Append(", FLAG=@FLAG ");
+
+                obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
+                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND PROJECT_ID=@PROJECT_ID ");
 
                 obj_conn.doConnect();
 
@@ -423,9 +446,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                                
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
 
-                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = model.project_id;
 
                 obj_cmd.ExecuteNonQuery();
 
