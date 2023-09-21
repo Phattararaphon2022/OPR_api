@@ -55,6 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime modified_date { get; set; }
 
         public bool flag { get; set; }
+        public bool project { get; set; }
 
     }
 }

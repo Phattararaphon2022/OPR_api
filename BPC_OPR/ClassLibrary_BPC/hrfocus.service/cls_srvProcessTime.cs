@@ -117,7 +117,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                 //-- get shitf
                 cls_ctMTShift objShift = new cls_ctMTShift();
-                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "");
+                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "",false);
 
                 //-- get shitf
                 cls_ctTRShiftbreak objBreak = new cls_ctTRShiftbreak();
@@ -1083,7 +1083,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                 //-- get shitf
                 cls_ctMTShift objShift = new cls_ctMTShift();
-                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "");
+                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "",false);
 
                 //-- get shitf
                 cls_ctTRShiftbreak objBreak = new cls_ctTRShiftbreak();
