@@ -436,7 +436,9 @@ namespace BPC_OPR
         public string projob_code { get; set; }
         [DataMember]
         public string project_code { get; set; }
-
+        [DataMember]
+        public string shift_code { get; set; }
+        
         [DataMember]
         public string version { get; set; }
 

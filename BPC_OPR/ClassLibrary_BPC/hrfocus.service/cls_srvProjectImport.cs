@@ -349,6 +349,114 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
 
+                    case "PROJECT":
+
+                        dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                cls_ctMTProject controller = new cls_ctMTProject();
+                                cls_MTProject model = new cls_MTProject();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
+                                model.company_code = dr["company_code"].ToString();
+                                model.project_code = dr["project_code"].ToString();
+                                model.project_name_th = dr["project_name_th"].ToString();
+                                model.project_name_en = dr["project_name_en"].ToString();
+
+                                model.project_name_sub = dr["project_name_sub"].ToString();
+                                model.project_codecentral = dr["project_codecentral"].ToString();
+                                model.project_protype = dr["project_protype"].ToString();
+                                model.project_proarea = dr["project_proarea"].ToString();
+
+                      
+                                model.project_progroup = dr["project_progroup"].ToString();
+                                model.project_probusiness = dr["project_probusiness"].ToString();
+                                model.project_roundtime = dr["project_roundtime"].ToString();
+                                model.project_roundmoney = dr["project_roundmoney"].ToString();
+
+                                model.project_proholiday = dr["project_proholiday"].ToString();
+                                model.project_status = dr["project_status"].ToString();
+                  
+
+                                model.modified_by = by;
+                                string strID = controller.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.project_code);
+                                }
+                            }
+
+                            strResult = "";
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+                        }
+
+                        break;
+
+                    //case "PROJECT_CONTACT":
+
+                    //    dt = doReadExcel(filename);
+                    //    if (dt.Rows.Count > 0)
+                    //    {
+                    //        foreach (DataRow dr in dt.Rows)
+                    //        {
+                    //            cls_ctTRProcontact controller = new cls_ctTRProcontact();
+                    //            cls_TRProcontact model = new cls_TRProcontact();
+                               
+                    //             model.project_code = dr["project_code"].ToString();
+                    //            model.project_name_th = dr["project_name_th"].ToString();
+                    //            model.project_name_en = dr["project_name_en"].ToString();
+
+                    //            model.project_name_sub = dr["project_name_sub"].ToString();
+                    //            model.project_codecentral = dr["project_codecentral"].ToString();
+                    //            model.project_protype = dr["project_protype"].ToString();
+                    //            model.project_proarea = dr["project_proarea"].ToString();
+
+
+                    //            model.project_progroup = dr["project_progroup"].ToString();
+                    //            model.project_probusiness = dr["project_probusiness"].ToString();
+                    //            model.project_roundtime = dr["project_roundtime"].ToString();
+                    //            model.project_roundmoney = dr["project_roundmoney"].ToString();
+
+                    //            model.project_proholiday = dr["project_proholiday"].ToString();
+                    //            model.project_status = dr["project_status"].ToString();
+
+
+                    //            model.modified_by = by;
+                    //            string strID = controller.insert(model);
+
+                    //            if (!strID.Equals(""))
+                    //            {
+                    //                success++;
+                    //            }
+                    //            else
+                    //            {
+                    //                objStr.Append(model.project_code);
+                    //            }
+                    //        }
+
+                    //        strResult = "";
+                    //        if (success > 0)
+                    //            strResult += "Success : " + success.ToString();
+
+                    //        if (objStr.Length > 0)
+                    //            strResult += " Fail : " + objStr.ToString();
+                    //    }
+
+                    //    break;
+
 
                 }
 

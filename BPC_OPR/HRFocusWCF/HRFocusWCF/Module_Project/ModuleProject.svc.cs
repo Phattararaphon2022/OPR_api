@@ -5172,9 +5172,9 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost controller = new cls_ctTRProjobcost();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.projob_code, input.version))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobcost_code, input.version))
                 {
-                    bool blnResult = controller.delete(input.project_code, input.projob_code, input.projob_code, input.version);
+                    bool blnResult = controller.delete(input.project_code, input.projob_code, input.projobcost_code, input.version);
 
                     if (blnResult)
                     {
@@ -7354,7 +7354,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobshift controller = new cls_ctTRProjobshift();
 
-                if (controller.checkDataOld(input.version, input.project_code, input.projob_code, input.version))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.shift_code, input.version))
                 {
                     bool blnResult = controller.delete(input.project_code, input.projob_code, input.version);
 
