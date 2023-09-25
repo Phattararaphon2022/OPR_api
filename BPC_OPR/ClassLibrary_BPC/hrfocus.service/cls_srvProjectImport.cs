@@ -405,57 +405,97 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
 
-                    //case "PROJECT_CONTACT":
+                    case "PROJECT_CONTACT":
 
-                    //    dt = doReadExcel(filename);
-                    //    if (dt.Rows.Count > 0)
-                    //    {
-                    //        foreach (DataRow dr in dt.Rows)
-                    //        {
-                    //            cls_ctTRProcontact controller = new cls_ctTRProcontact();
-                    //            cls_TRProcontact model = new cls_TRProcontact();
-                               
-                    //             model.project_code = dr["project_code"].ToString();
-                    //            model.project_name_th = dr["project_name_th"].ToString();
-                    //            model.project_name_en = dr["project_name_en"].ToString();
+                        dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                cls_ctTRProcontact controller = new cls_ctTRProcontact();
+                                cls_TRProcontact model = new cls_TRProcontact();
 
-                    //            model.project_name_sub = dr["project_name_sub"].ToString();
-                    //            model.project_codecentral = dr["project_codecentral"].ToString();
-                    //            model.project_protype = dr["project_protype"].ToString();
-                    //            model.project_proarea = dr["project_proarea"].ToString();
+                                model.procontact_ref = dr["procontact_ref"].ToString();
+                                model.procontact_firstname_th = dr["procontact_firstname_th"].ToString();
+                                model.procontact_lastname_th = dr["procontact_lastname_th"].ToString();
 
-
-                    //            model.project_progroup = dr["project_progroup"].ToString();
-                    //            model.project_probusiness = dr["project_probusiness"].ToString();
-                    //            model.project_roundtime = dr["project_roundtime"].ToString();
-                    //            model.project_roundmoney = dr["project_roundmoney"].ToString();
-
-                    //            model.project_proholiday = dr["project_proholiday"].ToString();
-                    //            model.project_status = dr["project_status"].ToString();
+                                model.procontact_firstname_en = dr["procontact_firstname_en"].ToString();
+                                model.procontact_lastname_en = dr["procontact_lastname_en"].ToString();
+                                model.procontact_tel = dr["procontact_tel"].ToString();
+                                model.procontact_email = dr["procontact_email"].ToString();
 
 
-                    //            model.modified_by = by;
-                    //            string strID = controller.insert(model);
+                                model.position_code = dr["position_code"].ToString();
+                                model.initial_code = dr["initial_code"].ToString();
+                                model.project_code = dr["project_code"].ToString();
+                                
 
-                    //            if (!strID.Equals(""))
-                    //            {
-                    //                success++;
-                    //            }
-                    //            else
-                    //            {
-                    //                objStr.Append(model.project_code);
-                    //            }
-                    //        }
 
-                    //        strResult = "";
-                    //        if (success > 0)
-                    //            strResult += "Success : " + success.ToString();
+                                model.modified_by = by;
+                                bool strID = controller.insert(model);
 
-                    //        if (objStr.Length > 0)
-                    //            strResult += " Fail : " + objStr.ToString();
-                    //    }
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.project_code);
+                                }
+                            }
 
-                    //    break;
+                            strResult = "";
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+                        }
+
+                        break;
+
+                    case "PROJECT_CONTRACT":
+
+                        dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                cls_ctTRProcontract controller = new cls_ctTRProcontract();
+                                cls_TRProcontract model = new cls_TRProcontract();
+
+                                model.procontract_ref = dr["procontract_ref"].ToString();
+                                model.procontract_date = Convert.ToDateTime(dr["procontract_date"]);
+                                model.procontract_amount = Convert.ToDecimal(dr["procontract_amount"]);
+                                model.procontract_fromdate = Convert.ToDateTime(dr["procontract_fromdate"]);
+                                model.procontract_todate = Convert.ToDateTime(dr["procontract_todate"]);
+                                model.procontract_customer = dr["procontract_customer"].ToString();
+                                model.procontract_bidder = dr["procontract_bidder"].ToString();
+                                model.project_code = dr["project_code"].ToString();
+                                model.procontract_type = dr["procontract_type"].ToString();
+ 
+                                model.modified_by = by;
+                                bool strID = controller.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.project_code);
+                                }
+                            }
+
+                            strResult = "";
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+                        }
+
+                        break;
 
 
                 }

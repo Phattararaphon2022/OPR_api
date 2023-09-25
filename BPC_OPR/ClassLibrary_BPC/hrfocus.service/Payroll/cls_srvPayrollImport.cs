@@ -142,7 +142,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                                 model.modified_by = by;
                                 model.flag = false;
-                                string strID = controller.insert(model);
+                                bool strID = controller.insert(model);
                                 if (!strID.Equals(""))
                                 {
                                     success++;

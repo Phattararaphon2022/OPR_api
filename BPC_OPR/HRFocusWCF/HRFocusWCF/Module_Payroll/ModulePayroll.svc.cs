@@ -164,7 +164,6 @@ namespace BPC_OPR
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
 
-
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PAY002.2";
             log.apilog_by = input.modified_by;
@@ -188,44 +187,44 @@ namespace BPC_OPR
                 cls_ctTRTaxrate controller = new cls_ctTRTaxrate();
                 cls_TRTaxrate model = new cls_TRTaxrate();
 
-
                 model.company_code = input.company_code;
                 model.taxrate_id = input.taxrate_id;
-
-                //model.taxrate_id = Convert.ToInt32(input.taxrate_id);
                 model.taxrate_from = input.taxrate_from;
                 model.taxrate_to = input.taxrate_to;
                 model.taxrate_tax = input.taxrate_tax;
                 model.modified_by = input.modified_by;
-                model.flag = model.flag;
+                model.flag = false;
 
-                string strID = controller.insert(model);
+                bool blnResult;
 
-                if (!strID.Equals(""))
+                if (model.taxrate_id > 0)  
+                {
+                    blnResult = controller.update(model);
+                }
+                else
+                {
+                    blnResult = controller.insert(model);
+                }
+
+                if (blnResult)
                 {
                     output["success"] = true;
-                    output["message"] = "Retrieved data successfully";
-                    output["record_id"] = strID;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
+                    output["message"] = "Data updated successfully";
+                    output["result"] = "1";
+                    output["result_text"] = "0";
                 }
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = controller.getMessage();
+                    output["message"] = "Failed to update data";
+                    output["result"] = "2";
+                    output["result_text"] = controller.getMessage();
                 }
-
-                controller.dispose();
-
             }
             catch (Exception ex)
             {
                 output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
+                output["message"] = "Failed to update data";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
@@ -239,6 +238,8 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+
         public string doDeleteTRTaxrate(InputTRTaxrate input)
         {
             JObject output = new JObject();
@@ -267,7 +268,7 @@ namespace BPC_OPR
 
                 cls_ctTRTaxrate controller = new cls_ctTRTaxrate();
 
-                if (controller.checkDataOld(input.company_code, input.taxrate_from, input.taxrate_to))
+                if (controller.checkDataOld(input.company_code, input.taxrate_from, input.taxrate_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.taxrate_id.ToString());
 
