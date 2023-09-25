@@ -314,6 +314,14 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     continue;
                                 }
+                                if (by.Split('.')[1].Equals("att") && dr["project"].ToString().Equals("1"))
+                                {
+                                    continue;
+                                }
+                                if (by.Split('.')[1].Equals("pro") && !dr["project"].ToString().Equals("1"))
+                                {
+                                    continue;
+                                }
                                 model.company_code = dr["company_code"].ToString();
 
                                 model.shift_id = dr["shift_id"].ToString().Equals("") ? 0 : Convert.ToInt32(dr["shift_id"].ToString());
@@ -348,7 +356,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 model.shift_flexiblebreak = dr["shift_flexiblebreak"].ToString().Equals("1") ? true : false;
 
-                                model.modified_by = by;
+                                model.modified_by = by.Split('.')[0];
                                 model.flag = false;
                                 model.project = dr["project"].ToString().Equals("1") ? true : false;
                                 string strID = controller.insert(model);
