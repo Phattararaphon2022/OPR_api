@@ -55,7 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY procost_CODE");
+                obj_str.Append(" ORDER BY PROCOST_ID");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
