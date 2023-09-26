@@ -62,8 +62,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.foreignercard_id = Convert.ToInt32(dr["FOREIGNERCARD_ID"]);
                     model.foreignercard_code = dr["FOREIGNERCARD_CODE"].ToString();
                     model.foreignercard_type = dr["FOREIGNERCARD_TYPE"].ToString();
-                    model.foreignercard_issue = Convert.ToDateTime(dr["FOREIGNERCARD_ISSUE"]);
-                    model.foreignercard_expire = Convert.ToDateTime(dr["FOREIGNERCARD_EXPIRE"]);
+                    model.foreignercard_issue = Convert.ToDateTime(dr["FOREIGNERCARD_ISSUE"]).ToString("yyyy/MM/dd");
+                    model.foreignercard_expire = Convert.ToDateTime(dr["FOREIGNERCARD_EXPIRE"]).ToString("yyyy/MM/dd");
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();

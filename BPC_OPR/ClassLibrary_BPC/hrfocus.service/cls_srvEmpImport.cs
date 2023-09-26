@@ -914,6 +914,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.emptraining_hours = Convert.ToDouble(dr["emptraining_hours"]);
                                 model.emptraining_cost = Convert.ToDouble(dr["emptraining_cost"]);
                                 model.emptraining_note = dr["emptraining_note"].ToString();
+                                model.emptraining_count = dr["emptraining_count"].ToString();
 
                                 model.modified_by = by;
 
@@ -1593,8 +1594,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 model.foreignercard_code = dr["foreigner_code"].ToString();
                                 model.foreignercard_type = dr["foreigner_type"].ToString();
-                                model.foreignercard_issue = Convert.ToDateTime(dr["foreigner_issue"]);
-                                model.foreignercard_expire = Convert.ToDateTime(dr["foreigner_expire"]);
+                                model.foreignercard_issue = Convert.ToDateTime(dr["foreigner_issue"]).ToString("yyyy/MM/dd");
+                                model.foreignercard_expire = Convert.ToDateTime(dr["foreigner_expire"]).ToString("yyyy/MM/dd");
 
 
                                 model.modified_by = by;
@@ -1659,6 +1660,52 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 else
                                 {
                                     objStr.Append(model.worker_code);
+                                }
+
+                            }
+
+                            strResult = "";
+
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+
+                        }
+
+                        break;
+
+                    case "FORETYPE":
+
+                        DataTable dtworkerforetype = doReadExcel(filename);
+                        if (dtworkerforetype.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dtworkerforetype.Rows)
+                            {
+
+                                cls_ctMTForetype objfty = new cls_ctMTForetype();
+                                cls_MTForetype model = new cls_MTForetype();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
+                                model.foretype_code = dr["foretype_code"].ToString();
+
+                                model.foretype_name_th = dr["foretype_name_th"].ToString();
+                                model.foretype_name_en = dr["foretype_name_en"].ToString();
+
+                                model.modified_by = by;
+
+                                string strID = objfty.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.foretype_code);
                                 }
 
                             }
