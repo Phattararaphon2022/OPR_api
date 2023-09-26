@@ -159,7 +159,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  //-- Step 3 Get Company acc
                  cls_ctMTCombank objCombank = new cls_ctMTCombank();
-                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter(com);
+                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter("", com);
                  cls_MTCombank combank = list_combank[0];
 
                  //-- Step 4 Get Company detail
@@ -559,7 +559,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  //-- Step 3 Get Company acc
                  cls_ctMTCombank objCombank = new cls_ctMTCombank();
-                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter(com);
+                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter("", com);
                  cls_MTCombank combank = list_combank[0];
 
                  //-- Step 4 Get Company detail
@@ -794,7 +794,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  //-- Step 3 Get Company acc
                  cls_ctMTCombank objCombank = new cls_ctMTCombank();
-                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter(com);
+                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter("",com);
                  cls_MTCombank combank = list_combank[0];
 
                  //-- Step 4 Get Company detail
@@ -1055,7 +1055,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  //-- Step 3 Get Company acc
                  cls_ctMTCombank objCombank = new cls_ctMTCombank();
-                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter(com);
+                 List<cls_MTCombank> list_combank = objCombank.getDataByFillter("", com);
                  cls_MTCombank combank = list_combank[0];
 
                  //-- Step 4 Get Company detail

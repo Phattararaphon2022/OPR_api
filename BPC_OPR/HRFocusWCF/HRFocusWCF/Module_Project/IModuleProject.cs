@@ -351,6 +351,11 @@ namespace BPC_OPR
 
 
         //
+        [OperationContract(Name = "MTProjectFillter_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjectFillterList(FillterProject req);
+
+
         [OperationContract(Name = "projobempfillter_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getProjobempFillterList(FillterProject req);

@@ -6693,7 +6693,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTCombank controller = new cls_ctMTCombank();
-                List<cls_MTCombank> list = controller.getDataByFillter(req.company_code);
+                List<cls_MTCombank> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -6713,6 +6713,7 @@ namespace BPC_OPR
                         
                         json.Add("combank_banktype", model.combank_banktype);
                         json.Add("combank_branch", model.combank_branch);
+                        json.Add("name_detail", model.name_detail);
 
 
 

@@ -25,7 +25,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_MTCombank> getData(string condition)
+        private List<cls_MTCombank> getData(string language,string condition )
         {
             List<cls_MTCombank> list_model = new List<cls_MTCombank>();
             cls_MTCombank model;
@@ -45,10 +45,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(COMBANK_BRANCH, '') AS COMBANK_BRANCH");
 
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(",ISNULL(SYS_MT_COMBANkK.MODIFIED_BY, SYS_MT_COMBANkK.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SYS_MT_COMBANkK.MODIFIED_DATE, SYS_MT_COMBANkK.CREATED_DATE) AS MODIFIED_DATE");
+
+                if (language.Equals("TH"))
+                {
+                    obj_str.Append(", SYS_MT_BANK.BANK_NAME_EN AS NAME_DETAIL");
+
+                 }
+                else
+                {
+                    obj_str.Append(", SYS_MT_BANK.BANK_NAME_TH AS NAME_DETAIL");
+                 }
+
 
                 obj_str.Append(" FROM SYS_MT_COMBANkK");
+                obj_str.Append(" INNER JOIN SYS_MT_BANK  ON SYS_MT_COMBANkK.COMBANK_BANKCODE = SYS_MT_BANK.BANK_CODE ");
+
                 obj_str.Append(" WHERE 1=1");
                 
                 if (!condition.Equals(""))
@@ -73,6 +86,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.combank_banktype = dr["COMBANK_BANKTYPE"].ToString();
                     model.combank_branch = dr["COMBANK_BRANCH"].ToString();
+                    model.name_detail = dr["NAME_DETAIL"].ToString();
 
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
@@ -90,20 +104,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTCombank> getDataByFillter(string com)
+        public List<cls_MTCombank> getDataByFillter(string language, string com)
         {
             string strCondition = "";
             strCondition += " AND COMPANY_CODE='" + com + "'";
             //strCondition += " AND COMBANK_BANKCODE IN (" + bankcode + ") ";
 
-            return this.getData(strCondition);
+            return this.getData(language, strCondition);
         }
-        public List<cls_MTCombank> getDataMultipleEmp(string com, string worker)
+        public List<cls_MTCombank> getDataMultipleEmp(string language, string com, string worker)
         {
             string strCondition = " AND COMPANY_CODE='" + com + "'";
             strCondition += " AND WORKER_CODE IN (" + worker + ") ";
 
-            return this.getData(strCondition);
+            return this.getData(language, strCondition);
         }
         public int getNextID()
         {

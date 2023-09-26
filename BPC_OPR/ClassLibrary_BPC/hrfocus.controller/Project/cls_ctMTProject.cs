@@ -175,6 +175,31 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+        //
+        public List<cls_MTProject> getDataByFillterAll(string com, string code, string business, string area, string status)
+        {
+            string strCondition = "";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + code + "'";
+            if (!business.Equals(""))
+                strCondition += " AND PROJECT_PROBUSINESS='" + business + "'";
+            if (!area.Equals(""))
+                strCondition += " AND PROJECT_PROAREA='" + area + "'";
+            if (!status.Equals(""))
+            {
+                strCondition += " AND PROJECT_STATUS='" + status + "'";
+            }
+
+            return this.getData(strCondition);
+        }
+        //
+
+
+
         public int getNextID()
         {
             int intResult = 1;

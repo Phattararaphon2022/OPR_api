@@ -19,7 +19,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string combank_bankaccount { get; set; }    
    
        public string combank_banktype { get; set; }
-       public string combank_branch { get; set; }       
+       public string combank_branch { get; set; }
+       public string name_detail { get; set; }
 
 
         public string created_by { get;set; }

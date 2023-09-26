@@ -1305,6 +1305,9 @@ namespace BPC_OPR
         public bool worker_blackliststatus { get; set; }
         [DataMember]
         public string project_code { get; set; }
+         [DataMember]
+        public string project_status { get; set; }
+        
 
     }
 
