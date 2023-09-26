@@ -127,8 +127,14 @@ namespace BPC_OPR
                         json.Add("blood_code", model.blood_code);
                         json.Add("worker_height", model.worker_height);
                         json.Add("worker_weight", model.worker_weight);
-
-                        json.Add("worker_resigndate", model.worker_resigndate);
+                        if (model.worker_resigndate.CompareTo(new DateTime(0001, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_resigndate", null);
+                        }
+                        else
+                        {
+                            json.Add("worker_resigndate", model.worker_resigndate);
+                        }
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("worker_resignreason", model.worker_resignreason);
 
@@ -165,7 +171,14 @@ namespace BPC_OPR
 
                         json.Add("worker_socialno", model.worker_socialno);
                         json.Add("worker_socialnoissuedate", model.worker_socialnoissuedate);
-                        json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        if (model.worker_socialnoexpiredate.CompareTo(new DateTime(2999, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_socialnoexpiredate",null);
+                        }
+                        else
+                        {
+                            json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        }
                         json.Add("worker_socialsentdate", model.worker_socialsentdate);
                         json.Add("worker_socialnotsent", model.worker_socialnotsent);
 
@@ -316,7 +329,14 @@ namespace BPC_OPR
 
                 model.worker_socialno = input.worker_socialno;
                 model.worker_socialnoissuedate = Convert.ToDateTime(input.worker_socialnoissuedate);
-                model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoexpiredate);
+                if (input.worker_socialnoexpiredate == null)
+                {
+                    model.worker_socialnoexpiredate = Convert.ToDateTime(new DateTime(2999,01,01));
+                }
+                else
+                {
+                    model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoissuedate);
+                }
                 if (input.worker_socialsentdate != null)
                 {
                     model.worker_socialsentdate = Convert.ToDateTime(input.worker_socialsentdate);
@@ -572,7 +592,14 @@ namespace BPC_OPR
                         json.Add("worker_height", model.worker_height);
                         json.Add("worker_weight", model.worker_weight);
 
-                        json.Add("worker_resigndate", model.worker_resigndate);
+                        if (model.worker_resigndate.CompareTo(new DateTime(0001, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_resigndate", null);
+                        }
+                        else
+                        {
+                            json.Add("worker_resigndate", model.worker_resigndate);
+                        }
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("worker_resignreason", model.worker_resignreason);
 
@@ -609,7 +636,14 @@ namespace BPC_OPR
 
                         json.Add("worker_socialno", model.worker_socialno);
                         json.Add("worker_socialnoissuedate", model.worker_socialnoissuedate);
-                        json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        if (model.worker_socialnoexpiredate.CompareTo(new DateTime(2999, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_socialnoexpiredate", null);
+                        }
+                        else
+                        {
+                            json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        }
                         json.Add("worker_socialsentdate", model.worker_socialsentdate);
                         json.Add("worker_socialnotsent", model.worker_socialnotsent);
 

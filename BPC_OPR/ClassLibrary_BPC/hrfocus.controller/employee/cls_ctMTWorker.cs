@@ -54,7 +54,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_HEIGHT");
                 obj_str.Append(", WORKER_WEIGHT");
 
-                obj_str.Append(", ISNULL(WORKER_RESIGNDATE, '01/01/2999') AS WORKER_RESIGNDATE");
+                obj_str.Append(", ISNULL(WORKER_RESIGNDATE, '') AS WORKER_RESIGNDATE");
                 obj_str.Append(", ISNULL(WORKER_RESIGNSTATUS, '0') AS WORKER_RESIGNSTATUS");
                 obj_str.Append(", ISNULL(WORKER_RESIGNREASON, '') AS WORKER_RESIGNREASON");
 
@@ -86,7 +86,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_SOCIALNO");
                 obj_str.Append(", WORKER_SOCIALNOISSUEDATE");
-                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE");
+                obj_str.Append(", ISNULL(WORKER_SOCIALNOEXPIREDATE, '01/01/2999') AS WORKER_SOCIALNOEXPIREDATE");
 
                 obj_str.Append(", ISNULL(WORKER_SOCIALSENTDATE, '01/01/2999') AS WORKER_SOCIALSENTDATE");
                 obj_str.Append(", WORKER_SOCIALNOTSENT");
@@ -139,8 +139,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.blood_code = dr["BLOOD_CODE"].ToString();
                     model.worker_height = Convert.ToDouble(dr["WORKER_HEIGHT"]);
                     model.worker_weight = Convert.ToDouble(dr["WORKER_WEIGHT"]);
-
-                    model.worker_resigndate = Convert.ToDateTime(dr["WORKER_RESIGNDATE"]);
+                    if (!dr["WORKER_RESIGNDATE"].Equals(""))
+                    {
+                                model.worker_resigndate = Convert.ToDateTime(dr["WORKER_RESIGNDATE"]);
+                    }
                     model.worker_resignstatus = Convert.ToBoolean(dr["WORKER_RESIGNSTATUS"]);
                     model.worker_resignreason = dr["WORKER_RESIGNREASON"].ToString();
 
@@ -169,7 +171,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.worker_socialno = dr["WORKER_SOCIALNO"].ToString();
                     model.worker_socialnoissuedate = Convert.ToDateTime(dr["WORKER_SOCIALNOISSUEDATE"]);
+
                     model.worker_socialnoexpiredate = Convert.ToDateTime(dr["WORKER_SOCIALNOEXPIREDATE"]);
+            
                     model.worker_socialsentdate = Convert.ToDateTime(dr["WORKER_SOCIALSENTDATE"]);
                     model.worker_socialnotsent = Convert.ToBoolean(dr["WORKER_SOCIALNOTSENT"]);
 
@@ -340,6 +344,33 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
+        public bool checkDataOldresigstatus(string code, string com, bool status)
+        {
+            bool blnResult = false;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT WORKER_CODE");
+                obj_str.Append(" FROM EMP_MT_WORKER");
+                obj_str.Append(" WHERE WORKER_CODE='" + code + "'");
+                obj_str.Append(" AND COMPANY_CODE='" + com + "'");
+                obj_str.Append(" AND WORKER_RESIGNSTATUS='" + status + "'");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    blnResult = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "WORKER003:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
         public int getID()
         {
             int intResult = 1;
@@ -477,7 +508,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", WORKER_SOCIALNO ");
                 obj_str.Append(", WORKER_SOCIALNOISSUEDATE ");
-                obj_str.Append(", WORKER_SOCIALNOEXPIREDATE ");
+                //obj_str.Append(", WORKER_SOCIALNOEXPIREDATE ");
                 if (model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_str.Append(", WORKER_SOCIALSENTDATE ");
@@ -558,7 +589,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @WORKER_SOCIALNO ");
                 obj_str.Append(", @WORKER_SOCIALNOISSUEDATE ");
-                obj_str.Append(", @WORKER_SOCIALNOEXPIREDATE ");
+                //obj_str.Append(", @WORKER_SOCIALNOEXPIREDATE ");
                 if (model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_str.Append(", @WORKER_SOCIALSENTDATE ");
@@ -646,8 +677,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_CARDNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_CARDNOEXPIREDATE"].Value = model.worker_cardnoexpiredate;
 
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_SOCIALNO"].Value = model.worker_socialno;
-                obj_cmd.Parameters.Add("@WORKER_SOCIALNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOISSUEDATE"].Value = model.worker_socialnoissuedate;
-                obj_cmd.Parameters.Add("@WORKER_SOCIALNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOEXPIREDATE"].Value = model.worker_socialnoexpiredate;
+                obj_cmd.Parameters.Add("@WORKER_SOCIALNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOISSUEDATE"].Value = model.worker_hiredate;
+                //obj_cmd.Parameters.Add("@WORKER_SOCIALNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOEXPIREDATE"].Value = model.worker_socialnoexpiredate;
                 if (model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
@@ -675,6 +706,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             string strResult = model.worker_id.ToString();
             bool blnResult = false;
+            if (!this.checkDataOldresigstatus(model.worker_code, model.company_code, model.worker_resignstatus))
+            {
+                model.worker_socialnoexpiredate = model.worker_resigndate;
+            }
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
