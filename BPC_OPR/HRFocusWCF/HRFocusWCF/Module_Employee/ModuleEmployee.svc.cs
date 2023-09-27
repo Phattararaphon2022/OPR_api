@@ -335,7 +335,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-                    model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoissuedate);
+                    model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoexpiredate);
                 }
                 if (input.worker_socialsentdate != null)
                 {
