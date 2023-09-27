@@ -1654,106 +1654,7 @@ namespace BPC_OPR
         #endregion
 
 
-        #region MTProjectFillterList
-        public string getMTProjectFillterList(FillterProject req)
-        {
-            JObject output = new JObject();
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PRO028.5";
-            log.apilog_by = req.username;
-            log.apilog_data = "all";
-
-            try
-            {
-                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-                {
-                    output["success"] = false;
-                    output["message"] = BpcOpr.MessageNotAuthen;
-
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
-
-                cls_ctMTProject controller = new cls_ctMTProject();
-                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
- 
-                 JArray array = new JArray();
-
-                if (list.Count > 0)
-                {
-                    int index = 1;
-
-                    foreach (cls_MTProject model in list)
-                    {
-                        JObject json = new JObject();
-                        json.Add("project_id", model.project_id);
-                        json.Add("project_code", model.project_code);
-                        json.Add("project_name_th", model.project_name_th);
-                        json.Add("project_name_en", model.project_name_en);
-
-                        json.Add("project_name_sub", model.project_name_sub);
-                        json.Add("project_codecentral", model.project_codecentral);
-                        json.Add("project_protype", model.project_protype);
-
-                        json.Add("project_proarea", model.project_proarea);
-                        json.Add("project_progroup", model.project_progroup);
-
-                        json.Add("project_probusiness", model.project_probusiness);
-                        json.Add("project_roundtime", model.project_roundtime);
-                        json.Add("project_roundmoney", model.project_roundmoney);
-                        json.Add("project_proholiday", model.project_proholiday);
-
-                        json.Add("project_status", model.project_status);
-                        json.Add("company_code", model.company_code);
-
-                        json.Add("index", index);
-
-                        index++;
-
-                        array.Add(json);
-                    }
-
-                    output["success"] = true;
-                    output["message"] = "";
-                    output["data"] = array;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["success"] = false;
-                    output["message"] = "Data not Found";
-                    output["data"] = array;
-
-                    log.apilog_status = "404";
-                    log.apilog_message = "Data not Found";
-                }
-
-                controller.dispose();
-            }
-            catch (Exception ex)
-            {
-                output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-            }
-            finally
-            {
-                objBpcOpr.doRecordLog(log);
-            }
-
-            return output.ToString(Formatting.None);
-        }
-
-        #endregion
+       
 
         #region MTProject
         public string getMTProjectList(FillterProject req)
@@ -2202,6 +2103,108 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        #endregion
+
+
+        #region MTProjectFillterList
+        public string getMTProjectFillterList(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO028.5";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTProject model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("project_id", model.project_id);
+                        json.Add("project_code", model.project_code);
+                        json.Add("project_name_th", model.project_name_th);
+                        json.Add("project_name_en", model.project_name_en);
+
+                        json.Add("project_name_sub", model.project_name_sub);
+                        json.Add("project_codecentral", model.project_codecentral);
+                        json.Add("project_protype", model.project_protype);
+
+                        json.Add("project_proarea", model.project_proarea);
+                        json.Add("project_progroup", model.project_progroup);
+
+                        json.Add("project_probusiness", model.project_probusiness);
+                        json.Add("project_roundtime", model.project_roundtime);
+                        json.Add("project_roundmoney", model.project_roundmoney);
+                        json.Add("project_proholiday", model.project_proholiday);
+
+                        json.Add("project_status", model.project_status);
+                        json.Add("company_code", model.company_code);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
         #endregion
 
         #region TRProaddress
