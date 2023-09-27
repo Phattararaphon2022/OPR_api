@@ -509,7 +509,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_SOCIALNO ");
                 obj_str.Append(", WORKER_SOCIALNOISSUEDATE ");
                 //obj_str.Append(", WORKER_SOCIALNOEXPIREDATE ");
-                if (model.worker_socialsentdate.ToString().Equals(""))
+                if (!model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_str.Append(", WORKER_SOCIALSENTDATE ");
                 }
@@ -590,7 +590,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @WORKER_SOCIALNO ");
                 obj_str.Append(", @WORKER_SOCIALNOISSUEDATE ");
                 //obj_str.Append(", @WORKER_SOCIALNOEXPIREDATE ");
-                if (model.worker_socialsentdate.ToString().Equals(""))
+                if (!model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_str.Append(", @WORKER_SOCIALSENTDATE ");
                 }
@@ -679,7 +679,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_SOCIALNO"].Value = model.worker_socialno;
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOISSUEDATE"].Value = model.worker_hiredate;
                 //obj_cmd.Parameters.Add("@WORKER_SOCIALNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOEXPIREDATE"].Value = model.worker_socialnoexpiredate;
-                if (model.worker_socialsentdate.ToString().Equals(""))
+                if (!model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
                 }
@@ -781,7 +781,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_SOCIALNO=@WORKER_SOCIALNO ");
                 obj_str.Append(", WORKER_SOCIALNOISSUEDATE=@WORKER_SOCIALNOISSUEDATE ");
                 obj_str.Append(", WORKER_SOCIALNOEXPIREDATE=@WORKER_SOCIALNOEXPIREDATE ");
-                if (model.worker_socialsentdate.ToString().Equals(""))
+                if (!model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_str.Append(", WORKER_SOCIALSENTDATE=@WORKER_SOCIALSENTDATE ");
                 }
@@ -868,7 +868,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNO", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_SOCIALNO"].Value = model.worker_socialno;
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNOISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOISSUEDATE"].Value = model.worker_socialnoissuedate;
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNOEXPIREDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALNOEXPIREDATE"].Value = model.worker_socialnoexpiredate;
-                if (model.worker_socialsentdate.ToString().Equals(""))
+                if (!model.worker_socialsentdate.ToString().Equals(""))
                 {
                     obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
                 }

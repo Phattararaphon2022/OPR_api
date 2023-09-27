@@ -1042,7 +1042,7 @@ namespace BPC_OPR
                     //cls_MTPolcode polcode = listPol[0];
 
                     cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.company_code,"");
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.com,"");
                     foreach (cls_TRPolcode model in listTRPolcode)
                     {
 
