@@ -469,7 +469,48 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProgroup?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream, string com);
+        
+        
+        //
 
+        //-- MTProequipmenttype
+        [OperationContract(Name = "proequipmenttype_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProequipmenttype(BasicRequest req);
+
+        [OperationContract(Name = "proequipmenttype")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTProequipmenttype(InputMTProequipmenttype input);
+
+        [OperationContract(Name = "proequipmenttype_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTProequipmenttype(InputMTProequipmenttype input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProequipmenttype?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProequipmenttype(string token, string by, string fileName, Stream stream, string com);
+
+        //
+
+
+        //--TRProequipmentreq
+        [OperationContract(Name = "TRProequipmentreq_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProequipmenttype(FillterProject req);
+
+        [OperationContract(Name = "TRProequipmentreq")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRProequipmentreqList(InputProjectTransaction input);
+
+        [OperationContract(Name = "TRProequipmentreqdel")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRProequipmenttype(InputTRProequipmentreq input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProequipmentreq?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProequipmenttype(string token, string by, string fileName, Stream stream, string com);
+
+        //--
 
         //-- Cost compare
         [OperationContract(Name = "cost_compare")]

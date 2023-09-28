@@ -197,13 +197,17 @@ namespace BPC_OPR
         [DataMember]
         public string status { get; set; }
         [DataMember]
-        public string projob_code { get; set; }
+        public string projob_code { get; set; } 
+        [DataMember]
+        public string prouniform_code { get; set; } 
+        [DataMember]
+        public string proequipmenttype_code { get; set; }
         [DataMember]
         public string projobemp_emp { get; set; }
-         [DataMember]
+        [DataMember]
         public string projobemp_type { get; set; }
-         [DataMember]
-         public string searchemp { get; set; }
+        [DataMember]
+        public string searchemp { get; set; }
         
     }
 
@@ -220,10 +224,18 @@ namespace BPC_OPR
         [DataMember]
         public string company_code { get; set; }
         [DataMember]
-        public string transaction_data { get; set; }
+        public string transaction_data { get; set; } 
+        [DataMember]
+        public string projob_code { get; set; } 
+        [DataMember]
+        public string prouniform_code { get; set; }
+        [DataMember]
+        public string proequipmenttype_code { get; set; } 
+        [DataMember]
+        public DateTime proequipmentreq_date { get; set; }
 
         [DataMember]
-        public string version { get; set; }
+        public string version { get; set; } 
 
         [DataMember]
         public string modified_by { get; set; }
@@ -662,5 +674,53 @@ namespace BPC_OPR
     
 
 }
+
+
+     [DataContract]
+     public class InputMTProequipmenttype
+     {
+  
+         [DataMember]
+         public string proequipmenttype_id { get; set; }
+         [DataMember]
+         public string proequipmenttype_code { get; set; }
+         [DataMember]
+         public string proequipmenttype_name_th { get; set; }
+         [DataMember]
+         public string proequipmenttype_name_en { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+
+     }
+
+     [DataContract]
+     public class InputTRProequipmentreq
+     {
+         [DataMember]
+         public int proequipmentreq_id { get; set; }
+         [DataMember]
+         public string proequipmentreq_code { get; set; }
+         [DataMember]
+         public DateTime proequipmentreq_date { get; set; }
+         [DataMember]
+         public int proequipmentreq_qty { get; set; }
+         [DataMember]
+         public string proequipmentreq_note { get; set; }
+         [DataMember]
+         public string proequipmentreq_by { get; set; }
+         [DataMember]
+         public string proequipmenttype_code { get; set; }
+         [DataMember]
+         public string prouniform_code { get; set; }
+         
+         [DataMember]
+         public string projob_code { get; set; }
+         [DataMember]
+         public string project_code { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+     }
+
 
 }

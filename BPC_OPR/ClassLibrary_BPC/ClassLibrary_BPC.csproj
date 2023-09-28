@@ -96,8 +96,10 @@
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPolReduce.cs" />
     <Compile Include="hrfocus.controller\Payroll\date.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPayreduce.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctMTProequipmenttype.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProgroup.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProarea.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctTRProequipmentreq.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTBlacklist.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTDocatt.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTReqRequest.cs" />
@@ -264,8 +266,10 @@
     <Compile Include="hrfocus.model\Payroll\cls_TRPlanitems.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPlanreduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPolReduce.cs" />
+    <Compile Include="hrfocus.model\Project\cls_MTProequipmenttype.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProgroup.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProarea.cs" />
+    <Compile Include="hrfocus.model\Project\cls_TRProequipmentreq.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobpol.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobversion.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRBonus.cs" />
