@@ -21,6 +21,7 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string project_proarea { get; set; }
         public string project_progroup { get; set; }
+        public string fromdate { get; set; }
 
 
         public string project_probusiness { get; set; }

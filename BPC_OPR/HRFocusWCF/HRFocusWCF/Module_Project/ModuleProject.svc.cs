@@ -10108,18 +10108,25 @@ namespace BPC_OPR
                
 
                 cls_ctMTProcost mtcost_controller = new cls_ctMTProcost();
-                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company, "");
+                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company_code, "");
 
                 foreach (cls_MTProject project in list_project)
                 {
-
                     cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
                     List<cls_MTProjobversion> list_jobversion = jobversion_controller.getDataByFillter(project.project_code);
+                    //cls_MTProjobversion list_jobversions = jobversion_controller.getDataCurrents(project.project_code, fromdate, todate);
+
 
                     JArray array_job = new JArray();
 
                     foreach (cls_MTProjobversion version in list_jobversion)
                     {
+
+                        cls_ctMTProjobversion jobversioncontroller = new cls_ctMTProjobversion();
+                        cls_MTProjobversion jobversion = jobversioncontroller.getDataCurrents(project.project_code, fromdate,todate   );
+
+                        if (jobversion == null)
+                            continue;
                         //-- Job main
                         cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
                         List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, version.version );
