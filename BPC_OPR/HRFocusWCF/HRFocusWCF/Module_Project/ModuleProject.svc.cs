@@ -1357,7 +1357,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTProcost controller = new cls_ctMTProcost();
-                List<cls_MTProcost> list = controller.getDataByFillter(req.company_code, "");
+                List<cls_MTProcost> list = controller.getDataByFillter(req.company, "");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -1780,7 +1780,7 @@ namespace BPC_OPR
                             }
 
                             double cost = 0;
-                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion);
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion,req.company);
                             foreach (cls_TRProjobcost jobcost in cost_list_max)
                             {
                                 if (jobcost.procost_type.Equals("D"))
@@ -4095,7 +4095,7 @@ namespace BPC_OPR
 
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobmain_code, req.version);
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobmain_code, req.version,req.company);
 
                         List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company, "");
                         int i = 1;
@@ -4252,7 +4252,7 @@ namespace BPC_OPR
                 }
 
 
-                if (error == 0)
+                if (success > 0)
                 {
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
@@ -4898,7 +4898,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRProjobcost controller = new cls_ctTRProjobcost();
-                List<cls_TRProjobcost> list = controller.getDataByFillter(req.project_code, req.job_code, req.version);
+                List<cls_TRProjobcost> list = controller.getDataByFillter(req.project_code, req.job_code, req.version,req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5792,7 +5792,7 @@ namespace BPC_OPR
                         }
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobsub_code, req.version);
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobsub_code, req.version,req.company);
 
                         List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company, "");
                         int i = 1;
@@ -7119,7 +7119,7 @@ namespace BPC_OPR
                     cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
 
                     //-- Allow
-                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, req.job_code, req.version);
+                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, req.job_code, req.version,req.company_code);
 
                     foreach (cls_TRProjobshift model in list)
                     {
@@ -8735,7 +8735,7 @@ namespace BPC_OPR
                         }
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version);                                                
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version,req.company_code);                                                
                         foreach (cls_TRProjobcost cost in cost_list_max)
                         {
                             sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
@@ -8940,7 +8940,7 @@ namespace BPC_OPR
                     }
 
                     //-- Cost by job
-                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version);
+                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version,req.company_code);
                     foreach (cls_TRProjobcost cost in cost_list_max)
                     {
                         sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
@@ -10102,7 +10102,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
                
@@ -10132,7 +10132,7 @@ namespace BPC_OPR
                         {
 
                             //-- Cost 
-                            List<cls_TRProjobcost> list_cost = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, version.version);
+                            List<cls_TRProjobcost> list_cost = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, version.version,req.company);
 
                             foreach (cls_MTProcost mtcost in list_mtcost)
                             {
