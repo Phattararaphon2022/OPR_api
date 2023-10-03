@@ -334,6 +334,10 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRProjobempList2(FillterProject req);
 
+        [OperationContract(Name = "projobemp3_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProjobempList3(FillterProject req);
+
 
         [OperationContract(Name = "projobemp_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -372,6 +376,10 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTProjectFillterList2(FillterProject req);
 
+         [OperationContract(Name = "MTProjectFillter3_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjectFillterList3(FillterProject req);
+        
         //[OperationContract(Name = "TRProjobempfillterList")]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         //string getTRProjobempfillterList(FillterProject req);
@@ -532,6 +540,8 @@ namespace BPC_OPR
         [OperationContract(Name = "cost_compare")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCostCompare(FillterProject req);
+
+    
 
     }
 }
