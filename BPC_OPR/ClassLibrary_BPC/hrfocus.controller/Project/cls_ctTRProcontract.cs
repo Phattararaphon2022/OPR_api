@@ -109,13 +109,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!project.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + project + "'";
 
-            strCondition += "AND PROJECT_CODE in( (select PROJECT_CODE from PRO_TR_PROCONTRACT where PROCONTRACT_FROMDATE between'" + procontract_fromdate.ToString("MM/dd/yyyy") + "' and '" + procontract_todate.ToString("MM/dd/yyyy") + "'))";
-
-            //strCondition += " AND ('" + procontract_fromdate.ToString("MM/dd/yyyy") + "' BETWEEN PROCONTRACT_FROMDATE AND PROCONTRACT_TODATE)";
-            //strCondition += " AND ('" + procontract_todate.ToString("MM/dd/yyyy") + "' BETWEEN PROCONTRACT_FROMDATE AND PROCONTRACT_TODATE)";
-
+            strCondition += "AND PROCONTRACT_FROMDATE in( (select PROCONTRACT_FROMDATE from PRO_TR_PROCONTRACT where PROCONTRACT_FROMDATE between'" + procontract_fromdate.ToString("MM/dd/yyyy") + "' and '" + procontract_todate.ToString("MM/dd/yyyy") + "'))";
             return this.getData(strCondition);
         }
+
+        public List<cls_TRProcontract> getDataCurrents2(string project, DateTime procontract_fromdate, DateTime procontract_todate)
+        {
+            string strCondition = "";
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            strCondition += "AND PROCONTRACT_TODATE in( (select PROCONTRACT_TODATE from PRO_TR_PROCONTRACT where PROCONTRACT_TODATE between'" + procontract_fromdate.ToString("MM/dd/yyyy") + "' and '" + procontract_todate.ToString("MM/dd/yyyy") + "'))";
+            return this.getData(strCondition);
+        }
+
 
         public int getNextID()
         {
