@@ -2416,7 +2416,7 @@ namespace BPC_OPR
 
         #endregion
 
-        #region MTProjectFillterdate2
+        #region MTProjectFillterdate2 กรองวันที่fromdate
         public string getMTProjectFillterList2(FillterProject req)
         {
             JObject output = new JObject();
@@ -2627,8 +2627,8 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        #endregion
-        #region MTProjectFillterdate3
+   
+         // กรองวันที่todate
         public string getMTProjectFillterList3(FillterProject req)
         {
             JObject output = new JObject();
@@ -6861,7 +6861,7 @@ namespace BPC_OPR
         #endregion
 
 
-        //test 1
+        #region TRProjobemp //กรองวันที่fromdate
         public string getTRProjobempList2(FillterProject req)
         {
             JObject output = new JObject();
@@ -6950,7 +6950,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //test 2
+        //กรองวันที่todate
         public string getTRProjobempList3(FillterProject req)
         {
             JObject output = new JObject();
@@ -7039,6 +7039,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         //
+        #endregion
 
         #region TRProjobemp
         public string getTRProjobempList(FillterProject req)

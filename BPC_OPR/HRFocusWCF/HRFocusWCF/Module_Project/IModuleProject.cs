@@ -372,6 +372,7 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTProjectFillterList(FillterProject req);
 
+        #region//กรองวันที่
         [OperationContract(Name = "MTProjectFillter2_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTProjectFillterList2(FillterProject req);
@@ -379,12 +380,8 @@ namespace BPC_OPR
          [OperationContract(Name = "MTProjectFillter3_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTProjectFillterList3(FillterProject req);
-        
-        //[OperationContract(Name = "TRProjobempfillterList")]
-        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        //string getTRProjobempfillterList(FillterProject req);
-
-        
+          #endregion
+  
         //
         //--
         [OperationContract(Name = "projobworking_list")]
