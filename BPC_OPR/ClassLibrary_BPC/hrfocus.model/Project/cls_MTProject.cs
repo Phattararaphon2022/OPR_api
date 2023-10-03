@@ -21,6 +21,11 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string project_proarea { get; set; }
         public string project_progroup { get; set; }
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+
+        //public DateTime fromdate { get; set; }
+        //public DateTime todate { get; set; }
 
 
         public string project_probusiness { get; set; }
@@ -28,7 +33,6 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_roundmoney { get; set; }
 
         public string project_proholiday { get; set; }
-
 
         public string project_status { get; set; }
         public string company_code { get; set; }  

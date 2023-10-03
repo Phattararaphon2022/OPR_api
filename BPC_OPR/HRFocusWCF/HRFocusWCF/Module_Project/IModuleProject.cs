@@ -329,6 +329,12 @@ namespace BPC_OPR
         Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream, string com);
 
         //--
+
+        [OperationContract(Name = "projobemp2_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProjobempList2(FillterProject req);
+
+
         [OperationContract(Name = "projobemp_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRProjobempList(FillterProject req);
@@ -361,6 +367,16 @@ namespace BPC_OPR
         [OperationContract(Name = "MTProjectFillter_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getMTProjectFillterList(FillterProject req);
+
+        [OperationContract(Name = "MTProjectFillter2_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjectFillterList2(FillterProject req);
+
+        //[OperationContract(Name = "TRProjobempfillterList")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getTRProjobempfillterList(FillterProject req);
+
+        
         //
         //--
         [OperationContract(Name = "projobworking_list")]
