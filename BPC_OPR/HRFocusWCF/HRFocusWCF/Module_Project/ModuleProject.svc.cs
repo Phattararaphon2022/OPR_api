@@ -2239,7 +2239,7 @@ namespace BPC_OPR
                             }
 
                             double cost = 0;
-                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion);
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion, model.company_code);
                             foreach (cls_TRProjobcost jobcost in cost_list_max)
                             {
                                 if (jobcost.procost_type.Equals("D"))
@@ -2550,7 +2550,7 @@ namespace BPC_OPR
                             }
 
                             double cost = 0;
-                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion);
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion, model.company_code);
                             foreach (cls_TRProjobcost jobcost in cost_list_max)
                             {
                                 if (jobcost.procost_type.Equals("D"))
@@ -2762,7 +2762,7 @@ namespace BPC_OPR
                             }
 
                             double cost = 0;
-                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion);
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion, model.company_code);
                             foreach (cls_TRProjobcost jobcost in cost_list_max)
                             {
                                 if (jobcost.procost_type.Equals("D"))
