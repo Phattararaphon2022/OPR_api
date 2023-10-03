@@ -94,7 +94,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_TRProjobcost> getDataByFillter(string project, string job, string version)
+        public List<cls_TRProjobcost> getDataByFillter(string project, string job, string version,string com)
         {
             string strCondition = "";
 
@@ -106,6 +106,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!version.Equals(""))
                 strCondition += " AND PRO_TR_PROJOBCOST.VERSION='" + version + "'";
+
+            if (!version.Equals(""))
+                strCondition += " AND PRO_MT_PROCOST.COMPANY_CODE='" + com + "'";
 
             return this.getData(strCondition);
         }
