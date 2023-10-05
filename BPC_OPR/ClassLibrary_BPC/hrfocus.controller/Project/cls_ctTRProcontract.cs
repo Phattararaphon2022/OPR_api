@@ -102,6 +102,29 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+        public List<cls_TRProcontract> getDataCurrents(string project, DateTime procontract_fromdate, DateTime procontract_todate)
+        {
+            string strCondition = "";
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            strCondition += "AND PROCONTRACT_FROMDATE in( (select PROCONTRACT_FROMDATE from PRO_TR_PROCONTRACT where PROCONTRACT_FROMDATE between'" + procontract_fromdate.ToString("MM/dd/yyyy") + "' and '" + procontract_todate.ToString("MM/dd/yyyy") + "'))";
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRProcontract> getDataCurrents2(string project, DateTime procontract_fromdate, DateTime procontract_todate)
+        {
+            string strCondition = "";
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            strCondition += "AND PROCONTRACT_TODATE in( (select PROCONTRACT_TODATE from PRO_TR_PROCONTRACT where PROCONTRACT_TODATE between'" + procontract_fromdate.ToString("MM/dd/yyyy") + "' and '" + procontract_todate.ToString("MM/dd/yyyy") + "'))";
+            return this.getData(strCondition);
+        }
+
+
         public int getNextID()
         {
             int intResult = 1;

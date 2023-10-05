@@ -1305,6 +1305,9 @@ namespace BPC_OPR
         public bool worker_blackliststatus { get; set; }
         [DataMember]
         public string project_code { get; set; }
+         [DataMember]
+        public string project_status { get; set; }
+        
 
     }
 
@@ -1356,5 +1359,22 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+    }
+
+    [DataContract]
+    public class InputMTForetype
+    {
+        [DataMember]
+        public string foretype_id { get; set; }
+        [DataMember]
+        public string foretype_code { get; set; }
+        [DataMember]
+        public string foretype_name_th { get; set; }
+        [DataMember]
+        public string foretype_name_en { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
     }
 }

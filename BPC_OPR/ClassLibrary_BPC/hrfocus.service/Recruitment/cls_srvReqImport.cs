@@ -626,8 +626,8 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 model.foreignercard_code = dr["foreigner_code"].ToString();
                                 model.foreignercard_type = dr["foreigner_type"].ToString();
-                                model.foreignercard_issue = Convert.ToDateTime(dr["foreigner_issue"]);
-                                model.foreignercard_expire = Convert.ToDateTime(dr["foreigner_expire"]);
+                                model.foreignercard_issue = Convert.ToDateTime(dr["foreigner_issue"]).ToString("yyyy/MM/dd");
+                                model.foreignercard_expire = Convert.ToDateTime(dr["foreigner_expire"]).ToString("yyyy/MM/dd");
 
 
                                 model.modified_by = by;

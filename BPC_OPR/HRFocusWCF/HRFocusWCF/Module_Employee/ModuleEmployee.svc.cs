@@ -127,8 +127,14 @@ namespace BPC_OPR
                         json.Add("blood_code", model.blood_code);
                         json.Add("worker_height", model.worker_height);
                         json.Add("worker_weight", model.worker_weight);
-
-                        json.Add("worker_resigndate", model.worker_resigndate);
+                        if (model.worker_resigndate.CompareTo(new DateTime(0001, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_resigndate", null);
+                        }
+                        else
+                        {
+                            json.Add("worker_resigndate", model.worker_resigndate);
+                        }
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("worker_resignreason", model.worker_resignreason);
 
@@ -165,7 +171,14 @@ namespace BPC_OPR
 
                         json.Add("worker_socialno", model.worker_socialno);
                         json.Add("worker_socialnoissuedate", model.worker_socialnoissuedate);
-                        json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        if (model.worker_socialnoexpiredate.CompareTo(new DateTime(2999, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_socialnoexpiredate",null);
+                        }
+                        else
+                        {
+                            json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        }
                         json.Add("worker_socialsentdate", model.worker_socialsentdate);
                         json.Add("worker_socialnotsent", model.worker_socialnotsent);
 
@@ -316,7 +329,14 @@ namespace BPC_OPR
 
                 model.worker_socialno = input.worker_socialno;
                 model.worker_socialnoissuedate = Convert.ToDateTime(input.worker_socialnoissuedate);
-                model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoexpiredate);
+                if (input.worker_socialnoexpiredate == null)
+                {
+                    model.worker_socialnoexpiredate = Convert.ToDateTime(new DateTime(2999,01,01));
+                }
+                else
+                {
+                    model.worker_socialnoexpiredate = Convert.ToDateTime(input.worker_socialnoexpiredate);
+                }
                 if (input.worker_socialsentdate != null)
                 {
                     model.worker_socialsentdate = Convert.ToDateTime(input.worker_socialsentdate);
@@ -572,7 +592,14 @@ namespace BPC_OPR
                         json.Add("worker_height", model.worker_height);
                         json.Add("worker_weight", model.worker_weight);
 
-                        json.Add("worker_resigndate", model.worker_resigndate);
+                        if (model.worker_resigndate.CompareTo(new DateTime(0001, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_resigndate", null);
+                        }
+                        else
+                        {
+                            json.Add("worker_resigndate", model.worker_resigndate);
+                        }
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("worker_resignreason", model.worker_resignreason);
 
@@ -609,7 +636,14 @@ namespace BPC_OPR
 
                         json.Add("worker_socialno", model.worker_socialno);
                         json.Add("worker_socialnoissuedate", model.worker_socialnoissuedate);
-                        json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        if (model.worker_socialnoexpiredate.CompareTo(new DateTime(2999, 01, 01)).Equals(0))
+                        {
+                            json.Add("worker_socialnoexpiredate", null);
+                        }
+                        else
+                        {
+                            json.Add("worker_socialnoexpiredate", model.worker_socialnoexpiredate);
+                        }
                         json.Add("worker_socialsentdate", model.worker_socialsentdate);
                         json.Add("worker_socialnotsent", model.worker_socialnotsent);
 
@@ -11266,6 +11300,318 @@ namespace BPC_OPR
                 {
                     cls_srvEmpImport srv_import = new cls_srvEmpImport();
                     string tmp = srv_import.doImportExcel("EMPEXPERIENCE", fileName, by,com);
+
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "Company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region Foretype(FTY001)
+        public string getForetypeList(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "FTY001.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTForetype controller = new cls_ctMTForetype();
+                List<cls_MTForetype> list = controller.getDataByFillter("");
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTForetype model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("foretype_id", model.foretype_id);
+                        json.Add("foretype_code", model.foretype_code);
+                        json.Add("foretype_name_th", model.foretype_name_th);
+                        json.Add("foretype_name_en", model.foretype_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageMTForetype(InputMTForetype input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "FTY001.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTForetype controller = new cls_ctMTForetype();
+                cls_MTForetype model = new cls_MTForetype();
+
+                model.foretype_id = Convert.ToInt32(input.foretype_id);
+                model.foretype_code = input.foretype_code;
+                model.foretype_name_th = input.foretype_name_th;
+                model.foretype_name_en = input.foretype_name_en;
+                model.modified_by = input.modified_by;
+
+                string strID = controller.insert(model);
+
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doDeleteMTForetype(InputMTForetype input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "FTY001.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTInitial controller = new cls_ctMTInitial();
+
+                if (controller.checkDataOld(input.foretype_id, input.foretype_code))
+                {
+                    bool blnResult = controller.delete(input.foretype_code);
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.foretype_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public async Task<string> doUploadForetype(string token, string by, string fileName, Stream stream, string com)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "FTY001.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvEmpImport srv_import = new cls_srvEmpImport();
+                    string tmp = srv_import.doImportExcel("FORETYPE", fileName, by, com);
 
                     if (tmp.Equals(""))
                     {

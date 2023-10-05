@@ -696,6 +696,24 @@ namespace BPC_OPR
         Task<string> doUploadEmpExperience(string token, string by, string fileName, Stream stream,string com);
         #endregion
 
+        #region Foretype
+        [OperationContract(Name = "foretype_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getForetypeList(BasicRequest req);
+
+        [OperationContract(Name = "foretype")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTForetype(InputMTForetype input);
+
+        [OperationContract(Name = "foretype_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTForetype(InputMTForetype input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadForetype?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadForetype(string token, string by, string fileName, Stream stream, string com);
+        #endregion
+
         #endregion
     }
 }

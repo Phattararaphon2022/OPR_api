@@ -27,8 +27,8 @@ namespace BPC_OPR
         string doDeleteMTProbusiness(InputMTProbusiness input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProbusiness?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProbusiness(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProbusiness?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProbusiness(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -45,8 +45,8 @@ namespace BPC_OPR
         string doDeleteMTProtype(InputMTProtype input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProtype?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProtype(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProtype?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProtype(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -63,8 +63,8 @@ namespace BPC_OPR
         string doDeleteMTProuniform(InputMTProuniform input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProuniform?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProuniform(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProuniform?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProuniform(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -81,8 +81,8 @@ namespace BPC_OPR
         string doDeleteMTProslip(InputMTProslip input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProslip?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProslip(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProslip?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProslip(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -99,8 +99,8 @@ namespace BPC_OPR
         string doDeleteMTProcost(InputMTProcost input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProcost?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProcost(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProcost?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProcost(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -117,8 +117,8 @@ namespace BPC_OPR
         string doDeleteMTProject(InputMTProject input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProject?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProject(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProject?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProject(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -135,8 +135,8 @@ namespace BPC_OPR
         string doDeleteTRProaddress(InputTRProaddress input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProaddress?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProaddress(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProaddress?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProaddress(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -156,8 +156,8 @@ namespace BPC_OPR
         string doDeleteTRProcontact(InputTRProcontact input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProcontact?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProcontact(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProcontact?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProcontact(string token, string by, string fileName, Stream stream, string com);
 
         //--
         [OperationContract(Name = "procontract_list")]
@@ -173,8 +173,8 @@ namespace BPC_OPR
         string doDeleteTRProcontract(InputTRProcontract input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProcontract?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProcontract(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProcontract?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProcontract(string token, string by, string fileName, Stream stream, string com);
 
         //--
         [OperationContract(Name = "proresponsible_list")]
@@ -190,8 +190,8 @@ namespace BPC_OPR
         string doDeleteTRProresponsible(InputTRProresponsible input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProresponsible?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProresponsible(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProresponsible?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProresponsible(string token, string by, string fileName, Stream stream, string com);
 
         //--
         [OperationContract(Name = "protimepol_list")]
@@ -207,8 +207,8 @@ namespace BPC_OPR
         string doDeleteMTProtimepol(InputMTProtimepol input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProtimepol?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProtimepol(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProtimepol?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProtimepol(string token, string by, string fileName, Stream stream, string com);
 
         //--
         [OperationContract(Name = "projobmain_list")]
@@ -224,8 +224,8 @@ namespace BPC_OPR
         string doDeleteMTProjobmain(InputMTProjobmain input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobmain?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProjobmain(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobmain?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProjobmain(string token, string by, string fileName, Stream stream, string com);
 
 
         //--
@@ -246,8 +246,8 @@ namespace BPC_OPR
         string doDeleteTRProjobcontract(InputTRProjobcontract input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobcontract?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProjobcontract(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobcontract?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobcontract(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -267,8 +267,8 @@ namespace BPC_OPR
         string doDeleteTRProjobcost(InputTRProjobcost input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobcost?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProjobcost(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobcost?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobcost(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -288,8 +288,8 @@ namespace BPC_OPR
         string doDeleteTRProjobmachine(InputTRProjobmachine input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobmachine?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobmachine?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream, string com);
 
         //--
 
@@ -306,8 +306,8 @@ namespace BPC_OPR
         string doDeleteTRProjobshift(InputTRProjobshift input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobshift?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProjobshift?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream, string com);
 
 
 
@@ -325,10 +325,20 @@ namespace BPC_OPR
         string doDeleteMTProjobsub(InputMTProjobsub input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobsub?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobsub?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream, string com);
 
         //--
+
+        [OperationContract(Name = "projobemp2_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProjobempList2(FillterProject req);
+
+        [OperationContract(Name = "projobemp3_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProjobempList3(FillterProject req);
+
+
         [OperationContract(Name = "projobemp_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRProjobempList(FillterProject req);
@@ -346,14 +356,35 @@ namespace BPC_OPR
         string doDeleteTRProjobemp(InputTRProjobemp input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobemp?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobemp?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream, string com);
 
 
         //
+       
+
+
         [OperationContract(Name = "projobempfillter_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getProjobempFillterList(FillterProject req);
+
+        [OperationContract(Name = "MTProjectFillter_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjectFillterList(FillterProject req);
+
+        [OperationContract(Name = "MTProjectFillter2_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjectFillterList2(FillterProject req);
+
+         [OperationContract(Name = "MTProjectFillter3_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProjectFillterList3(FillterProject req);
+        
+        //[OperationContract(Name = "TRProjobempfillterList")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getTRProjobempfillterList(FillterProject req);
+
+        
         //
         //--
         [OperationContract(Name = "projobworking_list")]
@@ -369,8 +400,8 @@ namespace BPC_OPR
         string doDeleteTRProjobworking(InputTRProjobworking input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobworking?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProjobworking?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream, string com);
 
         //Task
         [OperationContract(Name = "task_list")]
@@ -443,8 +474,8 @@ namespace BPC_OPR
         string doDeleteMTProarea(InputMTProarea input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProarea?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProarea?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream, string com);
 
         //-- MTProgroup
         [OperationContract(Name = "progroup_list")]
@@ -460,14 +491,57 @@ namespace BPC_OPR
         string doDeleteMTProgroup(InputMTProgroup input);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProgroup?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream);
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProgroup?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream, string com);
+        
+        
+        //
 
+        //-- MTProequipmenttype
+        [OperationContract(Name = "proequipmenttype_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTProequipmenttype(BasicRequest req);
+
+        [OperationContract(Name = "proequipmenttype")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTProequipmenttype(InputMTProequipmenttype input);
+
+        [OperationContract(Name = "proequipmenttype_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTProequipmenttype(InputMTProequipmenttype input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTProequipmenttype?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTProequipmenttype(string token, string by, string fileName, Stream stream, string com);
+
+        //
+
+
+        //--TRProequipmentreq
+        [OperationContract(Name = "TRProequipmentreq_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRProequipmenttype(FillterProject req);
+
+        [OperationContract(Name = "TRProequipmentreq")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRProequipmentreqList(InputProjectTransaction input);
+
+        [OperationContract(Name = "TRProequipmentreqdel")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRProequipmenttype(InputTRProequipmentreq input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadTRProequipmentreq?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadTRProequipmenttype(string token, string by, string fileName, Stream stream, string com);
+
+        //--
 
         //-- Cost compare
         [OperationContract(Name = "cost_compare")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCostCompare(FillterProject req);
+
+    
 
     }
 }

@@ -105,6 +105,50 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+        public List<cls_TRProjobemp> getDataByFillter2(string project,  DateTime fromdate, DateTime todate)
+        {
+            string strCondition = "";
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            strCondition += "AND PROJOBEMP_FROMDATE in( (select PROJOBEMP_FROMDATE from PRO_TR_PROJOBEMP where PROJOBEMP_FROMDATE between'" + fromdate.ToString("MM/dd/yyyy") + "' and '" + todate.ToString("MM/dd/yyyy") + "'))";
+            //strCondition += "AND PROJECT_CODE IN ((select PROJECT_CODE from PRO_TR_PROJOBEMP where ('" + fromdate.ToString("MM/dd/yyyy") + "'BETWEEN PROJOBEMP_FROMDATE AND PROJOBEMP_TODATE) OR ('" + todate.ToString("MM/dd/yyyy") + "'  BETWEEN PROJOBEMP_FROMDATE AND PROJOBEMP_TODATE)))";
+
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRProjobemp> getDataByFillter3(string project, DateTime fromdate, DateTime todate)
+        {
+            string strCondition = "";
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+            strCondition += "AND PROJOBEMP_TODATE in( (select PROJOBEMP_TODATE from PRO_TR_PROJOBEMP where PROJOBEMP_TODATE between'" + fromdate.ToString("MM/dd/yyyy") + "' and '" + todate.ToString("MM/dd/yyyy") + "'))";
+ 
+
+            return this.getData(strCondition);
+        }
+
+
+        //public cls_TRProjobemp getDataCurrents(string project, DateTime fromdate, DateTime todate)
+        //{
+        //    string strCondition = " AND PROJECT_CODE='" + project + "'";
+        //    strCondition += " AND ('" + fromdate.ToString("MM/dd/yyyy") + "' BETWEEN FROMDATE AND TODATE)";
+        //    strCondition += " AND ('" + todate.ToString("MM/dd/yyyy") + "' BETWEEN FROMDATE AND TODATE)";
+
+        //    List<cls_TRProjobemp> list_model = this.getData(strCondition);
+
+        //    if (list_model.Count > 0)
+        //        return list_model[0];
+        //    else
+        //        return null;
+        //}
+
+
+
        //
         public List<cls_TRProjobemp> getDataByFillterAll(string project, string job, string com, string type, string searchemp)
         {

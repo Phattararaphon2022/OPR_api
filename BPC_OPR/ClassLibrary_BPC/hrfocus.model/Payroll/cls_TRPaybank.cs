@@ -21,6 +21,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Payroll
 
         public string paybank_bankamount { get; set; }
 
+        
         public string modified_by { get; set; }
 
         public DateTime modified_date { get; set; }

@@ -352,20 +352,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" PROJOBMAIN_NAME_TH=@PROJOBMAIN_NAME_TH ");
                 obj_str.Append(", PROJOBMAIN_NAME_EN=@PROJOBMAIN_NAME_EN ");
                 obj_str.Append(", PROJOBMAIN_TYPE=@PROJOBMAIN_TYPE ");
-                obj_str.Append(", PROJOBMAIN_SHIFT=@PROJOBMAIN_SHIFT ");
-                obj_str.Append(", PROJOBMAIN_SUN=@PROJOBMAIN_SUN ");
-                obj_str.Append(", PROJOBMAIN_MON=@PROJOBMAIN_MON ");
-                obj_str.Append(", PROJOBMAIN_TUE=@PROJOBMAIN_TUE ");
-                obj_str.Append(", PROJOBMAIN_WED=@PROJOBMAIN_WED ");
-                obj_str.Append(", PROJOBMAIN_THU=@PROJOBMAIN_THU ");
-                obj_str.Append(", PROJOBMAIN_FRI=@PROJOBMAIN_FRI ");
-                obj_str.Append(", PROJOBMAIN_SAT=@PROJOBMAIN_SAT ");
-
-                obj_str.Append(", PROJOBMAIN_WORKING=@PROJOBMAIN_WORKING ");
-                obj_str.Append(", PROJOBMAIN_HRSPERDAY=@PROJOBMAIN_HRSPERDAY ");
-                obj_str.Append(", PROJOBMAIN_HRSOT=@PROJOBMAIN_HRSOT ");
-                obj_str.Append(", PROJOBMAIN_AUTOOT=@PROJOBMAIN_AUTOOT ");
-
                 obj_str.Append(", PROJOBMAIN_TIMEPOL=@PROJOBMAIN_TIMEPOL ");
                 obj_str.Append(", PROJOBMAIN_SLIP=@PROJOBMAIN_SLIP ");
                 obj_str.Append(", PROJOBMAIN_UNIFORM=@PROJOBMAIN_UNIFORM ");

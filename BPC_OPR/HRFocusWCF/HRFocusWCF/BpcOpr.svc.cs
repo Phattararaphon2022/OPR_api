@@ -346,6 +346,8 @@ namespace BPC_OPR
         [DataMember]
         public string company { get; set; }
         [DataMember]
+        public string procost_code { get; set; } 
+        [DataMember]
         public string language { get; set; }
         [DataMember]
         public string company_code { get; set; }
@@ -379,6 +381,8 @@ namespace BPC_OPR
         public string addresstype_code { get; set; }
         [DataMember]
         public string level_group { get; set; }
+         [DataMember]
+        public string proequipmenttype_code { get; set; }
         
     }
 

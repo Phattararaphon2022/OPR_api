@@ -108,9 +108,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!project.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + project + "'";
+
             
             return this.getData(strCondition);
         }
+        public cls_MTProjobversion getDataCurrents(string project, DateTime fromdate, DateTime todate)
+        {
+            string strCondition = " AND PROJECT_CODE='" + project + "'";
+            strCondition += " AND ('" + fromdate.ToString("MM/dd/yyyy") + "' BETWEEN FROMDATE AND TODATE)";
+            strCondition += " AND ('" + todate.ToString("MM/dd/yyyy") + "' BETWEEN FROMDATE AND TODATE)";
+
+            List<cls_MTProjobversion> list_model = this.getData(strCondition);
+
+            if (list_model.Count > 0)
+                return list_model[0];
+            else
+                return null;
+        }
+
 
         public cls_MTProjobversion getDataCurrent(string project, DateTime date)
         {

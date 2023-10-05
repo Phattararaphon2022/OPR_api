@@ -323,7 +323,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProbusiness(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProbusiness(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -352,10 +352,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROBUSINESS", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROBUSINESS", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -627,7 +635,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProtype(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProtype(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -656,10 +664,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROTYPE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROTYPE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -931,7 +947,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProuniform(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProuniform(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -960,10 +976,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROUNIFORM", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROUNIFORM", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1235,7 +1259,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProslip(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProslip(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -1264,10 +1288,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROSLIP", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROSLIP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1496,7 +1528,7 @@ namespace BPC_OPR
 
                 cls_ctMTProcost controller = new cls_ctMTProcost();
 
-                if (controller.checkDataOld(input.procost_code))
+                if (controller.checkDataOld(input.procost_code, input.company_code))
                 {
                     bool blnResult = controller.delete(input.procost_code);
 
@@ -1548,7 +1580,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProcost(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProcost(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -1577,10 +1609,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROCOST", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROCOST", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1614,105 +1654,7 @@ namespace BPC_OPR
         #endregion
 
 
-        //#region getWorkerFillterList
-        //public string getWorkerFillterList(FillterSearch req)
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "EMP001.5";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTWorker controller = new cls_ctMTWorker();
-        //        List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code, req.worker_emptype, req.searchemp, req.level_code, req.dep_code, req.position_code, "", req.worker_resignstatus, req.location_code, req.date_fill, req.worker_empstatus, req.worker_blackliststatus,req.project_code);
-        //        JArray array = new JArray();
-
-        //        if (list.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_MTProject model in list)
-        //            {
-        //                JObject json = new JObject();
-        //                json.Add("project_id", model.project_id);
-        //                json.Add("project_code", model.project_code);
-        //                json.Add("project_name_th", model.project_name_th);
-        //                json.Add("project_name_en", model.project_name_en);
-
-        //                json.Add("project_name_sub", model.project_name_sub);
-        //                json.Add("project_codecentral", model.project_codecentral);
-        //                json.Add("project_protype", model.project_protype);
-
-        //                json.Add("project_proarea", model.project_proarea);
-        //                json.Add("project_progroup", model.project_progroup);
-
-        //                json.Add("project_probusiness", model.project_probusiness);
-        //                json.Add("project_roundtime", model.project_roundtime);
-        //                json.Add("project_roundmoney", model.project_roundmoney);
-        //                json.Add("project_proholiday", model.project_proholiday);
-
-        //                json.Add("project_status", model.project_status);
-        //                json.Add("company_code", model.company_code);
-
-        //                json.Add("index", index);
-
-        //                index++;
-
-        //                array.Add(json);
-        //            }
-
-        //            output["success"] = true;
-        //            output["message"] = "";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Data not Found";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = "Data not Found";
-        //        }
-
-        //        controller.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-
-        //#endregion
+       
 
         #region MTProject
         public string getMTProjectList(FillterProject req)
@@ -1838,7 +1780,7 @@ namespace BPC_OPR
                             }
 
                             double cost = 0;
-                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion);
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion,req.company);
                             foreach (cls_TRProjobcost jobcost in cost_list_max)
                             {
                                 if (jobcost.procost_type.Equals("D"))
@@ -1944,6 +1886,7 @@ namespace BPC_OPR
 
                 cls_ctMTProject controller = new cls_ctMTProject();
                 cls_MTProject model = new cls_MTProject();
+                //model.project_id = input.project_id;
 
                 model.project_id = Convert.ToInt32(input.project_id);
                 model.project_code = input.project_code;
@@ -1970,13 +1913,13 @@ namespace BPC_OPR
 
                 model.modified_by = input.modified_by;
 
-                bool blnResult = controller.insert(model);
+                string strID = controller.insert(model);
 
-                if (blnResult)
+                if (!strID.Equals(""))
                 {
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
-                    //output["record_id"] = strID;
+                    output["record_id"] = strID;
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -1984,7 +1927,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully";
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -2038,7 +1981,7 @@ namespace BPC_OPR
 
                 cls_ctMTProject controller = new cls_ctMTProject();
 
-                if (controller.checkDataOld(input.project_code, input.company_code))
+                if (controller.checkDataOld(input.project_code, input.company_code, input.project_id.ToString()))
                 {
                     bool blnResult = controller.delete(input.project_code, input.company_code);
 
@@ -2090,7 +2033,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProject(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProject(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2119,10 +2062,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2152,6 +2103,742 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        #endregion
+
+
+        #region MTProjectFillterList
+        public string getMTProjectFillterList(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO028.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status );
+ 
+                //-- F add 23/08/2023
+                //-- Workflow
+                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company_code, "", "PRO_NEW");
+
+                //-- Approve history
+                cls_ctTRApprove approve = new cls_ctTRApprove();
+                List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company_code, "PRO_NEW", "");
+
+                if (req.status.Equals("W"))
+                {
+                    bool find_approve = false;
+                    foreach (cls_TRWorkflow model in list_workflow)
+                    {
+                        if (req.username.Equals(model.account_user))
+                        {
+                            find_approve = true;
+                            break;
+                        }
+                    }
+
+                    if (!find_approve)
+                        list = new List<cls_MTProject>();
+                }
+                //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
+                
+                
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
+                    int index = 1;
+
+                    foreach (cls_MTProject model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("project_id", model.project_id);
+                        json.Add("project_code", model.project_code);
+                        json.Add("project_name_th", model.project_name_th);
+                        json.Add("project_name_en", model.project_name_en);
+
+                        json.Add("project_name_sub", model.project_name_sub);
+                        json.Add("project_codecentral", model.project_codecentral);
+                        json.Add("project_protype", model.project_protype);
+
+                        json.Add("project_proarea", model.project_proarea);
+                        json.Add("project_progroup", model.project_progroup);
+
+                        json.Add("project_probusiness", model.project_probusiness);
+                        json.Add("project_roundtime", model.project_roundtime);
+                        json.Add("project_roundmoney", model.project_roundmoney);
+                        json.Add("project_proholiday", model.project_proholiday);
+
+                        json.Add("project_status", model.project_status);
+                        json.Add("company_code", model.company_code);
+                                                
+                        int manpower = 0;    
+                        double sum_cost = 0;
+
+
+                        cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
+                        cls_MTProjobversion singleContract = jobversion_controller.getDataCurrents(model.project_code, fromdate, todate);
+
+                        string lastversion = jobversion_controller.getLastVersion(model.project_code);
+
+                        //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
+
+                        cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion );
+
+                        //-- Contract
+                        cls_ctTRProcontract contract = new cls_ctTRProcontract();
+                        List<cls_TRProcontract> list_contract = contract.getDataCurrents(model.project_code, fromdate, todate);
+                        //List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
+
+                        //-- Approve
+                        int count_approve = 0;
+                        foreach (cls_TRApprove appr in list_approve)
+                        {
+                            if (model.project_code.Equals(appr.approve_code))
+                                count_approve++;
+                        }
+
+                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+
+                        foreach (cls_MTProjobmain jobmain in list_job)
+                        {
+                            
+                            int count_emp = 0;
+                            int count_working = 0;
+                            List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, lastversion);
+                            foreach (cls_TRProjobshift tmp in shift_list)
+                            {
+                                count_emp += tmp.projobshift_emp;
+                                count_working += tmp.projobshift_working;
+                            }
+
+                            double cost = 0;
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion, model.company_code);
+                            foreach (cls_TRProjobcost jobcost in cost_list_max)
+                            {
+                                if (jobcost.procost_type.Equals("D"))
+                                    cost += jobcost.projobcost_amount * count_working;
+                                else
+                                    cost += jobcost.projobcost_amount;
+
+                            }
+
+
+                            //-- Total
+                            cost *= count_emp;
+
+                            sum_cost += cost;
+                            manpower += count_emp;
+                        }
+
+                        json.Add("project_emp", manpower);
+                        json.Add("project_cost", sum_cost);
+
+
+                        DateTime project_start = new DateTime();
+                        DateTime project_end = new DateTime();
+                        foreach (cls_TRProcontract model_ in list_contract)
+                        {
+                            project_start = model_.procontract_fromdate;
+                            project_end = model_.procontract_todate;
+
+
+                        }
+
+                        json.Add("project_start", project_start);
+                        json.Add("project_end", project_end);
+            
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+
+        //{
+        //    JObject output = new JObject();
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "PRO028.5";
+        //    log.apilog_by = req.username;
+        //    log.apilog_data = "all";
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTProject controller = new cls_ctMTProject();
+        //        List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
+
+        //        JArray array = new JArray();
+
+        //        if (list.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_MTProject model in list)
+        //            {
+        //                JObject json = new JObject();
+        //                json.Add("project_id", model.project_id);
+        //                json.Add("project_code", model.project_code);
+        //                json.Add("project_name_th", model.project_name_th);
+        //                json.Add("project_name_en", model.project_name_en);
+
+        //                json.Add("project_name_sub", model.project_name_sub);
+        //                json.Add("project_codecentral", model.project_codecentral);
+        //                json.Add("project_protype", model.project_protype);
+
+        //                json.Add("project_proarea", model.project_proarea);
+        //                json.Add("project_progroup", model.project_progroup);
+
+        //                json.Add("project_probusiness", model.project_probusiness);
+        //                json.Add("project_roundtime", model.project_roundtime);
+        //                json.Add("project_roundmoney", model.project_roundmoney);
+        //                json.Add("project_proholiday", model.project_proholiday);
+
+        //                json.Add("project_status", model.project_status);
+        //                json.Add("company_code", model.company_code);
+
+        //                json.Add("index", index);
+
+        //                index++;
+
+        //                array.Add(json);
+        //            }
+
+        //            output["success"] = true;
+        //            output["message"] = "";
+        //            output["data"] = array;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Data not Found";
+        //            output["data"] = array;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = "Data not Found";
+        //        }
+
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Retrieved data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+        //}
+
+        #endregion
+
+        #region MTProjectFillterdate2
+        public string getMTProjectFillterList2(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO028.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                List<cls_MTProject> list = controller.getDataCurrents(req.project_code, fromdate, todate);
+                //List<cls_MTProject> lists = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
+
+                //-- F add 23/08/2023
+                //-- Workflow
+                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company_code, "", "PRO_NEW");
+
+                //-- Approve history
+                cls_ctTRApprove approve = new cls_ctTRApprove();
+                List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company_code, "PRO_NEW", "");
+
+                if (req.status.Equals("W"))
+                {
+                    bool find_approve = false;
+                    foreach (cls_TRWorkflow model in list_workflow)
+                    {
+                        if (req.username.Equals(model.account_user))
+                        {
+                            find_approve = true;
+                            break;
+                        }
+                    }
+
+                    if (!find_approve)
+                        list = new List<cls_MTProject>();
+                }
+                //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
+
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
+                    int index = 1;
+
+                    foreach (cls_MTProject model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("project_id", model.project_id);
+                        json.Add("project_code", model.project_code);
+                        json.Add("project_name_th", model.project_name_th);
+                        json.Add("project_name_en", model.project_name_en);
+
+                        json.Add("project_name_sub", model.project_name_sub);
+                        json.Add("project_codecentral", model.project_codecentral);
+                        json.Add("project_protype", model.project_protype);
+
+                        json.Add("project_proarea", model.project_proarea);
+                        json.Add("project_progroup", model.project_progroup);
+
+                        json.Add("project_probusiness", model.project_probusiness);
+                        json.Add("project_roundtime", model.project_roundtime);
+                        json.Add("project_roundmoney", model.project_roundmoney);
+                        json.Add("project_proholiday", model.project_proholiday);
+
+                        json.Add("project_status", model.project_status);
+                        json.Add("company_code", model.company_code);
+
+                        int manpower = 0;
+                        double sum_cost = 0;
+
+
+                        cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
+                        cls_MTProjobversion singleContract = jobversion_controller.getDataCurrents(model.project_code, fromdate, todate);
+
+                        string lastversion = jobversion_controller.getLastVersion(model.project_code);
+
+                        //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
+
+                        cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+
+                        //-- Contract
+                        cls_ctTRProcontract contract = new cls_ctTRProcontract();
+                        List<cls_TRProcontract> list_contract = contract.getDataCurrents(model.project_code, fromdate, todate);
+                        //List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
+
+                        //-- Approve
+                        int count_approve = 0;
+                        foreach (cls_TRApprove appr in list_approve)
+                        {
+                            if (model.project_code.Equals(appr.approve_code))
+                                count_approve++;
+                        }
+
+                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+
+                        foreach (cls_MTProjobmain jobmain in list_job)
+                        {
+
+                            int count_emp = 0;
+                            int count_working = 0;
+                            List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, lastversion);
+                            foreach (cls_TRProjobshift tmp in shift_list)
+                            {
+                                count_emp += tmp.projobshift_emp;
+                                count_working += tmp.projobshift_working;
+                            }
+
+                            double cost = 0;
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion, model.company_code);
+                            foreach (cls_TRProjobcost jobcost in cost_list_max)
+                            {
+                                if (jobcost.procost_type.Equals("D"))
+                                    cost += jobcost.projobcost_amount * count_working;
+                                else
+                                    cost += jobcost.projobcost_amount;
+
+                            }
+
+
+                            //-- Total
+                            cost *= count_emp;
+
+                            sum_cost += cost;
+                            manpower += count_emp;
+                        }
+
+                        json.Add("project_emp", manpower);
+                        json.Add("project_cost", sum_cost);
+
+
+                        DateTime project_start = new DateTime();
+                        DateTime project_end = new DateTime();
+                        foreach (cls_TRProcontract model_ in list_contract)
+                        {
+                            project_start = model_.procontract_fromdate;
+                            project_end = model_.procontract_todate;
+
+
+                        }
+
+                        json.Add("project_start", project_start);
+                        json.Add("project_end", project_end);
+
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        #endregion
+        #region MTProjectFillterdate3
+        public string getMTProjectFillterList3(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO028.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                List<cls_MTProject> list = controller.getDataCurrents(req.project_code, fromdate, todate);
+                //List<cls_MTProject> lists = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
+
+                //-- F add 23/08/2023
+                //-- Workflow
+                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company_code, "", "PRO_NEW");
+
+                //-- Approve history
+                cls_ctTRApprove approve = new cls_ctTRApprove();
+                List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company_code, "PRO_NEW", "");
+
+                if (req.status.Equals("W"))
+                {
+                    bool find_approve = false;
+                    foreach (cls_TRWorkflow model in list_workflow)
+                    {
+                        if (req.username.Equals(model.account_user))
+                        {
+                            find_approve = true;
+                            break;
+                        }
+                    }
+
+                    if (!find_approve)
+                        list = new List<cls_MTProject>();
+                }
+                //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
+
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
+                    cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
+
+                    int index = 1;
+
+                    foreach (cls_MTProject model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("project_id", model.project_id);
+                        json.Add("project_code", model.project_code);
+                        json.Add("project_name_th", model.project_name_th);
+                        json.Add("project_name_en", model.project_name_en);
+
+                        json.Add("project_name_sub", model.project_name_sub);
+                        json.Add("project_codecentral", model.project_codecentral);
+                        json.Add("project_protype", model.project_protype);
+
+                        json.Add("project_proarea", model.project_proarea);
+                        json.Add("project_progroup", model.project_progroup);
+
+                        json.Add("project_probusiness", model.project_probusiness);
+                        json.Add("project_roundtime", model.project_roundtime);
+                        json.Add("project_roundmoney", model.project_roundmoney);
+                        json.Add("project_proholiday", model.project_proholiday);
+
+                        json.Add("project_status", model.project_status);
+                        json.Add("company_code", model.company_code);
+
+                        int manpower = 0;
+                        double sum_cost = 0;
+
+
+                        cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
+                        cls_MTProjobversion singleContract = jobversion_controller.getDataCurrents(model.project_code, fromdate, todate);
+
+                        string lastversion = jobversion_controller.getLastVersion(model.project_code);
+
+                        //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
+
+                        cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+
+                        //-- Contract
+                        cls_ctTRProcontract contract = new cls_ctTRProcontract();
+                        List<cls_TRProcontract> list_contract = contract.getDataCurrents2(model.project_code, fromdate, todate);
+                        //List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
+
+                        //-- Approve
+                        int count_approve = 0;
+                        foreach (cls_TRApprove appr in list_approve)
+                        {
+                            if (model.project_code.Equals(appr.approve_code))
+                                count_approve++;
+                        }
+
+                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+
+                        foreach (cls_MTProjobmain jobmain in list_job)
+                        {
+
+                            int count_emp = 0;
+                            int count_working = 0;
+                            List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, lastversion);
+                            foreach (cls_TRProjobshift tmp in shift_list)
+                            {
+                                count_emp += tmp.projobshift_emp;
+                                count_working += tmp.projobshift_working;
+                            }
+
+                            double cost = 0;
+                            List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(model.project_code, jobmain.projobmain_code, lastversion, model.company_code);
+                            foreach (cls_TRProjobcost jobcost in cost_list_max)
+                            {
+                                if (jobcost.procost_type.Equals("D"))
+                                    cost += jobcost.projobcost_amount * count_working;
+                                else
+                                    cost += jobcost.projobcost_amount;
+
+                            }
+
+
+                            //-- Total
+                            cost *= count_emp;
+
+                            sum_cost += cost;
+                            manpower += count_emp;
+                        }
+
+                        json.Add("project_emp", manpower);
+                        json.Add("project_cost", sum_cost);
+
+
+                        DateTime project_start = new DateTime();
+                        DateTime project_end = new DateTime();
+                        foreach (cls_TRProcontract model_ in list_contract)
+                        {
+                            project_start = model_.procontract_fromdate;
+                            project_end = model_.procontract_todate;
+
+
+                        }
+
+                        json.Add("project_start", project_start);
+                        json.Add("project_end", project_end);
+
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
         #endregion
 
         #region TRProaddress
@@ -2415,7 +3102,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProaddress(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProaddress(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2443,10 +3130,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_ADDRESS", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_ADDRESS", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -2837,7 +3532,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProcontact(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProcontact(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -2865,10 +3560,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_CONTACT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_CONTACT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3174,7 +3877,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProcontract(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProcontract(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -3202,10 +3905,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_CONTRACT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_CONTRACT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3509,7 +4220,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProresponsible(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProresponsible(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -3537,10 +4248,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_RESPONSIBLE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_RESPONSIBLE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -3845,7 +4564,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProtimepol(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProtimepol(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -3873,10 +4592,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_TIMEPOL", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_TIMEPOL", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4002,7 +4729,7 @@ namespace BPC_OPR
 
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobmain_code, req.version);
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobmain_code, req.version,req.company);
 
                         List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company, "");
                         int i = 1;
@@ -4159,7 +4886,7 @@ namespace BPC_OPR
                 }
 
 
-                if (error == 0)
+                if (success > 0)
                 {
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
@@ -4280,7 +5007,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProjobmain(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProjobmain(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -4308,10 +5035,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBMAIN", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBMAIN", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4700,7 +5435,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobcontract(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobcontract(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -4728,10 +5463,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBCONTRACT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBCONTRACT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -4789,7 +5532,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRProjobcost controller = new cls_ctTRProjobcost();
-                List<cls_TRProjobcost> list = controller.getDataByFillter(req.project_code, req.job_code, req.version);
+                List<cls_TRProjobcost> list = controller.getDataByFillter(req.project_code, req.job_code, req.version,req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -5067,9 +5810,9 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost controller = new cls_ctTRProjobcost();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.projob_code, input.version))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobcost_code, input.version))
                 {
-                    bool blnResult = controller.delete(input.project_code, input.projob_code, input.projob_code, input.version);
+                    bool blnResult = controller.delete(input.project_code, input.projob_code, input.projobcost_code, input.version);
 
                     if (blnResult)
                     {
@@ -5119,7 +5862,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobcost(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobcost(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -5147,10 +5890,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBCOST", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBCOST", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5533,7 +6284,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobmachine(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -5561,10 +6312,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBMACHINE", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBMACHINE", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -5667,7 +6426,7 @@ namespace BPC_OPR
                         }
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobsub_code, req.version);
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, model.projobsub_code, req.version,req.company);
 
                         List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company, "");
                         int i = 1;
@@ -5942,7 +6701,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProjobsub(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -5970,10 +6729,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBSUB", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBSUB", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6092,6 +6859,186 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+
+        //test 1
+        public string getTRProjobempList2(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO017.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+                cls_ctTRProjobemp controller = new cls_ctTRProjobemp();
+                List<cls_TRProjobemp> list = controller.getDataByFillter2(req.project_code, todate, todate);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProjobemp model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("projobemp_id", model.projobemp_id);
+                        json.Add("projobemp_emp", model.projobemp_emp);
+                        json.Add("projobemp_fromdate", model.projobemp_fromdate);
+                        json.Add("projobemp_todate", model.projobemp_todate);
+                        json.Add("projobemp_type", model.projobemp_type);
+                        json.Add("projobemp_status", model.projobemp_status);
+
+                        json.Add("projob_code", model.projob_code);
+                        json.Add("project_code", model.project_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        //test 2
+        public string getTRProjobempList3(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO017.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime fromdate = Convert.ToDateTime(req.fromdate);
+                DateTime todate = Convert.ToDateTime(req.todate);
+
+                cls_ctTRProjobemp controller = new cls_ctTRProjobemp();
+                List<cls_TRProjobemp> list = controller.getDataByFillter3(req.project_code, fromdate, todate);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProjobemp model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("projobemp_id", model.projobemp_id);
+                        json.Add("projobemp_emp", model.projobemp_emp);
+                        json.Add("projobemp_fromdate", model.projobemp_fromdate);
+                        json.Add("projobemp_todate", model.projobemp_todate);
+                        json.Add("projobemp_type", model.projobemp_type);
+                        json.Add("projobemp_status", model.projobemp_status);
+
+                        json.Add("projob_code", model.projob_code);
+                        json.Add("project_code", model.project_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        //
 
         #region TRProjobemp
         public string getTRProjobempList(FillterProject req)
@@ -6451,7 +7398,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobemp(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -6479,10 +7426,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBEMP", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBEMP", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6514,7 +7469,8 @@ namespace BPC_OPR
         }
         #endregion
 
-        #region TRProjobworking
+        
+         #region TRProjobworking
         public string getTRProjobworkingList(FillterProject req)
         {
             JObject output = new JObject();
@@ -6870,7 +7826,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobworking(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -6898,10 +7854,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBWORKING", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBWORKING", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -6970,7 +7934,7 @@ namespace BPC_OPR
                     cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
 
                     //-- Allow
-                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, req.job_code, req.version);
+                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, req.job_code, req.version,req.company_code);
 
                     foreach (cls_TRProjobshift model in list)
                     {
@@ -7209,7 +8173,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobshift controller = new cls_ctTRProjobshift();
 
-                if (controller.checkDataOld(input.version, input.project_code, input.projob_code, input.version))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.shift_code, input.version))
                 {
                     bool blnResult = controller.delete(input.project_code, input.projob_code, input.version);
 
@@ -7261,7 +8225,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadTRProjobshift(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -7289,10 +8253,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROJECT_JOBSHIFT", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROJECT_JOBSHIFT", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -8479,7 +9451,7 @@ namespace BPC_OPR
                 {
 
                     cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
-                    cls_MTProjobversion jobversion = jobversion_controller.getDataCurrent(project.project_code, fromdate);
+                    cls_MTProjobversion jobversion = jobversion_controller.getDataCurrent(project.project_code, fromdate );
 
                     if (jobversion == null)
                         continue;
@@ -8578,7 +9550,7 @@ namespace BPC_OPR
                         }
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version);                                                
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version,req.company_code);                                                
                         foreach (cls_TRProjobcost cost in cost_list_max)
                         {
                             sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
@@ -8783,7 +9755,7 @@ namespace BPC_OPR
                     }
 
                     //-- Cost by job
-                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version);
+                    List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version,req.company_code);
                     foreach (cls_TRProjobcost cost in cost_list_max)
                     {
                         sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
@@ -9218,7 +10190,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProarea(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -9247,10 +10219,18 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROAREA", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROAREA", fileName, by, com);
 
-                    output["success"] = true;
-                    output["message"] = tmp;
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -9522,7 +10502,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
 
         }
-        public async Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream)
+        public async Task<string> doUploadMTProgroup(string token, string by, string fileName, Stream stream, string com)
         {
             JObject output = new JObject();
 
@@ -9551,10 +10531,328 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("PROGROUP", fileName, by);
+                    string tmp = srv_import.doImportExcel("PROGROUP", fileName, by, com);
+
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    } 
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+        #region MTProequipmenttype
+        public string getMTProequipmenttype(BasicRequest req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProequipmenttype controller = new cls_ctMTProequipmenttype();
+                List<cls_MTProequipmenttype> list = controller.getDataByFillter(req.proequipmenttype_code);
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTProequipmenttype model in list)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("proequipmenttype_id", model.proequipmenttype_id);
+                        json.Add("proequipmenttype_code", model.proequipmenttype_code);
+                        json.Add("proequipmenttype_name_th", model.proequipmenttype_name_th);
+                        json.Add("proequipmenttype_name_en", model.proequipmenttype_name_en);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
 
                     output["success"] = true;
-                    output["message"] = tmp;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTProequipmenttype(InputMTProequipmenttype input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProequipmenttype controller = new cls_ctMTProequipmenttype();
+                cls_MTProequipmenttype model = new cls_MTProequipmenttype();
+
+                model.proequipmenttype_id = Convert.ToInt32(input.proequipmenttype_id);
+                model.proequipmenttype_code = input.proequipmenttype_code;
+                model.proequipmenttype_name_th = input.proequipmenttype_name_th;
+                model.proequipmenttype_name_en = input.proequipmenttype_name_en;
+                model.modified_by = input.modified_by;
+
+                string strID = controller.insert(model);
+
+                if (!strID.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        public string doDeleteMTProequipmenttype(InputMTProequipmenttype input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProequipmenttype controller = new cls_ctMTProequipmenttype();
+
+                if (controller.checkDataOld(input.proequipmenttype_code  ))
+                {
+                    bool blnResult = controller.delete(input.proequipmenttype_code );
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Project code : " + input.proequipmenttype_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadMTProequipmenttype(string token, string by, string fileName, Stream stream, string com)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvProjectImport srv_import = new cls_srvProjectImport();
+                    string tmp = srv_import.doImportExcel("PROEQUIPMENTTYPE", fileName, by, com);
+
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -9619,24 +10917,30 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
+                List<cls_MTProject> list_project = project_controller.getDataByFillter(req.company, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup);
 
                 JObject json;
                
 
                 cls_ctMTProcost mtcost_controller = new cls_ctMTProcost();
-                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company, "");
+                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company_code, "");
 
                 foreach (cls_MTProject project in list_project)
                 {
-
                     cls_ctMTProjobversion jobversion_controller = new cls_ctMTProjobversion();
-                    List<cls_MTProjobversion> list_jobversion = jobversion_controller.getDataByFillter(project.project_code);
+                    List<cls_MTProjobversion> list_jobversion = jobversion_controller.getDataByFillter(project.project_code );
+ 
 
                     JArray array_job = new JArray();
 
                     foreach (cls_MTProjobversion version in list_jobversion)
                     {
+
+                        cls_ctMTProjobversion jobversioncontroller = new cls_ctMTProjobversion();
+                        cls_MTProjobversion jobversion = jobversioncontroller.getDataCurrents(project.project_code, fromdate, todate);
+
+                        if (jobversion == null)
+                            continue;
                         //-- Job main
                         cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
                         List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, version.version );
@@ -9649,7 +10953,7 @@ namespace BPC_OPR
                         {
 
                             //-- Cost 
-                            List<cls_TRProjobcost> list_cost = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, version.version);
+                            List<cls_TRProjobcost> list_cost = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, version.version,req.company);
 
                             foreach (cls_MTProcost mtcost in list_mtcost)
                             {
@@ -9746,6 +11050,354 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+        #endregion
+ 
+
+        #region TRProequipmenttype
+        public string getTRProequipmenttype(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO029.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None); 
+                }
+
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+                List<cls_TRProequipmentreq> list = controller.getDataByFillter(req.project_code, "", "", ""  );
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProequipmentreq model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("proequipmentreq_id", model.proequipmentreq_id);
+                        json.Add("prouniform_code", model.prouniform_code);
+                        json.Add("proequipmentreq_date", model.proequipmentreq_date);
+                        json.Add("proequipmentreq_qty", model.proequipmentreq_qty);
+                        json.Add("proequipmentreq_note", model.proequipmentreq_note);
+                        json.Add("proequipmentreq_by", model.proequipmentreq_by);
+                        json.Add("proequipmenttype_code", model.proequipmenttype_code);
+                        json.Add("projob_code", model.projob_code);
+
+                        json.Add("project_code", model.project_code);
+ 
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+       
+        public string doManageTRProequipmentreqList(InputProjectTransaction input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO029.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRProequipmentreq>>(input.transaction_data);
+
+                int success = 0;
+                int error = 0;
+                StringBuilder obj_error = new StringBuilder();
+
+                bool clear = controller.delete(input.project_code );
+
+                if (clear)
+                {
+                    foreach (cls_TRProequipmentreq model in jsonArray)
+                    {
+
+                        model.modified_by = input.modified_by;
+
+                        bool blnResult = controller.insert(model);
+
+                        if (blnResult)
+                            success++;
+                        else
+                        {
+                            var json = new JavaScriptSerializer().Serialize(model);
+                            var tmp2 = JToken.Parse(json);
+                            obj_error.Append(tmp2);
+                        }
+
+                    }
+                }
+                else
+                {
+                    error = 1;
+                }
+
+
+                if (error == 0)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    output["error"] = obj_error.ToString();
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+        }
+        
+
+        public string doDeleteTRProequipmenttype(InputTRProequipmentreq input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO029.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.prouniform_code, input.proequipmenttype_code))
+                {
+                    bool blnResult = controller.delete(input.project_code );
+
+                    if (blnResult)
+                    {
+                        output["success"] = true;
+                        output["message"] = "Remove data successfully";
+
+                        log.apilog_status = "200";
+                        log.apilog_message = "";
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Remove data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controller.getMessage();
+                    }
+
+                }
+                else
+                {
+                    string message = "Not Found Employee code : " + input.project_code;
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = message;
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadTRProequipmenttype(string token, string by, string fileName, Stream stream, string com)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO029.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvProjectImport srv_import = new cls_srvProjectImport();
+                    string tmp = srv_import.doImportExcel("PROJECT_CONTRACT", fileName, by, com);
+
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
         #endregion
     }
 }

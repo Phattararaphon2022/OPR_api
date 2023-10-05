@@ -1042,7 +1042,7 @@ namespace BPC_OPR
                     //cls_MTPolcode polcode = listPol[0];
 
                     cls_ctTRPolcode objTRPolcode = new cls_ctTRPolcode();
-                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.company_code,"");
+                    List<cls_TRPolcode> listTRPolcode = objTRPolcode.getDataByFillter(req.com,"");
                     foreach (cls_TRPolcode model in listTRPolcode)
                     {
 
@@ -6168,7 +6168,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Code Format is incorrect";///errorแจ้งเตือน
+                    output["message"] = "Code Format is incorrect";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
@@ -6693,7 +6693,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTCombank controller = new cls_ctMTCombank();
-                List<cls_MTCombank> list = controller.getDataByFillter(req.company_code);
+                List<cls_MTCombank> list = controller.getDataByFillter("",req.company_code);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -6713,6 +6713,7 @@ namespace BPC_OPR
                         
                         json.Add("combank_banktype", model.combank_banktype);
                         json.Add("combank_branch", model.combank_branch);
+                        json.Add("name_detail", model.name_detail);
 
 
 
