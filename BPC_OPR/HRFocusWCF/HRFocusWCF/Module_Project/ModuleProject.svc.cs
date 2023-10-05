@@ -8671,11 +8671,11 @@ namespace BPC_OPR
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
                         srvTime.doImportTime(input.company_code, intTaskID.ToString());
                     }
-                    //else if (input.task_type.Trim().Equals("CAL_BONUS"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    srvPay.doCalculateBonus(input.company_code, intTaskID.ToString());
-                    //}
+                    else if (input.task_type.Trim().Equals("CAL_BONUS"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        srvPay.doCalculateBonus(input.company_code, intTaskID.ToString());
+                    }
                     else if (input.task_type.Trim().Equals("TRN_BANK"))
                     {
                         cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
