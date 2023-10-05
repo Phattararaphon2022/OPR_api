@@ -1914,6 +1914,13 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
+                //
+                cls_ctTRApprove controllers = new cls_ctTRApprove();
+                cls_TRApprove modell = new cls_TRApprove();
+                if (controllers.checkDataOlds(input.company_code, "PRO_NEW", input.project_code, input.modified_by))
+                {
+                    bool blnResult = controllers.delete(input.company_code, "PRO_NEW", input.project_code, input.modified_by);
+                }
 
                 if (!strID.Equals(""))
                 {

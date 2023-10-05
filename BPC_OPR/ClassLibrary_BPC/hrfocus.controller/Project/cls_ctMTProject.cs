@@ -491,8 +491,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_ROUNDMONEY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_ROUNDMONEY"].Value = model.project_roundmoney;
                 obj_cmd.Parameters.Add("@PROJECT_PROHOLIDAY", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_PROHOLIDAY"].Value = model.project_proholiday;
 
-                obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = model.project_status;
-                               
+                //obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJECT_STATUS"].Value = model.project_status;
+                obj_cmd.Parameters.Add("@PROJECT_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_STATUS"].Value = "W";
+
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
                 obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;

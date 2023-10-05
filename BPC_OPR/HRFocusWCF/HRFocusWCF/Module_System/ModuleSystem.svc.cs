@@ -12543,18 +12543,6 @@ namespace BPC_OPR
                 model.approve_by = input.approve_by;
                 model.approve_status = input.approve_status;
                 model.approve_note = input.approve_note;
-
-                if (controller.checkDataOld(model))
-                {
-                    output["success"] = false;
-                    output["message"] = "This item has been approved.";
-
-                    log.apilog_status = "500";
-                    log.apilog_message = controller.getMessage();
-                }
-                else
-                {
-
                     bool result = controller.insert(model);
 
                     if (result)
@@ -12890,7 +12878,8 @@ namespace BPC_OPR
 
                         log.apilog_status = "500";
                         log.apilog_message = controller.getMessage();
-                    }
+                    
+
                 }
 
                 controller.dispose();
