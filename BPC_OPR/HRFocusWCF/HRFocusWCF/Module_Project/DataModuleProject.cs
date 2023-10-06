@@ -143,6 +143,16 @@ namespace BPC_OPR
         public string company_code { get; set; }
         [DataMember]
         public string modified_by { get; set; }
+
+         [DataMember]
+        public string workflow_type { get; set; }
+        [DataMember]
+         public string approve_code { get; set; }
+
+        [DataMember]
+         public string approve_by { get; set; }
+
+        
         
     }
 
