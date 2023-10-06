@@ -140,7 +140,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        private bool checkDataOld(string com, string workflow, string subject_code, string username)
+        public bool checkDataOlds(string com, string workflow, string subject_code, string username)
         {
             bool blnResult = false;
             try
@@ -256,7 +256,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.workflow_type, model.approve_code, model.approve_by))
+                if (this.checkDataOlds(model.company_code, model.workflow_type, model.approve_code, model.approve_by))
                 {
                     return false;
                 }
@@ -367,7 +367,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     foreach (cls_TRApprove model in list_model)
                     {
                         //-- Check data old
-                        if (this.checkDataOld(model.company_code, model.workflow_type, model.approve_code, model.approve_by))
+                        if (this.checkDataOlds(model.company_code, model.workflow_type, model.approve_code, model.approve_by))
                         {
                             continue;
                         }

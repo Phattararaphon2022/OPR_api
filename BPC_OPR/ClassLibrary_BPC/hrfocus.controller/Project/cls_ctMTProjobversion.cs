@@ -141,6 +141,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 return null;
         }
 
+
+        public cls_MTProjobversion getDataTransaction(string id)
+        {
+            string strCondition = " AND TRANSACTION_ID='" + id + "'";
+
+            List<cls_MTProjobversion> list_model = this.getData(strCondition);
+
+            if (list_model.Count > 0)
+                return list_model[0];
+            else
+                return null;
+        }
+
         public string getLastVersion(string project)
         {
             string result = "";

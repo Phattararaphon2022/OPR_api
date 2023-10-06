@@ -1914,6 +1914,13 @@ namespace BPC_OPR
                 model.modified_by = input.modified_by;
 
                 string strID = controller.insert(model);
+                //
+                cls_ctTRApprove controllers = new cls_ctTRApprove();
+                cls_TRApprove modell = new cls_TRApprove();
+                if (controllers.checkDataOlds(input.company_code, "PRO_NEW", input.project_code, input.modified_by))
+                {
+                    bool blnResult = controllers.delete(input.company_code, "PRO_NEW", input.project_code, input.modified_by);
+                }
 
                 if (!strID.Equals(""))
                 {
@@ -2416,7 +2423,7 @@ namespace BPC_OPR
 
         #endregion
 
-        #region MTProjectFillterdate2
+        #region MTProjectFillterdate2 กรองวันที่fromdate
         public string getMTProjectFillterList2(FillterProject req)
         {
             JObject output = new JObject();
@@ -2627,8 +2634,8 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        #endregion
-        #region MTProjectFillterdate3
+   
+         // กรองวันที่todate
         public string getMTProjectFillterList3(FillterProject req)
         {
             JObject output = new JObject();
@@ -6861,7 +6868,7 @@ namespace BPC_OPR
         #endregion
 
 
-        //test 1
+        #region TRProjobemp //กรองวันที่fromdate
         public string getTRProjobempList2(FillterProject req)
         {
             JObject output = new JObject();
@@ -6950,7 +6957,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
-        //test 2
+        //กรองวันที่todate
         public string getTRProjobempList3(FillterProject req)
         {
             JObject output = new JObject();
@@ -7039,6 +7046,7 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         //
+        #endregion
 
         #region TRProjobemp
         public string getTRProjobempList(FillterProject req)
@@ -8671,11 +8679,11 @@ namespace BPC_OPR
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
                         srvTime.doImportTime(input.company_code, intTaskID.ToString());
                     }
-                    //else if (input.task_type.Trim().Equals("CAL_BONUS"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    srvPay.doCalculateBonus(input.company_code, intTaskID.ToString());
-                    //}
+                    else if (input.task_type.Trim().Equals("CAL_BONUS"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        srvPay.doCalculateBonus(input.company_code, intTaskID.ToString());
+                    }
                     else if (input.task_type.Trim().Equals("TRN_BANK"))
                     {
                         cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
