@@ -159,7 +159,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string com, string code)
+        public bool checkDataOld(string com, string code, bool status)
         {
             bool blnResult = false;
             try
@@ -171,6 +171,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND SHIFT_CODE='" + code + "'");
+                obj_str.Append(" AND PROJECT='" + status + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -244,7 +245,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.shift_code))
+                if (this.checkDataOld(model.company_code, model.shift_code,model.project))
                 {
                     if (model.shift_id.Equals(0))
                     {

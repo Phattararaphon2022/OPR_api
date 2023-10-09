@@ -186,24 +186,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!code.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + code + "'";
-
-            //strCondition += "AND ('" + fromdate.ToString("MM/dd/yyyy") + "' BETWEEN PROCONTRACT_FROMDATE AND PROCONTRACT_TODATE) or (('" + todate.ToString("MM/dd/yyyy") + "' BETWEEN PROCONTRACT_FROMDATE AND PROCONTRACT_TODATE)))";
             strCondition += "AND PROJECT_CODE IN ((SELECT PROJECT_CODE FROM PRO_TR_PROCONTRACT WHERE ('" + fromdate.ToString("MM/dd/yyyy") + "'BETWEEN PROCONTRACT_FROMDATE AND PROCONTRACT_TODATE) OR ('" + todate.ToString("MM/dd/yyyy") + "'  BETWEEN PROCONTRACT_FROMDATE AND PROCONTRACT_TODATE)))";
-
-
             return this.getData(strCondition);
         }
         //
 
 
         //
-        public List<cls_MTProject> getDataByFillterAll(string com, string code, string business, string area, string status )
+        public List<cls_MTProject> getDataByFillterAll(string com, string code, string business, string area, string status, string searchemp)
         {
             string strCondition = "";
 
             if (!com.Equals(""))
                 strCondition += " AND COMPANY_CODE='" + com + "'";
-
             if (!code.Equals(""))
                 strCondition += " AND PROJECT_CODE='" + code + "'";
             if (!business.Equals(""))
@@ -214,15 +209,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 strCondition += " AND PROJECT_STATUS='" + status + "'";
             }
-
-
-
+            if (!searchemp.Equals(""))
+            {
+                strCondition += "AND (PROJECT_CODE LIKE'" + searchemp + "%' OR PROJECT_NAME_TH LIKE '" + searchemp + "%' OR PROJECT_NAME_EN LIKE '" + searchemp + "%')";
+            }
 
             return this.getData(strCondition);
         }
         //
-
-
 
         public int getNextID()
         {

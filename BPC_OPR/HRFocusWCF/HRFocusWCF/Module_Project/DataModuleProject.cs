@@ -222,6 +222,8 @@ namespace BPC_OPR
         public string procontract_fromdate { get; set; }
          [DataMember]
          public string procontract_todate { get; set; }
+        [DataMember]
+         public string include_resign { get; set; }
         
     }
 

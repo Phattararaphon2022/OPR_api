@@ -2143,7 +2143,7 @@ namespace BPC_OPR
 
 
                 cls_ctMTProject controller = new cls_ctMTProject();
-                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status );
+                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status, req.searchemp);
  
                 //-- F add 23/08/2023
                 //-- Workflow
@@ -2220,8 +2220,8 @@ namespace BPC_OPR
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
-                        List<cls_TRProcontract> list_contract = contract.getDataCurrents(model.project_code, fromdate, todate);
-                        //List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
+                        //List<cls_TRProcontract> list_contract = contract.getDataCurrents(model.project_code, fromdate, todate);
+                        List<cls_TRProcontract> list_contract = contract.getDataByFillter(model.project_code);
 
                         //-- Approve
                         int count_approve = 0;
