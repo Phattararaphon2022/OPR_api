@@ -218,8 +218,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", EMPPROVIDENT_CARD ");
                 obj_str.Append(", EMPPROVIDENT_ENTRY ");
                 obj_str.Append(", EMPPROVIDENT_START ");
+                if (model.empprovident_end != DateTime.MinValue)
+                {
 
-                if (model.empprovident_end.Equals("")) {
+                //if (!model.empprovident_end.ToString().Equals("")) {
                     obj_str.Append(", EMPPROVIDENT_END ");
                 }
                 obj_str.Append(", EMPPROVIDENT_TYPE");
@@ -239,7 +241,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @EMPPROVIDENT_CARD ");
                 obj_str.Append(", @EMPPROVIDENT_ENTRY ");
                 obj_str.Append(", @EMPPROVIDENT_START ");
-                if (model.empprovident_end.Equals(""))
+                if (model.empprovident_end != DateTime.MinValue)
                 {
                     obj_str.Append(", @EMPPROVIDENT_END ");
                 }
@@ -265,7 +267,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@EMPPROVIDENT_CARD", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPROVIDENT_CARD"].Value = model.empprovident_card;
                 obj_cmd.Parameters.Add("@EMPPROVIDENT_ENTRY", SqlDbType.Date); obj_cmd.Parameters["@EMPPROVIDENT_ENTRY"].Value = model.empprovident_entry;
                 obj_cmd.Parameters.Add("@EMPPROVIDENT_START", SqlDbType.Date); obj_cmd.Parameters["@EMPPROVIDENT_START"].Value = model.empprovident_start;
-                if (model.empprovident_end.Equals(""))
+                if (model.empprovident_end != DateTime.MinValue)
                 {
                     obj_cmd.Parameters.Add("@EMPPROVIDENT_END", SqlDbType.Date); obj_cmd.Parameters["@EMPPROVIDENT_END"].Value = model.empprovident_end;
                 }

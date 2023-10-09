@@ -112,6 +112,38 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
             return strResult;
         }
 
+        public string doCalculateBonus(string com, string taskid)
+        {
+            string strResult = "";
+
+            cls_ctConnection obj_conn = new cls_ctConnection();
+
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_conn.doConnect();
+
+                obj_str.Append(" EXEC [dbo].[PAY_PRO_CALBONUS] '" + com + "', '" + taskid + "' ");
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                obj_cmd.CommandType = CommandType.Text;
+
+                int intCountSuccess = obj_cmd.ExecuteNonQuery();
+
+                if (intCountSuccess > 0)
+                {
+                    strResult = "Success::" + intCountSuccess.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return strResult;
+        }
+
         #region SSO
         //SSO   
          public string doExportSso(string com,string taskid)
