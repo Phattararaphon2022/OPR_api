@@ -1378,10 +1378,21 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 cls_MTShift shift = null;
                                 foreach (cls_MTShift mdShift in listShift)
                                 {
-                                    if (mdShift.shift_code == timecard.shift_code)
+                                    if (!timecard.project_code.Equals(""))
                                     {
-                                        shift = mdShift;
-                                        break;
+                                        if (mdShift.project && mdShift.shift_code == timecard.shift_code)
+                                        {
+                                            shift = mdShift;
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (mdShift.shift_code == timecard.shift_code)
+                                        {
+                                            shift = mdShift;
+                                            break;
+                                        }
                                     }
                                 }
                                 if (shift == null)
