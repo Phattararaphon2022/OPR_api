@@ -570,7 +570,9 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  DateTime datePay = task_detail.taskdetail_paydate;
                  //ตัวเช็คธนาคาร
                  string[] task_bank = task_detail.taskdetail_process.Split('|');
-                  
+
+                 
+
 
                  StringBuilder objStr = new StringBuilder();
                  foreach (cls_TRTaskwhose whose in listWhose)
@@ -615,7 +617,8 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  List<cls_TRPaybank> list_paybank = objPaybank.getDataByFillter(com, strEmp);
                  cls_TRPaybank paybank = list_paybank[0];
 
-                 
+
+
 
                 string tmpData = "";
                 string sequence = "000001";
@@ -627,27 +630,11 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                 string user = "";
                 string spare2= "";
                 string spare3 = "";
-                //string task_detail = "";
-                //string[] task_bank = task_detail.taskdetail_process.Split('|');
-                //string task_detail = "";
-                //bool task_detail_condition = combank.combank_bankcode == "002";
-
-                //if (task_detail_condition)
-                //{
-                //    task_detail = "task1|task2|task3|task4";
-                //}
-                //bool task_detail_condition = combank.combank_bankcode == "002";
-
-                //if (task_detail_condition)
-                //{
-                //    task_detail = list_paytran;
-                //}
+ 
 
                 if (list_paytran.Count > 0)
                 {
-                    bool task_detail_condition = combank.combank_bankcode == "002";
-                    { 
-
+             
                 // ตรวจสอบความยาวของ comdetail.company_name_en หากมากกว่า 25 ตัวอักษรให้ตัดทิ้งเหลือเพียง 25 ตัวอักษร
                 if (comdetail.company_name_en.Length > 25)
                     comdetail.company_name_en = comdetail.company_name_en.Substring(0, 25);
@@ -827,7 +814,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  }
 
-                }
+
                  task.task_end = DateTime.Now;
                  task.task_status = "F";
                  task.task_note = strResult;
