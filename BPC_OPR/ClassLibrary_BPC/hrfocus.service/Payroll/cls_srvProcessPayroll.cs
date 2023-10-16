@@ -568,6 +568,9 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  DateTime dateEff = task_detail.taskdetail_fromdate;
                  DateTime datePay = task_detail.taskdetail_paydate;
+                 //ตัวเช็คธนาคาร
+                 string[] task_bank = task_detail.taskdetail_process.Split('|');
+                  
 
                  StringBuilder objStr = new StringBuilder();
                  foreach (cls_TRTaskwhose whose in listWhose)
@@ -584,6 +587,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                  List<cls_MTWorker> list_worker = objWorker.getDataMultipleEmp(com, strEmp);
 
                  //-- Step 2 Get Paytran
+
                  cls_ctTRPaytran objPay = new cls_ctTRPaytran();
                  List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com, dateEff, datePay, strEmp);
 
@@ -613,130 +617,189 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  
 
-                 string tmpData = "";
+                string tmpData = "";
+                string sequence = "000001";
+                string spare = "";
+
+                string spare1 = "";
+
+                string departmentcode= "";
+                string user = "";
+                string spare2= "";
+                string spare3 = "";
+                //string task_detail = "";
+                //string[] task_bank = task_detail.taskdetail_process.Split('|');
+                //string task_detail = "";
+                //bool task_detail_condition = combank.combank_bankcode == "002";
+
+                //if (task_detail_condition)
+                //{
+                //    task_detail = "task1|task2|task3|task4";
+                //}
+                //bool task_detail_condition = combank.combank_bankcode == "002";
+
+                //if (task_detail_condition)
+                //{
+                //    task_detail = list_paytran;
+                //}
+
+                if (list_paytran.Count > 0)
+                {
+                    bool task_detail_condition = combank.combank_bankcode == "002";
+                    { 
+
+                // ตรวจสอบความยาวของ comdetail.company_name_en หากมากกว่า 25 ตัวอักษรให้ตัดทิ้งเหลือเพียง 25 ตัวอักษร
+                if (comdetail.company_name_en.Length > 25)
+                    comdetail.company_name_en = comdetail.company_name_en.Substring(0, 25);
+                // ตรวจสอบความยาวของ comdetail.company_name_en หากน้อยกว่า 25 ตัวอักษรให้เติมด้วยช่องว่างจนครบ 25 ตัวอักษร
+                else if (comdetail.company_name_en.Length < 25)
+                    comdetail.company_name_en = comdetail.company_name_en.PadRight(25, ' ');
+                if (spare.Length < 77)
+                    spare = spare.PadRight(77, '0');
+
+                // กำหนดค่า tmpData โดยรวมข้อมูล combank.combank_bankcode และ comdetail.company_name_en
+                tmpData = "H" + " " + sequence + " " + combank.combank_bankcode + " " + combank.combank_bankaccount + " " + comdetail.company_name_en + " " + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + " " + spare + "\r\n";
+
+                double douTotal = 0;
+                int index = 0;
+                string amount;
+                string bkData;
 
 
-                 if (list_paytran.Count > 0)
-                 {
-                     // ตรวจสอบความยาวของ comdetail.company_name_en หากมากกว่า 25 ตัวอักษรให้ตัดทิ้งเหลือเพียง 25 ตัวอักษร
-                     if (comdetail.company_name_en.Length > 25)
-                         comdetail.company_name_en = comdetail.company_name_en.Remove(25, comdetail.company_name_en.Length - 25);
-                     // ตรวจสอบความยาวของ comdetail.company_name_en หากน้อยกว่า 25 ตัวอักษรให้เติมด้วยช่องว่างจนครบ 25 ตัวอักษร
-                     if (comdetail.company_name_en.Length < 25)
-                         comdetail.company_name_en = comdetail.company_name_en.PadRight(25, ' ');
 
-                     // กำหนดค่า tmpData โดยรวมข้อมูล combank.combank_bankcode และ comdetail.company_name_en
-                     tmpData = combank.combank_bankcode + "|" + comdetail.company_name_en + "|";
+                //string departmentcode;
+                //string user ;
+                //string spare2;
+                    
+                foreach (cls_TRPaytran paytran in list_paytran)
+                {
 
-                     double douTotal = 0;
-                     int index = 0;
-                     string sequence;
-                     string amount;
-                     string bkData;
-                  
+                    string empacc = "";
+                    string empname = "";
 
-                
-
-                    foreach (cls_TRPaytran paytran in list_paytran)
+                    foreach (cls_MTWorker worker in list_worker)
                     {
-                        string empacc = "";
-                        string empname = "";
-
-                        // วนลูปเพื่อค้นหาข้อมูล worker ใน list_worker ที่ตรงกับ worker_code ใน paytran
-                        foreach (cls_MTWorker worker in list_worker)
+                        if (paytran.worker_code.Equals(worker.worker_code))
                         {
-                            if (paytran.worker_code.Equals(worker.worker_code))
-                            {
-                                // กำหนดค่า empname โดยรวมข้อมูลจาก worker
-                                empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + "|" + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + "|";
-
-                                break;
-                            }
+                            empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + "|" + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + "|";
+                            break;
                         }
+                    }
 
-                        // วนลูปเพื่อค้นหาข้อมูล worker ใน list_empbank ที่ตรงกับ worker_code ใน paytran
-                        foreach (cls_TRBank worker in list_empbank)
+                    foreach (cls_TRBank worker in list_empbank)
+                    {
+                        if (paytran.worker_code.Equals(worker.worker_code))
                         {
-                            if (paytran.worker_code.Equals(worker.worker_code))
-                            {
-                                // กำหนดค่า empacc โดยรับประจำที่ bank_account และลบเครื่องหมาย -
-                                empacc = worker.bank_account.Replace("-", "");
-                                break;
-                            }
+                            empacc = worker.bank_account.Replace("-", "");
+                            break;
                         }
+                    }
 
-                        // วนลูปเพื่อค้นหาข้อมูล paybanks ใน list_paybank ที่ตรงกับ worker_code ใน paytran
-                        foreach (cls_TRPaybank paybanks in list_paybank)
+                    foreach (cls_TRPaybank paybanks in list_paybank)
+                    {
+                        if (paytran.worker_code.Equals(paybanks.worker_code))
                         {
-                            if (paytran.worker_code.Equals(paybanks.worker_code))
-                            {
-                                // กำหนดค่า empacc โดยรับประจำที่ bank_code และลบเครื่องหมาย -
-                                empacc = paybanks.paybank_code.Replace("-", "");
-                                break;
-                            }
+                            //empacc = paybanks.paybank_bankaccount.Replace("-", "").PadLeft(10, '0');
+                            empacc = paybanks.paybank_bankaccount.Replace("-", "");
+                            break;
                         }
+                    }
+                    //"Header Record  (ส่วนที่ 1)"   
+                    if (string.IsNullOrEmpty(empname) || string.IsNullOrEmpty(empacc))
+                    {
+                        empname += paytran.worker_detail;
+                    }
+                    else
+                    {
+                        empname += empacc + " ";
+                    }
 
-                        // ตรวจสอบว่ามีค่าว่างใน empname หรือ empacc หากมีให้ข้ามไปทำงานกับข้อมูลรอบถัดไป
+                    sequence = Convert.ToString(index + 2).PadLeft(6, '0');
 
-                        //"Header Record  (ส่วนที่ 1)"     
-                        
-                        if (empname.Equals("") || empacc.Equals(""))
-                            empname += paytran.worker_detail;
-                        else
-                            empname +=   empacc.Equals("") + "|";
+                    decimal temp = (decimal)paytran.paytran_netpay_b;
+                    amount = temp.ToString("#.#0").Trim().Replace(".", "").PadLeft(10, '0');
+
+                    if (spare1.Length < 32)
+                        spare1 = spare1.PadRight(32, '0');
+
+                    if (departmentcode.Length < 4)
+                        departmentcode = departmentcode.PadRight(4, '0');
+
+                    if (user.Length < 10)
+                        user = user.PadRight(10, '0');
+
+                    if (spare2.Length < 13)
+                        spare2 = spare2.PadRight(13, '0');
+
+
+                    if (spare1.Length < 32)
+                        spare1 = spare1.PadRight(32, '0');
+
+                    
+
+
+                    bkData = "D" + " " + sequence + " " + combank.combank_bankcode + " " + empacc + " " + "C" + " " + amount + " " + "02" + " " + "9" + " " + spare1 + " " + departmentcode + " " + user + " " + spare2 + " ";
+                    bkData = bkData.PadRight(32, '0');
+
+                    if (empname.Length > 35)
+                        empname = empname.Substring(0, 35);
+
+                    bkData = bkData + empname.ToUpper();
+                    tmpData += bkData.PadRight(128, ' ') + "\r\n";
+
+                    douTotal += paytran.paytran_netpay_b;
+                    index++;
+                }
+
+
+
+                int record = list_paybank.Count;
+                sequence = (index + 2).ToString().PadLeft(6, '0');
+
+                string formattedAmount = "";
+                if (record > 1)
+                {
+                    formattedAmount = (record ).ToString().PadLeft(6, '0');
+                }
+                else
+                {
+                    formattedAmount = (index).ToString().PadLeft(6, '0');
+                }
+
+
+
+
+
+                //string formattedAmount = (record + index).ToString().PadLeft(6, '0');
+
+
+                //decimal tempw = decimal.Parse(paybank.paybank_bankaccount);
+                //string formattedAmount = record.ToString("000000");
+
+                if (spare3.Length < 68)
+                    spare3 = spare3.PadRight(68, '0');
+
+               
  
-                        //if (empname.Equals("") || empacc.Equals(""))
-                        //    continue;
 
-                        // กำหนดค่า sequence โดยแปลงตัวเลข index+2 เป็นสตริงและเติมเต็มด้วยศูนย์ด้านหน้าเพื่อให้ครบ 6 หลัก
-                        sequence = Convert.ToString(index + 2).ToString().PadLeft(6, '0');
+                string total1 = douTotal.ToString("#.#0").Trim().Replace(".", "").PadLeft(13, '0');
+ 
 
-                        // แปลงค่า paytran.paytran_netpay_b เป็น decimal และเก็บในตัวแปร temp
-                        decimal temp = (decimal)paytran.paytran_netpay_b;
+                bkData = "T" + " " + sequence + " " + combank.combank_bankcode + " " + combank.combank_bankaccount
+                        + " " + "0000000000000" + " " + formattedAmount + " " + total1 + " " + spare3 + " ";
 
-                        // แปลงค่า temp เป็นสตริงโดยใช้รูปแบบที่ต้องการและเติมเต็มด้วยศูนย์ด้านหน้าเพื่อให้ครบ 10 หลัก
-                        amount = temp.ToString("#.#0").Trim().Replace(".", "").PadLeft(10, '0');
-
-                        // กำหนดค่า bkData โดยรวมข้อมูลตามรูปแบบที่ต้องการ
-                        //bkData = "D" + sequence + "002" + empacc + "C" + amount + "029";
-
-                        // กำหนดค่า bkData อีกครั้ง
-                        bkData = " " + "D" + "|" + combank.combank_bankaccount + "|" + "C" + "|";
-                        bkData = bkData.PadRight('0');
-
-                        // กำหนดค่า bkData อีกครั้ง
-                        bkData = bkData.PadRight('0') + "|";
-
-                        // ตรวจสอบความยาวของ empname หากมีมากกว่า 35 ตัวอักษรให้ตัดทิ้งเหลือเพียง 35 ตัวอักษร
-                        if (empname.Length > 35)
-                            empname = empname.Substring(0, 35);
-
-                        // กำหนดค่า bkData โดยรวมข้อมูล empname และแนวขวางสุดด้านขวาให้ครบ 128 ตัวอักษรด้วยช่องว่าง
-                        bkData = bkData + empname.ToUpper();
-
-                        // เพิ่มค่า bkData ลงในตัวแปร tmpData และเติมด้วยตัวขึ้นบรรทัดใหม่
-                        tmpData += bkData.PadRight(128, ' ') + '\r' + '\n';
-
-                        // บวกค่า paytran.paytran_netpay_b เข้ากับตัวแปร douTotal
-                        douTotal += paytran.paytran_netpay_b;
-
-                        index++;
+                bkData = bkData.PadRight(81, '0');
 
 
 
-                     }
-                    int record = list_paybank.Count;
-                    sequence = Convert.ToString(index + 2).ToString().PadLeft(6, '0');
-                    bkData = "T" + "|" + paybank.paybank_bankamount + "|" + paybank.paybank_bankaccount + "|";
-                    bkData = bkData + record.ToString().PadLeft('0') + "|" + combank.combank_id + "|";
-                    tmpData += bkData.PadRight('0') + "1" + "|";
+                tmpData += bkData;
 
-                  
 
                      try
                      {
                          //-- Step 1 create file
-                         string filename = "TRN_BANK_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
+                         string filename = "UPAYDAT.DAT";
+                         //string filename = "TRN_BANK_" + DateTime.Now.ToString("yyMMddHHmm") + "." + "txt";
                          string filepath = Path.Combine
                         (ClassLibrary_BPC.Config.PathFileExport, filename);
 
@@ -764,7 +827,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                  }
 
-
+                }
                  task.task_end = DateTime.Now;
                  task.task_status = "F";
                  task.task_note = strResult;
