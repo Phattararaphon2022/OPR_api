@@ -237,6 +237,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                      foreach (cls_TRPaytran paytran in list_paytran)
                      {
+                         //string bkData = "";
 
                          string empname = "";
 
@@ -312,153 +313,173 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                          {
 
                              //1.ประเภทข้อมูล กำหนดให้เป็น " 1  " เสมอ
-                             bkData = "1" + " ";
+                             tmpData = "1" + " ";
 
                              //2.เลขที่บัญชีนายจ้าง
                              if (combank.combank_bankaccount.Length == 10)
-                                 bkData += combank.combank_bankaccount + " ";
+                                 tmpData += combank.combank_bankaccount + " ";
                              else
-                                 bkData += combank.combank_bankaccount + " ";
+                                 tmpData += combank.combank_bankaccount + " ";
 
                              //3.ลำดับที่สาขา ตามที่ สปส.กำหนด
                              if (comEmpbranch.branch_code.Length == 6)
-                                 bkData += comEmpbranch.branch_code + " ";
+                                 tmpData += comEmpbranch.branch_code + " ";
                              else
-                                 bkData += comEmpbranch.branch_code + " ";
+                                 tmpData += comEmpbranch.branch_code + " ";
 
                              //4.วันที่ชำระเงิน <>PAYTRAN_PAYDATE
                              if (Paytran.paytran_date.ToString("ddMMyy").Length == 6)
-                                 bkData += Paytran.paytran_date.ToString("ddMMyy") + " ";
+                                 tmpData += Paytran.paytran_date.ToString("ddMMyy") + " ";
                              else
-                                 bkData += Paytran.paytran_date.ToString("ddMMyy") + " ";
+                                 tmpData += Paytran.paytran_date.ToString("ddMMyy") + " ";
 
                              //5.งวดค่าจ้าง<>	
-                             bkData += datePay.ToString("MM") + dateEff.ToString("yy") + " ";
+                             tmpData += datePay.ToString("MM") + dateEff.ToString("yy") + " ";
 
                              //6.ชื่อสถานประกอบการ 
-                             bkData += comdetail.company_name_en + " ";
+                             tmpData += comdetail.company_name_en + " ";
 
                              //7.อัตราเงินสมทบ
                              if (Paytran.paytran_ssocom == 4)
-                                 bkData += Paytran.paytran_ssocom;
+                                 tmpData += Paytran.paytran_ssocom;
                              else
-                                 bkData += Paytran.paytran_ssocom.ToString("0000") + " ";
+                                 tmpData += Paytran.paytran_ssocom.ToString("0000") + " ";
 
                              //bkData += paybank.paytran_ssocom + "|";
 
                              //8.จำนวนผู้ประกันตน			
                              //bkData += paytran.paytran_tax_401.ToString("0.00") + "|";
                              if (paytran.paytran_tax_401 == 6)
-                                 bkData += paytran.paytran_tax_401;
+                                 tmpData += paytran.paytran_tax_401;
                              else
-                                 bkData += paytran.paytran_tax_401.ToString("000000") + " ";
+                                 tmpData += paytran.paytran_tax_401.ToString("000000") + " ";
 
 
 
                              //9.ค่าจ้างรวม PAYTRAN_INCOME_TOTAL
                              if (paytran.paytran_income_total == 15)
-                                 bkData += paytran.paytran_income_total + " ";
+                                 tmpData += paytran.paytran_income_total + " ";
                              else
-                                 bkData += paytran.paytran_income_total.ToString("000000000000000") + " ";
+                                 tmpData += paytran.paytran_income_total.ToString("000000000000000") + " ";
 
                              //10.เงินสมทบรวม 
                              if (paytran.paytran_pfcom == 14)
-                                 bkData += paytran.paytran_pfcom + " ";
+                                 tmpData += paytran.paytran_pfcom + " ";
                              else
-                                 bkData += paytran.paytran_pfcom.ToString("00000000000000") + " ";
+                                 tmpData += paytran.paytran_pfcom.ToString("00000000000000") + " ";
 
                              //11.เงินสมทบรวมส่วนผปต. 
                              if (paytran.paytran_income_notax == 12)
-                                 bkData += paytran.paytran_income_notax + " ";
+                                 tmpData += paytran.paytran_income_notax + " ";
                              else
-                                 bkData += paytran.paytran_income_notax.ToString("000000000000") + " ";
+                                 tmpData += paytran.paytran_income_notax.ToString("000000000000") + " ";
 
                              //12.เงินสมทบส่วนนายจ้าง <Poscod>
                              if (paytran.paytran_tax_401 == 12)
-                                 bkData += paytran.paytran_tax_401 + " ";
+                                 tmpData += paytran.paytran_tax_401 + " ";
                              else
-                                 bkData += paytran.paytran_tax_401.ToString("000000000000") + " ";
-                             tmpData += bkData + "\r\n";
+                                 tmpData += paytran.paytran_tax_401.ToString("000000000000") + " ";
+
+
+
+                             tmpData += "".PadRight(135, ' ') + "\r\n";
+
+                             douTotal += paytran.paytran_netpay_b;
+                             index++;
+
+
+                             //tmpData += "" + "\r\n";
+
+                             string spare = "";
+                             // ตรวจสอบและปรับขนาด worker_fname_en
+                             if (obj_worker.worker_fname_en.Length > 25)
+                             {
+                                 obj_worker.worker_fname_en = obj_worker.worker_fname_en.Substring(0, 25);
+                             }
+                             else if (obj_worker.worker_fname_en.Length < 25)
+                             {
+                                 obj_worker.worker_fname_en = obj_worker.worker_fname_en.PadRight(25, ' ');
+                             }
+
+                             // ตรวจสอบและปรับขนาด worker_lname_en
+                             if (obj_worker.worker_lname_en.Length > 25)
+                             {
+                                 obj_worker.worker_lname_en = obj_worker.worker_lname_en.Substring(0, 25);
+                             }
+                             else if (obj_worker.worker_lname_en.Length < 25)
+                             {
+                                 obj_worker.worker_lname_en = obj_worker.worker_lname_en.PadRight(25, ' ');
+                             }
+
+                             // ตรวจสอบและปรับขนาด spare
+                             if (spare.Length < 65)
+                             {
+                                 spare = spare.PadRight(65, '0');
+                             }
+                             //////////////////////////////////
+                             //Detail Record 2
+                             if (empname.Equals("") || obj_worker.worker_cardno.Equals(""))
+                                 continue;
+
+                             if (paytran.paytran_income_401 > 0)
+                             {
+                                 //1.ประเภทข้อมูล
+                                 bkData = "2" + " ";
+
+
+                                 //2.เลขที่บัตรประชาชนobj_worker
+
+                                 if (obj_worker.worker_cardno.Length == 13)
+                                     bkData += obj_worker.worker_cardno + " ";
+                                 else
+                                     bkData += "0000000000000" + " ";
+
+                                 //3.คำนำหน้าชื่อ
+                                 if (obj_worker.worker_initial.Length == 3)
+                                     bkData += obj_worker.worker_initial + " ";
+                                 else
+                                     bkData += "000" + " ";
+
+                                 //4.ชื่อผู้ประกันตน 
+                                 bkData += obj_worker.worker_fname_en + " ";
+
+                                 //5.นามสกุลผู้ประกันตน
+
+                                 bkData += obj_worker.worker_lname_en + " ";
+
+                                 //6.ค่าจ้าง
+                                 if (paytran.paytran_income_total == 14)
+                                     bkData += paytran.paytran_income_total + " ";
+                                 else
+                                     bkData += paytran.paytran_income_total.ToString("00000000000000") + " ";
+
+                                 //7.จำนวนเงินสมทบ
+                                 if (paytran.paytran_pfemp == 12)
+                                     bkData += paytran.paytran_pfemp + " ";
+                                 else
+                                     bkData += paytran.paytran_pfemp.ToString("000000000000") + " ";
+
+                                 //8.คอลัมน์ว่าง			                          
+                                 //bkData += " ";
+
+
+                                 tmpData += bkData.PadRight(135, ' ') + '\r' + '\n';
+                             }
                          }
-                         string spare = "";
-                         // ตรวจสอบและปรับขนาด worker_fname_en
-                         if (obj_worker.worker_fname_en.Length > 25)
-                         {
-                             obj_worker.worker_fname_en = obj_worker.worker_fname_en.Substring(0, 25);
-                         }
-                         else if (obj_worker.worker_fname_en.Length < 25)
-                         {
-                             obj_worker.worker_fname_en = obj_worker.worker_fname_en.PadRight(25, ' ');
-                         }
-
-                         // ตรวจสอบและปรับขนาด worker_lname_en
-                         if (obj_worker.worker_lname_en.Length > 25)
-                         {
-                             obj_worker.worker_lname_en = obj_worker.worker_lname_en.Substring(0, 25);
-                         }
-                         else if (obj_worker.worker_lname_en.Length < 25)
-                         {
-                             obj_worker.worker_lname_en = obj_worker.worker_lname_en.PadRight(25, ' ');
-                         }
-
-                         // ตรวจสอบและปรับขนาด spare
-                         if (spare.Length < 65)
-                         {
-                             spare = spare.PadRight(65, '0');
-                         }
-                         //////////////////////////////////
-                         //Detail Record 2
-                         if (empname.Equals("") || obj_worker.worker_cardno.Equals(""))
-                             continue;
-
-                         if (paytran.paytran_income_401 > 0)
-                         {
-                             //1.ประเภทข้อมูล
-                             bkData = "2" + " ";
+                             douTotal += paytran.paytran_netpay_b;
+                             index++;
 
 
-                             //2.เลขที่บัตรประชาชนobj_worker
-                            
-                             if (obj_worker.worker_cardno.Length == 13)
-                                 bkData += obj_worker.worker_cardno + " ";
-                             else
-                                 bkData += "0000000000000" + " ";
+                             //tmpData += bkData + '\r' + '\n';
+                         
+                         //douTotal += paytran.paytran_netpay_b;
 
-                             //3.คำนำหน้าชื่อ
-                             if (obj_worker.worker_initial.Length == 3)
-                                 bkData += obj_worker.worker_initial + " ";
-                             else
-                                 bkData += "000" + " ";
-
-                             //4.ชื่อผู้ประกันตน 
-                             bkData += obj_worker.worker_fname_en + " ";
-
-                             //5.นามสกุลผู้ประกันตน
-
-                             bkData += obj_worker.worker_lname_en + " ";
-
-                             //6.ค่าจ้าง
-                             if (paytran.paytran_income_total == 14)
-                                 bkData += paytran.paytran_income_total + " ";
-                             else
-                                 bkData += paytran.paytran_income_total.ToString("00000000000000") + " ";
-
-                             //7.จำนวนเงินสมทบ
-                             if (paytran.paytran_pfemp == 12)
-                                 bkData += paytran.paytran_pfemp + " ";
-                             else
-                                 bkData += paytran.paytran_pfemp.ToString("000000000000") + " ";
-
-                             //8.คอลัมน์ว่าง			                          
-                             bkData += " ";
-                             tmpData += bkData ;
-                         }
-
-                         douTotal += paytran.paytran_netpay_b;
-
-                         index++;
+                         //index++;
+                    
                      }
                      int record = list_paytran.Count;
+
+ 
                       try
                     {
                         //-- Step 1 create file
@@ -475,10 +496,13 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         // Create a new file     
                         using (FileStream fs = File.Create(filepath))
                         {
-                            // Add some text to file    
-                            Byte[] title = new UTF8Encoding(true).GetBytes(tmpData);
-                            fs.Write(title, 0, title.Length);
+                            foreach (string data in tmpData.Split(new[] { Environment.NewLine }, StringSplitOptions.None))
+                            {
+                                Byte[] title = new UTF8Encoding(true).GetBytes(data + '\r' + '\n');
+                                fs.Write(title, 0, title.Length);
+                            }
                         }
+
                         strResult = filename;
 
                     }

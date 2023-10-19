@@ -1686,28 +1686,28 @@ namespace BPC_OPR
 
                 //-- F add 23/08/2023
                 //-- Workflow
-                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
-                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company, "", "PRO_NEW");
+                //cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                //List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company, "", "PRO_NEW");
 
                 //-- Approve history
                 cls_ctTRApprove approve = new cls_ctTRApprove();
                 List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company, "PRO_NEW", "");
 
-                if (req.status.Equals("W"))
-                {
-                    bool find_approve = false;
-                    foreach (cls_TRWorkflow model in list_workflow)
-                    {
-                        if (req.username.Equals(model.account_user))
-                        {
-                            find_approve = true;
-                            break;
-                        }
-                    }
+                //if (req.status.Equals("W"))
+                //{
+                //    bool find_approve = false;
+                //    //foreach (cls_TRWorkflow model in list_workflow)
+                //    //{
+                //    //    if (req.username.Equals(model.account_user))
+                //    //    {
+                //    //        find_approve = true;
+                //    //        break;
+                //    //    }
+                //    //}
 
-                    if (!find_approve)
-                        list = new List<cls_MTProject>();
-                }
+                //    if (!find_approve)
+                //        list = new List<cls_MTProject>();
+                //}
                 //
                 
                 
@@ -1764,8 +1764,8 @@ namespace BPC_OPR
                             if (model.project_code.Equals(appr.approve_code))
                                 count_approve++;
                         }
-
-                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+                        //json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+                        json.Add("approve_status", count_approve.ToString()  );
 
                         foreach (cls_MTProjobmain jobmain in list_job)
                         {
@@ -2145,32 +2145,12 @@ namespace BPC_OPR
                 cls_ctMTProject controller = new cls_ctMTProject();
                 List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status, req.searchemp);
  
-                //-- F add 23/08/2023
-                //-- Workflow
-                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
-                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company_code, "", "PRO_NEW");
 
                 //-- Approve history
                 cls_ctTRApprove approve = new cls_ctTRApprove();
                 List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company_code, "PRO_NEW", "");
 
-                if (req.status.Equals("W"))
-                {
-                    bool find_approve = false;
-                    foreach (cls_TRWorkflow model in list_workflow)
-                    {
-                        if (req.username.Equals(model.account_user))
-                        {
-                            find_approve = true;
-                            break;
-                        }
-                    }
-
-                    if (!find_approve)
-                        list = new List<cls_MTProject>();
-                }
-                //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
-                
+               
                 
                 JArray array = new JArray();
 
@@ -2231,7 +2211,7 @@ namespace BPC_OPR
                                 count_approve++;
                         }
 
-                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+                        json.Add("approve_status", count_approve.ToString());
 
                         foreach (cls_MTProjobmain jobmain in list_job)
                         {
@@ -2322,105 +2302,6 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
-
-
-        //{
-        //    JObject output = new JObject();
-
-        //    cls_SYSApilog log = new cls_SYSApilog();
-        //    log.apilog_code = "PRO028.5";
-        //    log.apilog_by = req.username;
-        //    log.apilog_data = "all";
-
-        //    try
-        //    {
-        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
-        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = BpcOpr.MessageNotAuthen;
-
-        //            log.apilog_status = "500";
-        //            log.apilog_message = BpcOpr.MessageNotAuthen;
-        //            objBpcOpr.doRecordLog(log);
-
-        //            return output.ToString(Formatting.None);
-        //        }
-
-        //        cls_ctMTProject controller = new cls_ctMTProject();
-        //        List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
-
-        //        JArray array = new JArray();
-
-        //        if (list.Count > 0)
-        //        {
-        //            int index = 1;
-
-        //            foreach (cls_MTProject model in list)
-        //            {
-        //                JObject json = new JObject();
-        //                json.Add("project_id", model.project_id);
-        //                json.Add("project_code", model.project_code);
-        //                json.Add("project_name_th", model.project_name_th);
-        //                json.Add("project_name_en", model.project_name_en);
-
-        //                json.Add("project_name_sub", model.project_name_sub);
-        //                json.Add("project_codecentral", model.project_codecentral);
-        //                json.Add("project_protype", model.project_protype);
-
-        //                json.Add("project_proarea", model.project_proarea);
-        //                json.Add("project_progroup", model.project_progroup);
-
-        //                json.Add("project_probusiness", model.project_probusiness);
-        //                json.Add("project_roundtime", model.project_roundtime);
-        //                json.Add("project_roundmoney", model.project_roundmoney);
-        //                json.Add("project_proholiday", model.project_proholiday);
-
-        //                json.Add("project_status", model.project_status);
-        //                json.Add("company_code", model.company_code);
-
-        //                json.Add("index", index);
-
-        //                index++;
-
-        //                array.Add(json);
-        //            }
-
-        //            output["success"] = true;
-        //            output["message"] = "";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "200";
-        //            log.apilog_message = "";
-        //        }
-        //        else
-        //        {
-        //            output["success"] = false;
-        //            output["message"] = "Data not Found";
-        //            output["data"] = array;
-
-        //            log.apilog_status = "404";
-        //            log.apilog_message = "Data not Found";
-        //        }
-
-        //        controller.dispose();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        output["success"] = false;
-        //        output["message"] = "(C)Retrieved data not successfully";
-
-        //        log.apilog_status = "500";
-        //        log.apilog_message = ex.ToString();
-        //    }
-        //    finally
-        //    {
-        //        objBpcOpr.doRecordLog(log);
-        //    }
-
-        //    return output.ToString(Formatting.None);
-        //}
-
         #endregion
 
         #region MTProjectFillterdate2 กรองวันที่fromdate
@@ -2456,31 +2337,11 @@ namespace BPC_OPR
                 List<cls_MTProject> list = controller.getDataCurrents(req.project_code, fromdate, todate);
                 //List<cls_MTProject> lists = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
 
-                //-- F add 23/08/2023
-                //-- Workflow
-                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
-                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company_code, "", "PRO_NEW");
+               
 
                 //-- Approve history
                 cls_ctTRApprove approve = new cls_ctTRApprove();
                 List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company_code, "PRO_NEW", "");
-
-                if (req.status.Equals("W"))
-                {
-                    bool find_approve = false;
-                    foreach (cls_TRWorkflow model in list_workflow)
-                    {
-                        if (req.username.Equals(model.account_user))
-                        {
-                            find_approve = true;
-                            break;
-                        }
-                    }
-
-                    if (!find_approve)
-                        list = new List<cls_MTProject>();
-                }
-                //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
 
 
                 JArray array = new JArray();
@@ -2542,7 +2403,7 @@ namespace BPC_OPR
                                 count_approve++;
                         }
 
-                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+                        json.Add("approve_status", count_approve.ToString() + "/");
 
                         foreach (cls_MTProjobmain jobmain in list_job)
                         {
@@ -2668,31 +2529,10 @@ namespace BPC_OPR
                 List<cls_MTProject> list = controller.getDataCurrents(req.project_code, fromdate, todate);
                 //List<cls_MTProject> lists = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status);
 
-                //-- F add 23/08/2023
-                //-- Workflow
-                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
-                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company_code, "", "PRO_NEW");
 
                 //-- Approve history
                 cls_ctTRApprove approve = new cls_ctTRApprove();
                 List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company_code, "PRO_NEW", "");
-
-                if (req.status.Equals("W"))
-                {
-                    bool find_approve = false;
-                    foreach (cls_TRWorkflow model in list_workflow)
-                    {
-                        if (req.username.Equals(model.account_user))
-                        {
-                            find_approve = true;
-                            break;
-                        }
-                    }
-
-                    if (!find_approve)
-                        list = new List<cls_MTProject>();
-                }
-                //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
 
 
                 JArray array = new JArray();
@@ -2754,7 +2594,7 @@ namespace BPC_OPR
                                 count_approve++;
                         }
 
-                        json.Add("approve_status", count_approve.ToString() + "/" + list_workflow.Count.ToString());
+                        json.Add("approve_status", count_approve.ToString() );
 
                         foreach (cls_MTProjobmain jobmain in list_job)
                         {

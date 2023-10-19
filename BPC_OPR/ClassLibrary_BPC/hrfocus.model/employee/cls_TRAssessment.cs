@@ -14,7 +14,6 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string worker_code { get; set; }
 
         public int empassessment_id { get; set;}
-        public string empassessment_location { get; set;}
         public string empassessment_topic { get;set; }
         public DateTime empassessment_fromdate { get;set; }
         public DateTime empassessment_todate { get; set; }

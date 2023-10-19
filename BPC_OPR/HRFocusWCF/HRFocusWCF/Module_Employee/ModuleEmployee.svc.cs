@@ -7800,7 +7800,6 @@ namespace BPC_OPR
                         json.Add("company_code", model.company_code);
                         json.Add("worker_code", model.worker_code);
                         json.Add("empassessment_id", model.empassessment_id);
-                        json.Add("empassessment_location", model.empassessment_location);
                         json.Add("empassessment_topic", model.empassessment_topic);
                         json.Add("empassessment_fromdate", model.empassessment_fromdate);
                         json.Add("empassessment_todate", model.empassessment_todate);
@@ -12940,7 +12939,6 @@ namespace BPC_OPR
                         json.Add("worker_code", model.worker_code);
 
                         json.Add("empassessment_id", model.empassessment_id);
-                        json.Add("empassessment_location", model.empassessment_location);
                         json.Add("empassessment_topic", model.empassessment_topic);
                         json.Add("empassessment_fromdate", model.empassessment_fromdate);
 
@@ -13009,7 +13007,6 @@ namespace BPC_OPR
                 {
                     cls_TRAssessment model = new cls_TRAssessment();
                     model.empassessment_id = Convert.ToInt32(input.empassessment_id);
-                    model.empassessment_location = input.empassessment_location;
                     model.empassessment_topic = input.empassessment_topic;
                     model.empassessment_fromdate = Convert.ToDateTime(input.empassessment_fromdate);
                     model.empassessment_todate = Convert.ToDateTime(input.empassessment_todate);
