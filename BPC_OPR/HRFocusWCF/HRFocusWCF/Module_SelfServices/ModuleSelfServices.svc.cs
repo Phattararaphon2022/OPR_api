@@ -5708,6 +5708,7 @@ namespace BPC_OPR
                 output["data"] = array;
                 output["success"] = success;
                 output["fail"] = fail;
+                output["error"] = controller.getMessage();
             }
             catch (Exception ex)
             {
