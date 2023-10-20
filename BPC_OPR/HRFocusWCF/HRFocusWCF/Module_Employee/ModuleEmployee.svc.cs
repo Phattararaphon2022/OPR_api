@@ -11527,7 +11527,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                cls_ctMTInitial controller = new cls_ctMTInitial();
+                cls_ctMTForetype controller = new cls_ctMTForetype();
 
                 if (controller.checkDataOld(input.foretype_id, input.foretype_code))
                 {
