@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctTRExperience
+    public class cls_ctTRReqExperience
     {
         string Message = string.Empty;
 
         cls_ctConnection Obj_conn = new cls_ctConnection();
 
-        public cls_ctTRExperience() { }
+        public cls_ctTRReqExperience() { }
 
-        public string getMessage() { return this.Message.Replace("EMP_TR_EXPERIENCE", "").Replace("cls_ctTRExperience", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("REQ_TR_EXPERIENCE", "").Replace("cls_ctTRReqExperience", "").Replace("line", ""); }
 
         public void dispose()
         {
@@ -47,7 +47,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM EMP_TR_EXPERIENCE");
+                obj_str.Append(" FROM REQ_TR_EXPERIENCE");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -71,7 +71,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.startdate = Convert.ToDateTime(dr["STARTDATE"]);
                     model.enddate = Convert.ToDateTime(dr["ENDDATE"]);
                     model.description = dr["DESCRIPTION"].ToString();
-                    
+
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
@@ -81,11 +81,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPEXP001:" + ex.ToString();
+                Message = "REQEXP001:" + ex.ToString();
             }
 
             return list_model;
         }
+
         public List<cls_TRExperience> getDataByFillter(string com, string emp)
         {
             string strCondition = "";
@@ -95,7 +96,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!emp.Equals(""))
                 strCondition += " AND WORKER_CODE='" + emp + "'";
-            
+
 
             return this.getData(strCondition);
         }
@@ -107,7 +108,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT ISNULL(EXPERIENCE_ID, 1) ");
-                obj_str.Append(" FROM EMP_TR_EXPERIENCE");
+                obj_str.Append(" FROM REQ_TR_EXPERIENCE");
                 obj_str.Append(" ORDER BY EXPERIENCE_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -119,11 +120,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPEXP002:" + ex.ToString();
+                Message = "REQEXP002:" + ex.ToString();
             }
 
             return intResult;
         }
+
         public bool checkDataOld(string com, string emp, string id)
         {
             bool blnResult = false;
@@ -132,7 +134,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("SELECT EXPERIENCE_ID");
-                obj_str.Append(" FROM EMP_TR_EXPERIENCE");
+                obj_str.Append(" FROM REQ_TR_EXPERIENCE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
                 if (!id.ToString().Equals(""))
@@ -150,11 +152,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPEXP003:" + ex.ToString();
+                Message = "REQEXP003:" + ex.ToString();
             }
 
             return blnResult;
         }
+
         public bool delete(string com, string emp)
         {
             bool blnResult = true;
@@ -164,7 +167,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("DELETE FROM EMP_TR_EXPERIENCE");
+                obj_str.Append("DELETE FROM REQ_TR_EXPERIENCE");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
 
@@ -175,11 +178,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "EMPEXP004:" + ex.ToString();
+                Message = "REQEXP004:" + ex.ToString();
             }
 
             return blnResult;
         }
+
         public bool insert(cls_TRExperience model)
         {
             bool blnResult = false;
@@ -203,7 +207,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO EMP_TR_EXPERIENCE");
+                obj_str.Append("INSERT INTO REQ_TR_EXPERIENCE");
                 obj_str.Append(" (");
                 obj_str.Append("EXPERIENCE_ID ");
                 obj_str.Append(", COMPANY_NAME ");
@@ -212,7 +216,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", STARTDATE ");
                 obj_str.Append(", ENDDATE ");
                 obj_str.Append(", DESCRIPTION ");
-                
+
                 obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
 
@@ -269,6 +273,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
         public bool update(cls_TRExperience model)
         {
             bool blnResult = false;
@@ -276,7 +281,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("UPDATE EMP_TR_EXPERIENCE SET ");
+                obj_str.Append("UPDATE REQ_TR_EXPERIENCE SET ");
 
                 obj_str.Append(" COMPANY_NAME=@COMPANY_NAME ");
                 obj_str.Append(", POSITION=@POSITION ");
@@ -296,7 +301,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                
+
                 obj_cmd.Parameters.Add("@COMPANY_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_NAME"].Value = model.company_name;
                 obj_cmd.Parameters.Add("@POSITION", SqlDbType.VarChar); obj_cmd.Parameters["@POSITION"].Value = model.position;
                 obj_cmd.Parameters.Add("@SALARY", SqlDbType.Decimal); obj_cmd.Parameters["@SALARY"].Value = model.salary;
@@ -307,7 +312,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
-               
+
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                 obj_cmd.Parameters.Add("@EXPERIENCE_ID", SqlDbType.Int); obj_cmd.Parameters["@EXPERIENCE_ID"].Value = model.experience_id;
@@ -320,7 +325,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPEXP006:" + ex.ToString();
+                Message = "REQEXP006:" + ex.ToString();
             }
 
             return blnResult;

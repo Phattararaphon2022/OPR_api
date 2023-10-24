@@ -385,6 +385,24 @@ namespace BPC_OPR
         string doUpdateStatusRequest(InputReqRequest input);
         #endregion
 
+        #region TR_Experience
+        [OperationContract(Name = "reqexperiencelist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRReqExperienceList(FillterApplywork input);
+
+        [OperationContract(Name = "reqexperience")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRReqExperience(InputApplyTransaction input);
+
+        [OperationContract(Name = "reqexperience_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRReqExperience(InputTRReqExperience input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReqExperience?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReqExperience(string token, string by, string fileName, Stream stream, string com);
+        #endregion
+
     }
 
 }
