@@ -28,6 +28,10 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string empbenefit_conditionpay { get; set; }
         public string empbenefit_payfirst { get; set; }
+        //update
+        public double empbenefit_capitalamount { get; set; }
+        public double empbenefit_period { get; set; }
+        public double empbenefit_perperiod { get; set; }
 
         public string created_by { get; set; }
         public DateTime created_date { get; set; }

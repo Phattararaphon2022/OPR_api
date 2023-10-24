@@ -5918,6 +5918,9 @@ namespace BPC_OPR
                          json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
                          json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
 
+                         json.Add("empbenefit_capitalamount", model.empbenefit_capitalamount);
+                         json.Add("empbenefit_period", model.empbenefit_period);
+
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
                          json.Add("index", index++);

@@ -49,6 +49,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(EMPBENEFIT_BREAKREASON, '') AS EMPBENEFIT_BREAKREASON");
                 obj_str.Append(", ISNULL(EMPBENEFIT_CONDITIONPAY, 'F') AS EMPBENEFIT_CONDITIONPAY");
                 obj_str.Append(", ISNULL(EMPBENEFIT_PAYFIRST, 'Y') AS EMPBENEFIT_PAYFIRST");
+                obj_str.Append(", ISNULL(EMPBENEFIT_CAPITALAMOUNT, 0) AS EMPBENEFIT_CAPITALAMOUNT");
+                obj_str.Append(", ISNULL(EMPBENEFIT_PERIOD, 0) AS EMPBENEFIT_PERIOD");
+
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -81,6 +84,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.empbenefit_breakreason = dr["EMPBENEFIT_BREAKREASON"].ToString();
                     model.empbenefit_conditionpay = dr["EMPBENEFIT_CONDITIONPAY"].ToString();
                     model.empbenefit_payfirst = dr["EMPBENEFIT_PAYFIRST"].ToString();
+                    model.empbenefit_capitalamount = Convert.ToDouble(dr["EMPBENEFIT_CAPITALAMOUNT"]);
+                    model.empbenefit_period = Convert.ToDouble(dr["EMPBENEFIT_PERIOD"]);
+
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 
@@ -238,6 +244,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", EMPBENEFIT_CONDITIONPAY ");
                 obj_str.Append(", EMPBENEFIT_PAYFIRST ");
+                
+                obj_str.Append(", EMPBENEFIT_CAPITALAMOUNT ");
+                obj_str.Append(", EMPBENEFIT_PERIOD ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -263,6 +272,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", @EMPBENEFIT_CONDITIONPAY ");
                 obj_str.Append(", @EMPBENEFIT_PAYFIRST ");
+
+                obj_str.Append(", @EMPBENEFIT_CAPITALAMOUNT ");
+                obj_str.Append(", @EMPBENEFIT_PERIOD ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -291,6 +303,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_cmd.Parameters.Add("@EMPBENEFIT_CONDITIONPAY", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_CONDITIONPAY"].Value = model.empbenefit_conditionpay;
                 obj_cmd.Parameters.Add("@EMPBENEFIT_PAYFIRST", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_PAYFIRST"].Value = model.empbenefit_payfirst;
+
+                obj_cmd.Parameters.Add("@EMPBENEFIT_CAPITALAMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPBENEFIT_CAPITALAMOUNT"].Value = model.empbenefit_capitalamount;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_PERIOD", SqlDbType.Decimal); obj_cmd.Parameters["@EMPBENEFIT_PERIOD"].Value = model.empbenefit_period;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -331,6 +346,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", EMPBENEFIT_CONDITIONPAY=@EMPBENEFIT_CONDITIONPAY ");
                 obj_str.Append(", EMPBENEFIT_PAYFIRST=@EMPBENEFIT_PAYFIRST ");
+                
+                obj_str.Append(", EMPBENEFIT_CAPITALAMOUNT=@EMPBENEFIT_CAPITALAMOUNT ");
+                obj_str.Append(", EMPBENEFIT_PERIOD=@EMPBENEFIT_PERIOD ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
@@ -362,6 +380,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_cmd.Parameters.Add("@EMPBENEFIT_CONDITIONPAY", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_CONDITIONPAY"].Value = model.empbenefit_conditionpay;
                 obj_cmd.Parameters.Add("@EMPBENEFIT_PAYFIRST", SqlDbType.VarChar); obj_cmd.Parameters["@EMPBENEFIT_PAYFIRST"].Value = model.empbenefit_payfirst;
+
+                obj_cmd.Parameters.Add("@EMPBENEFIT_CAPITALAMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPBENEFIT_CAPITALAMOUNT"].Value = model.empbenefit_capitalamount;
+                obj_cmd.Parameters.Add("@EMPBENEFIT_PERIOD", SqlDbType.Decimal); obj_cmd.Parameters["@EMPBENEFIT_PERIOD"].Value = model.empbenefit_period;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
@@ -484,6 +505,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", EMPBENEFIT_CONDITIONPAY ");
                 obj_str.Append(", EMPBENEFIT_PAYFIRST ");
+                
+                obj_str.Append(", EMPBENEFIT_CAPITALAMOUNT ");
+                obj_str.Append(", EMPBENEFIT_PERIOD ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -509,6 +533,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", @EMPBENEFIT_CONDITIONPAY ");
                 obj_str.Append(", @EMPBENEFIT_PAYFIRST ");
+                
+                obj_str.Append(", @EMPBENEFIT_CAPITALAMOUNT ");
+                obj_str.Append(", @EMPBENEFIT_PERIOD ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -561,6 +588,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     }
                     obj_cmd.Parameters.Add("@EMPBENEFIT_CONDITIONPAY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@EMPBENEFIT_PAYFIRST", SqlDbType.VarChar);
+                    
+                    obj_cmd.Parameters.Add("@EMPBENEFIT_CAPITALAMOUNT", SqlDbType.Decimal);
+                    obj_cmd.Parameters.Add("@EMPBENEFIT_PERIOD", SqlDbType.Decimal);
 
                     obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
@@ -585,6 +615,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         }
                         obj_cmd.Parameters["@EMPBENEFIT_CONDITIONPAY"].Value = model.empbenefit_conditionpay;
                         obj_cmd.Parameters["@EMPBENEFIT_PAYFIRST"].Value = model.empbenefit_payfirst;
+                        
+                        obj_cmd.Parameters["@EMPBENEFIT_CAPITALAMOUNT"].Value = model.empbenefit_capitalamount;
+                        obj_cmd.Parameters["@EMPBENEFIT_PERIOD"].Value = model.empbenefit_period;
 
                         obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                         obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;

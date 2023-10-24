@@ -9205,6 +9205,9 @@ namespace BPC_OPR
                         json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
                         json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
 
+                        json.Add("empbenefit_capitalamount", model.empbenefit_capitalamount);
+                        json.Add("empbenefit_period", model.empbenefit_period);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
@@ -12705,6 +12708,10 @@ namespace BPC_OPR
                     model.empbenefit_breakreason = input.empbenefit_breakreason;
                     model.empbenefit_conditionpay = input.empbenefit_conditionpay;
                     model.empbenefit_payfirst = input.empbenefit_payfirst;
+
+                    model.empbenefit_capitalamount = input.empbenefit_capitalamount;
+                    model.empbenefit_period = input.empbenefit_period;
+
                     model.company_code = input.company_code;
                     model.worker_code = modelWorker.worker_code;
                     model.created_by = input.modified_by;
