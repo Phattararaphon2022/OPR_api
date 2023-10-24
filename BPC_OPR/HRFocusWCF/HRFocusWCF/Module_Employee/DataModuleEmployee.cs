@@ -1143,6 +1143,11 @@ namespace BPC_OPR
 
         [DataMember]
         public string empbenefit_conditionpay { get; set; }
+        //kim update
+        [DataMember]
+        public double empbenefit_capitalamount { get; set; }
+        [DataMember]
+        public double empbenefit_period { get; set; }
 
         [DataMember]
         public string empbenefit_payfirst { get; set; }
