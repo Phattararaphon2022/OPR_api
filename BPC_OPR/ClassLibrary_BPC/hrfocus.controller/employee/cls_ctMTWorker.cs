@@ -231,7 +231,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
         }
         public List<cls_MTWorker> getDataMultipleEmp(string com, string worker)
         {
-            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            string strCondition = " AND EMP_MT_WORKER.COMPANY_CODE='" + com + "'";
             strCondition += " AND WORKER_CODE IN (" + worker + ") ";
 
             return this.getData(strCondition);

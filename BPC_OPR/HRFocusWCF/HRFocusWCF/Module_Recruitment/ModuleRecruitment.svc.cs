@@ -2661,7 +2661,6 @@ namespace BPC_OPR
                          json.Add("company_code", model.company_code);
                          json.Add("worker_code", model.worker_code);
                          json.Add("empassessment_id", model.empassessment_id);
-                         json.Add("empassessment_location", model.empassessment_location);
                          json.Add("empassessment_topic", model.empassessment_topic);
                          json.Add("empassessment_fromdate", model.empassessment_fromdate);
                          json.Add("empassessment_todate", model.empassessment_todate);

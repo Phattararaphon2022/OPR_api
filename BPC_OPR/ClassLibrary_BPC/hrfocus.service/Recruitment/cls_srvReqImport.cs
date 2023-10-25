@@ -420,7 +420,6 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = dr["worker_code"].ToString();
 
-                                model.empassessment_location = dr["empassessment_location"].ToString();
                                 model.empassessment_topic = dr["empassessment_topic"].ToString();
                                 model.empassessment_fromdate = Convert.ToDateTime(dr["empassessment_fromdate"]);
                                 model.empassessment_todate = Convert.ToDateTime(dr["empassessment_todate"]);

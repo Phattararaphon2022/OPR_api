@@ -66,7 +66,6 @@ namespace ClassLibrary_BPC.hrfocus
                     model.worker_code = dr["WORKER_CODE"].ToString();
 
                     model.empassessment_id = Convert.ToInt32(dr["REQASSESSMENT_ID"]);
-                    model.empassessment_location = dr["REQASSESSMENT_LOCATION"].ToString();
                     model.empassessment_topic = dr["REQASSESSMENT_TOPIC"].ToString();
                     model.empassessment_fromdate = Convert.ToDateTime(dr["REQASSESSMENT_FROMDATE"]);
                     model.empassessment_todate = Convert.ToDateTime(dr["REQASSESSMENT_TODATE"]);
@@ -235,7 +234,6 @@ namespace ClassLibrary_BPC.hrfocus
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.Parameters.Add("@REQASSESSMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@REQASSESSMENT_ID"].Value = this.getNextID();
-                obj_cmd.Parameters.Add("@REQASSESSMENT_LOCATION", SqlDbType.VarChar); obj_cmd.Parameters["@REQASSESSMENT_LOCATION"].Value = model.empassessment_location;
                 obj_cmd.Parameters.Add("@REQASSESSMENT_TOPIC", SqlDbType.VarChar); obj_cmd.Parameters["@REQASSESSMENT_TOPIC"].Value = model.empassessment_topic;
                 obj_cmd.Parameters.Add("@REQASSESSMENT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@REQASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
                 obj_cmd.Parameters.Add("@REQASSESSMENT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@REQASSESSMENT_TODATE"].Value = model.empassessment_todate;
@@ -285,7 +283,6 @@ namespace ClassLibrary_BPC.hrfocus
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@REQASSESSMENT_LOCATION", SqlDbType.VarChar); obj_cmd.Parameters["@REQASSESSMENT_LOCATION"].Value = model.empassessment_location;
                 obj_cmd.Parameters.Add("@REQASSESSMENT_TOPIC", SqlDbType.VarChar); obj_cmd.Parameters["@REQASSESSMENT_TOPIC"].Value = model.empassessment_topic;
                 obj_cmd.Parameters.Add("@REQASSESSMENT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@REQASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
                 obj_cmd.Parameters.Add("@REQASSESSMENT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@REQASSESSMENT_TODATE"].Value = model.empassessment_todate;

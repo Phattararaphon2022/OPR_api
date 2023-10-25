@@ -38,7 +38,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE");
 
                 obj_str.Append(", EMPASSESSMENT_ID");
-                obj_str.Append(", EMPASSESSMENT_LOCATION");
                 obj_str.Append(", EMPASSESSMENT_TOPIC");
                 obj_str.Append(", EMPASSESSMENT_FROMDATE");
                 obj_str.Append(", EMPASSESSMENT_TODATE");
@@ -66,7 +65,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_code = dr["WORKER_CODE"].ToString();
 
                     model.empassessment_id = Convert.ToInt32(dr["EMPASSESSMENT_ID"]);
-                    model.empassessment_location = dr["EMPASSESSMENT_LOCATION"].ToString();
                     model.empassessment_topic = dr["EMPASSESSMENT_TOPIC"].ToString();
                     model.empassessment_fromdate = Convert.ToDateTime(dr["EMPASSESSMENT_FROMDATE"]);
                     model.empassessment_todate = Convert.ToDateTime(dr["EMPASSESSMENT_TODATE"]);
@@ -203,7 +201,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE ");
 
                 obj_str.Append(", EMPASSESSMENT_ID ");
-                obj_str.Append(", EMPASSESSMENT_LOCATION ");
                 obj_str.Append(", EMPASSESSMENT_TOPIC ");
                 obj_str.Append(", EMPASSESSMENT_FROMDATE ");
                 obj_str.Append(", EMPASSESSMENT_TODATE ");
@@ -218,7 +215,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @EMPASSESSMENT_ID ");
-                obj_str.Append(", @EMPASSESSMENT_LOCATION ");
                 obj_str.Append(", @EMPASSESSMENT_TOPIC ");
                 obj_str.Append(", @EMPASSESSMENT_FROMDATE ");
                 obj_str.Append(", @EMPASSESSMENT_TODATE ");
@@ -239,7 +235,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPASSESSMENT_ID"].Value = this.getNextID();
-                obj_cmd.Parameters.Add("@EMPASSESSMENT_LOCATION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_LOCATION"].Value = model.empassessment_location;
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_TOPIC", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_TOPIC"].Value = model.empassessment_topic;
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_TODATE"].Value = model.empassessment_todate;
@@ -273,8 +268,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
                 obj_str.Append("UPDATE EMP_TR_ASSESSMENT SET ");
 
-                obj_str.Append(" EMPASSESSMENT_LOCATION=@EMPASSESSMENT_LOCATION ");
-                obj_str.Append(", EMPASSESSMENT_TOPIC=@EMPASSESSMENT_TOPIC ");
+                obj_str.Append(" EMPASSESSMENT_TOPIC=@EMPASSESSMENT_TOPIC ");
                 obj_str.Append(", EMPASSESSMENT_FROMDATE=@EMPASSESSMENT_FROMDATE ");
                 obj_str.Append(", EMPASSESSMENT_TODATE=@EMPASSESSMENT_TODATE ");
                 obj_str.Append(", EMPASSESSMENT_COUNT=@EMPASSESSMENT_COUNT ");
@@ -289,7 +283,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@EMPASSESSMENT_LOCATION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_LOCATION"].Value = model.empassessment_location;
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_TOPIC", SqlDbType.VarChar); obj_cmd.Parameters["@EMPASSESSMENT_TOPIC"].Value = model.empassessment_topic;
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
                 obj_cmd.Parameters.Add("@EMPASSESSMENT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPASSESSMENT_TODATE"].Value = model.empassessment_todate;
@@ -328,7 +321,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("EMP_TR_ASSESSMENT.COMPANY_CODE");
                 obj_str.Append(", EMP_TR_ASSESSMENT.WORKER_CODE");
                 obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_ID");
-                obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_LOCATION");
                 obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_TOPIC");
                 obj_str.Append(", EMP_TR_ASSESSMENT.EMPASSESSMENT_FROMDATE");
 
@@ -344,8 +336,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1");
                 obj_str.Append(" AND EMP_TR_ASSESSMENT.COMPANY_CODE='" + com + "' ");
 
-                if (!code.Equals(""))
-                    obj_str.Append(" AND EMP_TR_ASSESSMENT.EMPASSESSMENT_LOCATION='" + code + "' ");
+               
                 if (!date.Equals(""))
                     obj_str.Append(" AND EMP_TR_ASSESSMENT.EMPASSESSMENT_FROMDATE='" + date.ToString("yyyy-MM-ddTHH:mm:ss") + "' ");
 
@@ -363,7 +354,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_code = dr["WORKER_CODE"].ToString();
 
                     model.empassessment_id = Convert.ToInt32(dr["EMPASSESSMENT_ID"]);
-                    model.empassessment_location = dr["EMPASSESSMENT_LOCATION"].ToString();
                     model.empassessment_topic = dr["EMPASSESSMENT_TOPIC"].ToString();
                     model.empassessment_fromdate = Convert.ToDateTime(dr["EMPASSESSMENT_FROMDATE"]);
 
@@ -398,7 +388,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE ");
 
                 obj_str.Append(", EMPASSESSMENT_ID ");
-                obj_str.Append(", EMPASSESSMENT_LOCATION ");
                 obj_str.Append(", EMPASSESSMENT_TOPIC ");
                 obj_str.Append(", EMPASSESSMENT_FROMDATE ");
                 obj_str.Append(", EMPASSESSMENT_TODATE ");
@@ -413,7 +402,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("@COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @EMPASSESSMENT_ID ");
-                obj_str.Append(", @EMPASSESSMENT_LOCATION ");
                 obj_str.Append(", @EMPASSESSMENT_TOPIC ");
                 obj_str.Append(", @EMPASSESSMENT_FROMDATE ");
                 obj_str.Append(", @EMPASSESSMENT_TODATE ");
@@ -442,7 +430,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str2.Append(" WHERE 1=1 ");
                 obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
                 obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
-                obj_str2.Append(" AND EMPASSESSMENT_LOCATION ='" + list_model[0].empassessment_location + "'");
                 obj_str2.Append(" AND EMPASSESSMENT_FROMDATE ='" + list_model[0].empassessment_fromdate.ToString("yyyy-MM-ddTHH:mm:ss") + "'");
 
                 blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
@@ -456,7 +443,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); 
 
                     obj_cmd.Parameters.Add("@EMPASSESSMENT_ID", SqlDbType.Int); 
-                    obj_cmd.Parameters.Add("@EMPASSESSMENT_LOCATION", SqlDbType.VarChar); 
                     obj_cmd.Parameters.Add("@EMPASSESSMENT_TOPIC", SqlDbType.VarChar); 
                     obj_cmd.Parameters.Add("@EMPASSESSMENT_FROMDATE", SqlDbType.DateTime); 
                     obj_cmd.Parameters.Add("@EMPASSESSMENT_TODATE", SqlDbType.DateTime); 
@@ -470,7 +456,6 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                         obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
                         obj_cmd.Parameters["@EMPASSESSMENT_ID"].Value = this.getNextID();
-                        obj_cmd.Parameters["@EMPASSESSMENT_LOCATION"].Value = model.empassessment_location;
                         obj_cmd.Parameters["@EMPASSESSMENT_TOPIC"].Value = model.empassessment_topic;
                         obj_cmd.Parameters["@EMPASSESSMENT_FROMDATE"].Value = model.empassessment_fromdate;
                         obj_cmd.Parameters["@EMPASSESSMENT_TODATE"].Value = model.empassessment_todate;
