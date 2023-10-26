@@ -157,6 +157,8 @@ namespace BPC_OPR
 
         [DataMember]
         public string worker_type { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
     }
     [DataContract]
     public class InputMTDep
