@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 namespace ClassLibrary_BPC.hrfocus.controller
 {
     public class cls_ApproveJob
@@ -481,7 +482,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                             DetailMail = this.getDetailSendMail(com, jobtable_Id, job_type, true, lang, ref ToSendMail);
                             if (!DetailMail.Equals(""))
                             {
-                                this.SendEmail(DetailMail,ToSendMail,com);
+                                this.SendEmailAsync(DetailMail, ToSendMail, com);
                             }
                             if (lang.Equals("TH"))
                                 result = "อนุมัติเอกสารเรียบร้อยแล้วค่ะ";
@@ -493,7 +494,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                             DetailMail = this.getDetailSendMail(com, jobtable_Id, job_type, true, lang, ref ToSendMail);
                             if (!DetailMail.Equals(""))
                             {
-                                this.SendEmail(DetailMail,ToSendMail,com);
+                                this.SendEmailAsync(DetailMail, ToSendMail, com);
                             }
                             if (lang.Equals("TH"))
                                 result = "อนุมัติเอกสารเรียบร้อยแล้วค่ะ";
@@ -516,33 +517,124 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Message +=" | ERROR::(Approve from db)" + ex.ToString();
+            }
 
             return result;
         }
-        public  void SendEmail(string Body,string ToMail,string com)
+        public async Task SendEmailAsync(string body, string toMail, string com)
         {
-            cls_ctMTMailconfig controller = new cls_ctMTMailconfig();
-            List<cls_MTMailconfig> mailconfig = controller.getDataByFillter(com, 0);
-            if (mailconfig.Count > 0)
+            try
             {
-                MailMessage message = new MailMessage();
-                message.From = new MailAddress(mailconfig[0].mail_login, mailconfig[0].mail_fromname);
-                message.To.Add(ToMail);
-                message.IsBodyHtml = true;
-                message.Body = Body;
-                message.Subject = "Self Services";
-
-                SmtpClient smtpClient = new SmtpClient();
-                smtpClient.UseDefaultCredentials = true;
-
-                smtpClient.Host = mailconfig[0].mail_server;
-                smtpClient.Port = Convert.ToInt32(mailconfig[0].mail_serverport);
-                smtpClient.EnableSsl = true;
-                smtpClient.Credentials = new System.Net.NetworkCredential(mailconfig[0].mail_login, mailconfig[0].mail_password);
-                smtpClient.Send(message);
+                var mailConfig = GetMailConfig(com);
+                if (mailConfig != null)
+                {
+                    using (var message = CreateEmailMessage(body, toMail, mailConfig))
+                    {
+                        await SendEmailMessageAsync(message, mailConfig);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleEmailError(ex);
             }
         }
+
+        public async Task SendEmailMessageAsync(MailMessage message, cls_MTMailconfig mailConfig)
+        {
+            using (var smtpClient = new SmtpClient(mailConfig.mail_server, Convert.ToInt32(mailConfig.mail_serverport)))
+            {
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = new System.Net.NetworkCredential(mailConfig.mail_login, mailConfig.mail_password);
+                await smtpClient.SendMailAsync(message);
+            }
+        }
+        //public void SendEmail(string body, string toMail, string com)
+        //{
+        //    try
+        //    {
+        //        var mailConfig = GetMailConfig(com);
+        //        if (mailConfig != null)
+        //        {
+        //            using (var message = CreateEmailMessage(body, toMail, mailConfig))
+        //            {
+        //                SendEmailMessage(message, mailConfig);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        HandleEmailError(ex);
+        //    }
+        //}
+
+        private cls_MTMailconfig GetMailConfig(string com)
+        {
+            var controller = new cls_ctMTMailconfig();
+            var mailConfigs = controller.getDataByFillter(com, 0);
+            return mailConfigs.Count > 0 ? mailConfigs[0] : null;
+        }
+
+        private MailMessage CreateEmailMessage(string body, string toMail, cls_MTMailconfig mailConfig)
+        {
+            var message = new MailMessage
+            {
+                From = new MailAddress(mailConfig.mail_login, mailConfig.mail_fromname),
+                To = { toMail },
+                IsBodyHtml = true,
+                Body = body,
+                Subject = "Self Services"
+            };
+            return message;
+        }
+
+        //private void SendEmailMessage(MailMessage message, cls_MTMailconfig mailConfig)
+        //{
+        //    using (var smtpClient = new SmtpClient(mailConfig.mail_server, Convert.ToInt32(mailConfig.mail_serverport)))
+        //    {
+        //        smtpClient.EnableSsl = true;
+        //        smtpClient.Credentials = new System.Net.NetworkCredential(mailConfig.mail_login, mailConfig.mail_password);
+        //        smtpClient.Send(message);
+        //    }
+        //}
+
+        private void HandleEmailError(Exception ex)
+        {
+            Message += " | ERROR::(Approve from send mail) " + ex.ToString();
+        }
+        //public  void SendEmail(string Body,string ToMail,string com)
+        //{
+        //    try
+        //    {
+        //        cls_ctMTMailconfig controller = new cls_ctMTMailconfig();
+        //        List<cls_MTMailconfig> mailconfig = controller.getDataByFillter(com, 0);
+        //        if (mailconfig.Count > 0)
+        //        {
+        //            MailMessage message = new MailMessage();
+        //            message.From = new MailAddress(mailconfig[0].mail_login, mailconfig[0].mail_fromname);
+        //            message.To.Add(ToMail);
+        //            message.IsBodyHtml = true;
+        //            message.Body = Body;
+        //            message.Subject = "Self Services";
+
+        //            SmtpClient smtpClient = new SmtpClient();
+        //            smtpClient.UseDefaultCredentials = true;
+
+        //            smtpClient.Host = mailconfig[0].mail_server;
+        //            smtpClient.Port = Convert.ToInt32(mailconfig[0].mail_serverport);
+        //            smtpClient.EnableSsl = true;
+        //            smtpClient.Credentials = new System.Net.NetworkCredential(mailconfig[0].mail_login, mailconfig[0].mail_password);
+        //            smtpClient.Send(message);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message += " | ERROR::(Approve from send mail)" + ex.ToString();
+        //    }
+        //}
         private string getDetailSendMail(string com, string job_id, string job_type, bool Approve, string _language,ref string ToSendMail)
         {
             string strResult = string.Empty;
@@ -914,7 +1006,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strResult = strHTML;
 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Message += " | ERROR::(Approve from create mail)" + ex.ToString();
+            }
             return strResult;
         }
     }

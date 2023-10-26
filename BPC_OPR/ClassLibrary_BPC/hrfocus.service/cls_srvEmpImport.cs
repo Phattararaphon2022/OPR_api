@@ -1187,6 +1187,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.empbenefit_conditionpay = dr["empbenefit_conditionpay"].ToString();
                                 model.empbenefit_payfirst = dr["empbenefit_payfirst"].ToString();
 
+                                model.empbenefit_capitalamount = Convert.ToDouble(dr["empbenefit_capitalamount"]);
+                                model.empbenefit_period = Convert.ToDouble(dr["empbenefit_period"]);
+
 
                                 model.modified_by = by;
 
