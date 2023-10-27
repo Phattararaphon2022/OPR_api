@@ -83,6 +83,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTForetype.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmpDocatt.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRExperience.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRForeignercard.cs" />

@@ -714,6 +714,20 @@ namespace BPC_OPR
         Task<string> doUploadForetype(string token, string by, string fileName, Stream stream, string com);
         #endregion
 
+        #region Attach file
+        [OperationContract(Name = "empdoc_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTREmpDocattList(FillterWorker input);
+
+        [OperationContract(Name = "empdoc")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTREmpDocatt(InputWorkerTransaction input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doGetEmpDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        byte[] DownloadFile(string file_Path);
+        #endregion
+
         #endregion
     }
 }
