@@ -20,7 +20,8 @@ namespace ClassLibrary_BPC
 
         static public string PathFileImport = Initial.getPathFile();
         static public string PathFileExport = Initial.getPathFile() + "\\Export";
-        static public string PathFileDownloads = Initial.getPathFile() + "Downloads";
+        //static public string PathFileDownloads = Initial.getPathFile() + "\\Downloads";
+        //static public string PathFileExports = "F:\\Temp\\HR365\\Export";
 
         
     }
