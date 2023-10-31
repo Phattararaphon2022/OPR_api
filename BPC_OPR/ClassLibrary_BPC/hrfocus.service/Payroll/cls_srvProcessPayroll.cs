@@ -539,7 +539,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         //}
 
 
-                        strResult = filename;
+                        strResult = filepath;
 
                     }
                     catch
@@ -873,7 +873,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                              fs.Write(title, 0, title.Length);
                          }
 
-                         strResult = filename;
+                         strResult = filepath;
 
                      }
                      catch
@@ -1184,7 +1184,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                              fs.Write(title, 0, title.Length);
                          }
 
-                         strResult = filename;
+                         strResult = filepath;
 
                      }
                      catch
@@ -1522,7 +1522,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
 
 
-                        strResult = filename;
+                        strResult = filepath;
 
                     }
                     catch
