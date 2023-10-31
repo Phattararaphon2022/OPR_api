@@ -119,7 +119,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_TR_LATE");
+                obj_str.Append(" DELETE FROM ATT_TR_SHIFTBREAK");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND SHIFT_CODE='" + shift + "' ");
                 obj_str.Append(" AND SHIFTBREAK_NO='" + no + "' ");
@@ -146,7 +146,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append(" DELETE FROM ATT_TR_LATE");
+                obj_str.Append(" DELETE FROM ATT_TR_SHIFTBREAK");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND SHIFT_CODE='" + shift + "' ");
 

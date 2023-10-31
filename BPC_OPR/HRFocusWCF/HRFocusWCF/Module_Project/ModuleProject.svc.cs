@@ -4706,7 +4706,7 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.version, input.project_code, input.project_code);
+                bool clear = controller.delete(input.version, input.project_code, "");
 
                 if (clear)
                 {
