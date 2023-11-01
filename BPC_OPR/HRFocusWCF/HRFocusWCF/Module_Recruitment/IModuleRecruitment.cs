@@ -383,6 +383,10 @@ namespace BPC_OPR
         [OperationContract(Name = "request_status")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doUpdateStatusRequest(InputReqRequest input);
+
+        [OperationContract(Name = "request_accept")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doUpdateAcceptRequest(InputReqRequest input);
         #endregion
 
         #region TR_Experience

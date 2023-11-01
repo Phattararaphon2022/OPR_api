@@ -550,5 +550,82 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return strResult;
         }
+
+        public int getNextAccept()
+        {
+            int intResult = 0;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ISNULL(REQUEST_ACCEPTED, 1) ");
+                obj_str.Append(" FROM REQ_MT_REQUEST");
+                obj_str.Append(" ORDER BY REQUEST_ID DESC ");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                if (dt.Rows.Count > 0)
+                {
+                    intResult = Convert.ToInt32(dt.Rows[0][0]) + 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = "REQST009:" + ex.ToString();
+            }
+
+            return intResult;
+        }
+        public bool updateaccept(cls_MTReqRequest model)
+        {
+
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("UPDATE REQ_MT_REQUEST SET ");
+
+                obj_str.Append(" REQUEST_ACCEPTED=@REQUEST_ACCEPTED ");
+
+                obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+                obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+                obj_str.Append(", FLAG=@FLAG ");
+
+                obj_str.Append(" WHERE REQUEST_CODE=@REQUEST_CODE ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
+
+                obj_conn.doConnect();
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                model.request_accepted = this.getNextAccept();
+
+                obj_cmd.Parameters.Add("@REQUEST_ACCEPTED", SqlDbType.Decimal); obj_cmd.Parameters["@REQUEST_ACCEPTED"].Value = model.request_accepted;
+
+                obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
+                obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+                obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
+                obj_cmd.Parameters.Add("@REQUEST_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_CODE"].Value = model.request_code;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
+                obj_cmd.ExecuteNonQuery();
+
+                obj_conn.doClose();
+
+                blnResult = true;
+            }
+            catch (Exception ex)
+            {
+                blnResult = false;
+                Message = "REQST008:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
     }
 }
