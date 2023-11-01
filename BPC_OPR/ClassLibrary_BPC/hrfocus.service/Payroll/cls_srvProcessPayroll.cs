@@ -742,12 +742,15 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                     string empacc = "";
                     string empname = "";
+                    string empname2 = "";
 
                     foreach (cls_MTWorker worker in list_worker)
                     {
                         if (paytran.worker_code.Equals(worker.worker_code))
                         {
-                            empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + "|" + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + "|";
+                            empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + " " + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + " ";
+                            empname2 = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + " ";
+
                             break;
                         }
                     }
@@ -807,10 +810,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                     bkData = "D" + " " + sequence + " " + combank.combank_bankcode + " " + empacc + " " + "C" + " " + amount + " " + "02" + " " + "9" + " " + spare1 + " " + departmentcode + " " + user + " " + spare2 + " ";
                     bkData = bkData.PadRight(32, '0');
 
-                    if (empname.Length > 35)
-                        empname = empname.Substring(0, 35);
+                    if (empname2.Length > 35)
+                        empname2 = empname2.Substring(0, 35);
 
-                    bkData = bkData + empname.ToUpper();
+                    bkData = bkData + empname2.ToUpper();
                     tmpData += bkData.PadRight(128, ' ') + "\r\n";
 
                     douTotal += paytran.paytran_netpay_b;
