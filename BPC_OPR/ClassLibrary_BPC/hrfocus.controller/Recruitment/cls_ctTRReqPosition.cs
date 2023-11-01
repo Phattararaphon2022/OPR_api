@@ -38,7 +38,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE");
                 obj_str.Append(", EMPPOSITION_ID");
                 obj_str.Append(", ISNULL(EMPPOSITION_POSITION, '') AS EMPPOSITION_POSITION");
-
+                obj_str.Append(", ISNULL(REQUEST_CODE, '') AS REQUEST_CODE");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
@@ -61,6 +61,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.empposition_id = Convert.ToInt32(dr["EMPPOSITION_ID"]);
                     model.empposition_position = dr["EMPPOSITION_POSITION"].ToString();
+                    model.request_code = dr["REQUEST_CODE"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -197,6 +198,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" (");
                 obj_str.Append("EMPPOSITION_ID ");
                 obj_str.Append(", EMPPOSITION_POSITION ");
+                obj_str.Append(", REQUEST_CODE ");
+
                 obj_str.Append(", COMPANY_CODE ");
                 obj_str.Append(", WORKER_CODE ");
                 obj_str.Append(", CREATED_BY ");
@@ -207,6 +210,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" VALUES(");
                 obj_str.Append("@EMPPOSITION_ID ");
                 obj_str.Append(", @EMPPOSITION_POSITION ");
+                obj_str.Append(", @REQUEST_CODE ");
                 obj_str.Append(", @COMPANY_CODE ");
                 obj_str.Append(", @WORKER_CODE ");
                 obj_str.Append(", @CREATED_BY ");
@@ -225,6 +229,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@EMPPOSITION_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPPOSITION_ID"].Value = this.getNextID();
                 obj_cmd.Parameters.Add("@EMPPOSITION_POSITION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPOSITION_POSITION"].Value = model.empposition_position;
+                obj_cmd.Parameters.Add("@REQUEST_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_CODE"].Value = model.request_code;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -254,6 +259,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE REQ_TR_POSITION SET ");
 
                 obj_str.Append(", EMPPOSITION_POSITION=@EMPPOSITION_POSITION ");
+                obj_str.Append(", REQUEST_CODE=@REQUEST_CODE ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
@@ -267,6 +273,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@EMPPOSITION_POSITION", SqlDbType.VarChar); obj_cmd.Parameters["@EMPPOSITION_POSITION"].Value = model.empposition_position;
+                obj_cmd.Parameters.Add("@REQUEST_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REQUEST_CODE"].Value = model.request_code;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

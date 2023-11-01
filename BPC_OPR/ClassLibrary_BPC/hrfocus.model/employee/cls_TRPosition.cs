@@ -31,5 +31,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string position_name_en { get; set; }
         public string worker_detail_th { get; set; }
         public string worker_detail_en { get; set; }
+        //---kim add 31/10/2023
+        public string request_code { get; set; }
     }
 }

@@ -4865,6 +4865,7 @@ namespace BPC_OPR
                          JObject json = new JObject();
                          json.Add("empposition_id", model.empposition_id);
                          json.Add("empposition_position", model.empposition_position);
+                         json.Add("request_code", model.request_code);
 
                          json.Add("company_code", model.company_code);
                          json.Add("worker_code", model.worker_code);
@@ -7121,6 +7122,88 @@ namespace BPC_OPR
                  string strID = controller.updatestatus(model);
 
                  if (!strID.Equals(""))
+                 {
+                     output["success"] = true;
+                     output["message"] = "Retrieved data successfully";
+                     output["record_id"] = strID;
+
+                     log.apilog_status = "200";
+                     log.apilog_message = "";
+                 }
+                 else
+                 {
+                     output["success"] = false;
+                     output["message"] = "Retrieved data not successfully";
+
+                     log.apilog_status = "500";
+                     log.apilog_message = controller.getMessage();
+                 }
+
+                 controller.dispose();
+
+             }
+             catch (Exception ex)
+             {
+                 output["success"] = false;
+                 output["message"] = "(C)Retrieved data not successfully";
+
+                 log.apilog_status = "500";
+                 log.apilog_message = ex.ToString();
+             }
+             finally
+             {
+                 objBpcOpr.doRecordLog(log);
+             }
+
+             output["data"] = tmp;
+
+             return output.ToString(Formatting.None);
+         }
+
+         public string doUpdateAcceptRequest(InputReqRequest input)
+         {
+             JObject output = new JObject();
+
+             var json_data = new JavaScriptSerializer().Serialize(input);
+             var tmp = JToken.Parse(json_data);
+
+
+             cls_SYSApilog log = new cls_SYSApilog();
+             log.apilog_code = "REQST3.2";
+             log.apilog_by = input.modified_by;
+             log.apilog_data = tmp.ToString();
+             try
+             {
+                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                 {
+                     output["success"] = false;
+                     output["message"] = BpcOpr.MessageNotAuthen;
+
+                     log.apilog_status = "500";
+                     log.apilog_message = BpcOpr.MessageNotAuthen;
+                     objBpcOpr.doRecordLog(log);
+
+                     return output.ToString(Formatting.None);
+                 }
+
+                 cls_ctMTReqRequest controller = new cls_ctMTReqRequest();
+                 cls_MTReqRequest model = new cls_MTReqRequest();
+
+                 string strWorkerCode = input.worker_code;
+                 string strComCode = input.company_code;
+
+                 model.company_code = strComCode;
+                 model.request_code = input.request_code;
+
+                 model.request_accepted = Convert.ToDouble(input.request_accepted);
+
+                 model.modified_by = input.modified_by;
+                 model.flag = model.flag;
+
+                 bool strID = controller.updateaccept(model);
+
+                 if (strID)
                  {
                      output["success"] = true;
                      output["message"] = "Retrieved data successfully";

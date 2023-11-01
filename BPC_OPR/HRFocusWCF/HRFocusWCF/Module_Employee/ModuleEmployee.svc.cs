@@ -389,7 +389,7 @@ namespace BPC_OPR
                 else
                 {
                     output["success"] = false;
-                    output["message"] = "Retrieved data not successfully แจ้งเตือน";
+                    output["message"] = "Retrieved data not successfully";
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
