@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 namespace ClassLibrary_BPC.hrfocus.controller
 {
     public class cls_ApproveJob
@@ -481,7 +482,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                             DetailMail = this.getDetailSendMail(com, jobtable_Id, job_type, true, lang, ref ToSendMail);
                             if (!DetailMail.Equals(""))
                             {
-                                this.SendEmail(DetailMail,ToSendMail,com);
+                                this.SendEmailAsync(DetailMail, ToSendMail, com);
                             }
                             if (lang.Equals("TH"))
                                 result = "อนุมัติเอกสารเรียบร้อยแล้วค่ะ";
@@ -493,7 +494,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                             DetailMail = this.getDetailSendMail(com, jobtable_Id, job_type, true, lang, ref ToSendMail);
                             if (!DetailMail.Equals(""))
                             {
-                                this.SendEmail(DetailMail,ToSendMail,com);
+                                this.SendEmailAsync(DetailMail, ToSendMail, com);
                             }
                             if (lang.Equals("TH"))
                                 result = "อนุมัติเอกสารเรียบร้อยแล้วค่ะ";
@@ -523,7 +524,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return result;
         }
-        public void SendEmail(string body, string toMail, string com)
+        public async Task SendEmailAsync(string body, string toMail, string com)
         {
             try
             {
@@ -532,7 +533,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 {
                     using (var message = CreateEmailMessage(body, toMail, mailConfig))
                     {
-                        SendEmailMessage(message, mailConfig);
+                        await SendEmailMessageAsync(message, mailConfig);
                     }
                 }
             }
@@ -541,6 +542,34 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 HandleEmailError(ex);
             }
         }
+
+        public async Task SendEmailMessageAsync(MailMessage message, cls_MTMailconfig mailConfig)
+        {
+            using (var smtpClient = new SmtpClient(mailConfig.mail_server, Convert.ToInt32(mailConfig.mail_serverport)))
+            {
+                smtpClient.EnableSsl = true;
+                smtpClient.Credentials = new System.Net.NetworkCredential(mailConfig.mail_login, mailConfig.mail_password);
+                await smtpClient.SendMailAsync(message);
+            }
+        }
+        //public void SendEmail(string body, string toMail, string com)
+        //{
+        //    try
+        //    {
+        //        var mailConfig = GetMailConfig(com);
+        //        if (mailConfig != null)
+        //        {
+        //            using (var message = CreateEmailMessage(body, toMail, mailConfig))
+        //            {
+        //                SendEmailMessage(message, mailConfig);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        HandleEmailError(ex);
+        //    }
+        //}
 
         private cls_MTMailconfig GetMailConfig(string com)
         {
@@ -562,15 +591,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return message;
         }
 
-        private void SendEmailMessage(MailMessage message, cls_MTMailconfig mailConfig)
-        {
-            using (var smtpClient = new SmtpClient(mailConfig.mail_server, Convert.ToInt32(mailConfig.mail_serverport)))
-            {
-                smtpClient.EnableSsl = true;
-                smtpClient.Credentials = new System.Net.NetworkCredential(mailConfig.mail_login, mailConfig.mail_password);
-                smtpClient.Send(message);
-            }
-        }
+        //private void SendEmailMessage(MailMessage message, cls_MTMailconfig mailConfig)
+        //{
+        //    using (var smtpClient = new SmtpClient(mailConfig.mail_server, Convert.ToInt32(mailConfig.mail_serverport)))
+        //    {
+        //        smtpClient.EnableSsl = true;
+        //        smtpClient.Credentials = new System.Net.NetworkCredential(mailConfig.mail_login, mailConfig.mail_password);
+        //        smtpClient.Send(message);
+        //    }
+        //}
 
         private void HandleEmailError(Exception ex)
         {

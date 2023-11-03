@@ -227,7 +227,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_MT_PROJOBMAIN");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROJOBMAIN_CODE='" + code + "'");
+                if (!code.Equals(""))
+                    obj_str.Append(" AND PROJOBMAIN_CODE='" + code + "'");
                 obj_str.Append(" AND VERSION='" + version + "'");
  
                 
