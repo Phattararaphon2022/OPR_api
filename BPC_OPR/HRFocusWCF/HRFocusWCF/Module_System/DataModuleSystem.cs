@@ -1217,6 +1217,8 @@ namespace BPC_OPR
         public string approve_note { get; set; }
         [DataMember]
         public string subject_code { get; set; }
+          [DataMember]
+        public string project_code { get; set; }
         
     }
 }

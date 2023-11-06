@@ -12587,6 +12587,41 @@ namespace BPC_OPR
 
                                 break;
 
+                            case "PRO_EMP":
+
+                                if (input.approve_status.Equals("C"))
+                                {
+                                    //-- Update status
+                                    cls_ctTRProjobemp project = new cls_ctTRProjobemp();
+                                    List<cls_TRProjobemp> list_project = project.getDataByFillterAll(input.project_code, "", input.approve_code, "", "", "");
+
+                                    if (list_project.Count > 0)
+                                    {
+                                        project.update_status(list_project[0], "C");
+                                    }
+                                }
+                                else
+                                {
+                                    //-- Approve                            
+                                    List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(input.company_code, "", "PRO_EMP");
+                                    List<cls_TRApprove> list_approve = approve.getDataByFillter(input.company_code, "PRO_EMP", input.approve_code);
+                                    if (list_approve.Count >= list_workflow.Count)
+                                    {
+                                        //-- Update status
+                                        cls_ctTRProjobemp projectemp = new cls_ctTRProjobemp();
+                                        List<cls_TRProjobemp> list_project = projectemp.getDataByFillterAll(input.project_code, "", input.approve_code, "", "", "");
+
+                                        if (list_project.Count > 0)
+                                        {
+                                            projectemp.update_status(list_project[0], "F");
+                                        }
+
+                                    }
+                                }
+
+                                break;
+
+
                             case "REQ_APY":
 
                                 if (input.approve_status.Equals("C"))

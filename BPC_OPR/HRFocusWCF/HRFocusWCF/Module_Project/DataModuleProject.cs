@@ -224,6 +224,9 @@ namespace BPC_OPR
          public string procontract_todate { get; set; }
         [DataMember]
          public string include_resign { get; set; }
+        [DataMember]
+        public string projobemp_status { get; set; }
+        
         
     }
 
