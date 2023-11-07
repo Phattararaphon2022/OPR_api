@@ -543,7 +543,22 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getCostCompare(FillterProject req);
 
-    
 
+        //image
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadProImages?ref_to={ref_to}", ResponseFormat = WebMessageFormat.Json)]
+        string doUploadProImages(string ref_to, Stream stream);
+
+        [OperationContract(Name = "doGetProImages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetProImages(FillterProject req);
+
+        [OperationContract(Name = "images_pro")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getImageList(FillterProject req);
+
+        [OperationContract(Name = "prodoimages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageProImage(InputTRProImage input);
     }
 }

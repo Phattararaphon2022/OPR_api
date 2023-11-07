@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -82,7 +83,34 @@ namespace BPC_OPR
             return result;
 
         }
-
+        public byte[] DownloadFile(string filePath)
+        {
+            byte[] data = { };
+            try
+            {
+                data = File.ReadAllBytes(filePath);
+            }
+            catch
+            {
+            }
+            return data;
+        }
+        public string DeleteFile(string filePath)
+        {
+            JObject output = new JObject();
+            try
+            {
+                File.Delete(filePath);
+                output["success"] = true;
+                output["message"] = filePath;
+            }
+            catch
+            {
+                output["success"] = false;
+                output["message"] = filePath;
+            }
+            return output.ToString(Formatting.None);
+        }
         #region MTProbusiness
         public string getMTProbusinessList(BasicRequest req)
         {
@@ -11339,6 +11367,275 @@ namespace BPC_OPR
             {
                 objBpcOpr.doRecordLog(log);
             }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+
+        #region Pro Image 
+        public string doUploadProImages(string ref_to, Stream stream)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO030.1";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+
+                cls_ctTRProimages ct_proimages = new cls_ctTRProimages();
+
+                string[] temp = ref_to.Split('.');
+
+                MultipartParser parser = new MultipartParser(stream);
+
+                if (parser.Success)
+                {
+
+                    cls_TRProimages proimages = new cls_TRProimages();
+                    proimages.company_code = temp[0];
+                    proimages.project_code = temp[1];
+                    proimages.proimages_images = parser.FileContents;
+                    proimages.modified_by = temp[2];
+
+                    proimages.proimages_no = 1;
+
+                    ct_proimages.insert(proimages);
+
+                    output["result"] = "1";
+                    output["result_text"] = "0";
+
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public bool IsValidImage(byte[] bytes)
+        {
+
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(bytes))
+                    Image.FromStream(ms);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string doGetProImages(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO030.2";
+            log.apilog_by = "";
+            log.apilog_data = "Stream";
+
+            try
+            {
+                cls_ctTRProimages ct_proimages = new cls_ctTRProimages();
+                List<cls_TRProimages> list_proimages = ct_proimages.getDataByFillter(req.company_code, req.project_code);
+
+                if (list_proimages.Count > 0)
+                {
+                    cls_TRProimages md_image = list_proimages[0];
+
+                    bool bln = this.IsValidImage(md_image.proimages_images);
+
+                    output["result"] = "1";
+                    output["result_text"] = "";
+                    output["data"] = "data:image/png;base64," + System.Convert.ToBase64String(md_image.proimages_images);
+                }
+                else
+                {
+                    output["result"] = "2";
+                    output["result_text"] = "Data not found";
+                    output["data"] = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string getImageList(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO030.4";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProimages controller = new cls_ctTRProimages();
+                List<cls_TRProimages> list_proimages = controller.getDataByFillter(req.company_code, req.project_code);
+                JArray array = new JArray();
+
+                if (list_proimages.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProimages model in list_proimages)
+                    {
+                        JObject json = new JObject();
+                        json.Add("proimages_no", model.proimages_no);
+                        json.Add("proimages_images", model.proimages_images);
+                        json.Add("project_code", model.project_code);
+                        json.Add("company_code", model.company_code);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageProImage(InputTRProImage input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO030.5";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProimages controller = new cls_ctTRProimages();
+                cls_TRProimages model = new cls_TRProimages();
+
+                byte[] bytes = Encoding.ASCII.GetBytes(input.proimages_images);
+
+                model.proimages_no = Convert.ToInt32(input.proimages_no);
+                model.project_code = input.project_code;
+                model.company_code = input.company_code;
+                model.proimages_images = bytes;
+                model.company_code = input.company_code;
+                model.modified_by = input.modified_by;
+
+                bool blnID = controller.insert(model);
+
+                if (blnID)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
 
             return output.ToString(Formatting.None);
         }

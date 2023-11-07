@@ -741,5 +741,23 @@ namespace BPC_OPR
          public string modified_by { get; set; }
      }
 
+     [DataContract]
+     public class InputTRProImage
+     {
+         [DataMember]
+         public int proimages_no { get; set; }
+         [DataMember]
+         public string proimages_images { get; set; }
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string project_code { get; set; }
 
+         [DataMember]
+         public string modified_by { get; set; }
+         [DataMember]
+         public DateTime modified_date { get; set; }
+         [DataMember]
+         public int index { get; set; }
+     }
 }
