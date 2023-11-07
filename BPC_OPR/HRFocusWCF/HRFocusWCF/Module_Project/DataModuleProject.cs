@@ -173,6 +173,11 @@ namespace BPC_OPR
         public string language { get; set; }
         [DataMember]
         public string project_code { get; set; }
+
+           [DataMember]
+        public string job_type { get; set; }
+
+        
         [DataMember]
         public string procontract_type { get; set; }
         [DataMember]
@@ -759,5 +764,44 @@ namespace BPC_OPR
          public DateTime modified_date { get; set; }
          [DataMember]
          public int index { get; set; }
+     }
+
+     [DataContract]
+     public class InputProTRDocatt
+     {
+         [DataMember]
+         public string device_name { get; set; }
+         [DataMember]
+         public string ip { get; set; }
+         [DataMember]
+         public string username { get; set; }
+         [DataMember]
+         public string document_id { get; set; }
+
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string worker_code { get; set; }
+         [DataMember]
+         public string job_type { get; set; }
+         [DataMember]
+         public string document_name { get; set; }
+         [DataMember]
+         public string document_type { get; set; }
+         [DataMember]
+         public string document_path { get; set; }
+         [DataMember]
+         public string created_by { get; set; }
+         [DataMember]
+         public DateTime created_date { get; set; }
+         [DataMember]
+         public string project_code { get; set; }
+
+         [DataMember]
+         public string modified_by { get; set; }
+         [DataMember]
+         public DateTime modified_date { get; set; }
+         [DataMember]
+         public bool flag { get; set; }
      }
 }
