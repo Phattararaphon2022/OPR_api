@@ -1039,6 +1039,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                              }
                          }
 
+
                          // วนลูปเพื่อค้นหาข้อมูล province ใน list_province ที่ตรงกับ province_code ใน obj_address
                          foreach (cls_MTProvince province in list_province)
                          {
