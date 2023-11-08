@@ -1714,29 +1714,29 @@ namespace BPC_OPR
 
                 //-- F add 23/08/2023
                 //-- Workflow
-                //cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
-                //List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company, "", "PRO_NEW");
+                cls_ctTRWorkflow workflow = new cls_ctTRWorkflow();
+                List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(req.company, "", "PRO_NEW");
 
                 //-- Approve history
                 cls_ctTRApprove approve = new cls_ctTRApprove();
                 List<cls_TRApprove> list_approve = approve.getDataByFillter(req.company, "PRO_NEW", "");
 
-                //if (req.status.Equals("W"))
-                //{
-                //    bool find_approve = false;
-                //    //foreach (cls_TRWorkflow model in list_workflow)
-                //    //{
-                //    //    if (req.username.Equals(model.account_user))
-                //    //    {
-                //    //        find_approve = true;
-                //    //        break;
-                //    //    }
-                //    //}
+                if (req.status.Equals("W"))
+                {
+                    bool find_approve = false;
+                    foreach (cls_TRWorkflow model in list_workflow)
+                    {
+                        if (req.username.Equals(model.account_user))
+                        {
+                            find_approve = true;
+                            break;
+                        }
+                    }
 
-                //    if (!find_approve)
-                //        list = new List<cls_MTProject>();
-                //}
-                //
+                    if (!find_approve)
+                        list = new List<cls_MTProject>();
+                }
+                
                 
                 
                 JArray array = new JArray();
