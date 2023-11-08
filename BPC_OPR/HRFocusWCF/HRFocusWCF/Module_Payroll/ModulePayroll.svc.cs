@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Web;http://localhost:32208/Module_Payroll/ModulePayroll.svc.cs
+using System.ServiceModel.Web;
 using System.Text;
 using System.Web;
 using ClassLibrary_BPC.hrfocus.controller;
