@@ -1081,9 +1081,14 @@ namespace ClassLibrary_BPC.hrfocus.service
                 DateTime dateFrom = task_detail.taskdetail_fromdate;
                 DateTime dateTo = task_detail.taskdetail_todate;
 
+                bool proshift = false;
+                if (!task.project_code.ToString().Equals(""))
+                {
+                    proshift = true;
+                }
                 //-- get shitf
                 cls_ctMTShift objShift = new cls_ctMTShift();
-                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "",false);
+                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "",proshift);
 
                 //-- get shitf
                 cls_ctTRShiftbreak objBreak = new cls_ctTRShiftbreak();
