@@ -66,9 +66,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     continue;
                                 }
+                                string code = this.getnewcode();
                                 model.company_code = dr["company_code"].ToString();
-                                model.worker_code = dr["worker_code"].ToString();
-                                model.worker_card = dr["worker_code"].ToString();
+                                model.worker_code = code;
+                                model.worker_card = code;
                                 model.worker_initial = dr["worker_initial"].ToString();
                                 model.worker_fname_th = dr["worker_fname_th"].ToString();
                                 model.worker_lname_th = dr["worker_lname_th"].ToString();
@@ -99,6 +100,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_cardno = dr["worker_cardno"].ToString();
                                 model.worker_cardnoissuedate = Convert.ToDateTime(dr["worker_cardnoissuedate"]);
                                 model.worker_cardnoexpiredate = Convert.ToDateTime(dr["worker_cardnoexpiredate"]);
+
+                                model.status = "W";
                                 model.modified_by = by;
 
                                 string strID = objReqworker.insert(model);
@@ -722,6 +725,13 @@ namespace ClassLibrary_BPC.hrfocus.service
             }
 
             return strResult;
+        }
+
+        private string getnewcode()
+        {
+            string newcode = "REQ" + DateTime.Now.ToString("yyyyMMddHHmm");
+
+            return newcode;
         }
     }
 }
