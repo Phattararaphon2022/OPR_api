@@ -8813,7 +8813,9 @@ namespace BPC_OPR
 
                 if (!req.fromdate.Equals(""))
                 {
-                    cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
+                    cls_MTProjobversion proversion = controller.getDataCurrents(req.project_code, Convert.ToDateTime(req.fromdate), Convert.ToDateTime(req.todate));
+
+                    //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
 
                     if (proversion != null)
                         list.Add(proversion);
