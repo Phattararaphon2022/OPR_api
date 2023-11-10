@@ -723,9 +723,21 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageTREmpDocatt(InputWorkerTransaction input);
 
+        [OperationContract(Name = "empdoc_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTREmpDocatt(InputTREmpDocatt input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpDocatt?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpDocatt(string token, string by, string fileName, Stream stream);
+
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doGetEmpDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
         byte[] DownloadFile(string file_Path);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doDeleteEmpDocatt?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        string DeleteFile(string file_Path);
         #endregion
 
         #endregion
