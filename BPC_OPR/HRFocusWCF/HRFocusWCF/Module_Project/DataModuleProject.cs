@@ -196,7 +196,11 @@ namespace BPC_OPR
         public string project_progroup { get; set; }
         [DataMember]
         public string project_probusiness { get; set; }
-
+         [DataMember]
+        public string responsiblearea { get; set; }
+         [DataMember]
+         public string proresponsible { get; set; }
+        
         [DataMember]
         public string job_code { get; set; }
 
@@ -804,4 +808,40 @@ namespace BPC_OPR
          [DataMember]
          public bool flag { get; set; }
      }
+
+     public class InputMTResponsiblepos
+     {
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string responsiblepos_id { get; set; }
+         [DataMember]
+         public string responsiblepos_code { get; set; }
+         [DataMember]
+         public string responsiblepos_name_th { get; set; }
+         [DataMember]
+         public string responsiblepos_name_en { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+
+     }
+     public class InputMTResponsiblearea
+     {
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string responsiblearea_id { get; set; }
+         [DataMember]
+         public string responsiblearea_code { get; set; }
+         [DataMember]
+         public string responsiblearea_name_th { get; set; }
+         [DataMember]
+         public string responsiblearea_name_en { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+
+     }
+
 }

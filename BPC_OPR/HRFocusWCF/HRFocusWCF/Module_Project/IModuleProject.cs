@@ -592,5 +592,46 @@ namespace BPC_OPR
         string DeleteFile(string file_Path);
         #endregion
 
+
+        //-- MTResponsiblepos
+        [OperationContract(Name = "MTResponsiblepos_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTResponsiblepos(BasicRequest req);
+
+        [OperationContract(Name = "MTResponsiblepos")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTResponsiblepos(InputMTResponsiblepos input);
+
+        [OperationContract(Name = "MTResponsiblepos_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTResponsiblepos(InputMTResponsiblepos input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTResponsiblepos?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTResponsiblepos(string token, string by, string fileName, Stream stream, string com);
+
+
+        //
+
+
+        //-- MTResponsiblearea
+        [OperationContract(Name = "MTResponsiblearea_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTResponsiblearea(BasicRequest req);
+
+        [OperationContract(Name = "MTResponsiblearea")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTResponsiblearea(InputMTResponsiblearea input);
+
+        [OperationContract(Name = "MTResponsiblearea_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTResponsiblearea(InputMTResponsiblearea input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTResponsiblearea?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTResponsiblearea(string token, string by, string fileName, Stream stream, string com);
+
+
+        //
     }
 }
