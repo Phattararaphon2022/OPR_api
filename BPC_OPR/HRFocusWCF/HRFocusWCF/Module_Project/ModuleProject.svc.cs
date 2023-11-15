@@ -7905,6 +7905,9 @@ namespace BPC_OPR
 
                     cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
 
+                    cls_ctMTProcost cost_controllerall = new cls_ctMTProcost();
+                    List<cls_MTProcost> cost_list = cost_controllerall.getDataByFillter(req.company_code, "");
+
                     //-- Allow
                     List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(req.project_code, req.job_code, req.version,req.company_code);
 
@@ -7940,24 +7943,47 @@ namespace BPC_OPR
                         double allow1 = 0; double allow2 = 0; double allow3 = 0; double allow4 = 0; double allow5 = 0;
                         double allow6 = 0; double allow7 = 0; double allow8 = 0; double allow9 = 0; double allow10 = 0;
                         int i = 1;
-                        foreach (cls_TRProjobcost cost in cost_list_max)
-                        {                            
+                        //foreach (cls_TRProjobcost cost in cost_list_max)
+                        //{                            
+                        //    switch (i)
+                        //    {
+                        //        case 1: allow1 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 2: allow2 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 3: allow3 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 4: allow4 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 5: allow5 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 6: allow6 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 7: allow7 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 8: allow8 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 9: allow9 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //        case 10: allow10 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                        //    }
+
+                        //    i++;
+                        //}
+
+                        foreach (cls_MTProcost cost in cost_list)
+                        {
+                            bool containsTarget = cost_list_max.Any(item => item.projobcost_code == cost.procost_code);
                             switch (i)
                             {
-                                case 1: allow1 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 2: allow2 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 3: allow3 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 4: allow4 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 5: allow5 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 6: allow6 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 7: allow7 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 8: allow8 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 9: allow9 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
-                                case 10: allow10 += doGetAmountPerday(cost.projobcost_amount, cost.procost_type) * working; break;
+                                case 1: allow1 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 2: allow2 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 3: allow3 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 4: allow4 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 5: allow5 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 6: allow6 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 7: allow7 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 8: allow8 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 9: allow9 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
+                                case 10: allow10 += containsTarget ? doGetAmountPerday(cost_list_max.Find(c => c.projobcost_code == cost.procost_code).projobcost_amount, cost.procost_type) * working : 0; break;
                             }
 
                             i++;
+                           
                         }
+
+
 
                         double allow_emp = allow1 + allow2 + allow3 + allow4 + allow5 + allow6 + allow7 + allow8 + allow9 + allow10;
                         double allow_total = allow_emp * model.projobshift_emp;
@@ -9434,15 +9460,15 @@ namespace BPC_OPR
 
                     //-- Job shift
                     cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
-                    List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(req.project_code, "", jobversion.version);
+                    List<cls_TRProjobshift> shift_list = shift_controller.getDataByFillter(project.project_code, "", jobversion.version);
 
                     //-- Time card
                     cls_ctTRTimecard time_controller = new cls_ctTRTimecard();
-                    List<cls_TRTimecard> time_list = time_controller.getDataByFillter(req.company, req.project_code, "", fromdate, todate);
+                    List<cls_TRTimecard> time_list = time_controller.getDataByFillter(project.company_code, project.project_code, "", fromdate, todate);
 
                     //-- Time wage
                     cls_ctTRWageday wage_controller = new cls_ctTRWageday();
-                    List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company, req.project_code, "", fromdate, todate, "");
+                    List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", project.company_code, project.project_code, "", fromdate, todate, "");
 
 
                     cls_ctTRProjobemp proemp_controller = new cls_ctTRProjobemp();
@@ -9489,7 +9515,7 @@ namespace BPC_OPR
                         }
 
                         //-- Staff
-                        List<cls_TRProjobemp> proemp_list = proemp_controller.getDataByFillter(req.project_code, jobmain.projobmain_code);
+                        List<cls_TRProjobemp> proemp_list = proemp_controller.getDataByFillter(project.project_code, jobmain.projobmain_code);
                         foreach (cls_TRProjobemp tmp in proemp_list)
                         {
                             if (tmp.projobemp_todate < fromdate)
@@ -9522,7 +9548,7 @@ namespace BPC_OPR
                         }
 
                         //-- Allow
-                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version,req.company_code);                                                
+                        List<cls_TRProjobcost> cost_list_max = cost_controller.getDataByFillter(jobmain.project_code, jobmain.projobmain_code, jobversion.version, project.company_code);                                                
                         foreach (cls_TRProjobcost cost in cost_list_max)
                         {
                             sum_cost += doGetAmountPerday(cost.projobcost_amount, cost.procost_type);
@@ -9687,7 +9713,7 @@ namespace BPC_OPR
 
                 //-- Time wage
                 cls_ctTRWageday wage_controller = new cls_ctTRWageday();
-                List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company, req.project_code, "", fromdate, todate, "");
+                List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", req.company_code, req.project_code, "", fromdate, todate, "");
 
                 cls_ctTRProjobemp proemp_controller = new cls_ctTRProjobemp();
                 
@@ -9745,7 +9771,7 @@ namespace BPC_OPR
 
                     //-- Working   
                     JArray array_timecard = new JArray();
-                    time_list = time_controller.getDataByJob(req.company, jobmain.project_code, jobmain.projobmain_code, fromdate, todate);
+                    time_list = time_controller.getDataByJob(req.company_code, jobmain.project_code, jobmain.projobmain_code, fromdate, todate);
 
                     foreach (cls_TRTimecard timecard in time_list)
                     {
