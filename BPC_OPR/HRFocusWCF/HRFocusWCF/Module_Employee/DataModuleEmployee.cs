@@ -106,6 +106,13 @@ namespace BPC_OPR
         public string worker_socialsentdate { get; set; }
         [DataMember]
         public bool worker_socialnotsent { get; set; }
+        //
+        [DataMember]
+        public string worker_emergency_tel { get; set; }
+        [DataMember]
+        public string worker_emergency_name { get; set; }
+        [DataMember]
+        public string worker_emergency_address { get; set; }
 
 
         //-- Transaction
@@ -159,6 +166,8 @@ namespace BPC_OPR
         public string worker_type { get; set; }
         [DataMember]
         public string job_type { get; set; }
+        [DataMember]
+        public string card_no { get; set; }
     }
     [DataContract]
     public class InputMTDep
@@ -1421,5 +1430,87 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputTREmpPaysuspend
+    {
+        [DataMember]
+        public int paysuspend_id { get; set; }
+        [DataMember]
+        public string payitem_date { get; set; }
+        [DataMember]
+        public string paysuspend_note { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string paysuspend_type { get; set; }
+        [DataMember]
+        public string paysuspend_payment { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+    }
+    [DataContract]
+    public class InputSetPaysuspend
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int paysuspend_id { get; set; }
+        [DataMember]
+        public string payitem_date { get; set; }
+        [DataMember]
+        public string paysuspend_note { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string paysuspend_type { get; set; }
+        [DataMember]
+        public string paysuspend_payment { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+    }
+
+    [DataContract]
+    public class InputTREmpResign
+    {
+        [DataMember]
+        public int empresign_id { get; set; }
+        [DataMember]
+        public string card_no { get; set; }
+        [DataMember]
+        public string empresign_date { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
     }
 }

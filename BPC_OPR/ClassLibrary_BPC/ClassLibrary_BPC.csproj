@@ -85,8 +85,10 @@
     <Compile Include="hrfocus.controller\employee\cls_ctMTForetype.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpDocatt.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpimages.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTREmpresign.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRExperience.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTRForeignercard.cs" />
+    <Compile Include="hrfocus.controller\employee\cls_ctTRPaysuspend.cs" />
     <Compile Include="hrfocus.controller\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTPlanitems.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTPlanreduce.cs" />
@@ -258,8 +260,10 @@
     <Compile Include="hrfocus.model\employee\cls_MTDashboards.cs" />
     <Compile Include="hrfocus.model\employee\cls_MTForetype.cs" />
     <Compile Include="hrfocus.model\employee\cls_TREmpimages.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TREmpresign.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRExperience.cs" />
     <Compile Include="hrfocus.model\employee\cls_TRForeignercard.cs" />
+    <Compile Include="hrfocus.model\employee\cls_TRPaysuspend.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTPlanitems.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_MTPlanreduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybank.cs" />
