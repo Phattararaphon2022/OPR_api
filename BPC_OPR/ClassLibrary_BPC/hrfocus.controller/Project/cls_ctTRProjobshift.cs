@@ -45,6 +45,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBSHIFT_THU");
                 obj_str.Append(", PROJOBSHIFT_FRI");
                 obj_str.Append(", PROJOBSHIFT_SAT");
+                obj_str.Append(", PROJOBSHIFT_PH");
+
+                
 
                 obj_str.Append(", PROJOBSHIFT_WORKING");
                 obj_str.Append(", PROJOBSHIFT_HRSPERDAY");
@@ -84,7 +87,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobshift_thu = Convert.ToBoolean(dr["PROJOBSHIFT_THU"]);
                     model.projobshift_fri = Convert.ToBoolean(dr["PROJOBSHIFT_FRI"]);
                     model.projobshift_sat = Convert.ToBoolean(dr["PROJOBSHIFT_SAT"]);
+                    model.projobshift_ph = Convert.ToBoolean(dr["PROJOBSHIFT_PH"]);
 
+                    
                     model.projobshift_working = Convert.ToInt32(dr["PROJOBSHIFT_WORKING"]);
                     model.projobshift_hrsperday = Convert.ToDouble(dr["PROJOBSHIFT_HRSPERDAY"]);
                     model.projobshift_hrsot = Convert.ToDouble(dr["PROJOBSHIFT_HRSOT"]);
@@ -261,6 +266,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBSHIFT_THU ");
                 obj_str.Append(", PROJOBSHIFT_FRI ");
                 obj_str.Append(", PROJOBSHIFT_SAT ");
+                obj_str.Append(", PROJOBSHIFT_PH ");
+
 
                 obj_str.Append(", PROJOBSHIFT_EMP ");
                 obj_str.Append(", PROJOBSHIFT_WORKING ");
@@ -288,7 +295,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBSHIFT_THU ");
                 obj_str.Append(", @PROJOBSHIFT_FRI ");
                 obj_str.Append(", @PROJOBSHIFT_SAT ");
+                obj_str.Append(", @PROJOBSHIFT_PH ");
 
+                
                 obj_str.Append(", @PROJOBSHIFT_EMP ");
                 obj_str.Append(", @PROJOBSHIFT_WORKING ");
                 obj_str.Append(", @PROJOBSHIFT_HRSPERDAY ");
@@ -320,6 +329,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_THU", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_THU"].Value = model.projobshift_thu;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_FRI", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_FRI"].Value = model.projobshift_fri;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_sat;
+                obj_cmd.Parameters.Add("@PROJOBSHIFT_PH", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_PH"].Value = model.projobshift_ph;
+
+                  
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_EMP", SqlDbType.Int); obj_cmd.Parameters["@PROJOBSHIFT_EMP"].Value = model.projobshift_emp;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_WORKING", SqlDbType.Int); obj_cmd.Parameters["@PROJOBSHIFT_WORKING"].Value = model.projobshift_working;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_HRSPERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBSHIFT_HRSPERDAY"].Value = model.projobshift_hrsperday;
@@ -363,7 +375,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBSHIFT_THU=@PROJOBSHIFT_THU ");
                 obj_str.Append(", PROJOBSHIFT_FRI=@PROJOBSHIFT_FRI ");
                 obj_str.Append(", PROJOBSHIFT_SAT=@PROJOBSHIFT_SAT ");
+                obj_str.Append(", PROJOBSHIFT_PH=@PROJOBSHIFT_PH ");
 
+                
                 obj_str.Append(", PROJOBSHIFT_EMP=@PROJOBSHIFT_EMP ");
                 obj_str.Append(", PROJOBSHIFT_WORKING=@PROJOBSHIFT_WORKING ");
                 obj_str.Append(", PROJOBSHIFT_HRSPERDAY=@PROJOBSHIFT_HRSPERDAY ");
@@ -385,7 +399,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_WED", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_WED"].Value = model.projobshift_wed;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_THU", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_THU"].Value = model.projobshift_thu;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_FRI", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_FRI"].Value = model.projobshift_fri;
-                obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_sat;
+                obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_ph;
+
+                obj_cmd.Parameters.Add("@PROJOBSHIFT_PH", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_PH"].Value = model.projobshift_ph;
+
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_EMP", SqlDbType.Int); obj_cmd.Parameters["@PROJOBSHIFT_EMP"].Value = model.projobshift_emp;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_WORKING", SqlDbType.Int); obj_cmd.Parameters["@PROJOBSHIFT_WORKING"].Value = model.projobshift_working;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_HRSPERDAY", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBSHIFT_HRSPERDAY"].Value = model.projobshift_hrsperday;

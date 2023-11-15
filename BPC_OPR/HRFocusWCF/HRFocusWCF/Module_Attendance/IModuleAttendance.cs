@@ -252,6 +252,11 @@ namespace BPC_OPR
         [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getDaytype();
 
+
+        [OperationContract(Name = "timecard_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRTimecard(InputTRTimecard input);
+
         #endregion
 
         #region Timeimport

@@ -7921,6 +7921,7 @@ namespace BPC_OPR
                         json.Add("projobshift_thu", model.projobshift_thu);
                         json.Add("projobshift_fri", model.projobshift_fri);
                         json.Add("projobshift_sat", model.projobshift_sat);
+                        json.Add("projobshift_ph", model.projobshift_ph);
 
                         json.Add("projobshift_emp", model.projobshift_emp);
                         json.Add("projobshift_working", model.projobshift_working);
@@ -8813,9 +8814,7 @@ namespace BPC_OPR
 
                 if (!req.fromdate.Equals(""))
                 {
-                    cls_MTProjobversion proversion = controller.getDataCurrents(req.project_code, Convert.ToDateTime(req.fromdate), Convert.ToDateTime(req.todate));
-
-                    //cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
+                    cls_MTProjobversion proversion = controller.getDataCurrent(req.project_code, Convert.ToDateTime(req.fromdate));
 
                     if (proversion != null)
                         list.Add(proversion);
@@ -8826,7 +8825,7 @@ namespace BPC_OPR
                     list = controller.getDataByFillter(req.project_code);
                 }
 
-                
+
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -8838,7 +8837,7 @@ namespace BPC_OPR
                         JObject json = new JObject();
                         json.Add("projobversion_id", model.projobversion_id);
                         json.Add("transaction_id", model.transaction_id);
-                        json.Add("version", model.version);                        
+                        json.Add("version", model.version);
                         json.Add("fromdate", model.fromdate);
                         json.Add("todate", model.todate);
                         json.Add("transaction_data", model.transaction_data);
