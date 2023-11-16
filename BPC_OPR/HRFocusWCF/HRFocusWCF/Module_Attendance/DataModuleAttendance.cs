@@ -687,7 +687,8 @@ namespace BPC_OPR
 
         [DataMember]
         public int index { get; set; }
-
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
 
     }
     #endregion

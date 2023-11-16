@@ -4562,34 +4562,70 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-                //-- Step 1 Get Emp detail
-                cls_ctMTWorker objWorker = new cls_ctMTWorker();
-                List<cls_MTWorker> listWorker = objWorker.getDataByFillter(input.company_code, input.worker_code);
+               
 
-                if (listWorker.Count == 0)
-                {
-                    output["success"] = false;
-                    output["message"] = "Not found employee " + input.worker_code;
 
-                    log.apilog_status = "500";
-                    log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
-
-                    return output.ToString(Formatting.None);
-                }
 
                 cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
-                cls_TRTimecard timecard = new cls_TRTimecard();
-                timecard.company_code = input.company_code;
-                timecard.worker_code = input.worker_code;
-                timecard.project_code = input.project_code;
-                timecard.projob_code = input.projob_code;
-                timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
-                timecard.timecard_daytype = input.timecard_daytype;
-                timecard.shift_code = input.shift_code;
-                timecard.timecard_color = "0";
-                timecard.modified_by = input.modified_by;
-                bool blnTimecard = objTimecard.insert(timecard);
+                List<cls_TRTimecard> listPol = new List<cls_TRTimecard>();
+                bool strID = false;
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+
+                    //-- Step 1 Get Emp detail
+                    cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                    List<cls_MTWorker> listWorker = objWorker.getDataByFillter(input.company_code, modelWorker.worker_code);
+
+                    if (listWorker.Count == 0)
+                    {
+                        output["success"] = false;
+                        output["message"] = "Not found employee " + input.worker_code;
+
+                        log.apilog_status = "500";
+                        log.apilog_message = BpcOpr.MessageNotAuthen;
+                        objBpcOpr.doRecordLog(log);
+
+                        return output.ToString(Formatting.None);
+                    }
+
+
+                    cls_TRTimecard timecard = new cls_TRTimecard();
+
+                    //cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
+                    //cls_TRTimecard timecard = new cls_TRTimecard();
+                    timecard.company_code = input.company_code;
+                    timecard.worker_code = modelWorker.worker_code;
+                    timecard.project_code = input.project_code;
+                    timecard.projob_code = input.projob_code;
+                    timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
+                    timecard.timecard_daytype = input.timecard_daytype;
+                    timecard.shift_code = input.shift_code;
+                    timecard.timecard_color = "0";
+                    timecard.modified_by = input.modified_by;
+                    listPol.Add(timecard);
+                    bool blnTimecard = objTimecard.insert(timecard);
+
+                
+
+                if (listPol.Count > 0)
+                {
+                    strID = objTimecard.insert(timecard);
+                }
+                
+
+
+                //cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
+                //cls_TRTimecard timecard = new cls_TRTimecard();
+                //timecard.company_code = input.company_code;
+                //timecard.worker_code = input.worker_code;
+                //timecard.project_code = input.project_code;
+                //timecard.projob_code = input.projob_code;
+                //timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
+                //timecard.timecard_daytype = input.timecard_daytype;
+                //timecard.shift_code = input.shift_code;
+                //timecard.timecard_color = "0";
+                //timecard.modified_by = input.modified_by;
+                //bool blnTimecard = objTimecard.insert(timecard);
 
                 cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
                 List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
@@ -4658,7 +4694,7 @@ namespace BPC_OPR
                     List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
                     cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
                     task_whose.task_id = taskid;
-                    task_whose.worker_code = input.worker_code;
+                    task_whose.worker_code = modelWorker.worker_code;
                     list_whose.Add(task_whose);
 
                     int intTaskID = objTask.insert(task, task_detail, list_whose);
@@ -4696,7 +4732,7 @@ namespace BPC_OPR
                     log.apilog_status = "500";
                     log.apilog_message = "Record Time input fail";
                 }
-
+                }
             }
             catch (Exception ex)
             {
@@ -4771,6 +4807,219 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+
+        public string doDeleteTRTimecard(InputTRTimecard input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT901.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timecard_workdate);
+
+                cls_ctTRTimecard controller = new cls_ctTRTimecard();
+                List<cls_TRTimecard> listTimecard = new List<cls_TRTimecard>();
+
+                bool blnResult = controller.delete(input.company_code, input.project_code, input.worker_code );
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+            return output.ToString(Formatting.None);
+
+        }
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT905.3";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        //DateTime datefrom = Convert.ToDateTime(input.timecard_workdate);
+
+        //        cls_ctTRTimecard controller = new cls_ctTRTimecard();
+
+        //        if (controller.checkDataOld(input.company_code, input.project_code, input.projob_code, input.worker_code, Convert.ToDateTime(input.timecard_workdate)))
+        //        {
+        //            bool blnResult = controller.delete(input.company_code, input.project_code, input.projob_code, input.worker_code, Convert.ToDateTime(input.timecard_workdate));
+
+        //            if (blnResult)
+        //            {
+        //                output["success"] = true;
+        //                output["message"] = "Remove data successfully";
+
+        //                log.apilog_status = "200";
+        //                log.apilog_message = "";
+        //            }
+        //            else
+        //            {
+        //                output["success"] = false;
+        //                output["message"] = "Remove data not successfully";
+
+        //                log.apilog_status = "500";
+        //                log.apilog_message = controller.getMessage();
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            string message = "Not Found Data : " + input.company_code;
+        //            output["success"] = false;
+        //            output["message"] = message;
+
+        //            log.apilog_status = "404";
+        //            log.apilog_message = message;
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["result"] = "0";
+        //        output["result_text"] = ex.ToString();
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    return output.ToString(Formatting.None);
+
+        //}
+
+
+        // {
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "ATT901.3";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+        //        DateTime datefrom = Convert.ToDateTime(input.timecard_workdate);
+          
+        //        cls_ctTRTimecard controller = new cls_ctTRTimecard();
+        //        List<cls_TRTimecard> listTimecard = new List<cls_TRTimecard>();
+
+        //        bool blnResult = controller.delete(input.company_code, input.project_code, input.projob_code, input.worker_code);
+
+        //        if (blnResult)
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Remove data successfully";
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Remove data not successfully";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+        //        controller.dispose();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Remove data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+        //    return output.ToString(Formatting.None);
+
+        //}
+
 
         #endregion
 

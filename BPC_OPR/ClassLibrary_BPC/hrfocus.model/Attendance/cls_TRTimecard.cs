@@ -88,7 +88,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         //-- Show only
         public string worker_name_th { get; set; }
         public string worker_name_en { get; set; }
-        
+
+        public string emp_data { get; set; }
 
     }
 }
