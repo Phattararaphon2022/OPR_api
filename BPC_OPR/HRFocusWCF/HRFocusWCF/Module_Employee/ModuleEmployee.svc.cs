@@ -13611,7 +13611,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctTRPaysuspend controller = new cls_ctTRPaysuspend();
-                List<cls_TRPaysuspend> list = controller.getDataByFillter(input.company_code, input.worker_code, input.paydate.ToString("yyyy-MM-ddTHH:mm:ss"));
+                List<cls_TRPaysuspend> list = controller.getDataByFillter(input.company_code, input.worker_code, input.date);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -13629,6 +13629,9 @@ namespace BPC_OPR
                         json.Add("reason_code", model.reason_code);
                         json.Add("paysuspend_type", model.paysuspend_type);
                         json.Add("paysuspend_payment", model.paysuspend_payment);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);

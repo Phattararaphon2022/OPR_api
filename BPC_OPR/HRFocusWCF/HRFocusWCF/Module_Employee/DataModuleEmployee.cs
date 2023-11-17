@@ -168,6 +168,8 @@ namespace BPC_OPR
         public string job_type { get; set; }
         [DataMember]
         public string card_no { get; set; }
+        [DataMember]
+        public string date { get; set; }
     }
     [DataContract]
     public class InputMTDep

@@ -34,8 +34,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("SELECT ");
 
-                obj_str.Append("COMPANY_CODE");
-                obj_str.Append(", WORKER_CODE");
+                obj_str.Append("EMP_TR_PAYSUSPEND.COMPANY_CODE");
+                obj_str.Append(", EMP_TR_PAYSUSPEND.WORKER_CODE");
                 obj_str.Append(", PAYSUSPEND_ID");
                 obj_str.Append(", PAYITEM_DATE ");
                 obj_str.Append(", ISNULL(PAYSUSPEND_NOTE, '') AS PAYSUSPEND_NOTE");
@@ -43,16 +43,21 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PAYSUSPEND_TYPE");
                 obj_str.Append(", PAYSUSPEND_PAYMENT");
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
+                obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
+
+                obj_str.Append(", ISNULL(EMP_TR_PAYSUSPEND.MODIFIED_BY, EMP_TR_PAYSUSPEND.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(EMP_TR_PAYSUSPEND.MODIFIED_DATE, EMP_TR_PAYSUSPEND.CREATED_DATE) AS MODIFIED_DATE");
 
                 obj_str.Append(" FROM EMP_TR_PAYSUSPEND");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=EMP_TR_PAYSUSPEND.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=EMP_TR_PAYSUSPEND.WORKER_CODE");
+                obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL ");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY WORKER_CODE");
+                obj_str.Append(" ORDER BY EMP_TR_PAYSUSPEND.WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -69,6 +74,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.reason_code = dr["REASON_CODE"].ToString();
                     model.paysuspend_type = dr["PAYSUSPEND_TYPE"].ToString();
                     model.paysuspend_payment = dr["PAYSUSPEND_PAYMENT"].ToString();
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -90,10 +98,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
             string strCondition = "";
 
             if (!com.Equals(""))
-                strCondition += " AND COMPANY_CODE='" + com + "'";
+                strCondition += " AND EMP_TR_PAYSUSPEND.COMPANY_CODE='" + com + "'";
 
             if (!emp.Equals(""))
-                strCondition += " AND WORKER_CODE='" + emp + "'";
+                strCondition += " AND EMP_TR_PAYSUSPEND.WORKER_CODE='" + emp + "'";
 
             if (!date.Equals(""))
                 strCondition += " AND PAYITEM_DATE='" + date + "'";
@@ -417,7 +425,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                         obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
                         obj_cmd.Parameters["@PAYSUSPEND_TYPE"].Value = model.paysuspend_type;
                         obj_cmd.Parameters["@PAYSUSPEND_PAYMENT"].Value = model.paysuspend_payment;
-                        obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
                         obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
 
                         obj_cmd.ExecuteNonQuery();
