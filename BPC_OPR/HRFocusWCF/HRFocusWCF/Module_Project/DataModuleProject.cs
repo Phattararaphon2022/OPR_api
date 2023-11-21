@@ -235,7 +235,11 @@ namespace BPC_OPR
          public string include_resign { get; set; }
         [DataMember]
         public string projobemp_status { get; set; }
-        
+
+         [DataMember]
+        public string proresponsible_position { get; set; }
+         [DataMember]
+         public string proresponsible_area { get; set; }
         
     }
 

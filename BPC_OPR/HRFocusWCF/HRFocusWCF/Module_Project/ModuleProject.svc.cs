@@ -2171,7 +2171,7 @@ namespace BPC_OPR
 
 
                 cls_ctMTProject controller = new cls_ctMTProject();
-                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status, req.searchemp);
+                List<cls_MTProject> list = controller.getDataByFillterAll(req.company_code, req.project_code, req.project_probusiness, req.project_proarea, req.status, req.searchemp, req.proresponsible_position, req.proresponsible_area);
  
 
                 //-- Approve history
@@ -4565,6 +4565,14 @@ namespace BPC_OPR
                         json.Add("projobmain_code", model.projobmain_code);
                         json.Add("projobmain_name_th", model.projobmain_name_th);
                         json.Add("projobmain_name_en", model.projobmain_name_en);
+                        json.Add("projobmain_jobtype", model.projobmain_jobtype);
+
+                        json.Add("projobmain_fromdate", model.projobmain_fromdate);
+                        json.Add("projobmain_todate", model.projobmain_todate);
+
+                        
+
+
                         json.Add("projobmain_type", model.projobmain_type);
                         
 
@@ -9442,7 +9450,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost cost_controller = new cls_ctTRProjobcost();
                 cls_ctMTProject project_controller = new cls_ctMTProject();
-                List<cls_MTProject> list_project = project_controller.getDataMonitiorByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup, req.proresponsible, req.responsiblearea);
+                List<cls_MTProject> list_project = project_controller.getDataMonitiorByFillter(req.company_code, "", "", req.project_protype, req.project_probusiness, req.project_proarea, req.project_progroup, req.proresponsible_position, req.proresponsible_area);
 
                 JObject json;
 

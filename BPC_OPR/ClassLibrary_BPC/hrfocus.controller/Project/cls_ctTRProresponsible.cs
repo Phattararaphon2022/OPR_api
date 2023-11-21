@@ -98,6 +98,24 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+        public List<cls_TRProresponsible> getDataFillter(string project, string position, string proarea)
+        {
+            string strCondition = "";
+
+            if (!project.Equals(""))
+                strCondition += " AND PROJECT_CODE='" + project + "'";
+
+         
+            if (!position.Equals(""))
+                strCondition += " AND PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_POSITION='" + position + "'";
+            if (!proarea.Equals(""))
+                strCondition += " AND PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_AREA='" + proarea + "'";
+            ///
+
+            return this.getData(strCondition);
+        }
+
+
         public int getNextID()
         {
             int intResult = 1;

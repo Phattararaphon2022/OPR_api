@@ -39,8 +39,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBMAIN_NAME_TH");
                 obj_str.Append(", PROJOBMAIN_NAME_EN");
 
+                obj_str.Append(", PROJOBMAIN_JOBTYPE");
+                obj_str.Append(", ISNULL(PROJOBMAIN_FROMDATE, '01/01/1900') AS PROJOBMAIN_FROMDATE");
+                obj_str.Append(", ISNULL(PROJOBMAIN_TODATE, '01/01/1900') AS PROJOBMAIN_TODATE");
+
                 obj_str.Append(", PROJOBMAIN_TYPE");
-               
                 obj_str.Append(", ISNULL(PROJOBMAIN_TIMEPOL, '') AS PROJOBMAIN_TIMEPOL");
                 obj_str.Append(", ISNULL(PROJOBMAIN_SLIP, '') AS PROJOBMAIN_SLIP");
                 obj_str.Append(", ISNULL(PROJOBMAIN_UNIFORM, '') AS PROJOBMAIN_UNIFORM");
@@ -71,8 +74,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobmain_name_th = dr["PROJOBMAIN_NAME_TH"].ToString();
                     model.projobmain_name_en = dr["PROJOBMAIN_NAME_EN"].ToString();
 
+                    model.projobmain_jobtype = dr["PROJOBMAIN_JOBTYPE"].ToString();
+                    model.projobmain_fromdate = Convert.ToDateTime(dr["PROJOBMAIN_FROMDATE"]);
+                    model.projobmain_todate = Convert.ToDateTime(dr["PROJOBMAIN_TODATE"]);
+
                     model.projobmain_type = dr["PROJOBMAIN_TYPE"].ToString();
-                   
                     model.projobmain_timepol = dr["PROJOBMAIN_TIMEPOL"].ToString();
                     model.projobmain_slip = dr["PROJOBMAIN_SLIP"].ToString();
                     model.projobmain_uniform = dr["PROJOBMAIN_UNIFORM"].ToString();
@@ -265,6 +271,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJOBMAIN_CODE ");
                 obj_str.Append(", PROJOBMAIN_NAME_TH ");
                 obj_str.Append(", PROJOBMAIN_NAME_EN ");
+                obj_str.Append(", PROJOBMAIN_JOBTYPE ");
+                obj_str.Append(", PROJOBMAIN_FROMDATE ");
+                obj_str.Append(", PROJOBMAIN_TODATE ");
+
+                
 
                 obj_str.Append(", PROJOBMAIN_TYPE ");
                
@@ -288,6 +299,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJOBMAIN_CODE ");
                 obj_str.Append(", @PROJOBMAIN_NAME_TH ");
                 obj_str.Append(", @PROJOBMAIN_NAME_EN ");
+                obj_str.Append(", @PROJOBMAIN_JOBTYPE ");
+                obj_str.Append(", @PROJOBMAIN_FROMDATE ");
+                obj_str.Append(", @PROJOBMAIN_TODATE ");
+
+                
+
+                
                 obj_str.Append(", @PROJOBMAIN_TYPE ");
               
 
@@ -315,9 +333,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBMAIN_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_CODE"].Value = model.projobmain_code;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_TH"].Value = model.projobmain_name_th;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_EN"].Value = model.projobmain_name_en;
+                
+
+                obj_cmd.Parameters.Add("@PROJOBMAIN_JOBTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_JOBTYPE"].Value = model.projobmain_jobtype;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBMAIN_FROMDATE"].Value = model.projobmain_fromdate;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBMAIN_TODATE"].Value = model.projobmain_todate;
+
 
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TYPE"].Value = model.projobmain_type;
-              
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TIMEPOL", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TIMEPOL"].Value = model.projobmain_timepol;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_SLIP", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_SLIP"].Value = model.projobmain_slip;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_UNIFORM", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_UNIFORM"].Value = model.projobmain_uniform;
@@ -352,6 +375,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("UPDATE PRO_MT_PROJOBMAIN SET ");
                 obj_str.Append(" PROJOBMAIN_NAME_TH=@PROJOBMAIN_NAME_TH ");
                 obj_str.Append(", PROJOBMAIN_NAME_EN=@PROJOBMAIN_NAME_EN ");
+                obj_str.Append(", PROJOBMAIN_JOBTYPE=@PROJOBMAIN_JOBTYPE ");
+                obj_str.Append(", PROJOBMAIN_FROMDATE=@PROJOBMAIN_FROMDATE ");
+                obj_str.Append(", PROJOBMAIN_TODATE=@PROJOBMAIN_TODATE ");
+
+
+                
                 obj_str.Append(", PROJOBMAIN_TYPE=@PROJOBMAIN_TYPE ");
                 obj_str.Append(", PROJOBMAIN_TIMEPOL=@PROJOBMAIN_TIMEPOL ");
                 obj_str.Append(", PROJOBMAIN_SLIP=@PROJOBMAIN_SLIP ");
@@ -367,7 +396,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_TH"].Value = model.projobmain_name_th;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_EN"].Value = model.projobmain_name_en;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_JOBTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_JOBTYPE"].Value = model.projobmain_jobtype;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_FROMDATE", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_FROMDATE"].Value = model.projobmain_fromdate;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_TODATE", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_TODATE"].Value = model.projobmain_todate;
 
+               
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TYPE"].Value = model.projobmain_type;
                
 

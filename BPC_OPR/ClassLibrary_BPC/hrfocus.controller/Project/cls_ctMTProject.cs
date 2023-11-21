@@ -52,8 +52,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(PROJECT_ROUNDMONEY, '') AS PROJECT_ROUNDMONEY");
                 obj_str.Append(", ISNULL(PROJECT_PROHOLIDAY, '') AS PROJECT_PROHOLIDAY");
                 //
-                obj_str.Append(", ISNULL( PRORESPONSIBLE_POSITION, '') AS POSITION");
-                obj_str.Append(",  ISNULL( PRORESPONSIBLE_AREA, '') AS AREA");
+                obj_str.Append(", ISNULL( PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_POSITION, '') AS POSITION");
+                obj_str.Append(", ISNULL( PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_AREA, '') AS AREA");
 
 
 
@@ -64,7 +64,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(PRO_MT_PROJECT.MODIFIED_DATE, PRO_MT_PROJECT.CREATED_DATE) AS MODIFIED_DATE");
 
                 obj_str.Append(" FROM PRO_MT_PROJECT");
-                obj_str.Append(" INNER JOIN PRO_TR_PRORESPONSIBLE ON PRO_TR_PRORESPONSIBLE.PROJECT_CODE=PRO_TR_PRORESPONSIBLE.PROJECT_CODE");
+                obj_str.Append(" LEFT JOIN PRO_TR_PRORESPONSIBLE ON PRO_TR_PRORESPONSIBLE.PROJECT_CODE = PRO_MT_PROJECT.PROJECT_CODE");
 
 
 
@@ -143,6 +143,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!group.Equals(""))
                 strCondition += " AND PROJECT_PROGROUP='" + group + "'";
             ///
+           
 
             strCondition += " AND PROJECT_STATUS='F'";
 
@@ -172,14 +173,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND PROJECT_PROAREA='" + area + "'";
             if (!group.Equals(""))
                 strCondition += " AND PROJECT_PROGROUP='" + group + "'";
-            ///
+
+            ////
             if (!proresponsible.Equals(""))
                 strCondition += " AND PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_POSITION='" + proresponsible + "'";
-
             if (!responsiblearea.Equals(""))
                 strCondition += " AND PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_AREA='" + responsiblearea + "'";
             ///
-
             strCondition += " AND PROJECT_STATUS='F'";
 
             return this.getData(strCondition);
@@ -237,7 +237,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
         //
-        public List<cls_MTProject> getDataByFillterAll(string com, string code, string business, string area, string status, string searchemp)
+        public List<cls_MTProject> getDataByFillterAll(string com, string code, string business, string area, string status, string searchemp, string position, string proarea)
         {
             string strCondition = "";
 
@@ -257,7 +257,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 strCondition += "AND (PRO_MT_PROJECT.PROJECT_CODE LIKE'" + searchemp + "%' OR PROJECT_NAME_TH LIKE '" + searchemp + "%' OR PROJECT_NAME_EN LIKE '" + searchemp + "%')";
             }
-
+            ////
+            if (!position.Equals(""))
+                strCondition += " AND PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_POSITION='" + position + "'";
+            if (!proarea.Equals(""))
+                strCondition += " AND PRO_TR_PRORESPONSIBLE.PRORESPONSIBLE_AREA='" + proarea + "'";
+            ///
             return this.getData(strCondition);
         }
         //
