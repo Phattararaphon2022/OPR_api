@@ -14,6 +14,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string projobmain_name_th { get; set; }
         public string projobmain_name_en { get; set; }
 
+        public string projobmain_jobtype { get; set; }
+        public DateTime projobmain_fromdate { get; set; }
+        public DateTime projobmain_todate { get; set; }
+
         public string projobmain_type { get; set; }
        
 
