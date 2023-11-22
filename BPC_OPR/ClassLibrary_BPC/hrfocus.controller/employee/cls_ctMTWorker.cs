@@ -245,8 +245,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill, string empstatus, bool worker_blackliststatus,string project_code)
+        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, string empstatus, bool worker_blackliststatus, string project_code, string project_job,bool periodresign,string fromdate,string todate)
         {
+
             string strCondition = "";
 
 
@@ -279,13 +280,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!project_code.Equals(""))
             {
-                strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + "' )";
+                if (!project_job.Equals(""))
+                {
+                    strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + " AND PROJOB_CODE='"+project_job+"'' )";
+                }
+                else
+                {
+                    strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + "' )";
+                }
             }
 
 
             if (!include_resign)
             {
                 strCondition += " AND (WORKER_RESIGNSTATUS='0' OR WORKER_RESIGNSTATUS IS NULL) ";
+            }
+
+            if (periodresign)
+            {
+                strCondition += " AND WORKER_RESIGNDATE BETWEEN '" + fromdate + "' AND '" + todate + "' ";
             }
 
             if (!empstatus.Equals(""))

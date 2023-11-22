@@ -1325,7 +1325,14 @@ namespace BPC_OPR
         public string project_code { get; set; }
          [DataMember]
         public string project_status { get; set; }
-        
+         [DataMember]
+         public string project_job { get; set; }
+         [DataMember]
+         public bool periodresign { get; set; }
+         [DataMember]
+         public string fromdate { get; set; }
+         [DataMember]
+         public string todate { get; set; }
 
     }
 

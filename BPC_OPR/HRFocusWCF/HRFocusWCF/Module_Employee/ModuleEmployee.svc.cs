@@ -598,7 +598,7 @@ namespace BPC_OPR
                 }
 
                 cls_ctMTWorker controller = new cls_ctMTWorker();
-                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code, req.worker_emptype, req.searchemp, req.level_code, req.dep_code, req.position_code, "", req.worker_resignstatus, req.location_code, req.date_fill, req.worker_empstatus, req.worker_blackliststatus,req.project_code);
+                List<cls_MTWorker> list = controller.getDataByFillterAll(req.company_code, req.worker_code, req.worker_emptype, req.searchemp, req.level_code, req.dep_code, req.position_code, "", req.worker_resignstatus, req.location_code, req.worker_empstatus, req.worker_blackliststatus,req.project_code,req.project_job,req.periodresign,req.fromdate,req.todate);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
