@@ -78,9 +78,9 @@ namespace BPC_OPR
                         authResponse.data.Add(userData);
                     }
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                    authResponse.message = "that the request succeeded and that the requested information is in the response.";
+                    authResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
                     log.apilog_status = "200";
-                    log.apilog_message = "that the request succeeded and that the requested information is in the response.";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
                 }
                 else
                 {

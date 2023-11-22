@@ -378,7 +378,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                int id = this.getNextID();
+                model.project_id = this.getNextID();
 
                 obj_str.Append("INSERT INTO PRO_MT_PROJECT");
                 obj_str.Append(" (");
@@ -437,7 +437,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = model.project_id;
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJECT_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_NAME_TH"].Value = model.project_name_th;
                 obj_cmd.Parameters.Add("@PROJECT_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_NAME_EN"].Value = model.project_name_en;

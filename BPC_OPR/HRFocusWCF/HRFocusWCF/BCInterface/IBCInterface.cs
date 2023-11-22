@@ -19,6 +19,14 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageAPIHRJob(APIHRJob input);
 
+        [OperationContract(Name = "APIHRProject")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse doManageAPIHRProject(APIHRProject input);
+
+        [OperationContract(Name = "APIHRProject_list")]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse getMTProjectList(string CompanyCode, string ProjectCode, string ProjectStatus);
+
         
     }
 }

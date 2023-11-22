@@ -1,0 +1,370 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "OPR API Interface",
+        "description": ""
+    },
+    "paths": {
+        "/BpcOpr.svc/BpcOpr/doAuthen2": {
+            "post": {
+                "tags": [
+                    "Authen"
+                ],
+                "summary": "BC/doAuthen",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRProject": {
+            "post": {
+                "tags": [
+                    "APIHRProject"
+                ],
+                "summary": "Create HR Project",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/APIHRProject"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRProject_list": {
+            "get": {
+                "tags": [
+                    "APIHRProject"
+                ],
+                "summary": "Get HR Project",
+                "description": "Get information about an HR project",
+                "parameters": [
+                    {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "OPR"
+                    },
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ProjectStatus",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "AuthRequest": {
+                "required": [
+                    "company_code",
+                    "usname",
+                    "pwd"
+                ],
+                "type": "object",
+                "properties": {
+                    "company_code": {
+                        "type": "string"
+                    },
+                    "usname": {
+                        "type": "string"
+                    },
+                    "pwd": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "company_code": "OPR",
+                    "usname": "Admin",
+                    "pwd": "1234"
+                }
+            },
+            "APIHRProject": {
+                "type": "object",
+                "required": [
+                    "ProjectCode",
+                    "ProjectNameTh",
+                    "ProjectNameEn",
+                    "ProjectNameSub",
+                    "ProjectCodeCentral",
+                    "ProjectProType",
+                    "ProjectProArea",
+                    "ProjectProBusiness",
+                    "CompanyCode",
+                    "ModifiedBy",
+                    "ProAddressNo",
+                    "ProvinceCode",
+                    "ProAddressZipCode",
+                    "ProAddressTel",
+                    "ProAddressEmail",
+                    "Contact"
+                ],
+                "properties": {
+                    "ProjectId": {
+                        "type": "integer"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "ProjectNameTh": {
+                        "type": "string"
+                    },
+                    "ProjectNameEn": {
+                        "type": "string"
+                    },
+                    "ProjectNameSub": {
+                        "type": "string"
+                    },
+                    "ProjectCodeCentral": {
+                        "type": "string"
+                    },
+                    "ProjectProType": {
+                        "type": "string"
+                    },
+                    "ProjectProArea": {
+                        "type": "string"
+                    },
+                    "ProjectProGroup": {
+                        "type": "string"
+                    },
+                    "ProjectProBusiness": {
+                        "type": "string"
+                    },
+                    "ProjectRoundTime": {
+                        "type": "string"
+                    },
+                    "ProjectRoundMoney": {
+                        "type": "string"
+                    },
+                    "ProjectProHoliday": {
+                        "type": "string"
+                    },
+                    "ProjectStatus": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "enum": [
+                            "W",
+                            "F"
+                        ],
+                        "format": "char"
+                    },
+                    "CompanyCode": {
+                        "type": "string"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    },
+                    "ProGroupCode": {
+                        "type": "string"
+                    },
+                    "ProAddressId": {
+                        "type": "integer"
+                    },
+                    "ProAddressType": {
+                        "type": "string",
+                        "format": "char"
+                    },
+                    "ProAddressNo": {
+                        "type": "string"
+                    },
+                    "ProAddressMoo": {
+                        "type": "string"
+                    },
+                    "ProAddressSoi": {
+                        "type": "string"
+                    },
+                    "ProAddressRoad": {
+                        "type": "string"
+                    },
+                    "ProAddressTambon": {
+                        "type": "string"
+                    },
+                    "ProAddressAmphur": {
+                        "type": "string"
+                    },
+                    "ProvinceCode": {
+                        "type": "string"
+                    },
+                    "ProAddressZipCode": {
+                        "type": "string"
+                    },
+                    "ProAddressTel": {
+                        "type": "string"
+                    },
+                    "ProAddressEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "ProAddressLine": {
+                        "type": "string"
+                    },
+                    "ProAddressFacebook": {
+                        "type": "string"
+                    },
+                    "Contact": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProContact"
+                        }
+                    }
+                },
+                "example": {
+                    "ProjectId": 0,
+                    "ProjectCode": "TEST01",
+                    "ProjectNameTh": "เทส",
+                    "ProjectNameEn": "Test",
+                    "ProjectNameSub": "TestTest",
+                    "ProjectCodeCentral": "1234",
+                    "ProjectProType": "2",
+                    "ProjectProArea": "12",
+                    "ProjectProGroup": "22",
+                    "ProjectProBusiness": "32",
+                    "ProjectRoundTime": "OT",
+                    "ProjectRoundMoney": "STD",
+                    "ProjectProHoliday": "2023",
+                    "ProjectStatus": "W",
+                    "CompanyCode": "OPR",
+                    "ModifiedBy": "Admin",
+                    "ProGroupCode": "",
+                    "ProAddressId": 0,
+                    "ProAddressType": "1",
+                    "ProAddressNo": "133",
+                    "ProAddressMoo": "7",
+                    "ProAddressSoi": "ทดสอบ",
+                    "ProAddressRoad": "ทดลอง",
+                    "ProAddressTambon": "Test",
+                    "ProAddressAmphur": "Testtest",
+                    "ProvinceCode": "10",
+                    "ProAddressZipCode": "10000",
+                    "ProAddressTel": "0989878876",
+                    "ProAddressEmail": "user@example.com",
+                    "ProAddressLine": "",
+                    "ProAddressFacebook": "",
+                    "Contact": [
+                        {
+                            "ProContactId": 0,
+                            "ProContactRef": "100",
+                            "ProContactFirstNameTh": "เทส",
+                            "ProContactLastNameTh": "ทดลอง",
+                            "ProContactFirstNameEn": "Test",
+                            "ProContactLastNameEn": "TestTest",
+                            "ProContactTel": "0898753336",
+                            "ProContactEmail": "user2@example.com",
+                            "PositionCode": "S",
+                            "InitialCode": "003"
+                        }
+                    ]
+                }
+            },
+            "ProContact": {
+                "type": "object",
+                "required": [
+                    "ProContactRef",
+                    "ProContactFirstNameTh",
+                    "ProContactLastNameTh",
+                    "ProContactFirstNameEn",
+                    "ProContactLastNameEn",
+                    "ProContactTel",
+                    "ProContactEmail",
+                    "PositionCode",
+                    "InitialCode"
+                ],
+                "properties": {
+                    "ProContactId": {
+                        "type": "integer"
+                    },
+                    "ProContactRef": {
+                        "type": "string"
+                    },
+                    "ProContactFirstNameTh": {
+                        "type": "string"
+                    },
+                    "ProContactLastNameTh": {
+                        "type": "string"
+                    },
+                    "ProContactFirstNameEn": {
+                        "type": "string"
+                    },
+                    "ProContactLastNameEn": {
+                        "type": "string"
+                    },
+                    "ProContactTel": {
+                        "type": "string"
+                    },
+                    "ProContactEmail": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "PositionCode": {
+                        "type": "string"
+                    },
+                    "InitialCode": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

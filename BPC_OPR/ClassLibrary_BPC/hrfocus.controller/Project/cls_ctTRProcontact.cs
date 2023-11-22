@@ -192,7 +192,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_TR_PROCONTACT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROCONTACT_REF='" + contact_ref + "'");
+                if (!contact_ref.Equals(""))
+                {
+                    obj_str.Append(" AND PROCONTACT_REF='" + contact_ref + "'");
+                }
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
