@@ -208,7 +208,6 @@ namespace BPC_OPR
             JObject output = new JObject();
             APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
             apihrprojectResponse.data = new List<APIHRProject>();
-            APIHRProject apihrproject = new APIHRProject();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
@@ -267,8 +266,8 @@ namespace BPC_OPR
                 string strID = controller.insert(model);
                 if (!strID.Equals(""))
                 {
+                    input.ProjectId = Convert.ToInt32(strID);
                     cls_TRProaddress modeladdress = new cls_TRProaddress();
-
                     modeladdress.proaddress_type = "1";
                     modeladdress.proaddress_no = input.ProAddressNo;
                     modeladdress.proaddress_moo = input.ProAddressMoo;
@@ -285,7 +284,6 @@ namespace BPC_OPR
                     modeladdress.project_code = input.ProjectCode;
 
                     modeladdress.modified_by = input.ModifiedBy;
-
                     bool blnResultaddres = controlleraddres.insert(modeladdress);
                     if (!blnResultaddres)
                     {
@@ -293,16 +291,19 @@ namespace BPC_OPR
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                         apihrprojectResponse.success = false;
                         apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
-                        apihrproject.ProjectCode = input.ProjectCode;
-                        apihrprojectResponse.data.Add(apihrproject);
+                        apihrprojectResponse.data.Add(input);
 
                         log.apilog_status = "500";
                         log.apilog_message = controlleraddres.getMessage();
                         return apihrprojectResponse;
                     }
-
+                    List<ProContact> dataContact = new List<ProContact>();
                     foreach (ProContact data in input.Contact)
                     {
+                        data.ModifiedBy = input.ModifiedBy;
+                        data.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                        data.ProjectCode = input.ProjectCode;
+                        dataContact.Add(data);
                         cls_TRProcontact modelcontact = new cls_TRProcontact();
                         modelcontact.procontact_ref = data.ProContactRef;
                         modelcontact.procontact_firstname_th = data.ProContactFirstNameTh;
@@ -314,7 +315,6 @@ namespace BPC_OPR
                         modelcontact.position_code = data.PositionCode;
                         modelcontact.initial_code = data.InitialCode;
                         modelcontact.project_code = input.ProjectCode;
-
                         modelcontact.modified_by = input.ModifiedBy;
 
                         bool blnResultcontact = controllercontact.insert(modelcontact);
@@ -326,20 +326,19 @@ namespace BPC_OPR
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                             apihrprojectResponse.success = false;
                             apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
-                            apihrproject.ProjectCode = input.ProjectCode;
-                            apihrprojectResponse.data.Add(apihrproject);
+                            apihrprojectResponse.data.Add(input);
 
                             log.apilog_status = "500";
                             log.apilog_message = controllercontact.getMessage();
                             return apihrprojectResponse;
                         }
                     }
+                    input.Contact = dataContact;
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
                     apihrprojectResponse.success = true;
                     apihrprojectResponse.message = "indicates that the request resulted in a new resource created before the response was sent.";
-                    apihrproject.ProjectId = Convert.ToInt32(strID);
-                    apihrproject.ProjectCode = input.ProjectCode;
-                    apihrprojectResponse.data.Add(apihrproject);
+                    apihrprojectResponse.data.Add(input);
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
@@ -349,8 +348,7 @@ namespace BPC_OPR
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                     apihrprojectResponse.success = false;
                     apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
-                    apihrproject.ProjectCode = input.ProjectCode;
-                    apihrprojectResponse.data.Add(apihrproject);
+                    apihrprojectResponse.data.Add(input);
 
                     log.apilog_status = "500";
                     log.apilog_message = controller.getMessage();
