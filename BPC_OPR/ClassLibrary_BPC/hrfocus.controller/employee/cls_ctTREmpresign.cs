@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary_BPC.hrfocus.controller
 {
-    public class cls_ctTRHospital
+    public class cls_ctTREmpresign
     {
         string Message = string.Empty;
 
         cls_ctConnection Obj_conn = new cls_ctConnection();
 
-        public cls_ctTRHospital() { }
+        public cls_ctTREmpresign() { }
 
-        public string getMessage() { return this.Message.Replace("EMP_TR_HOSPITAL", "").Replace("cls_ctTRHospital", "").Replace("line", ""); }
+        public string getMessage() { return this.Message.Replace("EMP_TR_RESIGN", "").Replace("cls_ctTREmpresign", "").Replace("line", ""); }
 
         public void dispose()
         {
             Obj_conn.doClose();
         }
 
-        private List<cls_TRHospital> getData(string condition)
+        private List<cls_TREmpresign> getData(string condition)
         {
-            List<cls_TRHospital> list_model = new List<cls_TRHospital>();
-            cls_TRHospital model;
+            List<cls_TREmpresign> list_model = new List<cls_TREmpresign>();
+            cls_TREmpresign model;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
@@ -36,38 +36,35 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("COMPANY_CODE");
                 obj_str.Append(", WORKER_CODE");
-                obj_str.Append(", EMPHOSPITAL_ID");
-                obj_str.Append(", ISNULL(EMPHOSPITAL_CODE, '') AS EMPHOSPITAL_CODE");
-                obj_str.Append(", EMPHOSPITAL_DATE");
-
-                obj_str.Append(", EMPHOSPITAL_ORDER");
-                obj_str.Append(", EMPHOSPITAL_ACTIVATE");
+                obj_str.Append(", EMPRESIGN_DATE");
+                obj_str.Append(", EMPRESIGN_ID");
+                obj_str.Append(", CARD_NO ");
+                obj_str.Append(", ISNULL(REASON_CODE, '') AS REASON_CODE");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
-                obj_str.Append(" FROM EMP_TR_HOSPITAL");
+                obj_str.Append(" FROM EMP_TR_RESIGN");
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
                     obj_str.Append(" " + condition);
 
-                obj_str.Append(" ORDER BY WORKER_CODE,EMPHOSPITAL_ORDER");
+                obj_str.Append(" ORDER BY WORKER_CODE");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    model = new cls_TRHospital();
+                    model = new cls_TREmpresign();
 
                     model.company_code = dr["COMPANY_CODE"].ToString();
                     model.worker_code = dr["WORKER_CODE"].ToString();
-                    model.emphospital_id = Convert.ToInt32(dr["EMPHOSPITAL_ID"]);
-                    model.emphospital_code = dr["EMPHOSPITAL_CODE"].ToString();
-                    model.emphospital_date = Convert.ToDateTime(dr["EMPHOSPITAL_DATE"]);
 
-                    model.emphospital_order = dr["EMPHOSPITAL_ORDER"].ToString();
-                    model.emphospital_activate = Convert.ToBoolean(dr["EMPHOSPITAL_ACTIVATE"]);
+                    model.card_no = dr["CARD_NO"].ToString();
+                    model.empresign_id = Convert.ToInt32(dr["EMPRESIGN_ID"]);
+                    model.empresign_date = Convert.ToDateTime(dr["EMPRESIGN_DATE"]);
+                    model.reason_code = dr["REASON_CODE"].ToString();
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -78,13 +75,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPHPT001:" + ex.ToString();
+                Message = "EMPRES001:" + ex.ToString();
             }
 
             return list_model;
         }
 
-        public List<cls_TRHospital> getDataByFillter(string com, string emp)
+        public List<cls_TREmpresign> getDataByFillter(string com, string emp, string date,string card)
         {
             string strCondition = "";
 
@@ -93,6 +90,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!emp.Equals(""))
                 strCondition += " AND WORKER_CODE='" + emp + "'";
+
+            if (!date.Equals(""))
+                strCondition += " AND EMPRESIGN_DATE='" + date + "'";
+
+            if (!card.Equals(""))
+                strCondition += " AND CARD_NO='" + card + "'";
 
             return this.getData(strCondition);
         }
@@ -104,9 +107,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ISNULL(EMPHOSPITAL_ID, 1) ");
-                obj_str.Append(" FROM EMP_TR_HOSPITAL");
-                obj_str.Append(" ORDER BY EMPHOSPITAL_ID DESC ");
+                obj_str.Append("SELECT ISNULL(EMPRESIGN_ID, 1) ");
+                obj_str.Append(" FROM EMP_TR_RESIGN");
+                obj_str.Append(" ORDER BY EMPRESIGN_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -117,27 +120,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPHPT002:" + ex.ToString();
+                Message = "EMPRES002:" + ex.ToString();
             }
 
             return intResult;
         }
 
-        public bool checkDataOld(string com, string emp,string id)
+        public bool checkDataOld(string com, string emp, string card)
         {
             bool blnResult = false;
             try
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT EMPHOSPITAL_ID");
-                obj_str.Append(" FROM EMP_TR_HOSPITAL");
+                obj_str.Append("SELECT EMPRESIGN_ID");
+                obj_str.Append(" FROM EMP_TR_RESIGN");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
-                obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
-                if(!id.ToString().Equals("")){
-                    obj_str.Append(" AND EMPHOSPITAL_ID='" + id + "' ");
-
+                obj_str.Append(" AND CARD_NO='" + card + "' ");
+                if (!emp.Equals(""))
+                {
+                    obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
                 }
+
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -148,7 +152,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPHPT003:" + ex.ToString();
+                Message = "EMPRES003:" + ex.ToString();
             }
 
             return blnResult;
@@ -163,9 +167,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("DELETE FROM EMP_TR_HOSPITAL");
+                obj_str.Append("DELETE FROM EMP_TR_RESIGN");
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "' ");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "' ");
+
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -173,13 +178,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 blnResult = false;
-                Message = "EMPHPT004:" + ex.ToString();
+                Message = "EMPPAY004:" + ex.ToString();
             }
 
             return blnResult;
         }
 
-        public bool insert(cls_TRHospital model)
+        public string insert(cls_TREmpresign model)
         {
             bool blnResult = false;
             string strResult = "";
@@ -187,24 +192,27 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code,model.emphospital_id.ToString()))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.card_no))
                 {
-                    return this.update(model);
+
+                    if (this.update(model))
+                        return model.card_no;
+                    else
+                        return "";
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("INSERT INTO EMP_TR_HOSPITAL");
+                obj_str.Append("INSERT INTO EMP_TR_RESIGN");
                 obj_str.Append(" (");
-                obj_str.Append("COMPANY_CODE ");
-                obj_str.Append(", WORKER_CODE ");
-                obj_str.Append(", EMPHOSPITAL_ID ");
-                obj_str.Append(", EMPHOSPITAL_CODE ");
-                obj_str.Append(", EMPHOSPITAL_DATE ");
+                obj_str.Append("EMPRESIGN_ID ");
+                obj_str.Append(", CARD_NO ");
+                obj_str.Append(", EMPRESIGN_DATE ");
+                obj_str.Append(", REASON_CODE ");
 
-                obj_str.Append(", EMPHOSPITAL_ORDER ");
-                obj_str.Append(", EMPHOSPITAL_ACTIVATE ");
+                obj_str.Append(", COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
 
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
@@ -212,14 +220,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" )");
 
                 obj_str.Append(" VALUES(");
-                obj_str.Append("@COMPANY_CODE ");
-                obj_str.Append(", @WORKER_CODE ");
-                obj_str.Append(", @EMPHOSPITAL_ID ");
-                obj_str.Append(", @EMPHOSPITAL_CODE ");
-                obj_str.Append(", @EMPHOSPITAL_DATE ");
+                obj_str.Append("@EMPRESIGN_ID ");
+                obj_str.Append(", @CARD_NO ");
+                obj_str.Append(", @EMPRESIGN_DATE ");
+                obj_str.Append(", @REASON_CODE ");
 
-                obj_str.Append(", @EMPHOSPITAL_ORDER ");
-                obj_str.Append(", @EMPHOSPITAL_ACTIVATE ");
+                obj_str.Append(", @COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -230,17 +237,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                model.emphospital_id = this.getNextID();
+                model.empresign_id = this.getNextID();
+
+                obj_cmd.Parameters.Add("@CARD_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CARD_NO"].Value = model.card_no;
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
 
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPHOSPITAL_ID"].Value = this.getNextID();
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPHOSPITAL_CODE"].Value = model.emphospital_code;
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPHOSPITAL_DATE"].Value = model.emphospital_date;
-
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_ORDER", SqlDbType.VarChar); obj_cmd.Parameters["@EMPHOSPITAL_ORDER"].Value = model.emphospital_order;
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_ACTIVATE", SqlDbType.Bit); obj_cmd.Parameters["@EMPHOSPITAL_ACTIVATE"].Value = model.emphospital_activate;
+                obj_cmd.Parameters.Add("@EMPRESIGN_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPRESIGN_ID"].Value = model.empresign_id;
+                obj_cmd.Parameters.Add("@EMPRESIGN_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPRESIGN_DATE"].Value = model.empresign_date;
+                obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -249,55 +255,51 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_conn.doClose();
                 blnResult = true;
-                strResult = model.emphospital_id.ToString();
+                strResult = model.empresign_id.ToString();
             }
             catch (Exception ex)
             {
-                Message = "EMPHPT005:" + ex.ToString();
+                Message = "EMPRES005:" + ex.ToString();
                 strResult = "";
             }
 
-            return blnResult;
+            return strResult;
         }
 
-        public bool update(cls_TRHospital model)
+        public bool update(cls_TREmpresign model)
         {
             bool blnResult = false;
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                obj_str.Append("UPDATE EMP_TR_HOSPITAL SET ");
+                obj_str.Append("UPDATE EMP_TR_RESIGN SET ");
 
-                obj_str.Append(" EMPHOSPITAL_CODE=@EMPHOSPITAL_CODE ");
-                obj_str.Append(", EMPHOSPITAL_DATE=@EMPHOSPITAL_DATE ");
-
-                obj_str.Append(", EMPHOSPITAL_ORDER=@EMPHOSPITAL_ORDER ");
-                obj_str.Append(", EMPHOSPITAL_ACTIVATE=@EMPHOSPITAL_ACTIVATE ");
+                obj_str.Append(" CARD_NO=@CARD_NO ");
+                obj_str.Append(", EMPRESIGN_DATE=@EMPRESIGN_DATE ");
+                obj_str.Append(", REASON_CODE=@REASON_CODE ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE "); ;
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
-                obj_str.Append(" AND EMPHOSPITAL_ID=@EMPHOSPITAL_ID ");
 
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPHOSPITAL_CODE"].Value = model.emphospital_code;
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPHOSPITAL_DATE"].Value = model.emphospital_date;
 
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_ORDER", SqlDbType.VarChar); obj_cmd.Parameters["@EMPHOSPITAL_ORDER"].Value = model.emphospital_order;
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_ACTIVATE", SqlDbType.Bit); obj_cmd.Parameters["@EMPHOSPITAL_ACTIVATE"].Value = model.emphospital_activate;
+
+                obj_cmd.Parameters.Add("@CARD_NO", SqlDbType.VarChar); obj_cmd.Parameters["@CARD_NO"].Value = model.card_no;
+                obj_cmd.Parameters.Add("@EMPRESIGN_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPRESIGN_DATE"].Value = model.empresign_date;
+                obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
-                obj_cmd.Parameters.Add("@EMPHOSPITAL_ID", SqlDbType.Int); obj_cmd.Parameters["@EMPHOSPITAL_ID"].Value = model.emphospital_id;
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -307,7 +309,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             }
             catch (Exception ex)
             {
-                Message = "EMPHPT006:" + ex.ToString();
+                Message = "EMPRES006:" + ex.ToString();
             }
 
             return blnResult;
