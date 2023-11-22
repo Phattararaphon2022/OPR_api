@@ -173,6 +173,11 @@ namespace BPC_OPR
         public string language { get; set; }
         [DataMember]
         public string project_code { get; set; }
+
+           [DataMember]
+        public string job_type { get; set; }
+
+        
         [DataMember]
         public string procontract_type { get; set; }
         [DataMember]
@@ -191,7 +196,11 @@ namespace BPC_OPR
         public string project_progroup { get; set; }
         [DataMember]
         public string project_probusiness { get; set; }
-
+         [DataMember]
+        public string responsiblearea { get; set; }
+         [DataMember]
+         public string proresponsible { get; set; }
+        
         [DataMember]
         public string job_code { get; set; }
 
@@ -224,6 +233,13 @@ namespace BPC_OPR
          public string procontract_todate { get; set; }
         [DataMember]
          public string include_resign { get; set; }
+        [DataMember]
+        public string projobemp_status { get; set; }
+
+         [DataMember]
+        public string proresponsible_position { get; set; }
+         [DataMember]
+         public string proresponsible_area { get; set; }
         
     }
 
@@ -738,5 +754,98 @@ namespace BPC_OPR
          public string modified_by { get; set; }
      }
 
+     [DataContract]
+     public class InputTRProImage
+     {
+         [DataMember]
+         public int proimages_no { get; set; }
+         [DataMember]
+         public string proimages_images { get; set; }
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string project_code { get; set; }
+
+         [DataMember]
+         public string modified_by { get; set; }
+         [DataMember]
+         public DateTime modified_date { get; set; }
+         [DataMember]
+         public int index { get; set; }
+     }
+
+     [DataContract]
+     public class InputProTRDocatt
+     {
+         [DataMember]
+         public string device_name { get; set; }
+         [DataMember]
+         public string ip { get; set; }
+         [DataMember]
+         public string username { get; set; }
+         [DataMember]
+         public string document_id { get; set; }
+
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string worker_code { get; set; }
+         [DataMember]
+         public string job_type { get; set; }
+         [DataMember]
+         public string document_name { get; set; }
+         [DataMember]
+         public string document_type { get; set; }
+         [DataMember]
+         public string document_path { get; set; }
+         [DataMember]
+         public string created_by { get; set; }
+         [DataMember]
+         public DateTime created_date { get; set; }
+         [DataMember]
+         public string project_code { get; set; }
+
+         [DataMember]
+         public string modified_by { get; set; }
+         [DataMember]
+         public DateTime modified_date { get; set; }
+         [DataMember]
+         public bool flag { get; set; }
+     }
+
+     public class InputMTResponsiblepos
+     {
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string responsiblepos_id { get; set; }
+         [DataMember]
+         public string responsiblepos_code { get; set; }
+         [DataMember]
+         public string responsiblepos_name_th { get; set; }
+         [DataMember]
+         public string responsiblepos_name_en { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+
+     }
+     public class InputMTResponsiblearea
+     {
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string responsiblearea_id { get; set; }
+         [DataMember]
+         public string responsiblearea_code { get; set; }
+         [DataMember]
+         public string responsiblearea_name_th { get; set; }
+         [DataMember]
+         public string responsiblearea_name_en { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+
+     }
 
 }

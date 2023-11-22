@@ -226,7 +226,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string com, string project, string worker, DateTime workdate)
+        public bool delete(string com, string project, string worker )
         {
             bool blnResult = true;
             try
@@ -239,9 +239,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" WHERE 1=1 ");
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND PROJECT_CODE='" + project + "'");
+ 
                 obj_str.Append(" AND WORKER_CODE='" + worker + "'");
-                obj_str.Append(" AND TIMECARD_WORKDATE='" + workdate.ToString(this.FormatDateDB) + "'");
-
+ 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
             }
@@ -942,6 +942,122 @@ namespace ClassLibrary_BPC.hrfocus.controller
             catch (Exception ex)
             {
                 Message = "ERROR::(Timecard.update)" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
+        public bool insertlist(string com, string project, List<cls_TRTimecard> list_model)
+        {
+            bool blnResult = false;
+            try
+            {
+
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("INSERT INTO ATT_TR_TIMECARD");
+                obj_str.Append(" (");
+                obj_str.Append("COMPANY_CODE ");
+                obj_str.Append(", WORKER_CODE ");
+                obj_str.Append(", PROJECT_CODE ");
+                obj_str.Append(", PROJOB_CODE ");
+
+                obj_str.Append(", SHIFT_CODE ");
+                obj_str.Append(", TIMECARD_WORKDATE ");
+                obj_str.Append(", TIMECARD_DAYTYPE ");
+                obj_str.Append(", TIMECARD_COLOR ");
+                obj_str.Append(", TIMECARD_LOCK ");
+                obj_str.Append(", CREATED_BY ");
+                obj_str.Append(", CREATED_DATE ");
+                obj_str.Append(", FLAG ");
+                obj_str.Append(" )");
+
+                obj_str.Append(" VALUES(");
+                obj_str.Append("@COMPANY_CODE ");
+                obj_str.Append(", @WORKER_CODE ");
+
+                obj_str.Append(", @PROJECT_CODE ");
+                obj_str.Append(", @PROJOB_CODE ");
+
+                obj_str.Append(", @SHIFT_CODE ");
+                obj_str.Append(", @TIMECARD_WORKDATE ");
+                obj_str.Append(", @TIMECARD_DAYTYPE ");
+                obj_str.Append(", @TIMECARD_COLOR ");
+                obj_str.Append(", @TIMECARD_LOCK ");
+                obj_str.Append(", @CREATED_BY ");
+                obj_str.Append(", @CREATED_DATE ");
+                obj_str.Append(", @FLAG ");
+                obj_str.Append(" )");
+
+                obj_conn.doConnect();
+
+                obj_conn.doOpenTransaction();
+
+                //-- Step 1 delete data old
+                string strWorkerID = "";
+                foreach (cls_TRTimecard model in list_model)
+                {
+                    strWorkerID += "'" + model.worker_code + "',";
+                }
+                if (strWorkerID.Length > 0)
+                    strWorkerID = strWorkerID.Substring(0, strWorkerID.Length - 1);
+
+                System.Text.StringBuilder obj_str2 = new System.Text.StringBuilder();
+
+                obj_str2.Append(" DELETE FROM ATT_TR_TIMECARD");
+                obj_str2.Append(" WHERE 1=1 ");
+                obj_str2.Append(" AND COMPANY_CODE='" + list_model[0].company_code + "'");
+
+                 obj_str2.Append(" AND WORKER_CODE IN (" + strWorkerID + ")");
+ 
+                blnResult = obj_conn.doExecuteSQL_transaction(obj_str2.ToString());
+
+                if (blnResult)
+                {
+
+                    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+                    obj_cmd.Transaction = obj_conn.getTransaction();
+
+                    obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
+
+                    obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime);
+                    obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit);
+
+                    foreach (cls_TRTimecard model in list_model)
+                    {
+
+                        obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                        obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+                        obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+
+                        obj_cmd.Parameters["@CREATED_BY"].Value = model.created_by;
+                        obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+                        obj_cmd.Parameters["@FLAG"].Value = false;
+
+                        obj_cmd.ExecuteNonQuery();
+                    }
+
+                    blnResult = obj_conn.doCommit();
+
+                    if (!blnResult)
+                        obj_conn.doRollback();
+                    obj_conn.doClose();
+
+                }
+                else
+                {
+                    obj_conn.doRollback();
+                    obj_conn.doClose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "PAYTRB007:" + ex.ToString();
             }
 
             return blnResult;

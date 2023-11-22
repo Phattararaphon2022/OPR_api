@@ -150,7 +150,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
        //
-        public List<cls_TRProjobemp> getDataByFillterAll(string project, string job, string com, string type, string searchemp)
+        public List<cls_TRProjobemp> getDataByFillterAll(string project, string job, string com, string type, string searchemp, string status)
         {
             string strCondition = "";
 
@@ -171,6 +171,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 strCondition += "AND (WORKER_CODE LIKE'" + searchemp + "%' OR WORKER_FNAME_TH LIKE '" + searchemp + "%' OR WORKER_LNAME_TH LIKE '" + searchemp + "%' OR WORKER_FNAME_EN LIKE '" + searchemp + "%' OR WORKER_LNAME_EN LIKE '" + searchemp + "%' OR WORKER_CARDNO LIKE '" + searchemp + "%')";
             }
+            if (!status.Equals(""))
+                strCondition += " AND PROJOBEMP_STATUS ='" + status + "'";
 
      
             return this.getData(strCondition);
@@ -434,5 +436,42 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-    }
+     ///
+        public bool update_status(cls_TRProjobemp model, string status)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+                obj_str.Append("UPDATE PRO_TR_PROJOBEMP SET ");
+
+                obj_str.Append(" PROJOBEMP_STATUS=@PROJOBEMP_STATUS ");
+
+                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
+                //obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+
+                obj_conn.doConnect();
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                obj_cmd.Parameters.Add("@PROJOBEMP_STATUS", SqlDbType.Char); obj_cmd.Parameters["@PROJOBEMP_STATUS"].Value = status;
+
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                //obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+
+                obj_cmd.ExecuteNonQuery();
+
+                obj_conn.doClose();
+
+                blnResult = true;
+            }
+            catch (Exception ex)
+            {
+                Message = "BNK008:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+}
 }

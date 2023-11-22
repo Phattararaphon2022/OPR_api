@@ -102,7 +102,11 @@
     <Compile Include="hrfocus.controller\Project\cls_ctMTProequipmenttype.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProgroup.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProarea.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctMTResponsiblearea.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctMTResponsiblepos.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctTRProDocatt.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctTRProequipmentreq.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctTRProimages.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTBlacklist.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTDocatt.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctMTReqRequest.cs" />
@@ -275,7 +279,11 @@
     <Compile Include="hrfocus.model\Project\cls_MTProequipmenttype.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProgroup.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProarea.cs" />
+    <Compile Include="hrfocus.model\Project\cls_MTResponsiblearea.cs" />
+    <Compile Include="hrfocus.model\Project\cls_MTResponsiblepos.cs" />
+    <Compile Include="hrfocus.model\Project\cls_TRProDocatt.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProequipmentreq.cs" />
+    <Compile Include="hrfocus.model\Project\cls_TRProimages.cs" />
     <Compile Include="hrfocus.model\Project\cls_TRProjobpol.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProjobversion.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRBonus.cs" />

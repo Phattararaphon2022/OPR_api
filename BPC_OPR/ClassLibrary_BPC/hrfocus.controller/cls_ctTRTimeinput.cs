@@ -103,7 +103,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!project.Equals("") && !job.Equals(""))
             {
-                strCondition += " AND ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
+                //strCondition += " AND ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
             }
 
 

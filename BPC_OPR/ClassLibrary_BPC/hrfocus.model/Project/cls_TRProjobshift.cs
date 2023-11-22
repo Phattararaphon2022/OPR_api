@@ -18,6 +18,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public bool projobshift_thu { get; set; }
         public bool projobshift_fri { get; set; }
         public bool projobshift_sat { get; set; }
+        public bool projobshift_ph { get; set; }
+
 
         public int projobshift_emp { get; set; }
         public int projobshift_working { get; set; }

@@ -497,6 +497,52 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
 
+                    case "PROJECT_DOCATT":
+                        dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+
+                                cls_ctTRProDocatt objReqworker = new cls_ctTRProDocatt();
+                                cls_TRProDocatt model = new cls_TRProDocatt();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
+                                model.company_code = dr["company_code"].ToString();
+                                model.project_code = dr["project_code"].ToString();
+
+                                model.job_type = dr["job_type"].ToString();
+                                model.document_name = dr["document_name"].ToString();
+                                model.document_type = dr["document_type"].ToString();
+                                model.document_path = dr["document_path"].ToString();
+
+                                model.modified_by = by;
+
+                                bool strID = objReqworker.insert(model);
+
+                                if (strID)
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.project_code);
+                                }
+
+                            }
+
+                            strResult = "";
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+                        }
+                        break;
+
+
 
                 }
 
