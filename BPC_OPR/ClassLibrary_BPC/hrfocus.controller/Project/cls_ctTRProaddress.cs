@@ -311,8 +311,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
 
-                obj_str.Append(" WHERE PROADDRESS_ID=@PROADDRESS_ID ");
+                if (!model.proaddress_id.Equals(0))
+                {
+                    obj_str.Append(" AND PROADDRESS_ID=@PROADDRESS_ID ");
+                }
               
 
                 obj_conn.doConnect();
@@ -334,9 +338,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
-
-                obj_cmd.Parameters.Add("@PROADDRESS_ID", SqlDbType.Int); obj_cmd.Parameters["@PROADDRESS_ID"].Value = model.proaddress_id;
-
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                if (!model.proaddress_id.Equals(0)){
+                    obj_cmd.Parameters.Add("@PROADDRESS_ID", SqlDbType.Int); obj_cmd.Parameters["@PROADDRESS_ID"].Value = model.proaddress_id;
+                }
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();

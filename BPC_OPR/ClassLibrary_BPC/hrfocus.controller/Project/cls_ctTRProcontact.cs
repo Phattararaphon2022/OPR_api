@@ -140,7 +140,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROCONTACT_REF");
                 obj_str.Append(" FROM PRO_TR_PROCONTACT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROCONTACT_REF='" + contact_ref + "'");
+                if (!contact_ref.Equals(""))
+                {
+                    obj_str.Append(" AND PROCONTACT_REF='" + contact_ref + "'");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -315,7 +318,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
-                obj_str.Append(" WHERE PROCONTACT_ID=@PROCONTACT_ID ");
+                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND PROCONTACT_ID=@PROCONTACT_ID ");
                
                 obj_conn.doConnect();
 
@@ -333,7 +337,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
 
-
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROCONTACT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROCONTACT_ID"].Value = model.procontact_id;
 
                 obj_cmd.ExecuteNonQuery();

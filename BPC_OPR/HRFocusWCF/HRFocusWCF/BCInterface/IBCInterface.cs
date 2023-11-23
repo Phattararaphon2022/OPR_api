@@ -19,9 +19,15 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageAPIHRJob(APIHRJob input);
 
+        #region APIHRProject
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse doManageAPIHRProject(APIHRProject input);
+        APIHRProjectResponse APIHRProjectCreate(APIHRProject input);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse APIHRProjectUpdate(APIHRProject input);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}&ProjectStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -29,8 +35,8 @@ namespace BPC_OPR
 
         [OperationContract]
         [WebInvoke(Method = "DELETE", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse doDeleteAPIHRProject(string com, string code);
+        APIHRProjectResponse APIHRProjectDelete(string com, string code);
+        #endregion
 
-        
     }
 }
