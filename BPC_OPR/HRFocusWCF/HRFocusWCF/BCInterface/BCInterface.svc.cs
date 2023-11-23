@@ -214,7 +214,7 @@ namespace BPC_OPR
 
 
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "BCO001.2";
+            log.apilog_code = "BCO001.1";
             log.apilog_by = input.ModifiedBy;
             log.apilog_data = tmp.ToString();
 
@@ -229,7 +229,6 @@ namespace BPC_OPR
 
                     log.apilog_status = "500";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
 
                     return apihrprojectResponse;
                 }
@@ -341,7 +340,7 @@ namespace BPC_OPR
                     apihrprojectResponse.data.Add(input);
 
                     log.apilog_status = "200";
-                    log.apilog_message = "";
+                    log.apilog_message = "indicates that the request resulted in a new resource created before the response was sent.";
                 }
                 else
                 {
@@ -372,17 +371,20 @@ namespace BPC_OPR
             return apihrprojectResponse;
         }
 
-        public APIHRProjectResponse getMTProjectList(string CompanyCode, string ProjectCode, string ProjectStatus)
+        public APIHRProjectResponse APIHRProjectList(string CompanyCode, string ProjectCode, string ProjectStatus)
         {
             JObject output = new JObject();
             APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
             apihrprojectResponse.data = new List<APIHRProject>();
             cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "PRO006.1";
+            log.apilog_code = "BCO001.2";
             log.apilog_data = "all";
+            log.apilog_by = "";
 
             try
             {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
@@ -392,7 +394,6 @@ namespace BPC_OPR
 
                     log.apilog_status = "500";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
-                    objBpcOpr.doRecordLog(log);
 
                     return apihrprojectResponse;
                 }
@@ -516,6 +517,80 @@ namespace BPC_OPR
             }
 
             return apihrprojectResponse;
+        }
+
+        public APIHRProjectResponse doDeleteAPIHRProject(string CompanyCode, string ProjectCode)
+        {
+            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO001.3";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return apihrprojectResponse;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+                cls_ctMTProject controller = new cls_ctMTProject();
+                cls_ctTRProaddress controlleraddres = new cls_ctTRProaddress();
+                cls_ctTRProcontact controllercontact = new cls_ctTRProcontact();
+                bool blnResult = controller.delete(ProjectCode,CompanyCode);
+
+                if (blnResult)
+                {
+                    controlleraddres.delete(ProjectCode, "");
+                    controllercontact.delete(ProjectCode, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    apihrprojectResponse.success = true;
+                    apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                apihrprojectResponse.success = false;
+                apihrprojectResponse.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return apihrprojectResponse;
+
         }
 
         

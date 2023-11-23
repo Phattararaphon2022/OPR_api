@@ -15,17 +15,21 @@ namespace BPC_OPR
     public interface IBCInterface
     {
 
-        [OperationContract(Name = "APIHRJob")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageAPIHRJob(APIHRJob input);
 
-        [OperationContract(Name = "APIHRProject")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         APIHRProjectResponse doManageAPIHRProject(APIHRProject input);
 
-        [OperationContract(Name = "APIHRProject_list")]
-        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse getMTProjectList(string CompanyCode, string ProjectCode, string ProjectStatus);
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}&ProjectStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse APIHRProjectList(string com, string code, string status);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse doDeleteAPIHRProject(string com, string code);
 
         
     }
