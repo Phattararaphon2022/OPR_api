@@ -6714,6 +6714,7 @@ namespace BPC_OPR
                         json.Add("combank_banktype", model.combank_banktype);
                         json.Add("combank_branch", model.combank_branch);
                         json.Add("name_detail", model.name_detail);
+                        json.Add("bank_code", model.bank_code);
 
 
 

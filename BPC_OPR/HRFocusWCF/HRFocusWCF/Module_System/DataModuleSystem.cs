@@ -167,6 +167,10 @@ namespace BPC_OPR
         public string comimages_id { get; set; }
         [DataMember]
         public string comimagesmaps_id { get; set; }
+        [DataMember]
+        public string combank_bankcode { get; set; }
+
+        
     }
 
     [DataContract]

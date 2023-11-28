@@ -92,6 +92,7 @@
     <Compile Include="hrfocus.controller\Payroll\cls_ctMTPlanreduce.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaybank.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaybonus.cs" />
+    <Compile Include="hrfocus.controller\Payroll\cls_ctTRPaypf.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPlanitems.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPlanreduce.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPolReduce.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="hrfocus.model\Payroll\cls_MTPlanreduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybank.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPaybonus.cs" />
+    <Compile Include="hrfocus.model\Payroll\cls_TRPaypf.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPayreduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPlanitems.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPlanreduce.cs" />
@@ -495,6 +497,7 @@
     <Compile Include="hrfocus.service\cls_srvProjectImport.cs" />
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
     <Compile Include="hrfocus.service\Payroll\cls_srvPayrollImport.cs" />
+    <Compile Include="hrfocus.service\Payroll\paytran.cs" />
     <Compile Include="hrfocus.service\Recruitment\cls_srvReqImport.cs" />
     <Compile Include="hrfocus.service\Payroll\cls_srvProcessPayroll.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
