@@ -383,6 +383,8 @@ namespace BPC_OPR
         public string level_group { get; set; }
          [DataMember]
         public string proequipmenttype_code { get; set; }
+        [DataMember]
+         public string referral_code { get; set; }
         
     }
 
