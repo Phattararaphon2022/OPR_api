@@ -498,6 +498,7 @@
     <Compile Include="hrfocus.service\cls_srvSystemImport.cs" />
     <Compile Include="hrfocus.service\Payroll\cls_srvPayrollImport.cs" />
     <Compile Include="hrfocus.service\Payroll\paytran.cs" />
+    <Compile Include="hrfocus.service\Payroll\XLWorkbook.cs" />
     <Compile Include="hrfocus.service\Recruitment\cls_srvReqImport.cs" />
     <Compile Include="hrfocus.service\Payroll\cls_srvProcessPayroll.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
