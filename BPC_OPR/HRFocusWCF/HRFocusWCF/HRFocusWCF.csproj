@@ -172,6 +172,7 @@
     </Content>
     <Content Include="ClassDiagram3.cd" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\OPR_service.pubxml" />
     <None Include="PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
