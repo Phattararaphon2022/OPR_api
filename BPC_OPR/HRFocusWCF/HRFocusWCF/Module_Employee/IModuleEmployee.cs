@@ -740,6 +740,46 @@ namespace BPC_OPR
         string DeleteFile(string file_Path);
         #endregion
 
+        #region TR_Paysuspend
+        [OperationContract(Name = "emppaysuspendlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRPaysuspendList(FillterWorker input);
+
+        [OperationContract(Name = "mppaysuspend")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRPaysuspend(InputWorkerTransaction input);
+
+        [OperationContract(Name = "mppaysuspend_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRPaysuspend(InputTREmpPaysuspend input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpPaysuspend?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpPaysuspend(string token, string by, string fileName, Stream stream, string com);
+
+        [OperationContract(Name = "setbatchpaysuspend")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doSetBatchPaysuspend(InputSetPaysuspend input);
+        #endregion
+
+        #region TR_Empresign
+        [OperationContract(Name = "empresignlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTREmpresignList(FillterWorker input);
+
+        [OperationContract(Name = "empresign")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTREmpresign(InputTREmpResign input);
+
+        [OperationContract(Name = "empresign_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTREmpresign(InputTREmpResign input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadEmpResign?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadEmpResign(string token, string by, string fileName, Stream stream, string com);
+        #endregion
+
         #endregion
     }
 }

@@ -5,12 +5,15 @@ using ClassLibrary_BPC.hrfocus.model;
 using ClassLibrary_BPC.hrfocus.model.Project;
 using ClassLibrary_BPC.hrfocus.service;
 using ClassLibrary_BPC.hrfocus.service.Payroll;
+using HRFocusWCF;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -199,6 +202,572 @@ namespace BPC_OPR
         }
         
         #endregion
+
+        public APIHRProjectResponse APIHRProjectCreate(APIHRProject input)
+        {
+            JObject output = new JObject();
+            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
+            apihrprojectResponse.data = new List<APIHRProject>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO001.1";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return apihrprojectResponse;
+                }
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                cls_ctTRProaddress controlleraddres = new cls_ctTRProaddress();
+                cls_ctTRProcontact controllercontact = new cls_ctTRProcontact();
+                cls_MTProject model = new cls_MTProject();
+
+                model.project_code = input.ProjectCode;
+                model.project_name_th = input.ProjectNameTh;
+                model.project_name_en = input.ProjectNameEn;
+
+                model.project_name_sub = input.ProjectNameSub;
+                model.project_codecentral = input.ProjectCodeCentral;
+                model.project_protype = input.ProjectProType;
+
+                model.project_proarea = input.ProjectProArea;
+                model.project_progroup = input.ProGroupCode;
+
+
+                model.project_probusiness = input.ProjectProBusiness;
+                //
+                model.project_roundtime = input.ProjectRoundTime;
+                model.project_roundmoney = input.ProjectRoundMoney;
+                model.project_proholiday = input.ProjectProHoliday;
+                //
+
+                model.project_status = input.ProjectStatus.ToString();
+                model.company_code = input.CompanyCode;
+
+                model.modified_by = input.ModifiedBy;
+
+                string strID = controller.insert(model);
+                if (!strID.Equals(""))
+                {
+                    input.ProjectId = Convert.ToInt32(strID);
+                    cls_TRProaddress modeladdress = new cls_TRProaddress();
+                    modeladdress.proaddress_type = "1";
+                    modeladdress.proaddress_no = input.ProAddressNo;
+                    modeladdress.proaddress_moo = input.ProAddressMoo;
+                    modeladdress.proaddress_soi = input.ProAddressSoi;
+                    modeladdress.proaddress_road = input.ProAddressRoad;
+                    modeladdress.proaddress_tambon = input.ProAddressTambon;
+                    modeladdress.proaddress_amphur = input.ProAddressAmphur;
+                    modeladdress.proaddress_zipcode = input.ProAddressZipCode;
+                    modeladdress.proaddress_tel = input.ProAddressTel;
+                    modeladdress.proaddress_email = input.ProAddressEmail;
+                    modeladdress.proaddress_line = input.ProAddressLine;
+                    modeladdress.proaddress_facebook = input.ProAddressFacebook;
+                    modeladdress.province_code = input.ProvinceCode;
+                    modeladdress.project_code = input.ProjectCode;
+
+                    modeladdress.modified_by = input.ModifiedBy;
+                    bool blnResultaddres = controlleraddres.insert(modeladdress);
+                    if (!blnResultaddres)
+                    {
+                        controller.delete(input.ProjectCode, input.CompanyCode);
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                        apihrprojectResponse.success = false;
+                        apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
+                        apihrprojectResponse.data.Add(input);
+
+                        log.apilog_status = "500";
+                        log.apilog_message = controlleraddres.getMessage();
+                        return apihrprojectResponse;
+                    }
+                    List<ProContact> dataContact = new List<ProContact>();
+                    foreach (ProContact data in input.Contact)
+                    {
+                        data.ModifiedBy = input.ModifiedBy;
+                        data.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                        data.ProjectCode = input.ProjectCode;
+                        dataContact.Add(data);
+                        cls_TRProcontact modelcontact = new cls_TRProcontact();
+                        modelcontact.procontact_ref = data.ProContactRef;
+                        modelcontact.procontact_firstname_th = data.ProContactFirstNameTh;
+                        modelcontact.procontact_lastname_th = data.ProContactLastNameTh;
+                        modelcontact.procontact_firstname_en = data.ProContactFirstNameEn;
+                        modelcontact.procontact_lastname_en = data.ProContactLastNameEn;
+                        modelcontact.procontact_tel = data.ProContactTel;
+                        modelcontact.procontact_email = data.ProContactEmail;
+                        modelcontact.position_code = data.PositionCode;
+                        modelcontact.initial_code = data.InitialCode;
+                        modelcontact.project_code = input.ProjectCode;
+                        modelcontact.modified_by = input.ModifiedBy;
+
+                        bool blnResultcontact = controllercontact.insert(modelcontact);
+                        if (!blnResultcontact)
+                        {
+                            controller.delete(input.ProjectCode, input.CompanyCode);
+                            controlleraddres.delete(input.ProjectCode, "");
+                            controllercontact.delete(input.ProjectCode, "");
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            apihrprojectResponse.success = false;
+                            apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
+                            apihrprojectResponse.data.Add(input);
+
+                            log.apilog_status = "500";
+                            log.apilog_message = controllercontact.getMessage();
+                            return apihrprojectResponse;
+                        }
+                    }
+                    input.Contact = dataContact;
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
+                    apihrprojectResponse.success = true;
+                    apihrprojectResponse.message = "indicates that the request resulted in a new resource created before the response was sent.";
+                    apihrprojectResponse.data.Add(input);
+
+                    log.apilog_status = "201";
+                    log.apilog_message = "indicates that the request resulted in a new resource created before the response was sent.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
+                    apihrprojectResponse.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                apihrprojectResponse.success = false;
+                apihrprojectResponse.message = ex.ToString();
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return apihrprojectResponse;
+        }
+
+        public APIHRProjectResponse APIHRProjectUpdate(APIHRProject input)
+        {
+            JObject output = new JObject();
+            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
+            apihrprojectResponse.data = new List<APIHRProject>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO001.2";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return apihrprojectResponse;
+                }
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                cls_ctTRProaddress controlleraddres = new cls_ctTRProaddress();
+                cls_ctTRProcontact controllercontact = new cls_ctTRProcontact();
+                cls_MTProject model = new cls_MTProject();
+
+                model.project_code = input.ProjectCode;
+                model.project_name_th = input.ProjectNameTh;
+                model.project_name_en = input.ProjectNameEn;
+
+                model.project_name_sub = input.ProjectNameSub;
+                model.project_codecentral = input.ProjectCodeCentral;
+                model.project_protype = input.ProjectProType;
+
+                model.project_proarea = input.ProjectProArea;
+                model.project_progroup = input.ProGroupCode;
+
+
+                model.project_probusiness = input.ProjectProBusiness;
+                //
+                model.project_roundtime = input.ProjectRoundTime;
+                model.project_roundmoney = input.ProjectRoundMoney;
+                model.project_proholiday = input.ProjectProHoliday;
+                //
+
+                model.project_status = input.ProjectStatus.ToString();
+                model.company_code = input.CompanyCode;
+
+                model.modified_by = input.ModifiedBy;
+                bool strID = false;
+                if (controller.checkDataOld(input.ProjectCode, input.CompanyCode, input.ProjectId.ToString()))
+                {
+                    strID = controller.update(model);
+                  }
+                if (strID)
+                {
+                    cls_TRProaddress modeladdress = new cls_TRProaddress();
+                    modeladdress.proaddress_type = "1";
+                    modeladdress.proaddress_no = input.ProAddressNo;
+                    modeladdress.proaddress_moo = input.ProAddressMoo;
+                    modeladdress.proaddress_soi = input.ProAddressSoi;
+                    modeladdress.proaddress_road = input.ProAddressRoad;
+                    modeladdress.proaddress_tambon = input.ProAddressTambon;
+                    modeladdress.proaddress_amphur = input.ProAddressAmphur;
+                    modeladdress.proaddress_zipcode = input.ProAddressZipCode;
+                    modeladdress.proaddress_tel = input.ProAddressTel;
+                    modeladdress.proaddress_email = input.ProAddressEmail;
+                    modeladdress.proaddress_line = input.ProAddressLine;
+                    modeladdress.proaddress_facebook = input.ProAddressFacebook;
+                    modeladdress.province_code = input.ProvinceCode;
+                    modeladdress.project_code = input.ProjectCode;
+
+                    modeladdress.modified_by = input.ModifiedBy;
+                    bool blnResultaddres = false;
+                    if (controlleraddres.checkDataOld(input.ProjectCode, modeladdress.proaddress_type))
+                    {
+                        blnResultaddres = controlleraddres.update(modeladdress);
+                    }
+                    if (!blnResultaddres)
+                    {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                        apihrprojectResponse.success = false;
+                        apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
+                        apihrprojectResponse.data.Add(input);
+
+                        log.apilog_status = "400";
+                        log.apilog_message = controlleraddres.getMessage();
+                        return apihrprojectResponse;
+                    }
+                    List<ProContact> dataContact = new List<ProContact>();
+                    foreach (ProContact data in input.Contact)
+                    {
+                        data.ModifiedBy = input.ModifiedBy;
+                        data.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                        data.ProjectCode = input.ProjectCode;
+                        dataContact.Add(data);
+                        cls_TRProcontact modelcontact = new cls_TRProcontact();
+                        modelcontact.procontact_id = data.ProContactId;
+                        modelcontact.procontact_ref = data.ProContactRef;
+                        modelcontact.procontact_firstname_th = data.ProContactFirstNameTh;
+                        modelcontact.procontact_lastname_th = data.ProContactLastNameTh;
+                        modelcontact.procontact_firstname_en = data.ProContactFirstNameEn;
+                        modelcontact.procontact_lastname_en = data.ProContactLastNameEn;
+                        modelcontact.procontact_tel = data.ProContactTel;
+                        modelcontact.procontact_email = data.ProContactEmail;
+                        modelcontact.position_code = data.PositionCode;
+                        modelcontact.initial_code = data.InitialCode;
+                        modelcontact.project_code = input.ProjectCode;
+                        modelcontact.modified_by = input.ModifiedBy;
+                        bool blnResultcontact = false;
+                        if (controllercontact.checkDataOld(input.ProjectCode, ""))
+                        {
+                            blnResultcontact = controllercontact.update(modelcontact);
+                        }
+                        if (!blnResultcontact)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            apihrprojectResponse.success = false;
+                            apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
+                            apihrprojectResponse.data.Add(input);
+
+                            log.apilog_status = "400";
+                            log.apilog_message = controllercontact.getMessage();
+                            return apihrprojectResponse;
+                        }
+                    }
+                    input.Contact = dataContact;
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    apihrprojectResponse.success = true;
+                    apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    apihrprojectResponse.data.Add(input);
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
+                    apihrprojectResponse.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                apihrprojectResponse.success = false;
+                apihrprojectResponse.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return apihrprojectResponse;
+        }
+
+        public APIHRProjectResponse APIHRProjectList(string CompanyCode, string ProjectCode, string ProjectStatus)
+        {
+            JObject output = new JObject();
+            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
+            apihrprojectResponse.data = new List<APIHRProject>();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO001.3";
+            log.apilog_data = "all";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return apihrprojectResponse;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+
+                cls_ctMTProject controller = new cls_ctMTProject();
+                List<cls_MTProject> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, ProjectCode == null ? "" : ProjectCode, "", "", "", "", "", ProjectStatus == null ? "" : ProjectStatus);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_MTProject data in list)
+                    {
+                        APIHRProject apihrproject = new APIHRProject();
+                        apihrproject.ProjectId = data.project_id;
+                        apihrproject.CompanyCode = data.company_code;
+                        apihrproject.ProjectCode = data.project_code;
+                        apihrproject.ProjectNameTh = data.project_name_th;
+                        apihrproject.ProjectNameEn = data.project_name_en;
+                        apihrproject.ProjectNameSub = data.project_name_sub;
+                        apihrproject.ProjectCodeCentral = data.project_codecentral;
+                        apihrproject.ProjectProType = data.project_protype;
+                        apihrproject.ProjectProArea = data.project_proarea;
+                        apihrproject.ProjectProGroup = data.project_progroup;
+                        apihrproject.ProjectProBusiness = data.project_probusiness;
+                        apihrproject.ProjectRoundTime = data.project_roundtime;
+                        apihrproject.ProjectRoundMoney = data.project_roundmoney;
+                        apihrproject.ProjectProHoliday = data.project_proholiday;
+                        apihrproject.ProjectStatus = Convert.ToChar(data.project_status);
+                        apihrproject.ProGroupCode = "";
+                        apihrproject.ModifiedBy = data.modified_by;
+                        apihrproject.ModifiedDate = data.modified_date.ToString("dd/MM/yy");
+                        // ProAddress
+                        cls_ctTRProaddress controlleraddres = new cls_ctTRProaddress();
+                        List<cls_TRProaddress> listaddres = controlleraddres.getDataByFillter(data.project_code);
+                        if (listaddres.Count > 0)
+                        {
+                            cls_TRProaddress dataaddres = listaddres[0];
+                            apihrproject.ProAddressId = dataaddres.proaddress_id;
+                            apihrproject.ProAddressType = Convert.ToChar(dataaddres.proaddress_type);
+                            apihrproject.ProAddressNo = dataaddres.proaddress_no;
+                            apihrproject.ProAddressMoo = dataaddres.proaddress_moo;
+                            apihrproject.ProAddressSoi = dataaddres.proaddress_soi;
+                            apihrproject.ProAddressRoad = dataaddres.proaddress_road;
+                            apihrproject.ProAddressTambon = dataaddres.proaddress_tambon;
+                            apihrproject.ProAddressAmphur = dataaddres.proaddress_amphur;
+                            apihrproject.ProvinceCode = dataaddres.province_code;
+                            apihrproject.ProAddressZipCode = dataaddres.proaddress_zipcode;
+                            apihrproject.ProAddressTel = dataaddres.proaddress_tel;
+                            apihrproject.ProAddressEmail = dataaddres.proaddress_email;
+                            apihrproject.ProAddressLine = dataaddres.proaddress_line;
+                            apihrproject.ProAddressFacebook = dataaddres.proaddress_facebook;
+                            apihrproject.ProjectCode = dataaddres.project_code;
+                            apihrproject.ModifiedBy = dataaddres.modified_by;
+                            apihrproject.ModifiedDate = dataaddres.modified_date.ToString("dd/MM/yyyy");
+
+                        }
+                        // ProContact
+
+                        apihrproject.Contact = new List<ProContact>();
+                        cls_ctTRProcontact controllercontact = new cls_ctTRProcontact();
+                        List<cls_TRProcontact> listcontact = controllercontact.getDataByFillter(data.project_code);
+                        if (listcontact.Count > 0)
+                        {
+                            foreach (cls_TRProcontact datacontact in listcontact)
+                            {
+                                ProContact modelcontact = new ProContact();
+                                modelcontact.ProContactId = datacontact.procontact_id;
+                                modelcontact.ProContactRef = datacontact.procontact_ref;
+                                modelcontact.ProContactFirstNameTh = datacontact.procontact_firstname_th;
+                                modelcontact.ProContactLastNameTh = datacontact.procontact_lastname_th;
+                                modelcontact.ProContactFirstNameEn = datacontact.procontact_firstname_en;
+                                modelcontact.ProContactLastNameEn = datacontact.procontact_lastname_en;
+                                modelcontact.ProContactTel = datacontact.procontact_tel;
+                                modelcontact.ProContactEmail = datacontact.procontact_email;
+                                modelcontact.PositionCode = datacontact.position_code;
+                                modelcontact.InitialCode = datacontact.initial_code;
+                                modelcontact.ProjectCode = datacontact.project_code;
+                                modelcontact.ModifiedBy = datacontact.modified_by;
+                                modelcontact.ModifiedDate = datacontact.modified_date.ToString("dd/MM/yyyy");
+                                apihrproject.Contact.Add(modelcontact);
+                            }
+                        }
+                        apihrprojectResponse.data.Add(apihrproject);
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                apihrprojectResponse.success = true;
+                apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                log.apilog_status = "200";
+                log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                apihrprojectResponse.success = false;
+                apihrprojectResponse.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return apihrprojectResponse;
+        }
+
+        public APIHRProjectResponse APIHRProjectDelete(string CompanyCode, string ProjectCode)
+        {
+            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO001.4";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return apihrprojectResponse;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+                cls_ctMTProject controller = new cls_ctMTProject();
+                cls_ctTRProaddress controlleraddres = new cls_ctTRProaddress();
+                cls_ctTRProcontact controllercontact = new cls_ctTRProcontact();
+                bool blnResult = controller.delete(ProjectCode,CompanyCode);
+
+                if (blnResult)
+                {
+                    controlleraddres.delete(ProjectCode, "");
+                    controllercontact.delete(ProjectCode, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    apihrprojectResponse.success = true;
+                    apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    apihrprojectResponse.success = false;
+                    apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
+                    log.apilog_status = "400";
+                    log.apilog_message = "indicates that the request could not be understood by the server.";
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                apihrprojectResponse.success = false;
+                apihrprojectResponse.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return apihrprojectResponse;
+
+        }
+
         
     }
 }

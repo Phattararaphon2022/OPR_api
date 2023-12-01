@@ -38,6 +38,95 @@ namespace BPC_OPR
         public static string PwdAuthen = "2022*";
         
         string UserToken = string.Empty;
+
+        public AuthResponse doAuthen2(RequestData input)
+        {
+            AuthResponse authResponse = new AuthResponse();
+            authResponse.data = new List<UserData>();
+            cls_SYSApilog log = new cls_SYSApilog();
+            // ... (initialize log properties)
+            log.apilog_code = "ATH001";
+            log.apilog_by = input.usname;
+            log.apilog_data = "";
+
+            try
+            {
+                // ... (existing code)
+                cls_ctMTAccount Account = new cls_ctMTAccount();
+                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "", 0, "");
+                authResponse.success = input.usname.Equals(list[0].account_user) && input.pwd.Equals(list[0].account_pwd);
+                if (authResponse.success)
+                {
+                    RequestData aa = new RequestData();
+                    aa.usname = input.usname;
+                    aa.pwd = input.pwd;
+                    aa.company_code = input.company_code;
+                    ResponseData bb = Login(aa);
+
+                    authResponse.token = bb.token;
+
+                    // Convert the array to a List<UserData>
+                    foreach (var model in list)
+                    {
+                        UserData userData = new UserData
+                        {
+                            CompanyCode = model.company_code,
+                            AccountUser = model.account_user,
+                            // ... set other properties
+                        };
+
+                        authResponse.data.Add(userData);
+                    }
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    authResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    authResponse.message = "indicates that the requested resource does not exist on the server.";
+                    authResponse.success = false;
+                    log.apilog_status = "404";
+                    log.apilog_message = "No access rights";
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                }
+            }
+            catch (Exception ex)
+            {
+                authResponse.success = false;
+                authResponse.message = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                // ... (existing code)
+            }
+
+            return authResponse;
+        }
+
+        //public AuthResponse doAuthen(RequestData input)
+        //{
+        //    List<Person> players = new List<Person>();
+        //    players.Add(new Person("Peyton", "Manning", 35));
+        //    players.Add(new Person("Drew", "Brees", 31));
+        //    players.Add(new Person("Tony", "Romo", 29));
+        //    listdata output = new listdata(players);
+        //    List<AuthResponse> output = new List<AuthResponse>();
+        //    AuthResponse tt = new AuthResponse();
+        //    datatest uu = new datatest();
+        //    List<datatest> yy = new List<datatest>();
+        //    uu.Message = "TESTsss";
+        //    tt.Success = true;
+        //    tt.Message = "TEST";
+        //    yy.Add(uu);
+        //    tt.UserData = yy;
+        //    output.Add(tt);
+        //    return tt;
+        //}
         public string doAuthen(RequestData input)
         {
             JObject output = new JObject();
@@ -50,7 +139,7 @@ namespace BPC_OPR
             try
             {
                 cls_ctMTAccount Account = new cls_ctMTAccount();
-                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "",0,"");
+                List<cls_MTAccount> list = Account.getDataByFillter(input.company_code, input.usname, "", 0, "");
 
                 JArray array = new JArray();
 
@@ -410,6 +499,37 @@ namespace BPC_OPR
         public DateTime timestamp { get; set; }
         [DataMember(Order = 9)]
         public string userName { get; set; }
+    }
+
+    public class Person
+    {
+        [DataMember]
+        public string FirstName { get; set; }
+
+        [DataMember]
+        public string LastName { get; set; }
+
+        [DataMember]
+        public int Age { get; set; }
+
+        public Person(string firstName, string lastName, int age)
+        {
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Age = age;
+        }
+    }
+    [DataContract]
+    public class listdata
+    {
+
+        [DataMember]
+        public List<Person> data { get; set; }
+
+        public listdata(List<Person> data)
+        {
+            this.data = data;
+        }
     }
 
     

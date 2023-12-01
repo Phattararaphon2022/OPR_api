@@ -91,6 +91,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime worker_socialnoexpiredate { get; set; }
         public DateTime worker_socialsentdate { get; set; }
         public bool worker_socialnotsent { get; set; }
+        //--
+        public string worker_emergency_tel { get; set; }
+        public string worker_emergency_name { get; set; }
+        public string worker_emergency_address { get; set; }
 
 
     }

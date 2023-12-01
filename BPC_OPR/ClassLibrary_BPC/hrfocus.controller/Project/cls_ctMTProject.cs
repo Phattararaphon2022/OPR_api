@@ -304,7 +304,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM PRO_MT_PROJECT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + code + "'");
                 obj_str.Append(" AND COMPANY_CODE ='" + com + "'");
-                obj_str.Append(" AND PROJECT_ID ='" + id + "'");
+                if (!id.Equals("") && !id.Equals("0"))
+                {
+                    obj_str.Append(" AND PROJECT_ID ='" + id + "'");
+                }
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -378,7 +381,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-                int id = this.getNextID();
+                model.project_id = this.getNextID();
 
                 obj_str.Append("INSERT INTO PRO_MT_PROJECT");
                 obj_str.Append(" (");
@@ -437,7 +440,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = this.getNextID();
+                obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = model.project_id;
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJECT_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_NAME_TH"].Value = model.project_name_th;
                 obj_cmd.Parameters.Add("@PROJECT_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_NAME_EN"].Value = model.project_name_en;
@@ -511,7 +514,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" WHERE COMPANY_CODE=@COMPANY_CODE ");
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
-                obj_str.Append(" AND PROJECT_ID=@PROJECT_ID ");
+                if (!model.project_id.Equals(0))
+                {
+                    obj_str.Append(" AND PROJECT_ID=@PROJECT_ID ");
+                }
 
                 obj_conn.doConnect();
 
@@ -543,7 +549,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
-                obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = model.project_id;
+                if (!model.project_id.Equals(0)){
+
+                    obj_cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int); obj_cmd.Parameters["@PROJECT_ID"].Value = model.project_id;
+                }
+ 
 
                 obj_cmd.ExecuteNonQuery();
 

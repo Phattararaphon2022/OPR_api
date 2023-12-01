@@ -103,6 +103,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(SELF_ADMIN, 0) AS SELF_ADMIN");
 
+                obj_str.Append(", ISNULL(WORKER_EMERGENCY_TEL, '') AS WORKER_EMERGENCY_TEL");
+                obj_str.Append(", ISNULL(WORKER_EMERGENCY_NAME, '') AS WORKER_EMERGENCY_NAME");
+                obj_str.Append(", ISNULL(WORKER_EMERGENCY_ADDRESS, '') AS WORKER_EMERGENCY_ADDRESS");
+
                 obj_str.Append(" FROM EMP_MT_WORKER");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_WORKER.WORKER_INITIAL=EMP_MT_INITIAL.INITIAL_CODE");
 
@@ -192,6 +196,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.self_admin = Convert.ToBoolean(dr["SELF_ADMIN"]);
 
+                    model.worker_emergency_tel = dr["WORKER_EMERGENCY_TEL"].ToString();
+                    model.worker_emergency_name = dr["WORKER_EMERGENCY_NAME"].ToString();
+                    model.worker_emergency_address = dr["WORKER_EMERGENCY_ADDRESS"].ToString();
+
                     list_model.Add(model);
                 }
 
@@ -237,8 +245,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, DateTime date_fill, string empstatus, bool worker_blackliststatus,string project_code)
+        public List<cls_MTWorker> getDataByFillterAll(string com, string worker_code, string emptype, string searchemp, string level_code, string dep_code, string position_code, string group_code, bool include_resign, string location_code, string empstatus, bool worker_blackliststatus, string project_code, string project_job,bool periodresign,string fromdate,string todate)
         {
+
             string strCondition = "";
 
 
@@ -271,13 +280,25 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!project_code.Equals(""))
             {
-                strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + "' )";
+                if (!project_job.Equals(""))
+                {
+                    strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + " AND PROJOB_CODE='"+project_job+"'' )";
+                }
+                else
+                {
+                    strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + "' )";
+                }
             }
 
 
             if (!include_resign)
             {
                 strCondition += " AND (WORKER_RESIGNSTATUS='0' OR WORKER_RESIGNSTATUS IS NULL) ";
+            }
+
+            if (periodresign)
+            {
+                strCondition += " AND WORKER_RESIGNDATE BETWEEN '" + fromdate + "' AND '" + todate + "' ";
             }
 
             if (!empstatus.Equals(""))
@@ -515,6 +536,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", WORKER_SOCIALNOTSENT ");
 
+                obj_str.Append(", WORKER_EMERGENCY_TEL ");
+                obj_str.Append(", WORKER_EMERGENCY_NAME ");
+                obj_str.Append(", WORKER_EMERGENCY_ADDRESS ");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -595,6 +620,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", @WORKER_SOCIALSENTDATE ");
                 }
                 obj_str.Append(", @WORKER_SOCIALNOTSENT ");
+
+                obj_str.Append(", @WORKER_EMERGENCY_TEL ");
+                obj_str.Append(", @WORKER_EMERGENCY_NAME ");
+                obj_str.Append(", @WORKER_EMERGENCY_ADDRESS ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -684,6 +713,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
                 }
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNOTSENT", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_SOCIALNOTSENT"].Value = model.worker_socialnotsent;
+
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_TEL"].Value = model.worker_emergency_tel;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_NAME"].Value = model.worker_emergency_name;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_ADDRESS", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_ADDRESS"].Value = model.worker_emergency_address;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -787,6 +820,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_str.Append(", WORKER_SOCIALNOTSENT=@WORKER_SOCIALNOTSENT ");
 
+                obj_str.Append(", WORKER_EMERGENCY_TEL=@WORKER_EMERGENCY_TEL ");
+                obj_str.Append(", WORKER_EMERGENCY_NAME=@WORKER_EMERGENCY_NAME ");
+                obj_str.Append(", WORKER_EMERGENCY_ADDRESS=@WORKER_EMERGENCY_ADDRESS ");
+
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
                 obj_str.Append(", FLAG=@FLAG ");
@@ -873,6 +910,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@WORKER_SOCIALSENTDATE", SqlDbType.DateTime); obj_cmd.Parameters["@WORKER_SOCIALSENTDATE"].Value = model.worker_socialsentdate;
                 }
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNOTSENT", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_SOCIALNOTSENT"].Value = model.worker_socialnotsent;
+
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_TEL"].Value = model.worker_emergency_tel;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_NAME"].Value = model.worker_emergency_name;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_ADDRESS", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_ADDRESS"].Value = model.worker_emergency_address;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
