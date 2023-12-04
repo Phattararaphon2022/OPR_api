@@ -2170,7 +2170,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                             ExcelLibrary.DataSetHelper.CreateWorkbook(filepath, ds);
 
-                            strResult = filename;
+                            strResult = filepath;
 
                         }
                         catch (Exception ex)
