@@ -282,7 +282,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
                 if (!project_job.Equals(""))
                 {
-                    strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + " AND PROJOB_CODE='"+project_job+"'' )";
+                    strCondition += " AND WORKER_CODE IN (SELECT DISTINCT PROJOBEMP_EMP FROM PRO_TR_PROJOBEMP WHERE PROJECT_CODE='" + project_code + "' AND PROJOB_CODE='"+project_job+"' )";
                 }
                 else
                 {

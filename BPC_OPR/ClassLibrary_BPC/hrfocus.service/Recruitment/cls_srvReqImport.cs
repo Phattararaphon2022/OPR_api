@@ -55,6 +55,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                     case "REQWORKER":
 
                         DataTable dtreqworker = doReadExcel(filename);
+                        int next = 0;
                         if (dtreqworker.Rows.Count > 0)
                         {
                             foreach (DataRow dr in dtreqworker.Rows)
@@ -66,7 +67,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 {
                                     continue;
                                 }
-                                string code = this.getnewcode();
+                                string code = this.getnewcode()+ (next++).ToString("0000");
                                 model.company_code = dr["company_code"].ToString();
                                 model.worker_code = code;
                                 model.worker_card = code;
@@ -729,7 +730,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
         private string getnewcode()
         {
-            string newcode = "REQ" + DateTime.Now.ToString("yyyyMMddHHmm");
+            string newcode = "REQ" + DateTime.Now.ToString("yyyyMMdd");
 
             return newcode;
         }

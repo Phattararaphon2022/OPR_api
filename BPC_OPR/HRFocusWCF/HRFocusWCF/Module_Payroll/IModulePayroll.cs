@@ -317,5 +317,23 @@ namespace BPC_OPR
         Task<string> doUploadMTPlanitems(string token, string by, string fileName, Stream stream, string com);
 
         #endregion
+
+        #region Referral
+        [OperationContract(Name = "referral_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getReferralList(BasicRequest req);
+
+        [OperationContract(Name = "referral")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageReferral(InputMTReferral input);
+
+        [OperationContract(Name = "referral_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteReferral(InputMTReferral input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadReferral?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadReferral(string token, string by, string fileName, Stream stream, string com);
+        #endregion
     }
 }

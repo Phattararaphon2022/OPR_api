@@ -23,5 +23,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime modified_date { get; set; }
         public bool flag { get; set; }
         public double empsuggest_amount { get; set; }
+
+        public string empsuggest_suggest { get; set; }
+
     }
 }
