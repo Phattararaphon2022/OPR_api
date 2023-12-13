@@ -58,6 +58,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", SYS_MT_BANK.BANK_NAME_TH AS NAME_DETAIL");
                  }
 
+                obj_str.Append(", ISNULL(SYS_MT_BANK.BANK_CODE, '' ) AS BANK_CODE");
 
                 obj_str.Append(" FROM SYS_MT_COMBANkK");
                 obj_str.Append(" INNER JOIN SYS_MT_BANK  ON SYS_MT_COMBANkK.COMBANK_BANKCODE = SYS_MT_BANK.BANK_CODE ");
@@ -87,6 +88,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.combank_banktype = dr["COMBANK_BANKTYPE"].ToString();
                     model.combank_branch = dr["COMBANK_BRANCH"].ToString();
                     model.name_detail = dr["NAME_DETAIL"].ToString();
+
+                    model.bank_code = dr["BANK_CODE"].ToString();
 
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();

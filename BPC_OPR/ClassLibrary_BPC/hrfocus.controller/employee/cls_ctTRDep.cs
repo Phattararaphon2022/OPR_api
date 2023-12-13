@@ -115,6 +115,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+
+        public List<cls_TRDep> getDataTaxMultipleEmp(string com, string worker, DateTime paydate)///แก้ตรงนี้
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND WORKER_CODE IN (" + worker + ") ";
+            //strCondition += " AND EMPDEP_DATE='" + Convert.ToDateTime(paydate) + "'";
+
+
+            strCondition += " AND EMPDEP_DATE <= '" + paydate.ToString("MM/dd/yyyy") + " '";
+            return this.getData(strCondition);
+        }
+
+
         public int getNextID()
         {
             int intResult = 1;

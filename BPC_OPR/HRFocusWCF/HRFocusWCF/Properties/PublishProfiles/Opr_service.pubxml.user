@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\Work\BPC\Onweb publish\OPR_Services</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="BCInterface/BCInterface.svc">
+      <publishTime>10/06/2023 09:51:41</publishTime>
+    </File>
+    <File Include="bin/BPC_OPR.dll">
+      <publishTime>12/01/2023 16:47:58</publishTime>
+    </File>
+    <File Include="bin/ClassLibrary_BPC.dll">
+      <publishTime>12/01/2023 16:47:54</publishTime>
+    </File>
+    <File Include="bin/ExcelLibrary.dll">
+      <publishTime>12/08/2022 14:19:34</publishTime>
+    </File>
+    <File Include="bin/jose-jwt.dll">
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Abstractions.dll">
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Logging.dll">
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="bin/System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>03/13/2023 18:34:19</publishTime>
+    </File>
+    <File Include="BpcOpr.svc">
+      <publishTime>03/13/2023 18:34:18</publishTime>
+    </File>
+    <File Include="ClassDiagram1.cd">
+      <publishTime>03/13/2023 18:34:18</publishTime>
+    </File>
+    <File Include="ClassDiagram3.cd">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>03/13/2023 18:34:18</publishTime>
+    </File>
+    <File Include="Initial.xml">
+      <publishTime>12/01/2023 16:37:58</publishTime>
+    </File>
+    <File Include="Module_Attendance/ModuleAttendance.svc">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Module_Employee/ModuleEmployee.svc">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Module_Payroll/ModulePayroll.svc">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Module_Project/ModuleProject.svc">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Module_Recruitment/ModuleRecruitment.svc">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Module_SelfServices/ModuleSelfServices.svc">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Module_System/ModuleSystem.svc">
+      <publishTime>03/13/2023 18:34:18</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>09/18/2023 17:18:38</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>12/01/2023 16:47:58</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

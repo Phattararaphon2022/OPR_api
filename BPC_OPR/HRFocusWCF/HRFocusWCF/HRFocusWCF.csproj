@@ -172,7 +172,8 @@
     </Content>
     <Content Include="ClassDiagram3.cd" />
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\OPR_service.pubxml" />
+    <None Include="PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -186,6 +187,9 @@
       <Project>{84dda107-0dc1-4484-81ed-627f3bd9a2b3}</Project>
       <Name>ClassLibrary_BPC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

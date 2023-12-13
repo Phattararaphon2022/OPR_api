@@ -15,10 +15,28 @@ namespace BPC_OPR
     public interface IBCInterface
     {
 
-        [OperationContract(Name = "APIHRJob")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageAPIHRJob(APIHRJob input);
 
-        
+        #region APIHRProject
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse APIHRProjectCreate(APIHRProject input);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse APIHRProjectUpdate(APIHRProject input);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}&ProjectStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse APIHRProjectList(string com, string code, string status);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        APIHRProjectResponse APIHRProjectDelete(string com, string code);
+        #endregion
+
     }
 }

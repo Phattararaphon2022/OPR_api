@@ -173,7 +173,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_TR_PROADDRESS");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROADDRESS_TYPE='" + type + "'");
+                if (!type.Equals(""))
+                {
+                    obj_str.Append(" AND PROADDRESS_TYPE='" + type + "'");
+                }
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -251,7 +254,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
                 obj_cmd.Parameters.Add("@PROADDRESS_ID", SqlDbType.Int); obj_cmd.Parameters["@PROADDRESS_ID"].Value = this.getNextID();              
-                obj_cmd.Parameters.Add("@PROADDRESS_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROADDRESS_TYPE"].Value = model.proaddress_type;
+                obj_cmd.Parameters.Add("@PROADDRESS_TYPE", SqlDbType.Char); obj_cmd.Parameters["@PROADDRESS_TYPE"].Value = Convert.ToChar(model.proaddress_type);
                 obj_cmd.Parameters.Add("@PROADDRESS_NO", SqlDbType.VarChar); obj_cmd.Parameters["@PROADDRESS_NO"].Value = model.proaddress_no;
                 obj_cmd.Parameters.Add("@PROADDRESS_MOO", SqlDbType.VarChar); obj_cmd.Parameters["@PROADDRESS_MOO"].Value = model.proaddress_moo;
                 obj_cmd.Parameters.Add("@PROADDRESS_SOI", SqlDbType.VarChar); obj_cmd.Parameters["@PROADDRESS_SOI"].Value = model.proaddress_soi;
@@ -308,8 +311,12 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
 
-                obj_str.Append(" WHERE PROADDRESS_ID=@PROADDRESS_ID ");
+                if (!model.proaddress_id.Equals(0))
+                {
+                    obj_str.Append(" AND PROADDRESS_ID=@PROADDRESS_ID ");
+                }
               
 
                 obj_conn.doConnect();
@@ -331,9 +338,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
-
-                obj_cmd.Parameters.Add("@PROADDRESS_ID", SqlDbType.Int); obj_cmd.Parameters["@PROADDRESS_ID"].Value = model.proaddress_id;
-
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                if (!model.proaddress_id.Equals(0)){
+                    obj_cmd.Parameters.Add("@PROADDRESS_ID", SqlDbType.Int); obj_cmd.Parameters["@PROADDRESS_ID"].Value = model.proaddress_id;
+                }
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();

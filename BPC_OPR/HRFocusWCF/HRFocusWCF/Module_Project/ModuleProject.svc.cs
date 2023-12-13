@@ -8711,13 +8711,13 @@ namespace BPC_OPR
 
                         output["result_link"] = link;
                     }
-                    //else if (input.task_type.Trim().Equals("TRN_PF"))
-                    //{
-                    //    cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
-                    //    string link = srvPay.doExportPF(input.company_code, intTaskID.ToString());
+                    else if (input.task_type.Trim().Equals("TRN_PF"))
+                    {
+                        cls_srvProcessPayroll srvPay = new cls_srvProcessPayroll();
+                        string link = srvPay.doExportPF(input.company_code, intTaskID.ToString());
 
-                    //    output["result_link"] = link;
-                    //}
+                        output["result_link"] = link;
+                    }
                     //else if (input.task_type.Trim().Equals("IMP_XLS"))
                     //{
                     //    cls_srvImport srvImport = new cls_srvImport();
