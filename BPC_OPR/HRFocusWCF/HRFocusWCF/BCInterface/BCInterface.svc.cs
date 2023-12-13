@@ -203,11 +203,10 @@ namespace BPC_OPR
         
         #endregion
 
-        public APIHRProjectResponse APIHRProjectCreate(APIHRProject input)
+        public ApiResponse<APIHRProject> APIHRProjectCreate(APIHRProject input)
         {
-            JObject output = new JObject();
-            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
-            apihrprojectResponse.data = new List<APIHRProject>();
+            ApiResponse<APIHRProject> response = new ApiResponse<APIHRProject>();
+            response.data = new List<APIHRProject>();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
@@ -224,13 +223,13 @@ namespace BPC_OPR
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
 
                     log.apilog_status = "401";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
 
-                    return apihrprojectResponse;
+                    return response;
                 }
 
                 cls_ctMTProject controller = new cls_ctMTProject();
@@ -288,13 +287,13 @@ namespace BPC_OPR
                     {
                         controller.delete(input.ProjectCode, input.CompanyCode);
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                        apihrprojectResponse.success = false;
-                        apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
-                        apihrprojectResponse.data.Add(input);
+                        response.success = false;
+                        response.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
+                        response.data.Add(input);
 
                         log.apilog_status = "500";
                         log.apilog_message = controlleraddres.getMessage();
-                        return apihrprojectResponse;
+                        return response;
                     }
                     List<ProContact> dataContact = new List<ProContact>();
                     foreach (ProContact data in input.Contact)
@@ -323,21 +322,21 @@ namespace BPC_OPR
                             controlleraddres.delete(input.ProjectCode, "");
                             controllercontact.delete(input.ProjectCode, "");
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                            apihrprojectResponse.success = false;
-                            apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
-                            apihrprojectResponse.data.Add(input);
+                            response.success = false;
+                            response.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
+                            response.data.Add(input);
 
                             log.apilog_status = "500";
                             log.apilog_message = controllercontact.getMessage();
-                            return apihrprojectResponse;
+                            return response;
                         }
                     }
                     input.Contact = dataContact;
                     input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
-                    apihrprojectResponse.success = true;
-                    apihrprojectResponse.message = "indicates that the request resulted in a new resource created before the response was sent.";
-                    apihrprojectResponse.data.Add(input);
+                    response.success = true;
+                    response.message = "indicates that the request resulted in a new resource created before the response was sent.";
+                    response.data.Add(input);
 
                     log.apilog_status = "201";
                     log.apilog_message = "indicates that the request resulted in a new resource created before the response was sent.";
@@ -345,9 +344,9 @@ namespace BPC_OPR
                 else
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
-                    apihrprojectResponse.data.Add(input);
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
 
                     log.apilog_status = "400";
                     log.apilog_message = controller.getMessage();
@@ -358,8 +357,8 @@ namespace BPC_OPR
             }
             catch (Exception ex)
             {
-                apihrprojectResponse.success = false;
-                apihrprojectResponse.message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
                 log.apilog_message = ex.ToString();
                 log.apilog_status = "500";
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
@@ -369,14 +368,13 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            return apihrprojectResponse;
+            return response;
         }
 
-        public APIHRProjectResponse APIHRProjectUpdate(APIHRProject input)
+        public ApiResponse<APIHRProject> APIHRProjectUpdate(APIHRProject input)
         {
-            JObject output = new JObject();
-            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
-            apihrprojectResponse.data = new List<APIHRProject>();
+            ApiResponse<APIHRProject> response = new ApiResponse<APIHRProject>();
+            response.data = new List<APIHRProject>();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
@@ -393,13 +391,13 @@ namespace BPC_OPR
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
 
                     log.apilog_status = "401";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
 
-                    return apihrprojectResponse;
+                    return response;
                 }
 
                 cls_ctMTProject controller = new cls_ctMTProject();
@@ -462,13 +460,13 @@ namespace BPC_OPR
                     if (!blnResultaddres)
                     {
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                        apihrprojectResponse.success = false;
-                        apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
-                        apihrprojectResponse.data.Add(input);
+                        response.success = false;
+                        response.message = "indicates that the request could not be understood by the server. | " + controlleraddres.getMessage();
+                        response.data.Add(input);
 
                         log.apilog_status = "400";
                         log.apilog_message = controlleraddres.getMessage();
-                        return apihrprojectResponse;
+                        return response;
                     }
                     List<ProContact> dataContact = new List<ProContact>();
                     foreach (ProContact data in input.Contact)
@@ -498,21 +496,21 @@ namespace BPC_OPR
                         if (!blnResultcontact)
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                            apihrprojectResponse.success = false;
-                            apihrprojectResponse.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
-                            apihrprojectResponse.data.Add(input);
+                            response.success = false;
+                            response.message = "indicates that the request could not be understood by the server. | " + controllercontact.getMessage();
+                            response.data.Add(input);
 
                             log.apilog_status = "400";
                             log.apilog_message = controllercontact.getMessage();
-                            return apihrprojectResponse;
+                            return response;
                         }
                     }
                     input.Contact = dataContact;
                     input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                    apihrprojectResponse.success = true;
-                    apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
-                    apihrprojectResponse.data.Add(input);
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    response.data.Add(input);
 
                     log.apilog_status = "200";
                     log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
@@ -520,9 +518,9 @@ namespace BPC_OPR
                 else
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
-                    apihrprojectResponse.data.Add(input);
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
 
                     log.apilog_status = "400";
                     log.apilog_message = controller.getMessage();
@@ -535,8 +533,8 @@ namespace BPC_OPR
             {
                 log.apilog_message = ex.ToString();
                 log.apilog_status = "500";
-                apihrprojectResponse.success = false;
-                apihrprojectResponse.message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
             }
             finally
@@ -544,14 +542,13 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            return apihrprojectResponse;
+            return response;
         }
 
-        public APIHRProjectResponse APIHRProjectList(string CompanyCode, string ProjectCode, string ProjectStatus)
+        public ApiResponse<APIHRProject> APIHRProjectList(string CompanyCode, string ProjectCode, string ProjectStatus)
         {
-            JObject output = new JObject();
-            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
-            apihrprojectResponse.data = new List<APIHRProject>();
+            ApiResponse<APIHRProject> response = new ApiResponse<APIHRProject>();
+            response.data = new List<APIHRProject>();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "BCO001.3";
             log.apilog_data = "all";
@@ -565,13 +562,13 @@ namespace BPC_OPR
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
 
                     log.apilog_status = "401";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
 
-                    return apihrprojectResponse;
+                    return response;
                 }
                 Authen objAuthen = new Authen();
                 string tmp = authHeader.Substring(7);
@@ -659,7 +656,7 @@ namespace BPC_OPR
                                 apihrproject.Contact.Add(modelcontact);
                             }
                         }
-                        apihrprojectResponse.data.Add(apihrproject);
+                        response.data.Add(apihrproject);
                     }
 
                     log.apilog_status = "200";
@@ -671,16 +668,16 @@ namespace BPC_OPR
                     log.apilog_message = "Data not Found";
                 }
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                apihrprojectResponse.success = true;
-                apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
                 log.apilog_status = "200";
                 log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
                 controller.dispose();
             }
             catch (Exception ex)
             {
-                apihrprojectResponse.success = false;
-                apihrprojectResponse.message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
 
                 log.apilog_status = "500";
@@ -691,12 +688,12 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            return apihrprojectResponse;
+            return response;
         }
 
-        public APIHRProjectResponse APIHRProjectDelete(string CompanyCode, string ProjectCode)
+        public ApiResponse<APIHRProject> APIHRProjectDelete(string CompanyCode, string ProjectCode)
         {
-            APIHRProjectResponse apihrprojectResponse = new APIHRProjectResponse();
+            ApiResponse<APIHRProject> response = new ApiResponse<APIHRProject>();
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "BCO001.4";
@@ -710,13 +707,13 @@ namespace BPC_OPR
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the requested resource requires authentication.";
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
 
                     log.apilog_status = "401";
                     log.apilog_message = BpcOpr.MessageNotAuthen;
 
-                    return apihrprojectResponse;
+                    return response;
                 }
                 Authen objAuthen = new Authen();
                 string tmp = authHeader.Substring(7);
@@ -734,16 +731,16 @@ namespace BPC_OPR
                     controlleraddres.delete(ProjectCode, "");
                     controllercontact.delete(ProjectCode, "");
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                    apihrprojectResponse.success = true;
-                    apihrprojectResponse.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
                     log.apilog_status = "200";
                     log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
                 }
                 else
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                    apihrprojectResponse.success = false;
-                    apihrprojectResponse.message = "indicates that the request could not be understood by the server.";
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
                     log.apilog_status = "400";
                     log.apilog_message = "indicates that the request could not be understood by the server.";
                 }
@@ -752,8 +749,8 @@ namespace BPC_OPR
             catch (Exception ex)
             {
                 log.apilog_message = ex.ToString();
-                apihrprojectResponse.success = false;
-                apihrprojectResponse.message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
 
                 log.apilog_status = "500";
@@ -764,7 +761,7 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
-            return apihrprojectResponse;
+            return response;
 
         }
 

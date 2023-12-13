@@ -136,7 +136,7 @@
                 "tags": [
                     "APIHRProject"
                 ],
-                "summary": "delete HR Project",
+                "summary": "Delete HR Project",
                 "parameters": [
                     {
                         "name": "CompanyCode",

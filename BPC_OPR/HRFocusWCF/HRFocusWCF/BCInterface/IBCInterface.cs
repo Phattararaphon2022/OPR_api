@@ -22,20 +22,20 @@ namespace BPC_OPR
         #region APIHRProject
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse APIHRProjectCreate(APIHRProject input);
+        ApiResponse<APIHRProject> APIHRProjectCreate(APIHRProject input);
 
 
         [OperationContract]
         [WebInvoke(Method = "PUT", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse APIHRProjectUpdate(APIHRProject input);
+        ApiResponse<APIHRProject> APIHRProjectUpdate(APIHRProject input);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}&ProjectStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse APIHRProjectList(string com, string code, string status);
+        ApiResponse<APIHRProject> APIHRProjectList(string com, string code, string status);
 
         [OperationContract]
         [WebInvoke(Method = "DELETE", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        APIHRProjectResponse APIHRProjectDelete(string com, string code);
+        ApiResponse<APIHRProject> APIHRProjectDelete(string com, string code);
         #endregion
 
     }

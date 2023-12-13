@@ -7,11 +7,11 @@ using System.Web;
 namespace BPC_OPR
 {
 
-    public class APIHRProjectResponse
+    public class ApiResponse<T>
     {
         public bool success { get; set; }
         public string message { get; set; }
-        public List<APIHRProject> data { get; set; }
+        public List<T> data { get; set; }
     }
       
     [DataContract]
