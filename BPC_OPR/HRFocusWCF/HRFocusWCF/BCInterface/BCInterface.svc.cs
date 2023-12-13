@@ -765,6 +765,357 @@ namespace BPC_OPR
 
         }
 
+
+        public ApiResponse<ProContract> APIHRProjectContractCreate(ProContract input)
+        {
+            ApiResponse<ProContract> response = new ApiResponse<ProContract>();
+            response.data = new List<ProContract>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO002.1";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+
+                cls_ctTRProcontract controller = new cls_ctTRProcontract();
+                cls_TRProcontract model = new cls_TRProcontract();
+
+                model.project_code = input.ProjectCode;
+                model.procontract_ref = input.ProContractRef;
+                if (!input.ProContractDate.Equals(""))
+                {
+                    model.procontract_date = Convert.ToDateTime(input.ProContractDate);
+                }
+                model.procontract_amount = input.ProContractAmount;
+                model.procontract_fromdate = Convert.ToDateTime(input.ProContractFromDate);
+                model.procontract_todate = Convert.ToDateTime(input.ProContractToDate);
+                model.procontract_customer = input.ProContractCustomer;
+                model.procontract_bidder = input.ProContractBidder;
+                model.procontract_type = input.ProContractType;
+                model.procontract_type = input.ProContractType;
+
+                model.modified_by = input.ModifiedBy;
+
+                bool strID = controller.insert(model);
+                if (strID)
+                {
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
+                    response.success = true;
+                    response.message = "indicates that the request resulted in a new resource created before the response was sent.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "201";
+                    log.apilog_message = "indicates that the request resulted in a new resource created before the response was sent.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProContract> APIHRProjectContractUpdate(ProContract input )
+        {
+            ApiResponse<ProContract> response = new ApiResponse<ProContract>();
+            response.data = new List<ProContract>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO002.2";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                cls_ctTRProcontract controller = new cls_ctTRProcontract();
+                cls_TRProcontract model = new cls_TRProcontract();
+
+                model.procontract_id = input.ProContractId;
+                model.project_code = input.ProjectCode;
+                model.procontract_ref = input.ProContractRef;
+                if (!input.ProContractDate.Equals(""))
+                {
+                    model.procontract_date = Convert.ToDateTime(input.ProContractDate);
+                }
+                model.procontract_amount = input.ProContractAmount;
+                model.procontract_fromdate = Convert.ToDateTime(input.ProContractFromDate);
+                model.procontract_todate = Convert.ToDateTime(input.ProContractToDate);
+                model.procontract_customer = input.ProContractCustomer;
+                model.procontract_bidder = input.ProContractBidder;
+                model.procontract_type = input.ProContractType;
+                model.procontract_type = input.ProContractType;
+
+                model.modified_by = input.ModifiedBy;
+                bool strID = false;
+                if (controller.checkDataOld(input.ProjectCode,""))
+                {
+                    if (model.procontract_id.Equals(0))
+                    {
+                        strID = false;
+                    }
+                    else
+                    {
+                        strID = controller.update(model);
+                    }
+                }
+                if (strID)
+                {
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProContract> APIHRProjectContractList(string ProjectCode)
+        {
+            ApiResponse<ProContract> response = new ApiResponse<ProContract>();
+            response.data = new List<ProContract>();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO002.3";
+            log.apilog_data = "all";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+
+                cls_ctTRProcontract controller = new cls_ctTRProcontract();
+                List<cls_TRProcontract> list = controller.getDataByFillter(ProjectCode == null ? "" : ProjectCode);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_TRProcontract data in list)
+                    {
+                        ProContract ProContract = new ProContract();
+                        ProContract.ProContractId = data.procontract_id;
+                        ProContract.ProContractRef = data.procontract_ref;
+                        ProContract.ProContractDate = data.procontract_date.ToString("dd/MM/yyyy");
+                        ProContract.ProContractAmount = data.procontract_amount;
+                        ProContract.ProContractFromDate = data.procontract_fromdate.ToString("dd/MM/yyyy");
+                        ProContract.ProContractToDate = data.procontract_todate.ToString("dd/MM/yyyy");
+                        ProContract.ProContractCustomer = data.procontract_customer;
+                        ProContract.ProContractBidder = data.procontract_bidder;
+                        ProContract.ProjectCode = data.project_code;
+                        ProContract.ProContractType = data.procontract_type;
+                        ProContract.ModifiedBy = data.modified_by;
+                        ProContract.ModifiedDate = data.modified_date.ToString("dd/MM/yyyy");
+
+                        response.data.Add(ProContract);
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                log.apilog_status = "200";
+                log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProContract> APIHRProjectContractDelete(string ProjectCode, string ProContractId)
+        {
+            ApiResponse<ProContract> response = new ApiResponse<ProContract>();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO001.4";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+                cls_ctTRProcontract controller = new cls_ctTRProcontract();
+                bool blnResult = controller.delete(ProjectCode, "",ProContractId);
+
+                if (blnResult)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    log.apilog_status = "400";
+                    log.apilog_message = "indicates that the request could not be understood by the server.";
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+
+        }
+
         
     }
 }

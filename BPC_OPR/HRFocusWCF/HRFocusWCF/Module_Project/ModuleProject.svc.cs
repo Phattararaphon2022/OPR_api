@@ -3702,7 +3702,7 @@ namespace BPC_OPR
 
                 if (controller.checkDataOld(input.project_code, input.procontract_ref))
                 {
-                    bool blnResult = controller.delete(input.project_code, input.procontract_ref);
+                    bool blnResult = controller.delete(input.project_code, input.procontract_ref,"");
 
                     if (blnResult)
                     {

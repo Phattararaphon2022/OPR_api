@@ -160,6 +160,21 @@ namespace BPC_OPR
         public bool Flag { get; set; }
     }
 
+    public class ProContract
+    {
+        public int ProContractId { get; set; }
+        public string ProContractRef { get; set; }
+        public string ProContractDate { get; set; }
+        public decimal ProContractAmount { get; set; }
+        public string ProContractFromDate { get; set; }
+        public string ProContractToDate { get; set; }
+        public string ProContractCustomer { get; set; }
+        public string ProContractBidder { get; set; }
+        public string ProjectCode { get; set; }
+        public string ProContractType { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
    
 
 }

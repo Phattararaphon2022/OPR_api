@@ -167,6 +167,130 @@
                     }
                 }
             }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRProjectContract": {
+            "post": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Create HR ProjectContract",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProContract"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Update HR ProjectContract",
+                "description": "ProContractId  required *",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProContract"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Get HR ProjectContract",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Delete HR ProjectContract",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    },
+                    {
+                        "name": "ProContractId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "1"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -425,6 +549,70 @@
                     "InitialCode": {
                         "type": "string"
                     }
+                }
+            },
+            "ProContract": {
+                "type": "object",
+                "required": [
+                    "ProContractDate",
+                    "ProContractAmount",
+                    "ProContractCustomer",
+                    "ProContractBidder",
+                    "ProjectCode",
+                    "ProContractType",
+                    "ModifiedBy"
+                ],
+                "properties": {
+                    "ProContractId": {
+                        "type": "integer"
+                    },
+                    "ProContractRef": {
+                        "type": "string"
+                    },
+                    "ProContractDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProContractAmount": {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "ProContractFromDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProContractToDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProContractCustomer": {
+                        "type": "string"
+                    },
+                    "ProContractBidder": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "ProContractType": {
+                        "type": "string"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "ProContractId": 0,
+                    "ProContractRef": "",
+                    "ProContractDate": "2023-01-15",
+                    "ProContractAmount": 50000.00,
+                    "ProContractFromDate": "2023-02-01",
+                    "ProContractToDate": "2023-07-31",
+                    "ProContractCustomer": "ABC Corp",
+                    "ProContractBidder": "XYZ Ltd",
+                    "ProjectCode": "TEST01",
+                    "ProContractType": "3",
+                    "ModifiedBy": "Admin"
                 }
             }
         }
