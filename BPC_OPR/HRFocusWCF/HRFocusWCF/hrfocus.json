@@ -38,6 +38,15 @@
                     "APIHRProject"
                 ],
                 "summary": "Create HR Project",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -68,6 +77,22 @@
                 ],
                 "summary": "Update HR Project",
                 "description": "ProContactId required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -174,6 +199,15 @@
                     "APIHRProjectContract"
                 ],
                 "summary": "Create HR ProjectContract",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -204,6 +238,22 @@
                 ],
                 "summary": "Update HR ProjectContract",
                 "description": "ProContractId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -298,6 +348,15 @@
                     "APIHRJob"
                 ],
                 "summary": "Create HR Job",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -327,7 +386,23 @@
                     "APIHRJob"
                 ],
                 "summary": "Update HR Job",
-                "description": "ProContractId  required *",
+                "description": "ProJobMainId, ProJobShiftId, ProJobCostId, ProJobMachineId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -443,6 +518,15 @@
                     "APIHRUniform"
                 ],
                 "summary": "Create HR ProUniform",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -473,6 +557,22 @@
                 ],
                 "summary": "Update HR ProUniform",
                 "description": "ProUniformId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -574,6 +674,15 @@
                     "APIHRUniformSummary"
                 ],
                 "summary": "Create HR APIHRUniformSummary",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -604,6 +713,22 @@
                 ],
                 "summary": "Update HR APIHRUniformSummary",
                 "description": "ProEquipmentReqId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {

@@ -21,12 +21,12 @@ namespace BPC_OPR
 
         #region APIHRProject
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<APIHRProject> APIHRProjectCreate(APIHRProject input);
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRProject?TransactionId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<APIHRProject> APIHRProjectCreate(APIHRProject input, string id);
 
         [OperationContract]
-        [WebInvoke(Method = "PUT", UriTemplate = "APIHRProject", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<APIHRProject> APIHRProjectUpdate(APIHRProject input);
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRProject?TransactionId={id}&OldTransactionId={oldid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<APIHRProject> APIHRProjectUpdate(APIHRProject input, string id, string oldid);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRProject?CompanyCode={com}&ProjectCode={code}&ProjectStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -40,12 +40,12 @@ namespace BPC_OPR
 
         #region APIHRProjectContract
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "APIHRProjectContract", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProContract> APIHRProjectContractCreate(ProContract input);
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRProjectContract?TransactionId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProContract> APIHRProjectContractCreate(ProContract input, string id);
 
         [OperationContract]
-        [WebInvoke(Method = "PUT", UriTemplate = "APIHRProjectContract", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProContract> APIHRProjectContractUpdate(ProContract input);
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRProjectContract?TransactionId={id}&OldTransactionId={oldid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProContract> APIHRProjectContractUpdate(ProContract input, string id, string oldid);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRProjectContract?ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -59,12 +59,12 @@ namespace BPC_OPR
 
         #region APIHRJob2
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<APIHRJobmain> APIHRJobCreate(APIHRJobmain input);
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRJob?TransactionId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<APIHRJobmain> APIHRJobCreate(APIHRJobmain input, string id);
 
         [OperationContract]
-        [WebInvoke(Method = "PUT", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<APIHRJobmain> APIHRJobUpdate(APIHRJobmain input);
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRJob?TransactionId={id}&OldTransactionId={oldid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<APIHRJobmain> APIHRJobUpdate(APIHRJobmain input, string id, string oldid);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRJob?ProjectCode={code}&ProJobMainCode={job}&Version={ver}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -78,12 +78,12 @@ namespace BPC_OPR
 
         #region APIHRUniform
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "APIHRUniform", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProUniform> APIHRUniformCreate(ProUniform input);
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRUniform?TransactionId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProUniform> APIHRUniformCreate(ProUniform input, string id);
 
         [OperationContract]
-        [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniform", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProUniform> APIHRUniformUpdate(ProUniform input);
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniform?TransactionId={id}&OldTransactionId={oldid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProUniform> APIHRUniformUpdate(ProUniform input, string id, string oldid);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRUniform?CompanyCode={com}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -97,12 +97,12 @@ namespace BPC_OPR
 
         #region APIHRUniformSummary
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "APIHRUniformSummary", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input);
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRUniformSummary?TransactionId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input, string id);
 
         [OperationContract]
-        [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniformSummary", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input);
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniformSummary?TransactionId={id}&OldTransactionId={oldid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input, string id, string oldid);
 
         [OperationContract]
         [WebInvoke(Method = "GET", UriTemplate = "APIHRUniformSummary?ProjectCode={projectcode}&ProJobCode={job}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]

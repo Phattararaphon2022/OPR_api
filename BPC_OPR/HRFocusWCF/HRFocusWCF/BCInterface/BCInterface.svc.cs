@@ -203,7 +203,7 @@ namespace BPC_OPR
         
         #endregion
 
-        public ApiResponse<APIHRProject> APIHRProjectCreate(APIHRProject input)
+        public ApiResponse<APIHRProject> APIHRProjectCreate(APIHRProject input, string TransactionId)
         {
             ApiResponse<APIHRProject> response = new ApiResponse<APIHRProject>();
             response.data = new List<APIHRProject>();
@@ -371,7 +371,7 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<APIHRProject> APIHRProjectUpdate(APIHRProject input)
+        public ApiResponse<APIHRProject> APIHRProjectUpdate(APIHRProject input, string TransactionId, string OldTransactionId)
         {
             ApiResponse<APIHRProject> response = new ApiResponse<APIHRProject>();
             response.data = new List<APIHRProject>();
@@ -766,7 +766,7 @@ namespace BPC_OPR
         }
 
 
-        public ApiResponse<ProContract> APIHRProjectContractCreate(ProContract input)
+        public ApiResponse<ProContract> APIHRProjectContractCreate(ProContract input, string TransactionId)
         {
             ApiResponse<ProContract> response = new ApiResponse<ProContract>();
             response.data = new List<ProContract>();
@@ -856,7 +856,7 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<ProContract> APIHRProjectContractUpdate(ProContract input )
+        public ApiResponse<ProContract> APIHRProjectContractUpdate(ProContract input ,string TransactionId, string OldTransactionId)
         {
             ApiResponse<ProContract> response = new ApiResponse<ProContract>();
             response.data = new List<ProContract>();
@@ -1117,7 +1117,7 @@ namespace BPC_OPR
         }
 
 
-        public ApiResponse<APIHRJobmain> APIHRJobCreate(APIHRJobmain input)
+        public ApiResponse<APIHRJobmain> APIHRJobCreate(APIHRJobmain input, string TransactionId)
         {
             ApiResponse<APIHRJobmain> response = new ApiResponse<APIHRJobmain>();
             response.data = new List<APIHRJobmain>();
@@ -1307,7 +1307,7 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<APIHRJobmain> APIHRJobUpdate(APIHRJobmain input)
+        public ApiResponse<APIHRJobmain> APIHRJobUpdate(APIHRJobmain input,string TransactionId, string OldTransactionId)
         {
             ApiResponse<APIHRJobmain> response = new ApiResponse<APIHRJobmain>();
             response.data = new List<APIHRJobmain>();
@@ -1748,7 +1748,7 @@ namespace BPC_OPR
         }
 
 
-        public ApiResponse<ProUniform> APIHRUniformCreate(ProUniform input)
+        public ApiResponse<ProUniform> APIHRUniformCreate(ProUniform input, string TransactionId)
         {
             ApiResponse<ProUniform> response = new ApiResponse<ProUniform>();
             response.data = new List<ProUniform>();
@@ -1831,7 +1831,7 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<ProUniform> APIHRUniformUpdate(ProUniform input)
+        public ApiResponse<ProUniform> APIHRUniformUpdate(ProUniform input, string TransactionId, string OldTransactionId)
         {
             ApiResponse<ProUniform> response = new ApiResponse<ProUniform>();
             response.data = new List<ProUniform>();
@@ -2078,7 +2078,7 @@ namespace BPC_OPR
         }
 
 
-        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input)
+        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input,string TransactionId)
         {
             ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
             response.data = new List<ProEquipmentReq>();
@@ -2164,7 +2164,7 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input)
+        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input,string TransactionId, string OldTransactionId)
         {
             ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
             response.data = new List<ProEquipmentReq>();
