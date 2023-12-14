@@ -1779,7 +1779,7 @@ namespace BPC_OPR
                         string lastversion = jobversion_controller.getLastVersion(model.project_code);
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion );
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.language, model.project_code, lastversion);
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -1949,7 +1949,7 @@ namespace BPC_OPR
                 {
                     bool blnResult = controllers.delete(input.company_code, "PRO_NEW", input.project_code, input.modified_by);
                 }
-
+                 
                 if (!strID.Equals(""))
                 {
                     output["success"] = true;
@@ -2224,7 +2224,7 @@ namespace BPC_OPR
                         //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion );
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.language, model.project_code, lastversion);
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -2416,7 +2416,7 @@ namespace BPC_OPR
                         //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.language, model.project_code, lastversion);
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -2607,7 +2607,7 @@ namespace BPC_OPR
                         //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.language, model.project_code, lastversion);
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -4551,7 +4551,7 @@ namespace BPC_OPR
                 
 
                 cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                List<cls_MTProjobmain> list = controller.getDataByFillter(req.project_code, req.version );
+                List<cls_MTProjobmain> list = controller.getDataByFillter(req.language, req.project_code, req.version);
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4586,6 +4586,8 @@ namespace BPC_OPR
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("index", index++);
+                        json.Add("protype_name", model.protype_name);
+                        json.Add("version", model.version);
 
                         //-- Contract
                         //cls_TRProjobcontract contract = null;
@@ -7190,6 +7192,112 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        //
+        //public string doManageTRProjobempList(InputProjectTransaction input)
+        //{
+        //    JObject output = new JObject();
+
+        //    var json_data = new JavaScriptSerializer().Serialize(input);
+        //    var tmp = JToken.Parse(json_data);
+
+
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "PRO017.5";
+        //    log.apilog_by = input.modified_by;
+        //    log.apilog_data = tmp.ToString();
+
+        //    try
+        //    {
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+        //        cls_ctMTProject controller = new cls_ctMTProject();
+        //        cls_MTProject model = new cls_MTProject();
+        //        //model.project_id = input.project_id;
+
+        //        model.project_id = Convert.ToInt32(input.project_id);
+        //        model.project_code = input.project_code;
+        //        model.project_name_th = input.project_name_th;
+        //        model.project_name_en = input.project_name_en;
+
+        //        model.project_name_sub = input.project_name_sub;
+        //        model.project_codecentral = input.project_codecentral;
+        //        model.project_protype = input.project_protype;
+
+        //        model.project_proarea = input.project_proarea;
+        //        model.project_progroup = input.project_progroup;
+
+
+        //        model.project_probusiness = input.project_probusiness;
+        //        //
+        //        model.project_roundtime = input.project_roundtime;
+        //        model.project_roundmoney = input.project_roundmoney;
+        //        model.project_proholiday = input.project_proholiday;
+        //        //
+
+        //        model.project_status = input.project_status;
+        //        model.company_code = input.company_code;
+
+        //        model.modified_by = input.modified_by;
+
+        //        string strID = controller.insert(model);
+        //        //
+        //        cls_ctTRApprove controllers = new cls_ctTRApprove();
+        //        cls_TRApprove modell = new cls_TRApprove();
+        //        if (controllers.checkDataOlds(input.company_code, "PRO_NEW", input.project_code, input.modified_by))
+        //        {
+        //            bool blnResult = controllers.delete(input.company_code, "PRO_NEW", input.project_code, input.modified_by);
+        //        }
+
+        //        if (!strID.Equals(""))
+        //        {
+        //            output["success"] = true;
+        //            output["message"] = "Retrieved data successfully";
+        //            output["record_id"] = strID;
+
+        //            log.apilog_status = "200";
+        //            log.apilog_message = "";
+        //        }
+        //        else
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = "Code Format is incorrect";
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = controller.getMessage();
+        //        }
+
+        //        controller.dispose();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        output["success"] = false;
+        //        output["message"] = "(C)Retrieved data not successfully";
+
+        //        log.apilog_status = "500";
+        //        log.apilog_message = ex.ToString();
+        //    }
+        //    finally
+        //    {
+        //        objBpcOpr.doRecordLog(log);
+        //    }
+
+        //    output["data"] = tmp;
+
+        //    return output.ToString(Formatting.None);
+        //}
+        //
         public string doManageTRProjobempList(InputProjectTransaction input)
         {
             JObject output = new JObject();
@@ -7226,7 +7334,7 @@ namespace BPC_OPR
                 int success = 0;
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
-
+                 
                 //bool clear = controller.delete(input.project_code, input.job_code);
 
                 //if (clear)
@@ -7237,7 +7345,12 @@ namespace BPC_OPR
                         model.modified_by = input.modified_by;
 
                         bool blnResult = controller.insert(model);
-
+                        cls_ctTRApprove controllers = new cls_ctTRApprove();
+                        cls_TRApprove modell = new cls_TRApprove();
+                        if (controllers.checkDataOlds(input.company_code, "PRO_EMP", input.project_code, input.modified_by))
+                        {
+                            bool blnResult1 = controllers.delete(input.company_code, "PRO_EMP", input.project_code, input.modified_by);
+                        }
                         if (blnResult)
                             success++;
                         else
@@ -7256,7 +7369,7 @@ namespace BPC_OPR
                 //    error = 1;
                 //}
 
-
+                    
                 if (error == 0)
                 {
                     output["success"] = true;
@@ -9465,7 +9578,7 @@ namespace BPC_OPR
 
                     //-- Job main
                     cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, jobversion.version );
+                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.language, project.project_code, jobversion.version);
 
                     //-- Job shift
                     cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
@@ -9710,7 +9823,7 @@ namespace BPC_OPR
 
                 //-- Job main
                 cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.project_code, jobversion.version );
+                List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.language, req.project_code, jobversion.version);
 
                 //-- Job shift
                 cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
@@ -10950,7 +11063,7 @@ namespace BPC_OPR
                             continue;
                         //-- Job main
                         cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, version.version );
+                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.language, project.project_code, version.version);
 
                         //-- Job shift
                         cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
@@ -11008,6 +11121,7 @@ namespace BPC_OPR
                             json.Add("projobmain_name_en", jobmain.projobmain_name_en);
                             json.Add("projobmain_type", jobmain.projobmain_type);
 
+                            
                             int i = 1;
                             double sum_cost = 0;
                             foreach (cls_MTProcost mtcost in list_mtcost)

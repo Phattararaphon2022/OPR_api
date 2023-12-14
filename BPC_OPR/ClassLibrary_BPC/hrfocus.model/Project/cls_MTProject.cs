@@ -35,8 +35,10 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_proholiday { get; set; }
 
         public string project_status { get; set; }
-        public string company_code { get; set; }  
+        public string company_code { get; set; }
+        public string language { get; set; }  
 
+        
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   
     }

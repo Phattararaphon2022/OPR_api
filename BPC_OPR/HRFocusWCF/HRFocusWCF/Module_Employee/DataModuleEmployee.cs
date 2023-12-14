@@ -170,6 +170,10 @@ namespace BPC_OPR
         public string card_no { get; set; }
         [DataMember]
         public string date { get; set; }
+        [DataMember]
+        public string age_code { get; set; }
+        [DataMember]
+        public string language { get; set; }
     }
     [DataContract]
     public class InputMTDep

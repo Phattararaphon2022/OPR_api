@@ -28,9 +28,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_code { get; set; }
 
         public string version { get; set; }
-          
-      
-        public string modified_by { get; set; }
+         public string protype_name { get; set; }
+
+         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   
 
 

@@ -669,7 +669,26 @@ namespace BPC_OPR
         [OperationContract(Name = "locationlist")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getlocationList(FillterWorker input);
+
+         [OperationContract(Name = "dashGenderlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getDashGenderList(FillterWorker input);
+
+
+         [OperationContract(Name = "dashempworkagelist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+         string getDashEmpWorkAgeList(FillterWorker input);
  
+
+        
+         [OperationContract(Name = "dashworkagelist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+         string getDashWorkAgeList(FillterWorker input);
+
+         [OperationContract(Name = "dashpositionlist")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+         string getDashPositionList(FillterWorker input);
+        
         #endregion
 
         #region typelist
