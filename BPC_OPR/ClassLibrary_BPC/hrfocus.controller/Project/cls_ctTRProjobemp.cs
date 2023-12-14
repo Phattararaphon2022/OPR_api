@@ -449,6 +449,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" PROJOBEMP_STATUS=@PROJOBEMP_STATUS ");
 
                 obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND PROJOBEMP_EMP=@PROJOBEMP_EMP ");
+
                 //obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
 
                 obj_conn.doConnect();
@@ -459,6 +461,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 //obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@PROJOBEMP_EMP", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBEMP_EMP"].Value = model.projobemp_emp;
 
                 obj_cmd.ExecuteNonQuery();
 

@@ -24,7 +24,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             Obj_conn.doClose();
         }
 
-        private List<cls_MTProjobmain> getData(string condition)
+        private List<cls_MTProjobmain> getData(string language, string condition)
         {
             List<cls_MTProjobmain> list_model = new List<cls_MTProjobmain>();
             cls_MTProjobmain model;
@@ -50,12 +50,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", PROJECT_CODE");
                 obj_str.Append(", VERSION");
- 
 
-                obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
-                obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");    
+                if (language.Equals("TH"))
+                {
+                    obj_str.Append(", PRO_MT_PROTYPE.PROTYPE_NAME_TH    AS PROTYPE_NAME");
+                }
+                else
+                {
+                     obj_str.Append(", PRO_MT_PROTYPE.PROTYPE_NAME_EN    AS PROTYPE_NAME");
+                }
+
+                obj_str.Append(", ISNULL(PRO_MT_PROJOBMAIN.MODIFIED_BY, PRO_MT_PROJOBMAIN.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(PRO_MT_PROJOBMAIN.MODIFIED_DATE, PRO_MT_PROJOBMAIN.CREATED_DATE) AS MODIFIED_DATE");    
 
                 obj_str.Append(" FROM PRO_MT_PROJOBMAIN");
+                obj_str.Append("  INNER JOIN PRO_MT_PROTYPE ON PRO_MT_PROTYPE.PROTYPE_CODE=PRO_MT_PROJOBMAIN.PROJOBMAIN_JOBTYPE");
+
                 obj_str.Append(" WHERE 1=1");
                 
                 if (!condition.Equals(""))
@@ -85,7 +95,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.project_code = dr["PROJECT_CODE"].ToString();
 
                     model.version = dr["VERSION"].ToString();
- 
+                    model.protype_name = dr["PROTYPE_NAME"].ToString();
+
                     
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -102,7 +113,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProjobmain> getDataByFillter(string project, string version )
+        public List<cls_MTProjobmain> getDataByFillter(string language, string project, string version)
         {
             string strCondition = "";
 
@@ -112,9 +123,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!version.Equals(""))
                 strCondition += " AND VERSION='" + version + "'";
 
- 
-            
-            return this.getData(strCondition);
+
+
+            return this.getData(language, strCondition);
         }
 
         public int getNextID()

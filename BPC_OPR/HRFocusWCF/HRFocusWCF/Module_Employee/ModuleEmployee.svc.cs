@@ -13102,7 +13102,7 @@ namespace BPC_OPR
         #endregion
 
         //
-        #region Set batch
+        #region กราฟ
         public string getlocationList(FillterWorker input)
         {
             JObject output = new JObject();
@@ -13167,9 +13167,272 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
 
+    
+        //ตามเพศพนักงาน
+        public string getDashGenderList(FillterWorker input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTDashboards objGender = new cls_ctMTDashboards();
+                List<cls_MTDashboards> listPolItem = objGender.getDataByFillterDataGender(input.company_code, "","0");
+
+                JArray array = new JArray();
+
+                if (listPolItem.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTDashboards model in listPolItem)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_gender", model.worker_gender);
+                        json.Add("worker_resignstatus", model.worker_resignstatus);
+
+                        json.Add("worker_gender_en", model.worker_gender_en);
+                        json.Add("worker_gender_th", model.worker_gender_th);
+                     
+                   
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+
+        //ตามอายุพนักงาน
+        public string getDashEmpWorkAgeList(FillterWorker input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTDashboards objEmpWorkAge = new cls_ctMTDashboards();
+                List<cls_MTDashboards> listEmpWorkAge = objEmpWorkAge.getDataEmpWorkAgeByFillter(input.company_code, "", "0");
+
+                JArray array = new JArray();
+
+                if (listEmpWorkAge.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTDashboards model in listEmpWorkAge)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                         json.Add("age_code", model.age_code);
+                         json.Add("worker_resignstatus", model.worker_resignstatus);
+
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+
+        //ตามอายุงาน
+        public string getDashWorkAgeList(FillterWorker input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTDashboards objWorkAge = new cls_ctMTDashboards();
+                List<cls_MTDashboards> listWorkAge = objWorkAge.getDataWorkAgeByFillter(input.company_code, "", "0");
+
+                JArray array = new JArray();
+
+                if (listWorkAge.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTDashboards model in listWorkAge)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("work_age", model.work_age);
+                        json.Add("worker_resignstatus", model.worker_resignstatus);
+
+
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+
+
+        //Position
+        public string getDashPositionList(FillterWorker input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "EMBT001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTDashboards objPosition = new cls_ctMTDashboards();
+                List<cls_MTDashboards> listPosition = objPosition.getDataPositionByFillter(input.language, input.company_code, "", "0");
+
+                JArray array = new JArray();
+
+                if (listPosition.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTDashboards model in listPosition)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("empposition_position", model.empposition_position);
+                        json.Add("worker_resignstatus", model.worker_resignstatus);
+                        json.Add("position_name", model.position_name);
+                        //json.Add("position_name_th", model.position_name_th);
+                        index++;
+
+                        array.Add(json);
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
         #endregion
-
-
 
         public string getDasTypeList(FillterWorker input)
         {
