@@ -1747,6 +1747,678 @@ namespace BPC_OPR
 
         }
 
+
+        public ApiResponse<ProUniform> APIHRUniformCreate(ProUniform input)
+        {
+            ApiResponse<ProUniform> response = new ApiResponse<ProUniform>();
+            response.data = new List<ProUniform>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO004.1";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+
+                cls_ctMTProuniform controller = new cls_ctMTProuniform();
+                cls_MTProuniform model = new cls_MTProuniform();
+
+                model.company_code = input.CompanyCode;
+                model.prouniform_id = input.ProUniformId;
+                model.prouniform_code = input.ProUniformCode;
+                model.prouniform_name_th = input.ProUniformNameTh;
+                model.prouniform_name_en = input.ProUniformNameEn;
+ 
+                model.modified_by = input.ModifiedBy;
+
+                string strID = controller.insert(model);
+                if (!strID.Equals(""))
+                {
+                    input.ProUniformId = Convert.ToInt32(strID);
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
+                    response.success = true;
+                    response.message = "indicates that the request resulted in a new resource created before the response was sent.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "201";
+                    log.apilog_message = "indicates that the request resulted in a new resource created before the response was sent.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProUniform> APIHRUniformUpdate(ProUniform input)
+        {
+            ApiResponse<ProUniform> response = new ApiResponse<ProUniform>();
+            response.data = new List<ProUniform>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO004.2";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                cls_ctMTProuniform controller = new cls_ctMTProuniform();
+                cls_MTProuniform model = new cls_MTProuniform();
+
+                model.company_code = input.CompanyCode;
+                model.prouniform_id = input.ProUniformId;
+                model.prouniform_code = input.ProUniformCode;
+                model.prouniform_name_th = input.ProUniformNameTh;
+                model.prouniform_name_en = input.ProUniformNameEn;
+
+                model.modified_by = input.ModifiedBy;
+                bool strID = false;
+                if (controller.checkDataOld(model.prouniform_code, model.company_code))
+                {
+                    if (model.prouniform_id.Equals(0))
+                    {
+                        strID = false;
+                    }
+                    else
+                    {
+                        strID = controller.update(model);
+                    }
+                }
+                if (strID)
+                {
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProUniform> APIHRUniformList(string CompanyCode, string ProUniformCode)
+        {
+            ApiResponse<ProUniform> response = new ApiResponse<ProUniform>();
+            response.data = new List<ProUniform>();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO004.3";
+            log.apilog_data = "all";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+
+                cls_ctMTProuniform controller = new cls_ctMTProuniform();
+                List<cls_MTProuniform> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, ProUniformCode == null ? "" : ProUniformCode);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_MTProuniform data in list)
+                    {
+                        ProUniform proUniform = new ProUniform();
+                        proUniform.CompanyCode = data.company_code;
+                        proUniform.ProUniformId = data.prouniform_id;
+                        proUniform.ProUniformCode = data.prouniform_code;
+                        proUniform.ProUniformNameTh = data.prouniform_name_th;
+                        proUniform.ProUniformNameEn = data.prouniform_name_en;
+                        proUniform.ModifiedBy = data.modified_by;
+                        proUniform.ModifiedDate = data.modified_date.ToString("dd/MM/yyyy");
+
+                        response.data.Add(proUniform);
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                log.apilog_status = "200";
+                log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProUniform> APIHRUniformDelete(string CompanyCode, string ProUniformCode)
+        {
+            ApiResponse<ProUniform> response = new ApiResponse<ProUniform>();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO004.4";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+                cls_ctMTProuniform controller = new cls_ctMTProuniform();
+                bool blnResult = controller.delete(ProUniformCode,CompanyCode);
+
+                if (blnResult)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    log.apilog_status = "400";
+                    log.apilog_message = "indicates that the request could not be understood by the server.";
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+
+        }
+
+
+        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input)
+        {
+            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
+            response.data = new List<ProEquipmentReq>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO005.1";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+                cls_TRProequipmentreq model = new cls_TRProequipmentreq();
+
+                model.proequipmentreq_id = input.ProEquipmentReqId;
+                model.prouniform_code = input.ProUniformCode;
+                model.proequipmentreq_date = Convert.ToDateTime(input.ProEquipmentReqDate);
+                model.proequipmentreq_qty = input.ProEquipmentReqQty;
+                model.proequipmentreq_note = input.ProEquipmentReqNote;
+                model.proequipmentreq_by = input.ProEquipmentReqBy;
+                model.proequipmenttype_code = input.ProEquipmentTypeCode;
+                model.projob_code = input.ProJobCode;
+                model.project_code = input.ProjectCode;
+
+                model.modified_by = input.ModifiedBy;
+
+                bool strID = controller.insert(model);
+                if (strID)
+                {
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
+                    response.success = true;
+                    response.message = "indicates that the request resulted in a new resource created before the response was sent.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "201";
+                    log.apilog_message = "indicates that the request resulted in a new resource created before the response was sent.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input)
+        {
+            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
+            response.data = new List<ProEquipmentReq>();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO005.2";
+            log.apilog_by = input.ModifiedBy;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+                cls_TRProequipmentreq model = new cls_TRProequipmentreq();
+
+                model.proequipmentreq_id = input.ProEquipmentReqId;
+                model.prouniform_code = input.ProUniformCode;
+                model.proequipmentreq_date = Convert.ToDateTime(input.ProEquipmentReqDate);
+                model.proequipmentreq_qty = input.ProEquipmentReqQty;
+                model.proequipmentreq_note = input.ProEquipmentReqNote;
+                model.proequipmentreq_by = input.ProEquipmentReqBy;
+                model.proequipmenttype_code = input.ProEquipmentTypeCode;
+                model.projob_code = input.ProJobCode;
+                model.project_code = input.ProjectCode;
+
+                model.modified_by = input.ModifiedBy;
+                bool strID = false;
+                if (controller.checkDataOld(model.project_code,"","","",model.proequipmentreq_id))
+                {
+                    if (model.proequipmentreq_id.Equals(0))
+                    {
+                        strID = false;
+                    }
+                    else
+                    {
+                        strID = controller.update(model);
+                    }
+                }
+                if (strID)
+                {
+                    input.ModifiedDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    response.data.Add(input);
+
+                    log.apilog_status = "400";
+                    log.apilog_message = controller.getMessage();
+                }
+
+                controller.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                log.apilog_status = "500";
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryList(string ProjectCode, string ProJobCode,string ProUniformCode)
+        {
+            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
+            response.data = new List<ProEquipmentReq>();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO005.3";
+            log.apilog_data = "all";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+                List<cls_TRProequipmentreq> list = controller.getDataByFillter(ProjectCode == null ? "" : ProjectCode, ProJobCode == null ? "" : ProJobCode, ProUniformCode == null ? "" : ProUniformCode, "");
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_TRProequipmentreq data in list)
+                    {
+                        ProEquipmentReq proEquipmentReq = new ProEquipmentReq();
+                        proEquipmentReq.ProEquipmentReqId = data.proequipmentreq_id;
+                        proEquipmentReq.ProUniformCode = data.prouniform_code;
+                        proEquipmentReq.ProEquipmentReqDate = data.proequipmentreq_date.ToString("dd/MM/yyyy");
+                        proEquipmentReq.ProEquipmentReqQty = data.proequipmentreq_qty;
+                        proEquipmentReq.ProEquipmentReqNote = data.proequipmentreq_note;
+                        proEquipmentReq.ProEquipmentReqBy = data.proequipmentreq_by;
+                        proEquipmentReq.ProEquipmentTypeCode = data.proequipmenttype_code;
+                        proEquipmentReq.ProJobCode = data.projob_code;
+                        proEquipmentReq.ProjectCode = data.project_code;
+                        proEquipmentReq.ModifiedBy = data.modified_by;
+                        proEquipmentReq.ModifiedDate = data.modified_date.ToString("dd/MM/yyyy");
+
+
+                        response.data.Add(proEquipmentReq);
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                log.apilog_status = "200";
+                log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+        }
+
+        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryDelete(string ProjectCode, string ProJobCode, string ProUniformCode)
+        {
+            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "BCO004.4";
+            log.apilog_by = "";
+
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                log.apilog_data = url;
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    log.apilog_status = "401";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+
+                    return response;
+                }
+                Authen objAuthen = new Authen();
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                log.apilog_by = usr.Value;
+                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
+                bool blnResult = controller.delete(ProjectCode, ProJobCode, ProUniformCode);
+
+                if (blnResult)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    response.success = true;
+                    response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                    log.apilog_status = "200";
+                    log.apilog_message = "indicates that the request succeeded and that the requested information is in the response.";
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                    response.success = false;
+                    response.message = "indicates that the request could not be understood by the server.";
+                    log.apilog_status = "400";
+                    log.apilog_message = "indicates that the request could not be understood by the server.";
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                log.apilog_message = ex.ToString();
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return response;
+
+        }
+
         
     }
 }

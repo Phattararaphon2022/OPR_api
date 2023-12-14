@@ -256,4 +256,30 @@ namespace BPC_OPR
         public string ModifiedDate { get; set; }
     }
 
+    public class ProUniform
+    {
+        public string CompanyCode { get; set; }
+        public int ProUniformId { get; set; }
+        public string ProUniformCode { get; set; }
+        public string ProUniformNameTh { get; set; }
+        public string ProUniformNameEn { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
+    public class ProEquipmentReq
+    {
+        public int ProEquipmentReqId { get; set; }
+        public string ProUniformCode { get; set; }
+        public string ProEquipmentReqDate { get; set; }
+        public int ProEquipmentReqQty { get; set; }
+        public string ProEquipmentReqNote { get; set; }
+        public string ProEquipmentReqBy { get; set; }
+        public string ProEquipmentTypeCode { get; set; }
+        public string ProJobCode { get; set; }
+        public string ProjectCode { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
 }

@@ -56,6 +56,7 @@ namespace BPC_OPR
         ApiResponse<ProContract> APIHRProjectContractDelete(string code, string id);
         #endregion
 
+
         #region APIHRJob2
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -74,5 +75,42 @@ namespace BPC_OPR
         ApiResponse<ProJobMain> APIHRJobDelete(string code, string job, string ver);
         #endregion
 
+
+        #region APIHRUniform
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRUniform", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProUniform> APIHRUniformCreate(ProUniform input);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniform", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProUniform> APIHRUniformUpdate(ProUniform input);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "APIHRUniform?CompanyCode={com}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProUniform> APIHRUniformList(string com, string code);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRUniform?CompanyCode={com}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProUniform> APIHRUniformDelete(string com, string code);
+        #endregion
+
+
+        #region APIHRUniformSummary
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRUniformSummary", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniformSummary", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "APIHRUniformSummary?ProjectCode={projectcode}&ProJobCode={job}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProEquipmentReq> APIHRUniformSummaryList(string projectcode, string job, string code);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRUniformSummary?ProjectCode={projectcode}&ProJobCode={job}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProEquipmentReq> APIHRUniformSummaryDelete(string projectcode, string job, string code);
+        #endregion
     }
 }

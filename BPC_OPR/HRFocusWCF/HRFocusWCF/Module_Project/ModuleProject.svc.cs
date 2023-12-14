@@ -11185,7 +11185,7 @@ namespace BPC_OPR
                 int error = 0;
                 StringBuilder obj_error = new StringBuilder();
 
-                bool clear = controller.delete(input.project_code );
+                bool clear = controller.delete(input.project_code,"","" );
 
                 if (clear)
                 {
@@ -11284,9 +11284,9 @@ namespace BPC_OPR
 
                 cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.prouniform_code, input.proequipmenttype_code))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.prouniform_code, input.proequipmenttype_code,input.proequipmentreq_id))
                 {
-                    bool blnResult = controller.delete(input.project_code );
+                    bool blnResult = controller.delete(input.project_code,"","" );
 
                     if (blnResult)
                     {
