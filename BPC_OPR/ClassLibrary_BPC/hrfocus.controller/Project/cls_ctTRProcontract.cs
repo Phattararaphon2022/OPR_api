@@ -161,7 +161,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROCONTRACT_REF");
                 obj_str.Append(" FROM PRO_TR_PROCONTRACT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROCONTRACT_REF='" + contract_ref + "'");
+                if (!contract_ref.Equals(""))
+                {
+                    obj_str.Append(" AND PROCONTRACT_REF='" + contract_ref + "'");
+                }
+            
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -202,7 +206,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project, string contract_ref)
+        public bool delete(string project, string contract_ref,string contract_id)
         {
             bool blnResult = true;
             try
@@ -213,7 +217,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_TR_PROCONTRACT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROCONTRACT_REF='" + contract_ref + "'");
+                if (!contract_ref.Equals(""))
+                {
+                    obj_str.Append(" AND PROCONTRACT_REF='" + contract_ref + "'");
+                }
+                if (!contract_id.Equals(""))
+                {
+                    obj_str.Append(" AND PROCONTRACT_ID='" + contract_id + "'");
+                }
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -236,7 +247,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.project_code, model.procontract_ref))
                 {
-                    return this.update(model);
+                    if (model.procontract_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    {
+                        return this.update(model);
+                    }
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -332,6 +349,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
 
                 obj_str.Append(" WHERE PROCONTRACT_ID=@PROCONTRACT_ID ");
+                obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                
                 obj_conn.doConnect();
 
@@ -342,7 +360,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROCONTRACT_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROCONTRACT_FROMDATE"].Value = model.procontract_fromdate;
                 obj_cmd.Parameters.Add("@PROCONTRACT_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROCONTRACT_TODATE"].Value = model.procontract_todate;
                 obj_cmd.Parameters.Add("@PROCONTRACT_CUSTOMER", SqlDbType.VarChar); obj_cmd.Parameters["@PROCONTRACT_CUSTOMER"].Value = model.procontract_customer;
-                obj_cmd.Parameters.Add("@PROCONTRACT_BIDDER", SqlDbType.VarChar); obj_cmd.Parameters["@PROCONTRACT_BIDDER"].Value = model.procontract_bidder;     
+                obj_cmd.Parameters.Add("@PROCONTRACT_BIDDER", SqlDbType.VarChar); obj_cmd.Parameters["@PROCONTRACT_BIDDER"].Value = model.procontract_bidder;
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;     
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

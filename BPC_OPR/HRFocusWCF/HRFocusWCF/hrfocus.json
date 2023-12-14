@@ -38,6 +38,15 @@
                     "APIHRProject"
                 ],
                 "summary": "Create HR Project",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -68,6 +77,22 @@
                 ],
                 "summary": "Update HR Project",
                 "description": "ProContactId required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -136,7 +161,7 @@
                 "tags": [
                     "APIHRProject"
                 ],
-                "summary": "delete HR Project",
+                "summary": "Delete HR Project",
                 "parameters": [
                     {
                         "name": "CompanyCode",
@@ -151,6 +176,651 @@
                         "required": true,
                         "type": "string",
                         "value": "TEST01"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRProjectContract": {
+            "post": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Create HR ProjectContract",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProContract"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Update HR ProjectContract",
+                "description": "ProContractId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProContract"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Get HR ProjectContract",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "APIHRProjectContract"
+                ],
+                "summary": "Delete HR ProjectContract",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    },
+                    {
+                        "name": "ProContractId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "1"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRJob": {
+            "post": {
+                "tags": [
+                    "APIHRJob"
+                ],
+                "summary": "Create HR Job",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/APIHRJobmain"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "APIHRJob"
+                ],
+                "summary": "Update HR Job",
+                "description": "ProJobMainId, ProJobShiftId, ProJobCostId, ProJobMachineId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/APIHRJobmain"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "APIHRJob"
+                ],
+                "summary": "Get HR Job",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    },
+                    {
+                        "name": "ProJobMainCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "JOB01S"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "1.0"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "APIHRJob"
+                ],
+                "summary": "Delete HR Job",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    },
+                    {
+                        "name": "ProJobMainCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "JOB01S"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "1.0"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRUniform": {
+            "post": {
+                "tags": [
+                    "APIHRUniform"
+                ],
+                "summary": "Create HR ProUniform",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProUniform"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "APIHRUniform"
+                ],
+                "summary": "Update HR ProUniform",
+                "description": "ProUniformId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProUniform"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "APIHRUniform"
+                ],
+                "summary": "Get HR ProUniform",
+                "parameters": [
+                    {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "OPR"
+                    },
+                    {
+                        "name": "ProUniformCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "value": "W01"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "APIHRUniform"
+                ],
+                "summary": "Delete HR ProUniform",
+                "parameters": [
+                    {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "OPR"
+                    },
+                    {
+                        "name": "ProUniformCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "W01"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/BCInterface/BCInterface.svc/BC/APIHRUniformSummary": {
+            "post": {
+                "tags": [
+                    "APIHRUniformSummary"
+                ],
+                "summary": "Create HR APIHRUniformSummary",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProEquipmentReq"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "APIHRUniformSummary"
+                ],
+                "summary": "Update HR APIHRUniformSummary",
+                "description": "ProEquipmentReqId  required *",
+                "parameters": [
+                    {
+                        "name": "TransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    },
+                    {
+                        "name": "OldTransactionId",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProEquipmentReq"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "APIHRUniformSummary"
+                ],
+                "summary": "Get HR APIHRUniformSummary",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    },
+                    {
+                        "name": "ProJobCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "value": "JOB01S"
+                    },
+                    {
+                        "name": "ProUniformCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "value": "W01"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "APIHRUniformSummary"
+                ],
+                "summary": "Delete HR APIHRUniformSummary",
+                "parameters": [
+                    {
+                        "name": "ProjectCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "TEST01"
+                    },
+                    {
+                        "name": "ProJobCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "JOB01S"
+                    },
+                    {
+                        "name": "ProUniformCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "W01"
                     }
                 ],
                 "security": [
@@ -425,6 +1095,477 @@
                     "InitialCode": {
                         "type": "string"
                     }
+                },
+                "example": {
+                    "ProContactId": 0,
+                    "ProContactRef": "100",
+                    "ProContactFirstNameTh": "เทส",
+                    "ProContactLastNameTh": "ทดลอง",
+                    "ProContactFirstNameEn": "Test",
+                    "ProContactLastNameEn": "TestTest",
+                    "ProContactTel": "0898753336",
+                    "ProContactEmail": "user2@example.com",
+                    "PositionCode": "S",
+                    "InitialCode": "003"
+                }
+            },
+            "ProContract": {
+                "type": "object",
+                "required": [
+                    "ProContractDate",
+                    "ProContractAmount",
+                    "ProContractCustomer",
+                    "ProContractBidder",
+                    "ProjectCode",
+                    "ProContractType",
+                    "ModifiedBy"
+                ],
+                "properties": {
+                    "ProContractId": {
+                        "type": "integer"
+                    },
+                    "ProContractRef": {
+                        "type": "string"
+                    },
+                    "ProContractDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProContractAmount": {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "ProContractFromDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProContractToDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProContractCustomer": {
+                        "type": "string"
+                    },
+                    "ProContractBidder": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "ProContractType": {
+                        "type": "string"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "ProContractId": 0,
+                    "ProContractRef": "",
+                    "ProContractDate": "2023-01-15",
+                    "ProContractAmount": 50000.00,
+                    "ProContractFromDate": "2023-02-01",
+                    "ProContractToDate": "2023-07-31",
+                    "ProContractCustomer": "ABC Corp",
+                    "ProContractBidder": "XYZ Ltd",
+                    "ProjectCode": "TEST01",
+                    "ProContractType": "3",
+                    "ModifiedBy": "Admin"
+                }
+            },
+            "APIHRJobmain": {
+                "type": "object",
+                "required": [
+                    "ProjectCode",
+                    "Version",
+                    "ModifiedBy",
+                    "JobPlaningLines"
+                ],
+                "properties": {
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "Version": {
+                        "type": "string"
+                    },
+                    "StartDate": {
+                        "type": "string"
+                    },
+                    "FromDate": {
+                        "type": "string"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    },
+                    "JobPlaningLines": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProJobMain"
+                        }
+                    }
+                },
+                "example": {
+                    "ProjectCode": "TEST01",
+                    "Version": "1.0",
+                    "StartDate": "",
+                    "FromDate": "",
+                    "ModifiedBy": "Admin",
+                    "JobPlaningLines": [
+                        {
+                            "ProJobMainId": 0,
+                            "ProJobMainCode": "JOB01S",
+                            "ProJobMainNameTh": "งานทดสอบ01S",
+                            "ProJobMainNameEn": "JOBTEST01S",
+                            "ProJobMainJobType": "3",
+                            "ProJobMainFromDate": "2023-01-02",
+                            "ProJobMainToDate": "2023-04-30",
+                            "ProJobMainType": "3",
+                            "ProJobMainTimePol": "",
+                            "ProJobMainSlip": "",
+                            "ProJobMainUniform": "",
+                            "JobTaskShift": [
+                                {
+                                    "ProJobShiftId": 0,
+                                    "ShiftCode": "",
+                                    "ProJobShiftSun": false,
+                                    "ProJobShiftMon": true,
+                                    "ProJobShiftTue": true,
+                                    "ProJobShiftWed": true,
+                                    "ProJobShiftThu": true,
+                                    "ProJobShiftFri": true,
+                                    "ProJobShiftSat": false,
+                                    "ProJobShiftEmp": 10,
+                                    "ProJobShiftPh": 0,
+                                    "ProJobShiftWorking": 120,
+                                    "ProJobShiftHrsPerDay": 8.00,
+                                    "ProJobShiftHrsOT": 3.00
+                                }
+                            ],
+                            "JobTaskCost": [
+                                {
+                                    "ProJobCostId": 0,
+                                    "ProJobCostCode": "SAD",
+                                    "ProJobCostAmount": 300,
+                                    "ProJobCostAuto": false,
+                                    "ProJobCostStatus": "0"
+                                },
+                                {
+                                    "ProJobCostId": 0,
+                                    "ProJobCostCode": "OT",
+                                    "ProJobCostAmount": 30,
+                                    "ProJobCostAuto": false,
+                                    "ProJobCostStatus": "0"
+                                }
+                            ],
+                            "JobTaskMachine": [
+                                {
+                                    "ProJobMachineId": 0,
+                                    "ProJobMachineIp": "192.168.0.1",
+                                    "ProJobMachinePort": "8080",
+                                    "ProJobMachineEnable": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "ProJobMain": {
+                "type": "object",
+                "required": [
+                    "ProJobMainCode",
+                    "ProJobMainNameTh",
+                    "ProJobMainNameEn",
+                    "ProJobMainJobType",
+                    "ProJobMainFromDate",
+                    "ProJobMainToDate",
+                    "JobTaskShift",
+                    "JobTaskCost",
+                    "JobTaskMachine",
+                    "ProJobMainType"
+                ],
+                "properties": {
+                    "ProJobMainId": {
+                        "type": "integer"
+                    },
+                    "ProJobMainCode": {
+                        "type": "string"
+                    },
+                    "ProJobMainNameTh": {
+                        "type": "string"
+                    },
+                    "ProJobMainNameEn": {
+                        "type": "string"
+                    },
+                    "ProJobMainJobType": {
+                        "type": "char"
+                    },
+                    "ProJobMainFromDate": {
+                        "type": "string"
+                    },
+                    "ProJobMainToDate": {
+                        "type": "string"
+                    },
+                    "ProJobMainType": {
+                        "type": "char"
+                    },
+                    "ProJobMainTimePol": {
+                        "type": "string"
+                    },
+                    "ProJobMainSlip": {
+                        "type": "string"
+                    },
+                    "ProJobMainUniform": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "Version": {
+                        "type": "string"
+                    },
+                    "JobTaskShift": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProJobShift"
+                        }
+                    },
+                    "JobTaskCost": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProJobCost"
+                        }
+                    },
+                    "JobTaskMachine": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProJobMachine"
+                        }
+                    }
+                }
+            },
+            "ProJobShift": {
+                "type": "object",
+                "required": [
+                    "ProJobShiftId",
+                    "ShiftCode",
+                    "ProJobShiftSun",
+                    "ProJobShiftMon",
+                    "ProJobShiftTue",
+                    "ProJobShiftWed",
+                    "ProJobShiftThu",
+                    "ProJobShiftFri",
+                    "ProJobShiftSat",
+                    "ProJobShiftEmp",
+                    "ProJobShiftPh",
+                    "ProJobShiftWorking",
+                    "ProJobShiftHrsPerDay",
+                    "ProJobShiftHrsOT"
+                ],
+                "properties": {
+                    "ProJobShiftId": {
+                        "type": "integer"
+                    },
+                    "ShiftCode": {
+                        "type": "string"
+                    },
+                    "ProJobShiftSun": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftMon": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftTue": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftWed": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftThu": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftFri": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftSat": {
+                        "type": "boolean"
+                    },
+                    "ProJobShiftEmp": {
+                        "type": "integer"
+                    },
+                    "ProJobShiftPh": {
+                        "type": "integer"
+                    },
+                    "ProJobShiftWorking": {
+                        "type": "integer"
+                    },
+                    "ProJobShiftHrsPerDay": {
+                        "type": "number"
+                    },
+                    "ProJobShiftHrsOT": {
+                        "type": "number"
+                    },
+                    "ProJobCode": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProJobCost": {
+                "type": "object",
+                "required": [
+                    "ProJobCostCode",
+                    "ProJobCostAmount",
+                    "ProJobCostAuto",
+                    "ProJobCostStatus"
+                ],
+                "properties": {
+                    "ProJobCostId": {
+                        "type": "integer"
+                    },
+                    "ProJobCostCode": {
+                        "type": "string"
+                    },
+                    "ProJobCostAmount": {
+                        "type": "number"
+                    },
+                    "ProJobCostAuto": {
+                        "type": "boolean"
+                    },
+                    "ProJobCostStatus": {
+                        "type": "char"
+                    },
+                    "ProJobCode": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProJobMachine": {
+                "type": "object",
+                "required": [
+                    "ProJobMachineIp",
+                    "ProJobMachinePort",
+                    "ProJobMachineEnable"
+                ],
+                "properties": {
+                    "ProJobMachineId": {
+                        "type": "integer"
+                    },
+                    "ProJobMachineIp": {
+                        "type": "string"
+                    },
+                    "ProJobMachinePort": {
+                        "type": "string"
+                    },
+                    "ProJobMachineEnable": {
+                        "type": "boolean"
+                    },
+                    "ProJobCode": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProUniform": {
+                "type": "object",
+                "required": [
+                    "CompanyCode",
+                    "ProUniformCode",
+                    "ProUniformNameTh",
+                    "ProUniformNameEn",
+                    "ModifiedBy"
+                ],
+                "properties": {
+                    "CompanyCode": {
+                        "type": "string"
+                    },
+                    "ProUniformId": {
+                        "type": "integer"
+                    },
+                    "ProUniformCode": {
+                        "type": "string"
+                    },
+                    "ProUniformNameTh": {
+                        "type": "string"
+                    },
+                    "ProUniformNameEn": {
+                        "type": "string"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "CompanyCode": "OPR",
+                    "ProUniformId": 0,
+                    "ProUniformCode": "W01",
+                    "ProUniformNameTh": "ชุดฟอร์มสีขาว",
+                    "ProUniformNameEn": "white uniform",
+                    "ModifiedBy": "Admin"
+                }
+            },
+            "ProEquipmentReq": {
+                "type": "object",
+                "required": [
+                    "ProEquipmentReqBy",
+                    "ProUniformCode",
+                    "ProEquipmentReqDate",
+                    "ProEquipmentReqQty",
+                    "ProEquipmentTypeCode",
+                    "ProjectCode",
+                    "ProJobCode",
+                    "ModifiedBy"
+                ],
+                "properties": {
+                    "ProEquipmentReqId": {
+                        "type": "integer"
+                    },
+                    "ProUniformCode": {
+                        "type": "string"
+                    },
+                    "ProEquipmentReqDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ProEquipmentReqQty": {
+                        "type": "integer"
+                    },
+                    "ProEquipmentReqNote": {
+                        "type": "string"
+                    },
+                    "ProEquipmentReqBy": {
+                        "type": "string"
+                    },
+                    "ProEquipmentTypeCode": {
+                        "type": "string"
+                    },
+                    "ProJobCode": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "ProEquipmentReqId": 0,
+                    "ProUniformCode": "W01",
+                    "ProEquipmentReqDate": "2023-01-02",
+                    "ProEquipmentReqQty": "10",
+                    "ProEquipmentReqNote": "",
+                    "ProEquipmentReqBy": "Admin",
+                    "ProEquipmentTypeCode": "1",
+                    "ProJobCode": "JOB01S",
+                    "ProjectCode": "TEST01",
+                    "ModifiedBy": "Admin"
                 }
             }
         }

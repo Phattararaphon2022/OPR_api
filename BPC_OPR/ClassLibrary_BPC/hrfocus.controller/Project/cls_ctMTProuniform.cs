@@ -174,10 +174,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 //-- Check data old
                 if (this.checkDataOld(model.prouniform_code, model.company_code))
                 {
-                    if (this.update(model))
-                        return model.prouniform_id.ToString();
-                    else
+                    if (model.prouniform_id.Equals(0))
+                    {
                         return "";
+                    }
+                    else
+                    {
+                        if (this.update(model))
+                            return model.prouniform_id.ToString();
+                        else
+                            return "";
+                    }
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
