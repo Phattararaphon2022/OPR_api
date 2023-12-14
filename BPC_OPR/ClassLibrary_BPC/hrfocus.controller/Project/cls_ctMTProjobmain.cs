@@ -102,7 +102,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTProjobmain> getDataByFillter(string project, string version )
+        public List<cls_MTProjobmain> getDataByFillter(string project, string version ,string jobcode )
         {
             string strCondition = "";
 
@@ -111,6 +111,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!version.Equals(""))
                 strCondition += " AND VERSION='" + version + "'";
+
+            if (!jobcode.Equals(""))
+                strCondition += " AND PROJOBMAIN_CODE='" + jobcode + "'";
 
  
             
@@ -143,7 +146,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string version, string project, string code )
+        public bool checkDataOld(string version, string project, string code ,int id )
         {
             bool blnResult = false;
             try
@@ -154,7 +157,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" FROM PRO_MT_PROJOBMAIN");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOBMAIN_CODE='" + code + "'");
-                obj_str.Append(" AND VERSION='" + version + "'");
+                if (!version.Equals(""))
+                {
+                    obj_str.Append(" AND VERSION='" + version + "'");
+                }
+                if (!id.Equals(0))
+                {
+                    obj_str.Append(" AND PROJOBMAIN_ID='" + id + "'");
+                }
+                
  
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -172,7 +183,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
-        public bool delete(string project)
+        public bool delete2(string version, string project, string projobmin)
         {
             bool blnResult = true;
             try
@@ -183,6 +194,15 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append("DELETE FROM PRO_MT_PROJOBMAIN");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
+                if (!projobmin.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOBMAIN_CODE='" + projobmin + "'");
+                }
+                if (!version.Equals(""))
+                {
+                    obj_str.Append(" AND VERSION='" + version + "'");
+                }
+                
 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -257,9 +277,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.version, model.project_code, model.projobmain_code  ))
+                if (this.checkDataOld(model.version, model.project_code, model.projobmain_code ,0 ))
                 {
-                    return this.update(model);               
+                    if (model.projobmain_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model); 
+                    }
+                                  
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -397,8 +425,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_TH"].Value = model.projobmain_name_th;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_NAME_EN", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_NAME_EN"].Value = model.projobmain_name_en;
                 obj_cmd.Parameters.Add("@PROJOBMAIN_JOBTYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_JOBTYPE"].Value = model.projobmain_jobtype;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_FROMDATE", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_FROMDATE"].Value = model.projobmain_fromdate;
-                obj_cmd.Parameters.Add("@PROJOBMAIN_TODATE", SqlDbType.Decimal); obj_cmd.Parameters["@PROJOBMAIN_TODATE"].Value = model.projobmain_todate;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_FROMDATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBMAIN_FROMDATE"].Value = model.projobmain_fromdate;
+                obj_cmd.Parameters.Add("@PROJOBMAIN_TODATE", SqlDbType.DateTime); obj_cmd.Parameters["@PROJOBMAIN_TODATE"].Value = model.projobmain_todate;
 
                
                 obj_cmd.Parameters.Add("@PROJOBMAIN_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBMAIN_TYPE"].Value = model.projobmain_type;

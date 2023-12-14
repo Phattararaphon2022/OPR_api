@@ -16,7 +16,7 @@ namespace BPC_OPR
     {
 
         [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRJobs", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManageAPIHRJob(APIHRJob input);
 
         #region APIHRProject
@@ -54,6 +54,24 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "DELETE", UriTemplate = "APIHRProjectContract?ProjectCode={code}&ProContractId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         ApiResponse<ProContract> APIHRProjectContractDelete(string code, string id);
+        #endregion
+
+        #region APIHRJob2
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<APIHRJobmain> APIHRJobCreate(APIHRJobmain input);
+
+        [OperationContract]
+        [WebInvoke(Method = "PUT", UriTemplate = "APIHRJob", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<APIHRJobmain> APIHRJobUpdate(APIHRJobmain input);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "APIHRJob?ProjectCode={code}&ProJobMainCode={job}&Version={ver}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProJobMain> APIHRJobList(string code, string job, string ver);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRJob?ProjectCode={code}&ProJobMainCode={job}&Version={ver}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<ProJobMain> APIHRJobDelete(string code, string job, string ver);
         #endregion
 
     }

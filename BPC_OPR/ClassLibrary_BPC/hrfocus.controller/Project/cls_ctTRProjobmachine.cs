@@ -122,7 +122,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string ip)
+        public bool checkDataOld(string project, string job, string ip,int id)
         {
             bool blnResult = false;
             try
@@ -132,8 +132,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROJOBMACHINE_IP");
                 obj_str.Append(" FROM PRO_TR_PROJOBMACHINE");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBMACHINE_IP='" + ip + "'");
+                if (!job.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                }
+                if (!ip.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOBMACHINE_IP='" + ip + "'");
+                }
+                if (!id.Equals(0))
+                {
+                    obj_str.Append(" AND PROJOBMACHINE_ID='" + id + "'");
+                }
+                
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -162,7 +173,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("DELETE FROM PRO_TR_PROJOBMACHINE");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBMACHINE_IP='" + ip + "'");
+                if (!ip.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOBMACHINE_IP='" + ip + "'");
+                }
+                
                 
                 blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
 
@@ -208,7 +223,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.projobmachine_ip))
+                if (this.checkDataOld(model.project_code, model.projob_code, model.projobmachine_ip,0))
                 {
                     return this.update(model);
                 }

@@ -107,7 +107,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!version.Equals(""))
                 strCondition += " AND PRO_TR_PROJOBCOST.VERSION='" + version + "'";
 
-            if (!version.Equals(""))
+            if (!com.Equals(""))
                 strCondition += " AND PRO_MT_PROCOST.COMPANY_CODE='" + com + "'";
 
             return this.getData(strCondition);
@@ -180,7 +180,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string cost, string version)
+        public bool checkDataOld(string project, string job, string cost, string version,int id)
         {
             bool blnResult = false;
             try
@@ -190,9 +190,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT PROJOBCOST_CODE");
                 obj_str.Append(" FROM PRO_TR_PROJOBCOST");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROJOBCOST_CODE='" + cost + "'");
-                obj_str.Append(" AND VERSION='" + version + "'");
+                if (!job.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                }
+                if (!cost.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOBCOST_CODE='" + cost + "'");
+                }
+                if (!version.Equals(""))
+                {
+                    obj_str.Append(" AND VERSION='" + version + "'");
+                }
+                if (!id.Equals(0))
+                {
+                    obj_str.Append(" AND PROJOBCOST_ID='" + id + "'");
+                }   
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -294,9 +307,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.projobcost_code, model.version))
+                if (this.checkDataOld(model.project_code, model.projob_code, model.projobcost_code, model.version,model.projobcost_id))
                 {
-                    return this.update(model);
+                    if (model.projobcost_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
+                    
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();

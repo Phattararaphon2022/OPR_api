@@ -1779,7 +1779,7 @@ namespace BPC_OPR
                         string lastversion = jobversion_controller.getLastVersion(model.project_code);
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion );
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion,"" );
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -2224,7 +2224,7 @@ namespace BPC_OPR
                         //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion );
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion,"" );
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -2416,7 +2416,7 @@ namespace BPC_OPR
                         //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion,"");
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -2607,7 +2607,7 @@ namespace BPC_OPR
                         //cls_ctMTProjobversion jobversion_controllers = new cls_ctMTProjobversion();
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion);
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.project_code, lastversion,"");
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -4551,7 +4551,7 @@ namespace BPC_OPR
                 
 
                 cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                List<cls_MTProjobmain> list = controller.getDataByFillter(req.project_code, req.version );
+                List<cls_MTProjobmain> list = controller.getDataByFillter(req.project_code, req.version ,"");
                 JArray array = new JArray();
 
                 if (list.Count > 0)
@@ -4838,7 +4838,7 @@ namespace BPC_OPR
 
                 cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
 
-                if (controller.checkDataOld(input.version, input.project_code, input.projobmain_code ))
+                if (controller.checkDataOld(input.version, input.project_code, input.projobmain_code ,input.projobmain_id))
                 {
                     bool blnResult = controller.delete(input.version, input.project_code, input.projobmain_code);
 
@@ -5693,7 +5693,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobcost controller = new cls_ctTRProjobcost();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobcost_code, input.version))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobcost_code, input.version,input.projobcost_id))
                 {
                     bool blnResult = controller.delete(input.project_code, input.projob_code, input.projobcost_code, input.version);
 
@@ -6115,7 +6115,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobmachine_ip))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.projobmachine_ip,input.projobmachine_id))
                 {
                     bool blnResult = controller.delete(input.project_code, input.projob_code, input.projobmachine_ip);
 
@@ -8180,7 +8180,7 @@ namespace BPC_OPR
 
                 cls_ctTRProjobshift controller = new cls_ctTRProjobshift();
 
-                if (controller.checkDataOld(input.project_code, input.projob_code, input.shift_code, input.version))
+                if (controller.checkDataOld(input.project_code, input.projob_code, input.shift_code, input.version,input.projobshift_id))
                 {
                     bool blnResult = controller.delete(input.project_code, input.projob_code, input.version);
 
@@ -9465,7 +9465,7 @@ namespace BPC_OPR
 
                     //-- Job main
                     cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, jobversion.version );
+                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, jobversion.version,"" );
 
                     //-- Job shift
                     cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
@@ -9710,7 +9710,7 @@ namespace BPC_OPR
 
                 //-- Job main
                 cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.project_code, jobversion.version );
+                List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.project_code, jobversion.version,"" );
 
                 //-- Job shift
                 cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
@@ -10950,7 +10950,7 @@ namespace BPC_OPR
                             continue;
                         //-- Job main
                         cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, version.version );
+                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.project_code, version.version ,"");
 
                         //-- Job shift
                         cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
