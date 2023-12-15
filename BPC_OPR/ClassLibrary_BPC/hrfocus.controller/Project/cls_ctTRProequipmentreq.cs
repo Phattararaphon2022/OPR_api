@@ -143,7 +143,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string uniform, string code)
+        public bool checkDataOld(string project, string job, string uniform, string code,int id)
         {
             bool blnResult = false;
             try
@@ -153,9 +153,23 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 obj_str.Append("SELECT PROEQUIPMENTREQ_ID");
                 obj_str.Append(" FROM PRO_TR_PROEQUIPMENTREQ");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND PROUNIFORM_CODE='" + uniform + "'");
-                obj_str.Append(" AND PROEQUIPMENTTYPE_CODE='" + code + "'");
+                if (!job.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                }
+                if (!uniform.Equals(""))
+                {
+                    obj_str.Append(" AND PROUNIFORM_CODE='" + uniform + "'");
+                }
+                if (!code.Equals(""))
+                {
+                    obj_str.Append(" AND PROEQUIPMENTTYPE_CODE='" + code + "'");
+                }
+                if (!id.Equals(0))
+                {
+                    obj_str.Append(" AND PROEQUIPMENTREQ_ID='" + id + "'");
+                }
+                
 
  
                  DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -175,7 +189,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
 
        
 
-        public bool delete(string project )
+        public bool delete(string project,string job,string uniform )
         {
             bool blnResult = true;
             try
@@ -185,11 +199,18 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
                 obj_str.Append("DELETE FROM PRO_TR_PROEQUIPMENTREQ");
-                 
-
+                
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                //obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                //obj_str.Append(" AND PROUNIFORM_CODE='" + uniform + "'");
+                if (!job.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                }
+                if (!uniform.Equals(""))
+                {
+                    obj_str.Append(" AND PROUNIFORM_CODE='" + uniform + "'");
+                }
+               
+                
                 //obj_str.Append(" AND PROEQUIPMENTTYPE_CODE='" + code + "'");
 
 
@@ -212,9 +233,16 @@ namespace ClassLibrary_BPC.hrfocus.controller.Project
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.prouniform_code, model.proequipmenttype_code))
+                if (this.checkDataOld(model.project_code, model.projob_code, model.prouniform_code, model.proequipmenttype_code,model.proequipmentreq_id))
                 {
-                    return this.update(model);
+                    if (model.proequipmentreq_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model);
+                    }
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();

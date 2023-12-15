@@ -4681,6 +4681,331 @@ namespace BPC_OPR
         }
         #endregion
 
+        #region Referral
+        public string getReferralList(BasicRequest req)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY015.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTReferral objMTRefer = new cls_ctMTReferral();
+                List<cls_MTReferral> listMTRefer = objMTRefer.getDataByFillter(req.company_code, "", req.referral_code);
+
+                JArray array = new JArray();
+
+                if (listMTRefer.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTReferral model in listMTRefer)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("referral_id", model.referral_id);
+                        json.Add("referral_code", model.referral_code);
+                        json.Add("referral_name_th", model.referral_name_th);
+                        json.Add("referral_name_en", model.referral_name_en);
+                        json.Add("item_code", model.item_code);
+                        json.Add("notused", model.notused);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        //json.Add("index", index);
+                        array.Add(json);
+
+                        cls_ctTRReferralrate objReferrate = new cls_ctTRReferralrate();
+                        List<cls_TRReferralrate> listTRReferrate = objReferrate.getDataByFillter(model.company_code, model.referral_code);
+                        JArray arrayReferrate = new JArray();
+
+                        if (listTRReferrate.Count > 0)
+                        {
+                            int indexReferrate = 1;
+
+                            foreach (cls_TRReferralrate modelTRReferrate in listTRReferrate)
+                            {
+                                JObject jsonReferrate = new JObject();
+
+                                jsonReferrate.Add("company_code", modelTRReferrate.company_code);
+                                jsonReferrate.Add("referral_code", modelTRReferrate.referral_code);
+                                jsonReferrate.Add("referralrate_month", modelTRReferrate.referralrate_month);
+                                jsonReferrate.Add("referralrate_rate", modelTRReferrate.referralrate_rate);
+
+                                jsonReferrate.Add("index", indexReferrate);
+                                indexReferrate++;
+
+                                arrayReferrate.Add(jsonReferrate);
+                            }
+                            json.Add("referral_data", arrayReferrate);
+                        }
+                        else
+                        {
+                            json.Add("referral_data", arrayReferrate);
+                        }
+                        json.Add("index", index);
+
+                        index++;
+
+                        //array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+        public string doManageReferral(InputMTReferral input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY015.2";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                cls_ctMTReferral objMTRefer = new cls_ctMTReferral();
+                cls_MTReferral model = new cls_MTReferral();
+
+                model.company_code = input.company_code;
+                model.referral_id = input.referral_id.Equals("") ? 0 : Convert.ToInt32(input.referral_id);
+                model.referral_code = input.referral_code;
+                model.referral_name_th = input.referral_name_th;
+                model.referral_name_en = input.referral_name_en;
+                model.item_code = input.item_code;
+                model.notused = input.notused;
+
+                model.modified_by = input.modified_by;
+                model.flag = input.flag;
+
+                string strID = objMTRefer.insert(model);
+                if (!strID.Equals(""))
+                {
+                    try
+                    {
+                        cls_ctTRReferralrate objReferrate = new cls_ctTRReferralrate();
+                        objReferrate.delete(input.company_code, input.referral_code);
+                        if (input.referral_data.Count > 0)
+                        {
+                            objReferrate.insert(input.referral_data);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.ToString();
+                    }
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objMTRefer.getMessage();
+                }
+
+                objMTRefer.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteReferral(InputMTReferral input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY015.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTReferral controller = new cls_ctMTReferral();
+
+                bool blnResult = controller.delete(input.referral_id.ToString());
+
+                if (blnResult)
+                {
+                    cls_ctTRReferralrate objReferrate = new cls_ctTRReferralrate();
+                    objReferrate.delete(input.company_code, input.referral_code);
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadReferral(string token, string by, string fileName, Stream stream, string com)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY015.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvPayrollImport srv_import = new cls_srvPayrollImport();
+                    string tmp = srv_import.doImportExcel("REFERRAL", fileName, by, com);
+
+
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
+
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
     }
 
 }

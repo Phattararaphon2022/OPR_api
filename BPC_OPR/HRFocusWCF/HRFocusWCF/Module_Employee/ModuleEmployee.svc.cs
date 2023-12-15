@@ -10735,7 +10735,7 @@ namespace BPC_OPR
                         json.Add("empsuggest_code", model.empsuggest_code);
                         json.Add("empsuggest_date", model.empsuggest_date);
                         json.Add("empsuggest_note", model.empsuggest_note);
-                        json.Add("empsuggest_amount", model.empsuggest_amount);
+                        json.Add("empsuggest_suggest", model.empsuggest_suggest);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
@@ -10913,7 +10913,7 @@ namespace BPC_OPR
 
                 cls_ctTRSuggest controller = new cls_ctTRSuggest();
 
-                if (controller.checkDataOld(input.company_code, input.worker_code,""))
+                if (controller.checkDataOld(input.company_code, input.worker_code, "", input.empsuggest_suggest))
                 {
                     bool blnResult = controller.delete(input.company_code, input.worker_code);
 

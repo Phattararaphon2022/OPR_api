@@ -1273,6 +1273,8 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
+        [DataMember]
+        public string empsuggest_suggest { get; set; }
     }
 
     public class FillterSearch
