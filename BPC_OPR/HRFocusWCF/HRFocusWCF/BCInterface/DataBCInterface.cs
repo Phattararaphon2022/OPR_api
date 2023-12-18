@@ -219,7 +219,7 @@ namespace BPC_OPR
         public bool ProJobShiftFri { get; set; }
         public bool ProJobShiftSat { get; set; }
         public int ProJobShiftEmp { get; set; }
-        public int ProJobShiftPh { get; set; }
+        public bool ProJobShiftPh { get; set; }
         public int ProJobShiftWorking { get; set; }
         public double ProJobShiftHrsPerDay { get; set; }
         public double ProJobShiftHrsOT { get; set; }

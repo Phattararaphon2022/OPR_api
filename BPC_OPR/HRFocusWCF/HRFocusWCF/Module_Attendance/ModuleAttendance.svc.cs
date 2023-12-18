@@ -4315,6 +4315,7 @@ namespace BPC_OPR
                         json.Add("worker_name_th", model.worker_name_th);
                         json.Add("worker_name_en", model.worker_name_en);
                         json.Add("projob_code", model.projob_code);
+                        json.Add("projobsub_code", model.projobsub_code);
 
                         json.Add("change", false);
 
@@ -4411,6 +4412,9 @@ namespace BPC_OPR
                 model.project_code = input.project_code;
                 model.projob_code = input.projob_code;
                 model.worker_code = input.worker_code;
+                model.projobsub_code = input.projobsub_code;
+
+                
 
                 model.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
                 model.timecard_daytype = input.timecard_daytype;
@@ -4597,6 +4601,9 @@ namespace BPC_OPR
                     timecard.worker_code = modelWorker.worker_code;
                     timecard.project_code = input.project_code;
                     timecard.projob_code = input.projob_code;
+                    timecard.projobsub_code = input.projobsub_code; 
+
+                    
                     timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
                     timecard.timecard_daytype = input.timecard_daytype;
                     timecard.shift_code = input.shift_code;

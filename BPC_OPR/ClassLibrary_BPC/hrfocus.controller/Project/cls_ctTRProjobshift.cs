@@ -87,7 +87,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.projobshift_thu = Convert.ToBoolean(dr["PROJOBSHIFT_THU"]);
                     model.projobshift_fri = Convert.ToBoolean(dr["PROJOBSHIFT_FRI"]);
                     model.projobshift_sat = Convert.ToBoolean(dr["PROJOBSHIFT_SAT"]);
-                    model.projobshift_ph = Convert.ToInt32(dr["PROJOBSHIFT_PH"]);
+                    model.projobshift_ph = Convert.ToBoolean(dr["PROJOBSHIFT_PH"]);
 
                     
                     model.projobshift_working = Convert.ToInt32(dr["PROJOBSHIFT_WORKING"]);
@@ -419,7 +419,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_WED", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_WED"].Value = model.projobshift_wed;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_THU", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_THU"].Value = model.projobshift_thu;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_FRI", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_FRI"].Value = model.projobshift_fri;
-                obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_ph;
+                obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_sat;
 
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_PH", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_PH"].Value = model.projobshift_ph;
 

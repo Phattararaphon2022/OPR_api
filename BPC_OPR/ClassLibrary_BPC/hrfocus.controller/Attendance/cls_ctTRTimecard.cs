@@ -42,6 +42,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ATT_TR_TIMECARD.PROJECT_CODE");
                 obj_str.Append(", ATT_TR_TIMECARD.PROJOB_CODE");
 
+                obj_str.Append(", ATT_TR_TIMECARD.PROJOBSUB_CODE"); 
+
                 obj_str.Append(", SHIFT_CODE");
                 obj_str.Append(", TIMECARD_WORKDATE");
                 obj_str.Append(", TIMECARD_DAYTYPE");
@@ -104,7 +106,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.worker_code = dr["WORKER_CODE"].ToString();
                     model.project_code = dr["PROJECT_CODE"].ToString();
                     model.projob_code = dr["PROJOB_CODE"].ToString();
+                    model.projobsub_code = dr["PROJOBSUB_CODE"].ToString();
 
+                    
                     model.shift_code = dr["SHIFT_CODE"].ToString();
 
                     model.timecard_workdate = Convert.ToDateTime(dr["TIMECARD_WORKDATE"]);
@@ -180,14 +184,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public List<cls_TRTimecard> getDataByJob(string com, string project, string job, DateTime fromdate, DateTime todate)
+        public List<cls_TRTimecard> getDataByJob(string com, string project, string job, string sub, DateTime fromdate, DateTime todate)
         {
             string strCondition = "";
 
             strCondition += " AND ATT_TR_TIMECARD.COMPANY_CODE='" + com + "'";
             strCondition += " AND ATT_TR_TIMECARD.PROJECT_CODE='" + project + "'";
             strCondition += " AND ATT_TR_TIMECARD.PROJOB_CODE='" + job + "'";
-
+            strCondition += " AND ATT_TR_TIMECARD.PROJOBSUB_CODE='" + sub + "'";
             strCondition += " AND (TIMECARD_WORKDATE BETWEEN '" + fromdate.ToString(this.FormatDateDB) + "' AND '" + todate.ToString(this.FormatDateDB) + "' )";
 
             
@@ -195,7 +199,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string com, string project, string job, string worker, DateTime workdate)
+        public bool checkDataOld(string com, string project, string job, string sub, string worker, DateTime workdate)
         {
             bool blnResult = false;
             try
@@ -208,6 +212,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                obj_str.Append(" AND PROJOBSUB_CODE='" + sub + "'");
+
+                
                 obj_str.Append(" AND WORKER_CODE='" + worker + "'");
                 obj_str.Append(" AND TIMECARD_WORKDATE='" + workdate.ToString(this.FormatDateDB) + "'");
 
@@ -345,6 +352,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", WORKER_CODE ");
                     obj_str.Append(", PROJECT_CODE ");
                     obj_str.Append(", PROJOB_CODE ");
+                    obj_str.Append(", PROJOBSUB_CODE ");
+
+                    
                     obj_str.Append(", SHIFT_CODE ");
                     obj_str.Append(", TIMECARD_WORKDATE ");
                     obj_str.Append(", TIMECARD_DAYTYPE ");
@@ -360,7 +370,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", @WORKER_CODE ");
                     obj_str.Append(", @PROJECT_CODE ");
                     obj_str.Append(", @PROJOB_CODE ");
+                    obj_str.Append(", @PROJOBSUB_CODE ");
 
+                    
                     obj_str.Append(", @SHIFT_CODE ");
                     obj_str.Append(", @TIMECARD_WORKDATE ");
                     obj_str.Append(", @TIMECARD_DAYTYPE ");
@@ -378,7 +390,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@PROJOBSUB_CODE", SqlDbType.VarChar);
 
+                    
                     obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.Date);
                     obj_cmd.Parameters.Add("@TIMECARD_DAYTYPE", SqlDbType.VarChar);
@@ -398,7 +412,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                         obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code == null ? "" : model.project_code;
                         obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code == null ? "" : model.projob_code;
+                        obj_cmd.Parameters["@PROJOBSUB_CODE"].Value = model.projobsub_code == null ? "" : model.projobsub_code;
 
+                        
                         obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                         obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
                         obj_cmd.Parameters["@TIMECARD_DAYTYPE"].Value = model.timecard_daytype;
@@ -444,7 +460,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             cls_ctConnection obj_conn = new cls_ctConnection();
             try
             {
-                if (this.checkDataOld(model.company_code, model.project_code, model.projob_code, model.worker_code, model.timecard_workdate))
+                if (this.checkDataOld(model.company_code, model.project_code, model.projob_code, model.projobsub_code, model.worker_code, model.timecard_workdate))
                     return true;
 
 
@@ -465,7 +481,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(", WORKER_CODE ");
                     obj_str.Append(", PROJECT_CODE ");
                     obj_str.Append(", PROJOB_CODE ");
-                    
+                    obj_str.Append(", PROJOBSUB_CODE ");
+
                     obj_str.Append(", SHIFT_CODE ");
                     obj_str.Append(", TIMECARD_WORKDATE ");
                     obj_str.Append(", TIMECARD_DAYTYPE ");
@@ -482,7 +499,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     obj_str.Append(", @PROJECT_CODE ");
                     obj_str.Append(", @PROJOB_CODE ");
+                    obj_str.Append(", @PROJOBSUB_CODE ");
 
+                    
                     obj_str.Append(", @SHIFT_CODE ");
                     obj_str.Append(", @TIMECARD_WORKDATE ");
                     obj_str.Append(", @TIMECARD_DAYTYPE ");
@@ -501,7 +520,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@PROJOBSUB_CODE", SqlDbType.VarChar);
 
+                    
                     obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.Date);
                     obj_cmd.Parameters.Add("@TIMECARD_DAYTYPE", SqlDbType.VarChar);
@@ -517,7 +538,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                     obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+                    obj_cmd.Parameters["@PROJOBSUB_CODE"].Value = model.projobsub_code;
 
+                    
                     obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                     obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
                     obj_cmd.Parameters["@TIMECARD_DAYTYPE"].Value = model.timecard_daytype;
@@ -625,6 +648,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
+                obj_str.Append(" AND PROJOBSUB_CODE=@PROJOBSUB_CODE ");
+
+                
                 obj_str.Append(" AND TIMECARD_WORKDATE=@TIMECARD_WORKDATE ");
 
 
@@ -692,6 +718,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+
+                obj_cmd.Parameters.Add("@PROJOBSUB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBSUB_CODE"].Value = model.projobsub_code;
 
                 obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
 
@@ -773,6 +801,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
+                obj_str.Append(" AND PROJOBSUB_CODE=@PROJOBSUB_CODE ");
 
                 obj_str.Append(" AND TIMECARD_WORKDATE=@TIMECARD_WORKDATE ");
 
@@ -855,6 +884,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
 
+                obj_cmd.Parameters.Add("@PROJOBSUB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBSUB_CODE"].Value = model.projobsub_code;
+
                 obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
 
                 obj_cmd.ExecuteNonQuery();
@@ -913,7 +944,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
+                obj_str.Append(" AND PROJOBSUB_CODE=@PROJOBSUB_CODE ");
 
+                
                 obj_str.Append(" AND TIMECARD_WORKDATE=@TIMECARD_WORKDATE ");
 
 
@@ -930,6 +963,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+
+                obj_cmd.Parameters.Add("@PROJOBSUB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOBSUB_CODE"].Value = model.projobsub_code;
 
                 obj_cmd.Parameters.Add("@TIMECARD_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@TIMECARD_WORKDATE"].Value = model.timecard_workdate.Date;
 
@@ -962,7 +997,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", WORKER_CODE ");
                 obj_str.Append(", PROJECT_CODE ");
                 obj_str.Append(", PROJOB_CODE ");
+                obj_str.Append(", PROJOBSUB_CODE ");
 
+                
                 obj_str.Append(", SHIFT_CODE ");
                 obj_str.Append(", TIMECARD_WORKDATE ");
                 obj_str.Append(", TIMECARD_DAYTYPE ");
@@ -979,6 +1016,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @PROJECT_CODE ");
                 obj_str.Append(", @PROJOB_CODE ");
+
+                obj_str.Append(", @PROJOBSUB_CODE ");
 
                 obj_str.Append(", @SHIFT_CODE ");
                 obj_str.Append(", @TIMECARD_WORKDATE ");

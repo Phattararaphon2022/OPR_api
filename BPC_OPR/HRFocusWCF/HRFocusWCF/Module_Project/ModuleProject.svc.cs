@@ -9893,7 +9893,7 @@ namespace BPC_OPR
 
                     //-- Working   
                     JArray array_timecard = new JArray();
-                    time_list = time_controller.getDataByJob(req.company_code, jobmain.project_code, jobmain.projobmain_code, fromdate, todate);
+                    time_list = time_controller.getDataByJob(req.company_code, jobmain.project_code, jobmain.projobmain_code,jobmain.projobsub_code, fromdate, todate);
 
                     foreach (cls_TRTimecard timecard in time_list)
                     {
