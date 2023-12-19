@@ -156,7 +156,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return intResult;
         }
 
-        public bool checkDataOld(string project, string job, string code, string version)
+        public bool checkDataOld(string project, string job, string code, string version,int id)
         {
             bool blnResult = false;
             try
@@ -166,10 +166,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT SHIFT_CODE");
                 obj_str.Append(" FROM PRO_TR_PROJOBSHIFT");
                 obj_str.Append(" WHERE PROJECT_CODE='" + project + "'");
-                obj_str.Append(" AND PROJOB_CODE='" + job + "'");
-                obj_str.Append(" AND SHIFT_CODE='" + code + "'");
-
-                obj_str.Append(" AND VERSION='" + version + "'");
+                if (!job.Equals(""))
+                {
+                    obj_str.Append(" AND PROJOB_CODE='" + job + "'");
+                }
+                if (!code.Equals(""))
+                {
+                    obj_str.Append(" AND SHIFT_CODE='" + code + "'");
+                }
+                if (!id.Equals(0))
+                {
+                    obj_str.Append(" AND PROJOBSHIFT_ID='" + id + "'");
+                }
+                if (!version.Equals(""))
+                {
+                    obj_str.Append(" AND VERSION='" + version + "'");
+                }
       
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -246,9 +258,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
             {
 
                 //-- Check data old
-                if (this.checkDataOld(model.project_code, model.projob_code, model.shift_code, model.version))
+                if (this.checkDataOld(model.project_code, model.projob_code, model.shift_code, model.version,model.projobshift_id))
                 {
-                    return this.update(model);               
+                    if (model.projobshift_id.Equals(0))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return this.update(model); 
+                    }
+                                  
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -392,14 +412,14 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
 
-                obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.Bit); obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
+                obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_SUN", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SUN"].Value = model.projobshift_sun;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_MON", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_MON"].Value = model.projobshift_mon;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_TUE", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_TUE"].Value = model.projobshift_tue;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_WED", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_WED"].Value = model.projobshift_wed;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_THU", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_THU"].Value = model.projobshift_thu;
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_FRI", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_FRI"].Value = model.projobshift_fri;
-                obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_ph;
+                obj_cmd.Parameters.Add("@PROJOBSHIFT_SAT", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_SAT"].Value = model.projobshift_sat;
 
                 obj_cmd.Parameters.Add("@PROJOBSHIFT_PH", SqlDbType.Bit); obj_cmd.Parameters["@PROJOBSHIFT_PH"].Value = model.projobshift_ph;
 

@@ -13,7 +13,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string projobmain_code { get; set; }
         public string projobmain_name_th { get; set; }
         public string projobmain_name_en { get; set; }
+        public string projobsub_code { get; set; }
 
+        
         public string projobmain_jobtype { get; set; }
         public DateTime projobmain_fromdate { get; set; }
         public DateTime projobmain_todate { get; set; }
@@ -28,9 +30,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_code { get; set; }
 
         public string version { get; set; }
-          
-      
-        public string modified_by { get; set; }
+         public string protype_name { get; set; }
+
+         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }   
 
 

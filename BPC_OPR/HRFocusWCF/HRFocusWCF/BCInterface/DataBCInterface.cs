@@ -7,11 +7,11 @@ using System.Web;
 namespace BPC_OPR
 {
 
-    public class APIHRProjectResponse
+    public class ApiResponse<T>
     {
         public bool success { get; set; }
         public string message { get; set; }
-        public List<APIHRProject> data { get; set; }
+        public List<T> data { get; set; }
     }
       
     [DataContract]
@@ -160,6 +160,126 @@ namespace BPC_OPR
         public bool Flag { get; set; }
     }
 
-   
+    public class ProContract
+    {
+        public int ProContractId { get; set; }
+        public string ProContractRef { get; set; }
+        public string ProContractDate { get; set; }
+        public decimal ProContractAmount { get; set; }
+        public string ProContractFromDate { get; set; }
+        public string ProContractToDate { get; set; }
+        public string ProContractCustomer { get; set; }
+        public string ProContractBidder { get; set; }
+        public string ProjectCode { get; set; }
+        public string ProContractType { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
+    public class APIHRJobmain
+    {
+        public string ProjectCode { get; set; }
+        public string Version { get; set; }
+        public string StartDate { get; set; }
+        public string FromDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+        public List<ProJobMain> JobPlaningLines { get; set; }
+    }
+    public class ProJobMain
+    {
+        public int ProJobMainId { get; set; }
+        public string ProJobMainCode { get; set; }
+        public string ProJobMainNameTh { get; set; }
+        public string ProJobMainNameEn { get; set; }
+        public char ProJobMainJobType { get; set; }
+        public string ProJobMainFromDate { get; set; }
+        public string ProJobMainToDate { get; set; }
+        public char ProJobMainType { get; set; }
+        public string ProJobMainTimePol { get; set; }
+        public string ProJobMainSlip { get; set; }
+        public string ProJobMainUniform { get; set; }
+        public string ProjectCode { get; set; }
+        public string Version { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+        public List<ProJobShift> JobTaskShift { get; set; }
+        public List<ProJobCost> JobTaskCost { get; set; }
+        public List<ProJobMachine> JobTaskMachine { get; set; }
+    }
+    public class ProJobShift
+    {
+        public int ProJobShiftId { get; set; }
+        public string ShiftCode { get; set; }
+        public bool ProJobShiftSun { get; set; }
+        public bool ProJobShiftMon { get; set; }
+        public bool ProJobShiftTue { get; set; }
+        public bool ProJobShiftWed { get; set; }
+        public bool ProJobShiftThu { get; set; }
+        public bool ProJobShiftFri { get; set; }
+        public bool ProJobShiftSat { get; set; }
+        public int ProJobShiftEmp { get; set; }
+        public bool ProJobShiftPh { get; set; }
+        public int ProJobShiftWorking { get; set; }
+        public double ProJobShiftHrsPerDay { get; set; }
+        public double ProJobShiftHrsOT { get; set; }
+        public string ProJobCode { get; set; }
+        public string ProjectCode { get; set; }
+        public string Version { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
+    public class ProJobCost
+    {
+        public int ProJobCostId { get; set; }
+        public string ProJobCostCode { get; set; }
+        public double ProJobCostAmount { get; set; }
+        public bool ProJobCostAuto { get; set; }
+        public char ProJobCostStatus { get; set; }
+        public string ProJobCode { get; set; }
+        public string ProjectCode { get; set; }
+        public string Version { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
+    public class ProJobMachine
+    {
+        public int ProJobMachineId { get; set; }
+        public string ProJobMachineIp { get; set; }
+        public string ProJobMachinePort { get; set; }
+        public bool ProJobMachineEnable { get; set; }
+        public string ProJobCode { get; set; }
+        public string ProjectCode { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
+    public class ProUniform
+    {
+        public string CompanyCode { get; set; }
+        public int ProUniformId { get; set; }
+        public string ProUniformCode { get; set; }
+        public string ProUniformNameTh { get; set; }
+        public string ProUniformNameEn { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
+    public class ProEquipmentReq
+    {
+        public int ProEquipmentReqId { get; set; }
+        public string ProUniformCode { get; set; }
+        public string ProEquipmentReqDate { get; set; }
+        public int ProEquipmentReqQty { get; set; }
+        public string ProEquipmentReqNote { get; set; }
+        public string ProEquipmentReqBy { get; set; }
+        public string ProEquipmentTypeCode { get; set; }
+        public string ProJobCode { get; set; }
+        public string ProjectCode { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
 
 }

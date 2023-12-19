@@ -21,6 +21,7 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string project_code { get; set; }
         public string projob_code { get; set; }
+        public string projobsub_code { get; set; }
 
         public string worker_code { get; set; }
         public string shift_code { get; set; }

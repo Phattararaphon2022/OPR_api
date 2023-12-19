@@ -138,6 +138,14 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
             return this.getData(strCondition);
         }
 
+        public List<cls_MTItem> getDataMultipleEmp(string com, string into)
+        {
+            string strCondition = " AND COMPANY_CODE='" + com + "'";
+            strCondition += " AND ITEM_SECTION IN (" + into + ") ";
+
+            return this.getData(strCondition);
+        }
+
         public int getNextID()
         {
             int intResult = 1;
