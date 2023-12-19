@@ -4412,7 +4412,7 @@ namespace BPC_OPR
                 model.project_code = input.project_code;
                 model.projob_code = input.projob_code;
                 model.worker_code = input.worker_code;
-                model.projobsub_code = input.projobsub_code;
+                model.projobsub_code = input.projobsub_code == null ? "" : input.projobsub_code;
 
                 
 
@@ -4492,7 +4492,6 @@ namespace BPC_OPR
                 model.timecard_work2_min_app = input.timecard_work2_min_app;
                 model.timecard_break_min_app = input.timecard_break_min_app;
                 model.timecard_after_min_app = input.timecard_after_min_app;
-
                 model.timecard_late_min_app = input.timecard_late_min_app;
 
                 model.modified_by = input.modified_by;
