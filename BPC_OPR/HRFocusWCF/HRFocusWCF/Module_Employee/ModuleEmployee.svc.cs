@@ -10387,10 +10387,20 @@ namespace BPC_OPR
                         json.Add("worker_code", model.worker_code);
                         json.Add("empuniform_id", model.empuniform_id);
                         json.Add("empuniform_code", model.empuniform_code);
+
+                        json.Add("project_code", model.project_code);
+                        json.Add("projob_code", model.projob_code);
+                        json.Add("proequipmenttype_code", model.proequipmenttype_code);
+
                         json.Add("empuniform_qauntity", model.empuniform_qauntity);
                         json.Add("empuniform_amount", model.empuniform_amount);
                         json.Add("empuniform_issuedate", model.empuniform_issuedate);
                         json.Add("empuniform_note", model.empuniform_note);
+
+                        json.Add("empuniform_by", model.empuniform_by);
+                        json.Add("empuniform_payperiod", model.empuniform_payperiod);
+                        json.Add("empuniform_payamount", model.empuniform_payamount);
+                        json.Add("empuniform_period", model.empuniform_period);
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);

@@ -4131,7 +4131,7 @@ namespace BPC_OPR
                  int error = 0;
                  StringBuilder obj_error = new StringBuilder();
 
-                 bool clear = controller.delete(input.company_code,0,input.worker_code,"");
+                 bool clear = controller.delete(input.company_code, 0, input.worker_code, input.job_type);
 
                  if (clear)
                  {
