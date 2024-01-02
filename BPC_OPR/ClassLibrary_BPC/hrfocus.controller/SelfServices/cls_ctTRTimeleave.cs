@@ -62,7 +62,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_BY, SELF_TR_TIMELEAVE.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_DATE, SELF_TR_TIMELEAVE.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
-
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
                 obj_str.Append(" FROM SELF_TR_TIMELEAVE");
 
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMELEAVE.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMELEAVE.WORKER_CODE");
@@ -70,7 +72,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN ATT_MT_LEAVE ON ATT_MT_LEAVE.COMPANY_CODE=SELF_TR_TIMELEAVE.COMPANY_CODE AND ATT_MT_LEAVE.LEAVE_CODE=SELF_TR_TIMELEAVE.LEAVE_CODE");
                 obj_str.Append(" INNER JOIN SYS_MT_REASON ON ATT_MT_LEAVE.COMPANY_CODE=SYS_MT_REASON.COMPANY_CODE AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMELEAVE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'LEAVE'");
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMELEAVE.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMELEAVE.TIMELEAVE_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'LEA'");
-
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMELEAVE.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMELEAVE.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -140,6 +144,33 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!emp.Equals(""))
             {
                 strCondition += " AND SELF_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
+            }
+            if (!id.Equals(0))
+            {
+                strCondition += " AND SELF_TR_TIMELEAVE.TIMELEAVE_ID='" + id + "'";
+            }
+            if (!datefrom.Equals("") && !dateto.Equals(""))
+            {
+                strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom + "' AND '" + dateto + "'";
+                strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
+            }
+
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRTimeleave> getDataByFillterLostwages(int id, int status, string com, string cardno, string datefrom, string dateto)
+        {
+            string strCondition = "";
+
+            strCondition += " AND SELF_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
+            if (!status.Equals(1))
+            {
+                strCondition += " AND SELF_TR_TIMELEAVE.STATUS='" + status + "'";
+            }
+            if (!cardno.Equals(""))
+            {
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
             }
             if (!id.Equals(0))
             {

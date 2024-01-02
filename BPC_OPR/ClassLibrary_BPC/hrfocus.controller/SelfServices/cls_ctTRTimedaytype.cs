@@ -50,7 +50,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.MODIFIED_DATE, SELF_TR_TIMEDAYTYPE.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.FLAG, 0) AS FLAG ");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
-
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
                 obj_str.Append(" FROM SELF_TR_TIMEDAYTYPE");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMEDAYTYPE.COMPANY_CODE");
                 obj_str.Append(" AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMEDAYTYPE.WORKER_CODE");
@@ -59,6 +61,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMEDAYTYPE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'DAT'");
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMEDAYTYPE.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE");
                 obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMEDAYTYPE.TIMEDAYTYPE_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'DAT'");
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMEDAYTYPE.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMEDAYTYPE.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -107,7 +112,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_TRTimedaytype> getDataByFillter(string com,int id,string worker_code,string datefrom,string dateto,int status)
+        public List<cls_TRTimedaytype> getDataByFillter(string com, int id, string cardno, string datefrom, string dateto, int status)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -119,8 +124,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!datefrom.Equals("") && !dateto.Equals(""))
                 strCondition += " AND (TIMEDAYTYPE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
 
+            if (!cardno.Equals(""))
+                strCondition += " AND SELF_TR_TIMEDAYTYPE.WORKER_CODE='" + cardno + "'";
+
+            if (!status.Equals(1))
+                strCondition += " AND STATUS='" + status + "'";
+
+            return this.getData(strCondition);
+        }
+        public List<cls_TRTimedaytype> getDataByFillterLostwages(string com, int id, string worker_code, string datefrom, string dateto, int status)
+        {
+            string strCondition = "";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_TIMEDAYTYPE.COMPANY_CODE='" + com + "'";
+
+            if (!id.Equals(0))
+                strCondition += " AND TIMEDAYTYPE_ID='" + id + "'";
+
+            if (!datefrom.Equals("") && !dateto.Equals(""))
+                strCondition += " AND (TIMEDAYTYPE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
+
             if (!worker_code.Equals(""))
-                strCondition += " AND SELF_TR_TIMEDAYTYPE.WORKER_CODE='" + worker_code + "'";
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + worker_code + "'";
 
             if (!status.Equals(1))
                 strCondition += " AND STATUS='" + status + "'";

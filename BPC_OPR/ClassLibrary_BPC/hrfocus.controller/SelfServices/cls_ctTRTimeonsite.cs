@@ -53,7 +53,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.MODIFIED_DATE, SELF_TR_TIMEONSITE.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.FLAG, 0) AS FLAG");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
-
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
                 obj_str.Append(" FROM SELF_TR_TIMEONSITE");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMEONSITE.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMEONSITE.WORKER_CODE");
                 obj_str.Append(" INNER JOIN EMP_MT_INITIAL ON EMP_MT_INITIAL.INITIAL_CODE=EMP_MT_WORKER.WORKER_INITIAL");
@@ -63,6 +65,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND SYS_MT_LOCATION.LOCATION_CODE=SELF_TR_TIMEONSITE.LOCATION_CODE");
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMEONSITE.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE");
                 obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMEONSITE.TIMEONSITE_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'ONS'");
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMEONSITE.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMEONSITE.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -127,6 +132,30 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!worker_code.Equals(""))
                 strCondition += " AND SELF_TR_TIMEONSITE.WORKER_CODE='" + worker_code + "'";
+
+            if (!status.Equals(1))
+                strCondition += " AND SELF_TR_TIMEONSITE.STATUS='" + status + "'";
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRTimeonsite> getDataByFillterLostwages(string com, int id, string location_code, string cardno, string datefrom, string dateto, int status)
+        {
+            string strCondition = "";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_TIMEONSITE.COMPANY_CODE='" + com + "'";
+
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMEONSITE.TIMEONSITE_ID='" + id + "'";
+
+            if (!datefrom.Equals("") && !dateto.Equals(""))
+                strCondition += " AND (SELF_TR_TIMEONSITE.TIMEONSITE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
+
+            if (!location_code.Equals(""))
+                strCondition += " AND SELF_TR_TIMEONSITE.LOCATION_CODE='" + location_code + "'";
+
+            if (!cardno.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
 
             if (!status.Equals(1))
                 strCondition += " AND SELF_TR_TIMEONSITE.STATUS='" + status + "'";

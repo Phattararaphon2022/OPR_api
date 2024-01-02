@@ -159,6 +159,57 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
+        //
+        public List<cls_TRTimeinput> getDataDistinctProject2(string com, string cardno, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimeinput> list_model = new List<cls_TRTimeinput>();
+            cls_TRTimeinput model;
+            try
+            {
+
+
+
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append(" SELECT DISTINCT TIMEINPUT_DATE, TIMEINPUT_TERMINAL, PRO_TR_PROJOBMACHINE.PROJECT_CODE, PRO_TR_PROJOBMACHINE.PROJOB_CODE, PRO_TR_PROJOBSHIFT.SHIFT_CODE ");
+
+                obj_str.Append(" FROM ATT_TR_TIMEINPUT");
+                obj_str.Append(" INNER JOIN EMP_MT_WORKER ON ATT_TR_TIMEINPUT.TIMEINPUT_CARD=EMP_MT_WORKER.WORKER_CARD");
+                obj_str.Append(" INNER JOIN PRO_TR_PROJOBMACHINE ON PRO_TR_PROJOBMACHINE.PROJOBMACHINE_IP=ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL");
+                obj_str.Append(" INNER JOIN PRO_TR_PROJOBSHIFT ON PRO_TR_PROJOBSHIFT.PROJECT_CODE=PRO_TR_PROJOBMACHINE.PROJECT_CODE AND PRO_TR_PROJOBSHIFT.PROJOB_CODE=PRO_TR_PROJOBMACHINE.PROJOB_CODE");
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON  ATT_TR_LOSTWAGES.WORKER_CODE=ATT_TR_TIMEINPUT.TIMEINPUT_CARD");
+                //
+                obj_str.Append(" WHERE ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'");
+                obj_str.Append(" AND (TIMEINPUT_DATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')");
+
+                obj_str.Append(" ORDER BY TIMEINPUT_DATE, PRO_TR_PROJOBMACHINE.PROJECT_CODE, PRO_TR_PROJOBMACHINE.PROJOB_CODE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimeinput();
+
+                    model.timeinput_date = Convert.ToDateTime(dr["TIMEINPUT_DATE"]).Date;
+
+                    model.timeinput_terminal = dr["TIMEINPUT_TERMINAL"].ToString();
+                    model.project_code = dr["PROJECT_CODE"].ToString();
+                    model.projob_code = dr["PROJOB_CODE"].ToString();
+                    model.shift_code = dr["SHIFT_CODE"].ToString();
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Timeinput.getDataDistinctProject)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+        //
         public bool checkDataOld(DateTime date, string card, string time, string terminal)
         {
             bool blnResult = false;

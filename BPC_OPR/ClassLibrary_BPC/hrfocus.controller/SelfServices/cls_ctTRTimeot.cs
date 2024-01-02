@@ -60,7 +60,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_BY, SELF_TR_TIMEOT.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_DATE, SELF_TR_TIMEOT.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
-
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
                 obj_str.Append(" FROM SELF_TR_TIMEOT");
 
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMEOT.COMPANY_CODE AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMEOT.WORKER_CODE");
@@ -69,7 +71,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN SYS_MT_LOCATION ON SELF_TR_TIMEOT.COMPANY_CODE=SYS_MT_LOCATION.COMPANY_CODE AND SYS_MT_LOCATION.LOCATION_CODE=SELF_TR_TIMEOT.LOCATION_CODE ");
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMEOT.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE ");
                 obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMEOT.TIMEOT_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'OT' ");
-
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMEOT.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMEOT.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -139,6 +143,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+
+        public List<cls_TRTimeot> getDataByFillterLostwages(int id, int status, string com, string cardno, DateTime datefrom, DateTime dateto)
+        {
+            string strCondition = "";
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMEOT.TIMEOT_ID='" + id + "'";
+            if (!status.Equals(1))
+                strCondition += " AND SELF_TR_TIMEOT.STATUS='" + status + "'";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_TIMEOT.COMPANY_CODE='" + com + "'";
+            if (!cardno.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
+            strCondition += " AND (TIMEOT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+            return this.getData(strCondition);
+        }
+
 
         public bool checkDataOld(string com, string emp, DateTime date)
         {
