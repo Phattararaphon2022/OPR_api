@@ -452,15 +452,19 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.item_code = dr["ITEM_CODE"].ToString();
                     model.empbenefit_id = Convert.ToInt32(dr["EMPBENEFIT_ID"]);
                     model.empbenefit_amount = Convert.ToDouble(dr["EMPBENEFIT_AMOUNT"]);
-                    model.empbenefit_startdate = Convert.ToDateTime(dr["EMPBENEFIT_STARTDATE"]);
-                    model.empbenefit_enddate = Convert.ToDateTime(dr["EMPBENEFIT_ENDDATE"]);
-                    model.empbenefit_reason = dr["EMPBENEFIT_REASON"].ToString();
-                    model.empbenefit_note = dr["EMPBENEFIT_NOTE"].ToString();
-                    model.empbenefit_paytype = dr["EMPBENEFIT_PAYTYPE"].ToString();
-                    model.empbenefit_break = Convert.ToBoolean(dr["EMPBENEFIT_BREAK"]);
-                    model.empbenefit_breakreason = dr["EMPBENEFIT_BREAKREASON"].ToString();
-                    model.empbenefit_conditionpay = dr["EMPBENEFIT_CONDITIONPAY"].ToString();
-                    model.empbenefit_payfirst = dr["EMPBENEFIT_PAYFIRST"].ToString();
+                    //model.empbenefit_startdate = Convert.ToDateTime(dr["EMPBENEFIT_STARTDATE"]);
+                    //model.empbenefit_enddate = Convert.ToDateTime(dr["EMPBENEFIT_ENDDATE"]);
+                    //model.empbenefit_reason = dr["EMPBENEFIT_REASON"].ToString();
+                    //model.empbenefit_note = dr["EMPBENEFIT_NOTE"].ToString();
+                    //model.empbenefit_paytype = dr["EMPBENEFIT_PAYTYPE"].ToString();
+                    //model.empbenefit_break = Convert.ToBoolean(dr["EMPBENEFIT_BREAK"]);
+                    //model.empbenefit_breakreason = dr["EMPBENEFIT_BREAKREASON"].ToString();
+                    //model.empbenefit_conditionpay = dr["EMPBENEFIT_CONDITIONPAY"].ToString();
+                    //model.empbenefit_payfirst = dr["EMPBENEFIT_PAYFIRST"].ToString();
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
 

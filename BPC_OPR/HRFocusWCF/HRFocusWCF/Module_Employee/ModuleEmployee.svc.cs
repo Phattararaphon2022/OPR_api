@@ -12674,19 +12674,23 @@ namespace BPC_OPR
                         json.Add("empbenefit_id", model.empbenefit_id);
                         json.Add("item_code", model.item_code);
                         json.Add("empbenefit_amount", model.empbenefit_amount);
-                        json.Add("empbenefit_startdate", model.empbenefit_startdate);
-                        json.Add("empbenefit_enddate", model.empbenefit_enddate);
-                        json.Add("empbenefit_reason", model.empbenefit_reason);
-                        json.Add("empbenefit_note", model.empbenefit_note);
+                        //json.Add("empbenefit_startdate", model.empbenefit_startdate);
+                        //json.Add("empbenefit_enddate", model.empbenefit_enddate);
+                        //json.Add("empbenefit_reason", model.empbenefit_reason);
+                        //json.Add("empbenefit_note", model.empbenefit_note);
 
-                        json.Add("empbenefit_paytype", model.empbenefit_paytype);
-                        json.Add("empbenefit_break", model.empbenefit_break);
-                        json.Add("empbenefit_breakreason", model.empbenefit_breakreason);
+                        //json.Add("empbenefit_paytype", model.empbenefit_paytype);
+                        //json.Add("empbenefit_break", model.empbenefit_break);
+                        //json.Add("empbenefit_breakreason", model.empbenefit_breakreason);
 
-                        json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
-                        json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
+                        //json.Add("empbenefit_conditionpay", model.empbenefit_conditionpay);
+                        //json.Add("empbenefit_payfirst", model.empbenefit_payfirst);
 
-                        json.Add("modified_by", model.created_by);
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+
+                        json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
 
                         json.Add("index", index);

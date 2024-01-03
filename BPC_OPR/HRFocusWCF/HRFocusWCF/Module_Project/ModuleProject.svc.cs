@@ -1779,7 +1779,7 @@ namespace BPC_OPR
                         string lastversion = jobversion_controller.getLastVersion(model.project_code);
 
                         cls_ctMTProjobmain job_controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(model.language,model.project_code, lastversion, "");
+                        List<cls_MTProjobmain> list_job = job_controller.getDataByFillter(req.language, model.project_code, lastversion, "");
 
                         //-- Contract
                         cls_ctTRProcontract contract = new cls_ctTRProcontract();
@@ -9578,7 +9578,7 @@ namespace BPC_OPR
 
                     //-- Job main
                     cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.language, project.project_code, jobversion.version, "");
+                    List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.language, project.project_code, jobversion.version, "");
 
                     //-- Job shift
                     cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
@@ -9590,7 +9590,7 @@ namespace BPC_OPR
 
                     //-- Time wage
                     cls_ctTRWageday wage_controller = new cls_ctTRWageday();
-                    List<cls_TRWageday> wage_list = wage_controller.getDataByFillter("EN", project.company_code, project.project_code, "", fromdate, todate, "");
+                    List<cls_TRWageday> wage_list = wage_controller.getDataByFillter(req.language, project.company_code, project.project_code, "", fromdate, todate, "");
 
 
                     cls_ctTRProjobemp proemp_controller = new cls_ctTRProjobemp();
