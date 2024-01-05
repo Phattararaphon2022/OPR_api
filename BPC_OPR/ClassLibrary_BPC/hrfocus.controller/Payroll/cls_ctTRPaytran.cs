@@ -197,7 +197,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
             strCondition += " AND PAY_TR_PAYTRAN.COMPANY_CODE='" + com + "'";
 
-            //strCondition += " AND PAY_TR_PAYTRAN.PAYTRAN_PAYDATE IN (SELECT PERIOD_PAYMENT FROM PAY_MT_PERIOD WHERE COMPANY_CODE='" + com + "' AND YEAR_CODE='" + year + "')";
+            strCondition += " AND PAY_TR_PAYTRAN.PAYTRAN_PAYDATE IN (SELECT PERIOD_PAYMENT FROM PAY_MT_PERIOD WHERE COMPANY_CODE='" + com + "' AND YEAR_CODE='" + year + "')";
 
             if (!emp.Equals(""))
                 strCondition += " AND PAY_TR_PAYTRAN.WORKER_CODE='" + emp + "'";
