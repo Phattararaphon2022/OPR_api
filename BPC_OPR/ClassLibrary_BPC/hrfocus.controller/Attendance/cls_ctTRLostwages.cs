@@ -246,7 +246,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             if (!project.Equals(""))
                 strCondition += " AND ATT_TR_LOSTWAGES.PROJECT_CODE='" + project + "'";
-
+             if (!worker.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.WORKER_CODE='" + worker + "'";
 
             if (!cardno.Equals(""))
                 strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";

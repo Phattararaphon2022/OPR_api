@@ -2980,7 +2980,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
 
                     }//-- End loop date
-
+                    //break;
                 }//-- End loop emp
 
                 strResult = "Success::" + intCountSuccess.ToString();
@@ -3167,7 +3167,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                             //--******************
 
                             //List<cls_TRLostwages> listLostwages1 = objLostwages.getDataByFillter(com, whose.project_code, "", whose.lostwages_cardno, date, date); ///กลับมาเช็ค
-                            List<cls_TRLostwages> listLostwages1 = objLostwages.getDataByFillter1(com, whose.project_code, "", whose.lostwages_cardno, date, date); ///กลับมาเช็ค
+                            List<cls_TRLostwages> listLostwages1 = objLostwages.getDataByFillter1(com, whose.project_code, whose.worker_code, whose.lostwages_cardno, date, date); ///กลับมาเช็ค
 
                             foreach (cls_TRLostwages Lostwages in listLostwages1)
                             {
@@ -3968,6 +3968,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
 
                     }//-- End loop date
+                    break;
 
                 }//-- End loop emp
 
