@@ -4412,7 +4412,7 @@ namespace BPC_OPR
                 model.project_code = input.project_code;
                 model.projob_code = input.projob_code;
                 model.worker_code = input.worker_code;
-                model.projobsub_code = input.projobsub_code;
+                model.projobsub_code = input.projobsub_code == null ? "" : input.projobsub_code;
 
                 
 
@@ -4492,7 +4492,6 @@ namespace BPC_OPR
                 model.timecard_work2_min_app = input.timecard_work2_min_app;
                 model.timecard_break_min_app = input.timecard_break_min_app;
                 model.timecard_after_min_app = input.timecard_after_min_app;
-
                 model.timecard_late_min_app = input.timecard_late_min_app;
 
                 model.modified_by = input.modified_by;
@@ -6267,7 +6266,7 @@ namespace BPC_OPR
                             cls_TRLostwages lostwages1 = new cls_TRLostwages();
 
                             lostwages1.company_code = input.company_code;
-                            lostwages1.worker_code = modelWorker.worker_code;
+                            lostwages1.worker_code = input.worker_code;
                             lostwages1.project_code = input.project_code;
                             lostwages1.projob_code = input.projob_code;
                             //
@@ -6372,6 +6371,8 @@ namespace BPC_OPR
                                 List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
                                 cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
                                 task_whose.task_id = taskid;
+                                task_whose.lostwages_cardno = input.lostwages_cardno;
+
                                 task_whose.worker_code = modelWorker.worker_code;
                                 list_whose.Add(task_whose);
 

@@ -20,6 +20,14 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime empuniform_issuedate { get; set; }
         public string empuniform_note { get; set; }
 
+        public string project_code { get; set; }
+        public string projob_code { get; set; }
+        public string proequipmenttype_code { get; set; }
+        public string empuniform_by { get; set; }
+        public double empuniform_payperiod { get; set; }
+        public double empuniform_payamount { get; set; }
+        public DateTime empuniform_period { get; set; }
+
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
         public string modified_by { get; set; }

@@ -2181,7 +2181,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                             //-- Step 1 Get timecard
                             //--******************
 
-                            List<cls_TRLostwages> listLostwages = objLostwages.getDataByFillter(com, "", whose.worker_code, "", date, date); ///กลับมาเช็ค
+                            List<cls_TRLostwages> listLostwages = objLostwages.getDataByFillter(com, "", whose.worker_code, "", date, date); 
 
                             foreach (cls_TRLostwages Lostwages in listLostwages)
                             {
@@ -3049,10 +3049,10 @@ namespace ClassLibrary_BPC.hrfocus.service
                 }
 
                 //-- Get worker
-                cls_ctMTWorker objWorker = new cls_ctMTWorker();
-                List<cls_MTWorker> listWorker = objWorker.getDataByCompanyCode(com);
+                //cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                //List<cls_MTWorker> listWorker = objWorker.getDataByCompanyCode(com);
                  //-- Get worker
-                cls_ctTRLostwages objLostwages = new cls_ctTRLostwages();
+                cls_ctTRLostwages objLostwages = new cls_ctTRLostwages();////
                 List<cls_TRLostwages> listLostwages = objLostwages.getDataByCompanyCode(com);
 
                 
@@ -3111,34 +3111,45 @@ namespace ClassLibrary_BPC.hrfocus.service
                     List<cls_TRHoliday> listHoliday = ctTRHoliday.getDataByWorker(com, whose.lostwages_cardno);
 
                     //-- Get worker detail;
-                    cls_MTWorker worker = null;
+                    //cls_MTWorker worker = null;
                     cls_TRLostwages Lostwages1 = null;
 
-                    foreach (cls_MTWorker model in listWorker)
+
+                    foreach (cls_TRLostwages model in listLostwages)
                     {
-                        if (whose.worker_code.Equals(model.worker_code))
+                        if (whose.lostwages_cardno.Equals(model.lostwages_cardno))
                         {
-                            worker = model;
+                            Lostwages1 = model;
                             break;
                         }
                     }
 
-                    if (worker == null)
-                    {
+
+                    //foreach (cls_MTWorker model in listWorker)
+                    //{
+                    //    if (whose.worker_code.Equals(model.worker_code))
+                    //    {
+                    //        worker = model;
+                    //        break;
+                    //    }
+                    //}
+
+                    //if (worker == null)
+                    //{
                         //cls_TRLostwages Lostwages1 = null;
-                        foreach (cls_TRLostwages model in listLostwages)
-                        {
-                            if (model.lostwages_cardno.Equals(model.lostwages_cardno))
-                            {
-                                Lostwages1 = model;
-                                break;
-                            }
-                        }
-                    }
+                        //foreach (cls_TRLostwages model in listLostwages)
+                        //{
+                        //    if (whose.lostwages_cardno.Equals(model.lostwages_cardno))
+                        //    {
+                        //        Lostwages1 = model;
+                        //        break;
+                        //    }
+                        //}
+                    //}
 
                     //-- Clear status compare time input
                     if (!fillauto)
-                        objTimeinput.clear_compare(Lostwages1.lostwages_cardno, dateFrom, dateTo);
+                        objTimeinput.clear_compare(whose.lostwages_cardno, dateFrom, dateTo);
 
 
 
@@ -3155,7 +3166,8 @@ namespace ClassLibrary_BPC.hrfocus.service
                             //-- Step 1 Get timecard
                             //--******************
 
-                            List<cls_TRLostwages> listLostwages1 = objLostwages.getDataByFillter(com, "", "", Lostwages1.lostwages_cardno,   date, date); ///กลับมาเช็ค
+                            //List<cls_TRLostwages> listLostwages1 = objLostwages.getDataByFillter(com, whose.project_code, "", whose.lostwages_cardno, date, date); ///กลับมาเช็ค
+                            List<cls_TRLostwages> listLostwages1 = objLostwages.getDataByFillter1(com, whose.project_code, "", whose.lostwages_cardno, date, date); ///กลับมาเช็ค
 
                             foreach (cls_TRLostwages Lostwages in listLostwages1)
                             {
@@ -3287,7 +3299,7 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 if (!fillauto)
                                 {
-                                    listTimeinput = objTimeinput.getDataByFillter(com, Lostwages1.lostwages_cardno, date.AddDays(-1), date.AddDays(1), true, Lostwages.project_code, Lostwages.projob_code);
+                                    listTimeinput = objTimeinput.getDatacardnoByFillter(com, whose.lostwages_cardno, date.AddDays(-1), date.AddDays(1), true, Lostwages.project_code, Lostwages.projob_code);
                                 }
 
 
@@ -3703,7 +3715,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                     }
                                 }
                                 #endregion
-
+                                //เวลาทำงาน 
                                 double douWorkPerday = 8 * 60;
 
                                 //-- Working
@@ -3952,7 +3964,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                         }
                         catch (Exception ex)
                         {
-                            listError.Add(Lostwages1.lostwages_cardno + "-" + date.ToString("dd/MM/yyyy") + ",");
+                            listError.Add(whose.lostwages_cardno + "-" + date.ToString("dd/MM/yyyy") + ",");
                         }
 
                     }//-- End loop date

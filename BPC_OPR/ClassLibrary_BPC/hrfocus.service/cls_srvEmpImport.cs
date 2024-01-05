@@ -1495,10 +1495,20 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_code = dr["worker_code"].ToString();
 
                                 model.empuniform_code = dr["empuniform_code"].ToString();
+
+                                model.project_code = dr["project_code"].ToString();
+                                model.projob_code = dr["projob_code"].ToString();
+                                model.proequipmenttype_code = dr["proequipmenttype_code"].ToString();
+
                                 model.empuniform_qauntity = Convert.ToDouble(dr["empuniform_qauntity"]);
-                                //model.empuniform_amount = Convert.ToDouble(dr["empuniform_amount"]);
+                                model.empuniform_amount = Convert.ToDouble(dr["empuniform_amount"]);
                                 model.empuniform_issuedate = Convert.ToDateTime(dr["empuniform_issuedate"]);
                                 model.empuniform_note = dr["empuniform_note"].ToString();
+
+                                model.empuniform_by = dr["empuniform_by"].ToString();
+                                model.empuniform_payperiod = Convert.ToDouble(dr["empuniform_payperiod"]);
+                                model.empuniform_payamount = Convert.ToDouble(dr["empuniform_payamount"]);
+                                model.empuniform_period = Convert.ToDateTime(dr["empuniform_period"]);
 
 
                                 model.modified_by = by;

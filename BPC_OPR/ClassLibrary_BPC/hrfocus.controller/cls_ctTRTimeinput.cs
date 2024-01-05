@@ -76,6 +76,59 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
+
+        private List<cls_TRTimeinput> getDatacardno(string condition)
+        {
+            List<cls_TRTimeinput> list_model = new List<cls_TRTimeinput>();
+            cls_TRTimeinput model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append("TIMEINPUT_CARD");
+                obj_str.Append(", TIMEINPUT_DATE");
+                obj_str.Append(", TIMEINPUT_HHMM");
+                obj_str.Append(", ISNULL(TIMEINPUT_TERMINAL, '') AS TIMEINPUT_TERMINAL");
+                obj_str.Append(", ISNULL(TIMEINPUT_FUNCTION, '') AS TIMEINPUT_FUNCTION");
+                obj_str.Append(", ISNULL(TIMEINPUT_COMPARE, 'N') AS TIMEINPUT_COMPARE");
+
+                obj_str.Append(" FROM ATT_TR_TIMEINPUT");
+                obj_str.Append(" INNER JOIN ATT_TR_LOSTWAGES ON ATT_TR_TIMEINPUT.TIMEINPUT_CARD=ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+
+                obj_str.Append(" WHERE 1=1");
+
+                if (!condition.Equals(""))
+                    obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY TIMEINPUT_DATE,  ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimeinput();
+
+                    model.timeinput_card = dr["TIMEINPUT_CARD"].ToString();
+                    model.timeinput_date = Convert.ToDateTime(dr["TIMEINPUT_DATE"]).Date;
+                    model.timeinput_hhmm = dr["TIMEINPUT_HHMM"].ToString();
+                    model.timeinput_terminal = dr["TIMEINPUT_TERMINAL"].ToString();
+                    model.timeinput_function = dr["TIMEINPUT_FUNCTION"].ToString();
+                    model.timeinput_compare = dr["TIMEINPUT_COMPARE"].ToString();
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Timeinput.getDatacardno)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
         public List<cls_TRTimeinput> getDataByFillter(string com, string emp, DateTime datefrom, DateTime dateto, bool compare)
         {
             string strCondition = "";
@@ -108,6 +161,27 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
 
             return this.getData(strCondition);
+        }
+
+
+        public List<cls_TRTimeinput> getDatacardnoByFillter(string com, string emp, DateTime datefrom, DateTime dateto, bool compare, string project, string job)
+        {
+            string strCondition = "";
+
+            strCondition += " AND ATT_TR_LOSTWAGES.COMPANY_CODE='" + com + "'";
+            strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + emp + "'";
+            strCondition += " AND (TIMEINPUT_DATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+            if (compare)
+                strCondition += " AND TIMEINPUT_COMPARE='N' ";
+
+            if (!project.Equals("") && !job.Equals(""))
+            {
+                //strCondition += " AND ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
+            }
+
+
+            return this.getDatacardno(strCondition);
         }
 
         

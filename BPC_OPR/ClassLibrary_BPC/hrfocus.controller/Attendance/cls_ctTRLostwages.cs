@@ -237,6 +237,26 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return this.getData(strCondition);
         }
 
+
+        public List<cls_TRLostwages> getDataByFillter1(string com, string project, string worker, string cardno, DateTime fromdate, DateTime todate)
+        {
+            string strCondition = "";
+
+            strCondition += " AND ATT_TR_LOSTWAGES.COMPANY_CODE='" + com + "'";
+
+            if (!project.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.PROJECT_CODE='" + project + "'";
+
+
+            if (!cardno.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
+
+
+
+            return this.getData(strCondition);
+        }
+
+
         public List<cls_TRLostwages> getDataByFilltercardno(string com, string cardno)
         {
             string strCondition = "";
@@ -582,6 +602,14 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", PROJECT_CODE ");
                     obj_str.Append(", PROJOB_CODE ");
                     obj_str.Append(", LOSTWAGES_STATUS ");
+
+                    //
+                    obj_str.Append(", LOSTWAGES_SALARY ");
+                    obj_str.Append(", LOSTWAGES_DILIGENCE ");
+                    obj_str.Append(", LOSTWAGES_TRAVELEXPENSES ");
+                    obj_str.Append(", LOSTWAGES_OTHER ");
+                    //
+
                     //
                     obj_str.Append(", LOSTWAGES_INITIAL ");
                     obj_str.Append(", LOSTWAGES_CARDNO ");
@@ -599,7 +627,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", CREATED_DATE ");
                     obj_str.Append(", FLAG ");
                     obj_str.Append(" )");
-
+                    //////////////////
                     obj_str.Append(" VALUES(");
                     obj_str.Append("@COMPANY_CODE ");                    
                     obj_str.Append(", @WORKER_CODE ");
@@ -607,6 +635,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", @PROJECT_CODE ");
                     obj_str.Append(", @PROJOB_CODE ");
                     obj_str.Append(", @LOSTWAGES_STATUS ");
+                    //
+                    obj_str.Append(", @LOSTWAGES_SALARY ");
+                    obj_str.Append(", @LOSTWAGES_DILIGENCE ");
+                    obj_str.Append(", @LOSTWAGES_TRAVELEXPENSES ");
+                    obj_str.Append(", @LOSTWAGES_OTHER ");
+                    //
 
                     //
                     obj_str.Append(", @LOSTWAGES_INITIAL ");
@@ -634,7 +668,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar);
-
+                    //
+                    obj_cmd.Parameters.Add("@LOSTWAGES_SALARY", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@LOSTWAGES_DILIGENCE", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@LOSTWAGES_TRAVELEXPENSES", SqlDbType.VarChar);
+                    obj_cmd.Parameters.Add("@LOSTWAGES_OTHER", SqlDbType.VarChar);
+                    //
                     //
                     obj_cmd.Parameters.Add("@LOSTWAGES_INITIAL", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@LOSTWAGES_CARDNO", SqlDbType.VarChar);
@@ -664,6 +703,13 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                     obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
                     obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                    //
+                    obj_cmd.Parameters["@LOSTWAGES_SALARY"].Value = model.lostwages_salary;
+                    obj_cmd.Parameters["@LOSTWAGES_DILIGENCE"].Value = model.lostwages_diligence;
+                    obj_cmd.Parameters["@LOSTWAGES_TRAVELEXPENSES"].Value = model.lostwages_travelexpenses;
+                    obj_cmd.Parameters["@LOSTWAGES_OTHER"].Value = model.lostwages_other;
+
+                    
                     //
                     obj_cmd.Parameters["@LOSTWAGES_INITIAL"].Value = model.lostwages_initial;
                     obj_cmd.Parameters["@LOSTWAGES_CARDNO"].Value = model.lostwages_cardno;
@@ -709,6 +755,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return blnResult;
         }
 
+
+       //
+       //
+
         public bool update(cls_TRLostwages model)
         {
             bool blnResult = false;
@@ -725,7 +775,15 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(", LOSTWAGES_DILIGENCE=@LOSTWAGES_DILIGENCE ");
                 obj_str.Append(", LOSTWAGES_TRAVELEXPENSES=@LOSTWAGES_TRAVELEXPENSES ");
                 obj_str.Append(", LOSTWAGES_OTHER=@LOSTWAGES_OTHER ");
+                //
+                obj_str.Append(", LOSTWAGES_INITIAL=@LOSTWAGES_INITIAL ");
+                obj_str.Append(", LOSTWAGES_CARDNO=@LOSTWAGES_CARDNO ");
+                obj_str.Append(", LOSTWAGES_GENDER=@LOSTWAGES_GENDER ");
+                obj_str.Append(", LOSTWAGES_FNAME_TH=@LOSTWAGES_FNAME_TH ");
+                obj_str.Append(", LOSTWAGES_LNAME_TH=@LOSTWAGES_LNAME_TH ");
 
+
+                //
                 //
                 obj_str.Append(" ,SHIFT_CODE=@SHIFT_CODE ");
                 obj_str.Append(", LOSTWAGES_DAYTYPE=@LOSTWAGES_DAYTYPE ");
@@ -795,17 +853,27 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" AND LOSTWAGES_WORKDATE=@LOSTWAGES_WORKDATE ");
 
 
+               
+
                 obj_conn.doConnect();
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
                 //
 
+                obj_cmd.Parameters.Add("@LOSTWAGES_SALARY", SqlDbType.Decimal); obj_cmd.Parameters["@LOSTWAGES_SALARY"].Value = model.lostwages_salary;
+                obj_cmd.Parameters.Add("@LOSTWAGES_DILIGENCE", SqlDbType.Decimal); obj_cmd.Parameters["@LOSTWAGES_DILIGENCE"].Value = model.lostwages_diligence;
+                obj_cmd.Parameters.Add("@LOSTWAGES_TRAVELEXPENSES", SqlDbType.Decimal); obj_cmd.Parameters["@LOSTWAGES_TRAVELEXPENSES"].Value = model.lostwages_travelexpenses;
+                obj_cmd.Parameters.Add("@LOSTWAGES_OTHER", SqlDbType.Decimal); obj_cmd.Parameters["@LOSTWAGES_OTHER"].Value = model.lostwages_other;
+ 
+                
+                //
+                obj_cmd.Parameters.Add("@LOSTWAGES_INITIAL", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_INITIAL"].Value = model.lostwages_initial;
+                obj_cmd.Parameters.Add("@LOSTWAGES_CARDNO", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_CARDNO"].Value = model.lostwages_cardno;
+                obj_cmd.Parameters.Add("@LOSTWAGES_GENDER", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_GENDER"].Value = model.lostwages_gender;
+                obj_cmd.Parameters.Add("@LOSTWAGES_FNAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_FNAME_TH"].Value = model.lostwages_fname_th;
+                obj_cmd.Parameters.Add("@LOSTWAGES_LNAME_TH", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_LNAME_TH"].Value = model.lostwages_laname_th;
 
-                obj_cmd.Parameters.Add("@LOSTWAGES_SALARY", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_SALARY"].Value = model.lostwages_salary;
-                obj_cmd.Parameters.Add("@LOSTWAGES_DILIGENCE", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_DILIGENCE"].Value = model.lostwages_diligence;
-                obj_cmd.Parameters.Add("@LOSTWAGES_TRAVELEXPENSES", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_TRAVELEXPENSES"].Value = model.lostwages_travelexpenses;
-                obj_cmd.Parameters.Add("@LOSTWAGES_OTHER", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_OTHER"].Value = model.lostwages_other;
-
+                //
                 //
 
                 obj_cmd.Parameters.Add("@SHIFT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@SHIFT_CODE"].Value = model.shift_code;
@@ -874,6 +942,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
 
                 obj_cmd.Parameters.Add("@LOSTWAGES_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@LOSTWAGES_WORKDATE"].Value = model.lostwages_workdate.Date;
+
+ 
 
                 obj_cmd.ExecuteNonQuery();
 
@@ -1158,7 +1228,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(", PROJECT_CODE ");
                 obj_str.Append(", PROJOB_CODE ");
                 obj_str.Append(", LOSTWAGES_STATUS ");
-
+                //
+                obj_str.Append(", LOSTWAGES_SALARY ");
+                obj_str.Append(", LOSTWAGES_DILIGENCE ");
+                obj_str.Append(", LOSTWAGES_TRAVELEXPENSES ");
+                obj_str.Append(", LOSTWAGES_OTHER ");
+                //
            
                 //
                 obj_str.Append(", LOSTWAGES_INITIAL ");
@@ -1185,7 +1260,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(", @PROJECT_CODE ");
                 obj_str.Append(", @PROJOB_CODE ");
                 obj_str.Append(", @LOSTWAGES_STATUS ");
-
+                //
+                obj_str.Append(", @LOSTWAGES_SALARY ");
+                obj_str.Append(", @LOSTWAGES_DILIGENCE ");
+                obj_str.Append(", @LOSTWAGES_TRAVELEXPENSES ");
+                obj_str.Append(", @LOSTWAGES_OTHER ");
+                //
                 //
                 obj_str.Append(", @LOSTWAGES_INITIAL ");
                 obj_str.Append(", @LOSTWAGES_CARDNO ");
