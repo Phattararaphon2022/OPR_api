@@ -5913,10 +5913,9 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
-
-
-<<<<<<< HEAD
+        
         //-- F add 06/01/2024
+        #region Doc Approve
         public string getTRTimeleaveApproveList(InputTRTimeleave input)
         {
             var json_data = new JavaScriptSerializer().Serialize(input);
@@ -5926,19 +5925,8 @@ namespace BPC_OPR
             log.apilog_code = "ATTS01.1";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
-=======
-        #region Lost Wages
-        public string getTRLostwagesList(FillterAttendance req)
-        {
-
-            JObject output = new JObject();
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT906.1";
-            log.apilog_by = req.username;
 
 
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             try
             {
 
@@ -5955,7 +5943,6 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-<<<<<<< HEAD
                 DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
                 DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
 
@@ -5966,30 +5953,14 @@ namespace BPC_OPR
 
                 if (listTRTimeleave.Count > 0)
                 {
+                    
                     int index = 1;
 
                     foreach (cls_TRTimeleave model in listTRTimeleave)
-=======
-                DateTime datefrom = Convert.ToDateTime(req.fromdate);
-                DateTime dateto = Convert.ToDateTime(req.todate);
-
-                cls_ctTRLostwages objLostwages = new cls_ctTRLostwages();
-                List<cls_TRLostwages> listLostwage = objLostwages.getDataByFillter(req.company, req.project_code, req.worker_code, req.lostwages_cardno, datefrom, dateto);
-                JArray array = new JArray();
-
-                if (listLostwage.Count > 0)
-                {
-                    int index = 1;
-
-                    int intRow = 1;
-
-                    foreach (cls_TRLostwages model in listLostwage)
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                     {
                         JObject json = new JObject();
 
                         json.Add("company_code", model.company_code);
-<<<<<<< HEAD
                         json.Add("worker_code", model.worker_code);
                         json.Add("leave_code", model.leave_code);
 
@@ -6017,106 +5988,10 @@ namespace BPC_OPR
                         json.Add("reason_en", model.reason_en);
                         json.Add("status", model.status);
                         json.Add("status_job", model.status_job);
-=======
-                        json.Add("project_code", model.project_code);
-                        //
-                        json.Add("lostwages_status", model.lostwages_status);
-                        json.Add("lostwages_salary", model.lostwages_salary);
-                        json.Add("lostwages_diligence", model.lostwages_diligence);
-                        json.Add("lostwages_travelexpenses", model.lostwages_travelexpenses);
-                        json.Add("lostwages_other", model.lostwages_other);
-                        //
-                        json.Add("lostwages_initial", model.lostwages_initial);
-                        json.Add("lostwages_cardno", model.lostwages_cardno);
-                        json.Add("lostwages_gender", model.lostwages_gender);
-                        json.Add("lostwages_fname_th", model.lostwages_fname_th);
-                        json.Add("lostwages_laname_th", model.lostwages_laname_th);
-
-                        //
-                        //
-                        json.Add("worker_code", model.worker_code);
-                        json.Add("shift_code", model.shift_code);
-                        json.Add("lostwages_workdate", model.lostwages_workdate);
-                        json.Add("lostwages_daytype", model.lostwages_daytype);
-                        json.Add("lostwages_color", model.lostwages_color);
-                        json.Add("lostwages_lock", model.lostwages_lock);
-
-                        json.Add("lostwages_ch1", model.lostwages_ch1);
-                        json.Add("lostwages_ch2", model.lostwages_ch2);
-                        json.Add("lostwages_ch3", model.lostwages_ch3);
-                        json.Add("lostwages_ch4", model.lostwages_ch4);
-                        json.Add("lostwages_ch5", model.lostwages_ch5);
-                        json.Add("lostwages_ch6", model.lostwages_ch6);
-                        json.Add("lostwages_ch7", model.lostwages_ch7);
-                        json.Add("lostwages_ch8", model.lostwages_ch8);
-                        json.Add("lostwages_ch9", model.lostwages_ch9);
-                        json.Add("lostwages_ch10", model.lostwages_ch10);
-
-                        //-- Time in
-                        if (!model.lostwages_ch1.ToString("HH:mm").Equals("00:00"))
-                        {
-                            json.Add("lostwages_in", model.lostwages_ch1.ToString("dd/MM/yyyy HH:mm"));
-                        }
-                        else if (!model.lostwages_ch3.ToString("HH:mm").Equals("00:00"))
-                        {
-                            json.Add("lostwages_in", model.lostwages_ch3.ToString("dd/MM/yyyy HH:mm"));
-                        }
-                        else
-                        {
-                            json.Add("lostwages_in", "-");
-                        }
-
-                        //-- Time out
-                        if (!model.lostwages_ch10.ToString("HH:mm").Equals("00:00"))
-                        {
-                            json.Add("lostwages_out", model.lostwages_ch10.ToString("dd/MM/yyyy HH:mm"));
-                        }
-                        else if (!model.lostwages_ch8.ToString("HH:mm").Equals("00:00"))
-                        {
-                            json.Add("lostwages_out", model.lostwages_ch8.ToString("dd/MM/yyyy HH:mm"));
-                        }
-                        else if (!model.lostwages_ch4.ToString("HH:mm").Equals("00:00"))
-                        {
-                            json.Add("lostwages_out", model.lostwages_ch4.ToString("dd/MM/yyyy HH:mm"));
-                        }
-                        else
-                        {
-                            json.Add("lostwages_out", "-");
-                        }
-
-
-                        json.Add("lostwages_before_min", model.lostwages_before_min);
-                        json.Add("lostwages_work1_min", model.lostwages_work1_min);
-                        json.Add("lostwages_work2_min", model.lostwages_work2_min);
-                        json.Add("lostwages_break_min", model.lostwages_break_min);
-                        json.Add("lostwages_after_min", model.lostwages_after_min);
-                        json.Add("lostwages_late_min", model.lostwages_late_min);
-
-                        json.Add("lostwages_before_min_app", model.lostwages_before_min_app);
-                        json.Add("lostwages_work1_min_app", model.lostwages_work1_min_app);
-                        json.Add("lostwages_work2_min_app", model.lostwages_work2_min_app);
-                        json.Add("lostwages_break_min_app", model.lostwages_break_min_app);
-                        json.Add("lostwages_after_min_app", model.lostwages_after_min_app);
-                        json.Add("lostwages_late_min_app", model.lostwages_late_min_app);
-
-                        int hrs = (model.lostwages_work1_min_app + model.lostwages_work2_min_app) / 60;
-                        int min = (model.lostwages_work1_min_app + model.lostwages_work2_min_app) - (hrs * 60);
-                        json.Add("work_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
-
-                        hrs = (model.lostwages_before_min_app + model.lostwages_after_min_app) / 60;
-                        min = (model.lostwages_before_min_app + model.lostwages_after_min_app) - (hrs * 60);
-                        json.Add("ot_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
-
-                        hrs = (model.lostwages_late_min_app) / 60;
-                        min = (model.lostwages_late_min_app) - (hrs * 60);
-                        json.Add("late_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
-
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
-<<<<<<< HEAD
                         json.Add("reqdoc_data", null);
 
                         json.Add("index", index);
@@ -6128,42 +6003,6 @@ namespace BPC_OPR
 
                     output["result"] = "1";
                     output["result_text"] = "1";
-=======
-
-
-                        json.Add("worker_name_th", model.worker_name_th);
-                        json.Add("worker_name_en", model.worker_name_en);
-                        json.Add("projob_code", model.projob_code);
- 
-                        json.Add("change", false);
-
-                        json.Add("index", index);
-
-                        json.Add("row", intRow);
-
-                        switch (model.lostwages_workdate.DayOfWeek)
-                        {
-                            case DayOfWeek.Sunday: json.Add("col", 1); break;
-                            case DayOfWeek.Monday: json.Add("col", 2); break;
-                            case DayOfWeek.Tuesday: json.Add("col", 3); break;
-                            case DayOfWeek.Wednesday: json.Add("col", 4); break;
-                            case DayOfWeek.Thursday: json.Add("col", 5); break;
-                            case DayOfWeek.Friday: json.Add("col", 6); break;
-                            case DayOfWeek.Saturday:
-                                json.Add("col", 7);
-                                intRow++;
-                                break;
-                        }
-
-                        index++;
-
-
-                        array.Add(json);
-                    }
-
-                    output["success"] = true;
-                    output["message"] = "";
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                     output["data"] = array;
 
                     log.apilog_status = "200";
@@ -6171,7 +6010,7 @@ namespace BPC_OPR
                 }
                 else
                 {
-<<<<<<< HEAD
+
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
@@ -6302,10 +6141,6 @@ namespace BPC_OPR
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
-=======
-                    output["success"] = false;
-                    output["message"] = "Data not Found";
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                     output["data"] = array;
 
                     log.apilog_status = "404";
@@ -6314,27 +6149,19 @@ namespace BPC_OPR
             }
             catch (Exception ex)
             {
-<<<<<<< HEAD
+
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
 
-=======
-                output["success"] = false;
-                output["message"] = "(C)Retrieved data not successfully";
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             }
             finally
             {
                 objBpcOpr.doRecordLog(log);
             }
 
-<<<<<<< HEAD
             return output.ToString(Formatting.None);
         }
 
@@ -6441,13 +6268,11 @@ namespace BPC_OPR
             {
                 objBpcOpr.doRecordLog(log);
             }
-=======
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
+
 
             return output.ToString(Formatting.None);
         }
-
-<<<<<<< HEAD
+        
         public string getTRTimeonsiteApproveList(InputTRTimeonsite input)
         {
             var json_data = new JavaScriptSerializer().Serialize(input);
@@ -6460,23 +6285,6 @@ namespace BPC_OPR
             try
             {
 
-=======
-        public string doManageTRLostwages(InputTRLostwages input)
-        {
-            JObject output = new JObject();
-
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
-
-
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATT906.2";
-            log.apilog_by = input.modified_by;
-            log.apilog_data = tmp.ToString();
-
-            try
-            {
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
@@ -6490,7 +6298,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-<<<<<<< HEAD
+
                 DateTime datefrom = Convert.ToDateTime(input.timeonsite_workdate);
                 DateTime dateto = Convert.ToDateTime(input.timeonstie_todate);
 
@@ -6540,7 +6348,381 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
-=======
+
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public string getTRTimedaytypeApproveList(InputTRTimedaytype input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATTS05.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(input.timedaytype_workdate);
+                DateTime dateto = Convert.ToDateTime(input.timedaytype_todate);
+
+                cls_ctTRTimedaytype objTRTimedaytype = new cls_ctTRTimedaytype();
+                List<cls_TRTimedaytype> listTRTimedaytype = objTRTimedaytype.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTimedaytype.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimedaytype model in listTRTimedaytype)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("timedaytype_id", model.timedaytype_id);
+                        json.Add("timedaytype_doc", model.timedaytype_doc);
+                        json.Add("timedaytype_workdate", model.timedaytype_workdate.ToString("yyyy-MM-dd"));
+                        json.Add("timedaytype_old", model.timedaytype_old);
+                        json.Add("timedaytype_new", model.timedaytype_new);
+                        json.Add("timedaytype_note", model.timedaytype_note);
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_name_en", model.reason_name_en);
+                        json.Add("reason_name_th", model.reason_name_th);
+                        json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("reqdoc_data", null);
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+                        
+        #endregion
+        //--
+
+        #region Lost Wages
+        public string getTRLostwagesList(FillterAttendance req)
+        {
+
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT906.1";
+            log.apilog_by = req.username;
+
+
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRLostwages objLostwages = new cls_ctTRLostwages();
+                List<cls_TRLostwages> listLostwage = objLostwages.getDataByFillter(req.company, req.project_code, req.worker_code, req.lostwages_cardno, datefrom, dateto);
+                JArray array = new JArray();
+
+                if (listLostwage.Count > 0)
+                {
+                    int index = 1;
+
+                    int intRow = 1;
+
+                    foreach (cls_TRLostwages model in listLostwage)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("project_code", model.project_code);
+                        //
+                        json.Add("lostwages_status", model.lostwages_status);
+                        json.Add("lostwages_salary", model.lostwages_salary);
+                        json.Add("lostwages_diligence", model.lostwages_diligence);
+                        json.Add("lostwages_travelexpenses", model.lostwages_travelexpenses);
+                        json.Add("lostwages_other", model.lostwages_other);
+                        //
+                        json.Add("lostwages_initial", model.lostwages_initial);
+                        json.Add("lostwages_cardno", model.lostwages_cardno);
+                        json.Add("lostwages_gender", model.lostwages_gender);
+                        json.Add("lostwages_fname_th", model.lostwages_fname_th);
+                        json.Add("lostwages_laname_th", model.lostwages_laname_th);
+
+                        //
+                        //
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("shift_code", model.shift_code);
+                        json.Add("lostwages_workdate", model.lostwages_workdate);
+                        json.Add("lostwages_daytype", model.lostwages_daytype);
+                        json.Add("lostwages_color", model.lostwages_color);
+                        json.Add("lostwages_lock", model.lostwages_lock);
+
+                        json.Add("lostwages_ch1", model.lostwages_ch1);
+                        json.Add("lostwages_ch2", model.lostwages_ch2);
+                        json.Add("lostwages_ch3", model.lostwages_ch3);
+                        json.Add("lostwages_ch4", model.lostwages_ch4);
+                        json.Add("lostwages_ch5", model.lostwages_ch5);
+                        json.Add("lostwages_ch6", model.lostwages_ch6);
+                        json.Add("lostwages_ch7", model.lostwages_ch7);
+                        json.Add("lostwages_ch8", model.lostwages_ch8);
+                        json.Add("lostwages_ch9", model.lostwages_ch9);
+                        json.Add("lostwages_ch10", model.lostwages_ch10);
+
+                        //-- Time in
+                        if (!model.lostwages_ch1.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_in", model.lostwages_ch1.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!model.lostwages_ch3.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_in", model.lostwages_ch3.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else
+                        {
+                            json.Add("lostwages_in", "-");
+                        }
+
+                        //-- Time out
+                        if (!model.lostwages_ch10.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_out", model.lostwages_ch10.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!model.lostwages_ch8.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_out", model.lostwages_ch8.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!model.lostwages_ch4.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_out", model.lostwages_ch4.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else
+                        {
+                            json.Add("lostwages_out", "-");
+                        }
+
+
+                        json.Add("lostwages_before_min", model.lostwages_before_min);
+                        json.Add("lostwages_work1_min", model.lostwages_work1_min);
+                        json.Add("lostwages_work2_min", model.lostwages_work2_min);
+                        json.Add("lostwages_break_min", model.lostwages_break_min);
+                        json.Add("lostwages_after_min", model.lostwages_after_min);
+                        json.Add("lostwages_late_min", model.lostwages_late_min);
+
+                        json.Add("lostwages_before_min_app", model.lostwages_before_min_app);
+                        json.Add("lostwages_work1_min_app", model.lostwages_work1_min_app);
+                        json.Add("lostwages_work2_min_app", model.lostwages_work2_min_app);
+                        json.Add("lostwages_break_min_app", model.lostwages_break_min_app);
+                        json.Add("lostwages_after_min_app", model.lostwages_after_min_app);
+                        json.Add("lostwages_late_min_app", model.lostwages_late_min_app);
+
+                        int hrs = (model.lostwages_work1_min_app + model.lostwages_work2_min_app) / 60;
+                        int min = (model.lostwages_work1_min_app + model.lostwages_work2_min_app) - (hrs * 60);
+                        json.Add("work_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.lostwages_before_min_app + model.lostwages_after_min_app) / 60;
+                        min = (model.lostwages_before_min_app + model.lostwages_after_min_app) - (hrs * 60);
+                        json.Add("ot_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.lostwages_late_min_app) / 60;
+                        min = (model.lostwages_late_min_app) - (hrs * 60);
+                        json.Add("late_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+
+                        json.Add("worker_name_th", model.worker_name_th);
+                        json.Add("worker_name_en", model.worker_name_en);
+                        json.Add("projob_code", model.projob_code);
+ 
+                        json.Add("change", false);
+
+                        json.Add("index", index);
+
+                        json.Add("row", intRow);
+
+                        switch (model.lostwages_workdate.DayOfWeek)
+                        {
+                            case DayOfWeek.Sunday: json.Add("col", 1); break;
+                            case DayOfWeek.Monday: json.Add("col", 2); break;
+                            case DayOfWeek.Tuesday: json.Add("col", 3); break;
+                            case DayOfWeek.Wednesday: json.Add("col", 4); break;
+                            case DayOfWeek.Thursday: json.Add("col", 5); break;
+                            case DayOfWeek.Friday: json.Add("col", 6); break;
+                            case DayOfWeek.Saturday:
+                                json.Add("col", 7);
+                                intRow++;
+                                break;
+                        }
+
+                        index++;
+
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string doManageTRLostwages(InputTRLostwages input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT906.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
                 cls_ctTRLostwages objTime = new cls_ctTRLostwages();
                 cls_TRLostwages model = new cls_TRLostwages();
 
@@ -6658,31 +6840,12 @@ namespace BPC_OPR
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
 
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
                 }
                 else
                 {
-<<<<<<< HEAD
-                    output["result"] = "0";
-                    output["result_text"] = "Data not Found";
-                    output["data"] = array;
-
-                    log.apilog_status = "404";
-                    log.apilog_message = "Data not Found";
-                }
-            }
-            catch (Exception ex)
-            {
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-
-=======
                     output["success"] = false;
                     output["message"] = "Retrieved data not successfully";
 
@@ -6700,7 +6863,6 @@ namespace BPC_OPR
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             }
             finally
             {
@@ -6708,22 +6870,6 @@ namespace BPC_OPR
             }
 
             return output.ToString(Formatting.None);
-<<<<<<< HEAD
-        }
-
-        public string getTRTimedaytypeApproveList(InputTRTimedaytype input)
-        {
-            var json_data = new JavaScriptSerializer().Serialize(input);
-            var tmp = JToken.Parse(json_data);
-            JObject output = new JObject();
-            cls_SYSApilog log = new cls_SYSApilog();
-            log.apilog_code = "ATTS05.1";
-            log.apilog_by = input.username;
-            log.apilog_data = tmp.ToString();
-            try
-            {
-
-=======
 
         }
 
@@ -6742,7 +6888,6 @@ namespace BPC_OPR
 
             try
             {
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
@@ -6756,66 +6901,6 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
-<<<<<<< HEAD
-                DateTime datefrom = Convert.ToDateTime(input.timedaytype_workdate);
-                DateTime dateto = Convert.ToDateTime(input.timedaytype_todate);
-
-                cls_ctTRTimedaytype objTRTimedaytype = new cls_ctTRTimedaytype();
-                List<cls_TRTimedaytype> listTRTimedaytype = objTRTimedaytype.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
-
-                JArray array = new JArray();
-
-                if (listTRTimedaytype.Count > 0)
-                {
-                    int index = 1;
-
-                    foreach (cls_TRTimedaytype model in listTRTimedaytype)
-                    {
-                        JObject json = new JObject();
-                        json.Add("company_code", model.company_code);
-                        json.Add("worker_code", model.worker_code);
-                        json.Add("worker_detail_en", model.worker_detail_en);
-                        json.Add("worker_detail_th", model.worker_detail_th);
-                        json.Add("timedaytype_id", model.timedaytype_id);
-                        json.Add("timedaytype_doc", model.timedaytype_doc);
-                        json.Add("timedaytype_workdate", model.timedaytype_workdate.ToString("yyyy-MM-dd"));
-                        json.Add("timedaytype_old", model.timedaytype_old);
-                        json.Add("timedaytype_new", model.timedaytype_new);
-                        json.Add("timedaytype_note", model.timedaytype_note);
-                        json.Add("reason_code", model.reason_code);
-                        json.Add("reason_name_en", model.reason_name_en);
-                        json.Add("reason_name_th", model.reason_name_th);
-                        json.Add("status", model.status);
-                        json.Add("status_job", model.status_job);
-
-                        json.Add("modified_by", model.modified_by);
-                        json.Add("modified_date", model.modified_date);
-                        json.Add("flag", model.flag);
-                        json.Add("reqdoc_data", null);
-                                                
-                        json.Add("index", index);
-
-                        index++;
-
-                        array.Add(json);
-                    }
-
-                    output["result"] = "1";
-                    output["result_text"] = "1";
-                    output["data"] = array;
-
-                    log.apilog_status = "200";
-                    log.apilog_message = "";
-                }
-                else
-                {
-                    output["result"] = "0";
-                    output["result_text"] = "Data not Found";
-                    output["data"] = array;
-
-                    log.apilog_status = "404";
-                    log.apilog_message = "Data not Found";
-=======
 
 
 
@@ -7145,25 +7230,15 @@ namespace BPC_OPR
                             
                         }
                     }
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                 }
             }
             catch (Exception ex)
             {
-<<<<<<< HEAD
-                output["result"] = "0";
-                output["result_text"] = ex.ToString();
-
-                log.apilog_status = "500";
-                log.apilog_message = ex.ToString();
-
-=======
                 output["success"] = false;
                 output["message"] = "(C)Retrieved data not successfully";
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             }
             finally
             {
@@ -7171,10 +7246,6 @@ namespace BPC_OPR
             }
 
             return output.ToString(Formatting.None);
-<<<<<<< HEAD
-        }
-        //--
-=======
 
         }
 
@@ -7302,7 +7373,5 @@ namespace BPC_OPR
 
         }
         #endregion
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
-
     }
 }

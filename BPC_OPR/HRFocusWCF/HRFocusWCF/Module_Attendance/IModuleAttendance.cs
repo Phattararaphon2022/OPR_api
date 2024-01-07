@@ -301,7 +301,7 @@ namespace BPC_OPR
         string getTRWagedayList(FillterAttendance req);
         #endregion
 
-<<<<<<< HEAD
+
         //-- F add 06/01/2024
 
         #region Doc approve
@@ -333,7 +333,7 @@ namespace BPC_OPR
         string getTRTimeinputList(FillterAttendance req);
 
         //--
-=======
+
         #region  Lost Wages
         [OperationContract(Name = "Lostwages_list")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
@@ -357,7 +357,7 @@ namespace BPC_OPR
         string doDeleteTRLostwages(InputTRLostwages input);
 
         #endregion
->>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
+
     }
 
 }
