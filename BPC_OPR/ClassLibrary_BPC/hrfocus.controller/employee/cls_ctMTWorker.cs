@@ -222,6 +222,23 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+        //
+        public List<cls_MTWorker> getDataByFilltercardno(string com, string code, string cardno)
+        {
+            string strCondition = "";
+
+            strCondition += " AND EMP_MT_WORKER.COMPANY_CODE='" + com + "'";
+
+            if (!code.Equals(""))
+                strCondition += " AND WORKER_CODE='" + code + "'";
+
+            if (!cardno.Equals(""))
+                strCondition += " AND WORKER_CARDNO='" + cardno + "'";
+
+            return this.getData(strCondition);
+        }
+        //
+
 
         public List<cls_MTWorker> getDataByWorkerCode(string com, string worker_code)
         {

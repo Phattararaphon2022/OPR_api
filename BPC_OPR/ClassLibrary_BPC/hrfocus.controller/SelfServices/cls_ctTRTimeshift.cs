@@ -61,6 +61,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_BY, SELF_TR_TIMESHIFT.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_DATE, SELF_TR_TIMESHIFT.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
 
                 obj_str.Append(" FROM SELF_TR_TIMESHIFT");
 
@@ -73,6 +76,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMESHIFT.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE  ");
                 obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMESHIFT.TIMESHIFT_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'SHT' ");
 
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMESHIFT.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -137,6 +143,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
             if (!emp.Equals(""))
                 strCondition += " AND SELF_TR_TIMESHIFT.WORKER_CODE='" + emp + "'";
+            strCondition += " AND (TIMESHIFT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRTimeshift> getDataByFillterLostwages(int id, int status, string com, string cardno, DateTime datefrom, DateTime dateto)
+        {
+            string strCondition = "";
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
+            if (!status.Equals(1))
+                strCondition += " AND SELF_TR_TIMESHIFT.STATUS='" + status + "'";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
+            if (!cardno.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
             strCondition += " AND (TIMESHIFT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
 
             return this.getData(strCondition);

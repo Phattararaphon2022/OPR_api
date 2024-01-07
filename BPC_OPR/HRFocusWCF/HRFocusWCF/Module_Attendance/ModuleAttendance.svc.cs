@@ -5915,6 +5915,7 @@ namespace BPC_OPR
         #endregion
 
 
+<<<<<<< HEAD
         //-- F add 06/01/2024
         public string getTRTimeleaveApproveList(InputTRTimeleave input)
         {
@@ -5925,6 +5926,19 @@ namespace BPC_OPR
             log.apilog_code = "ATTS01.1";
             log.apilog_by = input.username;
             log.apilog_data = tmp.ToString();
+=======
+        #region Lost Wages
+        public string getTRLostwagesList(FillterAttendance req)
+        {
+
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT906.1";
+            log.apilog_by = req.username;
+
+
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             try
             {
 
@@ -5941,6 +5955,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
+<<<<<<< HEAD
                 DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
                 DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
 
@@ -5954,10 +5969,27 @@ namespace BPC_OPR
                     int index = 1;
 
                     foreach (cls_TRTimeleave model in listTRTimeleave)
+=======
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRLostwages objLostwages = new cls_ctTRLostwages();
+                List<cls_TRLostwages> listLostwage = objLostwages.getDataByFillter(req.company, req.project_code, req.worker_code, req.lostwages_cardno, datefrom, dateto);
+                JArray array = new JArray();
+
+                if (listLostwage.Count > 0)
+                {
+                    int index = 1;
+
+                    int intRow = 1;
+
+                    foreach (cls_TRLostwages model in listLostwage)
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                     {
                         JObject json = new JObject();
 
                         json.Add("company_code", model.company_code);
+<<<<<<< HEAD
                         json.Add("worker_code", model.worker_code);
                         json.Add("leave_code", model.leave_code);
 
@@ -5985,10 +6017,106 @@ namespace BPC_OPR
                         json.Add("reason_en", model.reason_en);
                         json.Add("status", model.status);
                         json.Add("status_job", model.status_job);
+=======
+                        json.Add("project_code", model.project_code);
+                        //
+                        json.Add("lostwages_status", model.lostwages_status);
+                        json.Add("lostwages_salary", model.lostwages_salary);
+                        json.Add("lostwages_diligence", model.lostwages_diligence);
+                        json.Add("lostwages_travelexpenses", model.lostwages_travelexpenses);
+                        json.Add("lostwages_other", model.lostwages_other);
+                        //
+                        json.Add("lostwages_initial", model.lostwages_initial);
+                        json.Add("lostwages_cardno", model.lostwages_cardno);
+                        json.Add("lostwages_gender", model.lostwages_gender);
+                        json.Add("lostwages_fname_th", model.lostwages_fname_th);
+                        json.Add("lostwages_laname_th", model.lostwages_laname_th);
+
+                        //
+                        //
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("shift_code", model.shift_code);
+                        json.Add("lostwages_workdate", model.lostwages_workdate);
+                        json.Add("lostwages_daytype", model.lostwages_daytype);
+                        json.Add("lostwages_color", model.lostwages_color);
+                        json.Add("lostwages_lock", model.lostwages_lock);
+
+                        json.Add("lostwages_ch1", model.lostwages_ch1);
+                        json.Add("lostwages_ch2", model.lostwages_ch2);
+                        json.Add("lostwages_ch3", model.lostwages_ch3);
+                        json.Add("lostwages_ch4", model.lostwages_ch4);
+                        json.Add("lostwages_ch5", model.lostwages_ch5);
+                        json.Add("lostwages_ch6", model.lostwages_ch6);
+                        json.Add("lostwages_ch7", model.lostwages_ch7);
+                        json.Add("lostwages_ch8", model.lostwages_ch8);
+                        json.Add("lostwages_ch9", model.lostwages_ch9);
+                        json.Add("lostwages_ch10", model.lostwages_ch10);
+
+                        //-- Time in
+                        if (!model.lostwages_ch1.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_in", model.lostwages_ch1.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!model.lostwages_ch3.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_in", model.lostwages_ch3.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else
+                        {
+                            json.Add("lostwages_in", "-");
+                        }
+
+                        //-- Time out
+                        if (!model.lostwages_ch10.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_out", model.lostwages_ch10.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!model.lostwages_ch8.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_out", model.lostwages_ch8.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else if (!model.lostwages_ch4.ToString("HH:mm").Equals("00:00"))
+                        {
+                            json.Add("lostwages_out", model.lostwages_ch4.ToString("dd/MM/yyyy HH:mm"));
+                        }
+                        else
+                        {
+                            json.Add("lostwages_out", "-");
+                        }
+
+
+                        json.Add("lostwages_before_min", model.lostwages_before_min);
+                        json.Add("lostwages_work1_min", model.lostwages_work1_min);
+                        json.Add("lostwages_work2_min", model.lostwages_work2_min);
+                        json.Add("lostwages_break_min", model.lostwages_break_min);
+                        json.Add("lostwages_after_min", model.lostwages_after_min);
+                        json.Add("lostwages_late_min", model.lostwages_late_min);
+
+                        json.Add("lostwages_before_min_app", model.lostwages_before_min_app);
+                        json.Add("lostwages_work1_min_app", model.lostwages_work1_min_app);
+                        json.Add("lostwages_work2_min_app", model.lostwages_work2_min_app);
+                        json.Add("lostwages_break_min_app", model.lostwages_break_min_app);
+                        json.Add("lostwages_after_min_app", model.lostwages_after_min_app);
+                        json.Add("lostwages_late_min_app", model.lostwages_late_min_app);
+
+                        int hrs = (model.lostwages_work1_min_app + model.lostwages_work2_min_app) / 60;
+                        int min = (model.lostwages_work1_min_app + model.lostwages_work2_min_app) - (hrs * 60);
+                        json.Add("work_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.lostwages_before_min_app + model.lostwages_after_min_app) / 60;
+                        min = (model.lostwages_before_min_app + model.lostwages_after_min_app) - (hrs * 60);
+                        json.Add("ot_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.lostwages_late_min_app) / 60;
+                        min = (model.lostwages_late_min_app) - (hrs * 60);
+                        json.Add("late_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
+<<<<<<< HEAD
                         json.Add("reqdoc_data", null);
 
                         json.Add("index", index);
@@ -6000,6 +6128,42 @@ namespace BPC_OPR
 
                     output["result"] = "1";
                     output["result_text"] = "1";
+=======
+
+
+                        json.Add("worker_name_th", model.worker_name_th);
+                        json.Add("worker_name_en", model.worker_name_en);
+                        json.Add("projob_code", model.projob_code);
+ 
+                        json.Add("change", false);
+
+                        json.Add("index", index);
+
+                        json.Add("row", intRow);
+
+                        switch (model.lostwages_workdate.DayOfWeek)
+                        {
+                            case DayOfWeek.Sunday: json.Add("col", 1); break;
+                            case DayOfWeek.Monday: json.Add("col", 2); break;
+                            case DayOfWeek.Tuesday: json.Add("col", 3); break;
+                            case DayOfWeek.Wednesday: json.Add("col", 4); break;
+                            case DayOfWeek.Thursday: json.Add("col", 5); break;
+                            case DayOfWeek.Friday: json.Add("col", 6); break;
+                            case DayOfWeek.Saturday:
+                                json.Add("col", 7);
+                                intRow++;
+                                break;
+                        }
+
+                        index++;
+
+
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                     output["data"] = array;
 
                     log.apilog_status = "200";
@@ -6007,6 +6171,7 @@ namespace BPC_OPR
                 }
                 else
                 {
+<<<<<<< HEAD
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
@@ -6137,6 +6302,10 @@ namespace BPC_OPR
                 {
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
+=======
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                     output["data"] = array;
 
                     log.apilog_status = "404";
@@ -6145,18 +6314,27 @@ namespace BPC_OPR
             }
             catch (Exception ex)
             {
+<<<<<<< HEAD
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
 
+=======
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             }
             finally
             {
                 objBpcOpr.doRecordLog(log);
             }
 
+<<<<<<< HEAD
             return output.ToString(Formatting.None);
         }
 
@@ -6263,10 +6441,13 @@ namespace BPC_OPR
             {
                 objBpcOpr.doRecordLog(log);
             }
+=======
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
 
             return output.ToString(Formatting.None);
         }
 
+<<<<<<< HEAD
         public string getTRTimeonsiteApproveList(InputTRTimeonsite input)
         {
             var json_data = new JavaScriptSerializer().Serialize(input);
@@ -6279,6 +6460,23 @@ namespace BPC_OPR
             try
             {
 
+=======
+        public string doManageTRLostwages(InputTRLostwages input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT906.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
@@ -6292,6 +6490,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
+<<<<<<< HEAD
                 DateTime datefrom = Convert.ToDateTime(input.timeonsite_workdate);
                 DateTime dateto = Convert.ToDateTime(input.timeonstie_todate);
 
@@ -6341,12 +6540,132 @@ namespace BPC_OPR
                     output["result"] = "1";
                     output["result_text"] = "1";
                     output["data"] = array;
+=======
+                cls_ctTRLostwages objTime = new cls_ctTRLostwages();
+                cls_TRLostwages model = new cls_TRLostwages();
+
+                model.company_code = input.company_code;
+                model.project_code = input.project_code;
+                //
+                model.lostwages_status = input.lostwages_status;
+                model.lostwages_salary = input.lostwages_salary;
+                model.lostwages_diligence = input.lostwages_diligence;
+                model.lostwages_travelexpenses = input.lostwages_travelexpenses;
+                model.lostwages_other = input.lostwages_other;
+                //
+                //
+                model.lostwages_initial = input.lostwages_initial;
+
+                model.lostwages_cardno = input.lostwages_cardno;
+                model.lostwages_gender = input.lostwages_gender;
+                model.lostwages_fname_th = input.lostwages_fname_th;
+                model.lostwages_laname_th = input.lostwages_laname_th;
+
+               
+
+                //
+                model.projob_code = input.projob_code;
+                model.worker_code = input.worker_code;
+ 
+
+
+                model.lostwages_workdate = Convert.ToDateTime(input.lostwages_workdate);
+                model.lostwages_daytype = input.lostwages_daytype;
+                model.shift_code = input.shift_code;
+                model.lostwages_color = input.lostwages_color;
+
+                model.lostwages_lock = input.lostwages_lock;
+
+                if (input.lostwages_ch1.Equals("") || input.lostwages_ch2.Equals(""))
+                {
+                    model.before_scan = false;
+                }
+                else
+                {
+                    model.before_scan = true;
+                    model.lostwages_ch1 = this.doConvertDate(input.lostwages_ch1);
+                    model.lostwages_ch2 = this.doConvertDate(input.lostwages_ch2);
+                }
+
+                if (input.lostwages_ch3.Equals("") || input.lostwages_ch4.Equals(""))
+                {
+                    model.work1_scan = false;
+                }
+                else
+                {
+                    model.work1_scan = true;
+                    model.lostwages_ch3 = this.doConvertDate(input.lostwages_ch3);
+                    model.lostwages_ch4 = this.doConvertDate(input.lostwages_ch4);
+                }
+
+                if (input.lostwages_ch7.Equals("") || input.lostwages_ch8.Equals(""))
+                {
+                    model.work2_scan = false;
+                }
+                else
+                {
+                    model.work2_scan = true;
+                    model.lostwages_ch7 = this.doConvertDate(input.lostwages_ch7);
+                    model.lostwages_ch8 = this.doConvertDate(input.lostwages_ch8);
+                }
+
+                if (input.lostwages_ch5.Equals("") || input.lostwages_ch6.Equals(""))
+                {
+                    model.break_scan = false;
+                }
+                else
+                {
+                    model.break_scan = true;
+                    model.lostwages_ch5 = this.doConvertDate(input.lostwages_ch5);
+                    model.lostwages_ch6 = this.doConvertDate(input.lostwages_ch6);
+                }
+
+                if (input.lostwages_ch9.Equals("") || input.lostwages_ch10.Equals(""))
+                {
+                    model.after_scan = false;
+                }
+                else
+                {
+                    model.after_scan = true;
+                    model.lostwages_ch9 = this.doConvertDate(input.lostwages_ch9);
+                    model.lostwages_ch10 = this.doConvertDate(input.lostwages_ch10);
+                }
+
+
+                model.lostwages_before_min = input.lostwages_before_min;
+                model.lostwages_work1_min = input.lostwages_work1_min;
+                model.lostwages_work2_min = input.lostwages_work2_min;
+                model.lostwages_break_min = input.lostwages_break_min;
+                model.lostwages_after_min = input.lostwages_after_min;
+
+                model.lostwages_late_min = input.lostwages_late_min;
+
+                model.lostwages_before_min_app = input.lostwages_before_min_app;
+                model.lostwages_work1_min_app = input.lostwages_work1_min_app;
+                model.lostwages_work2_min_app = input.lostwages_work2_min_app;
+                model.lostwages_break_min_app = input.lostwages_break_min_app;
+                model.lostwages_after_min_app = input.lostwages_after_min_app;
+
+                model.lostwages_late_min_app = input.lostwages_late_min_app;
+
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
+
+                bool blnResult = objTime.update(model);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
 
                     log.apilog_status = "200";
                     log.apilog_message = "";
                 }
                 else
                 {
+<<<<<<< HEAD
                     output["result"] = "0";
                     output["result_text"] = "Data not Found";
                     output["data"] = array;
@@ -6363,6 +6682,25 @@ namespace BPC_OPR
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
 
+=======
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTime.getMessage();
+                }
+
+                objTime.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             }
             finally
             {
@@ -6370,6 +6708,7 @@ namespace BPC_OPR
             }
 
             return output.ToString(Formatting.None);
+<<<<<<< HEAD
         }
 
         public string getTRTimedaytypeApproveList(InputTRTimedaytype input)
@@ -6384,6 +6723,26 @@ namespace BPC_OPR
             try
             {
 
+=======
+
+        }
+
+        public string doManageTRTimesheetLostwages(InputTRLostwages input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT906.9";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                 var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
                 if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
@@ -6397,6 +6756,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
+<<<<<<< HEAD
                 DateTime datefrom = Convert.ToDateTime(input.timedaytype_workdate);
                 DateTime dateto = Convert.ToDateTime(input.timedaytype_todate);
 
@@ -6455,16 +6815,355 @@ namespace BPC_OPR
 
                     log.apilog_status = "404";
                     log.apilog_message = "Data not Found";
+=======
+
+
+
+                cls_ctTRLostwages objLostwages = new cls_ctTRLostwages();
+                List<cls_TRLostwages> listPol = new List<cls_TRLostwages>();
+                bool strID = false;
+
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+
+                    //-- Step 1 Get Emp detail
+                    cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                    List<cls_MTWorker> listWorker = objWorker.getDataByFilltercardno(input.company_code, modelWorker.worker_code, input.lostwages_cardno);
+
+                    if (listWorker.Count == 0)
+                    {
+
+                        if (input.lostwages_cardno != null && input.lostwages_cardno.Any())
+                        {
+
+                            DateTime datefrom = Convert.ToDateTime(input.fromdate);
+                            DateTime dateto = Convert.ToDateTime(input.todate);
+
+                            cls_ctTRLostwages objTRLostwages = new cls_ctTRLostwages();
+                            List<cls_TRLostwages> listTRLostwages = objTRLostwages.getDataByFilltercardno(input.company_code,  input.lostwages_cardno);
+
+                            //List<cls_TRLostwages> listTRLostwages = objTRLostwages.getDataByFillter(input.company_code, modelWorker.worker_code, input.lostwages_cardno,'','','');
+
+                            ////
+                            cls_TRLostwages lostwages1 = new cls_TRLostwages();
+
+                            lostwages1.company_code = input.company_code;
+                            lostwages1.worker_code = input.worker_code;
+                            lostwages1.project_code = input.project_code;
+                            lostwages1.projob_code = input.projob_code;
+                            //
+                            lostwages1.lostwages_status = input.lostwages_status;
+                            lostwages1.lostwages_salary = input.lostwages_salary;
+                            lostwages1.lostwages_diligence = input.lostwages_diligence;
+                            lostwages1.lostwages_travelexpenses = input.lostwages_travelexpenses;
+                            lostwages1.lostwages_other = input.lostwages_other;
+                            //
+                            //
+                            lostwages1.lostwages_initial = input.lostwages_initial;
+
+                            lostwages1.lostwages_cardno = input.lostwages_cardno;
+                            lostwages1.lostwages_gender = input.lostwages_gender;
+                            lostwages1.lostwages_fname_th = input.lostwages_fname_th;
+                            lostwages1.lostwages_laname_th = input.lostwages_laname_th;
+
+
+
+                            //
+
+                            lostwages1.lostwages_workdate = Convert.ToDateTime(input.lostwages_workdate);
+                            lostwages1.lostwages_daytype = input.lostwages_daytype;
+                            lostwages1.shift_code = input.shift_code;
+                            lostwages1.lostwages_color = "0";
+                            lostwages1.modified_by = input.modified_by;
+                            listPol.Add(lostwages1);
+                            bool blnLostwages= objLostwages.insert(lostwages1);
+
+
+
+                            if (listPol.Count > 0)
+                            {
+                                strID = objLostwages.insert(lostwages1);
+                            }
+
+
+                            cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
+                            List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
+
+                            string terminal = "MANUAL";
+
+                            if (list.Count > 0)
+                            {
+                                terminal = list[0].projobmachine_ip;
+                            }
+
+                            cls_ctTRTimeinput objTime1 = new cls_ctTRTimeinput();
+                            cls_TRTimeinput model = new cls_TRTimeinput();
+
+                            //-- In
+                            model.timeinput_card = input.lostwages_cardno;
+                            model.timeinput_date = Convert.ToDateTime(input.lostwages_workdate);
+                            model.timeinput_hhmm = input.lostwages_in;
+                            model.timeinput_terminal = terminal;
+                            model.timeinput_function = "";
+                            model.timeinput_compare = "N";
+
+                            bool blnIn = objTime1.insert(model);
+
+                            model = new cls_TRTimeinput();
+                            model.timeinput_card = input.lostwages_cardno;
+                            model.timeinput_date = Convert.ToDateTime(input.lostwages_workdate);
+                            model.timeinput_hhmm = input.lostwages_out;
+                            model.timeinput_terminal = terminal;
+                            model.timeinput_function = "";
+                            model.timeinput_compare = "N";
+
+                            int tmp_in = Convert.ToInt32(input.lostwages_in.Replace(":", ""));
+                            int tmp_out = Convert.ToInt32(input.lostwages_out.Replace(":", ""));
+
+                            if (tmp_out < tmp_in)
+                                model.timeinput_date = model.timeinput_date.AddDays(1);
+
+                            bool blnOut = objTime1.insert(model);
+
+                            if (blnLostwages && blnIn && blnOut)
+                            {
+                                cls_ctMTTask objTask = new cls_ctMTTask();
+                                cls_MTTask task = new cls_MTTask();
+
+
+                                task.company_code = input.company_code;
+                                task.project_code = input.project_code;
+
+                                //int taskid = Convert.ToInt32( DateTime.Now.ToString("yyMMddHHmm"));
+                                int taskid = 0;
+
+                                task.task_id = taskid;
+                                task.task_type = "SUM_TIME";
+                                task.task_status = "W";
+                                task.modified_by = "TIMESHEET";
+                                task.flag = false;
+
+                                cls_TRTaskdetail task_detail = new cls_TRTaskdetail();
+                                task_detail.task_id = taskid;
+                                task_detail.taskdetail_fromdate = Convert.ToDateTime(input.lostwages_workdate);
+                                task_detail.taskdetail_todate = Convert.ToDateTime(input.lostwages_workdate);
+                                task_detail.taskdetail_paydate = Convert.ToDateTime(input.lostwages_workdate);
+                                task_detail.taskdetail_process = "";
+
+                                List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
+                                cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
+                                task_whose.task_id = taskid;
+                                task_whose.lostwages_cardno = input.lostwages_cardno;
+
+                                task_whose.worker_code = modelWorker.worker_code;
+                                list_whose.Add(task_whose);
+
+                                int intTaskID = objTask.insert(task, task_detail, list_whose);
+
+                                if (intTaskID > 0)
+                                {
+                                    output["success"] = true;
+                                    output["message"] = "Retrieved data successfully";
+                                    output["record_id"] = intTaskID;
+
+                                    log.apilog_status = "200";
+                                    log.apilog_message = "";
+
+                                    cls_srvProcessTime srvTime = new cls_srvProcessTime();
+                                    srvTime.doSummarizeTimelostwagesno(input.company_code, intTaskID.ToString());
+
+                                    //-- Delete task
+                                    objTask.delete(intTaskID.ToString());
+                                }
+                                else
+                                {
+                                    output["success"] = false;
+                                    output["message"] = "Retrieved data not successfully";
+
+                                    log.apilog_status = "500";
+                                    log.apilog_message = objTask.getMessage();
+                                }
+
+                            }
+                            //
+                        }
+                    }
+                        else
+                        {
+
+
+
+                            cls_TRLostwages lostwages = new cls_TRLostwages();
+
+                            lostwages.company_code = input.company_code;
+                            lostwages.worker_code = modelWorker.worker_code;
+                            lostwages.project_code = input.project_code;
+                            lostwages.projob_code = input.projob_code;
+                            //
+                            lostwages.lostwages_status = input.lostwages_status;
+                            lostwages.lostwages_salary = input.lostwages_salary;
+                            lostwages.lostwages_diligence = input.lostwages_diligence;
+                            lostwages.lostwages_travelexpenses = input.lostwages_travelexpenses;
+                            lostwages.lostwages_other = input.lostwages_other;
+                            //
+                            //
+                            lostwages.lostwages_initial = input.lostwages_initial;
+
+                            lostwages.lostwages_cardno = input.lostwages_cardno;
+                            lostwages.lostwages_gender = input.lostwages_gender;
+                            lostwages.lostwages_fname_th = input.lostwages_fname_th;
+                            lostwages.lostwages_laname_th = input.lostwages_laname_th;
+                            lostwages.worker_cardno = input.worker_cardno;
+
+                        
+
+
+                            //
+
+                            lostwages.lostwages_workdate = Convert.ToDateTime(input.lostwages_workdate);
+                            lostwages.lostwages_daytype = input.lostwages_daytype;
+                            lostwages.shift_code = input.shift_code;
+                            lostwages.lostwages_color = "0";
+                            lostwages.modified_by = input.modified_by;
+                            listPol.Add(lostwages);
+                            bool blnLostwages = objLostwages.insert(lostwages);
+
+
+
+                            if (listPol.Count > 0)
+                            {
+                                strID = objLostwages.insert(lostwages);
+                            }
+
+
+                            cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
+                            List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
+
+                            string terminal = "MANUAL";
+
+                            if (list.Count > 0)
+                            {
+                                terminal = list[0].projobmachine_ip;
+                            }
+
+                            cls_ctTRTimeinput objTime = new cls_ctTRTimeinput();
+                            cls_TRTimeinput model = new cls_TRTimeinput();
+
+                            //-- In
+                            model.timeinput_card = listWorker[0].worker_card;
+                            model.timeinput_date = Convert.ToDateTime(input.lostwages_workdate);
+                            model.timeinput_hhmm = input.lostwages_in;
+                            model.timeinput_terminal = terminal;
+                            model.timeinput_function = "";
+                            model.timeinput_compare = "N";
+
+                            bool blnIn = objTime.insert(model);
+
+                            model = new cls_TRTimeinput();
+                            model.timeinput_card = listWorker[0].worker_card;
+                            model.timeinput_date = Convert.ToDateTime(input.lostwages_workdate);
+                            model.timeinput_hhmm = input.lostwages_out;
+                            model.timeinput_terminal = terminal;
+                            model.timeinput_function = "";
+                            model.timeinput_compare = "N";
+
+                            int tmp_in = Convert.ToInt32(input.lostwages_in.Replace(":", ""));
+                            int tmp_out = Convert.ToInt32(input.lostwages_out.Replace(":", ""));
+
+                            if (tmp_out < tmp_in)
+                                model.timeinput_date = model.timeinput_date.AddDays(1);
+
+                            bool blnOut = objTime.insert(model);
+
+                            if (blnLostwages && blnIn && blnOut)
+                            {
+                                cls_ctMTTask objTask = new cls_ctMTTask();
+                                cls_MTTask task = new cls_MTTask();
+
+
+                                task.company_code = input.company_code;
+                                task.project_code = input.project_code;
+
+                                //int taskid = Convert.ToInt32( DateTime.Now.ToString("yyMMddHHmm"));
+                                int taskid = 0;
+
+                                task.task_id = taskid;
+                                task.task_type = "SUM_TIME";
+                                task.task_status = "W";
+                                task.modified_by =  "";
+                                task.flag = false;
+
+                                cls_TRTaskdetail task_detail = new cls_TRTaskdetail();
+                                task_detail.task_id = taskid;
+                                task_detail.taskdetail_fromdate = Convert.ToDateTime(input.lostwages_workdate);
+                                task_detail.taskdetail_todate = Convert.ToDateTime(input.lostwages_workdate);
+                                task_detail.taskdetail_paydate = Convert.ToDateTime(input.lostwages_workdate);
+                                task_detail.taskdetail_process = "";
+
+                                List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
+                                cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
+                                task_whose.task_id = taskid;
+                                task_whose.worker_code = modelWorker.worker_code;
+                                list_whose.Add(task_whose);
+
+                                int intTaskID = objTask.insert(task, task_detail, list_whose);
+
+                                if (intTaskID > 0)
+                                {
+                                    output["success"] = true;
+                                    output["message"] = "Retrieved data successfully";
+                                    output["record_id"] = intTaskID;
+
+                                    log.apilog_status = "200";
+                                    log.apilog_message = "";
+
+                                    cls_srvProcessTime srvTime = new cls_srvProcessTime();
+                                    srvTime.doSummarizeTimelostwages(input.company_code, intTaskID.ToString());
+
+                                    //-- Delete task
+                                    objTask.delete(intTaskID.ToString());
+                                }
+                                else
+                                {
+                                    output["success"] = false;
+                                    output["message"] = "Retrieved data not successfully";
+
+                                    log.apilog_status = "500";
+                                    log.apilog_message = objTask.getMessage();
+                                }
+
+                            }
+                            else
+                            {
+                      
+
+                                output["success"] = false;
+                                output["message"] = "Retrieved data not successfully";
+
+                                log.apilog_status = "500";
+                                log.apilog_message = "Record Time input fail";
+                            
+                        }
+                    }
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
                 }
             }
             catch (Exception ex)
             {
+<<<<<<< HEAD
                 output["result"] = "0";
                 output["result_text"] = ex.ToString();
 
                 log.apilog_status = "500";
                 log.apilog_message = ex.ToString();
 
+=======
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
             }
             finally
             {
@@ -6472,8 +7171,138 @@ namespace BPC_OPR
             }
 
             return output.ToString(Formatting.None);
+<<<<<<< HEAD
         }
         //--
+=======
+
+        }
+
+        public string getDaytype1()
+        {
+
+            JObject output = new JObject();
+
+            try
+            {
+
+                JArray array = new JArray();
+                JObject json = new JObject();
+                json.Add("daytype_code", "N");
+                json.Add("daytype_name_th", "วันทำงาน");
+                json.Add("daytype_name_en", "Normal day");
+                array.Add(json);
+                json = new JObject();
+                json.Add("daytype_code", "O");
+                json.Add("daytype_name_th", "วันหยุด");
+                json.Add("daytype_name_en", "Off day");
+                array.Add(json);
+                json = new JObject();
+                json.Add("daytype_code", "H");
+                json.Add("daytype_name_th", "วันหยุดประเพณี");
+                json.Add("daytype_name_en", "Holiday day");
+                array.Add(json);
+                json = new JObject();
+                json.Add("daytype_code", "C");
+                json.Add("daytype_name_th", "วันหยุดบริษัท");
+                json.Add("daytype_name_en", "Company day");
+                array.Add(json);
+                json = new JObject();
+                json.Add("daytype_code", "L");
+                json.Add("daytype_name_th", "วันลา");
+                json.Add("daytype_name_en", "Leave day");
+                array.Add(json);
+                json = new JObject();
+                json.Add("daytype_code", "A");
+                json.Add("daytype_name_th", "ขาดงาน");
+                json.Add("daytype_name_en", "Absent day");
+                array.Add(json);
+
+                output["success"] = true;
+                output["message"] = "";
+                output["data"] = array;
+
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
+
+
+        public string doDeleteTRLostwages(InputTRLostwages input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT906.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.lostwages_workdate);
+
+                cls_ctTRLostwages controller = new cls_ctTRLostwages();
+                List<cls_TRLostwages> listLostwage = new List<cls_TRLostwages>();
+
+                bool blnResult = controller.delete(input.company_code, input.project_code, input.worker_code, input.lostwages_cardno);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+            return output.ToString(Formatting.None);
+
+        }
+        #endregion
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
 
     }
 }

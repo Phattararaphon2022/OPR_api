@@ -591,7 +591,9 @@ namespace BPC_OPR
         public string fromdate { get; set; }
         [DataMember]
         public string todate { get; set; }
-
+         [DataMember]
+        public string lostwages_cardno { get; set; }
+        
     }
     #endregion
 
@@ -767,5 +769,136 @@ namespace BPC_OPR
 
     }
 
+    #endregion
+
+ 
+    #region InputTRLostwages
+    [DataContract]
+    public class InputTRLostwages
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string projob_code { get; set; }
+        //
+        [DataMember]
+        public string lostwages_status { get; set; }
+        [DataMember]
+        public string lostwages_salary { get; set; }
+        [DataMember]
+        public string lostwages_diligence { get; set; }
+        [DataMember]
+        public string lostwages_travelexpenses { get; set; }
+        [DataMember]
+        public string lostwages_other { get; set; }
+        //
+        //
+        [DataMember]
+        public string lostwages_initial { get; set; }
+        [DataMember]
+        public string lostwages_cardno { get; set; }
+        [DataMember]
+        public string lostwages_gender { get; set; }
+        [DataMember]
+        public string lostwages_fname_th { get; set; }
+        [DataMember]
+        public string lostwages_laname_th { get; set; }
+        [DataMember]
+        public string worker_cardno { get; set; }
+        
+        //
+
+        [DataMember]
+        public string projobsub_code { get; set; }
+
+        [DataMember]
+        public string shift_code { get; set; }
+        [DataMember]
+        public string lostwages_workdate { get; set; }
+        [DataMember]
+        public string lostwages_workdate_to { get; set; }
+        [DataMember]
+        public string lostwages_daytype { get; set; }
+        [DataMember]
+        public string lostwages_color { get; set; }
+
+        [DataMember]
+        public string lostwages_ch1 { get; set; }
+        [DataMember]
+        public string lostwages_ch2 { get; set; }
+        [DataMember]
+        public string lostwages_ch3 { get; set; }
+        [DataMember]
+        public string lostwages_ch4 { get; set; }
+        [DataMember]
+        public string lostwages_ch5 { get; set; }
+        [DataMember]
+        public string lostwages_ch6 { get; set; }
+        [DataMember]
+        public string lostwages_ch7 { get; set; }
+        [DataMember]
+        public string lostwages_ch8 { get; set; }
+        [DataMember]
+        public string lostwages_ch9 { get; set; }
+        [DataMember]
+        public string lostwages_ch10 { get; set; }
+
+        [DataMember]
+        public string lostwages_in { get; set; }
+        [DataMember]
+        public string lostwages_out { get; set; }
+
+        [DataMember]
+        public int lostwages_before_min { get; set; }
+        [DataMember]
+        public int lostwages_work1_min { get; set; }
+        [DataMember]
+        public int lostwages_work2_min { get; set; }
+        [DataMember]
+        public int lostwages_break_min { get; set; }
+        [DataMember]
+        public int lostwages_after_min { get; set; }
+        [DataMember]
+        public int lostwages_late_min { get; set; }
+
+        [DataMember]
+        public int lostwages_before_min_app { get; set; }
+        [DataMember]
+        public int lostwages_work1_min_app { get; set; }
+        [DataMember]
+        public int lostwages_work2_min_app { get; set; }
+        [DataMember]
+        public int lostwages_break_min_app { get; set; }
+        [DataMember]
+        public int lostwages_after_min_app { get; set; }
+        [DataMember]
+        public int lostwages_late_min_app { get; set; }
+
+        [DataMember]
+        public bool lostwages_lock { get; set; }
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public List<cls_MTWorker> emp_data { get; set; }
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+    }
     #endregion
 }

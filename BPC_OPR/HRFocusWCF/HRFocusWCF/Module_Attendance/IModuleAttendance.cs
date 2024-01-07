@@ -301,6 +301,7 @@ namespace BPC_OPR
         string getTRWagedayList(FillterAttendance req);
         #endregion
 
+<<<<<<< HEAD
         //-- F add 06/01/2024
 
         #region Doc approve
@@ -332,6 +333,31 @@ namespace BPC_OPR
         string getTRTimeinputList(FillterAttendance req);
 
         //--
+=======
+        #region  Lost Wages
+        [OperationContract(Name = "Lostwages_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRLostwagesList(FillterAttendance req);
+
+        [OperationContract(Name = "Lostwages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRLostwages(InputTRLostwages input);
+
+        [OperationContract(Name = "timesheet1")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimesheetLostwages(InputTRLostwages input);
+
+        [OperationContract(Name = "daytype1_list")]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getDaytype1();
+
+
+        [OperationContract(Name = "Lostwages_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRLostwages(InputTRLostwages input);
+
+        #endregion
+>>>>>>> 6fa7afdfd7aecfcba496ef790f1bd709edfe8304
     }
 
 }
