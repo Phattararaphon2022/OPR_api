@@ -95,6 +95,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_str.Append(" " + condition);
 
                 obj_str.Append(" ORDER BY ATT_TR_TIMECARD.COMPANY_CODE, ATT_TR_TIMECARD.WORKER_CODE, ATT_TR_TIMECARD.TIMECARD_WORKDATE");
+                //-- F add 06/01/2024
+
+                obj_str.Append(" , ATT_TR_TIMECARD.PROJECT_CODE DESC, ATT_TR_TIMECARD.PROJOB_CODE ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -792,6 +795,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", TIMECARD_LEAVEDEDUCT_MIN=@TIMECARD_LEAVEDEDUCT_MIN ");
 
+                //-- F add 06/01/2024
+                obj_str.Append(", TIMECARD_LEAVEPAY_MIN=@TIMECARD_LEAVEPAY_MIN ");
+                //--
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -872,6 +878,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@TIMECARD_LEAVEDEDUCT_MIN", SqlDbType.Int); obj_cmd.Parameters["@TIMECARD_LEAVEDEDUCT_MIN"].Value = model.timecard_leavededuct_min;
 
+                //-- F add 06/01/2024
+                obj_cmd.Parameters.Add("@TIMECARD_LEAVEPAY_MIN", SqlDbType.Int); obj_cmd.Parameters["@TIMECARD_LEAVEPAY_MIN"].Value = model.timecard_leavepay_min;
+                //--
 
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;

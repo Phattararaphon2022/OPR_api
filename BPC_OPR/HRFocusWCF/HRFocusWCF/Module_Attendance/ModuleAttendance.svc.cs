@@ -4308,6 +4308,11 @@ namespace BPC_OPR
                         json.Add("late_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
 
 
+                        //-- F add 06/01/2024
+                        json.Add("timecard_leavepay_min", model.timecard_leavepay_min);
+                        json.Add("timecard_leavededuct_min", model.timecard_leavededuct_min);
+                        //--
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -4637,6 +4642,10 @@ namespace BPC_OPR
                 List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
 
                 string terminal = "MANUAL";
+
+                //-- F edit 06/01/2024
+                terminal = input.project_code+input.projob_code;
+                //--
 
                 if (list.Count > 0)
                 {
@@ -5390,6 +5399,92 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
+        public string getTRTimeinputList(FillterAttendance req)
+        {
+
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT909.1";
+            log.apilog_by = req.username;
+            
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(req.fromdate);
+                DateTime dateto = Convert.ToDateTime(req.todate);
+
+                cls_ctTRTimeinput objTimeinput = new cls_ctTRTimeinput();
+                List<cls_TRTimeinput> listTimeinput = objTimeinput.getDataByFillter(req.company, req.worker_code, datefrom, dateto, false);
+                JArray array = new JArray();
+
+                if (listTimeinput.Count > 0)
+                {
+                    int index = 1;
+                    
+                    foreach (cls_TRTimeinput model in listTimeinput)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("timeinput_card", model.timeinput_card);
+                        json.Add("timeinput_date", model.timeinput_date);
+                        json.Add("timeinput_hhmm", model.timeinput_hhmm);
+                        json.Add("timeinput_terminal", model.timeinput_terminal);
+                        json.Add("timeinput_function", model.timeinput_function);
+                        json.Add("index", index);
+                        
+                        index++;
+                        
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+            return output.ToString(Formatting.None);
+        }
         #endregion
 
         #region Batch policy allowance item
@@ -5819,6 +5914,566 @@ namespace BPC_OPR
         }
         #endregion
 
+
+        //-- F add 06/01/2024
+        public string getTRTimeleaveApproveList(InputTRTimeleave input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATTS01.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
+                DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
+
+                cls_ctTRTimeleave objTRTimeleave = new cls_ctTRTimeleave();
+                List<cls_TRTimeleave> listTRTimeleave = objTRTimeleave.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTimeleave.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimeleave model in listTRTimeleave)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("leave_code", model.leave_code);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("leave_detail_th", model.leave_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+                        json.Add("leave_detail_en", model.leave_detail_en);
+
+                        json.Add("timeleave_id", model.timeleave_id);
+                        json.Add("timeleave_doc", model.timeleave_doc);
+
+                        json.Add("timeleave_fromdate", model.timeleave_fromdate);
+                        json.Add("timeleave_todate", model.timeleave_todate);
+
+                        json.Add("timeleave_type", model.timeleave_type);
+                        json.Add("timeleave_min", model.timeleave_min);
+
+                        json.Add("timeleave_actualday", model.timeleave_actualday);
+                        json.Add("timeleave_incholiday", model.timeleave_incholiday);
+                        json.Add("timeleave_deduct", model.timeleave_deduct);
+
+                        json.Add("timeleave_note", model.timeleave_note);
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_th", model.reason_th);
+                        json.Add("reason_en", model.reason_en);
+                        json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("reqdoc_data", null);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string getTRTimeotApproveList(InputTRTimeot input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATTS02.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeot_workdate);
+                DateTime dateto = Convert.ToDateTime(input.timeot_todate);
+
+                cls_ctTRTimeot objTRTime = new cls_ctTRTimeot();
+                List<cls_TRTimeot> listTRTime = objTRTime.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTime.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimeot model in listTRTime)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("timeot_id", model.timeot_id);
+                        json.Add("timeot_doc", model.timeot_doc);
+
+                        json.Add("timeot_workdate", model.timeot_workdate);
+
+                        json.Add("timeot_beforemin", model.timeot_beforemin);
+                        json.Add("timeot_normalmin", model.timeot_normalmin);
+                        json.Add("timeot_breakmin", model.timeot_breakmin);
+                        json.Add("timeot_aftermin", model.timeot_aftermin);
+
+                        int hrs = (model.timeot_beforemin) / 60;
+                        int min = (model.timeot_beforemin) - (hrs * 60);
+                        json.Add("timeot_beforemin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.timeot_normalmin) / 60;
+                        min = (model.timeot_normalmin) - (hrs * 60);
+                        json.Add("timeot_normalmin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.timeot_breakmin) / 60;
+                        min = (model.timeot_breakmin) - (hrs * 60);
+                        json.Add("timeot_break_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.timeot_aftermin) / 60;
+                        min = (model.timeot_aftermin) - (hrs * 60);
+                        json.Add("timeot_aftermin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+
+                        json.Add("timeot_note", model.timeot_note);
+                        json.Add("location_code", model.location_code);
+                        json.Add("location_name_th", model.location_name_th);
+                        json.Add("location_name_en", model.location_name_en);
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_name_th", model.reason_name_th);
+                        json.Add("reason_name_en", model.reason_name_en);
+                        json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("reqdoc_data", null);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string getTRTimeshiftApproveList(InputTRTimeshift input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATTS03.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeshift_fromdate);
+                DateTime dateto = Convert.ToDateTime(input.timeshift_todate);
+
+                cls_ctTRTimeshift objTRTime = new cls_ctTRTimeshift();
+                List<cls_TRTimeshift> listTRTime = objTRTime.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTime.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimeshift model in listTRTime)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+
+                        json.Add("timeshift_id", model.timeshift_id);
+                        json.Add("timeshift_doc", model.timeshift_doc);
+                        json.Add("timeshift_workdate", model.timeshift_workdate);
+                        json.Add("timeshift_old", model.timeshift_old);
+                        json.Add("shift_old_th", model.shift_old_th);
+                        json.Add("shift_old_en", model.shift_old_en);
+                        json.Add("timeshift_new", model.timeshift_new);
+                        json.Add("shift_new_th", model.shift_new_th);
+                        json.Add("shift_new_en", model.shift_new_en);
+                        json.Add("timeshift_note", model.timeshift_note);
+
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_detail_th", model.reason_detail_th);
+                        json.Add("reason_detail_en", model.reason_detail_en);
+                        json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("reqdoc_data", null);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string getTRTimeonsiteApproveList(InputTRTimeonsite input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATTS04.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(input.timeonsite_workdate);
+                DateTime dateto = Convert.ToDateTime(input.timeonstie_todate);
+
+                cls_ctTRTimeonsite objTRTimeonsite = new cls_ctTRTimeonsite();
+                List<cls_TRTimeonsite> listTRTimeonsite = objTRTimeonsite.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTimeonsite.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimeonsite model in listTRTimeonsite)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("timeonsite_id", model.timeonsite_id);
+                        json.Add("timeonsite_doc", model.timeonsite_doc);
+                        json.Add("timeonsite_workdate", model.timeonsite_workdate.ToString("yyyy-MM-dd"));
+                        json.Add("timeonsite_in", model.timeonsite_in);
+                        json.Add("timeonsite_out", model.timeonsite_out);
+                        json.Add("timeonsite_note", model.timeonsite_note);
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_name_en", model.reason_name_en);
+                        json.Add("reason_name_th", model.reason_name_th);                     
+                        json.Add("location_code", model.location_code);
+                        json.Add("location_name_en", model.location_name_en);
+                        json.Add("location_name_th", model.location_name_th);                       
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("reqdoc_data", null);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        public string getTRTimedaytypeApproveList(InputTRTimedaytype input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATTS05.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                DateTime datefrom = Convert.ToDateTime(input.timedaytype_workdate);
+                DateTime dateto = Convert.ToDateTime(input.timedaytype_todate);
+
+                cls_ctTRTimedaytype objTRTimedaytype = new cls_ctTRTimedaytype();
+                List<cls_TRTimedaytype> listTRTimedaytype = objTRTimedaytype.getDocApprove(input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTimedaytype.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRTimedaytype model in listTRTimedaytype)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("worker_detail_en", model.worker_detail_en);
+                        json.Add("worker_detail_th", model.worker_detail_th);
+                        json.Add("timedaytype_id", model.timedaytype_id);
+                        json.Add("timedaytype_doc", model.timedaytype_doc);
+                        json.Add("timedaytype_workdate", model.timedaytype_workdate.ToString("yyyy-MM-dd"));
+                        json.Add("timedaytype_old", model.timedaytype_old);
+                        json.Add("timedaytype_new", model.timedaytype_new);
+                        json.Add("timedaytype_note", model.timedaytype_note);
+                        json.Add("reason_code", model.reason_code);
+                        json.Add("reason_name_en", model.reason_name_en);
+                        json.Add("reason_name_th", model.reason_name_th);
+                        json.Add("status", model.status);
+                        json.Add("status_job", model.status_job);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+                        json.Add("reqdoc_data", null);
+                                                
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        //--
 
     }
 }

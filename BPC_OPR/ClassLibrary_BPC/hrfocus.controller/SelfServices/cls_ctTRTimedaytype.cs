@@ -346,5 +346,94 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+      //-- F add 06/01/2024
+        public List<cls_TRTimedaytype> getDocApprove(string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimedaytype> list_model = new List<cls_TRTimedaytype>();
+            cls_TRTimedaytype model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append("SELF_TR_TIMEDAYTYPE.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMEDAYTYPE.WORKER_CODE");
+                obj_str.Append(", '' AS WORKER_DETAIL_TH");
+                obj_str.Append(", '' AS WORKER_DETAIL_EN");
+                obj_str.Append(", TIMEDAYTYPE_ID");
+                obj_str.Append(", TIMEDAYTYPE_DOC");
+                obj_str.Append(", TIMEDAYTYPE_WORKDATE");
+                obj_str.Append(", TIMEDAYTYPE_OLD");
+                obj_str.Append(", TIMEDAYTYPE_NEW");
+                obj_str.Append(", TIMEDAYTYPE_NOTE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", '' AS REASON_NAME_TH");
+                obj_str.Append(", '' AS REASON_NAME_EN");
+                obj_str.Append(", STATUS");
+
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.MODIFIED_BY, SELF_TR_TIMEDAYTYPE.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.MODIFIED_DATE, SELF_TR_TIMEDAYTYPE.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.FLAG, 0) AS FLAG ");
+                obj_str.Append(", '' AS STATUS_JOB");
+
+                obj_str.Append(" FROM SELF_TR_TIMEDAYTYPE");
+               
+                obj_str.Append(" WHERE 1=1");
+
+                string condition = "";
+
+                condition += " AND COMPANY_CODE='" + com + "'";
+                condition += " AND WORKER_CODE='" + emp + "'";
+                condition += " AND (TIMEDAYTYPE_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+                condition += " AND STATUS='3'";
+
+                obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY TIMEDAYTYPE_ID");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimedaytype();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.timedaytype_id = Convert.ToInt32(dr["TIMEDAYTYPE_ID"]);
+                    model.timedaytype_doc = dr["TIMEDAYTYPE_DOC"].ToString();
+                    model.timedaytype_workdate = Convert.ToDateTime(dr["TIMEDAYTYPE_WORKDATE"]);
+                    model.timedaytype_old = dr["TIMEDAYTYPE_OLD"].ToString();
+                    model.timedaytype_new = dr["TIMEDAYTYPE_NEW"].ToString();
+                    model.timedaytype_note = dr["TIMEDAYTYPE_NOTE"].ToString();
+                    model.reason_code = dr["REASON_CODE"].ToString();
+
+                    model.reason_code = dr["REASON_CODE"].ToString();
+                    model.reason_name_th = dr["REASON_NAME_TH"].ToString();
+                    model.reason_name_en = dr["REASON_NAME_EN"].ToString();
+                    model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    model.flag = Convert.ToBoolean(dr["FLAG"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(TRTimedaytype.getDocApprove)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+      //--
     }
 }

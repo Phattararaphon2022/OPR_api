@@ -380,5 +380,109 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        //-- F add 06/01/2024
+        public List<cls_TRTimeot> getDocApprove(string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimeot> list_model = new List<cls_TRTimeot>();
+            cls_TRTimeot model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append(" SELF_TR_TIMEOT.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMEOT.WORKER_CODE");
+
+                obj_str.Append(", '' AS WORKER_DETAIL_TH");
+                obj_str.Append(", '' AS WORKER_DETAIL_EN");
+
+                obj_str.Append(", TIMEOT_ID");
+                obj_str.Append(", ISNULL(TIMEOT_DOC, '') AS TIMEOT_DOC");
+
+                obj_str.Append(", TIMEOT_WORKDATE");
+
+                obj_str.Append(", ISNULL(TIMEOT_BEFOREMIN, 0) AS TIMEOT_BEFOREMIN");
+                obj_str.Append(", ISNULL(TIMEOT_NORMALMIN, 0) AS TIMEOT_NORMALMIN");
+                obj_str.Append(", ISNULL(TIMEOT_BREAK, 0) AS TIMEOT_BREAK");
+                obj_str.Append(", ISNULL(TIMEOT_AFTERMIN, 0) AS TIMEOT_AFTERMIN");
+
+                obj_str.Append(", ISNULL(TIMEOT_NOTE, '') AS TIMEOT_NOTE");
+
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", '' AS REASON_NAME_TH");
+                obj_str.Append(", '' AS REASON_NAME_EN");
+                obj_str.Append(", '' AS LOCATION_CODE");
+                obj_str.Append(", '' AS LOCATION_NAME_TH");
+                obj_str.Append(", '' AS LOCATION_NAME_EN");
+                obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
+
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_BY, SELF_TR_TIMEOT.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEOT.MODIFIED_DATE, SELF_TR_TIMEOT.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", '' AS STATUS_JOB");
+
+                obj_str.Append(" FROM SELF_TR_TIMEOT");
+                obj_str.Append(" WHERE 1=1");
+
+                string condition = "";
+
+                condition += " AND COMPANY_CODE='" + com + "'";
+                condition += " AND WORKER_CODE='" + emp + "'";
+                condition += " AND (TIMEOT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+                condition += " AND STATUS='3'";
+
+                obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY SELF_TR_TIMEOT.COMPANY_CODE, SELF_TR_TIMEOT.WORKER_CODE, SELF_TR_TIMEOT.TIMEOT_WORKDATE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimeot();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.timeot_id = Convert.ToInt32(dr["TIMEOT_ID"]);
+                    model.timeot_doc = dr["TIMEOT_DOC"].ToString();
+
+                    model.timeot_workdate = Convert.ToDateTime(dr["TIMEOT_WORKDATE"]);
+
+                    model.timeot_beforemin = Convert.ToInt32(dr["TIMEOT_BEFOREMIN"]);
+                    model.timeot_normalmin = Convert.ToInt32(dr["TIMEOT_NORMALMIN"]);
+                    model.timeot_breakmin = Convert.ToInt32(dr["TIMEOT_BREAK"]);
+                    model.timeot_aftermin = Convert.ToInt32(dr["TIMEOT_AFTERMIN"]);
+
+                    model.timeot_note = dr["TIMEOT_NOTE"].ToString();
+                    model.location_code = dr["LOCATION_CODE"].ToString();
+                    model.location_name_th = dr["LOCATION_NAME_TH"].ToString();
+                    model.location_name_en = dr["LOCATION_NAME_EN"].ToString();
+                    model.reason_code = dr["REASON_CODE"].ToString();
+                    model.reason_name_th = dr["REASON_NAME_TH"].ToString();
+                    model.reason_name_en = dr["REASON_NAME_EN"].ToString();
+                    model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Timeot.getDocApprove)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+        //--
     }
 }

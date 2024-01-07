@@ -300,6 +300,38 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRWagedayList(FillterAttendance req);
         #endregion
+
+        //-- F add 06/01/2024
+
+        #region Doc approve
+
+        [OperationContract(Name = "leaveappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeleaveApproveList(InputTRTimeleave input);
+
+        [OperationContract(Name = "otappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeotApproveList(InputTRTimeot input);
+
+        [OperationContract(Name = "shiftappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeshiftApproveList(InputTRTimeshift input);
+
+        [OperationContract(Name = "onsiteappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeonsiteApproveList(InputTRTimeonsite input);
+
+        [OperationContract(Name = "daytypeappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimedaytypeApproveList(InputTRTimedaytype input);
+
+        #endregion
+
+        [OperationContract(Name = "timeinput_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeinputList(FillterAttendance req);
+
+        //--
     }
 
 }
