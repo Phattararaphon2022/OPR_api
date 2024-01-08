@@ -4229,7 +4229,7 @@ namespace BPC_OPR
 
                  cls_ctTRDocatt controller = new cls_ctTRDocatt();
 
-                 if (controller.checkDataOld(input.company_code,Convert.ToString(input.document_id),input.worker_code))
+                 if (controller.checkDataOld(input.company_code,Convert.ToString(input.document_id),input.worker_code,input.job_type))
                  {
                      bool blnResult = controller.delete(input.company_code, Convert.ToInt32(input.document_id), input.worker_code,input.job_type);
 
