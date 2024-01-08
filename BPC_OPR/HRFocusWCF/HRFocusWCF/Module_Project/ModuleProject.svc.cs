@@ -9646,7 +9646,7 @@ namespace BPC_OPR
                             if (tmp.projobemp_fromdate > todate)
                                 continue;
 
-                            if (tmp.projobemp_todate <= todate)
+                            if (tmp.projobemp_todate < todate)
                                 count_staff_resign++;
 
                             if (tmp.projobemp_type.Equals("R"))
