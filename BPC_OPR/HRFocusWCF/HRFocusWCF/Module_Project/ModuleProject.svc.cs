@@ -11044,7 +11044,7 @@ namespace BPC_OPR
                
 
                 cls_ctMTProcost mtcost_controller = new cls_ctMTProcost();
-                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company_code, "");
+                List<cls_MTProcost> list_mtcost = mtcost_controller.getDataByFillter(req.company, "");
 
                 foreach (cls_MTProject project in list_project)
                 {
@@ -11064,7 +11064,7 @@ namespace BPC_OPR
                             continue;
                         //-- Job main
                         cls_ctMTProjobmain controller = new cls_ctMTProjobmain();
-                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(project.language,project.project_code, version.version ,"");
+                        List<cls_MTProjobmain> list_jobmain = controller.getDataByFillter(req.language, project.project_code, version.version, "");
 
                         //-- Job shift
                         cls_ctTRProjobshift shift_controller = new cls_ctTRProjobshift();
