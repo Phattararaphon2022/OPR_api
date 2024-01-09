@@ -98,7 +98,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
-        public bool checkDataOld(string com,string doc_id,string code)
+        public bool checkDataOld(string com,string doc_id,string code,string type)
         {
             bool blnResult = false;
             try
@@ -108,8 +108,17 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT DOCUMENT_ID");
                 obj_str.Append(" FROM REQ_TR_DOCATT");
                 obj_str.Append(" WHERE COMPANY_CODE ='" + com + "' ");
-                obj_str.Append(" AND DOCUMENT_ID='" + doc_id + "'");
+                if (!doc_id.Equals(""))
+                {
+                    obj_str.Append(" AND DOCUMENT_ID ='" + com + "' ");
+                }
+
                 obj_str.Append(" AND WORKER_CODE='" + code + "'");
+
+                if (!type.Equals(""))
+                {
+                    obj_str.Append(" AND JOB_TYPE='" + type + "'");
+                }
 
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
@@ -187,7 +196,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.document_id.ToString(), model.worker_code))
+                if (this.checkDataOld(model.company_code, model.document_id.ToString(), model.worker_code,model.job_type))
                 {
                     return this.update(model);
                 }
