@@ -156,7 +156,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!project.Equals("") && !job.Equals(""))
             {
-                //strCondition += " AND ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
+                strCondition += " AND (ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
+                strCondition += " OR ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL='" + project + job + "' )";
+            
             }
 
 
@@ -177,7 +179,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!project.Equals("") && !job.Equals(""))
             {
-                //strCondition += " AND ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
+                strCondition += " AND (ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL IN (SELECT PROJOBMACHINE_IP FROM PRO_TR_PROJOBMACHINE WHERE PROJECT_CODE = '" + project + "' AND PROJOB_CODE = '" + job + "' AND PRO_TR_PROJOBMACHINE.PROJOBMACHINE_ENABLE='1') ";
+                strCondition += " OR ATT_TR_TIMEINPUT.TIMEINPUT_TERMINAL='" + project + job + "' )";
+
             }
 
 
@@ -508,6 +512,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND TIMEINPUT_DATE=@TIMEINPUT_DATE ");
                 obj_str.Append(" AND TIMEINPUT_HHMM=@TIMEINPUT_HHMM ");
 
+                //-- F add 06/01/2024
+                obj_str.Append(" AND TIMEINPUT_TERMINAL=@TIMEINPUT_TERMINAL ");
+
 
                 SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
                 obj_cmd.Transaction = obj_conn.getTransaction();
@@ -516,6 +523,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@TIMEINPUT_CARD", SqlDbType.VarChar);
                 obj_cmd.Parameters.Add("@TIMEINPUT_DATE", SqlDbType.Date);
                 obj_cmd.Parameters.Add("@TIMEINPUT_HHMM", SqlDbType.VarChar);
+                obj_cmd.Parameters.Add("@TIMEINPUT_TERMINAL", SqlDbType.VarChar);
 
                 foreach (cls_TRTimeinput model in list_model)
                 {
@@ -524,6 +532,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     obj_cmd.Parameters["@TIMEINPUT_CARD"].Value = model.timeinput_card;
                     obj_cmd.Parameters["@TIMEINPUT_DATE"].Value = model.timeinput_date;
                     obj_cmd.Parameters["@TIMEINPUT_HHMM"].Value = model.timeinput_hhmm;
+                    obj_cmd.Parameters["@TIMEINPUT_TERMINAL"].Value = model.timeinput_terminal;
 
                     obj_cmd.ExecuteNonQuery();
                 }

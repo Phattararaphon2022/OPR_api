@@ -386,5 +386,97 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return blnResult;
         }
 
+       //-- F add 06/01/2024
+        public List<cls_TRTimeonsite> getDocApprove(string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimeonsite> list_model = new List<cls_TRTimeonsite>();
+            cls_TRTimeonsite model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append(" SELF_TR_TIMEONSITE.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.WORKER_CODE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_ID");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_DOC");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_WORKDATE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_IN");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_OUT");
+                obj_str.Append(", SELF_TR_TIMEONSITE.TIMEONSITE_NOTE");
+                obj_str.Append(", SELF_TR_TIMEONSITE.STATUS");
+                obj_str.Append(", '' AS WORKER_DETAIL_TH");
+                obj_str.Append(", '' AS WORKER_DETAIL_EN");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", '' AS REASON_NAME_TH");
+                obj_str.Append(", '' AS REASON_NAME_EN");
+                obj_str.Append(", '' AS LOCATION_CODE");
+                obj_str.Append(", '' AS LOCATION_NAME_TH");
+                obj_str.Append(", '' AS LOCATION_NAME_EN");
+              
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.MODIFIED_BY, SELF_TR_TIMEONSITE.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.MODIFIED_DATE, SELF_TR_TIMEONSITE.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEONSITE.FLAG, 0) AS FLAG");
+                obj_str.Append(", '' AS STATUS_JOB");
+
+                obj_str.Append(" FROM SELF_TR_TIMEONSITE");
+               
+                obj_str.Append(" WHERE 1=1");
+
+                string condition = "";
+
+                condition += " AND COMPANY_CODE='" + com + "'";
+                condition += " AND WORKER_CODE='" + emp + "'";
+                condition += " AND (TIMEONSITE_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+                condition += " AND STATUS='3'";
+
+                obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY SELF_TR_TIMEONSITE.TIMEONSITE_ID");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimeonsite();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.timeonsite_id = Convert.ToInt32(dr["TIMEONSITE_ID"]);
+                    model.timeonsite_doc = dr["TIMEONSITE_DOC"].ToString();
+                    model.timeonsite_workdate = Convert.ToDateTime(dr["TIMEONSITE_WORKDATE"]);
+                    model.timeonsite_in = dr["TIMEONSITE_IN"].ToString();
+                    model.timeonsite_out = dr["TIMEONSITE_OUT"].ToString();
+                    model.timeonsite_note = dr["TIMEONSITE_NOTE"].ToString();
+
+                    model.location_code = dr["LOCATION_CODE"].ToString();
+                    model.location_name_th = dr["LOCATION_NAME_TH"].ToString();
+                    model.location_name_en = dr["LOCATION_NAME_EN"].ToString();
+                    model.reason_code = dr["REASON_CODE"].ToString();
+                    model.reason_name_th = dr["REASON_NAME_TH"].ToString();
+                    model.reason_name_en = dr["REASON_NAME_EN"].ToString();
+                    model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    model.flag = Convert.ToBoolean(dr["FLAG"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Trtimeonsite.getDocApprove)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+       //--
+
     }
 }

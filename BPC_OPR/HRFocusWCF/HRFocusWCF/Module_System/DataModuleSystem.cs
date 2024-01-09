@@ -1209,6 +1209,11 @@ namespace BPC_OPR
         public string company_code { get; set; }
         [DataMember]
         public string approve_code { get; set; }
+
+          [DataMember]
+        public string approve_cardno { get; set; }
+
+        
         [DataMember]
         public string workflow_type { get; set; }
         [DataMember]
@@ -1225,7 +1230,11 @@ namespace BPC_OPR
         public string project_code { get; set; }
         [DataMember]
         public string projob_code { get; set; }
-        
+
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
     }
 }
 

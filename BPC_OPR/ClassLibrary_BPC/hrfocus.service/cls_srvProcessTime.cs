@@ -1083,14 +1083,16 @@ namespace ClassLibrary_BPC.hrfocus.service
                 DateTime dateFrom = task_detail.taskdetail_fromdate;
                 DateTime dateTo = task_detail.taskdetail_todate;
 
-                bool proshift = false;
-                if (!task.project_code.ToString().Equals(""))
-                {
-                    proshift = true;
-                }
+                //bool proshift = false;
+                //if (!task.project_code.ToString().Equals(""))
+                //{
+                //    proshift = true;
+                //}
                 //-- get shitf
                 cls_ctMTShift objShift = new cls_ctMTShift();
-                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "",proshift);
+                List<cls_MTShift> listShift = objShift.getDataByFillter(com, "", "",false);
+                List<cls_MTShift> listShift_project = objShift.getDataByFillter(com, "", "", true);
+
 
                 //-- get shitf
                 cls_ctTRShiftbreak objBreak = new cls_ctTRShiftbreak();
@@ -1144,12 +1146,11 @@ namespace ClassLibrary_BPC.hrfocus.service
                     
 
                     //-- Get doc request
-                    List<cls_TRTimeshift> listTimeshift = objTimeshift.getDataByFillter(0, 3, com, whose.worker_code, dateFrom, dateTo);
-                    List<cls_TRTimedaytype> listTimedaytype = objTimedaytype.getDataByFillter(com, 0, whose.worker_code, dateFrom.ToString("MM/dd/yyyy"), dateTo.ToString("MM/dd/yyyy"), 3);                    
-                    List<cls_TRTimeot> listTimeot = objTimeot.getDataByFillter(0, 3, com, whose.worker_code, dateFrom, dateTo);
-                    List<cls_TRTimeonsite> listTimeonsite = objTimeonsite.getDataByFillter(com, 0, "", whose.worker_code, dateFrom.ToString("MM/dd/yyyy"), dateTo.ToString("MM/dd/yyyy"), 3);    
-                    List<cls_TRTimeleave> listTimeleave = objTimeleave.getDataByFillter(0, 3, com, whose.worker_code, dateFrom.ToString("MM/dd/yyyy"), dateTo.ToString("MM/dd/yyyy"));
-                    
+                    List<cls_TRTimeshift> listTimeshift = objTimeshift.getDocApprove(com, whose.worker_code, dateFrom, dateTo);
+                    List<cls_TRTimedaytype> listTimedaytype = objTimedaytype.getDocApprove(com, whose.worker_code, dateFrom, dateTo);
+                    List<cls_TRTimeot> listTimeot = objTimeot.getDocApprove(com, whose.worker_code, dateFrom, dateTo);
+                    List<cls_TRTimeonsite> listTimeonsite = objTimeonsite.getDocApprove(com, whose.worker_code, dateFrom, dateTo);                        
+                    List<cls_TRTimeleave> listTimeleave = objTimeleave.getDocApprove(com, whose.worker_code, dateFrom, dateTo);
 
 
                     //-- Flexible time
@@ -1383,17 +1384,29 @@ namespace ClassLibrary_BPC.hrfocus.service
                         FLEXIBLESHIFT:
 
                                 cls_MTShift shift = null;
-                                foreach (cls_MTShift mdShift in listShift)
+                                //foreach (cls_MTShift mdShift in listShift)
+                                //{
+                                //    if (!timecard.project_code.Equals(""))
+                                //    {
+                                //        if (mdShift.project && mdShift.shift_code == timecard.shift_code)
+                                //        {
+                                //            shift = mdShift;
+                                //            break;
+                                //        }
+                                //    }
+                                //    else
+                                //    {
+                                //        if (mdShift.shift_code == timecard.shift_code)
+                                //        {
+                                //            shift = mdShift;
+                                //            break;
+                                //        }
+                                //    }
+                                //}
+
+                                if (timecard.project_code.Equals(""))
                                 {
-                                    if (!timecard.project_code.Equals(""))
-                                    {
-                                        if (mdShift.project && mdShift.shift_code == timecard.shift_code)
-                                        {
-                                            shift = mdShift;
-                                            break;
-                                        }
-                                    }
-                                    else
+                                    foreach (cls_MTShift mdShift in listShift)
                                     {
                                         if (mdShift.shift_code == timecard.shift_code)
                                         {
@@ -1402,6 +1415,19 @@ namespace ClassLibrary_BPC.hrfocus.service
                                         }
                                     }
                                 }
+                                else
+                                {
+                                    //-- Shift for project
+                                    foreach (cls_MTShift mdShift in listShift_project)
+                                    {
+                                        if (mdShift.shift_code == timecard.shift_code)
+                                        {
+                                            shift = mdShift;
+                                            break;
+                                        }
+                                    }
+                                }                                
+
                                 if (shift == null)
                                 {
                                     continue;
@@ -1898,7 +1924,6 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                                 timecard.timecard_late_min_app = timecard.timecard_late_min;
 
-
                                 if (strDaytype.Equals("O") || strDaytype.Equals("H") || strDaytype.Equals("C"))
                                 {
                                     timecard.timecard_late_min = 0;
@@ -1926,8 +1951,14 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 //}
 
                                 //-- F add 18/05/2023
-                                if (intLeaveMin > 0)
+                                if (intLeaveMin > 0){
                                     strDaytype = "L";
+
+                                    //-- F add 06/01/2024
+                                    timecard.timecard_leavepay_min = intLeaveMin - timecard.timecard_leavededuct_min;
+                                    if(timecard.timecard_leavepay_min < 0) timecard.timecard_leavepay_min = 0;
+                                    //--
+                                }
 
 
                                 if (strDaytype.Equals("A"))
@@ -4321,7 +4352,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                     if (listTimeinput.Count > 0)
                     {
                         //-- delete non project
-                        objTimecard.delete_nonproject(com, emp, date);
+                        
+                        //-- F hide 06/01/2024
+                        //objTimecard.delete_nonproject(com, emp, date);
 
                         foreach (cls_TRTimeinput timeinput in listTimeinput)
                         {

@@ -524,5 +524,86 @@ namespace ClassLibrary_BPC.hrfocus.controller
         {
             throw new NotImplementedException();
         }
+
+        //-- F add 06/01/2024
+        public List<cls_TRTimeleave> getDocApprove(string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimeleave> list_model = new List<cls_TRTimeleave>();
+            cls_TRTimeleave model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append(" SELF_TR_TIMELEAVE.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMELEAVE.WORKER_CODE");
+                obj_str.Append(", TIMELEAVE_ID");
+                obj_str.Append(", ISNULL(TIMELEAVE_DOC, '') AS TIMELEAVE_DOC");
+                obj_str.Append(", TIMELEAVE_FROMDATE");
+                obj_str.Append(", TIMELEAVE_TODATE");
+                obj_str.Append(", TIMELEAVE_TYPE");
+                obj_str.Append(", ISNULL(TIMELEAVE_MIN, 0) AS TIMELEAVE_MIN");
+                obj_str.Append(", ISNULL(TIMELEAVE_ACTUALDAY, 0) AS TIMELEAVE_ACTUALDAY");
+                obj_str.Append(", ISNULL(TIMELEAVE_INCHOLIDAY, '0') AS TIMELEAVE_INCHOLIDAY");
+                obj_str.Append(", ISNULL(TIMELEAVE_DEDUCT, '0') AS TIMELEAVE_DEDUCT");
+                obj_str.Append(", ISNULL(TIMELEAVE_NOTE, '') AS TIMELEAVE_NOTE");
+                obj_str.Append(", SELF_TR_TIMELEAVE.LEAVE_CODE");               
+                obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
+                obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_BY, SELF_TR_TIMELEAVE.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMELEAVE.MODIFIED_DATE, SELF_TR_TIMELEAVE.CREATED_DATE) AS MODIFIED_DATE");
+                
+                obj_str.Append(" FROM SELF_TR_TIMELEAVE");
+
+                obj_str.Append(" WHERE 1=1");                
+
+                string condition = "";
+
+                condition += " AND SELF_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
+                condition += " AND SELF_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
+                condition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "' OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+                condition += " AND SELF_TR_TIMELEAVE.STATUS='3'";
+
+                obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY SELF_TR_TIMELEAVE.COMPANY_CODE, SELF_TR_TIMELEAVE.WORKER_CODE, TIMELEAVE_FROMDATE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimeleave();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.timeleave_id = Convert.ToInt32(dr["TIMELEAVE_ID"]);
+                    model.timeleave_doc = dr["TIMELEAVE_DOC"].ToString();
+
+                    model.timeleave_fromdate = Convert.ToDateTime(dr["TIMELEAVE_FROMDATE"]);
+                    model.timeleave_todate = Convert.ToDateTime(dr["TIMELEAVE_TODATE"]);
+
+                    model.timeleave_type = dr["TIMELEAVE_TYPE"].ToString();
+                    model.timeleave_min = Convert.ToInt32(dr["TIMELEAVE_MIN"]);
+
+                    model.timeleave_actualday = Convert.ToInt32(dr["TIMELEAVE_ACTUALDAY"]);
+                    model.timeleave_incholiday = Convert.ToBoolean(dr["TIMELEAVE_INCHOLIDAY"]);
+                    model.timeleave_deduct = Convert.ToBoolean(dr["TIMELEAVE_DEDUCT"]);
+                    model.timeleave_note = dr["TIMELEAVE_NOTE"].ToString();
+                    model.leave_code = dr["LEAVE_CODE"].ToString();                   
+                   
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Timeleave.getDocApprove)" + ex.ToString();
+            }
+
+            return list_model;
+        }
     }
 }

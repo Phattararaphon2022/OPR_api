@@ -596,6 +596,35 @@ namespace BPC_OPR
         
     }
     #endregion
+    #region FillterALostwagesApprove
+    [DataContract]
+    public class FillterLostwagesApprove
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+        [DataMember]
+        public string lostwages_cardno { get; set; }
+
+        [DataMember]
+        public string lostwages_status { get; set; }
+    }
+    #endregion
 
     #region InputTRTimecard
     [DataContract]
@@ -793,6 +822,9 @@ namespace BPC_OPR
         //
         [DataMember]
         public string lostwages_status { get; set; }
+          [DataMember]
+        public string lostwages_type { get; set; }
+        
         [DataMember]
         public string lostwages_salary { get; set; }
         [DataMember]

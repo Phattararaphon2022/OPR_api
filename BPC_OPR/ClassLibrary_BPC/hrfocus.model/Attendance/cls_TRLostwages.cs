@@ -24,6 +24,8 @@ namespace ClassLibrary_BPC.hrfocus.model.Attendance
 
        //
         public string lostwages_status { get; set; }
+        public string lostwages_type { get; set; }
+
        //
         public string lostwages_initial { get; set; }
         public string lostwages_cardno { get; set; }

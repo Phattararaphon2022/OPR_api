@@ -43,7 +43,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(", ATT_TR_LOSTWAGES.PROJOB_CODE");
                 //
                 obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_STATUS");
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_TYPE");
 
+                //
                 obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_INITIAL");
                 obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
                 obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_GENDER");
@@ -123,6 +126,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     model.projob_code = dr["PROJOB_CODE"].ToString();
                     //
                     model.lostwages_status = dr["LOSTWAGES_STATUS"].ToString();
+                    //
+                    model.lostwages_type = dr["LOSTWAGES_TYPE"].ToString();
                     //
                     model.lostwages_initial = dr["LOSTWAGES_INITIAL"].ToString();
                     model.lostwages_cardno = dr["LOSTWAGES_CARDNO"].ToString();
@@ -238,6 +243,30 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
         }
 
 
+        public List<cls_TRLostwages> getDataByFillterAll(string com, string project, string worker, string cardno, string status)
+       {
+            string strCondition = "";
+
+            strCondition += " AND ATT_TR_LOSTWAGES.COMPANY_CODE='" + com + "'";
+
+            if (!project.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.PROJECT_CODE='" + project + "'";
+
+
+            if (!worker.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.WORKER_CODE='" + worker + "'";
+            if (!cardno.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
+            if (!status.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_STATUS ='" + status + "'";
+
+                 
+
+            return this.getData(strCondition);
+        }
+
+      
+
         public List<cls_TRLostwages> getDataByFillter1(string com, string project, string worker, string cardno, DateTime fromdate, DateTime todate)
         {
             string strCondition = "";
@@ -287,7 +316,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return this.getData(strCondition);
         }
 
-        public bool checkDataOld(string com, string project, string job, string status ,string cardno, string worker, DateTime workdate)
+        public bool checkDataOld(string com, string project, string job,  string type, string cardno, string worker, DateTime workdate)
         {
             bool blnResult = false;
             try
@@ -301,8 +330,11 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" AND PROJECT_CODE='" + project + "'");
                 obj_str.Append(" AND PROJOB_CODE='" + job + "'");
 
-                obj_str.Append(" AND LOSTWAGES_STATUS='" + status + "'");
+                //obj_str.Append(" AND LOSTWAGES_STATUS='" + status + "'");
+                //
+                obj_str.Append(" AND LOSTWAGES_TYPE='" + type + "'");
 
+                //
                 obj_str.Append(" AND LOSTWAGES_CARDNO='" + cardno + "'");
 
                 obj_str.Append(" AND WORKER_CODE='" + worker + "'");
@@ -450,6 +482,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", PROJOB_CODE ");
                     obj_str.Append(", LOSTWAGES_STATUS ");
                     //
+                    obj_str.Append(", LOSTWAGES_TYPE ");
+
+                    //
                     obj_str.Append(", LOSTWAGES_INITIAL ");
                     obj_str.Append(", LOSTWAGES_CARDNO ");
                     obj_str.Append(", LOSTWAGES_GENDER ");
@@ -473,6 +508,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", @PROJECT_CODE ");
                     obj_str.Append(", @PROJOB_CODE ");
                     obj_str.Append(", @LOSTWAGES_STATUS ");
+                    //
+                    obj_str.Append(", @LOSTWAGES_TYPE ");
+
                     //
                     obj_str.Append(", @LOSTWAGES_INITIAL ");
                     obj_str.Append(", @LOSTWAGES_CARDNO ");
@@ -501,6 +539,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                     obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar);
                     //
+                    obj_cmd.Parameters.Add("@LOSTWAGES_TYPE", SqlDbType.VarChar);
+
+                    //
                     obj_cmd.Parameters.Add("@LOSTWAGES_INITIAL ", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@LOSTWAGES_CARDNO ", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@LOSTWAGES_GENDER ", SqlDbType.VarChar);
@@ -527,6 +568,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                         obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code == null ? "" : model.project_code;
                         obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code == null ? "" : model.projob_code;
                         obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                        //
+                        obj_cmd.Parameters["@LOSTWAGES_TYPE"].Value = model.lostwages_type;
+
                         //
                         obj_cmd.Parameters["@LOSTWAGES_INITIAL"].Value = model.lostwages_initial;
                         obj_cmd.Parameters["@LOSTWAGES_CARDNO"].Value = cardno;
@@ -581,7 +625,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             cls_ctConnection obj_conn = new cls_ctConnection();
             try
             {
-                if (this.checkDataOld(model.company_code, model.project_code, model.projob_code, model.lostwages_status, model.lostwages_cardno, model.worker_code, model.lostwages_workdate))
+                if (this.checkDataOld(model.company_code, model.project_code, model.projob_code,  model.lostwages_type, model.lostwages_cardno, model.worker_code, model.lostwages_workdate))
                     return true;
 
 
@@ -603,6 +647,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", PROJECT_CODE ");
                     obj_str.Append(", PROJOB_CODE ");
                     obj_str.Append(", LOSTWAGES_STATUS ");
+                    //
+                    obj_str.Append(", LOSTWAGES_TYPE ");
+
 
                     //
                     obj_str.Append(", LOSTWAGES_SALARY ");
@@ -637,6 +684,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                     obj_str.Append(", @PROJOB_CODE ");
                     obj_str.Append(", @LOSTWAGES_STATUS ");
                     //
+                    obj_str.Append(", @LOSTWAGES_TYPE ");
+
+                    //
                     obj_str.Append(", @LOSTWAGES_SALARY ");
                     obj_str.Append(", @LOSTWAGES_DILIGENCE ");
                     obj_str.Append(", @LOSTWAGES_TRAVELEXPENSES ");
@@ -668,7 +718,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                     obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar);
-                    obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar);
+                    //obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar);
+                    //
+                    obj_cmd.Parameters.Add("@LOSTWAGES_TYPE", SqlDbType.VarChar);
+
                     //
                     obj_cmd.Parameters.Add("@LOSTWAGES_SALARY", SqlDbType.VarChar);
                     obj_cmd.Parameters.Add("@LOSTWAGES_DILIGENCE", SqlDbType.VarChar);
@@ -703,7 +756,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                     obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                     obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
-                    obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                    obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.Char); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = "W";
+
+                    //obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                    //
+                    obj_cmd.Parameters["@LOSTWAGES_TYPE"].Value = model.lostwages_type;
+
                     //
                     obj_cmd.Parameters["@LOSTWAGES_SALARY"].Value = model.lostwages_salary;
                     obj_cmd.Parameters["@LOSTWAGES_DILIGENCE"].Value = model.lostwages_diligence;
@@ -848,6 +906,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
                 obj_str.Append(" AND LOSTWAGES_STATUS=@LOSTWAGES_STATUS ");
+                obj_str.Append(" AND LOSTWAGES_TYPE=@LOSTWAGES_TYPE ");
 
                 
 
@@ -939,8 +998,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = "W";
 
-                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                //obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                obj_cmd.Parameters.Add("@LOSTWAGES_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_TYPE"].Value = model.lostwages_type;
 
                 obj_cmd.Parameters.Add("@LOSTWAGES_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@LOSTWAGES_WORKDATE"].Value = model.lostwages_workdate.Date;
 
@@ -1027,6 +1088,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
                 obj_str.Append(" AND LOSTWAGES_STATUS=@LOSTWAGES_STATUS ");
+                obj_str.Append(" AND LOSTWAGES_TYPE=@LOSTWAGES_TYPE ");
 
                 
                 obj_str.Append(" AND LOSTWAGES_WORKDATE=@LOSTWAGES_WORKDATE ");
@@ -1112,7 +1174,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
 
-                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                //obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = "W";
+
+                obj_cmd.Parameters.Add("@LOSTWAGES_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_TYPE"].Value = model.lostwages_type;
 
                 obj_cmd.Parameters.Add("@LOSTWAGES_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@LOSTWAGES_WORKDATE"].Value = model.lostwages_workdate.Date;
 
@@ -1175,6 +1240,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" AND PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(" AND PROJOB_CODE=@PROJOB_CODE ");
                 obj_str.Append(" AND LOSTWAGES_STATUS=@LOSTWAGES_STATUS ");
+                obj_str.Append(" AND LOSTWAGES_TYPE=@LOSTWAGES_TYPE ");
 
                 
                 obj_str.Append(" AND LOSTWAGES_WORKDATE=@LOSTWAGES_WORKDATE ");
@@ -1195,8 +1261,11 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
+                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = "W";
 
-                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                //obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = model.lostwages_status;
+                obj_cmd.Parameters.Add("@LOSTWAGES_TYPE", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_TYPE"].Value = model.lostwages_type;
+
                 obj_cmd.Parameters.Add("@LOSTWAGES_WORKDATE", SqlDbType.DateTime); obj_cmd.Parameters["@LOSTWAGES_WORKDATE"].Value = model.lostwages_workdate.Date;
 
                 obj_cmd.ExecuteNonQuery();
@@ -1230,6 +1299,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(", PROJOB_CODE ");
                 obj_str.Append(", LOSTWAGES_STATUS ");
                 //
+                obj_str.Append(", LOSTWAGES_TYPE ");
+
+                //
                 obj_str.Append(", LOSTWAGES_SALARY ");
                 obj_str.Append(", LOSTWAGES_DILIGENCE ");
                 obj_str.Append(", LOSTWAGES_TRAVELEXPENSES ");
@@ -1261,6 +1333,9 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(", @PROJECT_CODE ");
                 obj_str.Append(", @PROJOB_CODE ");
                 obj_str.Append(", @LOSTWAGES_STATUS ");
+                //
+                obj_str.Append(", @LOSTWAGES_TYPE ");
+
                 //
                 obj_str.Append(", @LOSTWAGES_SALARY ");
                 obj_str.Append(", @LOSTWAGES_DILIGENCE ");
@@ -1358,6 +1433,49 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             catch (Exception ex)
             {
                 Message = "PAYTRB007:" + ex.ToString();
+            }
+
+            return blnResult;
+        }
+
+        public bool update_status(cls_TRLostwages model, string status)
+        {
+            bool blnResult = false;
+            try
+            {
+                cls_ctConnection obj_conn = new cls_ctConnection();
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+                obj_str.Append("UPDATE ATT_TR_LOSTWAGES SET ");
+
+                obj_str.Append(" LOSTWAGES_STATUS=@LOSTWAGES_STATUS ");
+
+                obj_str.Append(" WHERE PROJECT_CODE=@PROJECT_CODE ");
+                obj_str.Append(" AND COMPANY_CODE=@COMPANY_CODE ");
+                obj_str.Append(" AND LOSTWAGES_CARDNO=@LOSTWAGES_CARDNO ");
+                obj_str.Append(" AND WORKER_CODE=@WORKER_CODE ");
+
+
+                
+                obj_conn.doConnect();
+
+                SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                obj_cmd.Parameters.Add("@LOSTWAGES_STATUS", SqlDbType.Char); obj_cmd.Parameters["@LOSTWAGES_STATUS"].Value = status;
+
+                obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
+                obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                obj_cmd.Parameters.Add("@LOSTWAGES_CARDNO", SqlDbType.VarChar); obj_cmd.Parameters["@LOSTWAGES_CARDNO"].Value = model.lostwages_cardno;
+                obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                obj_cmd.ExecuteNonQuery();
+
+                obj_conn.doClose();
+
+                blnResult = true;
+            }
+            catch (Exception ex)
+            {
+                Message = "PAYTRB008:" + ex.ToString();
             }
 
             return blnResult;
