@@ -17,6 +17,8 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string empuniform_code { get; set; }
         public double empuniform_qauntity { get; set; }
         public double empuniform_amount { get; set; }
+        public double empuniform_total { get; set; }
+
         public DateTime empuniform_issuedate { get; set; }
         public string empuniform_note { get; set; }
 

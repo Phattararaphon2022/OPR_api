@@ -10394,6 +10394,8 @@ namespace BPC_OPR
 
                         json.Add("empuniform_qauntity", model.empuniform_qauntity);
                         json.Add("empuniform_amount", model.empuniform_amount);
+                        json.Add("empuniform_total", model.empuniform_total);
+
                         json.Add("empuniform_issuedate", model.empuniform_issuedate);
                         json.Add("empuniform_note", model.empuniform_note);
 

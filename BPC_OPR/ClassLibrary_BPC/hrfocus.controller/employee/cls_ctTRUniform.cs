@@ -44,6 +44,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", EMPUNIFORM_QUANTITY");
                 obj_str.Append(", EMPUNIFORM_AMOUNT");
+                obj_str.Append(", EMPUNIFORM_TOTAL");
+
                 obj_str.Append(", ISNULL(EMPUNIFORM_ISSUEDATE, '') AS EMPUNIFORM_ISSUEDATE");
                 obj_str.Append(", EMPUNIFORM_NOTE");
 
@@ -80,6 +82,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.empuniform_qauntity = Convert.ToDouble(dr["EMPUNIFORM_QUANTITY"]);
                     model.empuniform_amount = Convert.ToDouble(dr["EMPUNIFORM_AMOUNT"]);
+                    model.empuniform_total = Convert.ToDouble(dr["EMPUNIFORM_TOTAL"]);
+
                     model.empuniform_issuedate = Convert.ToDateTime(dr["EMPUNIFORM_ISSUEDATE"]);
                     model.empuniform_note = dr["EMPUNIFORM_NOTE"].ToString();
 
@@ -227,6 +231,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", EMPUNIFORM_QUANTITY ");
                 obj_str.Append(", EMPUNIFORM_AMOUNT ");
+                obj_str.Append(", EMPUNIFORM_TOTAL ");
+
                 obj_str.Append(", EMPUNIFORM_ISSUEDATE ");
                 obj_str.Append(", EMPUNIFORM_NOTE ");
 
@@ -252,6 +258,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @EMPUNIFORM_QUANTITY ");
                 obj_str.Append(", @EMPUNIFORM_AMOUNT ");
+                obj_str.Append(", @EMPUNIFORM_TOTAL ");
+
                 obj_str.Append(", @EMPUNIFORM_ISSUEDATE ");
                 obj_str.Append(", @EMPUNIFORM_NOTE ");
 
@@ -284,6 +292,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@EMPUNIFORM_QUANTITY", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_QUANTITY"].Value = model.empuniform_qauntity;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_AMOUNT"].Value = model.empuniform_amount;
+                obj_cmd.Parameters.Add("@EMPUNIFORM_TOTAL", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_TOTAL"].Value = model.empuniform_total;
+
                 obj_cmd.Parameters.Add("@EMPUNIFORM_ISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPUNIFORM_ISSUEDATE"].Value = model.empuniform_issuedate;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPUNIFORM_NOTE"].Value = model.empuniform_note;
 
@@ -328,6 +338,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", EMPUNIFORM_QUANTITY=@EMPUNIFORM_QUANTITY ");
                 obj_str.Append(", EMPUNIFORM_AMOUNT=@EMPUNIFORM_AMOUNT ");
+                obj_str.Append(", EMPUNIFORM_TOTAL=@EMPUNIFORM_TOTAL ");
+
                 obj_str.Append(", EMPUNIFORM_ISSUEDATE=@EMPUNIFORM_ISSUEDATE ");
                 obj_str.Append(", EMPUNIFORM_NOTE=@EMPUNIFORM_NOTE ");
 
@@ -355,6 +367,8 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@EMPUNIFORM_QUANTITY", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_QUANTITY"].Value = model.empuniform_qauntity;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_AMOUNT"].Value = model.empuniform_amount;
+                obj_cmd.Parameters.Add("@EMPUNIFORM_TOTAL", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_TOTAL"].Value = model.empuniform_total;
+
                 obj_cmd.Parameters.Add("@EMPUNIFORM_ISSUEDATE", SqlDbType.DateTime); obj_cmd.Parameters["@EMPUNIFORM_ISSUEDATE"].Value = model.empuniform_issuedate;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPUNIFORM_NOTE"].Value = model.empuniform_note;
 
