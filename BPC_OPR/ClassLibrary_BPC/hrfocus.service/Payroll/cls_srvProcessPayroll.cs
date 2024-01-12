@@ -1551,7 +1551,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                 //-- Step 5 Get Emp address
 
                 cls_ctTRAddress objEmpadd = new cls_ctTRAddress();
-                List<cls_TRAddress> list_empaddress = objEmpadd.getDataByFillter(com, strEmp);
+                List<cls_TRAddress> list_empaddress = objEmpadd.getDataByFillter2(com, strEmp);
 
                 //-- Step 6 Get Emp card
                 cls_ctTRCard objEmpcard = new cls_ctTRCard();
@@ -2617,27 +2617,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                             else if (bank_code004)
                             {
                                 // เพิ่ม DataColumn 6 คอลัมน์แรก
-                                dataTable.Columns.AddRange(new DataColumn[18] { 
-    new DataColumn("A"), 
-    new DataColumn("B"), 
-    new DataColumn("C"), 
-    new DataColumn("D"), 
-    new DataColumn("E"), 
-    new DataColumn("F") ,
-    new DataColumn("A1"), 
-    new DataColumn("B1"), 
-    new DataColumn("C1"), 
-    new DataColumn("D1"), 
-    new DataColumn("E1"), 
-    new DataColumn("F1"), 
-    new DataColumn("G1"), 
-    new DataColumn("H1"), 
-    new DataColumn("I1"), 
-    new DataColumn("J1"), 
-    new DataColumn("K1"),  // หมายเหตุ: ไม่มีช่องว่างนำหน้า K1
-    new DataColumn("L1") 
-});
-
+                                dataTable.Columns.AddRange(new DataColumn[18] { new DataColumn("A"), new DataColumn("B"), new DataColumn("C"), new DataColumn("D"), new DataColumn("E"), new DataColumn("F") ,new DataColumn("A1"), new DataColumn("B1"), new DataColumn("C1"), new DataColumn("D1"), new DataColumn("E1"), new DataColumn("F1"), new DataColumn("G1"), new DataColumn("H1"), new DataColumn("I1"), new DataColumn("J1"), new DataColumn("K1"),  new DataColumn("L1") });
                             }
                             //else if (bank_code002)
                             //{

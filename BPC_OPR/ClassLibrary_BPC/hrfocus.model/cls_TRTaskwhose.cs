@@ -12,6 +12,8 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public int task_id { get; set; }
         public string worker_code { get; set; }
+        public string lostwages_cardno { get; set; }
 
+        
     }
 }

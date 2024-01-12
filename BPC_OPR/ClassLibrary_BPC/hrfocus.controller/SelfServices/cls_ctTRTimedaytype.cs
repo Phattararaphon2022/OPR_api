@@ -50,7 +50,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.MODIFIED_DATE, SELF_TR_TIMEDAYTYPE.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.FLAG, 0) AS FLAG ");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
-
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
                 obj_str.Append(" FROM SELF_TR_TIMEDAYTYPE");
                 obj_str.Append(" INNER JOIN EMP_MT_WORKER ON EMP_MT_WORKER.COMPANY_CODE=SELF_TR_TIMEDAYTYPE.COMPANY_CODE");
                 obj_str.Append(" AND EMP_MT_WORKER.WORKER_CODE=SELF_TR_TIMEDAYTYPE.WORKER_CODE");
@@ -59,6 +61,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" AND SYS_MT_REASON.REASON_CODE=SELF_TR_TIMEDAYTYPE.REASON_CODE AND SYS_MT_REASON.REASON_GROUP = 'DAT'");
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMEDAYTYPE.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE");
                 obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMEDAYTYPE.TIMEDAYTYPE_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'DAT'");
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMEDAYTYPE.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMEDAYTYPE.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -107,7 +112,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return list_model;
         }
-        public List<cls_TRTimedaytype> getDataByFillter(string com,int id,string worker_code,string datefrom,string dateto,int status)
+        public List<cls_TRTimedaytype> getDataByFillter(string com, int id, string cardno, string datefrom, string dateto, int status)
         {
             string strCondition = "";
             if(!com.Equals(""))
@@ -119,8 +124,28 @@ namespace ClassLibrary_BPC.hrfocus.controller
             if (!datefrom.Equals("") && !dateto.Equals(""))
                 strCondition += " AND (TIMEDAYTYPE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
 
+            if (!cardno.Equals(""))
+                strCondition += " AND SELF_TR_TIMEDAYTYPE.WORKER_CODE='" + cardno + "'";
+
+            if (!status.Equals(1))
+                strCondition += " AND STATUS='" + status + "'";
+
+            return this.getData(strCondition);
+        }
+        public List<cls_TRTimedaytype> getDataByFillterLostwages(string com, int id, string worker_code, string datefrom, string dateto, int status)
+        {
+            string strCondition = "";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_TIMEDAYTYPE.COMPANY_CODE='" + com + "'";
+
+            if (!id.Equals(0))
+                strCondition += " AND TIMEDAYTYPE_ID='" + id + "'";
+
+            if (!datefrom.Equals("") && !dateto.Equals(""))
+                strCondition += " AND (TIMEDAYTYPE_WORKDATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
+
             if (!worker_code.Equals(""))
-                strCondition += " AND SELF_TR_TIMEDAYTYPE.WORKER_CODE='" + worker_code + "'";
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + worker_code + "'";
 
             if (!status.Equals(1))
                 strCondition += " AND STATUS='" + status + "'";
@@ -346,5 +371,94 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+      //-- F add 06/01/2024
+        public List<cls_TRTimedaytype> getDocApprove(string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimedaytype> list_model = new List<cls_TRTimedaytype>();
+            cls_TRTimedaytype model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append("SELF_TR_TIMEDAYTYPE.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMEDAYTYPE.WORKER_CODE");
+                obj_str.Append(", '' AS WORKER_DETAIL_TH");
+                obj_str.Append(", '' AS WORKER_DETAIL_EN");
+                obj_str.Append(", TIMEDAYTYPE_ID");
+                obj_str.Append(", TIMEDAYTYPE_DOC");
+                obj_str.Append(", TIMEDAYTYPE_WORKDATE");
+                obj_str.Append(", TIMEDAYTYPE_OLD");
+                obj_str.Append(", TIMEDAYTYPE_NEW");
+                obj_str.Append(", TIMEDAYTYPE_NOTE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.REASON_CODE, '') AS REASON_CODE");
+                obj_str.Append(", '' AS REASON_NAME_TH");
+                obj_str.Append(", '' AS REASON_NAME_EN");
+                obj_str.Append(", STATUS");
+
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.MODIFIED_BY, SELF_TR_TIMEDAYTYPE.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.MODIFIED_DATE, SELF_TR_TIMEDAYTYPE.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", ISNULL(SELF_TR_TIMEDAYTYPE.FLAG, 0) AS FLAG ");
+                obj_str.Append(", '' AS STATUS_JOB");
+
+                obj_str.Append(" FROM SELF_TR_TIMEDAYTYPE");
+               
+                obj_str.Append(" WHERE 1=1");
+
+                string condition = "";
+
+                condition += " AND COMPANY_CODE='" + com + "'";
+                condition += " AND WORKER_CODE='" + emp + "'";
+                condition += " AND (TIMEDAYTYPE_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+                condition += " AND STATUS='3'";
+
+                obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY TIMEDAYTYPE_ID");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimedaytype();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.timedaytype_id = Convert.ToInt32(dr["TIMEDAYTYPE_ID"]);
+                    model.timedaytype_doc = dr["TIMEDAYTYPE_DOC"].ToString();
+                    model.timedaytype_workdate = Convert.ToDateTime(dr["TIMEDAYTYPE_WORKDATE"]);
+                    model.timedaytype_old = dr["TIMEDAYTYPE_OLD"].ToString();
+                    model.timedaytype_new = dr["TIMEDAYTYPE_NEW"].ToString();
+                    model.timedaytype_note = dr["TIMEDAYTYPE_NOTE"].ToString();
+                    model.reason_code = dr["REASON_CODE"].ToString();
+
+                    model.reason_code = dr["REASON_CODE"].ToString();
+                    model.reason_name_th = dr["REASON_NAME_TH"].ToString();
+                    model.reason_name_en = dr["REASON_NAME_EN"].ToString();
+                    model.status = Convert.ToInt32(dr["STATUS"]);
+                    model.status_job = dr["STATUS_JOB"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+                    model.flag = Convert.ToBoolean(dr["FLAG"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(TRTimedaytype.getDocApprove)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+      //--
     }
 }

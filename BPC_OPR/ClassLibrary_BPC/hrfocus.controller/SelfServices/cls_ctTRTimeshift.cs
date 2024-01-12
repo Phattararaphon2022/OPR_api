@@ -61,6 +61,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_BY, SELF_TR_TIMESHIFT.CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_DATE, SELF_TR_TIMESHIFT.CREATED_DATE) AS MODIFIED_DATE");
                 obj_str.Append(", SELF_MT_JOBTABLE.STATUS_JOB");
+                //
+                obj_str.Append(", ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO");
+                //
 
                 obj_str.Append(" FROM SELF_TR_TIMESHIFT");
 
@@ -73,6 +76,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(" INNER JOIN SELF_MT_JOBTABLE ON SELF_TR_TIMESHIFT.COMPANY_CODE=SELF_MT_JOBTABLE.COMPANY_CODE  ");
                 obj_str.Append(" AND SELF_MT_JOBTABLE.JOB_ID = SELF_TR_TIMESHIFT.TIMESHIFT_ID AND SELF_MT_JOBTABLE.JOB_TYPE = 'SHT' ");
 
+                //
+                obj_str.Append(" LEFT JOIN ATT_TR_LOSTWAGES ON ATT_TR_LOSTWAGES.COMPANY_CODE=SELF_TR_TIMESHIFT.COMPANY_CODE  AND ATT_TR_LOSTWAGES.WORKER_CODE=SELF_TR_TIMESHIFT.WORKER_CODE");
+                //
                 obj_str.Append(" WHERE 1=1");
 
                 if (!condition.Equals(""))
@@ -137,6 +143,22 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
             if (!emp.Equals(""))
                 strCondition += " AND SELF_TR_TIMESHIFT.WORKER_CODE='" + emp + "'";
+            strCondition += " AND (TIMESHIFT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+            return this.getData(strCondition);
+        }
+
+        public List<cls_TRTimeshift> getDataByFillterLostwages(int id, int status, string com, string cardno, DateTime datefrom, DateTime dateto)
+        {
+            string strCondition = "";
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMESHIFT.TIMESHIFT_ID='" + id + "'";
+            if (!status.Equals(1))
+                strCondition += " AND SELF_TR_TIMESHIFT.STATUS='" + status + "'";
+            if (!com.Equals(""))
+                strCondition += " AND SELF_TR_TIMESHIFT.COMPANY_CODE='" + com + "'";
+            if (!cardno.Equals(""))
+                strCondition += " AND ATT_TR_LOSTWAGES.LOSTWAGES_CARDNO='" + cardno + "'";
             strCondition += " AND (TIMESHIFT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
 
             return this.getData(strCondition);
@@ -384,5 +406,109 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return blnResult;
         }
+
+        //-- F add 06/01/2024
+        public List<cls_TRTimeshift> getDocApprove(string com, string emp, DateTime datefrom, DateTime dateto)
+        {
+            List<cls_TRTimeshift> list_model = new List<cls_TRTimeshift>();
+            cls_TRTimeshift model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+
+                obj_str.Append(" SELF_TR_TIMESHIFT.COMPANY_CODE");
+                obj_str.Append(", SELF_TR_TIMESHIFT.WORKER_CODE");
+
+                obj_str.Append(", TIMESHIFT_ID");
+                obj_str.Append(", ISNULL(TIMESHIFT_DOC, '') AS TIMESHIFT_DOC");
+
+                obj_str.Append(", TIMESHIFT_WORKDATE");
+
+                obj_str.Append(", TIMESHIFT_OLD");
+                obj_str.Append(", TIMESHIFT_NEW");
+
+
+                obj_str.Append(", ISNULL(TIMESHIFT_NOTE, '') AS TIMESHIFT_NOTE");
+
+                obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.REASON_CODE, '') AS REASON_CODE");
+
+                obj_str.Append(", '' AS REASON_DETAIL_TH");
+                obj_str.Append(", '' AS SHIFT_NEW_TH");
+                obj_str.Append(", '' AS SHIFT_OLD_TH");
+                obj_str.Append(", '' AS WORKER_DETAIL_TH");
+
+                obj_str.Append(", '' AS REASON_DETAIL_EN");
+                obj_str.Append(", '' AS SHIFT_NEW_EN");
+                obj_str.Append(", '' AS SHIFT_OLD_EN");
+                obj_str.Append(", '' AS WORKER_DETAIL_EN");
+                obj_str.Append(", ISNULL(STATUS, 0) AS STATUS");
+
+                obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_BY, SELF_TR_TIMESHIFT.CREATED_BY) AS MODIFIED_BY");
+                obj_str.Append(", ISNULL(SELF_TR_TIMESHIFT.MODIFIED_DATE, SELF_TR_TIMESHIFT.CREATED_DATE) AS MODIFIED_DATE");
+                obj_str.Append(", '' AS STATUS_JOB");
+
+                obj_str.Append(" FROM SELF_TR_TIMESHIFT");
+
+                obj_str.Append(" WHERE 1=1");
+
+                string condition = "";
+
+                condition += " AND COMPANY_CODE='" + com + "'";
+                condition += " AND WORKER_CODE='" + emp + "'";
+                condition += " AND (TIMESHIFT_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+                condition += " AND STATUS='3'";
+
+                obj_str.Append(" " + condition);
+
+                obj_str.Append(" ORDER BY SELF_TR_TIMESHIFT.COMPANY_CODE, SELF_TR_TIMESHIFT.WORKER_CODE, TIMESHIFT_WORKDATE");
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TRTimeshift();
+
+                    model.company_code = dr["COMPANY_CODE"].ToString();
+                    model.worker_code = dr["WORKER_CODE"].ToString();
+                    model.worker_detail_th = dr["WORKER_DETAIL_TH"].ToString();
+                    model.worker_detail_en = dr["WORKER_DETAIL_EN"].ToString();
+
+                    model.timeshift_id = Convert.ToInt32(dr["TIMESHIFT_ID"]);
+                    model.timeshift_doc = dr["TIMESHIFT_DOC"].ToString();
+
+                    model.timeshift_workdate = Convert.ToDateTime(dr["TIMESHIFT_WORKDATE"]);
+
+                    model.timeshift_old = dr["TIMESHIFT_OLD"].ToString();
+                    model.timeshift_new = dr["TIMESHIFT_NEW"].ToString();
+
+                    model.timeshift_note = dr["TIMESHIFT_NOTE"].ToString();
+                    model.reason_code = dr["REASON_CODE"].ToString();
+
+                    model.reason_detail_th = dr["REASON_DETAIL_TH"].ToString();
+                    model.reason_detail_en = dr["REASON_DETAIL_EN"].ToString();
+                    model.shift_old_th = dr["SHIFT_OLD_TH"].ToString();
+                    model.shift_old_en = dr["SHIFT_OLD_EN"].ToString();
+                    model.shift_new_th = dr["SHIFT_NEW_TH"].ToString();
+                    model.shift_new_en = dr["SHIFT_NEW_EN"].ToString();
+                    model.status = Convert.ToInt32(dr["STATUS"].ToString());
+                    model.status_job = dr["STATUS_JOB"].ToString();
+
+                    model.modified_by = dr["MODIFIED_BY"].ToString();
+                    model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Timeshift.getDocApprove)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+        //--
     }
 }

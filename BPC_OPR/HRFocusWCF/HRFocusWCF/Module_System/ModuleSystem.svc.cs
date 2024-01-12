@@ -28,6 +28,8 @@ using ClassLibrary_BPC.hrfocus.service;
 using ClassLibrary_BPC.hrfocus.model.System;
 using ClassLibrary_BPC.hrfocus;
 using ClassLibrary_BPC.hrfocus.model.SYS.System;
+using ClassLibrary_BPC.hrfocus.controller.Attendance;
+using ClassLibrary_BPC.hrfocus.model.Attendance;
 
 namespace BPC_OPR
 {
@@ -12534,10 +12536,17 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-
+                DateTime datefrom = Convert.ToDateTime(input.fromdate);
+                DateTime dateto = Convert.ToDateTime(input.todate);
                 cls_ctTRApprove controller = new cls_ctTRApprove();
                 cls_TRApprove model = new cls_TRApprove();
 
+
+                //
+                //-- Get worker
+                cls_ctMTWorker objWorkers = new cls_ctMTWorker();
+                List<cls_MTWorker> listWorkers = objWorkers.getDataByCompanyCode(input.company_code);
+                //
                 model.company_code = input.company_code;                
                 model.approve_code = input.approve_code;
                 model.workflow_type = input.workflow_type;
@@ -12621,6 +12630,59 @@ namespace BPC_OPR
                                 }
 
                                 break;
+
+
+                                //08/01/2024
+                            case "ATT_NEW":
+                               
+                                if (input.approve_status.Equals("C"))
+                                {
+                                    //-- Update status
+                                    cls_ctTRLostwages Lostwage = new cls_ctTRLostwages();
+                                    List<cls_TRLostwages> list_Lostwages = Lostwage.getDataByFillter(input.company_code, input.approve_code, "", "", datefrom, dateto);
+
+                                    if (list_Lostwages.Count > 0)
+                                    {
+                                        Lostwage.update_status(list_Lostwages[0], "C");
+                                    }
+                                }
+                                else
+                                {
+                                    //-- Approve                            
+                                    List<cls_TRWorkflow> list_workflow = workflow.getDataByFillter(input.company_code, "", "ATT_NEW");
+                                    List<cls_TRApprove> list_approve = approve.getDataByFillter(input.company_code, "ATT_NEW", input.approve_code);
+
+                                    if (list_approve.Count >= list_workflow.Count)
+                                    {
+                                        foreach (cls_MTWorker models in listWorkers)
+                                        {
+                                            if (input.approve_code.Equals(models.worker_code))
+                                            {
+                                                cls_ctTRLostwages Lostwages = new cls_ctTRLostwages();
+
+                                                List<cls_TRLostwages> list_Lostwages = Lostwages.getDataByFillterAll(input.company_code, "", input.approve_code, "", "");
+
+                                                if (list_Lostwages.Count > 0)
+                                                {
+                                                    Lostwages.update_status(list_Lostwages[0], "F");
+                                                }
+                                            }
+                                        }
+
+                                        //-- Update status
+                                        cls_ctTRLostwages Lostwages2 = new cls_ctTRLostwages();
+                                        List<cls_TRLostwages> list_Lostwages2 = Lostwages2.getDataByFillterAll(input.company_code, "", "", input.approve_code, "");
+
+                                        if (list_Lostwages2.Count > 0)
+                                        {
+                                            Lostwages2.update_status(list_Lostwages2[0], "F");
+                                        }
+                                    }
+
+                                }
+
+                                break;
+                                //
 
 
                             case "REQ_APY":

@@ -300,6 +300,74 @@ namespace BPC_OPR
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string getTRWagedayList(FillterAttendance req);
         #endregion
+
+
+        //-- F add 06/01/2024
+
+        #region Doc approve
+
+        [OperationContract(Name = "leaveappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeleaveApproveList(InputTRTimeleave input);
+
+        [OperationContract(Name = "otappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeotApproveList(InputTRTimeot input);
+
+        [OperationContract(Name = "shiftappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeshiftApproveList(InputTRTimeshift input);
+
+        [OperationContract(Name = "onsiteappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeonsiteApproveList(InputTRTimeonsite input);
+
+        [OperationContract(Name = "daytypeappr_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimedaytypeApproveList(InputTRTimedaytype input);
+
+        #endregion
+
+        [OperationContract(Name = "timeinput_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRTimeinputList(FillterAttendance req);
+
+        //--
+
+        #region  Lost Wages
+        [OperationContract(Name = "Lostwages_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRLostwagesList(FillterAttendance req);
+
+        [OperationContract(Name = "Lostwages")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRLostwages(InputTRLostwages input);
+
+        [OperationContract(Name = "timesheet1")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRTimesheetLostwages(InputTRLostwages input);
+
+        [OperationContract(Name = "daytype1_list")]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getDaytype1();
+
+
+        [OperationContract(Name = "Lostwages_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRLostwages(InputTRLostwages input);
+
+        #endregion
+
+        //
+        [OperationContract(Name = "Att_Approve_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRLostwagesApprove(FillterLostwagesApprove req);
+
+        //[OperationContract(Name = "Att_Approve_list2")]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        //string getTRLostwagesApprove2(FillterLostwagesApprove req);
+
+
     }
 
 }

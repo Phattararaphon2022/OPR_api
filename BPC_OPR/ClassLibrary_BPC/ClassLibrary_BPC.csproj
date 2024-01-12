@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExcelLibrary">
-      <HintPath>C:\Users\phattaraphon.p\Downloads\ExcelLibrary.dll</HintPath>
+      <HintPath>..\HRFocusWCF\packages\ExcelLibrary.1.2011.7.31\lib\ExcelLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Microsoft.Office.Core">
       <HintPath>..\HR-KIOSK\bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
@@ -81,6 +81,7 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRLostwages.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTForetype.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpDocatt.cs" />
@@ -252,6 +253,7 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRApprove.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRWorkflow.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmpattitem.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRLostwages.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTDiligence.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_MTHoliday.cs" />
@@ -519,6 +521,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
+    <Fakes Include="Fakes\ExcelLibrary.fakes" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmExportData.resx" />
@@ -526,9 +529,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fakes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
