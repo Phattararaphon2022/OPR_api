@@ -1625,6 +1625,7 @@ namespace BPC_OPR
                  if (list.Count > 0)
                  {
                      int index = 1;
+                     cls_ctTRApplyforeignercard objforecard = new cls_ctTRApplyforeignercard();
 
                      foreach (cls_TRForeigner model in list)
                      {
@@ -1632,21 +1633,48 @@ namespace BPC_OPR
                          json.Add("company_code", model.company_code);
                          json.Add("worker_code", model.worker_code);
                          json.Add("foreigner_id", model.foreigner_id);
-                         json.Add("passport_no", model.passport_no);
-                         json.Add("passport_issue", model.passport_issue);
-                         json.Add("passport_expire", model.passport_expire);
-                         json.Add("visa_no", model.visa_no);
-                         json.Add("visa_issue", model.visa_issue);
-                         json.Add("visa_expire", model.visa_expire);
-                         json.Add("workpermit_no", model.workpermit_no);
-                         json.Add("workpermit_by", model.workpermit_by);
-                         json.Add("workpermit_issue", model.workpermit_issue);
-                         json.Add("workpermit_expire", model.workpermit_expire);
+                         //json.Add("passport_no", model.passport_no);
+                         //json.Add("passport_issue", model.passport_issue);
+                         //json.Add("passport_expire", model.passport_expire);
+                         //json.Add("visa_no", model.visa_no);
+                         //json.Add("visa_issue", model.visa_issue);
+                         //json.Add("visa_expire", model.visa_expire);
+                         //json.Add("workpermit_no", model.workpermit_no);
+                         //json.Add("workpermit_by", model.workpermit_by);
+                         //json.Add("workpermit_issue", model.workpermit_issue);
+                         //json.Add("workpermit_expire", model.workpermit_expire);
+                         //json.Add("entry_date", model.entry_date);
+                         //json.Add("certificate_no", model.certificate_no);
+                         //json.Add("certificate_expire", model.certificate_expire);
+                         //json.Add("otherdoc_no", model.otherdoc_no);
+                         //json.Add("otherdoc_expire", model.otherdoc_expire);
+                         json.Add("foreigner_type", model.foreigner_type);
                          json.Add("entry_date", model.entry_date);
-                         json.Add("certificate_no", model.certificate_no);
-                         json.Add("certificate_expire", model.certificate_expire);
-                         json.Add("otherdoc_no", model.otherdoc_no);
-                         json.Add("otherdoc_expire", model.otherdoc_expire);
+                         json.Add("sent_sso", model.sent_sso);
+                         //--Foreigner Card
+                         List<cls_TRForeignercard> listforecard = objforecard.getDataByFillter(input.company_code, input.worker_code, "");
+                         JArray forecardarray = new JArray();
+                         if (listforecard.Count > 0)
+                         {
+                             int indexforecard = 1;
+                             foreach (cls_TRForeignercard modelforecard in listforecard)
+                             {
+                                 JObject jsonforecard = new JObject();
+                                 jsonforecard.Add("foreignercard_id", modelforecard.foreignercard_id);
+                                 jsonforecard.Add("foreignercard_code", modelforecard.foreignercard_code);
+                                 jsonforecard.Add("foreignercard_type", modelforecard.foreignercard_type);
+                                 jsonforecard.Add("foreignercard_issue", modelforecard.foreignercard_issue);
+                                 jsonforecard.Add("foreignercard_expire", modelforecard.foreignercard_expire);
+                                 jsonforecard.Add("index", indexforecard);
+                                 indexforecard++;
+                                 forecardarray.Add(jsonforecard);
+                             }
+                             json.Add("foreigner_card", forecardarray);
+                         }
+                         else
+                         {
+                             json.Add("foreigner_card", forecardarray);
+                         }
 
                          json.Add("modified_by", model.modified_by);
                          json.Add("modified_date", model.modified_date);
