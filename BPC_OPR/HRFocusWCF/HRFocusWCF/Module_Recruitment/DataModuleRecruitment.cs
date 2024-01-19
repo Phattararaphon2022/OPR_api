@@ -304,6 +304,12 @@ namespace BPC_OPR
         public string foreignercard_issue { get; set; }
         [DataMember]
         public string foreignercard_expire { get; set; }
+        [DataMember]
+        public string foreigner_type { get; set; }
+        [DataMember]
+        public bool sent_sso { get; set; }
+        [DataMember]
+        public List<cls_TRForeignercard> foreigner_card { get; set; }
     }
 
     public class InputTRReqEducation

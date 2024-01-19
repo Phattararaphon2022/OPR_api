@@ -1750,21 +1750,25 @@ namespace BPC_OPR
                  model.company_code = input.company_code;
                  model.worker_code = input.worker_code;
                  model.foreigner_id = Convert.ToInt32(input.foreigner_id);
-                 model.passport_no = input.passport_no;
-                 model.passport_issue = Convert.ToDateTime(input.passport_issue);
-                 model.passport_expire = Convert.ToDateTime(input.passport_expire);
-                 model.visa_no = input.visa_no;
-                 model.visa_issue = Convert.ToDateTime(input.visa_issue);
-                 model.visa_expire = Convert.ToDateTime(input.visa_expire);
-                 model.workpermit_no = input.workpermit_no;
-                 model.workpermit_by = input.workpermit_by;
-                 model.workpermit_issue = Convert.ToDateTime(input.workpermit_issue);
-                 model.workpermit_expire = Convert.ToDateTime(input.workpermit_expire);
+                 //model.passport_no = input.passport_no;
+                 //model.passport_issue = Convert.ToDateTime(input.passport_issue);
+                 //model.passport_expire = Convert.ToDateTime(input.passport_expire);
+                 //model.visa_no = input.visa_no;
+                 //model.visa_issue = Convert.ToDateTime(input.visa_issue);
+                 //model.visa_expire = Convert.ToDateTime(input.visa_expire);
+                 //model.workpermit_no = input.workpermit_no;
+                 //model.workpermit_by = input.workpermit_by;
+                 //model.workpermit_issue = Convert.ToDateTime(input.workpermit_issue);
+                 //model.workpermit_expire = Convert.ToDateTime(input.workpermit_expire);
+                 //model.entry_date = Convert.ToDateTime(input.entry_date);
+                 //model.certificate_no = input.certificate_no;
+                 //model.certificate_expire = Convert.ToDateTime(input.certificate_expire);
+                 //model.otherdoc_no = input.otherdoc_no;
+                 //model.otherdoc_expire = Convert.ToDateTime(input.otherdoc_expire);
+
+                 model.foreigner_type = input.foreigner_type;
                  model.entry_date = Convert.ToDateTime(input.entry_date);
-                 model.certificate_no = input.certificate_no;
-                 model.certificate_expire = Convert.ToDateTime(input.certificate_expire);
-                 model.otherdoc_no = input.otherdoc_no;
-                 model.otherdoc_expire = Convert.ToDateTime(input.otherdoc_expire);
+                 model.sent_sso = Convert.ToBoolean(input.sent_sso);
 
                  model.modified_by = input.modified_by;
 
@@ -1772,6 +1776,16 @@ namespace BPC_OPR
 
                  if (!strID.Equals(""))
                  {
+                     cls_ctTRApplyforeignercard objforecard = new cls_ctTRApplyforeignercard();
+                     bool clear = objforecard.clear(input.company_code, input.worker_code);
+                     if (input.foreigner_card.Count > 0)
+                     {
+                         foreach (cls_TRForeignercard modelforecard in input.foreigner_card)
+                         {
+                             bool res = objforecard.insert(modelforecard);
+                         }
+                     }
+
                      output["success"] = true;
                      output["message"] = "Retrieved data successfully";
                      output["record_id"] = strID;
