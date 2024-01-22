@@ -666,7 +666,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                 //-- Step 2 Get Paytran
                 cls_ctTRPaytran objPay = new cls_ctTRPaytran();
-                List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com, dateEff, datePay, strEmp);
+                List<cls_TRPaytran> list_paytran = objPay.getDataMultipleEmp("TH", com,  datePay,dateEff, strEmp);
 
                 //-- Step 3 Get Company acc
                 cls_ctMTCombank objCombank = new cls_ctMTCombank();
@@ -691,8 +691,9 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
 
                 string tmpData = "";
                 string sequence = "000001";
-                 //string beneref = "001";
-
+                //string beneref = "001";
+                string sequence2 = "000001";
+                string sequence1 = "000001";
                 string spare = "";
 
                 string spare1 = "";
@@ -701,7 +702,8 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                 string user = "";
                 string spare2 = "";
                 string spare3 = "";
-
+                 string empacc1 = "";
+                string empaccbank = "";
                 if (list_paytran.Count > 0)
                 {
 
@@ -726,119 +728,245 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         switch (bank.bank_code)
                         {
                             case "002":/// ธนาคารกรุงเทพ
-                                {
-                                    //กำหนดค่า tmpData โดยรวมข้อมูล combank.combank_bankcode และ comdetail.company_name_en
-                                    tmpData = "H" + sequence + combank.combank_bankcode + combank.combank_bankaccount + comdetail.company_name_en + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + spare + "\r\n";
+                               {
+                                   foreach (cls_TRBank workerlist in list_empbank)
+                                   {
+                                       if (combank.combank_bankcode.Equals(workerlist.bank_code))
+                                       {
+                                           {
+                                               //กำหนดค่า tmpData โดยรวมข้อมูล combank.combank_bankcode และ comdetail.company_name_en
+                                               tmpData = "H" + "000001" + combank.combank_bankcode + combank.combank_bankaccount + comdetail.company_name_en + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + spare + "\r\n";
 
-                                    double douTotal = 0;
-                                    int index = 0;
-                                    string amount;
-                                    string bkData;
+                                               double douTotal = 0;
+                                               double douTotal2 = 0;
 
-                                    foreach (cls_TRPaytran paytran in list_paytran)
-                                    {
+                                               double douTotal3 = 0;
 
-                                        string empacc = "";
-                                        string empname = "";
-                                        string empname2 = "";
+                                               int index = 0;
+                                               string amount;
+                                               string bkData;
 
-                                        foreach (cls_MTWorker worker in list_worker)
-                                        {
-                                            if (paytran.worker_code.Equals(worker.worker_code))
-                                            {
-                                                empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + " " + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + " ";
-                                                empname2 = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + " ";
+                                               foreach (cls_TRPaytran paytran in list_paytran)
+                                               {
 
-                                                break;
-                                            }
-                                        }
+                                                   string empacc = "";
+                                                   string empname = "";
+                                                   string empname2 = "";
 
-                                        foreach (cls_TRBank worker in list_empbank)
-                                        {
-                                            if (paytran.worker_code.Equals(worker.worker_code))
-                                            {
-                                                empacc = worker.bank_account.Replace("-", "");
-                                                break;
-                                            }
-                                        }
+                                                   cls_TRBank obj_Empbank = new cls_TRBank();
 
+                                                   foreach (cls_MTWorker worker in list_worker)
+                                                   {
+                                                       if (paytran.worker_code.Equals(worker.worker_code))
+                                                       {
+                                                           foreach (cls_TRBank workerlistt in list_empbank)
+                                                           {
+                                                               if (worker.worker_code.Equals(workerlistt.worker_code) && workerlistt.bank_code.Equals(combank.combank_bankcode))
+                                                               {
+                                                                   // ทำงานตามที่ต้องการเมื่อพบข้อมูลที่ตรง
+                                                                   empname = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + " " + datePay.ToString("ddMMyy", DateTimeFormatInfo.CurrentInfo) + " ";
+                                                                   empname2 = " " + worker.initial_name_en + " " + worker.worker_fname_en + " " + worker.worker_lname_en + " ";
 
+                                                                   break;
+                                                               }
+                                                           }
+                                                       }
+                                                   }
 
-
-                                        //"Header Record  (ส่วนที่ 1)"   
-                                        if (empname.Equals("") || empacc.Equals(""))
-                                            continue;
-
-
-                                        sequence = Convert.ToString(index + 2).PadLeft(6, '0');
-
-                                        decimal temp = (decimal)paytran.paytran_netpay_b;
-                                        amount = temp.ToString("#.#0").Trim().Replace(".", "").PadLeft(10, '0');
-
-                                        if (spare1.Length < 32)
-                                            spare1 = spare1.PadRight(32, '0');
-
-                                        if (departmentcode.Length < 4)
-                                            departmentcode = departmentcode.PadRight(4, '0');
-
-                                        if (user.Length < 10)
-                                            user = user.PadRight(10, '0');
-
-                                        if (spare2.Length < 13)
-                                            spare2 = spare2.PadRight(13, '0');
-
-
-                                        if (spare1.Length < 32)
-                                            spare1 = spare1.PadRight(32, '0');
+                                                   foreach (cls_TRBank worker in list_empbank)
+                                                   {
+                                                       if (paytran.worker_code.Equals(worker.worker_code))
+                                                       {
+                                                           empacc = worker.bank_account.Replace("-", "");
+                                                           break;
+                                                       }
+                                                   }
 
 
 
-
-                                        bkData = "D" + sequence + combank.combank_bankcode + empacc + "C" + amount + "02" + "9" + spare1 + departmentcode + user + spare2;
-                                        bkData = bkData.PadRight(32, '0');
-
-                                        if (empname2.Length > 35)
-                                            empname2 = empname2.Substring(0, 35);
-
-                                        bkData = bkData + empname2.ToUpper();
-                                        tmpData += bkData.PadRight(128, ' ') + "\r\n";
-
-                                        douTotal += paytran.paytran_netpay_b;
-                                        index++;
-                                    }
+                                                   //"Header Record  (ส่วนที่ 1)"   
+                                                   if (empname.Equals("") || empacc.Equals(""))
+                                                       continue;
 
 
+                                                   sequence = Convert.ToString(index + 1).PadLeft(6, '0');
 
-                                    int record = list_paytran.Count;
-                                    sequence = (index + 2).ToString().PadLeft(6, '0');
+                                                   decimal temp = (decimal)paytran.paytran_netpay_b;
+                                                   amount = temp.ToString("#.#0").Trim().Replace(".", "").PadLeft(10, '0');
 
-                                    string formattedAmount = "";
-                                    if (record > 1)
-                                    {
-                                        formattedAmount = (record).ToString().PadLeft(6, '0');
-                                    }
-                                    else
-                                    {
-                                        formattedAmount = (index).ToString().PadLeft(6, '0');
-                                    }
+                                                   if (spare1.Length < 32)
+                                                       spare1 = spare1.PadRight(32, '0');
 
-                                    if (spare3.Length < 68)
-                                        spare3 = spare3.PadRight(68, '0');
+                                                   if (departmentcode.Length < 4)
+                                                       departmentcode = departmentcode.PadRight(4, '0');
 
+                                                   if (user.Length < 10)
+                                                       user = user.PadRight(10, '0');
 
+                                                   if (spare2.Length < 13)
+                                                       spare2 = spare2.PadRight(13, '0');
 
 
-                                    string total1 = douTotal.ToString("#.#0").Trim().Replace(".", "").PadLeft(13, '0');
+                                                   if (spare1.Length < 32)
+                                                       spare1 = spare1.PadRight(32, '0');
 
 
-                                    bkData = "T" + sequence + combank.combank_bankcode + combank.combank_bankaccount + "0000000000000" + formattedAmount + total1 + spare3;
+                                                   foreach (cls_TRBank worker in list_empbank)
+                                                   {
+                                                       if (paytran.worker_code.Equals(worker.worker_code))
+                                                       {
+                                                           if (worker.bank_percent != 0)
+                                                           {
+                                                               empaccbank = "C";
+                                                               break; // เพิ่ม break เมื่อพบเงื่อนไขที่ตรง
+                                                           }
+                                                           else if (worker.bank_cashpercent != 0)
+                                                           {
+                                                               empaccbank = "D";
+                                                               break; // เพิ่ม break เมื่อพบเงื่อนไขที่ตรง
+                                                           }
+                                                       }
+                                                   }
 
-                                    bkData = bkData.PadRight(81, '0');
+                                                   foreach (cls_TRBank worker in list_empbank)
+                                                   {
+                                                       if (paytran.worker_code.Equals(worker.worker_code))
+                                                       {
+                                                           if (worker.bank_percent != 0)
+                                                           {
+                                                               empaccbank = "C";
+                                                               break; // เพิ่ม break เมื่อพบเงื่อนไขที่ตรง
+                                                           }
+                                                           else if (worker.bank_cashpercent != 0)
+                                                           {
+                                                               empaccbank = "D";
+                                                               break; // เพิ่ม break เมื่อพบเงื่อนไขที่ตรง
+                                                           }
+                                                       }
+                                                   }
+
+
+                                                   bkData = "D" + sequence + combank.combank_bankcode + empacc + empaccbank + amount + "02" + "9" + spare1 + departmentcode + user + spare2;
+                                                   bkData = bkData.PadRight(32, '0');
+
+                                                   if (empname2.Length > 35)
+                                                       empname2 = empname2.Substring(0, 35);
+
+                                                   bkData = bkData + empname2.ToUpper();
+                                                   tmpData += bkData.PadRight(128, ' ') + "\r\n";
+
+                                                   douTotal += paytran.paytran_netpay_b;
+                                                   douTotal2 += paytran.paytran_netpay_c;
+
+                                                   index++;
+                                               }
 
 
 
-                                    tmpData += bkData;
+                                               int record = list_paytran.Count;
+                                               sequence = (index + 1).ToString().PadLeft(6, '0');
 
+                                               int countdouTotalRecord1 = list_empbank.Count(worker => worker.bank_cashpercent != 0 && worker.bank_code == combank.combank_bankcode);
+
+                                               string total1record1 = "";
+
+                                               if (douTotal > 0)
+                                               {
+                                                   decimal numericDouTotal = decimal.Parse(douTotal.ToString("#.#0").Trim().Replace(".", "").PadLeft(13, '0'));
+                                                   long roundedDouTotal = (long)Math.Floor(numericDouTotal * 100);
+                                                   total1record1 = (roundedDouTotal).ToString("D13");
+                                               }
+                                               else
+                                               {
+                                                   total1record1 = "0000000000000";
+                                               }
+
+
+                                               ////
+                                               int countdouTotalRecord2 = list_empbank.Count(worker => worker.bank_cashpercent != 0 && worker.bank_code == combank.combank_bankcode);
+                                               string total1record2 = "";
+                                               if (douTotal > 0)
+                                               {
+                                                   decimal numericDouTotal2 = decimal.Parse(douTotal2.ToString("#.#0").Trim().Replace(".", "").PadLeft(13, '0'));
+                                                   long roundedDouTotal2 = (long)Math.Floor(numericDouTotal2 * 100);
+                                                   total1record2 = (roundedDouTotal2).ToString("D13");
+                                               }
+                                               else
+                                               {
+                                                   total1record2 = "0000000000000";
+                                               }
+
+                                               //
+                                               string formattedAmount = "";
+                                               if (record > 1)
+                                               {
+                                                   formattedAmount = (record).ToString().PadLeft(6, '0');
+                                               }
+                                               else
+                                               {
+                                                   formattedAmount = (index).ToString().PadLeft(6, '0');
+                                               }
+
+                                               if (spare3.Length < 68)
+                                                   spare3 = spare3.PadRight(68, '0');
+
+                                               //
+                                               int countEmpbankRecord1 = list_empbank.Count(worker => worker.bank_percent != 0 && worker.bank_code == combank.combank_bankcode);
+                                               int countCashEmpbankRecord1 = list_empbank.Count(worker => worker.bank_cashpercent != 0 && worker.bank_code == combank.combank_bankcode);
+
+                                               // sequence1
+                                               sequence1 = (douTotal).ToString().PadLeft(7, '0');
+                                               string empbankrecord1 = "";
+                                               if (countEmpbankRecord1 > 0)
+                                               {
+                                                   empbankrecord1 = (countEmpbankRecord1).ToString().PadLeft(7, '0');
+                                               }
+                                               else
+                                               {
+                                                   empbankrecord1 = "000000";
+                                               }
+
+
+
+                                               // sequence2
+                                               sequence2 = (douTotal2).ToString().PadLeft(7, '0');
+                                               string empbankrecord2 = "";
+                                               if (countCashEmpbankRecord1 >= 0)
+                                               {
+                                                   empbankrecord2 = (countCashEmpbankRecord1).ToString().PadLeft(7, '0');
+                                               }
+                                               else
+                                               {
+                                                   empbankrecord2 += "000000";
+                                               }
+
+
+
+                                               if (spare3.Length < 68)
+                                                   spare3 = spare3.PadRight(68, '0');
+
+
+
+
+
+
+
+
+                                               bkData = "T" + sequence + combank.combank_bankcode + combank.combank_bankaccount + empbankrecord1 + total1record1 + empbankrecord2 + total1record2 + spare3;
+
+                                               bkData = bkData.PadRight(81, '0');
+
+
+
+                                               tmpData += bkData;
+                                           }
+                                       }
+                                       else
+                                       {
+                                           continue;
+                                       }
+
+                                   }
                                 }
                                 break;
 
