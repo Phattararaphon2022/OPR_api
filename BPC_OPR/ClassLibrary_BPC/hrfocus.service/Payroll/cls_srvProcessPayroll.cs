@@ -722,10 +722,10 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                         spare1 = spare1.PadRight(32, '0');
 
 
-                    //
+                    //task_detail.taskdetail_process.Split('|');
                     if (task_bank.Length > 0)
                     {
-                        switch (bank.bank_code)
+                        switch (task_detail.taskdetail_process )
                         {
                             case "002":/// ธนาคารกรุงเทพ
                                {
@@ -828,22 +828,7 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                                                        }
                                                    }
 
-                                                   foreach (cls_TRBank worker in list_empbank)
-                                                   {
-                                                       if (paytran.worker_code.Equals(worker.worker_code))
-                                                       {
-                                                           if (worker.bank_percent != 0)
-                                                           {
-                                                               empaccbank = "C";
-                                                               break; // เพิ่ม break เมื่อพบเงื่อนไขที่ตรง
-                                                           }
-                                                           else if (worker.bank_cashpercent != 0)
-                                                           {
-                                                               empaccbank = "D";
-                                                               break; // เพิ่ม break เมื่อพบเงื่อนไขที่ตรง
-                                                           }
-                                                       }
-                                                   }
+                                                  
 
 
                                                    bkData = "D" + sequence + combank.combank_bankcode + empacc + empaccbank + amount + "02" + "9" + spare1 + departmentcode + user + spare2;
@@ -917,13 +902,20 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                                                // sequence1
                                                sequence1 = (douTotal).ToString().PadLeft(7, '0');
                                                string empbankrecord1 = "";
-                                               if (countEmpbankRecord1 > 0)
+                                               if (countEmpbankRecord1 < 0)
                                                {
-                                                   empbankrecord1 = (countEmpbankRecord1).ToString().PadLeft(7, '0');
+                                                   empbankrecord1 = (countEmpbankRecord1  ).ToString().PadLeft(7, '0');
                                                }
                                                else
                                                {
-                                                   empbankrecord1 = "000000";
+                                                   if (countEmpbankRecord1 > 0)
+                                                   {
+                                                       empbankrecord1 = (countEmpbankRecord1 -1).ToString().PadLeft(7, '0');
+                                                   }
+                                                   else
+                                                   {
+                                                       empbankrecord1 = "000000";
+                                                   }
                                                }
 
 
@@ -931,14 +923,22 @@ namespace ClassLibrary_BPC.hrfocus.service.Payroll
                                                // sequence2
                                                sequence2 = (douTotal2).ToString().PadLeft(7, '0');
                                                string empbankrecord2 = "";
-                                               if (countCashEmpbankRecord1 >= 0)
+                                               if (countCashEmpbankRecord1 < 0)
                                                {
-                                                   empbankrecord2 = (countCashEmpbankRecord1).ToString().PadLeft(7, '0');
+                                                    empbankrecord2 = (countCashEmpbankRecord1).ToString().PadLeft(7, '0');
                                                }
                                                else
                                                {
-                                                   empbankrecord2 += "000000";
+                                                   if (countCashEmpbankRecord1 > 0)
+                                                   {
+                                                        empbankrecord2 = (countCashEmpbankRecord1 - 1).ToString().PadLeft(7, '0');
+                                                   }
+                                                   else
+                                                   {
+                                                        empbankrecord2 += "000000";
+                                                   }
                                                }
+
 
 
 
