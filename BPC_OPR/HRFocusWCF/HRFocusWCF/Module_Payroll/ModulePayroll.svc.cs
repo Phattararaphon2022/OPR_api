@@ -1439,6 +1439,11 @@ namespace BPC_OPR
                         json.Add("period_payment", model.period_payment);
                         json.Add("period_dayonperiod", model.period_dayonperiod);
 
+                        json.Add("period_closeta", model.period_closeta);
+                        json.Add("period_closepr", model.period_closepr);
+                        json.Add("changestatus_by", model.changestatus_by);
+                        json.Add("changestatus_date", model.changestatus_date);
+
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
                         json.Add("flag", model.flag);
@@ -1509,6 +1514,11 @@ namespace BPC_OPR
                 model.period_payment = Convert.ToDateTime(input.period_payment);
 
                 model.period_dayonperiod = input.period_dayonperiod;
+
+                model.period_closeta = input.period_closeta;
+                model.period_closepr = input.period_closepr;
+                model.changestatus_by = input.changestatus_by;
+                model.changestatus_date = Convert.ToDateTime(input.changestatus_date);
 
                 model.modified_by = input.modified_by;
                 model.flag = input.flag;
@@ -1679,6 +1689,78 @@ namespace BPC_OPR
                 objBpcOpr.doRecordLog(log);
             }
 
+            return output.ToString(Formatting.None);
+        }
+        //กรองวันที่
+         public string getMTPeriodList2(InputMTPeriod input)
+        {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PAY001.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                DateTime datefrom = Convert.ToDateTime(input.fromdate);
+                DateTime dateto = Convert.ToDateTime(input.todate);
+                cls_ctMTPeriods controler = new cls_ctMTPeriods();
+                List<cls_MTPeriods> listPeriod = controler.getDataByFillter2(input.period_id, input.company_code, input.period_type, input.year_code, input.emptype_code, datefrom, dateto);
+                JArray array = new JArray();
+
+                if (listPeriod.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTPeriods model in listPeriod)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("period_id", model.period_id);
+                        json.Add("period_type", model.period_type);
+                        json.Add("emptype_code", model.emptype_code);
+                        json.Add("year_code", model.year_code);
+                        json.Add("period_no", model.period_no);
+
+                        json.Add("period_name_th", model.period_name_th);
+                        json.Add("period_name_en", model.period_name_en);
+
+                        json.Add("period_from", model.period_from);
+                        json.Add("period_to", model.period_to);
+                        json.Add("period_payment", model.period_payment);
+                        json.Add("period_dayonperiod", model.period_dayonperiod);
+
+                        json.Add("period_closeta", model.period_closeta);
+                        json.Add("period_closepr", model.period_closepr);
+                        json.Add("changestatus_by", model.changestatus_by);
+                        json.Add("changestatus_date", model.changestatus_date);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
             return output.ToString(Formatting.None);
         }
         #endregion

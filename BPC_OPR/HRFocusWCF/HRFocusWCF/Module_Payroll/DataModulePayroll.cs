@@ -357,6 +357,23 @@ namespace BPC_OPR
         public string modified_by { get; set; }
         [DataMember]
         public DateTime modified_date { get; set; }
+
+        [DataMember]
+        public bool period_closeta { get; set; }
+
+        [DataMember]
+        public bool period_closepr { get; set; }
+        [DataMember]
+        public string changestatus_by { get; set; }
+        [DataMember]
+        public DateTime changestatus_date { get; set; }
+
+
+        [DataMember]
+        public string fromdate { get; set; }
+        [DataMember]
+        public string todate { get; set; }
+
         [DataMember]
         public bool flag { get; set; }
 

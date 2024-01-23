@@ -21,6 +21,12 @@ namespace ClassLibrary_BPC.hrfocus.model.Payroll
         public DateTime period_to { get; set; }
         public DateTime period_payment { get; set; }
         public bool period_dayonperiod { get; set; }
+
+        public bool period_closeta { get; set; }
+        public bool period_closepr { get; set; }
+        public string changestatus_by { get; set; }
+        public DateTime changestatus_date { get; set; }
+
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
         public string modified_by { get; set; }

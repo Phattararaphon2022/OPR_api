@@ -51,10 +51,18 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", PERIOD_PAYMENT");
 
                 obj_str.Append(", ISNULL(PERIOD_DAYONPERIOD, '0') AS PERIOD_DAYONPERIOD");
+                obj_str.Append(", ISNULL(PERIOD_CLOSETA, '0') AS PERIOD_CLOSETA");
+                obj_str.Append(", ISNULL(PERIOD_CLOSEPR, '0') AS PERIOD_CLOSEPR");
+
+                 obj_str.Append(", ISNULL(CHANGESTATUS_BY,  '') AS CHANGESTATUS_BY");
+                obj_str.Append(", ISNULL(CHANGESTATUS_DATE, '') AS CHANGESTATUS_DATE");
+
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
                 obj_str.Append(", ISNULL(MODIFIED_DATE, CREATED_DATE) AS MODIFIED_DATE");
 
+
+ 
                 obj_str.Append(" FROM PAY_MT_PERIOD");
                 obj_str.Append(" WHERE 1=1");
 
@@ -85,6 +93,11 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                     model.period_payment = Convert.ToDateTime(dr["PERIOD_PAYMENT"]);
 
                     model.period_dayonperiod = Convert.ToBoolean(dr["PERIOD_DAYONPERIOD"]);
+                    model.period_closeta = Convert.ToBoolean(dr["PERIOD_CLOSETA"]);
+                    model.period_closepr = Convert.ToBoolean(dr["PERIOD_CLOSEPR"]);
+                    model.changestatus_by = dr["CHANGESTATUS_BY"].ToString();
+                    model.changestatus_date = Convert.ToDateTime(dr["CHANGESTATUS_DATE"]);
+
 
                     model.modified_by = dr["MODIFIED_BY"].ToString();
                     model.modified_date = Convert.ToDateTime(dr["MODIFIED_DATE"]);
@@ -122,7 +135,30 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
 
             return this.getData(strCondition);
         }
+        //กรองวันที่
+        public List<cls_MTPeriods> getDataByFillter2(string id, string com, string type, string year, string emptype, DateTime datefrom, DateTime dateto)
+        {
+            string strCondition = "";
 
+            if (!id.Equals(""))
+                strCondition += " AND PERIOD_ID='" + id + "'";
+
+            if (!com.Equals(""))
+                strCondition += " AND COMPANY_CODE='" + com + "'";
+
+            if (!type.Equals(""))
+                strCondition += " AND PERIOD_TYPE='" + type + "'";
+
+            if (!year.Equals(""))
+                strCondition += " AND YEAR_CODE='" + year + "'";
+
+            if (!emptype.Equals(""))
+                strCondition += " AND EMPTYPE_CODE='" + emptype + "'";
+
+            strCondition += " AND (PERIOD_FROM BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+            return this.getData(strCondition);
+        }
         public bool checkDataOld(string com, int id)
         {
             bool blnResult = false;
@@ -238,6 +274,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", PERIOD_PAYMENT ");
                 obj_str.Append(", PERIOD_DAYONPERIOD ");
 
+                obj_str.Append(", PERIOD_CLOSETA ");
+                obj_str.Append(", PERIOD_CLOSEPR ");
+
+                obj_str.Append(", CHANGESTATUS_BY ");
+                obj_str.Append(", CHANGESTATUS_DATE ");
+
                 obj_str.Append(", CREATED_BY ");
                 obj_str.Append(", CREATED_DATE ");
                 obj_str.Append(", FLAG ");
@@ -259,6 +301,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", @PERIOD_TO ");
                 obj_str.Append(", @PERIOD_PAYMENT ");
                 obj_str.Append(", @PERIOD_DAYONPERIOD ");
+
+                obj_str.Append(", @PERIOD_CLOSETA ");
+                obj_str.Append(", @PERIOD_CLOSEPR ");
+
+                obj_str.Append(", @CHANGESTATUS_BY ");
+                obj_str.Append(", @CHANGESTATUS_DATE ");
 
                 obj_str.Append(", @CREATED_BY ");
                 obj_str.Append(", @CREATED_DATE ");
@@ -285,6 +333,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.Parameters.Add("@PERIOD_PAYMENT", SqlDbType.Date); obj_cmd.Parameters["@PERIOD_PAYMENT"].Value = model.period_payment;
 
                 obj_cmd.Parameters.Add("@PERIOD_DAYONPERIOD", SqlDbType.Bit); obj_cmd.Parameters["@PERIOD_DAYONPERIOD"].Value = model.period_dayonperiod;
+                obj_cmd.Parameters.Add("@PERIOD_CLOSETA", SqlDbType.Bit); obj_cmd.Parameters["@PERIOD_CLOSETA"].Value = model.period_closeta;
+                obj_cmd.Parameters.Add("@PERIOD_CLOSEPR", SqlDbType.Bit); obj_cmd.Parameters["@PERIOD_CLOSEPR"].Value = model.period_closepr;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
@@ -325,6 +375,11 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_str.Append(", PERIOD_TO=@PERIOD_TO ");
                 obj_str.Append(", PERIOD_PAYMENT=@PERIOD_PAYMENT ");
                 obj_str.Append(", PERIOD_DAYONPERIOD=@PERIOD_DAYONPERIOD ");
+                obj_str.Append(", PERIOD_CLOSETA=@PERIOD_CLOSETA ");
+                obj_str.Append(", PERIOD_CLOSEPR=@PERIOD_CLOSEPR ");
+
+                obj_str.Append(", CHANGESTATUS_BY=@CHANGESTATUS_BY ");
+                obj_str.Append(", CHANGESTATUS_DATE=@CHANGESTATUS_DATE ");
 
                 obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
                 obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
@@ -349,6 +404,12 @@ namespace ClassLibrary_BPC.hrfocus.controller.Payroll
                 obj_cmd.Parameters.Add("@PERIOD_PAYMENT", SqlDbType.Date); obj_cmd.Parameters["@PERIOD_PAYMENT"].Value = model.period_payment;
 
                 obj_cmd.Parameters.Add("@PERIOD_DAYONPERIOD", SqlDbType.Bit); obj_cmd.Parameters["@PERIOD_DAYONPERIOD"].Value = model.period_dayonperiod;
+                obj_cmd.Parameters.Add("@PERIOD_CLOSETA", SqlDbType.Bit); obj_cmd.Parameters["@PERIOD_CLOSETA"].Value = model.period_closeta;
+                obj_cmd.Parameters.Add("@PERIOD_CLOSEPR", SqlDbType.Bit); obj_cmd.Parameters["@PERIOD_CLOSEPR"].Value = model.period_closepr;
+
+
+                obj_cmd.Parameters.Add("@CHANGESTATUS_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CHANGESTATUS_BY"].Value = model.changestatus_by;
+                obj_cmd.Parameters.Add("@CHANGESTATUS_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CHANGESTATUS_DATE"].Value = DateTime.Now;
 
                 obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;

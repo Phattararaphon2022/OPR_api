@@ -150,6 +150,10 @@ namespace BPC_OPR
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTPeriods?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
         Task<string> doUploadMTPeriod(string token, string by, string fileName, Stream stream, string com);
+
+        [OperationContract(Name = "periods_list2")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTPeriodList2(InputMTPeriod input);
         #endregion
 
 
