@@ -13208,7 +13208,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTDashboards objGender = new cls_ctMTDashboards();
-                List<cls_MTDashboards> listPolItem = objGender.getDataByFillterDataGender(input.company_code, "","0");
+                List<cls_MTDashboards> listPolItem = objGender.getDataByFillterDataGender(input.language, input.company_code, "", "0");
 
                 JArray array = new JArray();
 
@@ -13225,9 +13225,11 @@ namespace BPC_OPR
                         json.Add("worker_gender", model.worker_gender);
                         json.Add("worker_resignstatus", model.worker_resignstatus);
 
-                        json.Add("worker_gender_en", model.worker_gender_en);
-                        json.Add("worker_gender_th", model.worker_gender_th);
-                     
+                        json.Add("worker_gender_name", model.worker_gender_name);
+                        json.Add("workerfname_name", model.workerfname_name);
+                        json.Add("workerlname_name", model.workerlname_name);
+                        json.Add("worker", model.worker);
+
                    
                         index++;
 
@@ -13277,7 +13279,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTDashboards objEmpWorkAge = new cls_ctMTDashboards();
-                List<cls_MTDashboards> listEmpWorkAge = objEmpWorkAge.getDataEmpWorkAgeByFillter(input.company_code, "", "0");
+                List<cls_MTDashboards> listEmpWorkAge = objEmpWorkAge.getDataEmpWorkAgeByFillter(input.language, input.company_code, "", "0");
 
                 JArray array = new JArray();
 
@@ -13293,7 +13295,12 @@ namespace BPC_OPR
                          json.Add("age_code", model.age_code);
                          json.Add("worker_resignstatus", model.worker_resignstatus);
 
+                         json.Add("workerfname_name", model.workerfname_name);
+                         json.Add("workerlname_name", model.workerlname_name);
+                         json.Add("worker", model.worker);
+                         json.Add("age", model.age);
 
+                        
                         index++;
 
                         array.Add(json);
@@ -13342,7 +13349,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ctMTDashboards objWorkAge = new cls_ctMTDashboards();
-                List<cls_MTDashboards> listWorkAge = objWorkAge.getDataWorkAgeByFillter(input.company_code, "", "0");
+                List<cls_MTDashboards> listWorkAge = objWorkAge.getDataWorkAgeByFillter(input.language, input.company_code, "", "0");
 
                 JArray array = new JArray();
 
@@ -13358,6 +13365,10 @@ namespace BPC_OPR
                         json.Add("work_age", model.work_age);
                         json.Add("worker_resignstatus", model.worker_resignstatus);
 
+                        json.Add("workerfname_name", model.workerfname_name);
+                        json.Add("workerlname_name", model.workerlname_name);
+                        json.Add("worker", model.worker);
+                        json.Add("age", model.age);
 
                         index++;
 
@@ -13424,8 +13435,13 @@ namespace BPC_OPR
                         json.Add("empposition_position", model.empposition_position);
                         json.Add("worker_resignstatus", model.worker_resignstatus);
                         json.Add("position_name", model.position_name);
-                        //json.Add("position_name_th", model.position_name_th);
-                        index++;
+
+                        json.Add("workerfname_name", model.workerfname_name);
+                        json.Add("workerlname_name", model.workerlname_name);
+                        json.Add("worker", model.worker);
+
+
+                         index++;
 
                         array.Add(json);
 

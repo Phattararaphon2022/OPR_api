@@ -174,6 +174,9 @@ namespace BPC_OPR
         public string age_code { get; set; }
         [DataMember]
         public string language { get; set; }
+         [DataMember]
+        public string worker_gender { get; set; }
+        
     }
     [DataContract]
     public class InputMTDep

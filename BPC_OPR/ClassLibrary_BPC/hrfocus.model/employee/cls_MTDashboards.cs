@@ -15,10 +15,16 @@ namespace ClassLibrary_BPC.hrfocus.model.employee
         public int location_code { get; set; }
        
         public string position_name  { get; set; }
+
+        public string workerfname_name { get; set; }
+        public string workerlname_name { get; set; }
+        public string worker { get; set; }
+        public string age { get; set; }
+
+       
         public string position_name_en { get; set; }
-        public string worker_gender_en { get; set; }
-        public string worker_gender_th { get; set; }
-        public string worker_gender { get; set; }
+        public string worker_gender_name { get; set; }
+         public string worker_gender { get; set; }
 
         public string dep_name_th { get; set; }
         public string dep_name_en { get; set; }
