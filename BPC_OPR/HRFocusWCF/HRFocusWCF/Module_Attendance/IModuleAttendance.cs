@@ -117,6 +117,10 @@ namespace BPC_OPR
         [OperationContract(Name = "leaveacc_del")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doDeleteTReave(InputTRLeave input);
+
+        [OperationContract(Name = "TReave_actualday")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doGetLeaveActualDay(InputTRTimeleave input);
         #endregion
 
         #region MTPlanleave
@@ -367,7 +371,52 @@ namespace BPC_OPR
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         //string getTRLostwagesApprove2(FillterLostwagesApprove req);
 
+        #region ATTTRTimeot
+        [OperationContract(Name = "atttimeot_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRATTTimeotList(InputTRATTTimeot input);
 
-    }
+        [OperationContract(Name = "atttimeot")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRATTTimeot(InputTRATTTimeot input);
 
+        [OperationContract(Name = "atttimeot_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRATTTimeot(InputTRATTTimeot input);
+        #endregion
+
+
+        #region  ATTTRTimeleave 
+        [OperationContract(Name = "atttimeleave_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRATTTimeleaveList(InputTRATTTimeleave input);
+
+        [OperationContract(Name = "atttimeleave")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRATTTimeleave(InputTRATTTimeleave input);
+
+        [OperationContract(Name = "atttimeleave_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRATTTimeleave(InputTRATTTimeleave input);
+        #endregion
+    
+
+
+     #region Timeonsite
+        [OperationContract(Name = "ATTTimeonsite_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRATTTimeonsiteList(InputTRATTTimeonsite input);
+
+        [OperationContract(Name = "ATTTimeonsite")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRATTTimeonsite(InputTRATTTimeonsite input);
+
+        [OperationContract(Name = "ATTTimeonsite_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRATTTimeonsite(InputTRATTTimeonsite input);
+
+        
+        #endregion
+
+}
 }

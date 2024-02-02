@@ -82,6 +82,9 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLostwages.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRATTTimeot.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRATTTimeleave.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRATTTimeonsite.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTForetype.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctTREmpDocatt.cs" />
@@ -252,6 +255,9 @@
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRRound.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRApprove.cs" />
     <Compile Include="hrfocus.controller\SYS.System\cls_ctTRWorkflow.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRATTTimeleave.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRATTTimeonsite.cs" />
+    <Compile Include="hrfocus.model\Attendance\cls_TRATTTimeot.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TREmpattitem.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRLostwages.cs" />
     <Compile Include="hrfocus.model\Attendance\cls_TRWageday.cs" />

@@ -933,4 +933,147 @@ namespace BPC_OPR
         public string todate { get; set; }
     }
     #endregion
+
+
+    #region InputTRATTTimeleave
+    [DataContract]
+    public class InputTRATTTimeot
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_name { get; set; }
+        [DataMember]
+        public int timeot_id { get; set; }
+        [DataMember]
+        public string timeot_doc { get; set; }
+        [DataMember]
+        public string timeot_workdate { get; set; }
+
+        [DataMember]
+        public string timeot_worktodate { get; set; }
+        [DataMember]
+        public int timeot_beforemin { get; set; }
+        [DataMember]
+        public int timeot_normalmin { get; set; }
+        [DataMember]
+        public int timeot_aftermin { get; set; }
+        [DataMember]
+        public int timeot_break { get; set; }
+        [DataMember]
+        public string timeot_note { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+
+        public string ot_data { get; set; }
+
+    }
+    #endregion
+
+
+    #region InputTRATTTimeleave
+    [DataContract]
+    public class InputTRATTTimeleave
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_name { get; set; }
+        [DataMember]
+        public int timeleave_id { get; set; }
+        [DataMember]
+        public string timeleave_doc { get; set; }
+        [DataMember]
+        public string timeleave_fromdate { get; set; }
+        [DataMember]
+        public string timeleave_todate { get; set; }
+        [DataMember]
+        public string timeleave_type { get; set; }
+        [DataMember]
+        public int timeleave_min { get; set; }
+        [DataMember]
+        public int timeleave_actualday { get; set; }
+        [DataMember]
+        public bool timeleave_incholiday { get; set; }
+        [DataMember]
+        public bool timeleave_deduct { get; set; }
+        [DataMember]
+        public string timeleave_note { get; set; }
+        [DataMember]
+        public string leave_code { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+        public string username { get; set; }
+    }
+    #endregion
+
+
+    #region InputTRATTTimeleave
+    [DataContract]
+    public class InputTRATTTimeonsite
+    {
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_name { get; set; }
+        [DataMember]
+        public int timeonsite_id { get; set; }
+        [DataMember]
+        public string timeonsite_doc { get; set; }
+        [DataMember]
+        public string timeonsite_workdate { get; set; }
+        [DataMember]
+        public string timeonsite_in { get; set; }
+        [DataMember]
+        public string timeonsite_out { get; set; }
+        [DataMember]
+        public string timeonsite_note { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+  
+        public string username { get; set; }
+        [DataMember]
+        public string language { get; set; }
+        [DataMember]
+
+        public string ot_data { get; set; }
+
+    }
+    #endregion
 }

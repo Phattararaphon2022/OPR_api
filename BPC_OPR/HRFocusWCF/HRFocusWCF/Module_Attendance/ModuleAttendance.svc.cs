@@ -7598,5 +7598,874 @@ namespace BPC_OPR
             return output.ToString(Formatting.None);
         }
         #endregion
+
+      //G 29/02/2024
+        #region TRTimeot
+        public string getTRATTTimeotList(InputTRATTTimeot input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT907.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeot_workdate);
+                DateTime dateto = Convert.ToDateTime(input.timeot_worktodate);
+
+                cls_ctTRATTTimeot objTRTime = new cls_ctTRATTTimeot();
+                List<cls_TRATTTimeot> listTRTime = objTRTime.getDataByFillter(input.language,   input.company_code, input.worker_code, datefrom, dateto);
+
+                JArray array = new JArray();
+
+                if (listTRTime.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRATTTimeot model in listTRTime)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("worker_detail", model.worker_detail);
+
+                        json.Add("timeot_id", model.timeot_id);
+                        json.Add("timeot_doc", model.timeot_doc);
+
+                        json.Add("timeot_workdate", model.timeot_workdate);
+                        json.Add("timeot_worktodate", model.timeot_worktodate);
+
+                        json.Add("timeot_beforemin", model.timeot_beforemin);
+                        json.Add("timeot_normalmin", model.timeot_normalmin);
+                        json.Add("timeot_aftermin", model.timeot_aftermin);
+                        json.Add("timeot_breakmin", model.timeot_break);
+
+                        int hrs = (model.timeot_beforemin) / 60;
+                        int min = (model.timeot_beforemin) - (hrs * 60);
+                        json.Add("timeot_beforemin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.timeot_normalmin) / 60;
+                        min = (model.timeot_normalmin) - (hrs * 60);
+                        json.Add("timeot_normalmin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.timeot_aftermin) / 60;
+                        min = (model.timeot_aftermin) - (hrs * 60);
+                        json.Add("timeot_aftermin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+                        hrs = (model.timeot_break) / 60;
+                        min = (model.timeot_break) - (hrs * 60);
+                        json.Add("timeot_breakmin_hrs", hrs.ToString().PadLeft(2, '0') + ":" + min.ToString().PadLeft(2, '0'));
+
+
+                        json.Add("timeot_note", model.timeot_note);
+                        json.Add("location_code", model.location_code);
+                        json.Add("reason_code", model.reason_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        //
+
+        //
+        public string doManageTRATTTimeot(InputTRATTTimeot input)
+        {
+            JObject output = new JObject();
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT907.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+                cls_ctTRATTTimeot objTRTime = new cls_ctTRATTTimeot();
+                cls_TRATTTimeot model = new cls_TRATTTimeot();
+
+                model.company_code = input.company_code;
+                model.worker_code = input.worker_code;
+                model.timeot_id = input.timeot_id;
+                model.timeot_doc = input.timeot_doc;
+
+                model.timeot_workdate = Convert.ToDateTime(input.timeot_workdate);
+                model.timeot_worktodate = Convert.ToDateTime(input.timeot_worktodate);
+
+                model.timeot_beforemin = input.timeot_beforemin;
+                model.timeot_normalmin = input.timeot_normalmin;
+                model.timeot_aftermin = input.timeot_aftermin;
+                model.timeot_break = input.timeot_break;
+
+                model.timeot_note = input.timeot_note;
+                model.location_code = input.location_code;
+                model.reason_code = input.reason_code;
+
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
+
+                bool blnResult = objTRTime.insert(model);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    //output["record_id"] = strID;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTime.getMessage();
+                }
+
+                objTRTime.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+
+
+        public string doDeleteTRATTTimeot(InputTRATTTimeot input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT907.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+ 
+                cls_ctTRATTTimeot controller = new cls_ctTRATTTimeot();
+                List<cls_TRATTTimeot> listTimecard = new List<cls_TRATTTimeot>();
+
+                bool blnResult = controller.delete(input.timeot_id.ToString());
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+            return output.ToString(Formatting.None);
+
+
+
+
+
+        }
+        
+        #endregion
+
+
+        #region TRTimeleave
+        public string getTRATTTimeleaveList(InputTRATTTimeleave input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT908.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
+                DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
+
+                cls_ctTRATTTimeleave objTRTimeleave = new cls_ctTRATTTimeleave();
+                List<cls_TRATTTimeleave> listTRTimeleave = objTRTimeleave.getDataByFillter(input.language, input.company_code, input.worker_code, datefrom, dateto);
+                 
+                JArray array = new JArray();
+
+                if (listTRTimeleave.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRATTTimeleave model in listTRTimeleave)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("worker_detail", model.worker_detail);
+                        json.Add("leave_detail", model.leave_detail);
+
+                        json.Add("timeleave_id", model.timeleave_id);
+                        json.Add("timeleave_doc", model.timeleave_doc);
+
+                        json.Add("timeleave_fromdate", model.timeleave_fromdate);
+                        json.Add("timeleave_todate", model.timeleave_todate);
+
+                        json.Add("timeleave_type", model.timeleave_type);
+                        json.Add("timeleave_min", model.timeleave_min);
+
+                        json.Add("timeleave_actualday", model.timeleave_actualday);
+                        json.Add("timeleave_incholiday", model.timeleave_incholiday);
+                        json.Add("timeleave_deduct", model.timeleave_deduct);
+
+                        json.Add("timeleave_note", model.timeleave_note);
+                        json.Add("leave_code", model.leave_code);
+                        json.Add("reason_code", model.reason_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageTRATTTimeleave(InputTRATTTimeleave input)
+        {
+            JObject output = new JObject();
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT908.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+            string message = "Retrieved data not successfully";
+
+            try
+            {
+                cls_ctTRATTTimeleave objTRTimeleave = new cls_ctTRATTTimeleave();
+                cls_TRATTTimeleave model = new cls_TRATTTimeleave();
+
+                model.company_code = input.company_code;
+                model.worker_code = input.worker_code;
+                model.timeleave_id = input.timeleave_id;
+                model.timeleave_doc = input.timeleave_doc;
+
+                model.timeleave_fromdate = Convert.ToDateTime(input.timeleave_fromdate);
+                model.timeleave_todate = Convert.ToDateTime(input.timeleave_todate);
+
+                model.timeleave_type = input.timeleave_type;
+                model.timeleave_min = input.timeleave_min;
+
+                model.timeleave_actualday = input.timeleave_actualday;
+                model.timeleave_incholiday = input.timeleave_incholiday;
+                model.timeleave_deduct = input.timeleave_deduct;
+
+                model.timeleave_note = input.timeleave_note;
+                model.leave_code = input.leave_code;
+                model.reason_code = input.reason_code;
+
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
+
+                bool blnResult = objTRTimeleave.insert(model);
+
+                if (blnResult)
+                {
+                    cls_srvProcessTime srv_time = new cls_srvProcessTime();
+                    srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
+
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = blnResult;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = message;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTimeleave.getMessage();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteTRATTTimeleave(InputTRATTTimeleave input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT908.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRATTTimeleave controller = new cls_ctTRATTTimeleave();
+                cls_TRATTTimeleave model = controller.getDataByID(input.timeleave_id);
+                bool blnResult = controller.delete(input.timeleave_id);
+
+                if (blnResult)
+                {
+                    cls_srvProcessTime srv_time = new cls_srvProcessTime();
+                    srv_time.doCalleaveacc(model.timeleave_fromdate.Year.ToString(), model.company_code, model.worker_code, model.modified_by);
+                    cls_ctMTJobtable MTJob = new cls_ctMTJobtable();
+                    MTJob.delete(model.company_code, 0, model.timeleave_id.ToString(), "LEA");
+                    cls_ctMTReqdocument MTReqdoc = new cls_ctMTReqdocument();
+                    List<cls_MTReqdocument> filelist = MTReqdoc.getDataByFillter(model.company_code, 0, model.timeleave_id.ToString(), "LEA");
+                    if (filelist.Count > 0)
+                    {
+                        foreach (cls_MTReqdocument filedata in filelist)
+                        {
+                            File.Delete(filedata.document_path);
+                        }
+                    }
+                    MTReqdoc.delete(model.company_code, 0, model.timeleave_id.ToString(), "LEA");
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doGetLeaveActualDay(InputTRTimeleave input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT908.5";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeleave_fromdate);
+                DateTime dateto = Convert.ToDateTime(input.timeleave_todate);
+
+                cls_ctTRTimecard objTRTimecard = new cls_ctTRTimecard();
+                List<cls_TRTimecard> listTRTimecard = objTRTimecard.getDataByFillter(input.company_code, input.project_code, input.worker_code, datefrom, dateto);
+
+                int intDays = 0;
+
+                if (listTRTimecard.Count > 0)
+                {
+                    foreach (cls_TRTimecard model in listTRTimecard)
+                    {
+                        if (model.timecard_daytype.Equals("O") || model.timecard_daytype.Equals("H") || model.timecard_daytype.Equals("C"))
+                        {
+
+                        }
+                        else
+                        {
+                            intDays++;
+                        }
+
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = intDays;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = intDays;
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        #endregion
+
+
+        #region TRTimeonsite
+        public string getTRATTTimeonsiteList(InputTRATTTimeonsite input)
+        {
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT907.1";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                DateTime datefrom = Convert.ToDateTime(input.timeonsite_workdate);
+                //DateTime dateto = Convert.ToDateTime(todate);
+
+                cls_ctTRATTTimeonsite objTRTime = new cls_ctTRATTTimeonsite();
+                List<cls_TRATTTimeonsite> listTRTime = objTRTime.getDataByFillter(input.language, input.company_code, input.worker_code, datefrom, datefrom);
+
+
+                JArray array = new JArray();
+
+                if (listTRTime.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRATTTimeonsite model in listTRTime)
+                    {
+                        JObject json = new JObject();
+                        json.Add("company_code", model.company_code);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("worker_detail", model.worker_detail);
+                        json.Add("reason_detail", model.reason_detail);
+                        json.Add("location_detail", model.location_detail);
+
+                        json.Add("timeonsite_id", model.timeonsite_id);
+                        json.Add("timeonsite_doc", model.timeonsite_doc);
+
+                        json.Add("timeonsite_workdate", model.timeonsite_workdate);
+                        json.Add("timeonsite_in", model.timeonsite_in);
+
+                        json.Add("timeonsite_out", model.timeonsite_out);
+                        json.Add("timeonsite_note", model.timeonsite_note);
+
+                        json.Add("location_code", model.location_code);
+                        json.Add("reason_code", model.reason_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                output["result"] = "0";
+                output["result_text"] = ex.ToString();
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        //
+
+        //
+        public string doManageTRATTTimeonsite(InputTRATTTimeonsite input)
+        {
+            JObject output = new JObject();
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT907.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+            try
+            {
+                cls_ctTRATTTimeonsite objTRTime = new cls_ctTRATTTimeonsite();
+                cls_TRATTTimeonsite model = new cls_TRATTTimeonsite();
+
+                model.company_code = input.company_code;
+                model.worker_code = input.worker_code;
+
+                model.timeonsite_id = input.timeonsite_id;
+                model.timeonsite_doc = input.timeonsite_doc;
+
+                model.timeonsite_workdate = Convert.ToDateTime(input.timeonsite_workdate);
+
+                model.timeonsite_in = input.timeonsite_in;
+                model.timeonsite_out = input.timeonsite_out;
+
+                model.timeonsite_note = input.timeonsite_note;
+
+                model.location_code = input.location_code;
+                model.reason_code = input.reason_code;
+
+                model.modified_by = input.modified_by;
+                model.flag = model.flag;
+
+
+                bool blnResult = objTRTime.insert(model);
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objTRTime.getMessage();
+                }
+
+                objTRTime.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+
+
+        public string doDeleteTRATTTimeonsite(InputTRATTTimeonsite input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT907.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRATTTimeonsite controller = new cls_ctTRATTTimeonsite();
+                List<cls_TRATTTimeonsite> listTimecard = new List<cls_TRATTTimeonsite>();
+
+                bool blnResult = controller.delete(input.timeonsite_id.ToString());
+
+                if (blnResult)
+                {
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+            return output.ToString(Formatting.None);
+
+
+
+
+
+        }
+
+        #endregion
+
     }
 }
