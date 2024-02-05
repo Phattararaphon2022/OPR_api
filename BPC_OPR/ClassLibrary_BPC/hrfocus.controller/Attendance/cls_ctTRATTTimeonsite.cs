@@ -128,7 +128,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             strCondition += " AND ATT_TR_TIMEONSITE.COMPANY_CODE='" + com + "'";
             strCondition += " AND ATT_TR_TIMEONSITE.WORKER_CODE='" + emp + "'";
-            strCondition += " AND (TIMEONSITE_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+            //strCondition += " AND (TIMEONSITE_WORKDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+            //strCondition += " AND TIMEONSITE_WORKDATE='" + datefrom.ToString("MM/dd/yyyy") + "'";
 
             return this.getData(language, strCondition);
         }

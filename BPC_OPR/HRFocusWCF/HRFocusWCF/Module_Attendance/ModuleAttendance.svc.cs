@@ -8241,7 +8241,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 DateTime datefrom = Convert.ToDateTime(input.timeonsite_workdate);
-                //DateTime dateto = Convert.ToDateTime(todate);
+                 //DateTime dateto = Convert.ToDateTime(input.todate);
 
                 cls_ctTRATTTimeonsite objTRTime = new cls_ctTRATTTimeonsite();
                 List<cls_TRATTTimeonsite> listTRTime = objTRTime.getDataByFillter(input.language, input.company_code, input.worker_code, datefrom, datefrom);

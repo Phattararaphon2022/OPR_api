@@ -128,6 +128,7 @@
     <Compile Include="Module_Payroll\ModulePayroll.svc.cs">
       <DependentUpon>ModulePayroll.svc</DependentUpon>
     </Compile>
+    <Compile Include="Module_SelfServices\cls_TRTTTimeleave.cs" />
     <Compile Include="Module_SelfServices\DataModuleSelfServices.cs" />
     <Compile Include="Module_SelfServices\IModuleSelfServices.cs" />
     <Compile Include="Module_SelfServices\ModuleSelfServices.svc.cs">

@@ -129,6 +129,7 @@
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqProject.cs" />
     <Compile Include="hrfocus.controller\Recruitment\cls_ctTRReqSalary.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ApproveJob.cs" />
+    <Compile Include="hrfocus.controller\SelfServices\cls_ctApprovegetmail.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTArea.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTJobtable.cs" />
     <Compile Include="hrfocus.controller\SelfServices\cls_ctMTMailconfig.cs" />

@@ -162,6 +162,16 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+
+       //
+        public List<cls_TRTimeonsite> getDataByID(int id)
+        {
+            string strCondition = "";
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMEONSITE.TIMEONSITE_ID='" + id + "'";
+            return this.getData(strCondition);
+        }
+       //
         public bool checkDataOld(string com, int id,string worker_code)
         {
             bool blnResult = false;

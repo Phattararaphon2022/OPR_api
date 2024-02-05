@@ -160,7 +160,13 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
-
+        public List<cls_TRTimeot> getDataByID(int id)
+        {
+            string strCondition = "";
+            if (!id.Equals(0))
+                strCondition += " AND SELF_TR_TIMEOT.TIMEOT_ID='" + id + "'";
+            return this.getData(strCondition);
+        }
         public bool checkDataOld(string com, string emp, DateTime date)
         {
             bool blnResult = false;

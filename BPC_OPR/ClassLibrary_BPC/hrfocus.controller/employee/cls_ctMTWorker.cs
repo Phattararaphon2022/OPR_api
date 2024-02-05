@@ -330,6 +330,29 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             return this.getData(strCondition);
         }
+
+        //
+        public cls_MTWorker doLogin(string worker_code, string worker_pwd)
+        {
+            string strCondition = "";
+
+
+
+            strCondition += " AND WORKER_CODE='" + worker_code + "'";
+            if (!worker_pwd.Equals(""))
+            {
+                strCondition += " AND WORKER_PWD='" + worker_pwd + "'";
+            }
+
+            List<cls_MTWorker> list_model = this.getData(strCondition);
+
+            if (list_model.Count > 0)
+                return list_model[0];
+            else
+                return null;
+
+        }
+        //
         public int getNextID()
         {
             int intResult = 1;

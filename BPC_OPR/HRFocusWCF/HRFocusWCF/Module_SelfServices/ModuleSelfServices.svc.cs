@@ -26,6 +26,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Configuration;
 using System.Web.Script.Serialization;
 using System.Runtime.Serialization.Json;
+using ClassLibrary_BPC.hrfocus.controller.Attendance;
+using ClassLibrary_BPC.hrfocus.model.Attendance;
 
 namespace BPC_OPR
 {
@@ -5602,7 +5604,7 @@ namespace BPC_OPR
         }
         #endregion
 
-        public string Approvegetdoc(InputApprovedoc input)
+        public string Approvegetdoc(InputApprovedoc input) 
         {
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
@@ -5681,6 +5683,9 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ApproveJob controller = new cls_ApproveJob();
+                cls_ApproveJob sendmaillapp = new cls_ApproveJob();////เช็คตัวนี้ SELF_MT_CONFIGEMAILALERT
+                System.Globalization.CultureInfo _cul = new System.Globalization.CultureInfo("th-TH");
+
                 int success = 0;
                 int fail = 0;
                 JArray array = new JArray();
@@ -5691,7 +5696,93 @@ namespace BPC_OPR
                     string result = controller.ApproveJob(ref Status, input.company_code, id, input.job_type, input.username, input.approve_status, input.lang);
                     if (Status)
                     {
+                        int appcount = 0;
                         success++;
+                        cls_ctMTJobtable job = new cls_ctMTJobtable();
+                        List<cls_MTJobtable> list = job.getDataByFillter(input.company_code, Convert.ToInt32(id), "", input.job_type, "", "", "", "");
+                        if (list.Count > 0)
+                        {
+                            if (input.job_type.Equals("LEA"))
+                            {
+                                cls_ctTRTimeleave leve = new cls_ctTRTimeleave();
+                                cls_TRTimeleave dataleve = leve.getDataByID(Convert.ToInt32(list[0].job_id));
+                                cls_ctTRATTTimeleave timeleavecontroller = new cls_ctTRATTTimeleave();
+                                cls_TRATTTimeleave timeleave = new cls_TRATTTimeleave();
+                                timeleave.company_code = dataleve.company_code;
+                                timeleave.worker_code = dataleve.worker_code;
+                                timeleave.timeleave_doc = dataleve.timeleave_doc;
+                                timeleave.timeleave_fromdate = dataleve.timeleave_fromdate;
+                                timeleave.timeleave_todate = dataleve.timeleave_todate;
+                                timeleave.timeleave_type = dataleve.timeleave_type;
+                                timeleave.timeleave_min = dataleve.timeleave_min;
+                                timeleave.timeleave_actualday = dataleve.timeleave_actualday;
+                                timeleave.timeleave_incholiday = dataleve.timeleave_incholiday;
+                                timeleave.timeleave_deduct = dataleve.timeleave_deduct;
+                                timeleave.timeleave_note = dataleve.timeleave_note;
+                                timeleave.leave_code = dataleve.leave_code;
+                                timeleave.reason_code = dataleve.reason_code;
+                                timeleave.modified_by = dataleve.modified_by;
+ 
+                                sendmaillapp.Approvesendmail(ref appcount, timeleave.company_code, "LEA", timeleave.worker_code, "", timeleave.timeleave_fromdate.ToString("dd MMMM yyyy", _cul), timeleave.timeleave_todate.ToString("dd MMMM yyyy", _cul), timeleave.leave_code);
+                                if (appcount.Equals(0))
+                                {
+                                    timeleavecontroller.insert(timeleave);
+                                }
+
+                            }
+                            if (input.job_type.Equals("OT"))
+                            {
+                                cls_ctTRTimeot con = new cls_ctTRTimeot();
+                                cls_TRTimeot data = con.getDataByID(Convert.ToInt32(list[0].job_id))[0];
+                                cls_ctTRATTTimeot timecontroller = new cls_ctTRATTTimeot();
+                                cls_TRATTTimeot timedata = new cls_TRATTTimeot();
+                                timedata.company_code = data.company_code;
+                                timedata.worker_code = data.worker_code;
+                                timedata.timeot_doc = data.timeot_doc;
+                                timedata.timeot_workdate = data.timeot_workdate;
+                                timedata.timeot_worktodate = data.timeot_workdate;
+                                timedata.timeot_beforemin = data.timeot_beforemin;
+                                timedata.timeot_normalmin = data.timeot_normalmin;
+                                timedata.timeot_break = data.timeot_breakmin;
+                                timedata.timeot_aftermin = data.timeot_aftermin;
+                                timedata.timeot_note = data.timeot_note;
+                                timedata.reason_code = data.reason_code;
+                                timedata.location_code = data.location_code;
+                                timedata.modified_by = data.modified_by;
+                                int total = timedata.timeot_beforemin + timedata.timeot_normalmin + timedata.timeot_break + timedata.timeot_aftermin;
+                               //sendmaillapp.Approvesendmail(  ref Status, input.company_code, id, input.job_type, input.username, input.approve_status, input.lang);
+                                sendmaillapp.Approvesendmail(ref appcount, timedata.company_code, "OT", timedata.worker_code,  "",   timedata.timeot_workdate.ToString("dd MMMM yyyy", _cul), timedata.timeot_workdate.ToString("dd MMMM yyyy", _cul), (total / 60).ToString());
+                                if (appcount.Equals(0))
+                                {
+                                    timecontroller.insert(timedata);
+                                }
+
+                            }
+                            if (input.job_type.Equals("ONS"))
+                            {
+                                cls_ctTRTimeonsite con = new cls_ctTRTimeonsite();
+                                cls_TRTimeonsite data = con.getDataByID(Convert.ToInt32(list[0].job_id))[0];
+                                cls_ctTRATTTimeonsite timecontroller = new cls_ctTRATTTimeonsite();
+                                cls_TRATTTimeonsite timedata = new cls_TRATTTimeonsite();
+                                timedata.company_code = data.company_code;
+                                timedata.worker_code = data.worker_code;
+                                timedata.timeonsite_doc = data.timeonsite_doc;
+                                timedata.timeonsite_workdate = data.timeonsite_workdate;
+                                timedata.timeonsite_in = data.timeonsite_in;
+                                timedata.timeonsite_out = data.timeonsite_out;
+                                timedata.timeonsite_note = data.timeonsite_note;
+                                timedata.reason_code = data.reason_code;
+                                timedata.location_code = data.location_code;
+                                timedata.modified_by = data.modified_by;
+                                timecontroller.insert(timedata);
+
+                                sendmaillapp.Approvesendmail(ref appcount, timedata.company_code, "ONS", timedata.worker_code, "", timedata.timeonsite_workdate.ToString("dd MMMM yyyy", _cul), timedata.timeonsite_workdate.ToString("dd MMMM yyyy", _cul),"");
+                                if (appcount.Equals(0))
+                                {
+                                    timecontroller.insert(timedata);
+                                }
+                            }
+                        }
                     }
                     else
                     {

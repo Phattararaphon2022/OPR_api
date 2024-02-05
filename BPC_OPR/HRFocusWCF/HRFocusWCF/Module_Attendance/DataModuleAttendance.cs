@@ -1073,7 +1073,8 @@ namespace BPC_OPR
         [DataMember]
 
         public string ot_data { get; set; }
-
+        [DataMember]
+        public string todate { get; set; }
     }
     #endregion
 }
