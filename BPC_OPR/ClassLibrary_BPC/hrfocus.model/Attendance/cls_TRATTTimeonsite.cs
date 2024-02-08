@@ -36,6 +36,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Attendance
        public string worker_detail { get; set; }
        public string location_detail { get; set; }
        public string reason_detail { get; set; }
+       public List<cls_MTATTReqdocument> reqdoc_data { get; set; }
 
    }
 }

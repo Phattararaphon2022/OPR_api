@@ -43,7 +43,7 @@ namespace BPC_OPR
             try
             {
                 string FilePath = Path.Combine
-  (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
+                    (ClassLibrary_BPC.Config.PathFileImport + "\\Imports", fileName);
                 //string FilePath = Path.Combine
                 //  (HostingEnvironment.MapPath("~/Uploads"), fileName);
 
@@ -5683,7 +5683,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
                 cls_ApproveJob controller = new cls_ApproveJob();
-                cls_ApproveJob sendmaillapp = new cls_ApproveJob();////เช็คตัวนี้ SELF_MT_CONFIGEMAILALERT
+                cls_ApproveJob sendmaillapp = new cls_ApproveJob(); 
                 System.Globalization.CultureInfo _cul = new System.Globalization.CultureInfo("th-TH");
 
                 int success = 0;
@@ -5782,6 +5782,34 @@ namespace BPC_OPR
                                     timecontroller.insert(timedata);
                                 }
                             }
+                            ///
+                            if (input.job_type.Equals("CI"))
+                            {
+                                cls_ctTRTimecheckin con = new cls_ctTRTimecheckin();
+                                cls_TRTimecheckin data = con.getDataByID(Convert.ToInt32(list[0].job_id))[0];
+                                cls_ctTRATTTimecheckin timecontroller = new cls_ctTRATTTimecheckin();
+                                cls_TRATTTimecheckin timedata = new cls_TRATTTimecheckin();
+                                timedata.company_code = data.company_code;
+                                timedata.worker_code = data.worker_code;
+                                //model.timecheckin_id = data.timecheckin_id.Equals("") ? 0 : Convert.ToInt32(cidata.timecheckin_id);
+                                timedata.timecheckin_doc = data.timecheckin_doc;
+                                timedata.timecheckin_workdate = data.timecheckin_workdate;
+                                timedata.timecheckin_time = data.timecheckin_time;
+                                timedata.timecheckin_type = data.timecheckin_type;
+                                timedata.timecheckin_lat = data.timecheckin_lat;
+                                timedata.timecheckin_long = data.timecheckin_long;
+                                timedata.timecheckin_note = data.timecheckin_note;
+                                timedata.location_code = data.location_code;
+                                timedata.modified_by = data.modified_by;
+
+
+                                sendmaillapp.ApprovesendmailCI(ref appcount, timedata.company_code, "CI", timedata.worker_code, "", timedata.timecheckin_workdate.ToString("dd MMMM yyyy", _cul),  "");
+                                if (appcount.Equals(0))
+                                {
+                                    timecontroller.insert(timedata);
+                                }
+                            }
+
                         }
                     }
                     else

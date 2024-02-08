@@ -127,25 +127,46 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return list_model;
         }
-
-        public List<cls_TRATTTimeleave> getDataByFillter(string language, string com, string emp, DateTime datefrom, DateTime dateto)
+        public List<cls_TRATTTimeleave> getDataByFillter(string language,    string com, string emp, string datefrom, string dateto)
         {
             string strCondition = "";
 
             strCondition += " AND ATT_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
-
+           
             if (!emp.Equals(""))
             {
                 strCondition += " AND ATT_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
             }
             
-            strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "'";
-            strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+            if (!datefrom.Equals("") && !dateto.Equals(""))
+            {
+                strCondition += " AND (ATT_TR_TIMELEAVE.TIMELEAVE_FROMDATE BETWEEN '" + datefrom + "' AND '" + dateto + "'";
+                strCondition += "  OR ATT_TR_TIMELEAVE.TIMELEAVE_TODATE BETWEEN '" + datefrom + "' AND '" + dateto + "')";
+            }
 
 
-            return this.getData(language, strCondition);
-        
+            return this.getData(language,strCondition);
         }
+
+
+        //public List<cls_TRATTTimeleave> getDataByFillter(string language, string com, string emp, DateTime datefrom, DateTime dateto)
+        //{
+        //    string strCondition = "";
+
+        //    strCondition += " AND ATT_TR_TIMELEAVE.COMPANY_CODE='" + com + "'";
+
+        //    if (!emp.Equals(""))
+        //    {
+        //        strCondition += " AND ATT_TR_TIMELEAVE.WORKER_CODE='" + emp + "'";
+        //    }
+            
+        //    strCondition += " AND (TIMELEAVE_FROMDATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "'";
+        //    strCondition += "  OR TIMELEAVE_TODATE BETWEEN '" + datefrom.ToString("MM/dd/yyyy") + "' AND '" + dateto.ToString("MM/dd/yyyy") + "')";
+
+
+        //    return this.getData(language, strCondition);
+        
+        //}
 
       //
         public List<cls_TRATTTimeleave> getDataMultipleEmp(string language, string com, string emp, DateTime datefrom, DateTime dateto)
@@ -265,7 +286,6 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return blnResult;
         }
-
         public bool checkDataOld(cls_TRATTTimeleave model)
         {
             bool blnResult = false;
@@ -297,6 +317,37 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return blnResult;
         }
+        //public bool checkDataOld(cls_TRATTTimeleave model)
+        //{
+        //    bool blnResult = false;
+        //    try
+        //    {
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append("SELECT COMPANY_CODE");
+        //        obj_str.Append(" FROM ATT_TR_TIMELEAVE");
+        //        obj_str.Append(" WHERE COMPANY_CODE='" + model.company_code + "'");
+        //        obj_str.Append(" AND WORKER_CODE='" + model.worker_code + "'");
+        //        obj_str.Append(" AND TIMELEAVE_FROMDATE='" + model.timeleave_fromdate.ToString("MM/dd/yyyy") + "'");
+        //        obj_str.Append(" AND TIMELEAVE_TODATE='" + model.timeleave_todate.ToString("MM/dd/yyyy") + "'");
+
+        //        obj_str.Append(" AND LEAVE_CODE='" + model.leave_code + "'");
+        //        obj_str.Append(" AND TIMELEAVE_TYPE='" + model.timeleave_type + "'");
+
+        //        DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            blnResult = true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "ERROR::(Timeleave.checkDataOld)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
 
         public int getNextID()
         {
@@ -305,9 +356,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ISNULL(TIMELEAVE_ID, 1) ");
+                obj_str.Append("SELECT MAX(TIMELEAVE_ID) ");
                 obj_str.Append(" FROM ATT_TR_TIMELEAVE");
-                obj_str.Append(" ORDER BY TIMELEAVE_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -323,7 +373,6 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return intResult;
         }
-        
 
         public bool delete(int id)
         {
@@ -349,10 +398,35 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return blnResult;
         }
+        //public bool delete(int id)
+        //{
+        //    bool blnResult = true;
+        //    try
+        //    {
+        //        cls_ctConnection obj_conn = new cls_ctConnection();
 
-        public bool insert(cls_TRATTTimeleave model)
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append(" DELETE FROM ATT_TR_TIMELEAVE");
+        //        obj_str.Append(" WHERE 1=1 ");
+        //        obj_str.Append(" AND TIMELEAVE_ID='" + id + "'");
+
+        //        blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        blnResult = false;
+        //        Message = "ERROR::(Timeleave.delete)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
+
+
+        public string insert(cls_TRATTTimeleave model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 //-- Check data old
@@ -363,7 +437,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-
+                int id = this.getNextID();
                 obj_str.Append("INSERT INTO ATT_TR_TIMELEAVE");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
@@ -448,7 +522,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = true;
+                blnResult = id.ToString(); ;
             }
             catch (Exception ex)
             {
@@ -458,9 +532,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return blnResult;
         }
 
-        public bool update(cls_TRATTTimeleave model)
+
+        public string update(cls_TRATTTimeleave model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -517,7 +592,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                 obj_conn.doClose();
 
-                blnResult = true;
+                blnResult = model.timeleave_id.ToString();
             }
             catch (Exception ex)
             {
@@ -526,6 +601,183 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return blnResult;
         }
+
+        //public bool insert(cls_TRATTTimeleave model)
+        //{
+        //    bool blnResult = false;
+        //    try
+        //    {
+        //        //-- Check data old
+        //        if (this.checkDataOld(model))
+        //        {
+        //            return this.update(model);
+        //        }
+
+        //        cls_ctConnection obj_conn = new cls_ctConnection();
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append("INSERT INTO ATT_TR_TIMELEAVE");
+        //        obj_str.Append(" (");
+        //        obj_str.Append("COMPANY_CODE ");
+        //        obj_str.Append(", WORKER_CODE ");
+
+        //        obj_str.Append(", TIMELEAVE_ID ");
+        //        obj_str.Append(", TIMELEAVE_DOC ");
+
+        //        obj_str.Append(", TIMELEAVE_FROMDATE ");
+        //        obj_str.Append(", TIMELEAVE_TODATE ");
+
+        //        obj_str.Append(", TIMELEAVE_TYPE ");
+        //        obj_str.Append(", TIMELEAVE_MIN ");
+
+        //        obj_str.Append(", TIMELEAVE_ACTUALDAY ");
+        //        obj_str.Append(", TIMELEAVE_INCHOLIDAY ");
+        //        obj_str.Append(", TIMELEAVE_DEDUCT ");
+
+        //        obj_str.Append(", TIMELEAVE_NOTE ");
+        //        obj_str.Append(", LEAVE_CODE ");
+        //        obj_str.Append(", REASON_CODE ");
+
+        //        obj_str.Append(", CREATED_BY ");
+        //        obj_str.Append(", CREATED_DATE ");
+        //        obj_str.Append(", FLAG ");
+        //        obj_str.Append(" )");
+
+        //        obj_str.Append(" VALUES(");
+        //        obj_str.Append("@COMPANY_CODE ");
+        //        obj_str.Append(", @WORKER_CODE ");
+
+        //        obj_str.Append(", @TIMELEAVE_ID ");
+        //        obj_str.Append(", @TIMELEAVE_DOC ");
+
+        //        obj_str.Append(", @TIMELEAVE_FROMDATE ");
+        //        obj_str.Append(", @TIMELEAVE_TODATE ");
+
+        //        obj_str.Append(", @TIMELEAVE_TYPE ");
+        //        obj_str.Append(", @TIMELEAVE_MIN ");
+
+        //        obj_str.Append(", @TIMELEAVE_ACTUALDAY ");
+        //        obj_str.Append(", @TIMELEAVE_INCHOLIDAY ");
+        //        obj_str.Append(", @TIMELEAVE_DEDUCT ");
+
+        //        obj_str.Append(", @TIMELEAVE_NOTE ");
+        //        obj_str.Append(", @LEAVE_CODE ");
+        //        obj_str.Append(", @REASON_CODE ");
+
+        //        obj_str.Append(", @CREATED_BY ");
+        //        obj_str.Append(", @CREATED_DATE ");
+        //        obj_str.Append(", @FLAG ");
+        //        obj_str.Append(" )");
+
+        //        obj_conn.doConnect();
+
+        //        SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+        //        obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+        //        obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_ID", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_ID"].Value = this.getNextID();
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_DOC"].Value = model.timeleave_doc;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_FROMDATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_FROMDATE"].Value = model.timeleave_fromdate;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_TODATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_TODATE"].Value = model.timeleave_todate;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_TYPE", SqlDbType.Char); obj_cmd.Parameters["@TIMELEAVE_TYPE"].Value = model.timeleave_type;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_MIN", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_MIN"].Value = model.timeleave_min;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_ACTUALDAY", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_ACTUALDAY"].Value = model.timeleave_actualday;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_INCHOLIDAY", SqlDbType.Bit); obj_cmd.Parameters["@TIMELEAVE_INCHOLIDAY"].Value = model.timeleave_incholiday;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_DEDUCT", SqlDbType.Bit); obj_cmd.Parameters["@TIMELEAVE_DEDUCT"].Value = model.timeleave_deduct;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_NOTE"].Value = model.timeleave_note;
+        //        obj_cmd.Parameters.Add("@LEAVE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LEAVE_CODE"].Value = model.leave_code;
+        //        obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
+
+        //        obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+        //        obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+        //        obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
+        //        obj_cmd.ExecuteNonQuery();
+
+        //        obj_conn.doClose();
+        //        blnResult = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "ERROR::(Timeleave.insert)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
+
+        //public bool update(cls_TRATTTimeleave model)
+        //{
+        //    bool blnResult = false;
+        //    try
+        //    {
+        //        cls_ctConnection obj_conn = new cls_ctConnection();
+
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append("UPDATE ATT_TR_TIMELEAVE SET ");
+
+        //        obj_str.Append(" TIMELEAVE_DOC=@TIMELEAVE_DOC ");
+        //        obj_str.Append(", TIMELEAVE_FROMDATE=@TIMELEAVE_FROMDATE ");
+        //        obj_str.Append(", TIMELEAVE_TODATE=@TIMELEAVE_TODATE ");
+
+        //        obj_str.Append(", TIMELEAVE_TYPE=@TIMELEAVE_TYPE ");
+        //        obj_str.Append(", TIMELEAVE_MIN=@TIMELEAVE_MIN ");
+        //        obj_str.Append(", TIMELEAVE_ACTUALDAY=@TIMELEAVE_ACTUALDAY ");
+        //        obj_str.Append(", TIMELEAVE_INCHOLIDAY=@TIMELEAVE_INCHOLIDAY ");
+        //        obj_str.Append(", TIMELEAVE_DEDUCT=@TIMELEAVE_DEDUCT ");
+        //        obj_str.Append(", TIMELEAVE_NOTE=@TIMELEAVE_NOTE ");
+
+        //        obj_str.Append(", LEAVE_CODE=@LEAVE_CODE ");
+        //        obj_str.Append(", REASON_CODE=@REASON_CODE ");
+
+        //        obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+        //        obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+
+        //        obj_str.Append(" WHERE TIMELEAVE_ID=@TIMELEAVE_ID ");
+
+
+        //        obj_conn.doConnect();
+
+        //        SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_DOC"].Value = model.timeleave_doc;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_FROMDATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_FROMDATE"].Value = model.timeleave_fromdate;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_TODATE", SqlDbType.Date); obj_cmd.Parameters["@TIMELEAVE_TODATE"].Value = model.timeleave_todate;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_TYPE", SqlDbType.Char); obj_cmd.Parameters["@TIMELEAVE_TYPE"].Value = model.timeleave_type;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_MIN", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_MIN"].Value = model.timeleave_min;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_ACTUALDAY", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_ACTUALDAY"].Value = model.timeleave_actualday;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_INCHOLIDAY", SqlDbType.Bit); obj_cmd.Parameters["@TIMELEAVE_INCHOLIDAY"].Value = model.timeleave_incholiday;
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_DEDUCT", SqlDbType.Bit); obj_cmd.Parameters["@TIMELEAVE_DEDUCT"].Value = model.timeleave_deduct;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMELEAVE_NOTE"].Value = model.timeleave_note;
+        //        obj_cmd.Parameters.Add("@LEAVE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LEAVE_CODE"].Value = model.leave_code;
+        //        obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
+
+        //        obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
+        //        obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+
+        //        obj_cmd.Parameters.Add("@TIMELEAVE_ID", SqlDbType.Int); obj_cmd.Parameters["@TIMELEAVE_ID"].Value = model.timeleave_id;
+
+        //        obj_cmd.ExecuteNonQuery();
+
+        //        obj_conn.doClose();
+
+        //        blnResult = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "ERROR::(Timeleave.update)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
 
         
 

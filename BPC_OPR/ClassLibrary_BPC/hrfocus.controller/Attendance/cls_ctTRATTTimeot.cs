@@ -133,9 +133,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return this.getData(language, strCondition);
         }
 
-
-
-        public bool checkDataOld(string com, string emp, DateTime date, DateTime dateto)
+        public bool checkDataOld(string com, string emp, DateTime date)
         {
             bool blnResult = false;
             try
@@ -147,7 +145,6 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" WHERE COMPANY_CODE='" + com + "'");
                 obj_str.Append(" AND WORKER_CODE='" + emp + "'");
                 obj_str.Append(" AND TIMEOT_WORKDATE='" + date.ToString("MM/dd/yyyy") + "'");
-                obj_str.Append(" AND TIMEOT_WORKTODATE='" + dateto.ToString("MM/dd/yyyy") + "'");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -164,6 +161,10 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return blnResult;
         }
 
+
+         
+ 
+
         public int getNextID()
         {
             int intResult = 1;
@@ -171,9 +172,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             {
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
 
-                obj_str.Append("SELECT ISNULL(TIMEOT_ID, 1) ");
+                obj_str.Append("SELECT MAX(TIMEOT_ID) ");
                 obj_str.Append(" FROM ATT_TR_TIMEOT");
-                obj_str.Append(" ORDER BY TIMEOT_ID DESC ");
 
                 DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
 
@@ -191,10 +191,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
         }
 
 
-
-        
-
-        public bool delete(string id)
+        public bool delete(int id)
         {
             bool blnResult = true;
             try
@@ -219,20 +216,146 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return blnResult;
         }
 
-        public bool insert(cls_TRATTTimeot model)
+        //public bool delete(string id)
+        //{
+        //    bool blnResult = true;
+        //    try
+        //    {
+        //        cls_ctConnection obj_conn = new cls_ctConnection();
+
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+        //        obj_str.Append(" DELETE FROM ATT_TR_TIMEOT");
+        //        obj_str.Append(" WHERE 1=1 ");
+        //        obj_str.Append(" AND TIMEOT_ID='" + id + "'");
+
+        //        blnResult = obj_conn.doExecuteSQL(obj_str.ToString());
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        blnResult = false;
+        //        Message = "ERROR::(Timeot.delete)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
+
+        //public bool insert(cls_TRATTTimeot model)
+        //{
+        //    bool blnResult = false;
+        //    try
+        //    {
+        //        //-- Check data old
+        //        if (this.checkDataOld(model.company_code, model.worker_code, model.timeot_workdate, model.timeot_worktodate))
+        //        {
+        //            return this.update(model);
+        //        }
+
+        //        cls_ctConnection obj_conn = new cls_ctConnection();
+        //        System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                //obj_str.Append("INSERT INTO ATT_TR_TIMEOT");
+                //obj_str.Append(" (");
+                //obj_str.Append("COMPANY_CODE ");
+                //obj_str.Append(", WORKER_CODE ");
+
+                //obj_str.Append(", TIMEOT_ID ");
+                //obj_str.Append(", TIMEOT_DOC ");
+
+                //obj_str.Append(", TIMEOT_WORKDATE ");
+                //obj_str.Append(", TIMEOT_WORKTODATE ");
+
+                //obj_str.Append(", TIMEOT_BEFOREMIN ");
+                //obj_str.Append(", TIMEOT_NORMALMIN ");
+                //obj_str.Append(", TIMEOT_AFTERMIN ");
+                //obj_str.Append(", TIMEOT_BREAK ");
+
+                //obj_str.Append(", TIMEOT_NOTE ");
+                //obj_str.Append(", REASON_CODE ");
+                //obj_str.Append(", LOCATION_CODE ");
+
+                //obj_str.Append(", CREATED_BY ");
+                //obj_str.Append(", CREATED_DATE ");
+                //obj_str.Append(", FLAG ");
+                //obj_str.Append(" )");
+
+                //obj_str.Append(" VALUES(");
+                //obj_str.Append("@COMPANY_CODE ");
+                //obj_str.Append(", @WORKER_CODE ");
+
+                //obj_str.Append(", @TIMEOT_ID ");
+                //obj_str.Append(", @TIMEOT_DOC ");
+
+                //obj_str.Append(", @TIMEOT_WORKDATE ");
+                //obj_str.Append(", @TIMEOT_WORKTODATE ");
+
+                //obj_str.Append(", @TIMEOT_BEFOREMIN ");
+                //obj_str.Append(", @TIMEOT_NORMALMIN ");
+                //obj_str.Append(", @TIMEOT_AFTERMIN ");
+                //obj_str.Append(", @TIMEOT_BREAK ");
+
+                //obj_str.Append(", @TIMEOT_NOTE ");
+                //obj_str.Append(", @REASON_CODE ");
+                //obj_str.Append(", @LOCATION_CODE ");
+
+                //obj_str.Append(", @CREATED_BY ");
+                //obj_str.Append(", @CREATED_DATE ");
+                //obj_str.Append(", @FLAG ");
+                //obj_str.Append(" )");
+
+                //obj_conn.doConnect();
+
+                //SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+                //obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
+                //obj_cmd.Parameters.Add("@WORKER_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_CODE"].Value = model.worker_code;
+
+                //obj_cmd.Parameters.Add("@TIMEOT_ID", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_ID"].Value = this.getNextID();
+                //obj_cmd.Parameters.Add("@TIMEOT_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMEOT_DOC"].Value = model.timeot_doc;
+                //obj_cmd.Parameters.Add("@TIMEOT_WORKDATE", SqlDbType.Date); obj_cmd.Parameters["@TIMEOT_WORKDATE"].Value = model.timeot_workdate;
+                //obj_cmd.Parameters.Add("@TIMEOT_WORKTODATE", SqlDbType.Date); obj_cmd.Parameters["@TIMEOT_WORKTODATE"].Value = model.timeot_worktodate;
+
+                //obj_cmd.Parameters.Add("@TIMEOT_BEFOREMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_BEFOREMIN"].Value = model.timeot_beforemin;
+                //obj_cmd.Parameters.Add("@TIMEOT_NORMALMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_NORMALMIN"].Value = model.timeot_normalmin;
+                //obj_cmd.Parameters.Add("@TIMEOT_AFTERMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_AFTERMIN"].Value = model.timeot_aftermin;
+                //obj_cmd.Parameters.Add("@TIMEOT_BREAK", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_BREAK"].Value = model.timeot_break;
+
+                //obj_cmd.Parameters.Add("@TIMEOT_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMEOT_NOTE"].Value = model.timeot_note;
+                //obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
+                //obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
+
+                //obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
+                //obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
+                //obj_cmd.Parameters.Add("@FLAG", SqlDbType.Bit); obj_cmd.Parameters["@FLAG"].Value = false;
+
+        //        obj_cmd.ExecuteNonQuery();
+
+        //        obj_conn.doClose();
+        //        blnResult = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "ERROR::(Timeot.insert)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
+
+        public string insert(cls_TRATTTimeot model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 //-- Check data old
-                if (this.checkDataOld(model.company_code, model.worker_code, model.timeot_workdate, model.timeot_worktodate))
+                if (this.checkDataOld(model.company_code, model.worker_code, model.timeot_workdate))
                 {
                     return this.update(model);
                 }
 
                 cls_ctConnection obj_conn = new cls_ctConnection();
                 System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
-
+                int id = this.getNextID();
                 obj_str.Append("INSERT INTO ATT_TR_TIMEOT");
                 obj_str.Append(" (");
                 obj_str.Append("COMPANY_CODE ");
@@ -310,7 +433,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_cmd.ExecuteNonQuery();
 
                 obj_conn.doClose();
-                blnResult = true;
+                blnResult = id.ToString();
             }
             catch (Exception ex)
             {
@@ -320,9 +443,68 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
             return blnResult;
         }
 
-        public bool update(cls_TRATTTimeot model)
+        //public bool update(cls_TRATTTimeot model)
+        //{
+        //    bool blnResult = false;
+        //    try
+            //{
+            //    cls_ctConnection obj_conn = new cls_ctConnection();
+
+            //    System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                //obj_str.Append("UPDATE ATT_TR_TIMEOT SET ");
+
+                //obj_str.Append(" TIMEOT_DOC=@TIMEOT_DOC ");
+                //obj_str.Append(", TIMEOT_BEFOREMIN=@TIMEOT_BEFOREMIN ");
+                //obj_str.Append(", TIMEOT_NORMALMIN=@TIMEOT_NORMALMIN ");
+                //obj_str.Append(", TIMEOT_AFTERMIN=@TIMEOT_AFTERMIN ");
+                //obj_str.Append(", TIMEOT_BREAK=@TIMEOT_BREAK ");
+
+                //obj_str.Append(", TIMEOT_NOTE=@TIMEOT_NOTE ");
+                //obj_str.Append(", REASON_CODE=@REASON_CODE ");
+                //obj_str.Append(", LOCATION_CODE=@LOCATION_CODE ");
+
+                //obj_str.Append(", MODIFIED_BY=@MODIFIED_BY ");
+                //obj_str.Append(", MODIFIED_DATE=@MODIFIED_DATE ");
+
+                //obj_str.Append(" WHERE TIMEOT_ID=@TIMEOT_ID ");
+
+
+            //    obj_conn.doConnect();
+
+            //    SqlCommand obj_cmd = new SqlCommand(obj_str.ToString(), obj_conn.getConnection());
+
+            //    obj_cmd.Parameters.Add("@TIMEOT_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMEOT_DOC"].Value = model.timeot_doc;
+            //    obj_cmd.Parameters.Add("@TIMEOT_BEFOREMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_BEFOREMIN"].Value = model.timeot_beforemin;
+            //    obj_cmd.Parameters.Add("@TIMEOT_NORMALMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_NORMALMIN"].Value = model.timeot_normalmin;
+            //    obj_cmd.Parameters.Add("@TIMEOT_AFTERMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_AFTERMIN"].Value = model.timeot_aftermin;
+            //    obj_cmd.Parameters.Add("@TIMEOT_BREAK", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_BREAK"].Value = model.timeot_break;
+
+            //    obj_cmd.Parameters.Add("@TIMEOT_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMEOT_NOTE"].Value = model.timeot_note;
+            //    obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
+            //    obj_cmd.Parameters.Add("@REASON_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@REASON_CODE"].Value = model.reason_code;
+
+            //    obj_cmd.Parameters.Add("@MODIFIED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@MODIFIED_BY"].Value = model.modified_by;
+            //    obj_cmd.Parameters.Add("@MODIFIED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@MODIFIED_DATE"].Value = DateTime.Now;
+
+            //    obj_cmd.Parameters.Add("@TIMEOT_ID", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_ID"].Value = model.timeot_id;
+
+            //    obj_cmd.ExecuteNonQuery();
+
+            //    obj_conn.doClose();
+
+            //    blnResult = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Message = "ERROR::(Timeot.update)" + ex.ToString();
+        //    }
+
+        //    return blnResult;
+        //}
+        public string update(cls_TRATTTimeot model)
         {
-            bool blnResult = false;
+            string blnResult = "";
             try
             {
                 cls_ctConnection obj_conn = new cls_ctConnection();
@@ -334,8 +516,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_str.Append(" TIMEOT_DOC=@TIMEOT_DOC ");
                 obj_str.Append(", TIMEOT_BEFOREMIN=@TIMEOT_BEFOREMIN ");
                 obj_str.Append(", TIMEOT_NORMALMIN=@TIMEOT_NORMALMIN ");
-                obj_str.Append(", TIMEOT_AFTERMIN=@TIMEOT_AFTERMIN ");
                 obj_str.Append(", TIMEOT_BREAK=@TIMEOT_BREAK ");
+                obj_str.Append(", TIMEOT_AFTERMIN=@TIMEOT_AFTERMIN ");
 
                 obj_str.Append(", TIMEOT_NOTE=@TIMEOT_NOTE ");
                 obj_str.Append(", REASON_CODE=@REASON_CODE ");
@@ -354,8 +536,8 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
                 obj_cmd.Parameters.Add("@TIMEOT_DOC", SqlDbType.VarChar); obj_cmd.Parameters["@TIMEOT_DOC"].Value = model.timeot_doc;
                 obj_cmd.Parameters.Add("@TIMEOT_BEFOREMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_BEFOREMIN"].Value = model.timeot_beforemin;
                 obj_cmd.Parameters.Add("@TIMEOT_NORMALMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_NORMALMIN"].Value = model.timeot_normalmin;
-                obj_cmd.Parameters.Add("@TIMEOT_AFTERMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_AFTERMIN"].Value = model.timeot_aftermin;
                 obj_cmd.Parameters.Add("@TIMEOT_BREAK", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_BREAK"].Value = model.timeot_break;
+                obj_cmd.Parameters.Add("@TIMEOT_AFTERMIN", SqlDbType.Int); obj_cmd.Parameters["@TIMEOT_AFTERMIN"].Value = model.timeot_aftermin;
 
                 obj_cmd.Parameters.Add("@TIMEOT_NOTE", SqlDbType.VarChar); obj_cmd.Parameters["@TIMEOT_NOTE"].Value = model.timeot_note;
                 obj_cmd.Parameters.Add("@LOCATION_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@LOCATION_CODE"].Value = model.location_code;
@@ -370,7 +552,7 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
                 obj_conn.doClose();
 
-                blnResult = true;
+                blnResult = model.timeot_id.ToString();
             }
             catch (Exception ex)
             {
@@ -379,7 +561,6 @@ namespace ClassLibrary_BPC.hrfocus.controller.Attendance
 
             return blnResult;
         }
-
        
     }
 }

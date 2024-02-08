@@ -417,6 +417,62 @@ namespace BPC_OPR
 
         
         #endregion
+        #region MTATTReqdoc
+        [OperationContract(Name = "ATTreqdoc_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTATTReqdocList(InputMTATTReqdoc input);
 
-}
+        [OperationContract(Name = "ATTreqdoc")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTATTReqdoc(InputMTATTReqdoc input);
+
+        [OperationContract(Name = "ATTreqdoc_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTATTReqdoc(InputMTATTReqdoc input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTATTReqdoc?fileName={fileName}&token={token}&by={by}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTATTReqdoc(string token, string by, string fileName, Stream stream);
+ 
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doGetMTATTReqdoc?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        byte[] DownloadFile(string file_Path);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doDeleteMTATTReqdoc?file_Path={file_path}", ResponseFormat = WebMessageFormat.Json)]
+        string DeleteFile(string file_Path);
+        #endregion
+
+
+        #region MTReqdocument
+        [OperationContract(Name = "attdocument_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTATTReqdocumentList(InputMTATTReqdocument input);
+
+        [OperationContract(Name = "attdocument")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTATTReqdocument(InputMTATTReqdocument input);
+
+        [OperationContract(Name = "attdocument_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteeMTATTReqdocument(InputMTATTReqdocument input);
+        #endregion
+
+
+        #region TRATTTimecheckin
+        [OperationContract(Name = "attcheckin_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRATTTimecheckinList(InputTRATTTimecheckin input);
+
+        [OperationContract(Name = "attcheckin")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRATTTimecheckin(InputTRATTTimecheckin input);
+
+        [OperationContract(Name = "attcheckin_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRATTTimecheckin(InputTRATTTimecheckin input);
+        #endregion
+    }
 }

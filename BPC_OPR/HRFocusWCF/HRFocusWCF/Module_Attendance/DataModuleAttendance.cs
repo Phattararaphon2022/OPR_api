@@ -1030,6 +1030,8 @@ namespace BPC_OPR
         public string language { get; set; }
         [DataMember]
         public string username { get; set; }
+        [DataMember]
+        public string leave_data { get; set; }
     }
     #endregion
 
@@ -1075,6 +1077,129 @@ namespace BPC_OPR
         public string ot_data { get; set; }
         [DataMember]
         public string todate { get; set; }
+        [DataMember]
+        public string timeonsite_data { get; set; }
+    }
+    #endregion
+
+    #region InputMTReqdoc
+    [DataContract]
+    public class InputMTATTReqdoc
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int reqdoc_id { get; set; }
+        [DataMember]
+        public string reqdoc_doc { get; set; }
+        [DataMember]
+        public string reqdoc_date { get; set; }
+        [DataMember]
+        public string reqdoc_date_to { get; set; }
+        [DataMember]
+        public string reqdoc_note { get; set; }
+        [DataMember]
+        public int status { get; set; }
+        [DataMember]
+        public List<cls_TRReqempinfo> reqempinfo_data { get; set; }
+        [DataMember]
+        public List<cls_TRReqdocatt> reqdocatt_data { get; set; }
+
+
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+    }
+    #endregion
+
+
+    #region InputMTATTReqdocument
+    [DataContract]
+    public class InputMTATTReqdocument
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int document_id { get; set; }
+        [DataMember]
+        public string job_id { get; set; }
+        [DataMember]
+        public string job_type { get; set; }
+        [DataMember]
+        public string document_name { get; set; }
+        [DataMember]
+        public string document_type { get; set; }
+        [DataMember]
+        public string document_path { get; set; }
+
+        [DataMember]
+        public string create_by { get; set; }
+        [DataMember]
+        public DateTime create_date { get; set; }
+
+    }
+    #endregion
+
+    #region InputTRTimecheckin
+    [DataContract]
+    public class InputTRATTTimecheckin
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public int timecheckin_id { get; set; }
+        [DataMember]
+        public string timecheckin_workdate { get; set; }
+        [DataMember]
+        public string timecheckin_todate { get; set; }
+        [DataMember]
+        public string timecheckin_time { get; set; }
+        [DataMember]
+        public string timecheckin_type { get; set; }
+        [DataMember]
+        public double timecheckin_lat { get; set; }
+        [DataMember]
+        public double timecheckin_long { get; set; }
+        [DataMember]
+        public string timecheckin_note { get; set; }
+        [DataMember]
+        public string location_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timecheckin_data { get; set; }
+ 
     }
     #endregion
 }

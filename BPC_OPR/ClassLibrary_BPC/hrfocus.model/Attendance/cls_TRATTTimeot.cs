@@ -38,6 +38,7 @@ namespace ClassLibrary_BPC.hrfocus.model.Attendance
 
         //-- Show only
         public string worker_detail { get; set; }
+        public List<cls_MTATTReqdocument> reqdoc_data { get; set; }
 
     }
 }
