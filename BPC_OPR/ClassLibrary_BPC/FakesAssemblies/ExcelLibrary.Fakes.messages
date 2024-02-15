@@ -1,26 +1,26 @@
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.CompoundDocumentFormat.EntryType: type is sealed.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.BlipType: type is sealed.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.CompoundDocumentFormat.NodeColor: type is sealed.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.CompoundDocumentFormat.CompoundDocument: type has no family visible contructors.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.SpreadSheet.CellAnchor: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for QiHe.CodeLib.FileType: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for QiHe.CodeLib.FileSelector: type is sealed.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.SpreadSheet.CellFormatType: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.ShapeType: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryFileFormat.ErrorCode: type has no family visible contructors.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.PropertyIDs: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for QiHe.CodeLib.NodeColor: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.SpreadSheet.SheetType: type is a value type.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.BlipSignature: type is sealed.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.DataSetHelper: type is sealed.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for <PrivateImplementationDetails>{18FC3D9B-F019-4E22-B344-DA0B7CF5C69E}: type is not supported because of internal limitations.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.BinarySearchTreeBase`2+<InorderTreeWalk>d__0: type is not supported because of internal limitations.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.BinarySearchTreeBase`2+<InorderTreeWalk>d__6: type is not supported because of internal limitations.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.SpreadSheet.CellCollection+<GetEnumerator>d__0: type is not supported because of internal limitations.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.FileType: type is an enum.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.SpreadSheet.CellFormatType: type is an enum.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.BinaryDrawingFormat.ShapeType: type is an enum.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.BinaryDrawingFormat.PropertyIDs: type is an enum.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.NodeColor: type is an enum.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.SpreadSheet.SheetType: type is an enum.
-D:\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for <PrivateImplementationDetails>{18FC3D9B-F019-4E22-B344-DA0B7CF5C69E}: type is not supported because of internal limitations.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.CompoundDocumentFormat.EntryType: type is sealed.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.BlipType: type is sealed.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.CompoundDocumentFormat.NodeColor: type is sealed.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.CompoundDocumentFormat.CompoundDocument: type has no family visible contructors.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.SpreadSheet.CellAnchor: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for QiHe.CodeLib.FileType: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for QiHe.CodeLib.FileSelector: type is sealed.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.SpreadSheet.CellFormatType: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.ShapeType: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryFileFormat.ErrorCode: type has no family visible contructors.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.PropertyIDs: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for QiHe.CodeLib.NodeColor: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.SpreadSheet.SheetType: type is a value type.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.BinaryDrawingFormat.BlipSignature: type is sealed.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for ExcelLibrary.DataSetHelper: type is sealed.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate stub for <PrivateImplementationDetails>{18FC3D9B-F019-4E22-B344-DA0B7CF5C69E}: type is not supported because of internal limitations.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.BinarySearchTreeBase`2+<InorderTreeWalk>d__0: type is not supported because of internal limitations.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.BinarySearchTreeBase`2+<InorderTreeWalk>d__6: type is not supported because of internal limitations.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.SpreadSheet.CellCollection+<GetEnumerator>d__0: type is not supported because of internal limitations.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.FileType: type is an enum.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.SpreadSheet.CellFormatType: type is an enum.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.BinaryDrawingFormat.ShapeType: type is an enum.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.BinaryDrawingFormat.PropertyIDs: type is an enum.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for QiHe.CodeLib.NodeColor: type is an enum.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for ExcelLibrary.SpreadSheet.SheetType: type is an enum.
+D:\Work\BPC\Project\OPR\OPR_api\BPC_OPR\ClassLibrary_BPC\Fakes\ExcelLibrary.fakes : warning : Cannot generate shim for <PrivateImplementationDetails>{18FC3D9B-F019-4E22-B344-DA0B7CF5C69E}: type is not supported because of internal limitations.

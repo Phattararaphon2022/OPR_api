@@ -4542,7 +4542,7 @@ namespace BPC_OPR
 
         }
 
-        public string doManageTRTimesheet(InputTRTimecard input)
+        public string doManageTRTimesheet_BK(InputTRTimecard input)
         {
             JObject output = new JObject();
 
@@ -4618,79 +4618,258 @@ namespace BPC_OPR
 
                 
 
-                if (listPol.Count > 0)
-                {
-                    strID = objTimecard.insert(timecard);
-                }
+                    if (listPol.Count > 0)
+                    {
+                        strID = objTimecard.insert(timecard);
+                    }
                 
 
 
-                //cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
-                //cls_TRTimecard timecard = new cls_TRTimecard();
-                //timecard.company_code = input.company_code;
-                //timecard.worker_code = input.worker_code;
-                //timecard.project_code = input.project_code;
-                //timecard.projob_code = input.projob_code;
-                //timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
-                //timecard.timecard_daytype = input.timecard_daytype;
-                //timecard.shift_code = input.shift_code;
-                //timecard.timecard_color = "0";
-                //timecard.modified_by = input.modified_by;
-                //bool blnTimecard = objTimecard.insert(timecard);
+                    //cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
+                    //cls_TRTimecard timecard = new cls_TRTimecard();
+                    //timecard.company_code = input.company_code;
+                    //timecard.worker_code = input.worker_code;
+                    //timecard.project_code = input.project_code;
+                    //timecard.projob_code = input.projob_code;
+                    //timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
+                    //timecard.timecard_daytype = input.timecard_daytype;
+                    //timecard.shift_code = input.shift_code;
+                    //timecard.timecard_color = "0";
+                    //timecard.modified_by = input.modified_by;
+                    //bool blnTimecard = objTimecard.insert(timecard);
 
-                cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
-                List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
+                    cls_ctTRProjobmachine controller = new cls_ctTRProjobmachine();
+                    List<cls_TRProjobmachine> list = controller.getDataByFillter(input.project_code, input.projob_code);
 
-                string terminal = "MANUAL";
+                    string terminal = "MANUAL";
 
-                //-- F edit 06/01/2024
-                terminal = input.project_code+input.projob_code;
-                //--
+                    //-- F edit 06/01/2024
+                    terminal = input.project_code+input.projob_code;
+                    //--
 
-                if (list.Count > 0)
+                    if (list.Count > 0)
+                    {
+                        terminal = list[0].projobmachine_ip;
+                    }
+
+                    cls_ctTRTimeinput objTime = new cls_ctTRTimeinput();
+                    cls_TRTimeinput model = new cls_TRTimeinput();
+
+                    //-- In
+                    model.timeinput_card = listWorker[0].worker_card;
+                    model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
+                    model.timeinput_hhmm = input.timecard_in;
+                    model.timeinput_terminal = terminal;
+                    model.timeinput_function = "";
+                    model.timeinput_compare = "N";
+
+                    bool blnIn = objTime.insert(model);
+
+                    model = new cls_TRTimeinput();
+                    model.timeinput_card = listWorker[0].worker_card;
+                    model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
+                    model.timeinput_hhmm = input.timecard_out;
+                    model.timeinput_terminal = terminal;
+                    model.timeinput_function = "";
+                    model.timeinput_compare = "N";
+
+                    int tmp_in = Convert.ToInt32(input.timecard_in.Replace(":", ""));
+                    int tmp_out = Convert.ToInt32(input.timecard_out.Replace(":", ""));
+
+                    if (tmp_out < tmp_in)
+                        model.timeinput_date = model.timeinput_date.AddDays(1);
+
+                    bool blnOut = objTime.insert(model);
+
+                    if (blnTimecard && blnIn && blnOut)
+                    {
+                        cls_ctMTTask objTask = new cls_ctMTTask();
+                        cls_MTTask task = new cls_MTTask();
+
+
+                        task.company_code = input.company_code;
+                        task.project_code = input.project_code;
+
+                        //int taskid = Convert.ToInt32( DateTime.Now.ToString("yyMMddHHmm"));
+                        int taskid = 0;
+
+                        task.task_id = taskid;
+                        task.task_type = "SUM_TIME";
+                        task.task_status = "W";
+                        task.modified_by = "TIMESHEET";
+                        task.flag = false;
+
+                        cls_TRTaskdetail task_detail = new cls_TRTaskdetail();
+                        task_detail.task_id = taskid;
+                        task_detail.taskdetail_fromdate = Convert.ToDateTime(input.timecard_workdate);
+                        task_detail.taskdetail_todate = Convert.ToDateTime(input.timecard_workdate);
+                        task_detail.taskdetail_paydate = Convert.ToDateTime(input.timecard_workdate);
+                        task_detail.taskdetail_process = "";
+
+                        List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
+                        cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
+                        task_whose.task_id = taskid;
+                        task_whose.worker_code = modelWorker.worker_code;
+                        list_whose.Add(task_whose);
+
+                        int intTaskID = objTask.insert(task, task_detail, list_whose);
+
+                        if (intTaskID > 0)
+                        {
+                            output["success"] = true;
+                            output["message"] = "Retrieved data successfully";
+                            output["record_id"] = intTaskID;
+
+                            log.apilog_status = "200";
+                            log.apilog_message = "";
+
+                            cls_srvProcessTime srvTime = new cls_srvProcessTime();
+                            srvTime.doSummarizeTime(input.company_code, intTaskID.ToString());
+
+                            //-- Delete task
+                            objTask.delete(intTaskID.ToString());
+                        }
+                        else
+                        {
+                            output["success"] = false;
+                            output["message"] = "Retrieved data not successfully";
+
+                            log.apilog_status = "500";
+                            log.apilog_message = objTask.getMessage();
+                        }
+
+                    }
+                    else
+                    {
+                        output["success"] = false;
+                        output["message"] = "Retrieved data not successfully";
+
+                        log.apilog_status = "500";
+                        log.apilog_message = "Record Time input fail";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+
+        }
+
+        public string doManageTRTimesheet(InputTRTimecard input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "ATT901.9";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
                 {
-                    terminal = list[0].projobmachine_ip;
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+                                
+                cls_ctTRTimecard objTimecard = new cls_ctTRTimecard();
+                              
+                List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
+                
+                foreach (cls_MTWorker modelWorker in input.emp_data)
+                {
+
+                    //-- Step 1 Get Emp detail
+                    cls_ctMTWorker objWorker = new cls_ctMTWorker();
+                    List<cls_MTWorker> listWorker = objWorker.getDataByFillter(input.company_code, modelWorker.worker_code);
+
+                    if (listWorker.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    cls_TRTimecard timecard = new cls_TRTimecard();              
+                    timecard.company_code = input.company_code;
+                    timecard.worker_code = modelWorker.worker_code;
+                    timecard.project_code = input.project_code;
+                    timecard.projob_code = input.projob_code;
+                    timecard.projobsub_code = input.projobsub_code;
+                    timecard.timecard_workdate = Convert.ToDateTime(input.timecard_workdate);
+                    timecard.timecard_daytype = input.timecard_daytype;
+                    timecard.shift_code = input.shift_code;
+                    timecard.timecard_color = "0";
+                    timecard.modified_by = input.modified_by;
+                   
+                    //-- New timecard
+                    bool blnTimecard = objTimecard.insert(timecard);
+                    
+                    string terminal = input.project_code + input.projob_code;                    
+                    cls_ctTRTimeinput objTime = new cls_ctTRTimeinput();
+                    cls_TRTimeinput model = new cls_TRTimeinput();
+
+                    //-- In
+                    model.timeinput_card = listWorker[0].worker_card;
+                    model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
+                    model.timeinput_hhmm = input.timecard_in;
+                    model.timeinput_terminal = terminal;
+                    model.timeinput_function = "";
+                    model.timeinput_compare = "N";
+                    bool blnIn = objTime.insert(model);
+
+                    model = new cls_TRTimeinput();
+                    model.timeinput_card = listWorker[0].worker_card;
+                    model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
+                    model.timeinput_hhmm = input.timecard_out;
+                    model.timeinput_terminal = terminal;
+                    model.timeinput_function = "";
+                    model.timeinput_compare = "N";
+
+                    int tmp_in = Convert.ToInt32(input.timecard_in.Replace(":", ""));
+                    int tmp_out = Convert.ToInt32(input.timecard_out.Replace(":", ""));
+
+                    if (tmp_out < tmp_in)
+                        model.timeinput_date = model.timeinput_date.AddDays(1);
+
+                    bool blnOut = objTime.insert(model);
+
+                    if (blnTimecard && blnIn && blnOut)
+                    {
+                        cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
+                        task_whose.task_id = 0;
+                        task_whose.worker_code = modelWorker.worker_code;
+                        list_whose.Add(task_whose);
+                    }
                 }
 
-                cls_ctTRTimeinput objTime = new cls_ctTRTimeinput();
-                cls_TRTimeinput model = new cls_TRTimeinput();
-
-                //-- In
-                model.timeinput_card = listWorker[0].worker_card;
-                model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
-                model.timeinput_hhmm = input.timecard_in;
-                model.timeinput_terminal = terminal;
-                model.timeinput_function = "";
-                model.timeinput_compare = "N";
-
-                bool blnIn = objTime.insert(model);
-
-                model = new cls_TRTimeinput();
-                model.timeinput_card = listWorker[0].worker_card;
-                model.timeinput_date = Convert.ToDateTime(input.timecard_workdate);
-                model.timeinput_hhmm = input.timecard_out;
-                model.timeinput_terminal = terminal;
-                model.timeinput_function = "";
-                model.timeinput_compare = "N";
-
-                int tmp_in = Convert.ToInt32(input.timecard_in.Replace(":", ""));
-                int tmp_out = Convert.ToInt32(input.timecard_out.Replace(":", ""));
-
-                if (tmp_out < tmp_in)
-                    model.timeinput_date = model.timeinput_date.AddDays(1);
-
-                bool blnOut = objTime.insert(model);
-
-                if (blnTimecard && blnIn && blnOut)
+                if (list_whose.Count > 0)
                 {
                     cls_ctMTTask objTask = new cls_ctMTTask();
+
+                    //-- Calculate
                     cls_MTTask task = new cls_MTTask();
-
-
                     task.company_code = input.company_code;
                     task.project_code = input.project_code;
-
-                    //int taskid = Convert.ToInt32( DateTime.Now.ToString("yyMMddHHmm"));
                     int taskid = 0;
 
                     task.task_id = taskid;
@@ -4701,43 +4880,47 @@ namespace BPC_OPR
 
                     cls_TRTaskdetail task_detail = new cls_TRTaskdetail();
                     task_detail.task_id = taskid;
-                    task_detail.taskdetail_fromdate = Convert.ToDateTime(input.timecard_workdate);
-                    task_detail.taskdetail_todate = Convert.ToDateTime(input.timecard_workdate);
-                    task_detail.taskdetail_paydate = Convert.ToDateTime(input.timecard_workdate);
+                    task_detail.taskdetail_fromdate = Convert.ToDateTime(input.timecard_workdate).Date;
+                    task_detail.taskdetail_todate = Convert.ToDateTime(input.timecard_workdate).Date;
+                    task_detail.taskdetail_paydate = Convert.ToDateTime(input.timecard_workdate).Date;
                     task_detail.taskdetail_process = "";
 
-                    List<cls_TRTaskwhose> list_whose = new List<cls_TRTaskwhose>();
-                    cls_TRTaskwhose task_whose = new cls_TRTaskwhose();
-                    task_whose.task_id = taskid;
-                    task_whose.worker_code = modelWorker.worker_code;
-                    list_whose.Add(task_whose);
-
                     int intTaskID = objTask.insert(task, task_detail, list_whose);
-
+                    
                     if (intTaskID > 0)
                     {
-                        output["success"] = true;
-                        output["message"] = "Retrieved data successfully";
-                        output["record_id"] = intTaskID;
-
-                        log.apilog_status = "200";
-                        log.apilog_message = "";
-
+                        //-- Summarize time
                         cls_srvProcessTime srvTime = new cls_srvProcessTime();
                         srvTime.doSummarizeTime(input.company_code, intTaskID.ToString());
 
                         //-- Delete task
                         objTask.delete(intTaskID.ToString());
-                    }
-                    else
-                    {
-                        output["success"] = false;
-                        output["message"] = "Retrieved data not successfully";
 
-                        log.apilog_status = "500";
-                        log.apilog_message = objTask.getMessage();
+                        //-- Calculate time
+                        task.task_id = taskid;
+                        task.task_type = "CAL_TIME";
+                        task.task_status = "W";
+                        task.modified_by = "TIMESHEET";
+                        task.flag = false;
+
+                        task_detail.taskdetail_process = "SA,OT,AW";
+
+                        intTaskID = objTask.insert(task, task_detail, list_whose);
+
+                        if (intTaskID > 0)
+                        {
+                            srvTime.doCalculateTime(input.company_code, intTaskID.ToString());
+                            //-- Delete task
+                            objTask.delete(intTaskID.ToString());
+                        }
                     }
 
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["record_id"] = 0;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
                 }
                 else
                 {
@@ -4747,7 +4930,7 @@ namespace BPC_OPR
                     log.apilog_status = "500";
                     log.apilog_message = "Record Time input fail";
                 }
-                }
+
             }
             catch (Exception ex)
             {
