@@ -115,6 +115,8 @@ namespace BPC_OPR
     }
     #endregion
 
+   
+
     #region InputTRTimeshift
     [DataContract]
     public class InputTRTimeshift
