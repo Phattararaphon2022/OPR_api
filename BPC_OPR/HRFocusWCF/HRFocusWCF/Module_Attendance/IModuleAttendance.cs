@@ -367,6 +367,34 @@ namespace BPC_OPR
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         //string getTRLostwagesApprove2(FillterLostwagesApprove req);
 
+        #region TRAttTimeshift
+        [OperationContract(Name = "atttimeshift_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRAttTimeshiftList(InputTRAttTimeshift input);
+
+        [OperationContract(Name = "atttimeshift")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRAttTimeshift(InputTRAttTimeshift input);
+
+        [OperationContract(Name = "atttimeshift_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRAttTimeshift(InputTRAttTimeshift input);
+        #endregion
+
+        #region TRTimedaytype
+        [OperationContract(Name = "atttimedaytype_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRAttTimedaytypeList(InputTRAttTimedaytype input);
+
+        [OperationContract(Name = "atttimedaytype")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageTRAttTimedaytype(InputTRAttTimedaytype input);
+
+        [OperationContract(Name = "atttimedaytype_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteTRAttTimedaytype(InputTRAttTimedaytype input);
+        #endregion
+
 
     }
 

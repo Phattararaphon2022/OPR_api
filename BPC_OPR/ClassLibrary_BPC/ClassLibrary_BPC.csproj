@@ -80,6 +80,8 @@
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTPlantimeallw.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTRateot.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctMTShift.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRAttTimeDaytype.cs" />
+    <Compile Include="hrfocus.controller\Attendance\cls_ctTRAttTimeshift.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTREmpattitem.cs" />
     <Compile Include="hrfocus.controller\Attendance\cls_ctTRLostwages.cs" />
     <Compile Include="hrfocus.controller\employee\cls_ctMTDashboards.cs" />
