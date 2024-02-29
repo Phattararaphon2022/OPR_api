@@ -754,9 +754,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 }
                 obj_cmd.Parameters.Add("@WORKER_SOCIALNOTSENT", SqlDbType.Bit); obj_cmd.Parameters["@WORKER_SOCIALNOTSENT"].Value = model.worker_socialnotsent;
 
-                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_TEL"].Value = model.worker_emergency_tel;
-                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_NAME"].Value = model.worker_emergency_name;
-                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_ADDRESS", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_ADDRESS"].Value = model.worker_emergency_address;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_TEL", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_TEL"].Value = (model.worker_emergency_tel != null) ? model.worker_emergency_tel : (object)DBNull.Value;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_NAME", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_NAME"].Value = (model.worker_emergency_name != null) ? model.worker_emergency_name : (object)DBNull.Value;
+                obj_cmd.Parameters.Add("@WORKER_EMERGENCY_ADDRESS", SqlDbType.VarChar); obj_cmd.Parameters["@WORKER_EMERGENCY_ADDRESS"].Value = (model.worker_emergency_address != null) ? model.worker_emergency_address : (object)DBNull.Value;
 
                 obj_cmd.Parameters.Add("@CREATED_BY", SqlDbType.VarChar); obj_cmd.Parameters["@CREATED_BY"].Value = model.modified_by;
                 obj_cmd.Parameters.Add("@CREATED_DATE", SqlDbType.DateTime); obj_cmd.Parameters["@CREATED_DATE"].Value = DateTime.Now;
