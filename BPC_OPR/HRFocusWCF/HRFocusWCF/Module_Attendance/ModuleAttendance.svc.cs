@@ -10423,30 +10423,6 @@ namespace BPC_OPR
                     strID = objTRTime.insert(model);
                     if (!strID.Equals(""))
                     {
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "SHT");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "SHT";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(shiftdata.timeshift_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
-                        }
-                        else
-                        {
-                            objTRTime.delete(Convert.ToInt32(strID));
-                            strID = "";
-                            message = "There are no workflow contexts for this worker_code :" + shiftdata.worker_code;
-                            break;
-                        }
                         if (shiftdata.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in shiftdata.reqdoc_data)
@@ -10779,30 +10755,6 @@ namespace BPC_OPR
                     strID = objTRTimedaytype.insert(model);
                     if (!strID.Equals(""))
                     {
-                        cls_ctTRAccount objTRAccount = new cls_ctTRAccount();
-                        List<cls_TRAccount> listTRAccount = objTRAccount.getDataworkflowByFillter(model.company_code, "", model.worker_code, "", "DAT");
-                        if (listTRAccount.Count > 0)
-                        {
-                            cls_ctMTJobtable objMTJob = new cls_ctMTJobtable();
-                            cls_MTJobtable modeljob = new cls_MTJobtable();
-                            modeljob.company_code = model.company_code;
-                            modeljob.jobtable_id = 0;
-                            modeljob.job_id = strID;
-                            modeljob.job_type = "DAT";
-                            modeljob.status_job = "W";
-                            modeljob.job_date = Convert.ToDateTime(data.timedaytype_workdate);
-                            modeljob.job_nextstep = listTRAccount[0].totalapprove;
-                            modeljob.workflow_code = listTRAccount[0].workflow_code;
-                            modeljob.created_by = input.username;
-                            string strID1 = objMTJob.insert(modeljob);
-                        }
-                        else
-                        {
-                            objTRTimedaytype.delete(data.company_code, Convert.ToInt32(strID), data.worker_code);
-                            strID = "";
-                            message = "There are no workflow contexts for this worker_code :" + data.worker_code;
-                            break;
-                        }
                         if (data.reqdoc_data.Count > 0)
                         {
                             foreach (cls_MTReqdocument reqdoc in data.reqdoc_data)
