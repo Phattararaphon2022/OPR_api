@@ -32,7 +32,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append("SELECT ");
 
                 obj_str.Append("ATT_TR_TIMEDAYTYPE.COMPANY_CODE");
-                obj_str.Append(", SELF_TR_TIMEDAYTYPE.WORKER_CODE");
+                obj_str.Append(", ATT_TR_TIMEDAYTYPE.WORKER_CODE");
                 obj_str.Append(", INITIAL_NAME_TH + WORKER_FNAME_TH + ' ' + WORKER_LNAME_TH AS WORKER_DETAIL_TH");
                 obj_str.Append(", INITIAL_NAME_EN + WORKER_FNAME_EN + ' ' + WORKER_LNAME_EN AS WORKER_DETAIL_EN");
                 obj_str.Append(", TIMEDAYTYPE_ID");
