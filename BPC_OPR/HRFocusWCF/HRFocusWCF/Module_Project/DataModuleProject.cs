@@ -848,4 +848,24 @@ namespace BPC_OPR
 
      }
 
+
+     public class InputMTSize
+     {
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public string size_id { get; set; }
+         [DataMember]
+         public string size_code { get; set; }
+         [DataMember]
+         public string size_name_th { get; set; }
+         [DataMember]
+         public string size_name_en { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+
+     }
+
+
 }
