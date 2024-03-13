@@ -633,5 +633,23 @@ namespace BPC_OPR
 
 
         //
+
+        //-- size
+        [OperationContract(Name = "size_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTSize(BasicRequest req);
+
+        [OperationContract(Name = "size")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTSize(InputMTSize input);
+
+        [OperationContract(Name = "size_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTSize(InputMTSize input);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "/doUploadMTSize?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+        Task<string> doUploadMTSize(string token, string by, string fileName, Stream stream, string com);
+
     }
 }
