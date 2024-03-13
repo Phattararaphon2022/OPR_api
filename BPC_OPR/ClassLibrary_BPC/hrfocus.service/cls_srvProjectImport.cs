@@ -259,6 +259,48 @@ namespace ClassLibrary_BPC.hrfocus.service
 
                         break;
 
+                    case "SIZE":
+
+                        dt = doReadExcel(filename);
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                cls_ctMTSize controller = new cls_ctMTSize();
+                                cls_MTSize model = new cls_MTSize();
+                                if (!com.Equals(dr["company_code"].ToString()))
+                                {
+                                    continue;
+                                }
+                                model.company_code = dr["company_code"].ToString();
+
+                                model.size_code = dr["size_code"].ToString();
+                                model.size_name_th = dr["size_name_th"].ToString();
+                                model.size_name_en = dr["size_name_en"].ToString();
+
+                                model.modified_by = by;
+                                string strID = controller.insert(model);
+
+                                if (!strID.Equals(""))
+                                {
+                                    success++;
+                                }
+                                else
+                                {
+                                    objStr.Append(model.size_code);
+                                }
+                            }
+
+                            strResult = "";
+                            if (success > 0)
+                                strResult += "Success : " + success.ToString();
+
+                            if (objStr.Length > 0)
+                                strResult += " Fail : " + objStr.ToString();
+                        }
+
+                        break;
+
                     case "PROAREA":
 
                         dt = doReadExcel(filename);

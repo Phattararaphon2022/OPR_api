@@ -13099,7 +13099,7 @@ namespace BPC_OPR
                 if (upload)
                 {
                     cls_srvProjectImport srv_import = new cls_srvProjectImport();
-                    string tmp = srv_import.doImportExcel("size", fileName, by, com);
+                    string tmp = srv_import.doImportExcel("SIZE", fileName, by, com);
 
                     if (tmp.Equals(""))
                     {
