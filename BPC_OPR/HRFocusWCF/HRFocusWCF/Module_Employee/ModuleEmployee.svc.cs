@@ -10392,6 +10392,7 @@ namespace BPC_OPR
                         json.Add("projob_code", model.projob_code);
                         json.Add("proequipmenttype_code", model.proequipmenttype_code);
                         json.Add("empuniform_size", model.empuniform_size);
+                        json.Add("item_code", model.item_code);
 
                         json.Add("empuniform_qauntity", model.empuniform_qauntity);
                         json.Add("empuniform_amount", model.empuniform_amount);

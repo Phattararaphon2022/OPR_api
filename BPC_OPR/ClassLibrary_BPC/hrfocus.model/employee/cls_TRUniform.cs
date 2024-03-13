@@ -27,6 +27,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string proequipmenttype_code { get; set; }
         public string empuniform_size { get; set; }
 
+        public string item_code { get; set; }
 
         
         public string empuniform_by { get; set; }
