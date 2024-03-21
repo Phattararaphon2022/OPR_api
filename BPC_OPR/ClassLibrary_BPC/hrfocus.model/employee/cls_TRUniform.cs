@@ -25,6 +25,11 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string project_code { get; set; }
         public string projob_code { get; set; }
         public string proequipmenttype_code { get; set; }
+        public string empuniform_size { get; set; }
+
+        public string item_code { get; set; }
+
+        
         public string empuniform_by { get; set; }
         public double empuniform_payperiod { get; set; }
         public double empuniform_payamount { get; set; }

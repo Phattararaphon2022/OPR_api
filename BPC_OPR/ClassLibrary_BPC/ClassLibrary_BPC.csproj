@@ -112,6 +112,7 @@
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRReferralrate.cs" />
     <Compile Include="hrfocus.controller\Payroll\date.cs" />
     <Compile Include="hrfocus.controller\Payroll\cls_ctTRPayreduce.cs" />
+    <Compile Include="hrfocus.controller\Project\cls_ctMTSize.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProequipmenttype.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProgroup.cs" />
     <Compile Include="hrfocus.controller\Project\cls_ctMTProarea.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="hrfocus.model\Payroll\cls_TRPlanreduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRPolReduce.cs" />
     <Compile Include="hrfocus.model\Payroll\cls_TRReferralrate.cs" />
+    <Compile Include="hrfocus.model\Project\cls_MTSize.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProequipmenttype.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProgroup.cs" />
     <Compile Include="hrfocus.model\Project\cls_MTProarea.cs" />

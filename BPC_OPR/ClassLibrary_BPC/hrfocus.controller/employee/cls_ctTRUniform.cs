@@ -41,6 +41,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_CODE");
                 obj_str.Append(", PROJOB_CODE");
                 obj_str.Append(", PROEQUIPMENTTYPE_CODE");
+                obj_str.Append(", EMPUNIFORM_SIZE");
+                obj_str.Append(", ITEM_CODE");
+
+                
 
                 obj_str.Append(", EMPUNIFORM_QUANTITY");
                 obj_str.Append(", EMPUNIFORM_AMOUNT");
@@ -79,7 +83,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.project_code = dr["PROJECT_CODE"].ToString();
                     model.projob_code = dr["PROJOB_CODE"].ToString();
                     model.proequipmenttype_code = dr["PROEQUIPMENTTYPE_CODE"].ToString();
+                    model.empuniform_size = dr["EMPUNIFORM_SIZE"].ToString();
 
+                     model.item_code = dr["ITEM_CODE"].ToString();
+
+                    
                     model.empuniform_qauntity = Convert.ToDouble(dr["EMPUNIFORM_QUANTITY"]);
                     model.empuniform_amount = Convert.ToDouble(dr["EMPUNIFORM_AMOUNT"]);
                     model.empuniform_total = Convert.ToDouble(dr["EMPUNIFORM_TOTAL"]);
@@ -228,7 +236,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_CODE ");
                 obj_str.Append(", PROJOB_CODE ");
                 obj_str.Append(", PROEQUIPMENTTYPE_CODE ");
+                obj_str.Append(", EMPUNIFORM_SIZE ");
+                obj_str.Append(", ITEM_CODE ");
 
+                
                 obj_str.Append(", EMPUNIFORM_QUANTITY ");
                 obj_str.Append(", EMPUNIFORM_AMOUNT ");
                 obj_str.Append(", EMPUNIFORM_TOTAL ");
@@ -255,7 +266,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", @PROJECT_CODE ");
                 obj_str.Append(", @PROJOB_CODE ");
                 obj_str.Append(", @PROEQUIPMENTTYPE_CODE ");
+                obj_str.Append(", @EMPUNIFORM_SIZE ");
+                obj_str.Append(", @ITEM_CODE ");
 
+                
                 obj_str.Append(", @EMPUNIFORM_QUANTITY ");
                 obj_str.Append(", @EMPUNIFORM_AMOUNT ");
                 obj_str.Append(", @EMPUNIFORM_TOTAL ");
@@ -289,7 +303,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
                 obj_cmd.Parameters.Add("@PROEQUIPMENTTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROEQUIPMENTTYPE_CODE"].Value = model.proequipmenttype_code;
+                obj_cmd.Parameters.Add("@EMPUNIFORM_SIZE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPUNIFORM_SIZE"].Value = model.empuniform_size;
+                obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
 
+                
                 obj_cmd.Parameters.Add("@EMPUNIFORM_QUANTITY", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_QUANTITY"].Value = model.empuniform_qauntity;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_AMOUNT"].Value = model.empuniform_amount;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_TOTAL", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_TOTAL"].Value = model.empuniform_total;
@@ -335,6 +352,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", PROJECT_CODE=@PROJECT_CODE ");
                 obj_str.Append(", PROJOB_CODE=@PROJOB_CODE ");
                 obj_str.Append(", PROEQUIPMENTTYPE_CODE=@PROEQUIPMENTTYPE_CODE ");
+                obj_str.Append(", EMPUNIFORM_SIZE=@EMPUNIFORM_SIZE ");
+
+                obj_str.Append(", ITEM_CODE=@ITEM_CODE ");
 
                 obj_str.Append(", EMPUNIFORM_QUANTITY=@EMPUNIFORM_QUANTITY ");
                 obj_str.Append(", EMPUNIFORM_AMOUNT=@EMPUNIFORM_AMOUNT ");
@@ -364,7 +384,10 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_cmd.Parameters.Add("@PROJECT_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJECT_CODE"].Value = model.project_code;
                 obj_cmd.Parameters.Add("@PROJOB_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROJOB_CODE"].Value = model.projob_code;
                 obj_cmd.Parameters.Add("@PROEQUIPMENTTYPE_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROEQUIPMENTTYPE_CODE"].Value = model.proequipmenttype_code;
+                obj_cmd.Parameters.Add("@EMPUNIFORM_SIZE", SqlDbType.VarChar); obj_cmd.Parameters["@EMPUNIFORM_SIZE"].Value = model.empuniform_size;
+                obj_cmd.Parameters.Add("@ITEM_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@ITEM_CODE"].Value = model.item_code;
 
+                
                 obj_cmd.Parameters.Add("@EMPUNIFORM_QUANTITY", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_QUANTITY"].Value = model.empuniform_qauntity;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_AMOUNT", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_AMOUNT"].Value = model.empuniform_amount;
                 obj_cmd.Parameters.Add("@EMPUNIFORM_TOTAL", SqlDbType.Decimal); obj_cmd.Parameters["@EMPUNIFORM_TOTAL"].Value = model.empuniform_total;
