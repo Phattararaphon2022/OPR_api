@@ -848,4 +848,45 @@ namespace BPC_OPR
 
      }
 
+     [DataContract]
+     public class InputMTReportjob
+     {
+         [DataMember]
+         public string device_name { get; set; }
+         [DataMember]
+         public string ip { get; set; }
+         [DataMember]
+         public string username { get; set; }
+         [DataMember]
+         public string company_code { get; set; }
+         [DataMember]
+         public int reportjob_id { get; set; }
+         [DataMember]
+         public string reportjob_ref { get; set; }
+         [DataMember]
+         public string reportjob_type { get; set; }
+         [DataMember]
+         public string reportjob_status { get; set; }
+         [DataMember]
+         public string reportjob_language { get; set; }
+         [DataMember]
+         public string reportjob_fromdate { get; set; }
+         [DataMember]
+         public string reportjob_todate { get; set; }
+         [DataMember]
+         public string reportjob_paydate { get; set; }
+         [DataMember]
+         public string reportjob_whose { get; set; }
+         [DataMember]
+         public string reportjob_note { get; set; }
+         [DataMember]
+         public string created_by { get; set; }
+         [DataMember]
+         public string modified_by { get; set; }
+
+         [DataMember]
+         public string reportjob_section { get; set; }
+
+     }
+
 }
