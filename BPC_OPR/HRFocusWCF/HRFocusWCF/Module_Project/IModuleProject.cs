@@ -668,27 +668,27 @@ namespace BPC_OPR
         Task<string> doUploadMTSize(string token, string by, string fileName, Stream stream, string com);
 
 
-    #region Prowithdraw
-        [OperationContract(Name = "prowithdraw_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getTRProwithdrawList(InputTRProwithdraw input);
+//     #region Prowithdraw
+//         [OperationContract(Name = "prowithdraw_list")]
+//         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+//         string getTRProwithdrawList(InputTRProwithdraw input);
 
-        [OperationContract(Name = "Prowithdraw")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doManageTRProwithdraw(InputTRProwithdraw input);
+//         [OperationContract(Name = "Prowithdraw")]
+//         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+//         string doManageTRProwithdraw(InputTRProwithdraw input);
 
-        [OperationContract(Name = "Prowithdraw_del")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string doDeleteTRProwithdraw(InputTRProwithdraw input);
+//         [OperationContract(Name = "Prowithdraw_del")]
+//         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+//         string doDeleteTRProwithdraw(InputTRProwithdraw input);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", UriTemplate = "/doUploadProwithdraw?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
-        Task<string> doUploadTRProwithdraw(string token, string by, string fileName, Stream stream, string com);
+//         [OperationContract]
+//         [WebInvoke(Method = "POST", UriTemplate = "/doUploadProwithdraw?fileName={fileName}&token={token}&by={by}&com={com}", ResponseFormat = WebMessageFormat.Json)]
+//         Task<string> doUploadTRProwithdraw(string token, string by, string fileName, Stream stream, string com);
 
-        //
-        [OperationContract(Name = "projobversionwithdraw_list")]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        string getMTProjobversionwithdrawList(FillterProject req);
-        //
-        #endregion
+//         //
+//         [OperationContract(Name = "projobversionwithdraw_list")]
+//         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+//         string getMTProjobversionwithdrawList(FillterProject req);
+//         //
+//         #endregion
 }}
