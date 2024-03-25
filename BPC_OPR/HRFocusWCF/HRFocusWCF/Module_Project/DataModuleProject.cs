@@ -95,6 +95,11 @@ namespace BPC_OPR
         public string procost_type { get; set; }
         [DataMember]
         public bool procost_auto { get; set; }
+
+        [DataMember]
+        public bool procost_regular { get; set; }
+
+
         [DataMember]
         public string procost_itemcode { get; set; }
         [DataMember]

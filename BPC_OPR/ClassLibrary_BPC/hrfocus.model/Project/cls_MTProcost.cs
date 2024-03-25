@@ -16,7 +16,9 @@ namespace ClassLibrary_BPC.hrfocus.model
 
         public string procost_type { get; set; }
         public bool procost_auto { get; set; }
-        public string procost_itemcode { get; set; }
+        public bool procost_regular { get; set; }
+
+         public string procost_itemcode { get; set; }
         public string company_code { get; set; }   
 
         public string modified_by { get; set; }

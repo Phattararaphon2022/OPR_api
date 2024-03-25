@@ -41,7 +41,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", ISNULL(PROCOST_TYPE, '') AS PROCOST_TYPE");
                 obj_str.Append(", ISNULL(PROCOST_AUTO, '0') AS PROCOST_AUTO");
-                obj_str.Append(", ISNULL(PROCOST_ITEMCODE, '') AS PROCOST_ITEMCODE");
+                obj_str.Append(", ISNULL(PROCOST_REGULAR, '0') AS PROCOST_REGULAR");
+
+                 obj_str.Append(", ISNULL(PROCOST_ITEMCODE, '') AS PROCOST_ITEMCODE");
                 obj_str.Append(", COMPANY_CODE");
 
                 obj_str.Append(", ISNULL(MODIFIED_BY, CREATED_BY) AS MODIFIED_BY");
@@ -70,6 +72,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                     model.procost_type = dr["PROCOST_TYPE"].ToString();
                     model.procost_auto = Convert.ToBoolean(dr["PROCOST_AUTO"]);
+                    model.procost_regular = Convert.ToBoolean(dr["PROCOST_REGULAR"]);
+
+                    
                     model.procost_itemcode = dr["PROCOST_ITEMCODE"].ToString();
                     model.company_code = dr["COMPANY_CODE"].ToString();
 
@@ -202,6 +207,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", PROCOST_TYPE ");
                 obj_str.Append(", PROCOST_AUTO ");
+                obj_str.Append(", PROCOST_REGULAR ");
+
+                
                 obj_str.Append(", PROCOST_ITEMCODE ");
                 obj_str.Append(", COMPANY_CODE ");
 
@@ -218,6 +226,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", @PROCOST_TYPE ");
                 obj_str.Append(", @PROCOST_AUTO ");
+                obj_str.Append(", @PROCOST_REGULAR ");
+
+                
                 obj_str.Append(", @PROCOST_ITEMCODE ");
                 obj_str.Append(", @COMPANY_CODE ");
 
@@ -239,6 +250,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROCOST_TYPE", SqlDbType.Char); obj_cmd.Parameters["@PROCOST_TYPE"].Value = model.procost_type;
                 obj_cmd.Parameters.Add("@PROCOST_AUTO", SqlDbType.Bit); obj_cmd.Parameters["@PROCOST_AUTO"].Value = model.procost_auto;
+                obj_cmd.Parameters.Add("@PROCOST_REGULAR", SqlDbType.Bit); obj_cmd.Parameters["@PROCOST_REGULAR"].Value = model.procost_regular;
+
+                
                 obj_cmd.Parameters.Add("@PROCOST_ITEMCODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROCOST_ITEMCODE"].Value = model.procost_itemcode;
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 
@@ -272,6 +286,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_str.Append(", PROCOST_TYPE=@PROCOST_TYPE ");
                 obj_str.Append(", PROCOST_AUTO=@PROCOST_AUTO ");
+                obj_str.Append(", PROCOST_REGULAR=@PROCOST_REGULAR ");
+
+                
                 obj_str.Append(", PROCOST_ITEMCODE=@PROCOST_ITEMCODE ");
                 obj_str.Append(", COMPANY_CODE=@COMPANY_CODE ");
 
@@ -288,6 +305,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
                 obj_cmd.Parameters.Add("@PROCOST_TYPE", SqlDbType.Char); obj_cmd.Parameters["@PROCOST_TYPE"].Value = model.procost_type;
                 obj_cmd.Parameters.Add("@PROCOST_AUTO", SqlDbType.Bit); obj_cmd.Parameters["@PROCOST_AUTO"].Value = model.procost_auto;
+                obj_cmd.Parameters.Add("@PROCOST_REGULAR", SqlDbType.Bit); obj_cmd.Parameters["@PROCOST_REGULAR"].Value = model.procost_regular;
+
+                
                 obj_cmd.Parameters.Add("@PROCOST_ITEMCODE", SqlDbType.VarChar); obj_cmd.Parameters["@PROCOST_ITEMCODE"].Value = model.procost_itemcode;
                 obj_cmd.Parameters.Add("@COMPANY_CODE", SqlDbType.VarChar); obj_cmd.Parameters["@COMPANY_CODE"].Value = model.company_code;
 

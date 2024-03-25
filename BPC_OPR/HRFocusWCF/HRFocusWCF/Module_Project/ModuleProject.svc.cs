@@ -1402,6 +1402,9 @@ namespace BPC_OPR
 
                         json.Add("procost_type", model.procost_type);
                         json.Add("procost_auto", model.procost_auto);
+                        json.Add("procost_regular", model.procost_regular);
+
+                        
                         json.Add("procost_itemcode", model.procost_itemcode);
                         json.Add("company_code", model.company_code);
                         
@@ -1483,6 +1486,9 @@ namespace BPC_OPR
 
                 model.procost_type = input.procost_type;
                 model.procost_auto = input.procost_auto;
+                model.procost_regular = input.procost_regular;
+
+                
                 model.procost_itemcode = input.procost_itemcode;
                 model.company_code = input.company_code;
 
@@ -13140,6 +13146,575 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+        #endregion
+
+        //g 21/03/2024
+        #region  MTProwithdraw
+       public string getTRProwithdrawList(InputTRProwithdraw input)
+         {
+            JObject output = new JObject();
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO033.1";
+            log.apilog_by = input.username;
+            log.apilog_data = "all";
+            try
+            {
+
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+ 
+
+
+                cls_ctTRProwithdraw objTRProwithdraw = new cls_ctTRProwithdraw();
+                List<cls_TRProwithdraw> listProwithdraw = objTRProwithdraw.getDataByFillter(input.prowithdraw_id, input.company_code, input.worker_code, input.project_code, input.projob_type, input.projob_code);
+
+                JArray array = new JArray();
+
+                if (listProwithdraw.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_TRProwithdraw model in listProwithdraw)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("comapny_code", model.company_code);
+
+                        json.Add("prowithdraw_id", model.prowithdraw_id);
+                        json.Add("worker_code", model.worker_code);
+                        json.Add("project_code", model.project_code);
+                        json.Add("projob_type", model.projob_type);
+                        json.Add("projob_code", model.projob_code);
+                         json.Add("prowithdraw_workdate", model.prowithdraw_workdate.ToString("yyyy-MM-ddTHH:mm:ss"));
+
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("flag", model.flag);
+
+                        //
+ 
+ 
+                        //json.Add("index", index);
+                        array.Add(json);
+
+                
+
+
+                        cls_ctTRProwithdrawcost objTRProwithdrawcost = new cls_ctTRProwithdrawcost();
+                        List<cls_TRProwithdrawcost> listTRProwithdrawcost = objTRProwithdrawcost.getDataByFillter(model.project_code, model.prowithdraw_id.ToString());
+                        JArray arrayProvidentrate = new JArray();
+
+                        if (listTRProwithdrawcost.Count > 0)
+                        {
+                            int indexTRProwithdrawcost = 1;
+
+                            foreach (cls_TRProwithdrawcost modelTRProwithdrawcost in listTRProwithdrawcost)
+                            {
+                                JObject jsonTRProwithdrawcost = new JObject();
+
+                                jsonTRProwithdrawcost.Add("prowithdraw_id", model.prowithdraw_id);
+                                jsonTRProwithdrawcost.Add("procost_code", modelTRProwithdrawcost.procost_code);
+                                jsonTRProwithdrawcost.Add("prowithdrawcost_amount", modelTRProwithdrawcost.prowithdrawcost_amount);
+
+                                jsonTRProwithdrawcost.Add("index", indexTRProwithdrawcost);
+
+
+                                //
+
+
+
+                                jsonTRProwithdrawcost.Add("index", indexTRProwithdrawcost);
+                                indexTRProwithdrawcost++;
+
+                                arrayProvidentrate.Add(jsonTRProwithdrawcost);
+                            }
+                            json.Add("TRProwithdrawcost_data", arrayProvidentrate);
+                        }
+                        else
+                        {
+                            json.Add("TRProwithdrawcost_data", arrayProvidentrate);
+                        }
+                        json.Add("index", index);
+
+                        index++;
+
+                        //array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["result"] = "0";
+                    output["result_text"] = "Data not Found";
+                    output["data"] = array;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return output.ToString(Formatting.None);
+        }
+
+
+
+        //public string getTRProwithdrawList(InputTRProwithdraw input)
+        //{
+        //    JObject output = new JObject();
+        //    cls_SYSApilog log = new cls_SYSApilog();
+        //    log.apilog_code = "PRO033.1";
+        //    log.apilog_by = input.username;
+        //    log.apilog_data = "all";
+        //    try
+        //    {
+        //        //DateTime fromdate = Convert.ToDateTime(req.fromdate);
+        //        //DateTime todate = Convert.ToDateTime(req.todate);
+        //        var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+        //        if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+        //        {
+        //            output["success"] = false;
+        //            output["message"] = BpcOpr.MessageNotAuthen;
+
+        //            log.apilog_status = "500";
+        //            log.apilog_message = BpcOpr.MessageNotAuthen;
+        //            objBpcOpr.doRecordLog(log);
+
+        //            return output.ToString(Formatting.None);
+        //        }
+
+
+        //        cls_ctTRProwithdraw objTRProwithdraw = new cls_ctTRProwithdraw();
+        //        List<cls_TRProwithdraw> listProwithdraw  = objTRProwithdraw.getDataByFillter(input.prowithdraw_id, input.company_code, input.worker_code, input.project_code, input.projob_type, input.projob_code);
+        //        JArray array = new JArray();
+
+        //        if (listProwithdraw.Count > 0)
+        //        {
+        //            int index = 1;
+
+        //            foreach (cls_TRProwithdraw model in listProwithdraw)
+        //            {
+        //                JObject json = new JObject();
+        //                json.Add("comapny_code", model.company_code);
+
+        //                json.Add("prowithdraw_id", model.prowithdraw_id);
+        //                json.Add("worker_code", model.worker_code);
+        //                json.Add("project_code", model.project_code);
+        //                json.Add("projob_type", model.projob_type);
+        //                json.Add("projob_code", model.projob_code);
+        //                //json.Add("prowithdraw_workdate", model.prowithdraw_workdate);
+        //                json.Add("prowithdraw_workdate", model.prowithdraw_workdate.ToString("yyyy-MM-ddTHH:mm:ss"));
+
+                        
+        //                json.Add("modified_by", model.modified_by);
+        //                json.Add("modified_date", model.modified_date);
+        //                json.Add("flag", model.flag);
+
+
+        //                array.Add(json);
+
+        //                cls_ctTRProwithdrawcost objTRProwithdrawcost = new cls_ctTRProwithdrawcost();
+        //                List<cls_TRProwithdrawcost> listTRProwithdrawcost = objTRProwithdrawcost.getDataByFillter(model.project_code, model.prowithdraw_id.ToString());
+        //                JArray arrayTRProwithdrawcost = new JArray();
+
+        //                if (listTRProwithdrawcost.Count > 0)
+        //                {
+        //                    int indexTRProwithdrawcost = 1;
+
+        //                    foreach (cls_TRProwithdrawcost modelTRProwithdrawcost in listTRProwithdrawcost)
+        //                    {
+        //                        JObject jsonTRProwithdrawcost = new JObject();
+        //                        jsonTRProwithdrawcost.Add("prowithdraw_id", model.prowithdraw_id);
+        //                        jsonTRProwithdrawcost.Add("procost_code", modelTRProwithdrawcost.procost_code);
+        //                        jsonTRProwithdrawcost.Add("prowithdrawcost_amount", modelTRProwithdrawcost.prowithdrawcost_amount);
+
+        //                        jsonTRProwithdrawcost.Add("index", indexTRProwithdrawcost);
+
+        //                        indexTRProwithdrawcost++;
+
+
+
+        //                        arrayTRProwithdrawcost.Add(jsonTRProwithdrawcost);
+        //                    }
+        //                    json.Add("round_data", arrayTRProwithdrawcost);
+        //                }
+        //                else
+        //                {
+        //                    json.Add("round_data", arrayTRProwithdrawcost);
+        //                }
+        //                json.Add("index", index);
+
+        //                index++;
+
+        //                //array.Add(json);
+        //            }
+
+        //            output["result"] = "1";
+        //            output["result_text"] = "1";
+        //            output["data"] = array;
+        //        }
+        //        else
+        //        {
+        //            output["result"] = "0";
+        //            output["result_text"] = "Data not Found";
+        //            output["data"] = array;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex.ToString();
+        //    }
+        //    return output.ToString(Formatting.None);
+        //}
+
+        //
+       public string doManageTRProwithdraw(InputTRProwithdraw input)
+       {
+           JObject output = new JObject();
+           cls_SYSApilog log = new cls_SYSApilog();
+           log.apilog_code = "PRO033.2";
+           log.apilog_by = input.username;
+           log.apilog_data = "all";
+           try
+           {
+
+               var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+               if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+               {
+                   output["success"] = false;
+                   output["message"] = BpcOpr.MessageNotAuthen;
+
+                   log.apilog_status = "500";
+                   log.apilog_message = BpcOpr.MessageNotAuthen;
+                   objBpcOpr.doRecordLog(log);
+
+                   return output.ToString(Formatting.None);
+               }
+               
+
+               cls_ctTRProwithdraw objProwithdraw = new cls_ctTRProwithdraw();
+               cls_TRProwithdraw model = new cls_TRProwithdraw();
+
+               model.company_code = input.company_code;
+               model.prowithdraw_id = input.prowithdraw_id.Equals("") ? 0 : Convert.ToInt32(input.prowithdraw_id);
+               model.worker_code = input.worker_code;
+               model.project_code = input.project_code;
+               model.projob_type = input.projob_type;
+               model.projob_code = input.projob_code;
+               model.prowithdraw_workdate = input.prowithdraw_workdate;
+               model.modified_by = input.modified_by;
+               model.flag = model.flag;
+
+
+
+
+
+               bool strID = objProwithdraw.insert(model);
+               if (!strID.Equals(""))
+               {
+                   try
+                   {
+                       cls_ctTRProwithdrawcost objTRProwithdrawcost = new cls_ctTRProwithdrawcost();
+                       objTRProwithdrawcost.delete(input.company_code, input.prowithdraw_id.ToString());
+ 
+                       if (input.TRProwithdrawcost_data.Count > 0)
+                       {
+                           objTRProwithdrawcost.insert(input.TRProwithdrawcost_data);
+                       }
+
+                   }
+                   catch (Exception ex)
+                   {
+                       string str = ex.ToString();
+                   }
+                   output["success"] = true;
+                   output["message"] = "Retrieved data successfully";
+                   output["provident_id"] = strID;
+
+                   log.apilog_status = "200";
+                   log.apilog_message = "";
+               }
+               else
+               {
+                   output["success"] = false;
+                   output["message"] = "Retrieved data not successfully";
+
+                   log.apilog_status = "500";
+                   log.apilog_message = objProwithdraw.getMessage();
+               }
+
+               objProwithdraw.dispose();
+           }
+           catch (Exception ex)
+           {
+               output["result"] = "0";
+               output["result_text"] = ex.ToString();
+
+           }
+
+           return output.ToString(Formatting.None);
+
+       }
+        //
+        
+        public string doDeleteTRProwithdraw(InputTRProwithdraw input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO033.3";
+            log.apilog_by = input.username;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctTRProwithdraw controller = new cls_ctTRProwithdraw();
+
+                bool blnResult = controller.delete(input.prowithdraw_id.ToString(), input.company_code);
+
+                if (blnResult)
+                {
+                    cls_ctTRProwithdrawcost objTRProwithdrawcost = new cls_ctTRProwithdrawcost();
+                    objTRProwithdrawcost.delete("", input.prowithdraw_id.ToString());
+                    output["success"] = true;
+                    output["message"] = "Remove data successfully";
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Remove data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = controller.getMessage();
+                }
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public async Task<string> doUploadTRProwithdraw(string token, string by, string fileName, Stream stream, string com)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO033.4";
+            log.apilog_by = by;
+            log.apilog_data = "Stream";
+
+            try
+            {
+                if (!objBpcOpr.doVerify(token))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+
+                bool upload = await this.doUploadFile(fileName, stream);
+
+                if (upload)
+                {
+                    cls_srvSystemImport srv_import = new cls_srvSystemImport();
+                    string tmp = srv_import.doImportExcel("PROWITHDRAW", fileName, by, com);
+
+                    if (tmp.Equals(""))
+                    {
+                        output["success"] = false;
+                        output["message"] = "company incorrect";
+                    }
+                    else
+                    {
+                        output["success"] = true;
+                        output["message"] = tmp;
+                    }
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Upload data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = "Upload data not successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Upload data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+
+        //getMTProjobversionList
+       
+        public string getMTProjobversionwithdrawList(FillterProject req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO022.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTProjobversion controller = new cls_ctMTProjobversion();
+                List<cls_MTProjobversion> list = new List<cls_MTProjobversion>();
+
+                if (!req.fromdate.Equals(""))
+                {
+                    cls_MTProjobversion proversion = controller.getDataCurrentwithdraw(req.project_code, Convert.ToDateTime(req.fromdate), Convert.ToDateTime(req.todate));
+
+                    if (proversion != null)
+                        list.Add(proversion);
+
+                }
+                else
+                {
+                    list = controller.getDataByFillter(req.project_code);
+                }
+
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    int index = 1;
+
+                    foreach (cls_MTProjobversion model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("projobversion_id", model.projobversion_id);
+                        json.Add("transaction_id", model.transaction_id);
+                        json.Add("version", model.version);
+                        json.Add("fromdate", model.fromdate);
+                        json.Add("todate", model.todate);
+                        json.Add("transaction_data", model.transaction_data);
+                        json.Add("transaction_old", model.transaction_old);
+                        json.Add("refso", model.refso);
+                        json.Add("custno", model.custno);
+                        json.Add("refappcostid", model.refappcostid);
+                        json.Add("currency", model.currency);
+                        json.Add("project_code", model.project_code);
+
+                        json.Add("modified_by", model.modified_by);
+                        json.Add("modified_date", model.modified_date);
+                        json.Add("index", index++);
+                        array.Add(json);
+                    }
+
+                    output["success"] = true;
+                    output["message"] = "";
+                    output["data"] = array;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        //
         #endregion
     }
 }

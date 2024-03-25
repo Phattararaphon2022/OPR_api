@@ -364,6 +364,7 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.procost_itemcode = dr["procost_itemcode"].ToString();
 
                                 model.procost_auto = dr["procost_auto"].ToString().Equals("1") ? true : false;
+                                model.procost_regular = dr["procost_regular"].ToString().Equals("1") ? true : false;
 
 
                                 model.procost_itemcode = dr["procost_itemcode"].ToString();

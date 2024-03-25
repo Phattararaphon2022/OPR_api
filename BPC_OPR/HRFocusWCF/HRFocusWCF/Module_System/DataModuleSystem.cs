@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 using ClassLibrary_BPC.hrfocus.model;
+using ClassLibrary_BPC.hrfocus.model.Project;
 namespace BPC_OPR
 {
     public class DataModuleSystem
@@ -1235,6 +1236,43 @@ namespace BPC_OPR
         public string fromdate { get; set; }
         [DataMember]
         public string todate { get; set; }
+    }
+
+    [DataContract]
+    public class InputTRProwithdraw
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string prowithdraw_id { get; set; }
+        [DataMember]
+        public DateTime prowithdraw_workdate { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string project_code { get; set; }
+        [DataMember]
+        public string projob_type { get; set; }
+        [DataMember]
+        public string projob_code { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+ 
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public int index { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+
+        [DataMember]
+        public List<cls_TRProwithdrawcost> TRProwithdrawcost_data { get; set; }
     }
 }
 

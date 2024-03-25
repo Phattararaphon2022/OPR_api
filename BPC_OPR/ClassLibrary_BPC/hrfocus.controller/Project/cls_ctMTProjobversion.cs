@@ -141,6 +141,20 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 return null;
         }
 
+        public cls_MTProjobversion getDataCurrentwithdraw(string project, DateTime date, DateTime todate)
+        {
+            string strCondition = " AND PROJECT_CODE='" + project + "'";
+
+            strCondition += " AND ( '" + date.ToString("MM/dd/yyyy") + "' BETWEEN '" + date.ToString("MM/dd/yyyy") + "' AND '" + todate.ToString("MM/dd/yyyy") + "')";
+
+            List<cls_MTProjobversion> list_model = this.getData(strCondition);
+
+            if (list_model.Count > 0)
+                return list_model[0];
+            else
+                return null;
+        }
+
 
         public cls_MTProjobversion getDataTransaction(string id)
         {
