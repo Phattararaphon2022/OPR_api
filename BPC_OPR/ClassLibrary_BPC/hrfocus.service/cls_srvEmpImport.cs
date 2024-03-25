@@ -1556,7 +1556,9 @@ namespace ClassLibrary_BPC.hrfocus.service
                                 model.worker_code = dr["worker_code"].ToString();
 
                                 model.empsuggest_code = dr["empsuggest_code"].ToString();
-                                model.empsuggest_amount = Convert.ToDouble(dr["empsuggest_amount"]);
+                                model.empsuggest_suggest = dr["empsuggest_suggest"].ToString();
+                                model.empsuggest_date = Convert.ToDateTime(dr["empsuggest_date"]);
+
                                 model.empsuggest_note = dr["empsuggest_note"].ToString();
 
 

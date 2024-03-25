@@ -633,6 +633,22 @@ namespace BPC_OPR
 
 
         //
+        //Report
+        [OperationContract(Name = "report_list")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getMTReportjobList(BasicRequest req);
+
+        [OperationContract(Name = "report_whose")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string getTRReportjobWhoseList(InputMTReportjob req);
+
+        [OperationContract(Name = "report")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doManageMTReportjob(InputMTReportjob input);
+
+        [OperationContract(Name = "report_del")]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        string doDeleteMTReportjob(InputMTReportjob input);
 
         //-- size
         [OperationContract(Name = "size_list")]

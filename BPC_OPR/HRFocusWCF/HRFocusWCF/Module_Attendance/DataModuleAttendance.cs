@@ -86,7 +86,7 @@ namespace BPC_OPR
         public bool flag { get; set; }
 
     }
-#endregion
+    #endregion
 
     #region InputMTShift
     [DataContract]
@@ -276,7 +276,7 @@ namespace BPC_OPR
         public bool flag { get; set; }
 
     }
-#endregion
+    #endregion
 
     #region InputTRLeave
     [DataContract]
@@ -344,7 +344,7 @@ namespace BPC_OPR
         [DataMember]
         public bool flag { get; set; }
     }
-#endregion
+    #endregion
 
     #region InputMTRateot
 
@@ -377,7 +377,7 @@ namespace BPC_OPR
         [DataMember]
         public bool flag { get; set; }
     }
-     #endregion
+    #endregion
 
     #region InputMTDiligence
 
@@ -591,9 +591,9 @@ namespace BPC_OPR
         public string fromdate { get; set; }
         [DataMember]
         public string todate { get; set; }
-         [DataMember]
+        [DataMember]
         public string lostwages_cardno { get; set; }
-        
+
     }
     #endregion
     #region FillterALostwagesApprove
@@ -637,7 +637,7 @@ namespace BPC_OPR
         [DataMember]
         public string username { get; set; }
         [DataMember]
-        public string company_code { get; set; }        
+        public string company_code { get; set; }
         [DataMember]
         public string worker_code { get; set; }
         [DataMember]
@@ -646,7 +646,7 @@ namespace BPC_OPR
         public string projob_code { get; set; }
         [DataMember]
         public string projobsub_code { get; set; }
-        
+
         [DataMember]
         public string shift_code { get; set; }
         [DataMember]
@@ -800,7 +800,7 @@ namespace BPC_OPR
 
     #endregion
 
- 
+
     #region InputTRLostwages
     [DataContract]
     public class InputTRLostwages
@@ -822,9 +822,9 @@ namespace BPC_OPR
         //
         [DataMember]
         public string lostwages_status { get; set; }
-          [DataMember]
+        [DataMember]
         public string lostwages_type { get; set; }
-        
+
         [DataMember]
         public string lostwages_salary { get; set; }
         [DataMember]
@@ -847,7 +847,7 @@ namespace BPC_OPR
         public string lostwages_laname_th { get; set; }
         [DataMember]
         public string worker_cardno { get; set; }
-        
+
         //
 
         [DataMember]
@@ -933,7 +933,6 @@ namespace BPC_OPR
         public string todate { get; set; }
     }
     #endregion
-
 
     #region InputTRATTTimeleave
     [DataContract]
@@ -1068,7 +1067,7 @@ namespace BPC_OPR
         public DateTime modified_date { get; set; }
         [DataMember]
         public int index { get; set; }
-  
+
         public string username { get; set; }
         [DataMember]
         public string language { get; set; }
@@ -1199,7 +1198,96 @@ namespace BPC_OPR
         public bool flag { get; set; }
         [DataMember]
         public string timecheckin_data { get; set; }
- 
+    }
+    #endregion
+
+    #region InputTRAttTimeshift
+    [DataContract]
+    public class InputTRAttTimeshift
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public string worker_name { get; set; }
+        [DataMember]
+        public int timeshift_id { get; set; }
+        [DataMember]
+        public string timeshift_doc { get; set; }
+        [DataMember]
+        public string timeshift_workdate { get; set; }
+        [DataMember]
+        public string timeshift_old { get; set; }
+        [DataMember]
+        public string timeshift_new { get; set; }
+        [DataMember]
+        public string timeshift_note { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public int status { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public string timeshift_fromdate { get; set; }
+        [DataMember]
+        public string timeshift_todate { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timeshift_data { get; set; }
+    }
+    #endregion
+
+    #region InputTRAttTimedaytype
+    [DataContract]
+    public class InputTRAttTimedaytype
+    {
+        [DataMember]
+        public string device_name { get; set; }
+        [DataMember]
+        public string ip { get; set; }
+        [DataMember]
+        public string username { get; set; }
+        [DataMember]
+        public string company_code { get; set; }
+        [DataMember]
+        public string worker_code { get; set; }
+        [DataMember]
+        public int timedaytype_id { get; set; }
+        [DataMember]
+        public string timedaytype_doc { get; set; }
+        [DataMember]
+        public string timedaytype_workdate { get; set; }
+        [DataMember]
+        public string timedaytype_todate { get; set; }
+        [DataMember]
+        public string timedaytype_old { get; set; }
+        [DataMember]
+        public string timedaytype_new { get; set; }
+        [DataMember]
+        public string timedaytype_note { get; set; }
+        [DataMember]
+        public string reason_code { get; set; }
+        [DataMember]
+        public int status { get; set; }
+        [DataMember]
+        public string modified_by { get; set; }
+        [DataMember]
+        public DateTime modified_date { get; set; }
+        [DataMember]
+        public bool flag { get; set; }
+        [DataMember]
+        public string timedaytype_data { get; set; }
     }
     #endregion
 }

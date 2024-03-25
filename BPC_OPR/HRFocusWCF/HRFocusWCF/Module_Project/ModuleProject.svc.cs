@@ -12835,12 +12835,10 @@ namespace BPC_OPR
         }
         #endregion
 
-
         #region  MTSize
         public string getMTSize(BasicRequest req)
         {
             JObject output = new JObject();
-
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PRO032.1";
             log.apilog_by = req.username;
@@ -12860,7 +12858,6 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-
                 cls_ctMTSize controller = new cls_ctMTSize();
                 List<cls_MTSize> list = controller.getDataByFillter(req.company_code, "");
                 JArray array = new JArray();
@@ -12868,7 +12865,6 @@ namespace BPC_OPR
                 if (list.Count > 0)
                 {
                     int index = 1;
-
                     foreach (cls_MTSize model in list)
                     {
                         JObject json = new JObject();
@@ -12918,14 +12914,12 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+
         public string doManageMTSize(InputMTSize input)
         {
             JObject output = new JObject();
-
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-
-
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PRO032.2";
             log.apilog_by = input.modified_by;
@@ -12945,7 +12939,6 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-
                 cls_ctMTSize controller = new cls_ctMTSize();
                 cls_MTSize model = new cls_MTSize();
                 model.company_code = input.company_code;
@@ -12963,7 +12956,6 @@ namespace BPC_OPR
                     output["success"] = true;
                     output["message"] = "Retrieved data successfully";
                     output["record_id"] = strID;
-
                     log.apilog_status = "200";
                     log.apilog_message = "";
                 }
@@ -12977,8 +12969,7 @@ namespace BPC_OPR
                 }
 
                 controller.dispose();
-
-            }
+                }
             catch (Exception ex)
             {
                 output["success"] = false;
@@ -12999,10 +12990,8 @@ namespace BPC_OPR
         public string doDeleteMTSize(InputMTSize input)
         {
             JObject output = new JObject();
-
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
-
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PRO032.3";
             log.apilog_by = input.modified_by;
@@ -13021,7 +13010,6 @@ namespace BPC_OPR
 
                     return output.ToString(Formatting.None);
                 }
-
                 cls_ctMTSize controller = new cls_ctMTSize();
 
                 if (controller.checkDataOld(input.size_code, input.company_code))
@@ -13057,7 +13045,7 @@ namespace BPC_OPR
                 }
 
                 controller.dispose();
-            }
+                }
             catch (Exception ex)
             {
                 output["success"] = false;
@@ -13148,6 +13136,7 @@ namespace BPC_OPR
         }
         #endregion
 
+<<<<<<< HEAD
         //g 21/03/2024
         #region  MTProwithdraw
        public string getTRProwithdrawList(InputTRProwithdraw input)
@@ -13539,10 +13528,15 @@ namespace BPC_OPR
 
         }
         public async Task<string> doUploadTRProwithdraw(string token, string by, string fileName, Stream stream, string com)
+=======
+        #region Report
+        public string getMTReportjobList(BasicRequest req)
+>>>>>>> aa74680fce09581169dba4558e18b71105228c98
         {
             JObject output = new JObject();
 
             cls_SYSApilog log = new cls_SYSApilog();
+<<<<<<< HEAD
             log.apilog_code = "PRO033.4";
             log.apilog_by = by;
             log.apilog_data = "Stream";
@@ -13617,6 +13611,9 @@ namespace BPC_OPR
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "PRO022.1";
+=======
+            log.apilog_code = "REP025.1";
+>>>>>>> aa74680fce09581169dba4558e18b71105228c98
             log.apilog_by = req.username;
             log.apilog_data = "all";
 
@@ -13635,6 +13632,7 @@ namespace BPC_OPR
                     return output.ToString(Formatting.None);
                 }
 
+<<<<<<< HEAD
                 cls_ctMTProjobversion controller = new cls_ctMTProjobversion();
                 List<cls_MTProjobversion> list = new List<cls_MTProjobversion>();
 
@@ -13652,12 +13650,17 @@ namespace BPC_OPR
                 }
 
 
+=======
+                cls_ctMTReportjob controller = new cls_ctMTReportjob();
+                List<cls_MTReportjob> list = controller.getDataByFillter(req.company_code, "","","");
+>>>>>>> aa74680fce09581169dba4558e18b71105228c98
                 JArray array = new JArray();
 
                 if (list.Count > 0)
                 {
                     int index = 1;
 
+<<<<<<< HEAD
                     foreach (cls_MTProjobversion model in list)
                     {
                         JObject json = new JObject();
@@ -13676,6 +13679,24 @@ namespace BPC_OPR
 
                         json.Add("modified_by", model.modified_by);
                         json.Add("modified_date", model.modified_date);
+=======
+                    foreach (cls_MTReportjob model in list)
+                    {
+                        JObject json = new JObject();
+                        json.Add("reportjob_id", model.reportjob_id);
+                        json.Add("reportjob_ref", model.reportjob_ref);
+                        json.Add("reportjob_type", model.reportjob_type);
+                        json.Add("reportjob_status", model.reportjob_status);
+                        json.Add("reportjob_fromdate", model.reportjob_fromdate);
+                        json.Add("reportjob_todate", model.reportjob_todate);
+                        json.Add("reportjob_paydate", model.reportjob_paydate);
+
+                        json.Add("reportjob_language", model.reportjob_language);
+                        json.Add("reportjob_note", model.reportjob_note);
+
+                        json.Add("created_by", model.created_by);
+                        json.Add("created_date", model.created_date);
+>>>>>>> aa74680fce09581169dba4558e18b71105228c98
                         json.Add("index", index++);
                         array.Add(json);
                     }
@@ -13714,7 +13735,245 @@ namespace BPC_OPR
 
             return output.ToString(Formatting.None);
         }
+<<<<<<< HEAD
         //
+=======
+        public string getTRReportjobWhoseList(InputMTReportjob req)
+        {
+            JObject output = new JObject();
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "REP025.1";
+            log.apilog_by = req.username;
+            log.apilog_data = "all";
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTReportjob objReportjob = new cls_ctMTReportjob();
+                List<cls_TRReportjobwhose> listReportjob = objReportjob.getDataWhose(req.reportjob_id.ToString());
+                JArray array = new JArray();
+
+                if (listReportjob.Count > 0)
+                {
+
+                    int index = 1;
+
+                    foreach (cls_TRReportjobwhose model in listReportjob)
+                    {
+                        JObject json = new JObject();
+
+                        json.Add("reportjob_id", model.reportjob_id);
+                        json.Add("worker_code", model.worker_code);
+
+                        json.Add("index", index);
+
+                        index++;
+
+                        array.Add(json);
+                    }
+
+                    output["result"] = "1";
+                    output["result_text"] = "1";
+                    output["data"] = array;
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Data not Found";
+                    output["data"] = array;
+
+                    log.apilog_status = "404";
+                    log.apilog_message = "Data not Found";
+                }
+
+                objReportjob.dispose();
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            return output.ToString(Formatting.None);
+        }
+        public string doManageMTReportjob(InputMTReportjob input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "PRO025.2";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTReportjob objReportjob = new cls_ctMTReportjob();
+                cls_MTReportjob model = new cls_MTReportjob();
+
+                model.reportjob_id = input.reportjob_id;
+                model.reportjob_ref = input.reportjob_ref;
+
+                model.reportjob_status = input.reportjob_status;
+                model.reportjob_language = input.reportjob_language;
+                model.reportjob_type = input.reportjob_type;
+
+                model.reportjob_fromdate = Convert.ToDateTime(input.reportjob_fromdate);
+                model.reportjob_todate = Convert.ToDateTime(input.reportjob_todate);
+                model.reportjob_paydate = Convert.ToDateTime(input.reportjob_paydate);
+
+                model.reportjob_note = input.reportjob_note;
+
+                model.company_code = input.company_code;
+                model.created_by = input.modified_by;
+
+                JObject jsonObject = new JObject();
+                var jsonArray = JsonConvert.DeserializeObject<List<cls_TRReportjobwhose>>(input.reportjob_whose);
+
+                List<cls_TRReportjobwhose> listWhose = new List<cls_TRReportjobwhose>();
+
+                foreach (cls_TRReportjobwhose item in jsonArray)
+                {
+                    listWhose.Add(item);
+                }
+
+                string strResult = objReportjob.insert(model, listWhose);
+
+                if (!strResult.Equals(""))
+                {
+                    output["success"] = true;
+                    output["message"] = "Retrieved data successfully";
+                    output["result_text"] = strResult;
+
+                    log.apilog_status = "200";
+                    log.apilog_message = "";
+                }
+                else
+                {
+                    output["success"] = false;
+                    output["message"] = "Retrieved data not successfully";
+
+                    log.apilog_status = "500";
+                    log.apilog_message = objReportjob.getMessage();
+                }
+
+                objReportjob.dispose();
+
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Retrieved data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+        public string doDeleteMTReportjob(InputMTReportjob input)
+        {
+            JObject output = new JObject();
+
+            var json_data = new JavaScriptSerializer().Serialize(input);
+            var tmp = JToken.Parse(json_data);
+
+            cls_SYSApilog log = new cls_SYSApilog();
+            log.apilog_code = "REP025.3";
+            log.apilog_by = input.modified_by;
+            log.apilog_data = tmp.ToString();
+
+            try
+            {
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !objBpcOpr.doVerify(authHeader))
+                {
+                    output["success"] = false;
+                    output["message"] = BpcOpr.MessageNotAuthen;
+                    log.apilog_status = "500";
+                    log.apilog_message = BpcOpr.MessageNotAuthen;
+                    objBpcOpr.doRecordLog(log);
+
+                    return output.ToString(Formatting.None);
+                }
+
+                cls_ctMTReportjob objReportjob = new cls_ctMTReportjob();
+
+                bool blnResult = objReportjob.delete(input.reportjob_id.ToString());
+
+                if (blnResult)
+                {
+                    output["result"] = "1";
+                    output["result_text"] = "0";
+                }
+                else
+                {
+                    output["result"] = "2";
+                    output["result_text"] = objReportjob.getMessage();
+                }
+            }
+            catch (Exception ex)
+            {
+                output["success"] = false;
+                output["message"] = "(C)Remove data not successfully";
+
+                log.apilog_status = "500";
+                log.apilog_message = ex.ToString();
+            }
+            finally
+            {
+                objBpcOpr.doRecordLog(log);
+            }
+
+            output["data"] = tmp;
+
+            return output.ToString(Formatting.None);
+
+        }
+>>>>>>> aa74680fce09581169dba4558e18b71105228c98
         #endregion
     }
 }
