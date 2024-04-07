@@ -282,4 +282,27 @@ namespace BPC_OPR
         public string ModifiedDate { get; set; }
     }
 
+    public class EmpTrUniform
+    {
+        public string CompanyCode { get; set; }
+        public int EmpUniformId { get; set; }
+        public string EmpUniformCode { get; set; }
+        public string ProjectCode { get; set; }
+        public string ProjobCode { get; set; }
+        public string ProequipmenttypeCode { get; set; }
+        public string EmpUniformSize { get; set; }
+        public string ItemCode { get; set; }
+        public double EmpUniformQuantity { get; set; }
+        public double EmpUniformAmount { get; set; }
+        public double EmpUniformTotal { get; set; }
+        public string EmpUniformIssueDate { get; set; }
+        public string EmpUniformNote { get; set; }
+        public string EmpUniformBy { get; set; }
+        public double EmpUniformPayPeriod { get; set; }
+        public double EmpUniformPayAmount { get; set; }
+        public string EmpUniformPeriod { get; set; }
+        public string ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
+    }
+
 }

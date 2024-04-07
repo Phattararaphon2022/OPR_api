@@ -26,7 +26,7 @@
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -59,14 +59,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -105,14 +105,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -145,7 +145,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -180,7 +180,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -220,14 +220,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -266,14 +266,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -294,7 +294,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -329,7 +329,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -369,14 +369,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -415,14 +415,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -457,7 +457,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -499,7 +499,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -539,14 +539,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -585,14 +585,14 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -620,7 +620,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -655,7 +655,7 @@
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -688,21 +688,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ProEquipmentReq"
+                                "$ref": "#/components/schemas/EmployeeUniform"
                             }
                         }
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -734,21 +734,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/ProEquipmentReq"
+                                "$ref": "#/components/schemas/EmployeeUniform"
                             }
                         }
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "content": {
-                            "application/json": {}
+                            "application/json": { }
                         }
                     }
                 }
@@ -760,30 +760,23 @@
                 "summary": "Get HR APIHRUniformSummary",
                 "parameters": [
                     {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "OPR"
+                    },
+                    {
                         "name": "ProjectCode",
                         "in": "query",
                         "required": true,
                         "type": "string",
                         "value": "TEST01"
-                    },
-                    {
-                        "name": "ProJobCode",
-                        "in": "query",
-                        "required": false,
-                        "type": "string",
-                        "value": "JOB01S"
-                    },
-                    {
-                        "name": "ProUniformCode",
-                        "in": "query",
-                        "required": false,
-                        "type": "string",
-                        "value": "W01"
                     }
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -802,30 +795,23 @@
                 "summary": "Delete HR APIHRUniformSummary",
                 "parameters": [
                     {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "OPR"
+                    },
+                    {
                         "name": "ProjectCode",
                         "in": "query",
                         "required": true,
                         "type": "string",
                         "value": "TEST01"
-                    },
-                    {
-                        "name": "ProJobCode",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "value": "JOB01S"
-                    },
-                    {
-                        "name": "ProUniformCode",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "value": "W01"
                     }
                 ],
                 "security": [
                     {
-                        "bearerAuth": []
+                        "bearerAuth": [ ]
                     }
                 ],
                 "responses": {
@@ -1565,6 +1551,93 @@
                     "ProEquipmentTypeCode": "1",
                     "ProJobCode": "JOB01S",
                     "ProjectCode": "TEST01",
+                    "ModifiedBy": "Admin"
+                }
+            },
+            "EmployeeUniform": {
+                "type": "object",
+                "properties": {
+                    "CompanyCode": {
+                        "type": "string"
+                    },
+                    "EmpUniformId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "EmpUniformCode": {
+                        "type": "string"
+                    },
+                    "ProjectCode": {
+                        "type": "string"
+                    },
+                    "ProjobCode": {
+                        "type": "string"
+                    },
+                    "ProequipmenttypeCode": {
+                        "type": "string"
+                    },
+                    "EmpUniformSize": {
+                        "type": "string"
+                    },
+                    "ItemCode": {
+                        "type": "string"
+                    },
+                    "EmpUniformQuantity": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "EmpUniformAmount": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "EmpUniformTotal": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "EmpUniformIssueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "EmpUniformNote": {
+                        "type": "string"
+                    },
+                    "EmpUniformBy": {
+                        "type": "string"
+                    },
+                    "EmpUniformPayPeriod": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "EmpUniformPayAmount": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "EmpUniformPeriod": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "ModifiedBy": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "CompanyCode": "OPR",
+                    "EmpUniformId": 0,
+                    "EmpUniformCode": "01",
+                    "ProjectCode": "TEST01",
+                    "ProjobCode": "JOB01S",
+                    "ProequipmenttypeCode": "1",
+                    "EmpUniformSize": "1",
+                    "ItemCode": "99",
+                    "EmpUniformQuantity": 1.0,
+                    "EmpUniformAmount": 2.0,
+                    "EmpUniformTotal": 2.0,
+                    "EmpUniformIssueDate": "2024-03-29",
+                    "EmpUniformNote": "",
+                    "EmpUniformBy": "1",
+                    "EmpUniformPayPeriod": 1.0,
+                    "EmpUniformPayAmount": 2.0,
+                    "EmpUniformPeriod": "2024-03-25",
                     "ModifiedBy": "Admin"
                 }
             }

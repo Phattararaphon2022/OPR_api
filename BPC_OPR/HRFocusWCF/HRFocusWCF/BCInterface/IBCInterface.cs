@@ -98,19 +98,19 @@ namespace BPC_OPR
         #region APIHRUniformSummary
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "APIHRUniformSummary?TransactionId={id}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input, string id);
+        ApiResponse<EmpTrUniform> APIHRUniformSummaryCreate(EmpTrUniform input, string id);
 
         [OperationContract]
         [WebInvoke(Method = "PUT", UriTemplate = "APIHRUniformSummary?TransactionId={id}&OldTransactionId={oldid}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input, string id, string oldid);
+        ApiResponse<EmpTrUniform> APIHRUniformSummaryUpdate(EmpTrUniform input, string id, string oldid);
 
         [OperationContract]
-        [WebInvoke(Method = "GET", UriTemplate = "APIHRUniformSummary?ProjectCode={projectcode}&ProJobCode={job}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProEquipmentReq> APIHRUniformSummaryList(string projectcode, string job, string code);
+        [WebInvoke(Method = "GET", UriTemplate = "APIHRUniformSummary?CompanyCode={com}&ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<EmpTrUniform> APIHRUniformSummaryList(string com,string code);
 
         [OperationContract]
-        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRUniformSummary?ProjectCode={projectcode}&ProJobCode={job}&ProUniformCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        ApiResponse<ProEquipmentReq> APIHRUniformSummaryDelete(string projectcode, string job, string code);
+        [WebInvoke(Method = "DELETE", UriTemplate = "APIHRUniformSummary?CompanyCode={com}&ProjectCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<EmpTrUniform> APIHRUniformSummaryDelete(string com, string code);
         #endregion
     }
 }

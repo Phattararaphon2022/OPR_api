@@ -2078,10 +2078,10 @@ namespace BPC_OPR
         }
 
 
-        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryCreate(ProEquipmentReq input,string TransactionId)
+        public ApiResponse<EmpTrUniform> APIHRUniformSummaryCreate(EmpTrUniform input, string TransactionId)
         {
-            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
-            response.data = new List<ProEquipmentReq>();
+            ApiResponse<EmpTrUniform> response = new ApiResponse<EmpTrUniform>();
+            response.data = new List<EmpTrUniform>();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
@@ -2107,18 +2107,27 @@ namespace BPC_OPR
                     return response;
                 }
 
-                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
-                cls_TRProequipmentreq model = new cls_TRProequipmentreq();
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+                cls_TRUniform model = new cls_TRUniform();
 
-                model.proequipmentreq_id = input.ProEquipmentReqId;
-                model.prouniform_code = input.ProUniformCode;
-                model.proequipmentreq_date = Convert.ToDateTime(input.ProEquipmentReqDate);
-                model.proequipmentreq_qty = input.ProEquipmentReqQty;
-                model.proequipmentreq_note = input.ProEquipmentReqNote;
-                model.proequipmentreq_by = input.ProEquipmentReqBy;
-                model.proequipmenttype_code = input.ProEquipmentTypeCode;
-                model.projob_code = input.ProJobCode;
+                model.company_code = input.CompanyCode;
+                model.worker_code = input.ProjectCode;
+                model.empuniform_id = input.EmpUniformId;
+                model.empuniform_code = input.EmpUniformCode;
                 model.project_code = input.ProjectCode;
+                model.projob_code = input.ProjobCode;
+                model.proequipmenttype_code = input.ProequipmenttypeCode;
+                model.empuniform_size = input.EmpUniformSize;
+                model.item_code = input.ItemCode;
+                model.empuniform_qauntity = input.EmpUniformQuantity;
+                model.empuniform_amount = input.EmpUniformAmount;
+                model.empuniform_total = input.EmpUniformTotal;
+                model.empuniform_issuedate =  Convert.ToDateTime(input.EmpUniformIssueDate);
+                model.empuniform_note = input.EmpUniformNote;
+                model.empuniform_by = input.EmpUniformBy;
+                model.empuniform_payperiod = input.EmpUniformPayPeriod;
+                model.empuniform_payamount = input.EmpUniformPayAmount;
+                model.empuniform_period = Convert.ToDateTime(input.EmpUniformPeriod);
 
                 model.modified_by = input.ModifiedBy;
 
@@ -2164,10 +2173,10 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryUpdate(ProEquipmentReq input,string TransactionId, string OldTransactionId)
+        public ApiResponse<EmpTrUniform> APIHRUniformSummaryUpdate(EmpTrUniform input, string TransactionId, string OldTransactionId)
         {
-            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
-            response.data = new List<ProEquipmentReq>();
+            ApiResponse<EmpTrUniform> response = new ApiResponse<EmpTrUniform>();
+            response.data = new List<EmpTrUniform>();
 
             var json_data = new JavaScriptSerializer().Serialize(input);
             var tmp = JToken.Parse(json_data);
@@ -2192,24 +2201,33 @@ namespace BPC_OPR
 
                     return response;
                 }
-                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
-                cls_TRProequipmentreq model = new cls_TRProequipmentreq();
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+                cls_TRUniform model = new cls_TRUniform();
 
-                model.proequipmentreq_id = input.ProEquipmentReqId;
-                model.prouniform_code = input.ProUniformCode;
-                model.proequipmentreq_date = Convert.ToDateTime(input.ProEquipmentReqDate);
-                model.proequipmentreq_qty = input.ProEquipmentReqQty;
-                model.proequipmentreq_note = input.ProEquipmentReqNote;
-                model.proequipmentreq_by = input.ProEquipmentReqBy;
-                model.proequipmenttype_code = input.ProEquipmentTypeCode;
-                model.projob_code = input.ProJobCode;
+                model.company_code = input.CompanyCode;
+                model.worker_code = input.ProjectCode;
+                model.empuniform_id = input.EmpUniformId;
+                model.empuniform_code = input.EmpUniformCode;
                 model.project_code = input.ProjectCode;
+                model.projob_code = input.ProjobCode;
+                model.proequipmenttype_code = input.ProequipmenttypeCode;
+                model.empuniform_size = input.EmpUniformSize;
+                model.item_code = input.ItemCode;
+                model.empuniform_qauntity = input.EmpUniformQuantity;
+                model.empuniform_amount = input.EmpUniformAmount;
+                model.empuniform_total = input.EmpUniformTotal;
+                model.empuniform_issuedate = Convert.ToDateTime(input.EmpUniformIssueDate);
+                model.empuniform_note = input.EmpUniformNote;
+                model.empuniform_by = input.EmpUniformBy;
+                model.empuniform_payperiod = input.EmpUniformPayPeriod;
+                model.empuniform_payamount = input.EmpUniformPayAmount;
+                model.empuniform_period = Convert.ToDateTime(input.EmpUniformPeriod);
 
                 model.modified_by = input.ModifiedBy;
                 bool strID = false;
-                if (controller.checkDataOld(model.project_code,"","","",model.proequipmentreq_id))
+                if (controller.checkDataOld(model.company_code,model.project_code,model.empuniform_id.ToString()))
                 {
-                    if (model.proequipmentreq_id.Equals(0))
+                    if (model.empuniform_id.Equals(0))
                     {
                         strID = false;
                     }
@@ -2259,10 +2277,10 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryList(string ProjectCode, string ProJobCode,string ProUniformCode)
+        public ApiResponse<EmpTrUniform> APIHRUniformSummaryList(string CompanyCode, string ProjectCode)
         {
-            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
-            response.data = new List<ProEquipmentReq>();
+            ApiResponse<EmpTrUniform> response = new ApiResponse<EmpTrUniform>();
+            response.data = new List<EmpTrUniform>();
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "BCO005.3";
             log.apilog_data = "all";
@@ -2291,30 +2309,39 @@ namespace BPC_OPR
                 var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
                 log.apilog_by = usr.Value;
 
-                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
-                List<cls_TRProequipmentreq> list = controller.getDataByFillter(ProjectCode == null ? "" : ProjectCode, ProJobCode == null ? "" : ProJobCode, ProUniformCode == null ? "" : ProUniformCode, "");
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+                List<cls_TRUniform> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, ProjectCode == null ? "" : ProjectCode);
 
                 JArray array = new JArray();
 
                 if (list.Count > 0)
                 {
-                    foreach (cls_TRProequipmentreq data in list)
+                    foreach (cls_TRUniform data in list)
                     {
-                        ProEquipmentReq proEquipmentReq = new ProEquipmentReq();
-                        proEquipmentReq.ProEquipmentReqId = data.proequipmentreq_id;
-                        proEquipmentReq.ProUniformCode = data.prouniform_code;
-                        proEquipmentReq.ProEquipmentReqDate = data.proequipmentreq_date.ToString("dd/MM/yyyy");
-                        proEquipmentReq.ProEquipmentReqQty = data.proequipmentreq_qty;
-                        proEquipmentReq.ProEquipmentReqNote = data.proequipmentreq_note;
-                        proEquipmentReq.ProEquipmentReqBy = data.proequipmentreq_by;
-                        proEquipmentReq.ProEquipmentTypeCode = data.proequipmenttype_code;
-                        proEquipmentReq.ProJobCode = data.projob_code;
-                        proEquipmentReq.ProjectCode = data.project_code;
-                        proEquipmentReq.ModifiedBy = data.modified_by;
-                        proEquipmentReq.ModifiedDate = data.modified_date.ToString("dd/MM/yyyy");
+                        EmpTrUniform EmpTrUniform = new EmpTrUniform();
+                        EmpTrUniform.CompanyCode = data.company_code;
+                        EmpTrUniform.ProjectCode = data.worker_code;
+                        EmpTrUniform.EmpUniformId = data.empuniform_id;
+                        EmpTrUniform.EmpUniformCode = data.empuniform_code;
+                        EmpTrUniform.ProjectCode = data.project_code;
+                        EmpTrUniform.ProjobCode = data.projob_code;
+                        EmpTrUniform.ProequipmenttypeCode = data.proequipmenttype_code;
+                        EmpTrUniform.EmpUniformSize = data.empuniform_size;
+                        EmpTrUniform.ItemCode = data.item_code;
+                        EmpTrUniform.EmpUniformQuantity = data.empuniform_qauntity;
+                        EmpTrUniform.EmpUniformAmount = data.empuniform_amount;
+                        EmpTrUniform.EmpUniformTotal = data.empuniform_total;
+                        EmpTrUniform.EmpUniformIssueDate = data.empuniform_issuedate.ToString("dd/MM/yyyy");// Assuming you want to convert DateTime to string
+                        EmpTrUniform.EmpUniformNote = data.empuniform_note;
+                        EmpTrUniform.EmpUniformBy = data.empuniform_by;
+                        EmpTrUniform.EmpUniformPayPeriod = data.empuniform_payperiod;
+                        EmpTrUniform.EmpUniformPayAmount = data.empuniform_payamount;
+                        EmpTrUniform.EmpUniformPeriod = data.empuniform_period.ToString("dd/MM/yyyy"); // Assuming you want to convert DateTime to string
 
+                        EmpTrUniform.ModifiedBy = data.modified_by;
+                        EmpTrUniform.ModifiedDate = data.modified_date.ToString("dd/MM/yyyy");
 
-                        response.data.Add(proEquipmentReq);
+                        response.data.Add(EmpTrUniform);
                     }
 
                     log.apilog_status = "200";
@@ -2349,9 +2376,9 @@ namespace BPC_OPR
             return response;
         }
 
-        public ApiResponse<ProEquipmentReq> APIHRUniformSummaryDelete(string ProjectCode, string ProJobCode, string ProUniformCode)
+        public ApiResponse<EmpTrUniform> APIHRUniformSummaryDelete(string CompanyCode, string ProjectCode)
         {
-            ApiResponse<ProEquipmentReq> response = new ApiResponse<ProEquipmentReq>();
+            ApiResponse<EmpTrUniform> response = new ApiResponse<EmpTrUniform>();
 
             cls_SYSApilog log = new cls_SYSApilog();
             log.apilog_code = "BCO004.4";
@@ -2379,8 +2406,8 @@ namespace BPC_OPR
                 var decodedValue = handler.ReadJwtToken(tmp);
                 var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
                 log.apilog_by = usr.Value;
-                cls_ctTRProequipmentreq controller = new cls_ctTRProequipmentreq();
-                bool blnResult = controller.delete(ProjectCode, ProJobCode, ProUniformCode);
+                cls_ctTRUniform controller = new cls_ctTRUniform();
+                bool blnResult = controller.delete(CompanyCode, ProjectCode);
 
                 if (blnResult)
                 {
